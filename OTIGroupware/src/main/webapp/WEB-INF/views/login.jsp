@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.css" />
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.css"/>
 		<script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.bundle.min.js"></script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/login.css"/>
@@ -46,7 +46,7 @@
 											<p class="subLogo">LOGIN</p>
 										</div>
 										<div class="row loginText" style="height:60%;">
-											<form action="<c:url value='/home'/>" method="post" class="signin-form container-fluid ">
+											<form action="<c:url value='/home'/>" method="post" class="signin-form container-fluid">
 												<div class="form-group row" style="height:70%;">
 													<div class="container-fluid idnpw" style="height:100%;">
 														<div class="idform row" style="height:35%;">
