@@ -18,5 +18,19 @@ public class LoginController {
 		log.error("에러 로그");
 		return "login";
 	}
+	@RequestMapping(value = "/errorLogin", method = RequestMethod.GET)
+	public String errorLogin() {
+		log.debug("디버그 로그");
+		log.info("정보 로그");
+		log.warn("경고 로그");
+		log.error("에러 로그");
+		return "errorLogin";
+	}
+	@RequestMapping(value = "/loginReTry", method = RequestMethod.GET)
+	public String loginReTry() {
+		log.error("popup 에러로그");
+		return "loginReTry";
+	}
+	
 	
 }

@@ -8,9 +8,17 @@
 		<script src="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.bundle.min.js"></script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/login.css"/>
 		<script src="${pageContext.request.contextPath}/resources/js/app.jsp"></script>
+		<script>
+        function popup(){
+            var url = "popup.html";
+            var name = "popup test";
+            var option = "width = 500, height = 500, top = 100, left = 200, location = no"
+            window.open(url, name, option);
+        }
+		</script>
 	</head>
 	<body>
-		<div class="container-fluid" style="background-color:2C3639; ">
+		<div class="container-fluid" style="background-color:#2C3639; ">
 			<div class="row blackrow" style="height:5%;">
 				<div class="col" ></div>
 				<div class="col-2"style="background-color:white;"></div>

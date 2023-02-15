@@ -8,6 +8,14 @@
 		<script src="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.bundle.min.js"></script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/login.css"/>
 		<script src="${pageContext.request.contextPath}/resources/js/app.jsp"></script>
+		<script>
+        function popup(){
+            var url = "loginReTry";
+            var name = "login retry";
+            var option = "width = 500, height = 300, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
+            window.open(url, name, option);
+        }
+		</script>
 	</head>
 	<body>
 		<div class="container-fluid" style="background-color:2C3639; ">
@@ -25,7 +33,7 @@
 							<div class="col-3"></div>
 							
 							<!-- 로그인 메인 div -->
-							<div class="col container-fluid loginForm p-3">
+							<div class="col container-fluid errorloginForm p-3" style="background-color:#B3B3B3;">
 								<div class="row mt-3 logoForm">
 									<div class="col-3">
 										<img src="${pageContext.request.contextPath}/resources/images/otiColor.png"></img>
@@ -43,27 +51,18 @@
 								<!-- 로그인 form -->
 								<div class="row mt-4"  style="height:80%;">
 									<div class="container-fluid">
-										<div class="row mt-3 mb-1 px-3">
-											<p class="subLogo">LOGIN</p>
-										</div>
 										<div class="row loginText" style="height:60%;">
-											<form action="<c:url value='/home'/>" method="post" class="signin-form container-fluid">
-												<div class="form-group row" style="height:70%;">
-													<div class="container-fluid idnpw" style="height:100%;">
-														<div class="idform row" style="height:35%;">
-															<img class="col-2" src="${pageContext.request.contextPath}/resources/images/person.png" ></img>
-															<input class="col" type="text" name="stdId" required>
-														</div>
-														<div class="pwform row" style="height:35%;">
-															<img class="col-2" src="${pageContext.request.contextPath}/resources/images/lockoutline.png"></img>
-															<input class="col" type="password" name="password" required>
-														</div>
-													</div>	
+											<div  class="container-fluid">
+												<div class="row" style="height:70%;">
+													<div class="erroridnpw">
+														로그인에 실패 하셨습니다.</br>
+														로그인 초기화 요청 후 다시 시도 하십쇼.
+													</div>
 												</div>
-												<div class="form-group row" style="height:20%;" >
-													<button type="submit" class="btn submit loginLogo" style="background-color:f2cd5c; border-radius:30px;">로그인</button>
+												<div class="row" style="height:20%;" >
+													<button class="loginLogo" style="background-color:f2cd5c; border-radius:30px; border:none;" onclick="popup()">로그인시도</button>
 												</div>
-											</form>
+											</div>
 										</div>
 									</div>
 								</div>
