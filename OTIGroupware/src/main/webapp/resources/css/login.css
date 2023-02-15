@@ -85,7 +85,7 @@ button{
 }
 .idform input{
 	width:100%;
-	border-radius : 20px 20px 0px 0px; 
+	border-radius : 0px 20px 0px 0px; 
 	border : none;
 	
 }
@@ -95,6 +95,6 @@ button{
 }
 .pwform input{
 	width:100%;
-	border-radius : 0px 0px 20px 20px; 
+	border-radius : 0px 0px 20px 0px; 
 	border : none;
 }
