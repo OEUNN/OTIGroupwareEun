@@ -1,19 +1,20 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 
 <div id="main_menu_logo">
-	<a class="text-white" href="${pageContext.request.contextPath}/board/list">
-		<div>
-			<img src="${pageContext.request.contextPath}/resources/images/oti.png" width="75">
-		</div>
-		<div>
-			<img src="${pageContext.request.contextPath}/resources/images/EXI.png" width="60">
-		</div>
-	</a>
-	<hr width="60" color="white" class="mt-3 mb-1"/>
-	<hr width="60" color="white" class="my-1"/>
+   <a class="text-white" href="${pageContext.request.contextPath}/board/list">
+      <div>
+         <img src="${pageContext.request.contextPath}/resources/images/oti.png" width="75">
+      </div>
+      <div>
+         <img src="${pageContext.request.contextPath}/resources/images/EXI.png" width="60">
+      </div>
+   </a>
+   <hr width="60" color="white" class="mt-3 mb-1"/>
+   <hr width="60" color="white" class="my-1"/>
 </div>
 
 <div id="main_menu_list">
+<<<<<<< HEAD
 	<ul class="nav flex-column">
 		<li class="nav-item">
 			<a class="text-white" href="${pageContext.request.contextPath}/board/list">
