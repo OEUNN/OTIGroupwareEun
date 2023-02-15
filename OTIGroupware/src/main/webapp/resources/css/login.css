@@ -1,0 +1,100 @@
+*{
+	margin:0px;
+	padding:0px;
+}
+.col{
+	margin:0px;
+	padding:0px;
+}
+.row{
+	margin:0px;
+	padding:0px;
+}
+img{
+	width:100%;
+	height:100%;
+}
+
+
+button{
+	width:100%;
+	height:100%;
+	text-align: center;
+	margin-right:15px;
+	margin-left:15px;
+}
+
+@media (max-width:1000px){
+	.blackrow{
+		display:none;
+	}
+	.whiterow{
+		display:100%;
+	}
+	.logoForm img{
+		display:none;
+	}
+	.loginText{
+		heigth:50%;
+	}
+}
+@media (max-height:800px){
+	.blackrow{
+		display:none;
+	}
+	.whiterow{
+		display:100%;
+	}
+	.logoForm img{
+		display:none;
+	}
+	.loginText{
+		heigth:50%;
+	}
+}
+
+.loginForm{
+	border : 3px solid #d9d9d9;
+	width:100%;
+	height:100%;
+}
+
+.loginLine{
+	border : 2px solid #2c3639;	
+	margin:5px;
+}
+.logo{
+	color:#2c3639;
+	font-size: 40;
+	padding-top:60px;
+	font-weight: bold;
+}
+.subLogo{
+	color:#2c3639;
+	font-size:30;
+	font-weight: bold;
+}
+.loginLogo{
+	color:#2c3639;
+	font-size:20;
+	font-weight: bold;
+}
+.idform{
+	border-radius : 20px 20px 0px 0px; 
+	border : 1px solid #d9d9d9;
+}
+.idform input{
+	width:100%;
+	border-radius : 20px 20px 0px 0px; 
+	border : none;
+	
+}
+.pwform{
+	border-radius : 0px 0px 20px 20px; 
+	border : 1px solid #d9d9d9;
+}
+.pwform input{
+	width:100%;
+	border-radius : 0px 0px 20px 20px; 
+	border : none;
+}
