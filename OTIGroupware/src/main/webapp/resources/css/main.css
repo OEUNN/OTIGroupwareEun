@@ -1,0 +1,72 @@
+@media all and (min-width:100px) and (max-width:386px) {
+	#main_menu {
+		display: flex;
+		width: 100%;
+		height: 100px;
+		background-color: #2C3639;
+	}
+	
+	#main_menu_logo {
+		display: none;
+	}
+	
+	.nav-item img {
+		margin: 30px 10px 0px 33px;
+	}
+	
+	#sidebar_font_home, #sidebar_font_board, #sidebar_font_organization {
+		margin-left: 23px;
+	}
+	
+	#sidebar_font_mail {
+		margin-left: 32px;
+	}
+	
+	#sidebar_font_approval {
+		font-size: 14px;
+		margin-left: 19px;
+	}
+
+	#sidebar_font_hr {
+		margin-left: 37px;
+	}
+	
+	#main_content {
+		width: 100%;
+	}
+	
+}
+
+@media all and (min-width:386px) {
+	#main_menu {
+		z-index: 1;
+		position: fixed;
+		width: 80px;
+		height: 100%;
+		background-color: #2C3639;
+	}
+	
+	#main_menu_logo div {
+		display: flex;
+		justify-content: center;
+	}
+	
+	#main_menu_list {
+		margin-top: 40px;
+	}
+	
+	.nav-item div {
+		display: flex;
+		justify-content: center;
+	}
+
+	.nav-item {
+		margin-top: 40px;
+		margin-bottom: 40px;
+	}
+	
+	#main_content {
+		margin-left: 90px;
+	}
+	
+}
