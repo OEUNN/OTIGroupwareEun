@@ -8,15 +8,15 @@ import lombok.extern.log4j.Log4j2;
 
 @Controller
 @Log4j2
-public class HomeController {
+public class LoginController {
 	
-	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String home() {
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String login() {
 		log.debug("디버그 로그");
 		log.info("정보 로그");
 		log.warn("경고 로그");
 		log.error("에러 로그");
-		return "approval/GWApprovalMain";
+		return "login";
 	}
 	
 }
