@@ -7,24 +7,42 @@
 	</head>
 	
 	<body>
-<%-- 			<%@ include file="/WEB-INF/views/common/top.jsp" %> --%>
 		<div class="d-flex flex-column vh-100">
 			<div class="flex-grow-1">
 				<div id="main_row">
-					<!-- 사이드바 -->
+					<!-- 메인메뉴 -->
 					<div id="main_menu">
 						<%@ include file="/WEB-INF/views/common/menu.jsp" %>
 					</div>
 					
+					<!-- 헤더 -->
+					<%@ include file="/WEB-INF/views/common/top.jsp" %>
+					
 					<!-- 내용 -->
-					<div id="main_content" class="container row p-3">
-						<!-- ***************************************************** -->
-							<%@ include file="/WEB-INF/views/common/content_template.jsp" %>
-						<!-- ***************************************************** -->
+					<div id="main_content" class="container-fluid row p-3">
+						<!-- 서브메뉴 -->
+						<div id="sub_menu" class="col-1">
+							<%@ include file="/WEB-INF/views/submenu.jsp" %>
+						</div>
+
+						<div class="col-11">
+							<div id="content_sub_menu" class="row mt-4">
+								<div class="h3 font-weight-bold mx-5 mt-2">
+									<a href="#">링크1</a>
+								</div>
+								<div class="h3 font-weight-bold mx-3 mt-2">
+									<a href="#">링크2</a>
+								</div>
+							</div>
+							<div style="width:95%; border-bottom: 3px solid #B3B3B3;"></div>
+							<!-- ***************************************************** -->
+								
+							<!-- ***************************************************** -->
+						</div>
+
 					</div>
 				</div>		
 			</div>
-			<%@ include file="/WEB-INF/views/common/bottom.jsp" %>
 		</div>
 	</body>
 </html>
