@@ -19,13 +19,13 @@
 					<%@ include file="/WEB-INF/views/common/top.jsp" %>
 					
 					<!-- 내용 -->
-					<div id="main_content" class="container-fluid row p-3">
+					<div id="main_content" class="container-fluid row">
 						<!-- 서브메뉴 -->
 						<div id="sub_menu" class="col-1">
 							<%@ include file="/WEB-INF/views/submenu.jsp" %>
 						</div>
 
-						<div class="col-11">
+						<div class="col">
 							<div id="content_sub_menu" class="row mt-4">
 								<div class="h3 font-weight-bold mx-5 mt-2">
 									<a href="#">링크1</a>
