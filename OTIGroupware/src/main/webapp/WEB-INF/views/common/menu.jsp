@@ -30,7 +30,7 @@
 			</a>
 		</li>	
 		<li class="nav-item">
-			<a class="text-white" href="${pageContext.request.contextPath}/board/list">
+			<a class="text-white" href="${pageContext.request.contextPath}/approval/main">
 				<div>
 					<img src="${pageContext.request.contextPath}/resources/images/file.png" 
 						 width="60" height="60" class="d-inline-block align-top">
