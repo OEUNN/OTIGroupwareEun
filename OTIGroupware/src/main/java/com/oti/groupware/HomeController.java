@@ -16,7 +16,7 @@ public class HomeController {
 		log.info("정보 로그");
 		log.warn("경고 로그");
 		log.error("에러 로그");
-		return "home";
+		return "example";
 	}
 	
 }
