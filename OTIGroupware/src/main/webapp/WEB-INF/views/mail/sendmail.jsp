@@ -21,11 +21,11 @@
 					<!-- 내용 -->
 					<div id="main_content" class="container-fluid row p-3">
 						<!-- 서브메뉴 -->
-						<div id="sub_menu" class="col-1">
+						<div id="sub_menu" class="col-2">
 							<%@ include file="/WEB-INF/views/mail/submenu.jsp" %>
 						</div>
 
-						<div class="col-11">
+						<div class="col-10">
 							<div id="content_sub_menu" class="row mt-4">
 								<div class="h3 font-weight-bold mx-5 mt-2">
 									<p href="#">받은 메일</p>
