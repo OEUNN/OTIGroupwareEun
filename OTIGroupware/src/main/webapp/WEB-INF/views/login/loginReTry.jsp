@@ -15,14 +15,14 @@
 		</script>
 	</head>
 	<body>
-		<div class="container-fulid m-4" >
-			<div class="row mt-5 mb-3" style="height:100px; ">
+		<div class="container-fluid" >
+			<div class="row mt-5 p-2">
 				<p>서면 요청하셨습니까?</p>
 			</div>
-			<div class="row mb-5 mt-3" >
+			<div class="row mb-3" >
 				<div class="col"></div>
-				<button class="col mr-2" onclick="retry()">확인</button>
-				<button class="col" onclick="window.close()">취소</button>
+				<button class="col mt-1 mx-3" onclick="retry()" style="background-color:#ffc107;color:white;">확인</button>
+				<button class="col mt-1 mx-3" onclick="window.close()">취소</button>
 				<div class="col"></div>
 			</div>
 			
