@@ -8,4 +8,5 @@
 <script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/approval.css"/>
 <script src="${pageContext.request.contextPath}/resources/css/app.js"></script>
