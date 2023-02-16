@@ -6,7 +6,7 @@
 </div>
 <div id="sub_menu_list" class="row flex-column">
 	<div>
-		<a href="${pageContext.request.contextPath}/board/list">링크1</a>
+		<a href="${pageContext.request.contextPath}/board/list">반려/회수함</a>
 	</div>
 	<div>
 		<a href="${pageContext.request.contextPath}/board/list">링크2</a>
