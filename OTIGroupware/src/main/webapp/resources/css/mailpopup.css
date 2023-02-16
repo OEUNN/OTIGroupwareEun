@@ -13,9 +13,8 @@
 }
 p{
 	width:100%;
-	font-size:30;
+	font-size:20;
 	font-weight: bold;
-	text-align: center;
 }
 button{
 	border : none;
@@ -29,3 +28,4 @@ button{
 button:hover{
 	border : 2px solid black;
 }
+
