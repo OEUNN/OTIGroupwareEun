@@ -14,7 +14,6 @@
 </div>
 
 <div id="main_menu_list">
-<<<<<<< HEAD
 	<ul class="nav flex-column">
 		<li class="nav-item">
 			<a class="text-white" href="${pageContext.request.contextPath}/board/list">
