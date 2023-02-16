@@ -31,7 +31,7 @@
 									<p >중요 메일</p>
 								</div>
 							</div>
-							<div style="width:95%; border-bottom: 3px solid #B3B3B3;"></div>
+							<div style=" border-bottom: 3px solid #B3B3B3;"></div>
 							<!-- ***************************************************** -->
 								<div class="container text-for-list" style="margin-top:70px;">
 						            <div style="height: 50%; border-bottom:2px solid #d9d9d9;">
