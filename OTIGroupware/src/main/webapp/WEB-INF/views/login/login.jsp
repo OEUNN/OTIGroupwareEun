@@ -33,15 +33,15 @@
 							<div class="col-3"></div>
 							
 							<!-- 로그인 메인 div -->
-							<div class="col container-fluid loginForm p-3">
-								<div class="row mt-3 logoForm">
-									<div class="col-3">
-										<img src="${pageContext.request.contextPath}/resources/images/otiColor.png"></img>
+							<div class="col-12 com-sm-12 col-lg-6 container-fluid loginForm p-3">
+								<div class="row mt-3 logoForm" >
+									<div class="col-lg-2" style="padding-top:30px;padding-left:10px;">
+										<img src="${pageContext.request.contextPath}/resources/images/otiColor.png" style="width:100px; height:100px"></img>
 									</div>
-									<div class="col-3">
-										<img src="${pageContext.request.contextPath}/resources/images/exicolor.png"></img>
+									<div class="col-lg-2" style="padding-top:50px;padding-left:10px;">
+										<img src="${pageContext.request.contextPath}/resources/images/exicolor.png" style="width:80px; height:70px"></img>
 									</div>
-									<div class="col-12 com-sm-12 col-lg-6">
+									<div class="col com-sm-12 col-lg-8">
 										<p class="logo">GROUPWARE</p>
 									</div>
 								</div>
@@ -69,7 +69,7 @@
 													</div>	
 												</div>
 												<div class="form-group row" style="height:20%;" >
-													<button type="submit" class="btn submit loginLogo" style="background-color:f2cd5c; border-radius:30px;">로그인</button>
+													<button type="submit" class="btn submit loginLogo" style="background-color:#ffc107; border-radius:30px;">로그인</button>
 												</div>
 											</form>
 										</div>

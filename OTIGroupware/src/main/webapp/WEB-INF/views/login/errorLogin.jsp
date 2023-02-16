@@ -12,7 +12,7 @@
         function popup(){
             var url = "loginReTry";
             var name = "login retry";
-            var option = "width = 500, height = 300, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
+            var option = "width = 500, height = 100, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
             window.open(url, name, option);
         }
 		</script>
@@ -34,14 +34,14 @@
 							
 							<!-- 로그인 메인 div -->
 							<div class="col container-fluid errorloginForm p-3" style="background-color:#B3B3B3;">
-								<div class="row mt-3 logoForm">
-									<div class="col-3">
-										<img src="${pageContext.request.contextPath}/resources/images/otiColor.png"></img>
+								<div class="row mt-3 logoForm" >
+									<div class="col-lg-2" style="padding-top:30px;padding-left:10px;">
+										<img src="${pageContext.request.contextPath}/resources/images/otiColor.png" style="width:100px; height:100px"></img>
 									</div>
-									<div class="col-3">
-										<img src="${pageContext.request.contextPath}/resources/images/exicolor.png"></img>
+									<div class="col-lg-2" style="padding-top:50px;padding-left:10px;">
+										<img src="${pageContext.request.contextPath}/resources/images/exicolor.png" style="width:80px; height:70px"></img>
 									</div>
-									<div class="col-12 com-sm-12 col-lg-6">
+									<div class="col com-sm-12 col-lg-8">
 										<p class="logo">GROUPWARE</p>
 									</div>
 								</div>
@@ -60,7 +60,7 @@
 													</div>
 												</div>
 												<div class="row" style="height:20%;" >
-													<button class="loginLogo" style="background-color:f2cd5c; border-radius:30px; border:none;" onclick="popup()">로그인시도</button>
+													<button class="loginLogo" style="background-color:#ffc107; border-radius:30px; border:none;" onclick="popup()">로그인시도</button>
 												</div>
 											</div>
 										</div>
