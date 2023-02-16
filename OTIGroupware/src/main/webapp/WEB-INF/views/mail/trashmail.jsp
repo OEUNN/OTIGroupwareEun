@@ -3,7 +3,15 @@
 	<head>
 		<%@ include file="/WEB-INF/views/common/head.jsp" %>
 		<!-- CSS, JavaScript 적용↓ -->
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mail.css"/>		
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mail.css"/>
+		<script>
+        function popup(){
+            var url = "trashpopup";
+            var name = "trash popup";
+            var option = "width = 500, height = 300, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
+            window.open(url, name, option);
+        }
+		</script>		
 	</head>
 	
 	<body>
@@ -28,7 +36,7 @@
 						<div class="col">
 							<div id="content_sub_menu" class="row mt-4">
 								<div class="h3 font-weight-bold mx-5 mt-2">
-									<p >받은 메일</p>
+									<p >휴지통</p>
 								</div>
 							</div>
 							<div style="width:95%; border-bottom: 3px solid #B3B3B3;"></div>
@@ -47,8 +55,6 @@
 															<a href="#">전체선택</a>
 															<a href="#">읽은메일</a>
 															<a href="#">읽지않은메일</a>
-															<a href="#">중요메일</a>
-															<a href="#">중요표시안한메일</a>
 														</div>
 													</div>
 					            				</th>
@@ -98,7 +104,7 @@
 						             </div>
 						             <div class="row">
 						             	<div class="col-2">
-						             		<button class="delete_button">선택 삭제</button>
+						             		<button class="delete_button" onclick="popup()">선택 삭제</button>
 						             	</div>
 						             </div>
 						        </div>

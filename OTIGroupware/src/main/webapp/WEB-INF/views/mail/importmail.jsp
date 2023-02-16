@@ -28,7 +28,7 @@
 						<div class="col">
 							<div id="content_sub_menu" class="row mt-4">
 								<div class="h3 font-weight-bold mx-5 mt-2">
-									<p >받은 메일</p>
+									<p >중요 메일</p>
 								</div>
 							</div>
 							<div style="width:95%; border-bottom: 3px solid #B3B3B3;"></div>
@@ -48,7 +48,6 @@
 															<a href="#">읽은메일</a>
 															<a href="#">읽지않은메일</a>
 															<a href="#">중요메일</a>
-															<a href="#">중요표시안한메일</a>
 														</div>
 													</div>
 					            				</th>

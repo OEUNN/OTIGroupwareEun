@@ -28,7 +28,7 @@
 						<div class="col">
 							<div id="content_sub_menu" class="row mt-4">
 								<div class="h3 font-weight-bold mx-5 mt-2">
-									<p >받은 메일</p>
+									<p >보낸 메일</p>
 								</div>
 							</div>
 							<div style="width:95%; border-bottom: 3px solid #B3B3B3;"></div>
@@ -52,7 +52,7 @@
 														</div>
 													</div>
 					            				</th>
-					            				<th class="col-3" >발신인</th>
+					            				<th class="col-3" >수신인</th>
 					            				<th class="col-5" >제목</th>
 					            				<th class="col-3" >날짜</th>
 					            			</tr>

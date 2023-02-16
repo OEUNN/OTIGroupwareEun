@@ -69,7 +69,7 @@
 													</div>	
 												</div>
 												<div class="form-group row" style="height:20%;" >
-													<button type="submit" class="btn submit loginLogo" style="background-color:f2cd5c; border-radius:30px;">로그인</button>
+													<button type="submit" class="btn submit loginLogo" style="background-color:#ffc107; border-radius:30px;">로그인</button>
 												</div>
 											</form>
 										</div>

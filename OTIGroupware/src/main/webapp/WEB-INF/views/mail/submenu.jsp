@@ -6,21 +6,21 @@
 </div>
 <div id="sub_menu_list" class="row flex-column">
 	<div>
-		<a href="${pageContext.request.contextPath}/board/list">메일 쓰기</a>
+		<a href="<c:url value='/'/>">메일 쓰기</a>
 	</div>
 	<div>
-		<a href="${pageContext.request.contextPath}/board/list">받은 메일</a>
+		<a href="<c:url value='/mail'/>">받은 메일</a>
 	</div>
 	<div>
-		<a href="${pageContext.request.contextPath}/board/list">보낸 메일</a>
+		<a href="<c:url value='/recivedmail'/>">보낸 메일</a>
 	</div>
 	<div>
-		<a href="${pageContext.request.contextPath}/board/list">중요 메일</a>
+		<a href="<c:url value='/importmail'/>">중요 메일</a>
 	</div>
 	<div>
-		<a href="${pageContext.request.contextPath}/board/list">임시 보관함</a>
+		<a href="<c:url value='/tempmail'/>">임시 보관함</a>
 	</div>
 	<div>
-		<a href="${pageContext.request.contextPath}/board/list">휴지통</a>
+		<a href="<c:url value='/trashmail'/>">휴지통</a>
 	</div>
 </div>
