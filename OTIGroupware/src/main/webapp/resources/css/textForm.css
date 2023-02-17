@@ -1,0 +1,57 @@
+@charset "UTF-8";
+
+.title-section {
+	font-family: 'SpoqaHanSansNeo-Regular';
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 150%;
+}
+
+.content-section {
+	font-family: 'SpoqaHanSansNeo-Regular';
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 150%;
+}
+
+.title-status {
+	font-family: 'SpoqaHanSansNeo-Regular';
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 150%;
+}
+
+.content-status {
+	font-family: 'SpoqaHanSansNeo-Regular';
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 150%;
+}
+
+.title-board {
+	font-family: 'SpoqaHanSansNeo-Regular';
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 150%;
+}
+
+.content-board {
+	font-family: 'SpoqaHanSansNeo-Regular';
+    font-size: 15px;
+    font-weight: 100;
+    line-height: 150%;
+}
+
+.content-card {
+	font-family: 'SpoqaHanSansNeo-Regular';
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 150%;
+}
+
+.detail-card {
+	font-family: 'SpoqaHanSansNeo-Regular';
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 150%;
+}
