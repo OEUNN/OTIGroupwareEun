@@ -22,4 +22,4 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vertical-layout-light/style.css">
 <!-- endinject -->
 
-<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/favicon.png" />
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/oti.png" />
