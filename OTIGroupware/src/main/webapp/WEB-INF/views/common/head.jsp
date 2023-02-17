@@ -30,7 +30,7 @@ CSS
 <!-- 
 favicon
  -->
-<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/favicon.png" />
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/oti.png" />
 
 
 <!-- 
