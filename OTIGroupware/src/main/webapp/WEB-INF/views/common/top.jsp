@@ -14,14 +14,14 @@
 		<a class="text-white" href="${pageContext.request.contextPath}/member/logout">
 			<div>
 				<img src="${pageContext.request.contextPath}/resources/images/person_white.png" 
-					 width="40" height="40" class="d-inline-block align-top">
+					 width="30" height="30" class="d-inline-block align-top">
 			</div>
 			 <div>마이페이지</div>
 		</a>
 		<a class="text-white" href="${pageContext.request.contextPath}/member/logout">
 			<div>
 				<img src="${pageContext.request.contextPath}/resources/images/unlock.png" 
-					 width="40" height="40" class="d-inline-block align-top">
+					 width="30" height="30" class="d-inline-block align-top">
 			</div>
 			 <div>로그아웃</div>
 		</a>
