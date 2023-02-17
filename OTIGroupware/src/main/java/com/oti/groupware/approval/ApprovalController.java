@@ -14,7 +14,7 @@ public class ApprovalController {
 	@RequestMapping(value = "/main")
 	public String main() {
 		log.info("정보 로그");
-		return "approval/GWApprovalMain";
+		return "approval/main";
 	}
 
 	@RequestMapping(value = "/write", method=RequestMethod.GET)
