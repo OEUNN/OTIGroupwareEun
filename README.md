@@ -1,2 +1,2 @@
 # OTIGroupware
-OTI/EXAINT Groupware
+OTI/EXAINT 사내 그룹웨어
