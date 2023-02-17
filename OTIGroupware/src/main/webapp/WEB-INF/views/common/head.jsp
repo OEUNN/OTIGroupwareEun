@@ -1,12 +1,25 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Home</title>
-		
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.css" />
-<script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/approval.css"/>
-<script src="${pageContext.request.contextPath}/resources/css/app.js"></script>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>GROUPWARE</title>
+
+<!-- plugins:css -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/feather/feather.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/ti-icons/css/themify-icons.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/css/vendor.bundle.base.css">
+<!-- endinject -->
+
+<!-- Plugin css for this page -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/ti-icons/css/themify-icons.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/js/select.dataTables.min.css">
+<!-- End plugin css for this page -->
+
+<!-- inject:css -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vertical-layout-light/style.css">
+<!-- endinject -->
+
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/favicon.png" />
