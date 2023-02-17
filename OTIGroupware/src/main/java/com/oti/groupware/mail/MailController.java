@@ -62,4 +62,10 @@ public class MailController {
 		return "mail/addresspopup";
 	}
 	
+	//메일 자세히보기
+	@RequestMapping(value = "/detailmail", method = RequestMethod.GET)
+	public String detailmail() {
+		return "mail/detailmail";
+	}
+	
 }

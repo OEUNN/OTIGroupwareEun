@@ -19,8 +19,9 @@
 			<div class="row mt-5" style="border-bottom:2px solid #d9d9d9">
 				<p>주소록</p>
 			</div>
+			<!-- 드롭다운을 이용해서 부에 따라 사람 불러오기 -->
 			<div class="row mt-3" style="border:1px solid #d9d9d9; height:40%; ">
-			
+				
 			</div>
 			<div class="row mt-3" >
 				<div class="col"></div>
@@ -36,8 +37,8 @@
 			</div>
 			<div class="row mt-5">
 				<div class="col"></div>
-				<input type="submit" class="btn col mx-3" value="확인" style="background-color:#ffc107; color:white;">
-				<button class="cancle_btn col mx-3" onclick="window.close()">취소</button>
+				<input type="submit" class="btn col mx-3 submit-btn" value="확인" >
+				<button class="cancle-btn col mx-3" onclick="window.close()">취소</button>
 				<div class="col"></div>
 			</div>
 			
