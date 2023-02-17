@@ -6,7 +6,7 @@
 </div>
 <div id="sub_menu_list" class="row flex-column">
 	<div>
-		<a href="<c:url value='/'/>">메일 쓰기</a>
+		<a href="<c:url value='/writemail'/>">메일 쓰기</a>
 	</div>
 	<div>
 		<a href="<c:url value='/mail'/>">받은 메일</a>

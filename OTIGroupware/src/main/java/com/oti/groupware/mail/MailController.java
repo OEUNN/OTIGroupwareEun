@@ -50,6 +50,22 @@ public class MailController {
 		return "mail/trashpopup";
 	}
 	
+	//메일쓰기
+	@RequestMapping(value = "/writemail", method = RequestMethod.GET)
+	public String writemail() {
+		return "mail/writemail";
+	}
 	
+	//주소록 팝업창
+	@RequestMapping(value = "/addresspopup", method = RequestMethod.GET)
+	public String addresspopup() {
+		return "mail/addresspopup";
+	}
+	
+	//메일 자세히보기
+	@RequestMapping(value = "/detailmail", method = RequestMethod.GET)
+	public String detailmail() {
+		return "mail/detailmail";
+	}
 	
 }
