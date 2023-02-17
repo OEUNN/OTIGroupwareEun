@@ -1,0 +1,50 @@
+*{
+	margin:0px;
+	padding:0px;
+	
+}
+.col{
+	margin:0px;
+	padding:0px;
+}
+.row{
+	margin:0px;
+	padding:0px;
+}
+p{
+	width:100%;
+	font-size:20;
+	font-weight: bold;
+}
+.img{
+	background-color: white;
+	border:none;
+}
+.cancle-btn{
+	border : none;
+	height:30px;
+	width:100%;
+	font-size:20;
+	font-weight: bold;
+	text-align: center;
+	border-radius:5px;
+}
+.cancle_btn:hover{
+	border : 2px solid black;
+}
+input:hover{
+	border : 2px solid black;
+}
+.submit-btn{
+	color:white;
+	background-color:#ffc107;
+	border-radius:5px;
+	border : none;
+	height:30px;
+	width:100%;
+	text-align: center;
+	padding:0px;
+	font-weight:bold;
+	font-size:20;
+}
+
