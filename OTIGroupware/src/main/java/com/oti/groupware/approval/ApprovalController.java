@@ -17,16 +17,22 @@ public class ApprovalController {
 		return "approval/main";
 	}
 
+	@RequestMapping(value = "/totalDocumentBox", method=RequestMethod.GET)
+	public String totalDocumentBox() {
+		log.info("정보 로그");
+		return "approval/documentBoxTemplate";
+
+	}
 	@RequestMapping(value = "/write", method=RequestMethod.GET)
 	public String write() {
 		log.info("정보 로그");
-		return "approval/GWApprovalWrite";
+		return "approval/write";
 	}
 	
 	@RequestMapping(value = "/draftDocumentBox", method=RequestMethod.GET)
-	public String readApprovalDetail() {
+	public String draftDocumentBox() {
 		log.info("정보 로그");
-		return "approval/GWApprovalDetail";
+		return "approval/draftDocumentBox";
 	}
 	
 }
