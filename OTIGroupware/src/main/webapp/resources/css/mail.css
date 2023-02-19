@@ -1,0 +1,39 @@
+button{
+	border:none;
+	background-color:transparent;
+}
+.dropdown-m {
+   position: relative;
+   display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content-m {
+   display: none;
+   position: absolute;
+   min-width: 160px;
+   z-index: 1;
+   box-shadow: 5px 2px 30px  #d9d9d9;
+   
+}
+
+/* Links inside the dropdown */
+.dropdown-content-m a {
+	background-color: white;
+	text-align: left;
+	padding: 12px 16px;
+	padding-left: 30px;
+	font-size:15px;
+	display: block;
+	color: black;
+	text-decoration-line: none;
+}
+.dropdown-content-m a:hover{
+	background-color: primary;
+	text-decoration-line: none;
+}
+/* Show the dropdown menu on hover */
+.dropdown-m:hover .dropdown-content-m {
+   display: block;
+   border-radius:0px 0px 20px 20px;
+}

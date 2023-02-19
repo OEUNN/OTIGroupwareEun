@@ -1,11 +1,18 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 
 <html lang="en">
 	<head>
 		<!-- CSS 관련 파일 -->
 		<%@ include file="/WEB-INF/views/common/head.jsp" %>
+		<script>
+        function popup(){
+            var url = "loginReTry";
+            var name = "login retry";
+            var option = "width = 500, height =200, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+            window.open(url, name, option);
+        }
+		</script>
 	</head>
 
 	<body>
@@ -20,17 +27,15 @@
 								</div>
 								<h4>Hello! let's get started</h4>
 								<h6 class="font-weight-light">Sign in to continue.</h6>
-								<form class="pt-3" action="<c:url value='/home'/>" >
+								<div class="pt-3" >
 									<div class="form-group">
-										<input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username">
-									</div>
-									<div class="form-group">
-										<input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
+										로그인에 실패 하셨습니다.</br>
+										로그인 초기화 요청 후 다시 시도 하십쇼.
 									</div>
 									<div class="mt-3">
-										<a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="../../index.html">
-											SIGN IN
-										</a>
+										<button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" onclick="popup()">
+											RETRY SIGN IN
+										</button>
 									</div>
 									<div
 										class="my-2 d-flex justify-content-between align-items-center">
@@ -38,9 +43,8 @@
 											<label class="form-check-label text-muted">
 											</label>
 										</div>
-										<a href="<c:url value='/errorLogin'/>" class="auth-link text-black">Forgot password?</a>
 									</div>
-								</form>
+								</div>
 							</div>
 						</div>
 					</div>
