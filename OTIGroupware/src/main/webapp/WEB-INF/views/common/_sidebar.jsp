@@ -2,7 +2,7 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="home">
               <i class="icon-grid menu-icon"></i>
               <span class="menu-title">HOME</span>
             </a>
@@ -46,13 +46,13 @@
             </a>
             <div class="collapse" id="charts">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="approval/main">전자결재 홈</a></li>
-                <li class="nav-item"> <a class="nav-link" href="approval/totalDocumentBox">전체문서함</a></li>
-                <li class="nav-item"> <a class="nav-link" href="approval/write">기안작성</a></li>
-                <li class="nav-item"> <a class="nav-link" href="approval/draftDocumentBox">기안함</a></li>
-                <li class="nav-item"> <a class="nav-link" href="approval/tempDocumentBox">임시저장함</a></li>
-                <li class="nav-item"> <a class="nav-link" href="approval/returnedDocumentBox">반려/회수함</a></li>
-                <li class="nav-item"> <a class="nav-link" href="approval/pendedDocumentBox">결재함</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/approval/main">전자결재 홈</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/approval/totalDocumentBox">전체문서함</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/approval/write">기안작성</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/approval/draftDocumentBox">기안함</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/approval/tempDocumentBox">임시저장함</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/approval/returnedDocumentBox">반려/회수함</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/approval/pendedDocumentBox">결재함</a></li>
               </ul>
             </div>
           </li>
