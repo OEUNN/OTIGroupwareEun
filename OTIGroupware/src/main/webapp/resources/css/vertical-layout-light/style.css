@@ -22009,7 +22009,9 @@ code {
 }
 
 .card .card-body {
-  padding: 1.25rem 1.25rem;
+/*   padding: 1.25rem 1.25rem; */
+	box-shadow: 3px 3px 6px #cdd1e1;
+	border-radius: 20px;
 }
 
 .card .card-body + .card-body {
