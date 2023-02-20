@@ -11,37 +11,43 @@ import lombok.extern.log4j.Log4j2;
 public class MailController {
 	
 	//받은 메일
-	@RequestMapping(value = "/mail", method = RequestMethod.GET)
-	public String mail() {
+	@RequestMapping(value = "/sendMail", method = RequestMethod.GET)
+	public String sendMail() {
 		log.debug("디버그 로그");
 		log.info("정보 로그");
 		log.warn("경고 로그");
 		log.error("에러 로그");
-		return "mail/sendmail";
+		return "mail/sendMail";
 	}
 	
 	//받은메일
-	@RequestMapping(value = "/recivedmail", method = RequestMethod.GET)
-	public String recivedmail() {
-		return "mail/recivedmail";
+	@RequestMapping(value = "/receivedMail", method = RequestMethod.GET)
+	public String receivedMail() {
+		return "mail/receivedMail";
 	}
 	
 	//중요메일
-	@RequestMapping(value = "/importmail", method = RequestMethod.GET)
-	public String importmail() {
-		return "mail/importmail";
+	@RequestMapping(value = "/importMail", method = RequestMethod.GET)
+	public String importMail() {
+		return "mail/importMail";
+	}
+
+	// 중요메일 팝업창
+	@RequestMapping(value = "/importpopup", method = RequestMethod.GET)
+	public String importpopup() {
+		return "mail/importpopup";
 	}
 	
 	//임시 보관함
-	@RequestMapping(value = "/tempmail", method = RequestMethod.GET)
-	public String tempmail() {
-		return "mail/tempmail";
+	@RequestMapping(value = "/tempMail", method = RequestMethod.GET)
+	public String tempMail() {
+		return "mail/tempMail";
 	}
 	
 	//휴지통
-	@RequestMapping(value = "/trashmail", method = RequestMethod.GET)
-	public String trashmail() {
-		return "mail/trashmail";
+	@RequestMapping(value = "/trashMail", method = RequestMethod.GET)
+	public String trashMail() {
+		return "mail/trashMail";
 	}
 	
 	//휴지통 팝업창
@@ -51,9 +57,9 @@ public class MailController {
 	}
 	
 	//메일쓰기
-	@RequestMapping(value = "/writemail", method = RequestMethod.GET)
-	public String writemail() {
-		return "mail/writemail";
+	@RequestMapping(value = "/writeMail", method = RequestMethod.GET)
+	public String writeMail() {
+		return "mail/writeMail";
 	}
 	
 	//주소록 팝업창
@@ -63,9 +69,9 @@ public class MailController {
 	}
 	
 	//메일 자세히보기
-	@RequestMapping(value = "/detailmail", method = RequestMethod.GET)
-	public String detailmail() {
-		return "mail/detailmail";
+	@RequestMapping(value = "/detailMail", method = RequestMethod.GET)
+	public String detailMail() {
+		return "mail/detailMail";
 	}
 	
 }
