@@ -19358,6 +19358,20 @@ input:focus {
   font-style: normal;
 }
 
+@font-face {
+    font-family: 'LeferiPoint-WhiteObliqueA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiPoint-WhiteObliqueA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LeferiBaseType-RegularA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiBaseType-RegularA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .bg-twitter {
   background: #4747A1;
 }
@@ -19433,11 +19447,14 @@ input:focus {
 /* Typography */
 body {
   font-size: 1rem;
-  font-family: "Nunito", sans-serif;
+  font-family: 'LeferiPoint-WhiteObliqueA';
+/*   font-family: "Nunito", sans-serif; */
   font-weight: initial;
   line-height: normal;
   -webkit-font-smoothing: antialiased;
 }
+
+
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
@@ -28466,8 +28483,9 @@ div.tagsinput span.tag a {
 .sidebar {
   min-height: calc(100vh - 60px);
   background: #fff;
-  font-family: "Nunito", sans-serif;
-  font-weight: 500;
+  font-family: 'LeferiPoint-WhiteObliqueA';
+/*   font-family: "Nunito", sans-serif; */
+  font-weight: 700;
   padding: 0;
   width: 235px;
   z-index: 11;
