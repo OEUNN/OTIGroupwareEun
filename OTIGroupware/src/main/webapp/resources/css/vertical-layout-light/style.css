@@ -19447,8 +19447,8 @@ input:focus {
 /* Typography */
 body {
   font-size: 1rem;
-  font-family: 'LeferiPoint-WhiteObliqueA';
-/*   font-family: "Nunito", sans-serif; */
+/*   font-family: 'LeferiPoint-WhiteObliqueA'; */
+  font-family: "Nunito", sans-serif;
   font-weight: initial;
   line-height: normal;
   -webkit-font-smoothing: antialiased;
@@ -22018,6 +22018,7 @@ code {
 
 .card .card-title {
   color: #010101;
+  font-family: 'LeferiPoint-WhiteObliqueA';
   margin-bottom: 1.2rem;
   text-transform: capitalize;
   font-size: 1.125rem;
