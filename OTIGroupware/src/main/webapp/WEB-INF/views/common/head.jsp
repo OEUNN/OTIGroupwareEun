@@ -6,20 +6,39 @@
 
 <title>GROUPWARE</title>
 
+
+<!-- 
+CSS
+ -->
 <!-- plugins:css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/feather/feather.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/ti-icons/css/themify-icons.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/mdi/css/materialdesignicons.min.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/css/vendor.bundle.base.css">
 <!-- endinject -->
-
-<!-- Plugin css for this page -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/ti-icons/css/themify-icons.css">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/js/select.dataTables.min.css">
-<!-- End plugin css for this page -->
 
 <!-- inject:css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vertical-layout-light/style.css">
 <!-- endinject -->
 
-<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/favicon.png" />
+
+<!-- 
+favicon
+ -->
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/oti.png" />
+
+
+<!-- 
+JS
+ -->
+<!-- plugins:js -->
+<script src="${pageContext.request.contextPath}/resources/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+
+
+<!-- inject:js -->
+<script src="${pageContext.request.contextPath}/resources/js/template.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/settings.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/todolist.js"></script>
+<!-- endinject -->
+
