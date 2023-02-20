@@ -17,13 +17,11 @@
   <div class="container-scroller">
     <!-- Navbar -->
     <%@ include file="/WEB-INF/views/common/_navbar.jsp" %>
-    
     <div class="container-fluid page-body-wrapper">
       <!-- To_do_List/Chat -->
       <%@ include file="/WEB-INF/views/common/_settings-panel.jsp" %>
       <!-- Sidebar -->
       <%@ include file="/WEB-INF/views/common/_sidebar.jsp" %>
-      
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
@@ -375,9 +373,6 @@
     <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
-  
-
-  
 </body>
 
 </html>
