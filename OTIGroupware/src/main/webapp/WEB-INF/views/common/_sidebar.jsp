@@ -35,7 +35,7 @@
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"><a class="nav-link" href="<c:url value='/board'/>">사내 공지</a></li>
                 <li class="nav-item"><a class="nav-link" href="<c:url value='/hrboard'/>">인사 발령</a></li>
-                <li class="nav-item"><a class="nav-link" href="<c:url value='/familteventboard'/>">경조사</a></li>
+                <li class="nav-item"><a class="nav-link" href="<c:url value='/familyeventboard'/>">경조사</a></li>
               </ul>
             </div>
           </li>

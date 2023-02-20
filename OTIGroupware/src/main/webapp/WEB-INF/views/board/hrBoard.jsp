@@ -53,7 +53,11 @@
 											<thead>
 												<tr>
 													<th class="col-1">
-														<input type="checkbox">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
 													</th>
 													<th class="col-1">첨부</th>
 													<th class="col-6">제목</th>
@@ -64,7 +68,11 @@
 											<tbody>
 												<tr>
 													<td>
-														<input type="checkbox">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
 													</td>
 													<td>
 														<img src="${pageContext.request.contextPath}/resources/images/attach.png" style="width:20px; height:20px"></img>
@@ -77,7 +85,11 @@
 												</tr>
 												<tr>
 													<td>
-														<input type="checkbox">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
 													</td>
 													<td>
 														<img src="${pageContext.request.contextPath}/resources/images/attach.png" style="width:20px; height:20px"></img>
@@ -90,7 +102,11 @@
 												</tr>
 												<tr>
 													<td>
-														<input type="checkbox">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
 													</td>
 													<td>
 														<img src="${pageContext.request.contextPath}/resources/images/attach.png" style="width:20px; height:20px"></img>
@@ -102,7 +118,11 @@
 												</tr>
 												<tr>
 													<td>
-														<input type="checkbox">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
 													</td>
 													<td>
 														<img src="${pageContext.request.contextPath}/resources/images/attach.png" style="width:20px; height:20px"></img>
@@ -113,7 +133,11 @@
 												</tr>
 												<tr>
 													<td>
-														<input type="checkbox">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
 													</td>
 													<td>
 														<img src="${pageContext.request.contextPath}/resources/images/attach.png" style="width:20px; height:20px"></img>

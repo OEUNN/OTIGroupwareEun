@@ -56,7 +56,13 @@
 										<table class="table table-hover">
 											<thead>
 												<tr>
-													<th class="col-1"><input type="checkbox"></th>
+													<th class="col-1">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+													</th>
 													<th class="col-1">첨부</th>
 													<th class="col-6">제목</th>
 													<th class="col-1">작성자</th>
@@ -65,7 +71,13 @@
 											</thead>
 											<tbody>
 												<tr>
-													<td><input type="checkbox"></td>
+													<td>
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+													</td>
 													<td><img
 														src="${pageContext.request.contextPath}/resources/images/attach.png"
 														style="width: 20px; height: 20px"></img></td>
@@ -76,7 +88,13 @@
 													<td>읽음</td>
 												</tr>
 												<tr>
-													<td><input type="checkbox"></td>
+													<td>
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+													</td>
 													<td><img
 														src="${pageContext.request.contextPath}/resources/images/attach.png"
 														style="width: 20px; height: 20px"></img></td>
@@ -87,7 +105,13 @@
 													<td>20221104</td>
 												</tr>
 												<tr>
-													<td><input type="checkbox"></td>
+													<td>
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+													</td>
 													<td><img
 														src="${pageContext.request.contextPath}/resources/images/attach.png"
 														style="width: 20px; height: 20px"></img></td>
@@ -97,7 +121,13 @@
 													<td>안읽음</td>
 												</tr>
 												<tr>
-													<td><input type="checkbox"></td>
+													<td>
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+													</td>
 													<td><img
 														src="${pageContext.request.contextPath}/resources/images/attach.png"
 														style="width: 20px; height: 20px"></img></td>
@@ -106,7 +136,13 @@
 													<td>안읽음</td>
 												</tr>
 												<tr>
-													<td><input type="checkbox"></td>
+													<td>
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+													</td>
 													<td><img
 														src="${pageContext.request.contextPath}/resources/images/attach.png"
 														style="width: 20px; height: 20px"></img></td>

@@ -4,7 +4,7 @@
 <html lang="en">
 
 	<head>
-	<!-- CSS 관련 파일 -->
+		<!-- CSS 관련 파일 -->
 		<%@ include file="/WEB-INF/views/common/head.jsp" %>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mail.css"/>
 	</head>
@@ -61,7 +61,7 @@
 										</div>
 										<div class="form-group">
 											<label for="exampleTextarea1">Textarea</label>
-											<textarea class="form-control" id="exampleTextarea1" rows="4"></textarea>
+											<textarea class="form-control" id="summernoteExample" rows="4"></textarea>
 										</div>
 									</form>
 								</div>

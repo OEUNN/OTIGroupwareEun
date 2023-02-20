@@ -27,27 +27,45 @@
 						<div class="col-lg-12 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
-									<h4 class="card-title">임시 저장함</h4>
+									<h4 class="card-title">임시 보관함</h4>
 									<!-- 테이블 -->
 									<div class="table-responsive">
 										<table class="table table-hover">
 											<thead>
 												<tr>
-													<th class="col-1"><input class=" pr-0" type="checkbox">
-														<div class="dropdown-m pl-0 ">
-															<button class="dropbtn-m dropdown-toggle"></button>
-															<div class="dropdown-content-m">
-																<a href="#">전체선택</a> <a href="#">중요메일</a> <a href="#">중요표시안한메일</a>
+													<th class=" form-inline ">
+														<div class="form-check font-weight-bold text-info ">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+														<div class="dropdown">
+															<button class="dropdown-toggle" 
+																 id="dropdownMenuIconButton2"
+																data-toggle="dropdown" aria-haspopup="true"
+																aria-expanded="false">
+															</button>
+															<div class="dropdown-menu"
+																aria-labelledby="dropdownMenuIconButton2">
+																<a class="dropdown-item" href="#">전체선택</a>
+																<a class="dropdown-item" href="#">중요메일</a>
+																<a class="dropdown-item" href="#">중요표시안한메일</a>
 															</div>
-														</div></th>
+														</div>
+													</th>
 													<th class="col-2">발신인</th>
 													<th class="col-6">제목</th>
-													<th class="col 	">날짜</th>
+													<th class="col-3">날짜</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
-													<td><input class=" pr-0" type="checkbox">
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
 														<button>
 															<img
 																src="${pageContext.request.contextPath}/resources/images/star.png"
@@ -59,7 +77,12 @@
 													<td><label class="badge badge-danger">Pending</label></td>
 												</tr>
 												<tr>
-													<td><input class=" pr-0" type="checkbox">
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
 														<button>
 															<img
 																src="${pageContext.request.contextPath}/resources/images/star.png"
@@ -72,7 +95,12 @@
 															progress</label></td>
 												</tr>
 												<tr>
-													<td><input class=" pr-0" type="checkbox">
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
 														<button>
 															<img
 																src="${pageContext.request.contextPath}/resources/images/star.png"
@@ -84,7 +112,12 @@
 													<td><label class="badge badge-info">Fixed</label></td>
 												</tr>
 												<tr>
-													<td><input class=" pr-0" type="checkbox">
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
 														<button>
 															<img
 																src="${pageContext.request.contextPath}/resources/images/star.png"
@@ -95,7 +128,12 @@
 													<td><label class="badge badge-success">Completed</label></td>
 												</tr>
 												<tr>
-													<td><input class=" pr-0" type="checkbox">
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
 														<button>
 															<img
 																src="${pageContext.request.contextPath}/resources/images/star.png"
