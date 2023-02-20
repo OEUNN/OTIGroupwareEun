@@ -21,19 +21,19 @@ public class BoardController {
 	}
 	
 	//인사발령
-	@RequestMapping(value = "/hrboard", method = RequestMethod.GET)
-	public String hrboard() {
-		return "board/HrBoard";
+	@RequestMapping(value = "/hrBoard", method = RequestMethod.GET)
+	public String hrBoard() {
+		return "board/hrBoard";
 	}
 
 	//경조사
-	@RequestMapping(value = "/familyeventboard", method = RequestMethod.GET)
-	public String familyeventboard() {
+	@RequestMapping(value = "/familyEventBoard", method = RequestMethod.GET)
+	public String familyEventBoard() {
 		return "board/familyEventBoard";
 	}
 	
 	//경조사
-	@RequestMapping(value = "/writeboard", method = RequestMethod.GET)
+	@RequestMapping(value = "/writeBoard", method = RequestMethod.GET)
 	public String writeBoard() {
 		return "board/writeBoard";
 	}
