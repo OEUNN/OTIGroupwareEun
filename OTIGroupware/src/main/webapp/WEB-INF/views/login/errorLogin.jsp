@@ -7,7 +7,7 @@
 		<%@ include file="/WEB-INF/views/common/head.jsp" %>
 		<script>
         function popup(){
-            var url = "loginReTry";
+            var url = "loginretry";
             var name = "login retry";
             var option = "width = 500, height =200, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
             window.open(url, name, option);
@@ -53,19 +53,6 @@
 			</div>
 			<!-- page-body-wrapper ends -->
 		</div>
-		<!-- container-scroller -->
-		<!-- plugins:js -->
-		<script src="../../vendors/js/vendor.bundle.base.js"></script>
-		<!-- endinject -->
-		<!-- Plugin js for this page -->
-		<!-- End plugin js for this page -->
-		<!-- inject:js -->
-		<script src="../../js/off-canvas.js"></script>
-		<script src="../../js/hoverable-collapse.js"></script>
-		<script src="../../js/template.js"></script>
-		<script src="../../js/settings.js"></script>
-		<script src="../../js/todolist.js"></script>
-		<!-- endinject -->
 	</body>
 
 </html>
