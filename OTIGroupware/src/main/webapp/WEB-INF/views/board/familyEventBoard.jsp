@@ -29,27 +29,24 @@
 								<div class="card-body">
 									<div class="card-title row container-fluid">
 										<h4 class="col-1 card-title">경조사</h4>
-										<div class="col-10"></div>
-										<button class="col-1 btn btn-md btn-primary"
-											style="text-align: right;">게시글 쓰기</button>
+										<div class="col-9"></div>
+										<button onclick=""
+											class="btn btn-md btn-primary btn-icon-text d-flex align-items-center ml-5">
+											<i class="mdi mdi-lead-pencil"></i> <span
+												class="ml-2 font-weight-bold">게시글 쓰기</span>
+										</button>
 									</div>
 									<!-- Start Search -->
 									<form class="form-inline my-3">
-										<select class="mx-5 board-select"
-											style="border: 1px solid #CED4DA; border-radius: 10px;">
+										<select class="mx-5 board-select form-control ">
 											<option>전체</option>
 											<option>제목</option>
 											<option>작성자</option>
 											<option>작성 날짜</option>
-										</select> 검색어&ensp; <input class="mr-5" type="text"
-											style="border: 1px solid #CED4DA; border-radius: 10px;">
-										작성기간&ensp; <input type="date"
-											style="border: 1px solid #CED4DA; border-radius: 10px;">
-										&ensp; ~ &ensp; <input class="mr-3" type="date"
-											style="border: 1px solid #CED4DA; border-radius: 10px;">
-										<input type="submit"
-											class="mx-5 btn btn-sm btn-secondary btn-rounded" value="검색"
-											style="width: 100px;">
+										</select> 검색어&ensp; <input class="mr-5 form-control" type="text">
+										작성기간&ensp; <input type="date" class="form-control">
+										&ensp; ~ &ensp; <input class="mr-3 form-control" type="date">
+										<button type="submit" class="mx-5 btn btn-md btn-primary">검색</button>
 									</form>
 									<!-- End Search -->
 									<!-- 테이블 -->
@@ -79,9 +76,7 @@
 															</label>
 														</div>
 													</td>
-													<td><img
-														src="${pageContext.request.contextPath}/resources/images/attach.png"
-														style="width: 20px; height: 20px"></img></td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td class="text-danger">28.76% <i
 														class="ti-arrow-down"></i>
 													</td>
@@ -96,9 +91,7 @@
 															</label>
 														</div>
 													</td>
-													<td><img
-														src="${pageContext.request.contextPath}/resources/images/attach.png"
-														style="width: 20px; height: 20px"></img></td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td class="text-danger">21.06% <i
 														class="ti-arrow-down"></i></td>
 													<td><label class="badge badge-warning">In
@@ -113,9 +106,7 @@
 															</label>
 														</div>
 													</td>
-													<td><img
-														src="${pageContext.request.contextPath}/resources/images/attach.png"
-														style="width: 20px; height: 20px"></img></td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td class="text-danger">35.00% <i
 														class="ti-arrow-down"></i></td>
 													<td><label class="badge badge-info">Fixed</label></td>
@@ -129,9 +120,7 @@
 															</label>
 														</div>
 													</td>
-													<td><img
-														src="${pageContext.request.contextPath}/resources/images/attach.png"
-														style="width: 20px; height: 20px"></img></td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td class="text-success">82.00% <i class="ti-arrow-up"></i></td>
 													<td><label class="badge badge-success">Completed</label></td>
 													<td>안읽음</td>
@@ -144,9 +133,7 @@
 															</label>
 														</div>
 													</td>
-													<td><img
-														src="${pageContext.request.contextPath}/resources/images/attach.png"
-														style="width: 20px; height: 20px"></img></td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td class="text-success">98.05% <i class="ti-arrow-up"></i></td>
 													<td><label class="badge badge-warning">In
 															progress</label></td>
@@ -166,7 +153,7 @@
 									</div>
 									<div class="row">
 										<div class="col-2">
-											<button class="btn btn-dark btn-sm" onclick="popup()">선택
+											<button class="btn btn-outline-danger btn-sm" onclick="popup()">선택
 												삭제</button>
 										</div>
 									</div>

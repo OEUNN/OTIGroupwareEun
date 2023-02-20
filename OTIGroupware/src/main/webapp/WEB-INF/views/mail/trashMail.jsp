@@ -41,7 +41,7 @@
 										<table class="table table-hover">
 											<thead>
 												<tr>
-													<th class=" form-inline ">
+													<th class=" form-inline " style="border:none;">
 														<div class="form-check font-weight-bold text-info ">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
@@ -76,9 +76,7 @@
 															</label>
 														</div>
 													</td>
-													<td><img
-														src="${pageContext.request.contextPath}/resources/images/left.png"
-														style="width: 20px; height: 20px"></img> Photoshop</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i> Photoshop</td>
 													<td class="text-danger">28.76% <i
 														class="ti-arrow-down"></i>
 													</td>
@@ -93,9 +91,7 @@
 															</label>
 														</div>
 													</td>
-													<td><img
-														src="${pageContext.request.contextPath}/resources/images/right.png"
-														style="width: 20px; height: 20px"></img> Flash</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i> Flash</td>
 													<td class="text-danger">21.06% <i
 														class="ti-arrow-down"></i></td>
 													<td><label class="badge badge-warning">In
@@ -110,9 +106,7 @@
 															</label>
 														</div>
 													</td>
-													<td><img
-														src="${pageContext.request.contextPath}/resources/images/right.png"
-														style="width: 20px; height: 20px"></img> Premier</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i> Premier</td>
 													<td class="text-danger">35.00% <i
 														class="ti-arrow-down"></i></td>
 													<td><label class="badge badge-info">Fixed</label></td>
@@ -126,9 +120,7 @@
 															</label>
 														</div>
 													</td>
-													<td><img
-														src="${pageContext.request.contextPath}/resources/images/right.png"
-														style="width: 20px; height: 20px"></img> After effects</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i> After effects</td>
 													<td class="text-success">82.00% <i class="ti-arrow-up"></i></td>
 													<td><label class="badge badge-success">Completed</label></td>
 													<td>읽음</td>
@@ -141,9 +133,7 @@
 															</label>
 														</div>
 													</td>
-													<td><img
-														src="${pageContext.request.contextPath}/resources/images/right.png"
-														style="width: 20px; height: 20px"></img> 53275535</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i> 53275535</td>
 													<td class="text-success">98.05% <i class="ti-arrow-up"></i></td>
 													<td><label class="badge badge-warning">In
 															progress</label></td>
@@ -165,7 +155,7 @@
 									<!-- 삭제 버튼 -->
 									<div class="row">
 										<div class="col-2">
-											<button class="btn btn-dark btn-sm" onclick="popup()">선택
+											<button class="btn btn-outline-danger btn-sm" onclick="popup()">선택
 												삭제</button>
 										</div>
 									</div>

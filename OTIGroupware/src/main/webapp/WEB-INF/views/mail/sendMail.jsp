@@ -32,7 +32,7 @@
 										<table class="table table-hover">
 											<thead>
 												<tr>
-													<th class=" form-inline ">
+													<th class=" form-inline " style="border:none;">
 														<div class="form-check font-weight-bold text-info ">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
@@ -69,9 +69,7 @@
 															</label>
 														</div>
 														<button>
-															<img
-																src="${pageContext.request.contextPath}/resources/images/star.png"
-																style="width: 20px; height: 20px"></img>
+															<i class="h3 mdi mdi-star text-primary"></i>
 														</button></td>
 													<td>Photoshop</td>
 													<td class="text-danger">28.76% <i
@@ -87,9 +85,7 @@
 															</label>
 														</div>
 														<button>
-															<img
-																src="${pageContext.request.contextPath}/resources/images/star.png"
-																style="width: 20px; height: 20px"></img>
+															<i class="h3 mdi mdi-star text-primary"></i>
 														</button></td>
 													<td>Flash</td>
 													<td class="text-danger">21.06% <i
@@ -106,9 +102,7 @@
 															</label>
 														</div>
 														<button>
-															<img
-																src="${pageContext.request.contextPath}/resources/images/star.png"
-																style="width: 20px; height: 20px"></img>
+															<i class="h3 mdi mdi-star-outline text-primary"></i>
 														</button></td>
 													<td>Premier</td>
 													<td class="text-danger">35.00% <i
@@ -124,9 +118,7 @@
 															</label>
 														</div>
 														<button>
-															<img
-																src="${pageContext.request.contextPath}/resources/images/star.png"
-																style="width: 20px; height: 20px"></img>
+															<i class="h3 mdi mdi-star text-primary"></i>
 														</button></td>
 													<td>After effects</td>
 													<td class="text-success">82.00% <i class="ti-arrow-up"></i></td>
@@ -141,9 +133,7 @@
 															</label>
 														</div>
 														<button>
-															<img
-																src="${pageContext.request.contextPath}/resources/images/star.png"
-																style="width: 20px; height: 20px"></img>
+															<i class="h3 mdi mdi-star text-primary"></i>
 														</button></td>
 													<td>53275535</td>
 													<td class="text-success">98.05% <i class="ti-arrow-up"></i></td>
@@ -165,7 +155,7 @@
 									</div>
 									<div class="row">
 										<div class="col-2">
-											<button class="btn btn-dark btn-sm">선택 삭제</button>
+											<button class="btn btn-outline-danger btn-sm">선택 삭제</button>
 										</div>
 									</div>
 								</div>

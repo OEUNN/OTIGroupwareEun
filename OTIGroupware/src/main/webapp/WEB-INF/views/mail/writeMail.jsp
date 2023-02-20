@@ -41,10 +41,12 @@
 										<div class="container-fluid row">
 											<!-- 버튼 container -->
 											<div class="col-lg-9"></div>
-											<button class="col-5 col-lg-1 btn btn-info mr-2 my-2">임시
+											<button class="col-5 col-lg-1 btn btn-inverse-primary mr-2">임시
 												저장</button>
-											<button type="submit"
-												class="col-5 col-lg-1 btn btn-primary my-2">Submit</button>
+											<button onclick="" class="btn btn-md btn-primary btn-icon-text d-flex align-items-center ">
+												<i class="mdi mdi-send"></i> 
+												<span class="ml-2 font-weight-bold">보내기</span>
+											</button>
 										</div>
 										<div class="form-group row">
 											<label class="col-1 pt-3" for="sendMail"> 발신인 </label> <input
@@ -61,9 +63,8 @@
 											</label>
 										</div>
 										<div class="form-group row">
-											<label class="col-1 pt-3" for="title"> 제목 <img
-												src="${pageContext.request.contextPath}/resources/images/starfull.png"
-												style="width: 20px; height: 20px"></img>
+											<label class="col-1 pt-3" for="title"> 제목 
+												<i class="h3 mdi mdi-star text-primary "></i>
 											</label> <input type="text" class="form-control col-9" id="title"
 												style="border: none; border-bottom: 1px solid #ced4da;">
 										</div>
