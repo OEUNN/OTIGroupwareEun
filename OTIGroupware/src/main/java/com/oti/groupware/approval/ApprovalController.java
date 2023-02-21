@@ -29,10 +29,10 @@ public class ApprovalController {
 		return "approval/write";
 	}
 	
-	@RequestMapping(value = "/draftDocumentBox", method=RequestMethod.GET)
-	public String draftDocumentBox() {
+	@RequestMapping(value = "/organization", method=RequestMethod.GET)
+	public String organization() {
 		log.info("정보 로그");
-		return "approval/draftDocumentBox";
+		return "approval/organization";
 	}
 	
 }
