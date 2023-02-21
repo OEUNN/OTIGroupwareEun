@@ -20,7 +20,7 @@ public class ApprovalController {
 	@RequestMapping(value = "/totalDocumentBox", method=RequestMethod.GET)
 	public String totalDocumentBox() {
 		log.info("정보 로그");
-		return "approval/documentBoxTemplate";
+		return "approval/documentboxtemplate";
 
 	}
 	@RequestMapping(value = "/write", method=RequestMethod.GET)
