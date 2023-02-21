@@ -26372,7 +26372,8 @@ table.dataTable tbody td.select-checkbox:after {
 .datepicker.datepicker-dropdown,
 .datepicker.datepicker-inline {
   padding: 0;
-  width: 30%;
+  width: 10%;
+  height: 37%;
   max-width: 500px;
   min-width: 250px;
 }
@@ -26463,7 +26464,7 @@ table.dataTable tbody td.select-checkbox:after {
   content: "";
   width: 28px;
   height: 28px;
-  background: #57B657;
+  background: #4747A1;
   border-radius: 4px;
   display: block;
   margin: auto;

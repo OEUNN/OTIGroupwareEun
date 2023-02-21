@@ -8,7 +8,6 @@
 		var calendarEl = document.getElementById('calendar');
 
 		var calendar = new FullCalendar.Calendar(calendarEl, {
-			initialDate : '2023-01-12',
 			editable : true,
 			selectable : true,
 			businessHours : true,
@@ -55,10 +54,47 @@
 				title : 'Click for Google',
 				url : 'http://google.com/',
 				start : '2023-01-28'
+			}, {
+				title : '출근',
+				start : '2023-02-20T08:45:02'
+			}, {
+				title : '퇴근',
+				start : '2023-02-20T18:15:04'
 			} ]
 		});
 
 		calendar.render();
+	});
+	
+	/* 달력에서 일자를 누르면 상세보기 가능 */
+	$(document).ready(function(){
+		$('.fc-daygrid-day-frame').click(function(){
+			  let atdArr = $(this).find(".fc-daygrid-day-events .fc-event-title").get();
+			  let timeArr = $(this).find(".fc-daygrid-day-events .fc-event-time").get();
+			  
+			  if(timeArr.length != 0) { //시간이 찍혀있을 경우
+				  for(var i=0; i<timeArr.length; i++){
+					 let atdStr = atdArr[i].innerHTML; 
+					 let timeStr = timeArr[i].innerHTML; 
+					 
+					 console.log(timeStr.substr(4));
+					 
+					 if(timeStr.substr(4)=="a"){
+						 timeStr = "AM " + timeStr.substr(0,4);
+					 } else {
+						 timeStr = "PM " + timeStr.substr(0,4);
+					 }
+					 if(atdStr === "출근") {
+						 $("#today-in-time").html(timeStr);
+					 } else if (atdStr === "퇴근") {
+						 $("#today-out-time").html(timeStr);
+					 }
+				  }
+			  } else { //시간이 찍혀있지 않을 경우
+				  $("#today-in-time").html(" ");
+				  $("#today-out-time").html(" ");
+			  }
+		});
 	});
 </script>
 
@@ -97,12 +133,41 @@
 		text-decoration-line: none;
 		color: #4B49AC;
 	}
+	
+	.fc-event-time, .fc-event-title {
+		color: black;
+	}
+	
+	/* 일요일 날짜 빨간색 */
+	.fc-day-sun a {
+	  color: red;
+	  text-decoration: none;
+	}
+	
+	/* 토요일 날짜 파란색 */
+	.fc-day-sat a {
+	  color: blue;
+	  text-decoration: none;
+	}
 </style>
 <!-- End plugin css,js for this page -->
 
+
 <div class="card">
 	<div class="card-body">
-		<p class="card-title">나의 출퇴근</p>
+		<p class="card-title d-flex justify-content-between align-items-start">
+			<span>나의 출퇴근</span>
+			<span>
+				<button class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
+               		<span class="mdi mdi-calendar-clock align-middle"></span>
+               		<span>근무시간수정</span>
+          	   </button>
+               <button class="btn btn-md btn-warning mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
+               		<span class="mdi mdi-calendar-plus align-middle"></span>
+               		<span>추가근무신청</span>
+           	   </button>
+			</span>
+		</p>
 		<!-- 달력 -->
 		<div id="calendar"></div>
 	</div>
