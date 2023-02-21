@@ -59,6 +59,21 @@
 									<div class="forms-sample">
 										<div class="row">
 											<div class="col-md-12">
+												<div class="form-group row align-items-center">
+													<div class="col-sm-1 text-primary">
+														<div class="d-flex align-items-center m-1">
+															<i class="h3 my-auto mdi mdi-calendar "></i> 
+															<span class="font-weight-bold">날짜</span>
+														</div>
+													</div>
+													<div class="col-sm-9" style="border-bottom:1px solid #ced4da;">
+														<div class="h3 from-control" style="font-weight:bold; border:none;"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
 												<div class="form-group row align-items-center ">
 													<div class="col-sm-2 text-primary">
 														<div class="d-flex align-items-center m-1">
@@ -74,16 +89,8 @@
 										</div>
 										<div class="row">
 											<div class="col-md-12">
-												<div class="form-group row align-items-center">
-													<div class="col-sm-1 text-primary">
-														<div class="d-flex align-items-center m-1">
-															<i class="h3 my-auto mdi mdi-calendar "></i> 
-															<span class="font-weight-bold">날짜</span>
-														</div>
-													</div>
-													<div class="col-sm-9" style="border-bottom:1px solid #ced4da;">
-														<div class="h3 from-control" style="font-weight:bold; border:none;"></div>
-													</div>
+												<div class="form-group row">
+													<textarea class="form-control" id="write" readonly></textarea>
 												</div>
 											</div>
 										</div>
@@ -101,9 +108,6 @@
 													</div>
 												</div>
 											</div>
-										</div>
-										<div class="form-group">
-											<textarea class="form-control" readonly></textarea>
 										</div>
 									</div>
 								</form>

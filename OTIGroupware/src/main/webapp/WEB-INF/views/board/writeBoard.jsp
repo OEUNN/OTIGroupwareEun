@@ -99,8 +99,12 @@
 												</div>
 											</div>
 										</div>
-										<div class="form-group">
-											<textarea class="form-control" id="write"></textarea>
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group row">
+													<textarea class="form-control" id="write"></textarea>
+												</div>
+											</div>
 										</div>
 									</div>
 								</form>
