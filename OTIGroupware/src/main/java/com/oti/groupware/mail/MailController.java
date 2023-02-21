@@ -11,7 +11,7 @@ import lombok.extern.log4j.Log4j2;
 public class MailController {
 	
 	//받은 메일
-	@RequestMapping(value = "/sendMail", method = RequestMethod.GET)
+	@RequestMapping(value = "/sendmail", method = RequestMethod.GET)
 	public String sendMail() {
 		log.debug("디버그 로그");
 		log.info("정보 로그");
@@ -21,13 +21,13 @@ public class MailController {
 	}
 	
 	//받은메일
-	@RequestMapping(value = "/receivedMail", method = RequestMethod.GET)
+	@RequestMapping(value = "/receivedmail", method = RequestMethod.GET)
 	public String receivedMail() {
 		return "mail/receivedMail";
 	}
 	
 	//중요메일
-	@RequestMapping(value = "/importMail", method = RequestMethod.GET)
+	@RequestMapping(value = "/importmail", method = RequestMethod.GET)
 	public String importMail() {
 		return "mail/importMail";
 	}
@@ -39,13 +39,13 @@ public class MailController {
 	}
 	
 	//임시 보관함
-	@RequestMapping(value = "/tempMail", method = RequestMethod.GET)
+	@RequestMapping(value = "/tempmail", method = RequestMethod.GET)
 	public String tempMail() {
 		return "mail/tempMail";
 	}
 	
 	//휴지통
-	@RequestMapping(value = "/trashMail", method = RequestMethod.GET)
+	@RequestMapping(value = "/trashmail", method = RequestMethod.GET)
 	public String trashMail() {
 		return "mail/trashMail";
 	}
@@ -57,7 +57,7 @@ public class MailController {
 	}
 	
 	//메일쓰기
-	@RequestMapping(value = "/writeMail", method = RequestMethod.GET)
+	@RequestMapping(value = "/writemail", method = RequestMethod.GET)
 	public String writeMail() {
 		return "mail/writeMail";
 	}
@@ -69,7 +69,7 @@ public class MailController {
 	}
 	
 	//메일 자세히보기
-	@RequestMapping(value = "/detailMail", method = RequestMethod.GET)
+	@RequestMapping(value = "/detailmail", method = RequestMethod.GET)
 	public String detailMail() {
 		return "mail/detailMail";
 	}
