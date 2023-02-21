@@ -12,6 +12,37 @@
 	<!-- Plugin css,js for this page -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
 	<script src="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+	
+	<script>
+		//현재 시간
+		$(function() {
+			const clock1 = document.getElementById("now-date");
+			const clock2 = document.getElementById("now-time");
+	
+			function getClock(){
+			  const d = new Date();
+			  const y = String(d.getFullYear()).padStart(4);
+			  const M = String(d.getMonth() + 1).padStart(2,"0");
+			  const da = String(d.getDate()).padStart(2,"0");
+			  const h = String(d.getHours()).padStart(2,"0");
+			  const m = String(d.getMinutes()).padStart(2,"0");
+			  const s = String(d.getSeconds()).padStart(2,"0");
+			  clock1.innerText = y + "년 " + M + "월 " + da + "일";
+			  clock2.innerText = h + ":" + m + ":" + s;
+			}
+		
+			getClock(); //맨처음에 한번 실행
+			setInterval(getClock, 1000); //1초 주기로 새로실행
+		});
+		
+		//datepicker 렌더링
+	   	$(function(){ 
+		      $('#datepicker-popup').datepicker({
+		         todayHighlight: true
+		      });
+		});
+	</script>
+	
 	<!-- End plugin css,js for this page -->
 </head>
 
@@ -40,27 +71,6 @@
 									<div class="justify-content-start align-items-center">
 										<div id="now-date" class="font-weight-bold h5 text-muted"></div>
 										<div id="now-time" class="font-weight-bold h1 mt-3"></div>
-										<script>
-											$( document ).ready(function() {
-												const clock1 = document.getElementById("now-date");
-												const clock2 = document.getElementById("now-time");
-									
-												function getClock(){
-												  const d = new Date();
-												  const y = String(d.getFullYear()).padStart(4);
-												  const M = String(d.getMonth() + 1).padStart(2,"0");
-												  const da = String(d.getDate()).padStart(2,"0");
-												  const h = String(d.getHours()).padStart(2,"0");
-												  const m = String(d.getMinutes()).padStart(2,"0");
-												  const s = String(d.getSeconds()).padStart(2,"0");
-												  clock1.innerText = y + "년 " + M + "월 " + da + "일";
-												  clock2.innerText = h + ":" + m + ":" + s;
-												}
-											
-												getClock(); //맨처음에 한번 실행
-												setInterval(getClock, 1000); //1초 주기로 새로실행
-											});
-										</script>
 									</div>
 			               		</div>
 			               		<!-- 근무상태 -->
@@ -141,19 +151,14 @@
 	              <div class="card">
 	                <div class="card-body">
 	                  <p class="card-title">근무현황</p>
-	                  <!-- start datepicker -->
+	                  <!-- datepicker start -->
 	                  <div id="datepicker-popup" class="input-group date datepicker" style="width:250px;">
 						<input type="text" class="form-control">
 						<span class="input-group-addon input-group-append border-left">
 							<span class="ti-calendar input-group-text"></span>
 						</span>
 					  </div>
-					  <script>
-						$('#datepicker-popup').datepicker({
-						    todayHighlight: true
-						});
-					  </script>
-	                  <!-- end datepicker -->
+	                  <!-- datepicker end -->
 	                  <div class="table-responsive">
 	                      <table class="table table-hover">
 		                        <thead>
