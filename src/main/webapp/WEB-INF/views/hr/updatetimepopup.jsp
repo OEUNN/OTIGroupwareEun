@@ -115,9 +115,9 @@
 	                       			<div class="col-md">
 	                       				<!-- clockpicker:start -->
 	                       				<div class="input-group clockpicker">
-											<input type="text" class="form-control">
-											<span class="input-group-addon input-group-append border-left">
-											<span class="ti-calendar input-group-text"></span>
+											<input type="text" class="form-control" style="height: 30px;">
+											<span class="input-group-addon input-group-append border-left" style="height: 30px;">
+												<span class="ti-calendar input-group-text"></span>
 											</span>
 										</div>
 										<script>
