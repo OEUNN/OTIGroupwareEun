@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <!-- Plugin css,js for this page -->
-<script src='${pageContext.request.contextPath}/resources/fullcalendar/js/index.global.js'></script>
+<script src='${pageContext.request.contextPath}/resources/vendors/fullcalendar/js/index.global.js'></script>
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		var calendarEl = document.getElementById('calendar');
