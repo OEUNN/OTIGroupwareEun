@@ -28,41 +28,64 @@
          <!-- 사진 / 퀵메뉴 / 프로필 / 출퇴근 / 달력 -->
           <div class="row">
             <div class="col-md-3 grid-margin stretch-card flex-column">
-              <div class="card pt-3 pb-4 px-3" style="background-color: #e7e7ff;">
+              <div class="card pt-3 pb-4 px-3" style="background-color: #e7e7ff; box-shadow: 3px 3px 6px #cdd1e1;">
                  <!-- 사진 -->
-                 <div class="row mt-1 justify-content-center">
-                   <img src="${pageContext.request.contextPath}/resources/images/faces/face10.jpg" style="width:85%; border-radius: 20px;"/>
-               </div>
-               <!-- 프로필 -->
-                  <div class="row mt-3 justify-content-center">
-                    <div class="ml-1 pt-3">
+                 <div class="row justify-content-center">
+                   <img src="${pageContext.request.contextPath}/resources/images/faces/face10.jpg" style="width:75%; border-radius: 20px; box-shadow: 3px 3px 6px #4747A1;"/>
+               	 </div>
+               	 <!-- 프로필 -->
+                 <div class="row mt-3 justify-content-center" style="font-family: LeferiPoint-WhiteObliqueA;">
+                    <div class="ml-1 pt-1">
                       <span class="font-weight-bold text-primary h2">이춘향</span>
                       <span class="font-weight-bold h5">사원</span>
-                      <div class="font-weight-bold text-muted h5 mt-2 text-center">공공사업1DIV</div>
+                      <div class="font-weight-bold text-muted h6 mt-2 text-center">공공사업1DIV</div>
+                    </div>
+                  </div>
+               	 <!-- 잔여일수 -->
+                 <div class="row mt-3" style="margin-left: 30px;">
+                    <div class="col-md p-0">
+	                    <div>
+	                      <span class="font-weight-bold text-primary" style="font-family: LeferiPoint-WhiteObliqueA; font-size: 14px;">잔여휴가</span>
+	                      <span class="font-weight-bold" >12</span>
+	                    </div>
+	                    <div>
+	                      <span class="font-weight-bold text-primary" style="font-family: LeferiPoint-WhiteObliqueA; font-size: 14px;">잔여공가</span>
+	                      <span class="font-weight-bold">0</span>
+	                    </div>
+                    </div>
+                    <div class="col-md p-0">
+	                    <div>
+	                      <span class="font-weight-bold text-primary" style="font-family: LeferiPoint-WhiteObliqueA; font-size: 14px;">잔여대체휴무</span>
+	                      <span class="font-weight-bold">0</span>
+	                    </div>
+	                    <div>
+	                      <span class="font-weight-bold text-primary" style="font-family: LeferiPoint-WhiteObliqueA; font-size: 14px;">잔여경조휴가</span>
+	                      <span class="font-weight-bold">0</span>
+	                    </div>
                     </div>
                   </div>
                   <!-- 퀵메뉴 -->
-                  <div class="row justify-content-center p-2">
-                  <div class="row justify-content-center mt-2">
-                       <button onclick="" class="btn btn-sm btn-inverse-primary btn-icon-text d-flex align-items-center m-1">
-                          <i class="mdi mdi-lead-pencil"></i>
-                          <span class="ml-2 font-weight-bold">메일쓰기</span>
-                       </button>
-                       <button onclick="" class="btn btn-sm btn-inverse-primary btn-icon-text d-flex align-items-center m-1">
-                          <i class="mdi mdi-file-document"></i>
-                          <span class="ml-2 font-weight-bold">결재신청</span>
-                       </button>
-                  </div>
-                  <div class="row justify-content-center mt-2">
-                       <button onclick="" class="btn btn-sm btn-inverse-primary btn-icon-text d-flex align-items-center m-1">
-                          <i class="mdi mdi-wallet-travel"></i>
-                          <span class="ml-2 font-weight-bold">휴가신청</span>
-                       </button>
-                       <button onclick="" class="btn btn-sm btn-inverse-primary btn-icon-text d-flex align-items-center m-1" style="width: 101.9px;">
-                          <i class="mdi mdi-emoticon"></i>
-                          <span class="ml-2 font-weight-bold" style="font-size: 10px;">프로필수정</span>
-                       </button>
-                  </div>
+                  <div class="row mt-2 justify-content-center">
+	                  <div class="row mt-2">
+	                       <button onclick="" class="btn btn-md btn-inverse-primary btn-icon-text d-flex align-items-center m-1">
+	                          <i class="mdi mdi-lead-pencil"></i>
+	                          <span class="ml-2 font-weight-bold">메일쓰기</span>
+	                       </button>
+	                       <button onclick="" class="btn btn-md btn-inverse-primary btn-icon-text d-flex align-items-center m-1">
+	                          <i class="mdi mdi-file-document"></i>
+	                          <span class="ml-2 font-weight-bold">결재신청</span>
+	                       </button>
+	                  </div>
+	                  <div class="row mt-1">
+	                       <button onclick="" class="btn btn-md btn-inverse-primary btn-icon-text d-flex align-items-center m-1">
+	                          <i class="mdi mdi-wallet-travel"></i>
+	                          <span class="ml-2 font-weight-bold">휴가신청</span>
+	                       </button>
+	                       <button onclick="" class="btn btn-md btn-inverse-primary btn-icon-text d-flex align-items-center m-1">
+	                          <i class="mdi mdi-emoticon"></i>
+	                          <span class="ml-1 font-weight-bold" style="font-size: 12px;">프로필수정</span>
+	                       </button>
+	                  </div>
                   </div>
               </div>
             </div>
@@ -72,9 +95,9 @@
                   <div class="card-body">
                         <p class="card-title">오늘의 근무</p>
                   <!-- 현재시간 -->
-                  <div class="row justify-content-around align-items-center">
+                  <div class="row justify-content-around align-items-center mt-4">
                      <div id="now-date" class="font-weight-bold h6 text-muted"></div>
-                     <div id="now-time" class="font-weight-bold h2"></div>
+                     <div id="now-time" class="font-weight-bold h1"></div>
                      <script>
                         $( document ).ready(function() {
                            const clock1 = document.getElementById("now-date");
@@ -99,14 +122,21 @@
                   </div>
                         <!-- 출퇴근 버튼 -->
                         <div class="row mt-3 justify-content-around">
-                           <button class="btn btn-lg btn-outline-primary" style="font-family: LeferiBaseType-RegularA; font-weight: 700; font-size: 120%;">출근</button>
-                           <button class="btn btn-lg btn-outline-danger" style="font-family: LeferiBaseType-RegularA; font-weight: 700; font-size: 120%;">퇴근</button>
+                           <button class="btn btn-lg btn-outline-primary" style="font-family: LeferiBaseType-RegularA; font-weight: 700; font-size: 120%;">
+                           		<h2 class="mdi mdi-alarm-check"></h2>
+                           		출근
+                      	   </button>
+                      	   <div class="my-auto" style="border: 2px solid rgba(75, 73, 172, 0.2); height: 90px;"></div>
+                           <button class="btn btn-lg btn-outline-danger" style="font-family: LeferiBaseType-RegularA; font-weight: 700; font-size: 120%;">
+                           		<h2 class="mdi mdi-alarm-off"></h2>
+                           		퇴근
+                       	   </button>
                         </div>
                         <!-- 근무상태 -->
-                        <div class="row mt-3 justify-content-center">
+                        <div class="row mt-4 justify-content-center">
                            <button class="btn btn-lg btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" 
                                  aria-haspopup="true" aria-expanded="true" style="width: 87%; font-size: 130%; font-weight: bold;">
-                               근무중
+                           	    근무중
                            </button>
                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 85%;">
                              <h6 class="dropdown-header">근무중</h6>
@@ -117,25 +147,19 @@
                            </div>
                         </div>
                         <!-- 출퇴근 시간출력 -->
-                        <div class="row mt-3 flex-column px-4">
-                           <div class="col-md card card-dark-blue">
-                             <div class="card-body p-2">
-                               <p class="mb-3 d-flex align-items-center">
-                                  <i class="mdi mdi-alarm-check"></i>
-                                  <span class="ml-1">출근</span>
-                                 </p>
-                               <p class="fs-30">08:45</p>
-                             </div>
-                           </div>
-                           <div class="col-md card card-light-danger mt-4">
-                             <div class="card-body p-2">
-                               <p class="mb-3 d-flex align-items-center">
-                                  <i class="mdi mdi-alarm-off"></i>
-                                  <span class="ml-1">퇴근</span>
-                                 </p>
-                               <p class="fs-30">18:12</p>
-                             </div>
-                           </div>
+                        <div class="row mt-4 justify-content-around">
+                           <div class="card card-dark-blue">
+			                  <div class="card-body">
+			                      <p class="card-title text-white">출근</p>
+                               	  <p class="fs-30 ml-1 px-2 py-4">08:45:00</p>
+		                      </div>
+		                   </div>
+                           <div class="card card-light-danger">
+			                  <div class="card-body">
+			                      <p class="card-title text-white">퇴근</p>
+                               	  <p class="fs-30 ml-1 px-2 py-4">18:15:00</p>
+		                      </div>
+		                   </div>
                       </div>
                   </div>
                </div>
@@ -152,15 +176,15 @@
                 <div class="card-body">
                   <p class="card-title">최근 받은메일</p>
                   <div class="card card-light-blue mb-4">
-                  <div class="card-body">
-                      <p class="card-title text-white">Mail</p>
-                      <div class="row">
-                         <div class="col-md">받은메일<span class="pl-2 h3 font-weight-bold">0</span></div>
-                         <div class="col-md">안읽음<span class="pl-2 h3 font-weight-bold">1</span></div>
-                         <div class="col-md">임시저장<span class="pl-2 h3 font-weight-bold">2</span></div>
-                         <div class="col-md">중요메일<span class="pl-2 h3 font-weight-bold">0</span></div>
+	                  <div class="card-body">
+	                      <p class="card-title text-white">Mail</p>
+	                      <div class="row">
+	                         <div class="col-md">받은메일<span class="pl-2 h3 font-weight-bold">0</span></div>
+	                         <div class="col-md">안읽음<span class="pl-2 h3 font-weight-bold">1</span></div>
+	                         <div class="col-md">임시저장<span class="pl-2 h3 font-weight-bold">2</span></div>
+	                         <div class="col-md">중요메일<span class="pl-2 h3 font-weight-bold">0</span></div>
+	                      </div>
                       </div>
-                    </div>
                  </div>
                   <div class="table-responsive">
                       <table class="table table-hover">
