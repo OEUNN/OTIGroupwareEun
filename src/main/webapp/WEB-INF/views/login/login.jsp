@@ -22,10 +22,10 @@
 								<h6 class="font-weight-light">Sign in to continue.</h6>
 								<form class="pt-3" action="<c:url value='/home'/>" >
 									<div class="form-group">
-										<input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username">
+										<input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username" value="OTIandEXAINT">
 									</div>
 									<div class="form-group">
-										<input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
+										<input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password" value="OTIandEXAINT">
 									</div>
 									<div class="mt-3">
 										<a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="<c:url value='/home'/>">

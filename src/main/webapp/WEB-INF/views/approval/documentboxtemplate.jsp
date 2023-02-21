@@ -6,7 +6,16 @@
 <head>
 	<!-- CSS, JS 관련 파일 -->
 	<%@ include file="/WEB-INF/views/common/head.jsp" %>
+	
 	<!-- Custom js for this page-->
+	<script src="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+	<script>
+	$(function(){
+		$('#datepicker').datepicker({
+		});	
+	});
+	</script>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
 	<style type="text/css">
 	.collapse, .collapsing {
 		box-shadow: 0px 0px 0px white !important;
@@ -14,7 +23,7 @@
 	</style>
 </head>
 
-<body>
+<body >
 <div class="container-scroller">
 
 	<!-- partial:../../partials/_navbar.jsp -->
@@ -96,7 +105,7 @@
 			        							</div>
 			        						</div>
 		        						</div>
-		        						<div class="col-3">
+		        						<div class="col-2">
 			        						<div class="card" style="border-radius:8px; border: 2px solid #4747A1;">
 												<div class="card-header bg-white d-flex" style="border-radius:8px; border-bottom: 0px;">
 													<a class="font-weight-bold text-decoration-none" data-target="#filter_by_date" data-toggle="collapse" style="color: #4747A1;">기준날짜</a>
@@ -116,12 +125,14 @@
 			        							</div>
 			        						</div>
 		        						</div>
-		        						<div class="col-3">
-			        						<div class="card" style="border-radius:8px; border: 2px solid #4747A1;">
-			        							<div class="datepicker">
-			        								<div class="datepicker-inline">datepicker 들어갈 자리</div>
-			        							</div>
-			        						</div>
+		        						<div class="col-4">
+			        						<div class="input-daterange input-group" id="datepicker">
+												<span class="input-group-addon input-group-append"><span class="mdi mdi-calendar-clock input-group-text bg-white text-primary"></span></span>
+											    <input type="text" class="input-sm form-control text-info font-weight-bold" name="start" style="border-radius:8px; border: 2px solid #4747A1;"/>
+											    <span class="input-group-addon text-primary font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
+												<span class="input-group-addon input-group-append"><span class="mdi mdi-calendar-clock input-group-text bg-white text-primary"></span></span>
+											    <input type="text" class="input-sm form-control text-info font-weight-bold" name="end" style="border-radius:8px; border: 2px solid #4747A1;"/>
+											</div>
 		        						</div>
 		        					</div>
 	        					</div>
