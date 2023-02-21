@@ -11,7 +11,6 @@
 
 	<!-- Plugin css,js for this page -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
-<!-- 	<script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
 	<script src="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 	<!-- End plugin css,js for this page -->
 </head>
@@ -150,7 +149,9 @@
 						</span>
 					  </div>
 					  <script>
-						$('#datepicker-popup').datepicker();
+						$('#datepicker-popup').datepicker({
+						    todayHighlight: true
+						});
 					  </script>
 	                  <!-- end datepicker -->
 	                  <div class="table-responsive">

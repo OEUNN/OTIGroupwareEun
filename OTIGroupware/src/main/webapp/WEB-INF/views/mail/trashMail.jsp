@@ -41,23 +41,22 @@
 										<table class="table table-hover">
 											<thead>
 												<tr>
-													<th class=" form-inline " style="border:none;">
-														<div class="form-check font-weight-bold text-info ">
-															<label class="form-check-label">
+													<th class="p-1">
+														<div class="d-flex form-check font-weight-bold text-info ml-3">
+															<label class="form-check-label m-0">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
-														</div>
-														<div class="dropdown">
-															<button class="dropdown-toggle" 
-																 id="dropdownMenuIconButton2"
-																data-toggle="dropdown" aria-haspopup="true"
-																aria-expanded="false">
-															</button>
-															<div class="dropdown-menu"
-																aria-labelledby="dropdownMenuIconButton2">
-																<a class="dropdown-item" href="#">전체선택</a> <a
-																	class="dropdown-item" href="#">읽은메일</a> <a
-																	class="dropdown-item" href="#">읽지않은메일</a>
+															<div class="dropdown">
+																<button class="dropdown-toggle p-0 ml-3" 
+																	 id="dropdownMenuIconButton2"
+																	data-toggle="dropdown" aria-haspopup="true"
+																	aria-expanded="false">
+																</button>
+																<div class="dropdown-menu" aria-labelledby="dropdownMenuIconButton2">
+																	<a class="dropdown-item" href="#">전체선택</a> 
+																	<a class="dropdown-item" href="#">읽은메일</a> 
+																	<a class="dropdown-item" href="#">읽지않은메일</a>
+																</div>
 															</div>
 														</div>
 													</th>
