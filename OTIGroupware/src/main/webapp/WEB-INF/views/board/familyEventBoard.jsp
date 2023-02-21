@@ -6,15 +6,7 @@
 	<head>
 	<!-- CSS 관련 파일 -->
 		<%@ include file="/WEB-INF/views/common/head.jsp" %>
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mail.css"/>
-		<script>
-        function popup(){
-            var url = "trashpopup";
-            var name = "trash popup";
-            var option = "width = 500, height = 200, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
-            window.open(url, name, option);
-        }
-		</script>	
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css"/>
 	</head>
 
 <body>
@@ -35,36 +27,44 @@
 						<div class="col-lg-12 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
-									<h4 class="card-title">휴지통</h4>
+									<div class="card-title row container-fluid">
+										<h4 class="col-1 card-title">경조사</h4>
+										<div class="col-9"></div>
+										<button onclick=""
+											class="btn btn-md btn-primary btn-icon-text d-flex align-items-center ml-5">
+											<i class="mdi mdi-lead-pencil"></i> <span
+												class="ml-2 font-weight-bold">게시글 쓰기</span>
+										</button>
+									</div>
+									<!-- Start Search -->
+									<form class="form-inline my-3">
+										<select class="mx-5 board-select form-control ">
+											<option>전체</option>
+											<option>제목</option>
+											<option>작성자</option>
+											<option>작성 날짜</option>
+										</select> 검색어&ensp; <input class="mr-5 form-control" type="text">
+										작성기간&ensp; <input type="date" class="form-control">
+										&ensp; ~ &ensp; <input class="mr-3 form-control" type="date">
+										<button type="submit" class="mx-5 btn btn-md btn-primary">검색</button>
+									</form>
+									<!-- End Search -->
 									<!-- 테이블 -->
 									<div class="table-responsive">
 										<table class="table table-hover">
 											<thead>
 												<tr>
-													<th class=" form-inline " style="border:none;">
-														<div class="form-check font-weight-bold text-info ">
+													<th class="col-1">
+														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<div class="dropdown">
-															<button class="dropdown-toggle" 
-																 id="dropdownMenuIconButton2"
-																data-toggle="dropdown" aria-haspopup="true"
-																aria-expanded="false">
-															</button>
-															<div class="dropdown-menu"
-																aria-labelledby="dropdownMenuIconButton2">
-																<a class="dropdown-item" href="#">전체선택</a> <a
-																	class="dropdown-item" href="#">읽은메일</a> <a
-																	class="dropdown-item" href="#">읽지않은메일</a>
-															</div>
-														</div>
 													</th>
-													<th class="col-2">ID</th>
+													<th class="col-1">첨부</th>
 													<th class="col-6">제목</th>
-													<th class="col-2">날짜</th>
-													<th class="col-1">읽음</th>
+													<th class="col-1">작성자</th>
+													<th class="col-2">작성날짜</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -76,7 +76,7 @@
 															</label>
 														</div>
 													</td>
-													<td><i class="mdi mdi-arrow-right text-primary"></i> Photoshop</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td class="text-danger">28.76% <i
 														class="ti-arrow-down"></i>
 													</td>
@@ -91,12 +91,12 @@
 															</label>
 														</div>
 													</td>
-													<td><i class="mdi mdi-arrow-right text-primary"></i> Flash</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td class="text-danger">21.06% <i
 														class="ti-arrow-down"></i></td>
 													<td><label class="badge badge-warning">In
 															progress</label></td>
-													<td>읽음</td>
+													<td>20221104</td>
 												</tr>
 												<tr>
 													<td>
@@ -106,11 +106,11 @@
 															</label>
 														</div>
 													</td>
-													<td><i class="mdi mdi-arrow-right text-primary"></i> Premier</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td class="text-danger">35.00% <i
 														class="ti-arrow-down"></i></td>
 													<td><label class="badge badge-info">Fixed</label></td>
-													<td>읽음</td>
+													<td>안읽음</td>
 												</tr>
 												<tr>
 													<td>
@@ -120,10 +120,10 @@
 															</label>
 														</div>
 													</td>
-													<td><i class="mdi mdi-arrow-right text-primary"></i> After effects</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td class="text-success">82.00% <i class="ti-arrow-up"></i></td>
 													<td><label class="badge badge-success">Completed</label></td>
-													<td>읽음</td>
+													<td>안읽음</td>
 												</tr>
 												<tr>
 													<td>
@@ -133,11 +133,11 @@
 															</label>
 														</div>
 													</td>
-													<td><i class="mdi mdi-arrow-right text-primary"></i> 53275535</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td class="text-success">98.05% <i class="ti-arrow-up"></i></td>
 													<td><label class="badge badge-warning">In
 															progress</label></td>
-													<td>읽음</td>
+													<td>안읽음</td>
 												</tr>
 											</tbody>
 										</table>
@@ -151,16 +151,12 @@
 											4 5 다음 끝</div>
 										<div class="col-3"></div>
 									</div>
-									<!-- 페이징 끝 -->
-									<!-- 삭제 버튼 -->
 									<div class="row">
 										<div class="col-2">
 											<button class="btn btn-outline-danger btn-sm" onclick="popup()">선택
 												삭제</button>
 										</div>
 									</div>
-									<!-- 삭제버튼 끝 -->
-
 								</div>
 							</div>
 						</div>

@@ -18,7 +18,7 @@ public class LoginController {
 		log.error("에러 로그");
 		return "login/login";
 	}
-	@RequestMapping(value = "/errorLogin", method = RequestMethod.GET)
+	@RequestMapping(value = "/errorlogin", method = RequestMethod.GET)
 	public String errorLogin() {
 		log.debug("디버그 로그");
 		log.info("정보 로그");
@@ -26,7 +26,7 @@ public class LoginController {
 		log.error("에러 로그");
 		return "login/errorLogin";
 	}
-	@RequestMapping(value = "/loginReTry", method = RequestMethod.GET)
+	@RequestMapping(value = "/loginretry", method = RequestMethod.GET)
 	public String loginReTry() {
 		log.error("popup 에러로그");
 		return "login/loginReTry";
