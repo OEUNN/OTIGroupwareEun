@@ -27,26 +27,32 @@
 						<div class="col-lg-12 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
-									<div class="card-title row container-fluid">
-										<h4 class="col-1 card-title">경조사</h4>
-										<div class="col-9"></div>
-										<button onclick=""
-											class="btn btn-md btn-primary btn-icon-text d-flex align-items-center ml-5">
-											<i class="mdi mdi-lead-pencil"></i> <span
-												class="ml-2 font-weight-bold">게시글 쓰기</span>
-										</button>
-									</div>
+									<p class="card-title d-flex justify-content-between align-items-start">
+										<span>경조사</span> <span>
+											<a class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;" href="<c:url value='/writeboard'/>">
+												<span class="mdi mdi-lead-pencil align-middle"></span> 
+												<span>게시글 쓰기</span>
+											</a>
+										</span>
+									</p>
 									<!-- Start Search -->
 									<form class="form-inline my-3">
-										<select class="mx-5 board-select form-control ">
+										<select class="mx-5 board-select form-control">
 											<option>전체</option>
 											<option>제목</option>
 											<option>작성자</option>
 											<option>작성 날짜</option>
-										</select> 검색어&ensp; <input class="mr-5 form-control" type="text">
-										작성기간&ensp; <input type="date" class="form-control">
-										&ensp; ~ &ensp; <input class="mr-3 form-control" type="date">
-										<button type="submit" class="mx-5 btn btn-md btn-primary">검색</button>
+										</select> 
+										
+										검색어&ensp; 
+										<input class="mr-5 form-control" type="text">
+										작성기간&ensp; 
+										<input type="date" class="form-control">
+										&ensp; ~ &ensp; 
+										<input class="mr-3 form-control" type="date" >
+										<button class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
+												<span>검색</span>
+											</button>
 									</form>
 									<!-- End Search -->
 									<!-- 테이블 -->
@@ -173,6 +179,7 @@
 		<!-- page-body-wrapper ends -->
 	</div>
 	<!-- container-scroller -->
+
 </body>
 
 </html>

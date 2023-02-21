@@ -7,6 +7,23 @@
 	<!-- CSS 관련 파일 -->
 		<%@ include file="/WEB-INF/views/common/head.jsp" %>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mail.css"/>
+		<!-- Custom js for this page-->
+		<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/tinymce.min.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/write-template.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/themes/silver/theme.min.js"></script>
+		<style type="text/css">
+		.collapse, .collapsing {
+			box-shadow: 0px 0px 0px white !important;
+		}
+		</style>
+		<script>
+        function address(){
+            var url = "addresspopup";
+            var name = "employee address";
+            var option = "width = 500, height = 700, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+            window.open(url, name, option);
+        }
+		</script>
 		
 	</head>
 
@@ -27,50 +44,99 @@
 					<div class="row">
 						<div class="col-12 grid-margin stretch-card">
 							<div class="card">
-								<div class="card-body">
-									<h4 class="card-title">제목</h4>
-									<form class="forms-sample">
-										<div class="container-fluid row">
-											<!-- 버튼 container -->
-											<div class="col-lg-8"></div>
-											<button class="col-3 col-lg-1 btn btn-warning mr-2 my-2">답장</button>
-											<button class="col-3 col-lg-1 btn btn-warning mr-2 my-2">전달</button>
-											<button type="submit"
-												class="col-3 col-lg-1 btn btn-success mr-2 my-2">휴지통</button>
+								<form class="card-body">
+									<!-- main title and submit button -->
+									<p class="card-title d-flex justify-content-between align-items-start">
+										<span>제목</span> 
+										<span>
+											<button class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
+												<span class="mdi mdi-telegram align-middle"></span> 
+												<span>답장</span>
+											</button>
+											<button class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
+												<span class="mdi mdi-call-made align-middle"></span>  
+												<span>전달</span>
+											</button>
+											<button class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
+												<span class="mdi mdi-archive align-middle"></span> 
+												<span>휴지통</span>
+											</button>
+										</span>
+									</p><!-- end main title and submit button -->
+									<!-- mail data -->
+									<div class="forms-sample">
+										<!-- send mail -->
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group row align-items-center">
+													<div class="col-sm-1 text-primary">
+														<div class="d-flex align-items-center m-1">
+															<span class=" font-weight-bold">발신인</span>
+															<i class="h3 my-auto mdi mdi-arrow-right"></i> 
+														</div>
+													</div>
+													<div class="col-sm-5" style="border-bottom:1px solid #ced4da;">
+														<div class="h3 from-control" style="font-weight:bold; border:none;"></div>
+													</div>
+												</div>
+											</div>
 										</div>
-										<div class="form-group row">
-											<label class="col-1 pt-3" for="sendMail"> 발신인 </label> <input
-												type="text" class="form-control col-5" id="sendMail"
-												readonly
-												style="border: none; border-bottom: 1px solid #ced4da;">
+										<!-- receive mail -->
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group row align-items-center">
+													<div class="col-sm-1 text-primary">
+														<div class="d-flex align-items-center m-1">
+															<i class="h3 my-auto mdi mdi-arrow-left"></i> 
+															<span class="font-weight-bold">수신인</span>
+														</div>
+													</div>
+													<div class="col-sm-6" style="border-bottom:1px solid #ced4da;">
+														<input class="h3 from-control" style="font-weight:bold; border:none;">
+													</div>
+													<div class="col-sm-2" >
+														<div class="h3 from-control" style="font-weight:bold; border:none;"></div>
+													</div>
+												</div>
+											</div>
 										</div>
-										<div class="form-group row">
-											<label class="col-1 pt-3" for="recivedMail">수신인 </label> <input
-												type="text" class="form-control col" id="recivedMail"
-												readonly
-												style="border: none; border-bottom: 1px solid #ced4da;">
-											<label class="col-2 pt-3" for="recivedMail"> </label>
+										<!-- title -->
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group row align-items-center">
+													<div class="col-sm-1 text-primary">
+														<div class="d-flex align-items-center m-1">
+															<i class="h3 my-auto mdi mdi-calendar "></i> 
+															<span class="font-weight-bold">날짜</span>
+														</div>
+													</div>
+													<div class="col-sm-9" style="border-bottom:1px solid #ced4da;">
+														<div class="h3 from-control" style="font-weight:bold; border:none;"></div>
+													</div>
+												</div>
+											</div>
 										</div>
-										<div class="form-group row">
-											<label class="col-1 pt-3" for="title"> 날짜 </label> <input
-												type="text" class="form-control col-9" id="title" readonly
-												style="border: none; border-bottom: 1px solid #ced4da;">
-										</div>
-										<div class="form-group">
-											<label>File upload </label> <input type="file" name="img[]"
-												class="file-upload-default">
-											<div class="input-group col-xs-12">
-												<input type="text" class="form-control file-upload-info"
-													disabled style="height: 100px;">
+										<!-- file upload -->
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group row">
+													<div class="col-sm-2 text-primary">
+														<div class="row d-flex align-items-center m-1">
+															<i class="h3 my-auto mdi mdi-cloud-download"></i> 
+															<span class="ml-2 font-weight-bold">파일 다운로드</span>
+														</div>
+													</div>
+													<div class="col-sm-8 p-0"> 
+														<div class="h3 form-control" style="font-weight:bold; height:120px;"></div>
+													</div>
+												</div>
 											</div>
 										</div>
 										<div class="form-group">
-											<label for="exampleTextarea1">Textarea</label>
-											<textarea class="form-control" id="exampleTextarea1" readonly
-												rows="4"></textarea>
+											<textarea class="form-control" readonly></textarea>
 										</div>
-									</form>
-								</div>
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>
