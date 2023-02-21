@@ -62,8 +62,12 @@
 				</div>
 			</div>
 		</div>
-		<div class="row m-1 mt-3 mb-5 form-group" style="height: 150px; border:1px solid #ced4da;">
-		
+		<div class="row m-1 mt-3 mb-5 form-group d-flex flex-column" style="height: 150px; border:1px solid #ced4da;">
+			<div id="overflow">
+				<div class="highlight row m-1"><i class="mdi mdi mdi-minus d-flex align-self-center mx-1"></i>김부련 부장<span class="ml-2">[kimbujang@oti.com]</span></div>
+				<div class="highlight row m-1"><i class="mdi mdi mdi-minus d-flex align-self-center mx-1"></i>오상식 차장<span class="ml-2">[ocharjang@oti.com]</span></div>
+				<div class="highlight row m-1"><i class="mdi mdi mdi-minus d-flex align-self-center mx-1"></i>장그래 사원<span class="ml-2">[jangyes@oti.com]</span></div>
+			</div>
 		</div>
 		<div class="row mb-3" >
 			<div class="col"></div>
