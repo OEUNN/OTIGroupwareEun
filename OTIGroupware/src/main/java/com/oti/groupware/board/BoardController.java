@@ -32,11 +32,16 @@ public class BoardController {
 		return "board/familyEventBoard";
 	}
 	
-	//경조사
+	//게시판쓰기
 	@RequestMapping(value = "/writeboard", method = RequestMethod.GET)
 	public String writeBoard() {
 		return "board/writeBoard";
 	}
 	
+	//게시글 보기
+	@RequestMapping(value = "/detailboard", method = RequestMethod.GET)
+	public String detailBoard() {
+		return "board/detailBoard";
+	}
 	
 }

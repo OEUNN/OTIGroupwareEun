@@ -39,6 +39,16 @@ public class EmployeeController {
 		log.error("에러 로그");
 		return "employee/selectemployee";
 	}
+	
+	//임직원 조회
+		@RequestMapping(value = "/updateemployee", method = RequestMethod.GET)
+		public String updateEmployee() {
+			log.debug("디버그 로그");
+			log.info("정보 로그");
+			log.warn("경고 로그");
+			log.error("에러 로그");
+			return "employee/updateemployee";
+		}
 
 	//임직원 등록
 	@RequestMapping(value = "/insertemployee", method = RequestMethod.GET)
