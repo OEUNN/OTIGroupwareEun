@@ -29,19 +29,17 @@
 					<div class="row">
 						<div class="col-12 grid-margin">
 							<div class="card">
-								<div class="card-body">
-									<form class="form-sample mt-3">
-										<div class="card-title row container-fluid">
-											<h4 class="col-2 card-title">임직원 등록</h4>
-											<div class="col"></div>
-											<div class="col-2">
-												<button onclick=""
-													class="btn btn-md btn-primary btn-icon-text d-flex align-items-center m-1">
-													<i class="mdi mdi-check"></i> <span
-														class="ml-2 font-weight-bold">등록</span>
+								<div class="card-body ">
+									<form class="form-sample">
+										<p class="card-title d-flex justify-content-between align-items-start">
+											<span>임직원 등록</span>
+											<span>
+												<button type="submit" class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
+													<span class="mdi mdi-folder-account align-middle"></span> 
+													<span>등록</span>
 												</button>
-											</div>
-										</div>
+											</span>
+										</p>
 										<div class="row">
 											<div class="col-md-6"> 
 												<div class="form-group row align-items-center">
@@ -84,39 +82,6 @@
 													</div>
 												</div>
 											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-6">
-												<div class="form-group row align-items-center">
-													<div class="col-sm-4 text-primary">
-														<div class="d-flex align-items-center m-1">
-															<i class="h3 my-auto mdi mdi-cake"></i> 
-															<span class="ml-2 font-weight-bold">사진</span>
-														</div>
-													</div>
-													<div class="col-sm-8">
-														<input type="file" class="form-control" />
-													</div>
-												</div>
-											</div>
-											
-										</div>
-										<div class="row">
-											<div class="col-md-6">
-												<div class="form-group row align-items-center">
-													<div class="col-sm-4 text-primary">
-														<div class="d-flex align-items-center m-1">
-															<i class="h3 my-auto mdi mdi-cellphone"></i> 
-															<span class="ml-2 font-weight-bold">개인TEL</span>
-														</div>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" class="form-control" placeholder="000-0000-0000"/>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row">
 											<div class="col-md-6">
 												<div class="form-group row align-items-center">
 													<div class="col-sm-4 text-primary">
@@ -147,6 +112,19 @@
 												<div class="form-group row align-items-center">
 													<div class="col-sm-4 text-primary">
 														<div class="d-flex align-items-center m-1">
+															<i class="h3 my-auto mdi mdi-face"></i> 
+															<span class="ml-2 font-weight-bold">사진</span>
+														</div>
+													</div>
+													<div class="col-sm-8">
+														<input type="file" class="form-control" />
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group row align-items-center">
+													<div class="col-sm-4 text-primary">
+														<div class="d-flex align-items-center m-1">
 															<i class="h3 my-auto mdi mdi-pocket"></i> 
 															<span class="ml-2 font-weight-bold">병역</span>
 														</div>
@@ -173,6 +151,19 @@
 												<div class="form-group row align-items-center">
 													<div class="col-sm-4 text-primary">
 														<div class="d-flex align-items-center m-1">
+															<i class="h3 my-auto mdi mdi-cellphone"></i> 
+															<span class="ml-2 font-weight-bold">개인TEL</span>
+														</div>
+													</div>
+													<div class="col-sm-8">
+														<input type="text" class="form-control" placeholder="000-0000-0000"/>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group row align-items-center">
+													<div class="col-sm-4 text-primary">
+														<div class="d-flex align-items-center m-1">
 															<i class="h3 my-auto mdi mdi-heart"></i> 
 															<span class="ml-2 font-weight-bold">결혼여부</span>
 														</div>
@@ -190,21 +181,6 @@
 															<input type="radio" class="form-check-input" name="marry" id="marry2" value="option2">미혼
 															</label>
 														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-6">
-												<div class="form-group row align-items-center">
-													<div class="col-sm-4 text-primary">
-														<div class="d-flex align-items-center m-1">
-															<i class="h3 my-auto mdi mdi-clipboard-check"></i> 
-															<span class="ml-2 font-weight-bold">채용일</span>
-														</div>
-													</div>
-													<div class="col-sm-8">
-														<input type="text" class="form-control" placeholder="YYYY/MM/DD"/>
 													</div>
 												</div>
 											</div>
@@ -247,6 +223,19 @@
 												<div class="form-group row align-items-center">
 													<div class="col-sm-4 text-primary">
 														<div class="d-flex align-items-center m-1">
+															<i class="h3 my-auto mdi mdi-clipboard-check"></i> 
+															<span class="ml-2 font-weight-bold">채용일</span>
+														</div>
+													</div>
+													<div class="col-sm-8">
+														<input type="text" class="form-control" placeholder="YYYY/MM/DD"/>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group row align-items-center">
+													<div class="col-sm-4 text-primary">
+														<div class="d-flex align-items-center m-1">
 															<i class="h3 my-auto mdi mdi-account-multiple"></i> 
 															<span class="ml-2 font-weight-bold">부서</span>
 														</div>
@@ -256,6 +245,9 @@
 													</div>
 												</div>
 											</div>
+										</div>
+										<div class="row">
+											
 											<div class="col-md-6">
 												<div class="form-group row align-items-center">
 													<div class="col-sm-4 text-primary">
