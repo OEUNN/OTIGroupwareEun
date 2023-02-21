@@ -5,7 +5,6 @@
 	<!-- CSS, JS 관련 파일 -->
 	<%@ include file="/WEB-INF/views/common/head.jsp" %>
 	<!-- Custom js for this page-->
-	<script src="${pageContext.request.contextPath}/resources/js/dropify.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/tinymce.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/tinymceinit.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/themes/silver/theme.min.js"></script>
@@ -14,6 +13,14 @@
 		box-shadow: 0px 0px 0px white !important;
 	}
 	</style>
+	<script>
+	function popup(){
+	    let url = "organization";
+	    let name = "organization";
+	    let option = "width=500, height=700, top=500px, left=500px, menubars=no, status=no, titlebars=no"
+	    window.open(url, name, option);
+	}
+	</script>
 </head>
 <body>
 <div class="container-scroller">
@@ -83,7 +90,7 @@
 											<div class="card-body">
 												<div class="d-flex justify-content-between">												
 													<p class="card-title">결재선</p>
-													<h3 class="mdi mdi-plus"></h3>
+													<h3 class="mdi mdi-plus" onclick="popup()"></h3>
 												</div>
 			            						<div class="card card-dark-blue grid-margin shadow-2 mb-0">
 								                    <div class="card-body">
@@ -140,10 +147,7 @@
 													<h3 class="mdi mdi-plus"></h3>
 												</div>
 												<div class="dropify-wrapper">
-													<div class="dropify-message">
-														<p>파일 올리기</p>
-													</div>
-													<input type="file" class="dropify"/>
+													<input type="file" multiple>
 												</div>
 											</div>
 										</div>
