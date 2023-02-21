@@ -25,7 +25,9 @@
 			<!-- partial -->
 			<div class="main-panel">
 				<div class="content-wrapper">
-					
+					<div class="row"></div>
+					<div class="row"></div>
+					<div class="row"></div>
 				</div>
 				<!-- partial:partials/_footer.jsp -->
 				<%@ include file="/WEB-INF/views/common/_footer.jsp"%>
