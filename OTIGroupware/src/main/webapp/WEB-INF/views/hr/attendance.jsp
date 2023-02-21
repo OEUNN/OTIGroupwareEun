@@ -10,6 +10,9 @@
 	<!-- endinject css, js common file -->
 
 	<!-- Plugin css,js for this page -->
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
+<!-- 	<script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
+	<script src="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 	<!-- End plugin css,js for this page -->
 </head>
 
@@ -28,11 +31,11 @@
       <div class="main-panel">
         <div class="content-wrapper">
         	<div class="row">
-        		<div class="col-md-3">
+        		<div class="col-md-3 col-lg-3">
         			<!-- 현재시간 / 출근상태 -->
 		           <div class="grid-margin stretch-card">
 			           	<div class="card">
-			           		<div class="card-body p-5">
+			           		<div class="card-body px-5 py-4">
 			               		<!-- 현재시간 -->
 			               		<div class="row">
 									<div class="justify-content-start align-items-center">
@@ -67,7 +70,7 @@
 		                  					aria-haspopup="true" aria-expanded="true" style="width: 200%; font-size: 130%; font-weight: bold;">
 		                         		근무중
 		                        	</button>
-		                        	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 77%;">
+		                        	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width:80%;">
 			                          <h6 class="dropdown-header">근무중</h6>
 			                          <a class="dropdown-item" href="#">출장</a>
 			                          <a class="dropdown-item" href="#">외근</a>
@@ -76,51 +79,89 @@
 			                        </div>
 		                  		</div>
 		                  		<!-- 출퇴근 버튼 -->
-			               		<div class="row mt-3 justify-content-around">
-			               			<button class="btn btn-lg btn-outline-primary" style="font-family: LeferiBaseType-RegularA; font-weight: 700; font-size: 120%;">출근</button>
-			               			<button class="btn btn-lg btn-outline-danger" style="font-family: LeferiBaseType-RegularA; font-weight: 700; font-size: 120%;">퇴근</button>
+			               		<div class="row mt-4 justify-content-between">
+			               			<button class="btn btn-lg btn-outline-primary p-4" style="font-family: LeferiBaseType-RegularA; font-weight: 700; font-size: 120%;">
+		                           		<span class="mdi mdi-alarm-check align-middle"></span>
+		                           		<span>출근</span>
+		                      	   </button>
+		                           <button class="btn btn-lg btn-outline-danger p-4" style="font-family: LeferiBaseType-RegularA; font-weight: 700; font-size: 120%;">
+		                           		<span class="mdi mdi-alarm-off align-middle"></span>
+		                           		<span>퇴근</span>
+		                       	   </button>
 			               		</div>
 		               		</div>
 	               		</div>
                		</div>
-               		<!-- 현재 휴가 -->
-		           <div class="grid-margin stretch-card">
+               		<!-- 달력에서 원하는 일자를 선택하면, 해당 일자의 출/퇴근 시간이 찍힘 -->
+               		<div class="grid-margin stretch-card">
+			           	<div class="card card-dark-blue">
+			           		<div class="card-body px-5 py-3">
+			           			<div class="row justify-content-between my-2">
+			           				<div class="card-title text-white pt-1">출근</div>
+			           				<div id="today-in-time" class="font-weight-bold h3 m-0"></div>
+			           			</div>
+			           			<div class="row justify-content-between mt-2">
+			           				<div class="card-title text-white m-0 pt-1">퇴근</div>
+			           				<div id="today-out-time" class="font-weight-bold h3 m-0"></div>
+			           			</div>
+			           		</div>
+		           		</div>
+	           		</div>
+               		<!-- 올해 근태 누적 일수 통계 -->
+		          	<div class="grid-margin stretch-card">
 			           	<div class="card">
-			           		<div class="card-body p-5">
+			           		<div class="card-body px-5 py-3">
+			           			<div class="row justify-content-between my-2">
+			           				<div class="card-title text-primary pt-1">지각</div>
+			           				<div class="font-weight-bold h3 m-0">1</div>
+			           			</div>
+			           			<div class="row justify-content-between my-2">
+			           				<div class="card-title text-primary pt-1">결근</div>
+			           				<div class="font-weight-bold h3 m-0">0</div>
+			           			</div>
+			           			<div class="row justify-content-between my-2">
+			           				<div class="card-title text-primary pt-1">추가근무</div>
+			           				<div class="font-weight-bold h3 m-0">1</div>
+			           			</div>
+			           			<div class="row justify-content-between mt-2">
+			           				<div class="card-title text-primary m-0 pt-1">휴일근무</div>
+			           				<div class="font-weight-bold h3 m-0">1</div>
+			           			</div>
 			           		</div>
 		           		</div>
 	           		</div>
         		</div>
-        		<!-- 출/퇴근 달력 -->
-        		<div class="col-md-9">
+        		<!-- 근무현황(달력) -->
+        		<div class="col-md-9 col-lg-9">
 					<%@ include file="/WEB-INF/views/fullcalendar/myatd_calendar.jsp" %>
         		</div>
         	</div>
-	      	<!-- 최근메일 -->
-          	<div class="row">
-            	<div class="col-md-6 grid-margin stretch-card">
+	      	<!-- 근무현황(목록) -->
+          	<div class="row mt-4">
+            	<div class="col-md-12 grid-margin stretch-card">
 	              <div class="card">
 	                <div class="card-body">
-	                  <p class="card-title">최근 받은메일</p>
-	                  <div class="card card-light-blue mb-4">
-	            		<div class="card-body">
-	                      <p class="card-title text-white">Mail</p>
-	                      <div class="row">
-	                      	<div class="col-md">받은메일<span class="pl-2 h3 font-weight-bold">0</span></div>
-	                      	<div class="col-md">안읽음<span class="pl-2 h3 font-weight-bold">1</span></div>
-	                      	<div class="col-md">임시저장<span class="pl-2 h3 font-weight-bold">2</span></div>
-	                      	<div class="col-md">중요메일<span class="pl-2 h3 font-weight-bold">0</span></div>
-	                      </div>
-	                    </div>
-	            	  </div>
+	                  <p class="card-title">근무현황</p>
+	                  <!-- start datepicker -->
+	                  <div id="datepicker-popup" class="input-group date datepicker" style="width:250px;">
+						<input type="text" class="form-control">
+						<span class="input-group-addon input-group-append border-left">
+							<span class="ti-calendar input-group-text"></span>
+						</span>
+					  </div>
+					  <script>
+						$('#datepicker-popup').datepicker();
+					  </script>
+	                  <!-- end datepicker -->
 	                  <div class="table-responsive">
 	                      <table class="table table-hover">
 		                        <thead>
 		                          <tr>
-		                            <th>문서번호</th>
-		                            <th>발신인</th>
-		                            <th>제목</th>
 		                            <th>날짜</th>
+		                            <th>출근시간</th>
+		                            <th>퇴근시간</th>
+		                            <th>총 근무시간</th>
+		                            <th>상태</th>
 		                          </tr>
 		                        </thead>
 		                        <tbody>
@@ -129,14 +170,17 @@
 		                        		<td>gdgd</td>
 		                        		<td>gdgd</td>
 		                        		<td>gdgd</td>
+		                        		<td><div class="badge badge-success font-weight-bold">정상출근</div></td>
 		                        	</tr>
 		                        	<tr>
 		                        		<td>gdgd</td>
 		                        		<td>gdgd</td>
 		                        		<td>gdgd</td>
 		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
 		                        	</tr>
 		                        	<tr>
+		                        		<td>gdgd</td>
 		                        		<td>gdgd</td>
 		                        		<td>gdgd</td>
 		                        		<td>gdgd</td>

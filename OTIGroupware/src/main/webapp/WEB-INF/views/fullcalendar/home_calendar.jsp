@@ -8,7 +8,6 @@
 		var calendarEl = document.getElementById('calendar');
 
 		var calendar = new FullCalendar.Calendar(calendarEl, {
-			initialDate : '2023-01-12',
 			editable : true,
 			selectable : true,
 			businessHours : true,
@@ -96,6 +95,22 @@
 	.fc-col-header-cell-cushion:hover, .fc-daygrid-day-number:hover {
 		text-decoration-line: none;
 		color: #4B49AC;
+	}
+	
+	.fc-event-time, .fc-event-title {
+		color: black;
+	}
+	
+	/* 일요일 날짜 빨간색 */
+	.fc-day-sun a {
+	  color: red;
+	  text-decoration: none;
+	}
+	
+	/* 토요일 날짜 파란색 */
+	.fc-day-sat a {
+	  color: blue;
+	  text-decoration: none;
 	}
 </style>
 <!-- End plugin css,js for this page -->
