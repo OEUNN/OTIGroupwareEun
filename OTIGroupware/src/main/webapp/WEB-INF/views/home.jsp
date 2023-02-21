@@ -94,32 +94,32 @@
                <div class="card">
                   <div class="card-body">
                         <p class="card-title">오늘의 근무</p>
-                  <!-- 현재시간 -->
-                  <div class="row justify-content-around align-items-center mt-4">
-                     <div id="now-date" class="font-weight-bold h6 text-muted"></div>
-                     <div id="now-time" class="font-weight-bold h1"></div>
-                     <script>
-                        $( document ).ready(function() {
-                           const clock1 = document.getElementById("now-date");
-                           const clock2 = document.getElementById("now-time");
-                  
-                           function getClock(){
-                             const d = new Date();
-                             const y = String(d.getFullYear()).padStart(4);
-                             const M = String(d.getMonth() + 1).padStart(2,"0");
-                             const da = String(d.getDate()).padStart(2,"0");
-                             const h = String(d.getHours()).padStart(2,"0");
-                             const m = String(d.getMinutes()).padStart(2,"0");
-                             const s = String(d.getSeconds()).padStart(2,"0");
-                             clock1.innerText = y + "년 " + M + "월 " + da + "일";
-                             clock2.innerText = h + ":" + m + ":" + s;
-                           }
-                        
-                           getClock(); //맨처음에 한번 실행
-                           setInterval(getClock, 1000); //1초 주기로 새로실행
-                        });
-                     </script>
-                  </div>
+		               	<!-- 현재시간 -->
+		                <div class="row justify-content-around align-items-center mt-4">
+		                     <div id="now-date" class="font-weight-bold h6 text-muted"></div>
+		                     <div id="now-time" class="font-weight-bold h1"></div>
+		                     <script>
+		                        $( document ).ready(function() {
+		                           const clock1 = document.getElementById("now-date");
+		                           const clock2 = document.getElementById("now-time");
+		                  
+		                           function getClock(){
+		                             const d = new Date();
+		                             const y = String(d.getFullYear()).padStart(4);
+		                             const M = String(d.getMonth() + 1).padStart(2,"0");
+		                             const da = String(d.getDate()).padStart(2,"0");
+		                             const h = String(d.getHours()).padStart(2,"0");
+		                             const m = String(d.getMinutes()).padStart(2,"0");
+		                             const s = String(d.getSeconds()).padStart(2,"0");
+		                             clock1.innerText = y + "년 " + M + "월 " + da + "일";
+		                             clock2.innerText = h + ":" + m + ":" + s;
+		                           }
+		                        
+		                           getClock(); //맨처음에 한번 실행
+		                           setInterval(getClock, 1000); //1초 주기로 새로실행
+		                        });
+		                     </script>
+		                </div>
                         <!-- 출퇴근 버튼 -->
                         <div class="row mt-3 justify-content-around">
                            <button class="btn btn-lg btn-outline-primary" style="font-family: LeferiBaseType-RegularA; font-weight: 700; font-size: 120%;">

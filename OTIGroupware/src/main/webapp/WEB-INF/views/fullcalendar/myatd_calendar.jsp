@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <!-- Plugin css,js for this page -->
-<script src='${pageContext.request.contextPath}/resources/fullcalendar/js/index.global.js'></script>
+<script src='${pageContext.request.contextPath}/resources/vendors/fullcalendar/js/index.global.js'></script>
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		var calendarEl = document.getElementById('calendar');
@@ -96,6 +96,22 @@
 			  }
 		});
 	});
+	
+	/* 근무시간수정 팝업창 */
+     function upateTimePopup(){
+         var url = "popup/updatetime";
+         var name = "updatetime popup";
+         var option = "width = 800, height = 700, top = 100, left = 400, location = no, resizable=no, scrollbars=no  "
+         window.open(url, name, option);
+     }
+	
+	/* 추가근무신청 팝업창 */
+     function overTimePopup(){
+         var url = "";
+         var name = "";
+         var option = "width = 500, height = 200, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
+         window.open(url, name, option);
+     }
 </script>
 
 <style>
@@ -149,6 +165,12 @@
 	  color: blue;
 	  text-decoration: none;
 	}
+	
+	/* 팝업 버튼 */
+	#popup-btn {
+		font-family: LeferiBaseType-RegularA;
+		font-weight: 700;
+	}
 </style>
 <!-- End plugin css,js for this page -->
 
@@ -158,11 +180,11 @@
 		<p class="card-title d-flex justify-content-between align-items-start">
 			<span>나의 출퇴근</span>
 			<span>
-				<button class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
+				<button onclick="upateTimePopup()" id="popup-btn" class="btn btn-md btn-primary mx-2">
                		<span class="mdi mdi-calendar-clock align-middle"></span>
                		<span>근무시간수정</span>
           	   </button>
-               <button class="btn btn-md btn-warning mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
+               <button onclick="overTimePopup()" id="popup-btn" class="btn btn-md btn-warning mx-2">
                		<span class="mdi mdi-calendar-plus align-middle"></span>
                		<span>추가근무신청</span>
            	   </button>
