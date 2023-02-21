@@ -10,7 +10,7 @@
 	</head>
 
 <body>
-	<div class="container-scroller">
+	<div class="container-scroller ">
 		<!-- Navbar -->
 		<%@ include file="/WEB-INF/views/common/_navbar.jsp"%>
 		<div class="container-fluid page-body-wrapper">
