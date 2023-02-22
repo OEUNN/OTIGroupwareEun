@@ -6,11 +6,15 @@
 	<%@ include file="/WEB-INF/views/common/head.jsp" %>
 	<!-- Custom js for this page-->
 	<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/tinymce.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/tinymceinit.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/tinymce/tinymceinit.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/themes/silver/theme.min.js"></script>
 	<style type="text/css">
 	.collapse, .collapsing {
 		box-shadow: 0px 0px 0px white !important;
+	}
+	.event-blocker iframe {
+		onkeydown : "return false";
+		pointer-events: none;
 	}
 	</style>
 	<script>
@@ -52,7 +56,7 @@
             					</div>
             					<div class="row mx-3">
 	            					<div class="col-4 card-body mb-3">
-										<div class="card mb-5" style="border-radius:8px; border: 2px solid #4747A1;">
+										<div class="card grid-margin" style="border-radius:8px; border: 2px solid #4747A1;">
 											<div class="card-header bg-white d-flex" style="border-radius:8px; border-bottom: 0px;">
 												<a class="font-weight-bold text-decoration-none" data-target="#filter_by_status" data-toggle="collapse" style="color: #4747A1;">문서종류</a>
 												<div class="flex-grow-1 font-weight-bold text-info" style="text-align: end; color: #7DA0FA;">결재품의서</div>
@@ -153,8 +157,31 @@
 										</div>
 
 	            					</div>
-	            					<div class="col-8 card-body mb-3" style="box-shadow: 0px 0px 0px white;">
-	            						<textarea id='tinyMceExample'></textarea>
+	            					<div class="col-8 card-body mb-3 d-flex justify-content-center flex-column" style="box-shadow: 0px 0px 0px white;">
+	            						<div class="card grid-margin">
+		        							<div class="card-body">
+			        							<div class="form-group">
+			        								<p class="card-title"><label for="title">제목</label></p>
+			        								<textarea id="documenttitle"></textarea>
+			        							</div>
+		        							</div>
+		        						</div>
+
+		        						<div class="card grid-margin">
+		        							<div class="card-body">
+			        							<div class="form-group">
+			        								<p class="card-title"><label for="content">내용</label></p>
+			        								<textarea id="documentcontent"></textarea>
+			        							</div>
+		        							</div>
+		        						</div>
+		        						
+		        						<div class="card grid-margin">
+		        							<div class="card-body event-blocker ">
+			        							<textarea id="document"></textarea>
+		        							</div>
+		        						</div>
+	            						
 	            					</div>
             					</div>
             				</div>
