@@ -8,23 +8,23 @@
 	<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/tinymce.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/tinymce/tinymceinit.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/themes/silver/theme.min.js"></script>
-	<style type="text/css">
-	.collapse, .collapsing {
-		box-shadow: 0px 0px 0px white !important;
-	}
-	.event-blocker iframe {
-		onkeydown : "return false";
-		pointer-events: none;
-	}
-	</style>
+	<script src="${pageContext.request.contextPath}/resources/js/file-upload.js"></script>
 	<script>
 	function popup(){
 	    let url = "organization";
 	    let name = "organization";
 	    let option = "width=500, height=700, top=500px, left=500px, menubars=no, status=no, titlebars=no"
 	    window.open(url, name, option);
+	    
+	    console.log($('.main-panel'));
 	}
 	</script>
+
+	<style type="text/css">
+	.collapse, .collapsing {
+		box-shadow: 0px 0px 0px white !important;
+	}
+	</style>
 </head>
 <body>
 <div class="container-scroller">
@@ -54,8 +54,8 @@
             					<div class="row">
 									<p class="col-12 card-title mb-3">기안 작성하기</p>
             					</div>
-            					<div class="row mx-3">
-	            					<div class="col-4 card-body mb-3">
+            					<div class="row ml-1">
+	            					<div class="col-3 card-body mb-3">
 										<div class="card grid-margin" style="border-radius:8px; border: 2px solid #4747A1;">
 											<div class="card-header bg-white d-flex" style="border-radius:8px; border-bottom: 0px;">
 												<a class="font-weight-bold text-decoration-none" data-target="#filter_by_status" data-toggle="collapse" style="color: #4747A1;">문서종류</a>
@@ -147,41 +147,34 @@
 		        						<div class="card grid-margin">
 											<div class="card-body">
 												<div class="d-flex justify-content-between">												
-													<p class="card-title">첨부파일</p>
+													<p class="card-title"><label for="upload">첨부파일</label></p>
 													<h3 class="mdi mdi-plus"></h3>
 												</div>
-												<div class="dropify-wrapper">
-													<input type="file" multiple>
+												 <div class="form-group">
+													<input type="file" id="upload" class="file-upload-default" multiple>
+													<div class="input-group col-xs-12">
+														<input type="text" class="form-control file-upload-info" disabled placeholder="Upload">
+														<span class="input-group-append">
+															<button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+														</span>
+													</div>
 												</div>
 											</div>
 										</div>
-
 	            					</div>
-	            					<div class="col-8 card-body mb-3 d-flex justify-content-center flex-column" style="box-shadow: 0px 0px 0px white;">
-	            						<div class="card grid-margin">
-		        							<div class="card-body">
-			        							<div class="form-group">
-			        								<p class="card-title"><label for="title">제목</label></p>
-			        								<textarea id="documenttitle"></textarea>
-			        							</div>
+	            					<div class="col-9 card grid-margin mb-3 d-flex justify-content-center flex-column" style="background-color: transparent; box-shadow: 0px 0px 0px white;">
+		        						<div class="card-body">
+		        							<div class="card-title">
+		        								<div class="row">
+		        									<div class="col-6"><span style="vertical-align: text-top;">내용</span></div> 
+		        									<div class="col-6 d-flex justify-content-end">
+		        										<div class="btn btn-primary">상신하기</div>
+		        										<div class="ml-1 btn btn-warning">임시저장</div>
+		        									</div>
+		        								</div>
 		        							</div>
+		        							<textarea id="document" style="width: inherit;"></textarea>
 		        						</div>
-
-		        						<div class="card grid-margin">
-		        							<div class="card-body">
-			        							<div class="form-group">
-			        								<p class="card-title"><label for="content">내용</label></p>
-			        								<textarea id="documentcontent"></textarea>
-			        							</div>
-		        							</div>
-		        						</div>
-		        						
-		        						<div class="card grid-margin">
-		        							<div class="card-body event-blocker ">
-			        							<textarea id="document"></textarea>
-		        							</div>
-		        						</div>
-	            						
 	            					</div>
             					</div>
             				</div>

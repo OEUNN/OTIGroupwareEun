@@ -1,61 +1,20 @@
 tinymce.init({
-	selector: '#documenttitle',
-	width: '100%',
-	height: '100px',
-	theme: 'silver',
-	plugins: [
-		'charmap hr',
-		'searchreplace wordcount',
-		'insertdatetime save',
-		'paste textcolor colorpicker textpattern'
-		],
-	menubar: 'edit insert format tools',
-	menu : {
-		insert : { title : 'Insert', items : 'charmap hr | insertdatetime'}
-	},
-	toolbar1: 'undo redo | styleselect | forecolor backcolor | alignleft aligncenter alignright alignjustify outdent indent',
-	content_style: '.td { padding: 0; }'
-});
-
-tinymce.init({
-	selector: '#documentcontent',
-	width: '100%',
-	height: '500px',
-	theme: 'silver',
-	plugins: [
-		'advlist autolink lists charmap hr anchor pagebreak',
-		'searchreplace wordcount visualblocks visualchars fullscreen',
-		'insertdatetime nonbreaking save table contextmenu directionality',
-		'emoticons paste textcolor colorpicker textpattern'
-		],
-	menubar: 'file edit view insert format tools',
-	menu : {
-		insert : { title : 'Insert', items : 'charmap emoticons hr | pagebreak nonbreaking anchor | insertdatetime'}
-	},
-	toolbar1: 'undo redo | insert | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-	toolbar2: 'forecolor backcolor emoticons',
-	content_style: '.td { padding: 0; }'
-});
-
-tinymce.init({
 	selector: '#document',
-	width: '210mm',
 	height: '297mm',
 	theme: 'silver',
 	plugins: [
-	    'print preview',
-	    'wordcount fullscreen',
-	    'template'
+	    'print noneditable',
+	    'wordcount fullscreen charmap hr textcolor colorpicker textpattern',
+	    'template searchreplace insertdatetime anchor pagebreak emoticons'
 	],
-	menubar: 'file insert tools',
-	toolbar1: 'template fullscreen print preview',
-	image_advtab: true,
+	toolbar1: 'template fullscreen print',
+	toolbar2: 'undo redo | insert | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
 	template_mdate_format: '%m/%d/%Y : %H:%M',
 	templates : [
 	  {
 	    title: '결재품의서',
 	    description: '모든 품의서의 템플릿인 결재품의서',
-	    url: '../resources/html/extraworkform.html'
+	    url: '../resources/html/approvalform.html'
 	  },
 	  {
 	    title: 'Replace values example',
@@ -63,5 +22,27 @@ tinymce.init({
 	    content: '<p>Name: {$username}, StaffID: {$staffid}</p>'
 	  }
 	],
-	content_style: '.td { padding: 0; }'
+	content_css : '../resources/css/approvalform.css',
+	object_resizing : false
+});
+
+tinymce.init({
+	selector: '#document_detail',
+	height: '297mm',
+	theme: 'silver',
+	plugins: [
+		'template noneditable'
+		],
+	menubar : '',
+	toolbar1: 'fullscreen print preview wordcount template',
+	templates : [
+	  {
+	    title: '결재품의서',
+	    description: '모든 품의서의 템플릿인 결재품의서',
+	    url: '../resources/html/approvalform.html'
+	  }
+	],
+	content : '<h1>EXAMPLE</h1>',
+	content_css : '../resources/css/approvalform.css',
+	object_resizing : false
 });
