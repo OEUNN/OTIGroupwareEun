@@ -7,14 +7,17 @@
 	<!-- CSS 관련 파일 -->
 		<%@ include file="/WEB-INF/views/common/head.jsp" %>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css"/>
-		<style>
-		.table th, .jsgrid .jsgrid-table th,
-		.table td,
-		.jsgrid .jsgrid-table td {
-		  padding: 0.525rem 1.375rem;
-		}
-		</style>
 	</head>
+	<style>
+	.table th, .jsgrid .jsgrid-table th,
+	.table td,
+	.jsgrid .jsgrid-table td {
+	  padding: 0.525rem 1.375rem;
+	}
+	.dropdown-toggle::after{
+		content:none;
+	}
+	</style>
 
 <body>
 	<div class="container-scroller ">
@@ -29,39 +32,73 @@
 			<!-- 메인 body -->
 			<div class="main-panel">
 				<div class="content-wrapper">
-					<!-- import and send mail -->
+					<!-- main title -->
+					<div class="row">
+						<div class="col-md-12 grid-margin">
+							<div class="row  d-flex justify-content-between align-items-start">
+								<h3 class="font-weight-bold">인사 발령</h3>
+								<a type="submit" class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;" href="<c:url value='/writeboard'/>">
+									<span class="mdi mdi-lead-pencil align-middle"></span> 
+									<span>게시글 쓰기</span>
+								</a>
+							</div>
+						</div>
+					</div><!-- 메인 title -->
+					<!-- Start search box -->
+					<div class="row">
+						<div class="col-12 grid-margin stretch-card">
+							<div class="card">
+								<div class="card-body">
+									<form class="form-inline">
+										<div class="form-group ml-5">
+											<label class="mr-2 card-title my-auto">카테고리</label>
+											<div class="btn dropdown-toggle d-flex form-control" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+												style="font-weight:bold;border-radius: 18px; border: 1px solid #4B49AC;">
+												<i class="text-primary mdi mdi-menu-down"></i> 
+												<input class="selectmenu my-auto" type="text" value="" style="border:none;width:100%;" readonly>
+											</div>
+											<div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+												<h6 class="dropdown-item" id="select-1" onclick="select(1)">전체</h6>
+												<h6 class="dropdown-item" id="select-2" onclick="select(2)">제목</h6> 
+												<h6 class="dropdown-item" id="select-3" onclick="select(3)">작성자</h6>
+											</div>
+											<script>
+										        function select(No){
+										        	var x = document.getElementById("select-" + No).innerText;
+										        	$(".selectmenu").val(x);
+										        }
+											</script>
+										</div>
+										<div class="ml-5 form-group">
+											<label class="mr-2 card-title my-auto">검색어</label>
+											<input class="form-control" type="text" style="border-radius: 18px; border: 1px solid #4B49AC;">
+										</div>
+										<div class="ml-5 form-group">
+											<div class="card" style="border-radius:18px; border: 1px solid #4747A1;">
+				        						<div class="input-daterange input-group" id="datepicker" style="border:none;">
+													<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+												    <input type="text" class="input-sm form-control text-info font-weight-bold" name="start" style="border:0px; text-align: right;"/>
+												    <span class="input-group-addon text-primary font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
+													<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+												    <input type="text" class="input-sm form-control text-info font-weight-bold" name="end" style="border-radius:18px;border:0px; text-align: right;"/>
+												</div>
+											</div>
+										</div>
+										<div class="ml-5 form-group">
+											<button class="btn btn-md btn-primary" style="font-family: LeferiBaseType-RegularA; font-weight:700;">
+												<span>검색</span>
+											</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div><!-- End search box -->
+					<!-- Start table -->
 					<div class="row">
 						<div class="col-lg-12 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
-									<p class="card-title d-flex justify-content-between align-items-start">
-										<span>안사 발령</span> <span>
-											<a class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;" href="<c:url value='/writeboard'/>">
-												<span class="mdi mdi-lead-pencil align-middle"></span> 
-												<span>게시글 쓰기</span>
-											</a>
-									 	</span>
-									</p>
-									<!-- Start Search -->
-									<form class="form-inline my-3">
-										<select class="mx-5 board-select form-control" style="font-weight:bold;">
-											<option>전체</option>
-											<option>제목</option>
-											<option>작성자</option>
-											<option>작성 날짜</option>
-										</select> 
-										
-										검색어&ensp; 
-										<input class="mr-5 form-control" type="text">
-										작성기간&ensp; 
-										<input type="date" class="form-control">
-										&ensp; ~ &ensp; 
-										<input class="mr-3 form-control" type="date" >
-										<button class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
-												<span>검색</span>
-											</button>
-									</form>
-									<!-- End Search -->
 									<!-- 테이블 -->
 									<div class="table-responsive">
 										<table class="table table-hover">
@@ -91,7 +128,7 @@
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td >28.76%</td>
-													<td>Pending</td>
+													<td> Pending</td>
 													<td>2022/11/11</td>
 												</tr>
 												<tr>
@@ -104,7 +141,7 @@
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td >28.76%</td>
-													<td>Pending</td>
+													<td> Pending</td>
 													<td>2022/11/11</td>
 												</tr>
 												<tr>
@@ -117,7 +154,7 @@
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td >28.76%</td>
-													<td>Pending</td>
+													<td> Pending</td>
 													<td>2022/11/11</td>
 												</tr>
 												<tr>
@@ -130,7 +167,7 @@
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td >28.76%</td>
-													<td>Pending</td>
+													<td> Pending</td>
 													<td>2022/11/11</td>
 												</tr>
 												<tr>
@@ -143,7 +180,7 @@
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td >28.76%</td>
-													<td>Pending</td>
+													<td> Pending</td>
 													<td>2022/11/11</td>
 												</tr>
 											</tbody>
@@ -167,8 +204,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
-					<!-- End import and send mail -->
+					</div><!-- end table -->
 				</div>
 				<!-- content-wrapper ends -->
 				<!-- partial:partials/_footer.jsp -->

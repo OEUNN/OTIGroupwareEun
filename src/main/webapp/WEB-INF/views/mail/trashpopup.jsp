@@ -1,35 +1,67 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html lang="en">
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<!DOCTYPE html>
+<html>
 	<head>
-		<%@ include file="/WEB-INF/views/common/head.jsp" %>
-		<script>
-        function trash(){
-        	window.opener.top.location.href="<c:url value='/mail'/>";
+	<!-- inject css, js common file -->
+		<%@ include file="/WEB-INF/views/common/head.jsp"%>
+	<!-- endinject css, js common file -->
+	
+	<!-- Plugin css,js for this page -->
+	<script>
+        function retry(){
+        	window.opener.top.location.href="<c:url value='/trashmail'/>";
             window.close();
         }
-		</script>
+	</script>
+	<style>
+		.container-fluid{
+			padding:0px;
+			margin:0px;
+		}
+		.main-panel-popup {
+		  transition: width 0.25s ease, margin 0.25s ease;
+		  width: 100%;
+		  min-height: 100vh;
+		  display: -webkit-flex;
+		  display: flex;
+		  -webkit-flex-direction: column;
+		  flex-direction: column;
+		}
+	</style>
+	<!-- End plugin css,js for this page -->
 	</head>
 
 	<body>
-		<div class="container-fluid">
-			<div class="row mt-5 p-2">
-				<img class="col-2" src="${pageContext.request.contextPath}/resources/images/warning.png" style="width:50px; height:50px;"></img>
-				<div class="col">
-					<h4>휴지통의 메일을 지우면 지워진 메일들은 복구할 수 없습니다.</h4>
-					<h4>메일을 삭제하시겠습니까?</h4>
+		<div class="main-panel-popup">
+			<div class="content-wrapper">
+				<!-- Start information -->
+				<div class="row">
+					<div class="col-12 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body row m-0">
+								<div class="container-fluid">
+									<div class="card-title mt-1 row d-flex justify-content-center">휴지통의 메일을 지우면 지워진 메일들은</div>
+									 <div class="card-title mt-1 row d-flex justify-content-center">복구할 수 없습니다.</div>
+									<div class="card-title mt-1 row d-flex justify-content-center">메일을 삭제하시겠습니까?</div>
+									<div class="row mb-1" >
+										<div class="col"></div>
+										<button class="col-3 btn btn-primary btn-md mt-1 mx-3" onclick="retry()">확인</button>
+										<button class="col-3 btn btn-outline-primary btn-md mt-1 mx-3" onclick="window.close()">취소</button>
+										<div class="col"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
+				
 			</div>
-			<div class="row mb-3" >
-				<div class="col"></div>
-				<button class="col btn btn-primary btn-sm mt-1 mx-3" onclick="trash()">확인</button>
-				<button class="col btn btn-outline-info btn-sm mt-1 mx-3" onclick="window.close()">취소</button>
-				<div class="col"></div>
-			</div>
-			
 		</div>
+		<!-- container-scroller -->
 	</body>
-
+	
 </html>
+

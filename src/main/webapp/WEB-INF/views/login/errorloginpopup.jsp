@@ -40,8 +40,8 @@
 									<div class="card-title mt-1 row d-flex justify-content-center">서면요청 하셨습니까?</div>
 									<div class="row mb-1" >
 										<div class="col"></div>
-										<button class="col-3 btn btn-primary btn-sm col mt-1 mx-3" onclick="retry()">확인</button>
-										<button class="col-3 btn btn-outline-primary btn-sm mt-1 mx-3" onclick="window.close()">취소</button>
+										<button class="col-3 btn btn-primary btn-md mt-1 mx-3" onclick="retry()">확인</button>
+										<button class="col-3 btn btn-outline-primary btn-md mt-1 mx-3" onclick="window.close()">취소</button>
 										<div class="col"></div>
 									</div>
 								</div>

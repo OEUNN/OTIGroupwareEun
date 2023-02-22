@@ -10,6 +10,11 @@
 <!-- endinject css, js common file -->
 
 <!-- Plugin css,js for this page -->
+<style>
+	.dropdown-toggle::after{
+		content:none;
+	}
+</style>
 <!-- End plugin css,js for this page -->
 </head>
 
@@ -208,12 +213,22 @@
 														</div>
 													</div>
 													<div class="col-sm-8">
-														<select class="form-control">
-															<option>고졸</option>
-															<option>학사</option>
-															<option>석사</option>
-															<option>박사</option>
-														</select>
+														<div class="btn dropdown-toggle d-flex form-control " id="school" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+															<i class="text-primary mdi mdi-menu-down"></i> 
+															<input class="selectmenu1 my-auto" type="text" value="" style="border:none;" readonly>
+														</div>
+														<div class="dropdown-menu" aria-labelledby="school" style="width:100%;">
+															<h6 class="dropdown-item" id="select1-1" onclick="select1(1)">고졸</h6>
+															<h6 class="dropdown-item" id="select1-2" onclick="select1(2)">학사</h6> 
+															<h6 class="dropdown-item" id="select1-3" onclick="select1(3)">석사</h6>
+															<h6 class="dropdown-item" id="select1-4" onclick="select1(4)">박사</h6>
+														</div>
+														<script>
+													        function select1(No){
+													        	var x = document.getElementById("select1-" + No).innerText;
+													        	$(".selectmenu1").val(x);
+													        }
+														</script>
 													</div>
 												</div>
 											</div>
@@ -241,12 +256,22 @@
 														</div>
 													</div>
 													<div class="col-sm-8">
-														<select class="form-control">
-															<option>공공사업1DIV</option>
-															<option>공공사업2DIV</option>
-															<option>공공사업3DIV</option>
-															<option>경영지원부</option>
-														</select>
+														<div class="btn dropdown-toggle d-flex form-control" id="department" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+															<i class="text-primary mdi mdi-menu-down"></i> 
+															<input class="selectmenu2 my-auto" type="text" value="" style="border:none;" readonly>
+														</div>
+														<div class="dropdown-menu" aria-labelledby="department" style="width:100%;">
+															<h6 class="dropdown-item" id="select2-1" onclick="select2(1)">공공사업1DIV</h6>
+															<h6 class="dropdown-item" id="select2-2" onclick="select2(2)">공공사업2DIV</h6> 
+															<h6 class="dropdown-item" id="select2-3" onclick="select2(3)">공공사업3DIV</h6>
+															<h6 class="dropdown-item" id="select2-4" onclick="select2(4)">경영지원부</h6>
+														</div>
+														<script>
+													        function select2(No){
+													        	var x = document.getElementById("select2-" + No).innerText;
+													        	$(".selectmenu2").val(x);
+													        }
+														</script>
 													</div>
 												</div>
 											</div>

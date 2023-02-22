@@ -4,14 +4,31 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-<!-- inject css, js common file -->
-<%@ include file="/WEB-INF/views/common/head.jsp"%>
-<!-- endinject css, js common file -->
-
-<!-- Plugin css,js for this page -->
-<!-- End plugin css,js for this page -->
-</head>
+	<head>
+	<!-- inject css, js common file -->
+	<%@ include file="/WEB-INF/views/common/head.jsp"%>
+	<!-- endinject css, js common file -->
+	<script>
+        function popup(){
+            var url = "employeeaddresspopup";
+            var name = "address popup";
+            var option = "width = 500, height =750, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+            window.open(url, name, option);
+        }
+        function select(){
+        	var x = document.getElementById("dropdown-item").value;
+        	console.log(x);
+        	$('input[name=selectmenu]').attr('value',x);
+        }
+	</script>
+	<style>
+		.dropdown-toggle::after{
+			content:none;
+		}
+	</style>
+	<!-- Plugin css,js for this page -->
+	<!-- End plugin css,js for this page -->
+	</head>
 
 <body>
 	<div class="container-scroller">
@@ -42,16 +59,25 @@
 							<div class="card">
 								<div class="card-body">
 									<form class="form-inline">
-										<label class="col-1" for="status" >재직상태</label>
-										<select class="col-2 board-select form-control" id="status">
-											<option>전체</option>
-											<option>재직중</option>
-											<option>퇴사</option>
-										</select> 
-										
-										<label class="col-1" for="employee">이름</label>
-										<input type="text" class="col-2 form-control" id="employee">
-										
+										<label class="col-1 card-title my-auto" for="status" >재직상태</label>
+										<div class="col-1 btn dropdown-toggle d-flex form-control" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+											style="font-weight:bold;border-radius: 18px; border: 1px solid #4B49AC;">
+											<i class="text-primary mdi mdi-menu-down"></i> 
+											<input class="selectmenu" type="text" style="border:none;width:100%;" readonly>
+										</div>
+										<div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+											<div class="dropdown-item" id="select-1" onclick="select(1)">전체</div>
+											<div class="dropdown-item" id="select-2" onclick="select(2)">재직자</div> 
+											<div class="dropdown-item" id="select-3" onclick="select(3)">퇴사자</div>
+										</div>
+										<script>
+									        function select(No){
+									        	var x = document.getElementById("select-" + No).innerText;
+									        	$(".selectmenu").val(x);
+									        }
+										</script>
+										<label class="col-1 card-title my-auto" for="employee">주소록</label>
+										<input type="text" class="col-2 form-control btn" id="employee" onclick="popup()" style="border-radius: 18px; border: 1px solid #4B49AC; background-color: transparent;" readonly>
 										<button type="submit" class="btn btn-md btn-primary mx-5" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
 											<span>검색</span>
 										</button>

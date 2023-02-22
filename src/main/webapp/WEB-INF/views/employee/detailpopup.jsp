@@ -126,7 +126,7 @@
 					</div>
 				<div class="row mb-3 d-flex align-items-center">
 					<div class="col"></div>
-					<button class="col-3 btn btn-primary btn-sm mt-1" onclick="window.close()">확인</button>
+					<button class="col-3 btn btn-primary btn-md mt-1" onclick="window.close()">확인</button>
 					<div class="col"></div>
 				</div>
 			</div>

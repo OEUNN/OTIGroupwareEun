@@ -11,7 +11,7 @@
         function popup(){
             var url = "trashpopup";
             var name = "trash popup";
-            var option = "width = 500, height = 200, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
+            var option = "width = 500, height = 300, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
             window.open(url, name, option);
         }
 		</script>
