@@ -27,38 +27,39 @@
         <div class="content-wrapper">
          <!-- 사진 / 퀵메뉴 / 프로필 / 출퇴근 / 달력 -->
           <div class="row">
-            <div class="col-md-3 grid-margin stretch-card flex-column">
-              <div class="card pt-4 pb-4 px-3" style="background-color: #e7e7ff; box-shadow: 3px 3px 6px #cdd1e1;">
+            <div class="col-md-3 grid-margin stretch-card">
+              <div class="card">
+              	<div class="card-body" style="background-color: #e7e7ff;">
                  <!-- 사진 -->
-                 <div class="row justify-content-center">
+                 <div class="mt-2 row justify-content-center">
                    <img src="${pageContext.request.contextPath}/resources/images/faces/face10.jpg" style="width:75%; border-radius: 20px; box-shadow: 3px 3px 6px #4747A1;"/>
                	 </div>
                	 <!-- 프로필 -->
-                 <div class="row mt-3 justify-content-center" style="font-family: LeferiPoint-WhiteObliqueA;">
-                    <div class="ml-1 pt-2">
+                 <div class="row mt-4 justify-content-center" style="font-family: LeferiPoint-WhiteObliqueA;">
+                    <div class="ml-1">
                       <span class="font-weight-bold text-primary h2">이춘향</span>
                       <span class="font-weight-bold h5">사원</span>
                       <div class="font-weight-bold text-muted h6 mt-2 text-center">공공사업1DIV</div>
                     </div>
                   </div>
                	 <!-- 잔여일수 -->
-                 <div class="row mt-3"">
+                 <div class="row mt-3 px-3">
                     <div class="col-md p-0 d-flex justify-content-center">
                     	<div>
-	                      <span class="font-weight-bold text-primary" style="font-family: LeferiPoint-WhiteObliqueA; font-size: 16px;">잔여연차</span>
-	                      <span class="font-weight-bold" >12</span>
+	                      <span class="font-weight-bold text-primary h5" style="font-family: LeferiPoint-WhiteObliqueA;">잔여연차</span>
+	                      <span class="font-weight-bold h3" >12</span>
                     	</div>
                     </div>
                     <div class="col-md p-0 d-flex justify-content-center">
                     	<div>
-	                      <span class="font-weight-bold text-primary" style="font-family: LeferiPoint-WhiteObliqueA; font-size: 16px;">잔여대체휴무</span>
-	                      <span class="font-weight-bold">0</span>
+	                      <span class="font-weight-bold text-primary h5" style="font-family: LeferiPoint-WhiteObliqueA;">잔여대체휴무</span>
+	                      <span class="font-weight-bold h3">0</span>
                     	</div>
                     </div>
                   </div>
                   <!-- 퀵메뉴 -->
-                  <div class="row mt-3 justify-content-center">
-	                  <div class="row mt-2">
+                  <div class="row mt-4 justify-content-center">
+	                  <div class="row mt-1">
 	                       <button onclick="" class="btn btn-md btn-inverse-primary btn-icon-text d-flex align-items-center m-1">
 	                          <i class="mdi mdi-lead-pencil"></i>
 	                          <span class="ml-2 font-weight-bold">메일쓰기</span>
@@ -78,6 +79,7 @@
 	                          <span class="ml-1 font-weight-bold" style="font-size: 12px;">프로필수정</span>
 	                       </button>
 	                  </div>
+                  </div>
                   </div>
               </div>
             </div>

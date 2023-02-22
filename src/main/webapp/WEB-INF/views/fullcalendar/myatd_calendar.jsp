@@ -100,16 +100,16 @@
 	/* 근무시간수정 팝업창 */
      function upateTimePopup(){
          var url = "popup/updatetime";
-         var name = "updatetime popup";
-         var option = "width = 800, height = 700, top = 100, left = 400, location = no, resizable=no, scrollbars=no  "
+         var name = "";
+         var option = "width = 800, height = 730, top = 100, left = 400, location = no, resizable=no, scrollbars=no  "
          window.open(url, name, option);
      }
 	
 	/* 추가근무신청 팝업창 */
      function overTimePopup(){
-         var url = "";
+         var url = "popup/overtime";
          var name = "";
-         var option = "width = 500, height = 200, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
+         var option = "width = 800, height = 690, top = 100, left = 400, location = no, resizable=no, scrollbars=no  "
          window.open(url, name, option);
      }
 </script>
@@ -164,6 +164,19 @@
 	.fc-day-sat a {
 	  color: blue;
 	  text-decoration: none;
+	}
+	
+	/* 오늘 날짜 */
+	.fc .fc-daygrid-day.fc-day-today {
+		background-color: rgba(255, 71, 71, 0.2);
+		border-radius: 10px;
+	}
+	
+	/* 날짜 선택했을시 */
+	.fc .fc-highlight {
+		background-color: #DAE7FF;
+		color: white;
+		border-radius: 10px;
 	}
 	
 	/* 팝업 버튼 */
