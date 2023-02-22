@@ -38,7 +38,10 @@
 		//datepicker 렌더링
 	   	$(function(){ 
 		      $('#datepicker-popup').datepicker({
-		         todayHighlight: true
+		    	  format: "yyyy-mm",
+		    	  startView: "months", 
+		    	  minViewMode: "months",
+		    	  todayHighlight: true
 		      });
 		});
 	</script>
@@ -89,11 +92,11 @@
 		                  		</div>
 		                  		<!-- 출퇴근 버튼 -->
 			               		<div class="row mt-4 justify-content-between">
-			               			<button class="btn btn-lg btn-outline-primary p-4" style="font-family: LeferiBaseType-RegularA; font-weight: 700; font-size: 120%;">
+			               			<button class="btn btn-lg btn-outline-primary p-4" style="font-weight: 700; font-size: 120%;">
 		                           		<span class="mdi mdi-alarm-check align-middle"></span>
 		                           		<span>출근</span>
 		                      	   </button>
-		                           <button class="btn btn-lg btn-outline-danger p-4" style="font-family: LeferiBaseType-RegularA; font-weight: 700; font-size: 120%;">
+		                           <button class="btn btn-lg btn-outline-danger p-4" style="font-weight: 700; font-size: 120%;">
 		                           		<span class="mdi mdi-alarm-off align-middle"></span>
 		                           		<span>퇴근</span>
 		                       	   </button>
@@ -145,20 +148,13 @@
 					<%@ include file="/WEB-INF/views/fullcalendar/myatd_calendar.jsp" %>
         		</div>
         	</div>
-	      	<!-- 근무현황(목록) -->
+	      	<!-- 근무현황(목록) / 근무신청내역 -->
           	<div class="row mt-4">
-            	<div class="col-md-12 grid-margin stretch-card">
+          		<!-- 근무현황(목록):start -->
+            	<div class="col-md-6 grid-margin stretch-card">
 	              <div class="card">
 	                <div class="card-body">
 	                  <p class="card-title">근무현황</p>
-	                  <!-- datepicker start -->
-	                  <div id="datepicker-popup" class="input-group date datepicker" style="width:250px;">
-						<input type="text" class="form-control">
-						<span class="input-group-addon input-group-append border-left">
-							<span class="ti-calendar input-group-text"></span>
-						</span>
-					  </div>
-	                  <!-- datepicker end -->
 	                  <div class="table-responsive">
 	                      <table class="table table-hover">
 		                        <thead>
@@ -198,7 +194,61 @@
 	                </div>
 	              </div>
 	            </div>
-          </div>
+	            <!-- 근무현황(목록):end -->
+	            <!-- 근무신청내역:start -->
+            	<div class="col-md-6 grid-margin stretch-card">
+	              <div class="card">
+	                <div class="card-body">
+	                  <p class="card-title">근무신청내역</p>
+	                  <!-- datepicker start -->
+	                  <div id="datepicker-popup" class="input-group date datepicker" style="width:250px;">
+						<input type="text" class="form-control">
+						<span class="input-group-addon input-group-append border-left">
+							<span class="ti-calendar input-group-text"></span>
+						</span>
+					  </div>
+	                  <!-- datepicker end -->
+	                  <div class="table-responsive">
+	                      <table class="table table-hover">
+		                        <thead>
+		                          <tr>
+		                            <th>신청유형</th>
+		                            <th>기안날짜</th>
+		                            <th>결재자</th>
+		                            <th>결재날짜</th>
+		                            <th>결재상태</th>
+		                          </tr>
+		                        </thead>
+		                        <tbody>
+		                        	<tr>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td><div class="badge badge-success font-weight-bold">승인</div></td>
+		                        	</tr>
+		                        	<tr>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        	</tr>
+		                        	<tr>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        	</tr>
+		                        </tbody>
+	                    	</table>
+	                    </div>
+	                </div>
+	              </div>
+	            </div>
+	            <!-- 근무신청내역:end -->
+          	</div>
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.jsp -->
