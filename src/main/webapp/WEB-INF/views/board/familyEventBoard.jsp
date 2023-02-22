@@ -10,7 +10,7 @@
 	</head>
 
 <body>
-	<div class="container-scroller">
+	<div class="container-scroller ">
 		<!-- Navbar -->
 		<%@ include file="/WEB-INF/views/common/_navbar.jsp"%>
 		<div class="container-fluid page-body-wrapper">
@@ -37,7 +37,7 @@
 									</p>
 									<!-- Start Search -->
 									<form class="form-inline my-3">
-										<select class="mx-5 board-select form-control">
+										<select class="mx-5 board-select form-control" style="font-weight:bold;">
 											<option>전체</option>
 											<option>제목</option>
 											<option>작성자</option>
@@ -67,10 +67,10 @@
 															</label>
 														</div>
 													</th>
-													<th class="col-1">첨부</th>
-													<th class="col-6">제목</th>
-													<th class="col-1">작성자</th>
-													<th class="col-2">작성날짜</th>
+													<th class="col-1"><div class="h4">첨부</div></th>
+													<th class="col-6"><div class="h4">제목</div></th>
+													<th class="col-1"><div class="h4">작성자</div></th>
+													<th class="col-2"><div class="h4">작성날짜</div></th>
 												</tr>
 											</thead>
 											<tbody>
@@ -83,11 +83,9 @@
 														</div>
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td class="text-danger">28.76% <i
-														class="ti-arrow-down"></i>
-													</td>
-													<td><label class="badge badge-danger">Pending</label></td>
-													<td>읽음</td>
+													<td ><div class="h4">28.76%</div></td>
+													<td><div class="h4"> Pending</div></td>
+													<td><div class="h4">2022/11/11</div></td>
 												</tr>
 												<tr>
 													<td>
@@ -98,11 +96,9 @@
 														</div>
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td class="text-danger">21.06% <i
-														class="ti-arrow-down"></i></td>
-													<td><label class="badge badge-warning">In
-															progress</label></td>
-													<td>20221104</td>
+													<td ><div class="h4">28.76%</div></td>
+													<td><div class="h4"> Pending</div></td>
+													<td><div class="h4">읽음</div></td>
 												</tr>
 												<tr>
 													<td>
@@ -113,10 +109,9 @@
 														</div>
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td class="text-danger">35.00% <i
-														class="ti-arrow-down"></i></td>
-													<td><label class="badge badge-info">Fixed</label></td>
-													<td>안읽음</td>
+													<td ><div class="h4">28.76%</div></td>
+													<td><div class="h4"> Pending</div></td>
+													<td><div class="h4">읽음</div></td>
 												</tr>
 												<tr>
 													<td>
@@ -127,9 +122,9 @@
 														</div>
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td class="text-success">82.00% <i class="ti-arrow-up"></i></td>
-													<td><label class="badge badge-success">Completed</label></td>
-													<td>안읽음</td>
+													<td ><div class="h4">28.76%</div></td>
+													<td><div class="h4"> Pending</div></td>
+													<td><div class="h4">읽음</div></td>
 												</tr>
 												<tr>
 													<td>
@@ -140,10 +135,9 @@
 														</div>
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td class="text-success">98.05% <i class="ti-arrow-up"></i></td>
-													<td><label class="badge badge-warning">In
-															progress</label></td>
-													<td>안읽음</td>
+													<td ><div class="h4">28.76%</div></td>
+													<td><div class="h4"> Pending</div></td>
+													<td><div class="h4">읽음</div></td>
 												</tr>
 											</tbody>
 										</table>
