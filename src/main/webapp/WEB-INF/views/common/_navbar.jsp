@@ -3,7 +3,7 @@
 
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="navbar-brand-wrapper d-flex align-items-center">
-        <a class="navbar-brand brand-logo" href="index.html">
+        <a class="navbar-brand brand-logo" href="${pageContext.request.contextPath}/home">
         	<img src="${pageContext.request.contextPath}/resources/images/oti-logo.png" alt="logo" style="width:110px; height:40px; margin-left: 20px;"/>
         	<img src="${pageContext.request.contextPath}/resources/images/exa.png" alt="logo" style="width:80px; height:40px; margin-left: 10px;"/>
        	</a>

@@ -126,12 +126,14 @@
 			        						</div>
 		        						</div>
 		        						<div class="col-4">
-			        						<div class="input-daterange input-group" id="datepicker">
-												<span class="input-group-addon input-group-append"><span class="mdi mdi-calendar-clock input-group-text bg-white text-primary"></span></span>
-											    <input type="text" class="input-sm form-control text-info font-weight-bold" name="start" style="border-radius:8px; border: 2px solid #4747A1;"/>
-											    <span class="input-group-addon text-primary font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
-												<span class="input-group-addon input-group-append"><span class="mdi mdi-calendar-clock input-group-text bg-white text-primary"></span></span>
-											    <input type="text" class="input-sm form-control text-info font-weight-bold" name="end" style="border-radius:8px; border: 2px solid #4747A1;"/>
+		        							<div class="card" style="border-radius:8px; border: 2px solid #4747A1;">
+				        						<div class="input-daterange input-group" id="datepicker">
+													<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+												    <input type="text" class="input-sm form-control text-info font-weight-bold" name="start" style="border:0px; text-align: right;"/>
+												    <span class="input-group-addon text-primary font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
+													<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+												    <input type="text" class="input-sm form-control text-info font-weight-bold" name="end" style="border:0px; text-align: right;"/>
+												</div>
 											</div>
 		        						</div>
 		        					</div>

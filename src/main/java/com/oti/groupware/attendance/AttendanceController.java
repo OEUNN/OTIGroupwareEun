@@ -37,4 +37,14 @@ public class AttendanceController {
 		return "hr/updatetimepopup";
 	}
 
+	/**
+	 * 
+	 * @return 추가근무보고 팝업창
+	 */
+	@RequestMapping(value = "/popup/overtime")
+	public String overTimePopup() {
+		log.info("정보 로그");
+		return "hr/overtimepopup";
+	}
+
 }
