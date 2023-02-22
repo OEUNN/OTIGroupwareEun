@@ -9,7 +9,7 @@
 <%@ include file="/WEB-INF/views/common/head.jsp"%>
 <!-- endinject css, js common file -->
 
-<!-- Plugin css,js for this page -->
+<!-- Plugin css,js for this page  -->
 <!-- End plugin css,js for this page -->
 	<style>
 		.btn-color{
