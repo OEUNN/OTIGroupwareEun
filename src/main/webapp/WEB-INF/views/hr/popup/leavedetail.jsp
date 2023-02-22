@@ -42,16 +42,31 @@
 	</style>
 	
 	<script>
-	 	//팝업창 닫을 시 이동
-        function overTime(){
-       		window.opener.top.location.href="<c:url value='/hr/attendance'/>";
-            window.close();
-        }
-	 	
 	 	//clockpicker 렌더링
 	 	$(function(){ 
 			$('.clockpicker').clockpicker();
 	 	});
+	 	
+	 	//출근, 퇴근 체크박스 클릭시 html 추가
+	 	function isCheck(data){
+	 		if(data=='in'){
+	 			if($('input:checkbox[name="intime-checkbtn"]').is(':checked')) {
+	 				$('#today-intime').css('display', 'block');
+	 				$('#intime-clockpicker').css('display', 'block');
+	 			} else {
+	 				$('#today-intime').css('display', 'none');
+	 				$('#intime-clockpicker').css('display', 'none');
+	 			}
+	 		} else if(data=='out') {
+	 			if($('input:checkbox[name="outtime-checkbtn"]').is(':checked')) {
+	 				$('#today-outtime').css('display', 'block');
+	 				$('#outtime-clockpicker').css('display', 'block');
+	 			} else {
+	 				$('#today-outtime').css('display', 'none');
+	 				$('#outtime-clockpicker').css('display', 'none');
+	 			}
+	 		}
+	 	}
 	</script>
     <!-- End plugin css,js for this page -->
 </head>
@@ -63,7 +78,7 @@
 				<div class="grid-margin stretch-card">
 	              		<div class="card">
 	                 		<div class="card-body">
-		                       	<p class="card-title">추가근무 보고서</p>
+		                       	<p class="card-title">휴가신청서</p>
 		                       	<div class="table-responsive px-3 py-2">
 		                       	  <!-- 고정 내용 -->
 			                      <table class="table">
@@ -74,11 +89,7 @@
 			                                 <td></td>
 			                                 <td></td>
 			                                 <td class="custom-border-left custom-border-right"><h4 class="font-weight-bold text-center m-0">근무날짜</h4></td>
-			                                 <td>
-			                                 	<div class="form-group">
-								                    <input type="text" class="form-control form-control-sm" placeholder="Username" aria-label="Username">
-								                </div>
-		                                 	 </td>
+			                                 <td>2023-02-21</td>
 			                                 <td></td>
 			                              </tr>
 			                              <tr class="custom-border-left custom-border-right">
@@ -104,52 +115,37 @@
 			                    </div>
 		           	            <!-- 변경내용-->
 		                        <div class="container-fluid">
-		                       		<div class="row ml-3">
-		                       			<div class="col-md">
-			                       			<h4 class="font-weight-bold">추가 근무시간</h4>
-		                       			</div>
-		                       		</div>
-		                       		<div class="row justify-content-center">
-			                       		<div style="border: 1px solid #a3a4a5; opacity: 0.5; width:90%;"></div>
-		                       		</div>
-		                       		<div class="row justify-content-center px-5 py-2">
-		                       			<div class="col-md-5 d-flex align-items-center">
-		                       				<!-- clockpicker-시작시간:start -->
-		                       				<div id="intime-clockpicker">
-			                       				<div class="input-group clockpicker">
-													<span class="h3 mdi mdi-timer text-primary"></span>
-													<input type="text" class="form-control" style="border-radius:8px; border: 2px solid #4747A1; text-align:center;">
-												</div>
-		                       				</div>
-		                       				<!-- clockpicker-시작시간:end -->
-		                       			</div>
-		                       			<div class="col-md-1 h1 text-primary align-middle">~</div>
-		                       			<div class="col-md-5 d-flex align-items-center px-0">
-		                       				<!-- clockpicker-종료시간:start -->
-		                       				<div id="outtime-clockpicker">
-			                       				<div class="input-group clockpicker">
-			                       					<span class="h3 mdi mdi-timer text-primary"></span>
-													<input type="text" class="form-control" style="border-radius:8px; border: 2px solid #4747A1; text-align:center">
-												</div>
-		                       				</div>
-		                       				<!-- clockpicker-종료시간:end -->
-		                       			</div>
-		                       		</div>
-		                       		<div class="row px-5 mt-4 justify-content-center">
-		                       			<div class="form-group">
-						                	<label class="ml-1" for="reason"><div class="h5 m-0 font-weight-bold text-primary">사유</div></label>
-						                    <textarea class="form-control" id="reason" rows="5" cols="68"></textarea>
-					                    </div>
-		                       		</div>
-			                        
-			                        <div class="row justify-content-center mt-3">
-			                       		<div style="border: 1px solid #a3a4a5; opacity: 0.5; width:90%;"></div>
-		                       		</div>
-		                        </div>
+	                      		 <div class="row justify-content-center">
+	                       			<div style="border: 1px solid #a3a4a5; opacity: 0.5; width:90%;"></div>
+	                      		 </div>
+	                      		 <!-- 휴가 유형 -->
+	                      		 <div class="row">
+	                      		 	<div class="col-md d-flex align-items-center px-5 py-2">
+	                      		 		<h4 class="mx-4 mb-0 font-weight-bold">휴가유형</h4>
+		                      		 	<h6 class="ml-2 mb-0 text-primary font-weight-bold">연차</h6>
+	                      		 	</div>
+	                      		 </div>
+	                      		 <!-- 기간(날짜) 선택 -->
+	                      		 <div class="row px-5 py-2">
+	                      			<div class="col-md d-flex align-items-center pl-0">
+	                      				<h4 class="mx-4 mb-0 font-weight-bold">휴가기간</h4>
+	                      				<h6 class="ml-2 mb-0 text-primary font-weight-bold">2023-02-22 ~ 2023-02-23</h6>
+	                      			</div>
+	                      		 </div>
+	                      		 <!-- 휴가사유 -->
+	                      		 <div class="row px-5 mt-4 justify-content-start">
+                      				<h4 class="mx-4 mb-0 font-weight-bold ">사유</h4>
+	                      		 </div>
+	                      		 <div class="row px-5 mt-3 ml-1">
+                      				<h6 class="ml-1 mb-0 text-primary font-weight-bold">연차 사용</h6>
+	                      		 </div>
+	                        	 <div class="row justify-content-center mt-3">
+	                       			<div style="border: 1px solid #a3a4a5; opacity: 0.5; width:90%;"></div>
+	                      		 </div>
+	                       	   </div>
 								<!-- 버튼 -->
 		                        <div class="row px-5 mt-3 justify-content-end">
-			                        <button onclick="overTime()" type="submit" class="btn btn-primary mr-2">신청</button>
-			                        <button onclick="window.close()" type="button" class="btn btn-inverse-primary mr-2">취소</button>
+			                        <button onclick="window.close()" type="button" class="btn btn-inverse-primary mr-2">닫기</button>
 		                        </div>
 		                        <!-- 변경내용:end -->
 	                      	</div>

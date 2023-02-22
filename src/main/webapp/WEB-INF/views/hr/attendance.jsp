@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
 	<script src="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 	
+	
 	<script>
 		//현재 시간
 		$(function() {
@@ -37,15 +38,33 @@
 		
 		//datepicker 렌더링
 	   	$(function(){ 
-		      $('#datepicker-popup').datepicker({
+		      $('#datepicker').datepicker({
 		    	  format: "yyyy-mm",
 		    	  startView: "months", 
 		    	  minViewMode: "months",
 		    	  todayHighlight: true
 		      });
 		});
+		
+	   	/* 근무신청내역 상세보기 팝업창 */
+		function atdAppDetail(data) {
+         	
+         	//추후 근무신청서 유형에 따라 다른 팝업창이 열려야함! 매개변수!!! 잊지말자!
+         	if(data =='근무시간수정') {
+         		//근무시간수정신청서 팝업창
+	        	var url = "popup/updatetimedetail";
+	         	var name = "";
+	         	var option = "width = 800, height = 590, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
+	         	window.open(url, name, option);
+         	} else {
+         		//추가근무보고서 팝업창
+	        	var url = "popup/overtimedetail";
+	         	var name = "";
+	         	var option = "width = 800, height = 560, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
+	         	window.open(url, name, option);
+         	}
+		}
 	</script>
-	
 	<!-- End plugin css,js for this page -->
 </head>
 
@@ -55,8 +74,6 @@
     <%@ include file="/WEB-INF/views/common/_navbar.jsp" %>
     
     <div class="container-fluid page-body-wrapper">
-      <!-- To_do_List/Chat -->
-      <%@ include file="/WEB-INF/views/common/_settings-panel.jsp" %>
       <!-- Sidebar -->
       <%@ include file="/WEB-INF/views/common/_sidebar.jsp" %>
       
@@ -145,11 +162,11 @@
         		</div>
         		<!-- 근무현황(달력) -->
         		<div class="col-md-9 col-lg-9">
-					<%@ include file="/WEB-INF/views/fullcalendar/myatd_calendar.jsp" %>
+					<%@ include file="/WEB-INF/views/fullcalendar/atd_calendar.jsp" %>
         		</div>
         	</div>
 	      	<!-- 근무현황(목록) / 근무신청내역 -->
-          	<div class="row mt-4">
+          	<div class="row">
           		<!-- 근무현황(목록):start -->
             	<div class="col-md-6 grid-margin stretch-card">
 	              <div class="card">
@@ -199,15 +216,16 @@
             	<div class="col-md-6 grid-margin stretch-card">
 	              <div class="card">
 	                <div class="card-body">
-	                  <p class="card-title">근무신청내역</p>
-	                  <!-- datepicker start -->
-	                  <div id="datepicker-popup" class="input-group date datepicker" style="width:250px;">
-						<input type="text" class="form-control">
-						<span class="input-group-addon input-group-append border-left">
-							<span class="ti-calendar input-group-text"></span>
-						</span>
-					  </div>
-	                  <!-- datepicker end -->
+	                  <div class="card-title d-flex align-items-center justify-content-between">
+              			<div>근무신청내역</div>
+               			<!-- datepicker start -->
+		                <div id="datepicker" class="input-daterange input-group w-50">
+							<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:13px; left: 25px;"></span>
+						    <input type="text" class="form-control font-weight-bold text-center form-control-sm" name="start" style="border:2px solid #4B49AC; border-radius:10px; "/>
+							<button onclick="" class="btn btn-md btn-primary ml-2">검색</button>
+						</div>
+			            <!-- datepicker end -->
+                   	  </div>
 	                  <div class="table-responsive">
 	                      <table class="table table-hover">
 		                        <thead>
@@ -220,15 +238,15 @@
 		                          </tr>
 		                        </thead>
 		                        <tbody>
-		                        	<tr>
-		                        		<td>gdgd</td>
+		                        	<tr onclick="atdAppDetail('근무시간수정')">
+		                        		<td>근무시간수정</td>
 		                        		<td>gdgd</td>
 		                        		<td>gdgd</td>
 		                        		<td>gdgd</td>
 		                        		<td><div class="badge badge-success font-weight-bold">승인</div></td>
 		                        	</tr>
-		                        	<tr>
-		                        		<td>gdgd</td>
+		                        	<tr onclick="atdAppDetail('추가근무')">
+		                        		<td>추가근무</td>
 		                        		<td>gdgd</td>
 		                        		<td>gdgd</td>
 		                        		<td>gdgd</td>
