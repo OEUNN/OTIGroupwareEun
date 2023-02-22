@@ -7,7 +7,7 @@
 		<%@ include file="/WEB-INF/views/common/head.jsp" %>
 		<script>
         function popup(){
-            var url = "loginretry";
+            var url = "errorloginpopup";
             var name = "login retry";
             var option = "width = 500, height =200, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
             window.open(url, name, option);

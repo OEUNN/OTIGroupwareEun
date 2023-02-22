@@ -6,6 +6,14 @@
 	<head>
 		<!-- CSS 관련 파일 -->
 		<%@ include file="/WEB-INF/views/common/head.jsp" %>
+		<script>
+        function popup(){
+            var url = "loginpopup";
+            var name = "login retry";
+            var option = "width = 500, height =250, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+            window.open(url, name, option);
+        }
+		</script>
 	</head>
 
 	<body>

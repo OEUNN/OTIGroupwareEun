@@ -8,6 +8,13 @@
 		<%@ include file="/WEB-INF/views/common/head.jsp" %>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css"/>
 	</head>
+	<style>
+	.table th, .jsgrid .jsgrid-table th,
+	.table td,
+	.jsgrid .jsgrid-table td {
+	  padding: 0.525rem 1.375rem;
+	}
+	</style>
 
 <body>
 	<div class="container-scroller ">
@@ -67,10 +74,10 @@
 															</label>
 														</div>
 													</th>
-													<th class="col-1"><div class="h4">첨부</div></th>
-													<th class="col-6"><div class="h4">제목</div></th>
-													<th class="col-1"><div class="h4">작성자</div></th>
-													<th class="col-2"><div class="h4">작성날짜</div></th>
+													<th class="col-1">첨부</th>
+													<th class="col-6">제목</th>
+													<th class="col-1">작성자</th>
+													<th class="col-2">작성날짜</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -83,9 +90,9 @@
 														</div>
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td ><div class="h4">28.76%</div></td>
-													<td><div class="h4"> Pending</div></td>
-													<td><div class="h4">2022/11/11</div></td>
+													<td >28.76%</td>
+													<td> Pending</td>
+													<td>2022/11/11</td>
 												</tr>
 												<tr>
 													<td>
@@ -96,9 +103,9 @@
 														</div>
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td ><div class="h4">28.76%</div></td>
-													<td><div class="h4"> Pending</div></td>
-													<td><div class="h4">읽음</div></td>
+													<td >28.76%</td>
+													<td> Pending</td>
+													<td>2022/11/11</td>
 												</tr>
 												<tr>
 													<td>
@@ -109,9 +116,9 @@
 														</div>
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td ><div class="h4">28.76%</div></td>
-													<td><div class="h4"> Pending</div></td>
-													<td><div class="h4">읽음</div></td>
+													<td >28.76%</td>
+													<td> Pending</td>
+													<td>2022/11/11</td>
 												</tr>
 												<tr>
 													<td>
@@ -122,9 +129,9 @@
 														</div>
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td ><div class="h4">28.76%</div></td>
-													<td><div class="h4"> Pending</div></td>
-													<td><div class="h4">읽음</div></td>
+													<td >28.76%</td>
+													<td> Pending</td>
+													<td>2022/11/11</td>
 												</tr>
 												<tr>
 													<td>
@@ -135,9 +142,9 @@
 														</div>
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td ><div class="h4">28.76%</div></td>
-													<td><div class="h4"> Pending</div></td>
-													<td><div class="h4">읽음</div></td>
+													<td >28.76%</td>
+													<td> Pending</td>
+													<td>2022/11/11</td>
 												</tr>
 											</tbody>
 										</table>

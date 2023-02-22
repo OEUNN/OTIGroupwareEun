@@ -4,13 +4,21 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-<!-- inject css, js common file -->
-<%@ include file="/WEB-INF/views/common/head.jsp"%>
-<!-- endinject css, js common file -->
-
-<!-- Plugin css,js for this page  -->
-<!-- End plugin css,js for this page -->
+	<head>
+	<!-- inject css, js common file -->
+	<%@ include file="/WEB-INF/views/common/head.jsp"%>
+	<!-- endinject css, js common file -->
+	
+	<!-- Plugin css,js for this page  -->
+	<script>
+        function popup(){
+            var url = "detailpopup";
+            var name = "detail employee";
+            var option = "width = 500, height = 480, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
+            window.open(url, name, option);
+        }
+	</script>
+	
 	<style>
 		.btn-color{
 			padding:0px;
@@ -25,6 +33,7 @@
 			text-decoration: none;
 		}
 	</style>
+	<!-- End plugin css,js for this page -->
 </head>
 
 <body>
@@ -51,11 +60,11 @@
 						<div class="col-lg-3 grid-margin stretch-card ">
 							<div class="card">
 								<div class="card-body">
-									<div class="text-primary d-flex justify-content-center">
-										<div class="d-flex align-items-center m-1">
-											<i class="h3 my-auto mdi mdi-account"></i> 
-											<span class="ml-2 font-weight-bold">이름</span>
-										</div>
+									<div class="d-flex justify-content-center">
+										<button class="d-flex align-items-center m-1 btn-color text-primary" onclick="popup()">
+											<i class="h3 my-auto mdi mdi-worker"></i> 
+											<span class="ml-2 font-weight-bold">대표이사</span>
+										</button>
 									</div>
 								</div>
 							</div>
@@ -66,11 +75,11 @@
 						<div class="col-lg-3 grid-margin stretch-card ">
 							<div class="card">
 								<div class="card-body">
-									<div class="text-primary d-flex justify-content-center">
-										<div class="d-flex align-items-center m-1">
+									<div class=" d-flex justify-content-center">
+										<button class="d-flex align-items-center m-1 btn-color text-primary">
 											<i class="h3 my-auto mdi mdi-account"></i> 
-											<span class="ml-2 font-weight-bold">이름</span>
-										</div>
+											<span class="ml-2 font-weight-bold">이사</span>
+										</button>
 									</div>
 								</div>
 							</div>
@@ -87,20 +96,20 @@
 											<span class="ml-2 font-weight-bold">공공사업1DIV</span>
 										</div>
 									</div>
-									<div id="DIV1" class="row m-1 collapse text-primary ">
+									<div id="DIV1" class="row m-1 collapse text-primary mt-3 ">
 										<div class=" flex-column">
-											<a class="row my-1 ml-3 text-primary btn-color">
+											<button class="row my-1 ml-3 text-primary btn-color">
 												<i class="h3 my-auto  mdi mdi-account-check"></i> 
 												<span class="ml-2 font-weight-bold">김부련 부장</span>
-											</a>
-											<a class="row my-1 ml-3 text-primary btn-color"">
+											</button>
+											<button class="row my-1 ml-3 text-primary btn-color">
 												<i class="h3 my-auto  mdi mdi-account-check"></i> 
 												<span class="ml-2 font-weight-bold">오상식 차장</span>
-											</a>
-											<a class="row my-1 ml-3 text-primary btn-color"">
+											</button>
+											<button class="row my-1 ml-3 text-primary btn-color">
 												<i class="h3 my-auto  mdi mdi-account-check"></i> 
 												<span class="ml-2 font-weight-bold">장그래 사원</span>
-											</a>
+											</button>
 										</div>
 									</div>
 								</div>
@@ -116,20 +125,20 @@
 											<span class="ml-2 font-weight-bold">공공사업2DIV</span>
 										</div>
 									</div>
-									<div id="DIV2" class="row m-1 collapse text-primary ">
+									<div id="DIV2" class="row m-1 collapse text-primary mt-3">
 										<div class="flex-column">
-											<a class="row my-1 ml-3 text-primary btn-color">
+											<button class="row my-1 ml-3 text-primary btn-color">
 												<i class="h3 my-auto  mdi mdi-account-check"></i> 
 												<span class="ml-2 font-weight-bold">김부련 부장</span>
-											</a>
-											<a class="row my-1 ml-3 text-primary btn-color"">
+											</button>
+											<button class="row my-1 ml-3 text-primary btn-color">
 												<i class="h3 my-auto  mdi mdi-account-check"></i> 
 												<span class="ml-2 font-weight-bold">오상식 차장</span>
-											</a>
-											<a class="row my-1 ml-3 text-primary btn-color"">
+											</button>
+											<button class="row my-1 ml-3 text-primary btn-color">
 												<i class="h3 my-auto  mdi mdi-account-check"></i> 
 												<span class="ml-2 font-weight-bold">장그래 사원</span>
-											</a>
+											</button>
 										</div>
 									</div>
 								</div>
@@ -145,20 +154,20 @@
 											<span class="ml-2 font-weight-bold">공공사업3DIV</span>
 										</div>
 									</div>
-									<div id="DIV3" class="row m-1 collapse text-primary ">
+									<div id="DIV3" class="row m-1 collapse text-primary mt-3">
 										<div class="flex-column">
-											<a class="row my-1 ml-3 text-primary btn-color">
+											<button class="row my-1 ml-3 text-primary btn-color">
 												<i class="h3 my-auto  mdi mdi-account-check"></i> 
 												<span class="ml-2 font-weight-bold">김부련 부장</span>
-											</a>
-											<a class="row my-1 ml-3 text-primary btn-color"">
+											</button>
+											<button class="row my-1 ml-3 text-primary btn-color">
 												<i class="h3 my-auto  mdi mdi-account-check"></i> 
 												<span class="ml-2 font-weight-bold">오상식 차장</span>
-											</a>
-											<a class="row my-1 ml-3 text-primary btn-color"">
+											</button>
+											<button class="row my-1 ml-3 text-primary btn-color">
 												<i class="h3 my-auto  mdi mdi-account-check"></i> 
 												<span class="ml-2 font-weight-bold">장그래 사원</span>
-											</a>
+											</button>
 										</div>
 									</div>
 								</div>
@@ -174,20 +183,20 @@
 											<span class="ml-2 font-weight-bold">경영지원</span>
 										</div>
 									</div>
-									<div id="DIV4" class="row m-1 collapse text-primary ">
+									<div id="DIV4" class="row m-1 collapse text-primary mt-3">
 										<div class="flex-column">
-											<a class="row my-1 ml-3 text-primary btn-color">
+											<button class="row my-1 ml-3 text-primary btn-color">
 												<i class="h3 my-auto  mdi mdi-account-check"></i> 
 												<span class="ml-2 font-weight-bold">김부련 부장</span>
-											</a>
-											<a class="row my-1 ml-3 text-primary btn-color"">
+											</button>
+											<button class="row my-1 ml-3 text-primary btn-color">
 												<i class="h3 my-auto  mdi mdi-account-check"></i> 
 												<span class="ml-2 font-weight-bold">오상식 차장</span>
-											</a>
-											<a class="row my-1 ml-3 text-primary btn-color"">
+											</button>
+											<button class="row my-1 ml-3 text-primary btn-color">
 												<i class="h3 my-auto  mdi mdi-account-check"></i> 
 												<span class="ml-2 font-weight-bold">장그래 사원</span>
-											</a>
+											</button>
 										</div>
 									</div>
 								</div>

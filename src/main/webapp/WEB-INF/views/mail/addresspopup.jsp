@@ -1,38 +1,82 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
-	<head>
-		<%@ include file="/WEB-INF/views/common/head.jsp" %>
-		<script>
-        function address(){
-        	window.opener.top.location.href="<c:url value='/mail'/>";
-            window.close();
-        }
-		</script>
-	</head>
+<head>
+	<!-- CSS, JS 관련 파일 -->
+	<%@ include file="/WEB-INF/views/common/head.jsp" %>
+	<!-- Custom js for this page-->
+	<style>
+	#overflow {
+		overflow: auto;
+	}
+	
+	.highlight:hover {
+		font-weight: bold;
+		color: #4747A1;
+	}
+	</style>
+</head>
 
-	<body>
-		<form class="container-fluid  forms-sample p-3" action="address()">
-			<div class="row mx-1 my-3">
-				<h3>주소록</h3>
+<body>
+	<form class="container-fluid  forms-sample p-3" action="address()">
+		<div class="row mx-1 my-3">
+			<h3>주소록</h3>
+		</div>
+		<!-- 드롭다운을 이용해서 부에 따라 사람 불러오기 -->
+		<div class="row m-1 mt-3 form-group d-flex flex-column" style="height: 300px; border: 1px solid #ced4da;">
+			<div id="overflow">
+				<div class="highlight row m-1"><span class="mdi mdi-account-star d-flex align-self-center mx-1"></span>최전무 대표이사<span class="ml-2">[daepyoesa@oti.com]</span></div>
+				<div class="highlight row m-1" data-toggle="collapse" data-target="#DIV1"><span class="mdi mdi-folder-account d-flex align-self-center mx-1"></span>공공사업1DIV</div>
+				<div id="DIV1" class="row m-1 collapse">
+					<div class="d-flex flex-column">
+						<div class="highlight row my-1 ml-3"><i class="mdi mdi mdi-account-check d-flex align-self-center mx-1"></i>김부련 부장<span class="ml-2">[kimbujang@oti.com]</span></div>
+						<div class="highlight row my-1 ml-3"><i class="mdi mdi mdi-account d-flex align-self-center mx-1"></i>오상식 차장<span class="ml-2">[ocharjang@oti.com]</span></div>
+						<div class="highlight row my-1 ml-3"><i class="mdi mdi mdi-account d-flex align-self-center mx-1"></i>장그래 사원<span class="ml-2">[jangyes@oti.com]</span></div>
+					</div>
+				</div>
+				<div class="highlight row m-1" data-toggle="collapse" data-target="#DIV2"><span class="mdi mdi-folder-account d-flex align-self-center mx-1"></span>공공사업2DIV</div>
+				<div id="DIV2" class="row m-1 collapse">
+					<div class="d-flex flex-column p-0">
+						<div class="highlight row my-1 ml-3"><i class="mdi mdi mdi-account-check d-flex align-self-center mx-1"></i>김부련 부장<span class="ml-2">[kimbujang@oti.com]</span></div>
+						<div class="highlight row my-1 ml-3"><i class="mdi mdi mdi-account d-flex align-self-center mx-1"></i>오상식 차장<span class="ml-2">[ocharjang@oti.com]</span></div>
+						<div class="highlight row my-1 ml-3"><i class="mdi mdi mdi-account d-flex align-self-center mx-1"></i>장그래 사원<span class="ml-2">[jangyes@oti.com]</span></div>
+					</div>
+				</div>
+				<div class="highlight row m-1" data-toggle="collapse" data-target="#DIV3"><span class="mdi mdi-folder-account d-flex align-self-center mx-1"></span>공공사업3DIV</div>
+				<div id="DIV3" class="row m-1 collapse">
+					<div class="d-flex flex-column p-0">
+						<div class="highlight row my-1 ml-3"><i class="mdi mdi mdi-account-check d-flex align-self-center mx-1"></i>김부련 부장<span class="ml-2">[kimbujang@oti.com]</span></div>
+						<div class="highlight row my-1 ml-3"><i class="mdi mdi mdi-account d-flex align-self-center mx-1"></i>오상식 차장<span class="ml-2">[ocharjang@oti.com]</span></div>
+						<div class="highlight row my-1 ml-3"><i class="mdi mdi mdi-account d-flex align-self-center mx-1"></i>장그래 사원<span class="ml-2">[jangyes@oti.com]</span></div>
+					</div>
+				</div>
+				<div class="highlight row m-1" data-toggle="collapse" data-target="#DIV4"><span class="mdi mdi-folder-lock d-flex align-self-center mx-1"></span>경영지원</div>
+				<div id="DIV4" class="row m-1 collapse">
+					<div class="d-flex flex-column p-0">
+						<div class="highlight row my-1 ml-3"><i class="mdi mdi mdi-account-check d-flex align-self-center mx-1"></i>김부련 부장<span class="ml-2">[kimbujang@oti.com]</span></div>
+						<div class="highlight row my-1 ml-3"><i class="mdi mdi mdi-account d-flex align-self-center mx-1"></i>오상식 차장<span class="ml-2">[ocharjang@oti.com]</span></div>
+						<div class="highlight row my-1 ml-3"><i class="mdi mdi mdi-account d-flex align-self-center mx-1"></i>장그래 사원<span class="ml-2">[jangyes@oti.com]</span></div>
+					</div>
+				</div>
 			</div>
-			<!-- 드롭다운을 이용해서 부에 따라 사람 불러오기 -->
-			<div class="row m-1 mt-3 form-group" style="height:300px;border:1px solid #ced4da;">
-				
+		</div>
+		<div class="row m-1 mt-3 mb-5 form-group d-flex flex-column" style="height: 150px; border:1px solid #ced4da;">
+			<div id="overflow">
+				<div class="highlight row m-1"><i class="mdi mdi mdi-minus d-flex align-self-center mx-1"></i>김부련 부장<span class="ml-2">[kimbujang@oti.com]</span></div>
+				<div class="highlight row m-1"><i class="mdi mdi mdi-minus d-flex align-self-center mx-1"></i>오상식 차장<span class="ml-2">[ocharjang@oti.com]</span></div>
+				<div class="highlight row m-1"><i class="mdi mdi mdi-minus d-flex align-self-center mx-1"></i>장그래 사원<span class="ml-2">[jangyes@oti.com]</span></div>
 			</div>
-			<div class="row m-1 mt-3 mb-5 form-group" style="height:150px;border:1px solid #ced4da;">
-			
-			</div>
-			<div class="row mb-3" >
-				<div class="col"></div>
-				<button class="col btn btn-primary btn-sm mt-1 mx-3" onclick="trash()">확인</button>
-				<button class="col btn btn-outline-info btn-sm mt-1 mx-3" onclick="window.close()">취소</button>
-				<div class="col"></div>
-			</div>
-			
-		</form>
-	</body>
+		</div>
+		<div class="row mb-3" >
+			<div class="col"></div>
+			<button class="col btn btn-primary btn-sm mt-1 mx-3" onclick="window.close()">확인</button>
+			<button class="col btn btn-outline-info btn-sm mt-1 mx-3" onclick="window.close()">취소</button>
+			<div class="col"></div>
+		</div>
+		
+	</form>
+</body>
 
 </html>

@@ -234,7 +234,12 @@
 																</div>
 															</div>
 															<div class="col-sm-8">
-																<input type="text" class="form-control"/>
+																<select class="form-control">
+																	<option>공공사업1DIV</option>
+																	<option>공공사업2DIV</option>
+																	<option>공공사업3DIV</option>
+																	<option>경영지원부</option>
+																</select>
 															</div>
 														</div>
 													</div>
@@ -275,7 +280,14 @@
 																</div>
 															</div>
 															<div class="col-sm-8">
-																<input type="text" class="form-control"/>
+																<select class="form-control">
+																	<option>이사</option>
+																	<option>부장</option>
+																	<option>차장</option>
+																	<option>과장</option>
+																	<option>대리</option>
+																	<option>사원</option>
+																</select>
 															</div>
 														</div>
 													</div>

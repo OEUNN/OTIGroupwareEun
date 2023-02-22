@@ -17,19 +17,19 @@ public class MailController {
 		log.info("정보 로그");
 		log.warn("경고 로그");
 		log.error("에러 로그");
-		return "mail/sendMail";
+		return "mail/sendmail";
 	}
 	
 	//받은메일
 	@RequestMapping(value = "/receivedmail", method = RequestMethod.GET)
 	public String receivedMail() {
-		return "mail/receivedMail";
+		return "mail/receivedmail";
 	}
 	
 	//중요메일
 	@RequestMapping(value = "/importmail", method = RequestMethod.GET)
 	public String importMail() {
-		return "mail/importMail";
+		return "mail/importmail";
 	}
 
 	// 중요메일 팝업창
@@ -41,13 +41,13 @@ public class MailController {
 	//임시 보관함
 	@RequestMapping(value = "/tempmail", method = RequestMethod.GET)
 	public String tempMail() {
-		return "mail/tempMail";
+		return "mail/tempmail";
 	}
 	
 	//휴지통
 	@RequestMapping(value = "/trashmail", method = RequestMethod.GET)
 	public String trashMail() {
-		return "mail/trashMail";
+		return "mail/trashmail";
 	}
 	
 	//휴지통 팝업창
@@ -59,7 +59,7 @@ public class MailController {
 	//메일쓰기
 	@RequestMapping(value = "/writemail", method = RequestMethod.GET)
 	public String writeMail() {
-		return "mail/writeMail";
+		return "mail/writemail";
 	}
 	
 	//주소록 팝업창
@@ -71,7 +71,7 @@ public class MailController {
 	//메일 자세히보기
 	@RequestMapping(value = "/detailmail", method = RequestMethod.GET)
 	public String detailMail() {
-		return "mail/detailMail";
+		return "mail/detailmail";
 	}
 	
 }
