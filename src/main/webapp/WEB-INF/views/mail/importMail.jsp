@@ -53,10 +53,10 @@
 															</div>
 														</div>
 													</th>
-													<th class="col-2">ID</th>
-													<th class="col-6">제목</th>
-													<th class="col-2">날짜</th>
-													<th class="col-1">읽음</th>
+													<th class="col-2"><div class="h4">ID</div></th>
+													<th class="col-6"><div class="h4">제목</div></th>
+													<th class="col-2"><div class="h4">날짜</div></th>
+													<th class="col-1"><div class="h4">읽음</div></th>
 												</tr>
 											</thead>
 											<tbody>
@@ -70,12 +70,10 @@
 														<button>
 															<i class="h3 mdi mdi-star text-primary"></i>
 														</button></td>
-													<td><i class="mdi mdi-arrow-right text-primary"></i> Photoshop</td>
-													<td class="text-danger">28.76% <i
-														class="ti-arrow-down"></i>
-													</td>
-													<td><label class="badge badge-danger">Pending</label></td>
-													<td>읽음</td>
+													<td><div class="h4">장영은</div></td>
+													<td><div class="h4">28.76%</div></td>
+													<td><div class="h4">2023/02/21</div></td>
+													<td><div class="h4">읽음</div></td>
 												</tr>
 												<tr>
 													<td class="form-inline">
@@ -87,12 +85,10 @@
 														<button>
 															<i class="h3 mdi mdi-star text-primary"></i>
 														</button></td>
-													<td><i class="mdi mdi-arrow-left text-primary"></i>  Flash</td>
-													<td class="text-danger">21.06% <i
-														class="ti-arrow-down"></i></td>
-													<td><label class="badge badge-warning">In
-															progress</label></td>
-													<td>안읽음</td>
+													<td><div class="h4">장영은</div></td>
+													<td><div class="h4">28.76%</div></td>
+													<td><div class="h4">2023/02/21</div></td>
+													<td><div class="h4">읽음</div></td>
 												</tr>
 												<tr>
 													<td class="form-inline">
@@ -104,11 +100,10 @@
 														<button>
 															<i class="h3 mdi mdi-star text-primary"></i>
 														</button></td>
-													<td><i class="mdi mdi-arrow-right text-primary"></i> Premier</td>
-													<td class="text-danger">35.00% <i
-														class="ti-arrow-down"></i></td>
-													<td><label class="badge badge-info">Fixed</label></td>
-													<td>안읽음</td>
+													<td><div class="h4">장영은</div></td>
+													<td><div class="h4">28.76%</div></td>
+													<td><div class="h4">2023/02/21</div></td>
+													<td><div class="h4">읽음</div></td>
 												</tr>
 												<tr>
 													<td class="form-inline">
@@ -120,10 +115,10 @@
 														<button>
 															<i class="h3 mdi mdi-star text-primary"></i>
 														</button></td>
-													<td><i class="mdi mdi-arrow-right text-primary"></i> After effects</td>
-													<td class="text-success">82.00% <i class="ti-arrow-up"></i></td>
-													<td><label class="badge badge-success">Completed</label></td>
-													<td>안읽음</td>
+													<td><div class="h4">장영은</div></td>
+													<td><div class="h4">28.76%</div></td>
+													<td><div class="h4">2023/02/21</div></td>
+													<td><div class="h4">읽음</div></td>
 												</tr>
 												<tr>
 													<td class="form-inline">
@@ -135,11 +130,10 @@
 														<button>
 															<i class="h3 mdi mdi-star text-primary"></i>
 														</button></td>
-													<td><i class="mdi mdi-arrow-left text-primary"></i> 53275535</td>
-													<td class="text-success">98.05% <i class="ti-arrow-up"></i></td>
-													<td><label class="badge badge-warning">In
-															progress</label></td>
-													<td>안읽음</td>
+													<td><div class="h4">장영은</div></td>
+													<td><div class="h4">28.76%</div></td>
+													<td><div class="h4">2023/02/21</div></td>
+													<td><div class="h4">읽음</div></td>
 												</tr>
 											</tbody>
 										</table>
