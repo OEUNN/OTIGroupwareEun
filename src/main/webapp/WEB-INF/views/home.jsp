@@ -67,13 +67,13 @@
 	                  </div>
 	                  <div class="row px-1">
 		                  <div class="col-sm px-0">
-		                       <button onclick="" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
+		                       <button onclick="location.href='${pageContext.request.contextPath}/mailwrite'" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
 		                          <span class="h3 mdi mdi-lead-pencil m-0"></span>
 		                          <span class="ml-1">메일<br>쓰기</span>
 		                       </button>
 		                  </div>
 		                  <div class="col-sm px-0">
-		                       <button onclick="" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
+		                       <button onclick="location.href='${pageContext.request.contextPath}/approval/aprvwrite'" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
 		                          <span class="h3 mdi mdi-file-document m-0"></span>
 		                          <span class="ml-1">결재<br>신청</span>
 		                       </button>
@@ -81,13 +81,13 @@
 	                  </div>
 	                  <div class="row mt-2 px-1">
 		                  <div class="col-sm px-0">
-		                       <button onclick="" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
+		                       <button onclick="location.href='${pageContext.request.contextPath}/hr/leave'" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
 		                          <span class="h3 mdi mdi-wallet-travel m-0"></span>
 		                          <span class="ml-1">휴가<br>신청</span>
 		                       </button>
 		                  </div>
 		                  <div class="col-sm px-0">
-		                       <button onclick="" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto pl-2 pr-3">
+		                       <button onclick="location.href='${pageContext.request.contextPath}/mypage'" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto pl-2 pr-3">
 		                          <span class="h3 mdi mdi-emoticon m-0"></span>
 		                          <span class="ml-1" style="font-size:12px;">프로필<br>수정</span>
 		                       </button>

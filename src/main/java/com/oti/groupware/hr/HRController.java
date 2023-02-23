@@ -1,4 +1,4 @@
-package com.oti.groupware.attendance;
+package com.oti.groupware.hr;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +15,7 @@ import lombok.extern.log4j.Log4j2;
 @Controller
 @Log4j2
 @RequestMapping(value="/hr")
-public class AttendanceController {
+public class HRController {
 	
 	/**
 	 * 
