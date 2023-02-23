@@ -53,10 +53,10 @@ public class ApprovalController {
 	}
 	
 	//결재 문서 작성 화면
-	@RequestMapping(value = "/write", method=RequestMethod.GET)
+	@RequestMapping(value = "/aprvwrite", method=RequestMethod.GET)
 	public String write() {
 		log.info("정보 로그");
-		return "approval/write";
+		return "approval/aprvwrite";
 	}
 	
 	//주소록 화면

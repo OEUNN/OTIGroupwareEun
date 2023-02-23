@@ -57,9 +57,9 @@ public class MailController {
 	}
 	
 	//메일쓰기
-	@RequestMapping(value = "/writemail", method = RequestMethod.GET)
+	@RequestMapping(value = "/mailwrite", method = RequestMethod.GET)
 	public String writeMail() {
-		return "mail/writemail";
+		return "mail/mailwrite";
 	}
 	
 	//주소록 팝업창
