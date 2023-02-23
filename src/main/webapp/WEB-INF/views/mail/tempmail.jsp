@@ -7,13 +7,21 @@
 	<!-- CSS 관련 파일 -->
 		<%@ include file="/WEB-INF/views/common/head.jsp"%>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mail.css" />
-	<style>
-		.table th, .jsgrid .jsgrid-table th,
-		.table td,
-		.jsgrid .jsgrid-table td {
-		  padding: 0.525rem 1.375rem;
-		}
-	</style>
+		<script>
+        function popup(){
+            var url = "temppopup";
+            var name = "temp popup";
+            var option = "width = 500, height = 300, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
+            window.open(url, name, option);
+        }
+		</script>
+		<style>
+			.table th, .jsgrid .jsgrid-table th,
+			.table td,
+			.jsgrid .jsgrid-table td {
+			  padding: 0.525rem 1.375rem;
+			}
+		</style>
 	</head>
 
 <body>
@@ -139,6 +147,91 @@
 															</label>
 														</div>
 														<button>
+															<i class="h3 mdi mdi-star text-primary"></i>
+														</button></td>
+													<td>
+														<i class="mdi mdi-arrow-right text-primary"></i>
+														Photoshop
+													</td>
+													<td>28.76%</td>
+													<td>2023/02/22</td>
+												</tr>
+												<tr>
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+														<button>
+															<i class="h3 mdi mdi-star text-primary"></i>
+														</button></td>
+													<td>
+														<i class="mdi mdi-arrow-right text-primary"></i>
+														Photoshop
+													</td>
+													<td>28.76%</td>
+													<td>2023/02/22</td>
+												</tr>
+												<tr>
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+														<button>
+															<i class="h3 mdi mdi-star text-primary"></i>
+														</button></td>
+													<td>
+														<i class="mdi mdi-arrow-right text-primary"></i>
+														Photoshop
+													</td>
+													<td>28.76%</td>
+													<td>2023/02/22</td>
+												</tr>
+												<tr>
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+														<button>
+															<i class="h3 mdi mdi-star text-primary"></i>
+														</button></td>
+													<td>
+														<i class="mdi mdi-arrow-right text-primary"></i>
+														Photoshop
+													</td>
+													<td>28.76%</td>
+													<td>2023/02/22</td>
+												</tr>
+												<tr>
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+														<button>
+															<i class="h3 mdi mdi-star text-primary"></i>
+														</button></td>
+													<td>
+														<i class="mdi mdi-arrow-right text-primary"></i>
+														Photoshop
+													</td>
+													<td>28.76%</td>
+													<td>2023/02/22</td>
+												</tr>
+												<tr>
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+														<button>
 															<i class="h3 mdi mdi-star-outline text-primary"></i>
 														</button></td>
 													<td>
@@ -162,7 +255,7 @@
 									</div>
 									<div class="row">
 										<div class="col-2">
-											<button class="btn btn-outline-danger btn-sm">선택 삭제</button>
+											<button class="btn btn-outline-danger btn-sm" onclick="popup()">선택 삭제</button>
 										</div>
 									</div>
 								</div>

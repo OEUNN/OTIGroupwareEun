@@ -7,6 +7,14 @@
 	<!-- CSS 관련 파일 -->
 		<%@ include file="/WEB-INF/views/common/head.jsp" %>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mail.css"/>
+		<script>
+        function popup(){
+            var url = "importpopup";
+            var name = "import popup";
+            var option = "width = 500, height = 250, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
+            window.open(url, name, option);
+        }
+		</script>
 		<style>
 		.table th, .jsgrid .jsgrid-table th,
 		.table td,
@@ -65,6 +73,81 @@
 												</tr>
 											</thead>
 											<tbody>
+												<tr>
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+																<label class="form-check-label">
+																	<input type="checkbox" class="form-check-input" name="optradio">
+																</label>
+															</div>
+														<button>
+															<i class="h3 mdi mdi-star text-primary"></i>
+														</button></td>
+													<td>장영은</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
+												<tr>
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+																<label class="form-check-label">
+																	<input type="checkbox" class="form-check-input" name="optradio">
+																</label>
+															</div>
+														<button>
+															<i class="h3 mdi mdi-star text-primary"></i>
+														</button></td>
+													<td>장영은</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
+												<tr>
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+																<label class="form-check-label">
+																	<input type="checkbox" class="form-check-input" name="optradio">
+																</label>
+															</div>
+														<button>
+															<i class="h3 mdi mdi-star text-primary"></i>
+														</button></td>
+													<td>장영은</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
+												<tr>
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+																<label class="form-check-label">
+																	<input type="checkbox" class="form-check-input" name="optradio">
+																</label>
+															</div>
+														<button>
+															<i class="h3 mdi mdi-star text-primary"></i>
+														</button></td>
+													<td>장영은</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
+												<tr>
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+																<label class="form-check-label">
+																	<input type="checkbox" class="form-check-input" name="optradio">
+																</label>
+															</div>
+														<button>
+															<i class="h3 mdi mdi-star text-primary"></i>
+														</button></td>
+													<td>장영은</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
 												<tr>
 													<td class="form-inline">
 														<div class="form-check font-weight-bold text-info">

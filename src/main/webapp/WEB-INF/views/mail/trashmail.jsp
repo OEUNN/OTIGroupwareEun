@@ -145,6 +145,86 @@
 														</div>
 													</td>
 													<td>
+														<i class="mdi mdi-arrow-right text-primary"></i>
+														Photoshop
+													</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
+												<tr>
+													<td>
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+													</td>
+													<td>
+														<i class="mdi mdi-arrow-right text-primary"></i>
+														Photoshop
+													</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
+												<tr>
+													<td>
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+													</td>
+													<td>
+														<i class="mdi mdi-arrow-right text-primary"></i>
+														Photoshop
+													</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
+												<tr>
+													<td>
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+													</td>
+													<td>
+														<i class="mdi mdi-arrow-right text-primary"></i>
+														Photoshop
+													</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
+												<tr>
+													<td>
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+													</td>
+													<td>
+														<i class="mdi mdi-arrow-right text-primary"></i>
+														Photoshop
+													</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
+												<tr>
+													<td>
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+													</td>
+													<td>
 														<i class="mdi mdi-arrow-left text-primary"></i>
 														Photoshop
 													</td>
