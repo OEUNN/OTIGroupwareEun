@@ -10,7 +10,7 @@
       margin: 10,
       nav: true,
       autoplay: true,
-      autoplayTimeout: 4500,
+      autoplayTimeout: 1000,
       responsive: {
         0: {
           items: 1
@@ -32,7 +32,7 @@
       items: 1,
       nav: true,
       autoplay: true,
-      autoplayTimeout: 5500,
+      autoplayTimeout: 1000,
       navText: ["<i class='ti-angle-left'></i>", "<i class='ti-angle-right'></i>"]
     });
   }
@@ -44,7 +44,7 @@
       loop: true,
       margin: 10,
       autoplay: true,
-      autoplayTimeout: 8500,
+      autoplayTimeout: 1000,
       responsive: {
         600: {
           items: 4
@@ -59,7 +59,7 @@
       loop: false,
       margin: 10,
       autoplay: true,
-      autoplayTimeout: 6000,
+      autoplayTimeout: 1000,
       responsive: {
         600: {
           items: 4
@@ -74,7 +74,7 @@
       margin: 10,
       loop: true,
       autoplay: true,
-      autoplayTimeout: 3500,
+      autoplayTimeout: 1000,
       autoWidth: true,
     });
   }
@@ -87,7 +87,7 @@
       margin: 10,
       auto: true,
       autoplay: true,
-      autoplayTimeout: 2500,
+      autoplayTimeout: 1000,
     });
   }
 
@@ -97,7 +97,7 @@
       loop: true,
       margin: 10,
       autoplay: true,
-      autoplayTimeout: 3000,
+      autoplayTimeout: 1000,
       responsive: {
         0: {
           items: 1
@@ -119,7 +119,7 @@
       video: true,
       lazyLoad: true,
       autoplay: true,
-      autoplayTimeout: 7000,
+      autoplayTimeout: 1000,
       responsive: {
         480: {
           items: 4
