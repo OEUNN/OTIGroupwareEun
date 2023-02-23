@@ -11,10 +11,17 @@
         function popup(){
             var url = "trashpopup";
             var name = "trash popup";
-            var option = "width = 500, height = 200, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
+            var option = "width = 500, height = 300, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
             window.open(url, name, option);
         }
-		</script>	
+		</script>
+		<style>
+		.table th, .jsgrid .jsgrid-table th,
+		.table td,
+		.jsgrid .jsgrid-table td {
+		  padding: 0.525rem 1.375rem;
+		}
+		</style>	
 	</head>
 
 <body>
@@ -60,10 +67,10 @@
 															</div>
 														</div>
 													</th>
-													<th class="col-2"><div class="h4">ID</div></th>
-													<th class="col-6"><div class="h4">제목</div></th>
-													<th class="col-2"><div class="h4">날짜</div></th>
-													<th class="col-1"><div class="h4">읽음</div></th>
+													<th class="col-2">ID</th>
+													<th class="col-6">제목</th>
+													<th class="col-2">날짜</th>
+													<th class="col-1">읽음</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -75,10 +82,13 @@
 															</label>
 														</div>
 													</td>
-													<td><div class="h4">장영은</div></td>
-													<td><div class="h4">28.76%</div></td>
-													<td><div class="h4">2023/02/21</div></td>
-													<td><div class="h4">읽음</div></td>
+													<td>
+														<i class="mdi mdi-arrow-left text-primary"></i>
+														Photoshop
+													</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
 												</tr>
 												<tr>
 													<td>
@@ -88,10 +98,13 @@
 															</label>
 														</div>
 													</td>
-													<td><div class="h4">장영은</div></td>
-													<td><div class="h4">28.76%</div></td>
-													<td><div class="h4">2023/02/21</div></td>
-													<td><div class="h4">읽음</div></td>
+													<td>
+														<i class="mdi mdi-arrow-right text-primary"></i>
+														Photoshop
+													</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
 												</tr>
 												<tr>
 													<td>
@@ -101,10 +114,13 @@
 															</label>
 														</div>
 													</td>
-													<td><div class="h4">장영은</div></td>
-													<td><div class="h4">28.76%</div></td>
-													<td><div class="h4">2023/02/21</div></td>
-													<td><div class="h4">읽음</div></td>
+													<td>
+														<i class="mdi mdi-arrow-right text-primary"></i>
+														Photoshop
+													</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
 												</tr>
 												<tr>
 													<td>
@@ -114,10 +130,13 @@
 															</label>
 														</div>
 													</td>
-													<td><div class="h4">장영은</div></td>
-													<td><div class="h4">28.76%</div></td>
-													<td><div class="h4">2023/02/21</div></td>
-													<td><div class="h4">읽음</div></td>
+													<td>
+														<i class="mdi mdi-arrow-right text-primary"></i>
+														Photoshop
+													</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
 												</tr>
 												<tr>
 													<td>
@@ -127,10 +146,13 @@
 															</label>
 														</div>
 													</td>
-													<td><div class="h4">장영은</div></td>
-													<td><div class="h4">28.76%</div></td>
-													<td><div class="h4">2023/02/21</div></td>
-													<td><div class="h4">읽음</div></td>
+													<td>
+														<i class="mdi mdi-arrow-left text-primary"></i>
+														Photoshop
+													</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
 												</tr>
 											</tbody>
 										</table>

@@ -10,12 +10,6 @@
 	<!-- endinject css, js common file -->
 	
 	<!-- Plugin css,js for this page -->
-	<script>
-        function retry(){
-        	window.opener.top.location.href="<c:url value='/trashmail'/>";
-            window.close();
-        }
-	</script>
 	<style>
 		.container-fluid{
 			padding:0px;
@@ -43,9 +37,8 @@
 						<div class="card">
 							<div class="card-body row m-0">
 								<div class="container-fluid">
-									<div class="card-title mt-1 row d-flex justify-content-center">휴지통의 메일을 지우면 지워진 메일들은</div>
-									 <div class="card-title mt-1 row d-flex justify-content-center">복구할 수 없습니다.</div>
-									<div class="card-title mt-1 row d-flex justify-content-center">메일을 삭제하시겠습니까?</div>
+									<div class="card-title mt-1 row d-flex justify-content-center">로그인 오류 1회 입니다.</div>
+									<div class="card-title mt-1 row d-flex justify-content-center">로그인 오류 5회시 자동 잠금됩니다.</div>
 									<div class="row mb-1" >
 										<div class="col"></div>
 										<button class="col-3 btn btn-primary btn-md mt-1 mx-3" onclick="retry()">확인</button>
@@ -64,4 +57,3 @@
 	</body>
 	
 </html>
-

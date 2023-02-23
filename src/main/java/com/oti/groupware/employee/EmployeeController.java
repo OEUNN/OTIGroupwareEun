@@ -20,16 +20,6 @@ public class EmployeeController {
 		return "employee/mypage";
 	}
 
-	//조직도
-	@RequestMapping(value = "/ss", method = RequestMethod.GET)
-	public String ss() {
-		log.debug("디버그 로그");
-		log.info("정보 로그");
-		log.warn("경고 로그");
-		log.error("에러 로그");
-		return "employee/mypage";
-	}
-
 	//임직원 조회
 	@RequestMapping(value = "/selectemployee", method = RequestMethod.GET)
 	public String selectEmployee() {
@@ -68,5 +58,25 @@ public class EmployeeController {
 		log.warn("경고 로그");
 		log.error("에러 로그");
 		return "employee/organizationchart";
+	}
+	
+	//직원정보 디테일 popup
+	@RequestMapping(value = "/detailpopup", method = RequestMethod.GET)
+	public String detailPopup() {
+		log.debug("디버그 로그");
+		log.info("정보 로그");
+		log.warn("경고 로그");
+		log.error("에러 로그");
+		return "employee/detailpopup";
+	}
+	
+	//주소록 popup
+	@RequestMapping(value = "/employeeaddresspopup", method = RequestMethod.GET)
+	public String employeeAddressPopup() {
+		log.debug("디버그 로그");
+		log.info("정보 로그");
+		log.warn("경고 로그");
+		log.error("에러 로그");
+		return "employee/addresspopup";
 	}
 }

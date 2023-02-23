@@ -6,6 +6,14 @@
 	<head>
 		<!-- CSS 관련 파일 -->
 		<%@ include file="/WEB-INF/views/common/head.jsp" %>
+		<script>
+        function popup(){
+            var url = "loginpopup";
+            var name = "login retry";
+            var option = "width = 500, height =250, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+            window.open(url, name, option);
+        }
+		</script>
 	</head>
 
 	<body>
@@ -16,7 +24,8 @@
 						<div class="col-lg-4 mx-auto">
 							<div class="auth-form-light text-left py-5 px-4 px-sm-5">
 								<div class="brand-logo">
-									<img src="${pageContext.request.contextPath}/resources/images/oti.png" alt="logo" style="width: 80px; height: 60px;" />
+									<img src="${pageContext.request.contextPath}/resources/images/oti-logo.png" alt="logo" style="width:110px; height:40px; margin-left: 20px;"/>
+       								<img src="${pageContext.request.contextPath}/resources/images/exa.png" alt="logo" style="width:80px; height:40px; margin-left: 10px;"/>
 								</div>
 								<h4>Hello! let's get started</h4>
 								<h6 class="font-weight-light">Sign in to continue.</h6>

@@ -23,25 +23,25 @@ public class BoardController {
 	//인사발령
 	@RequestMapping(value = "/hrboard", method = RequestMethod.GET)
 	public String hrBoard() {
-		return "board/hrBoard";
+		return "board/hrboard";
 	}
 
 	//경조사
 	@RequestMapping(value = "/familyeventboard", method = RequestMethod.GET)
 	public String familyEventBoard() {
-		return "board/familyEventBoard";
+		return "board/familyeventboard";
 	}
 	
 	//게시판쓰기
 	@RequestMapping(value = "/writeboard", method = RequestMethod.GET)
 	public String writeBoard() {
-		return "board/writeBoard";
+		return "board/writeboard";
 	}
 	
 	//게시글 보기
 	@RequestMapping(value = "/detailboard", method = RequestMethod.GET)
 	public String detailBoard() {
-		return "board/detailBoard";
+		return "board/detailboard";
 	}
 	
 }

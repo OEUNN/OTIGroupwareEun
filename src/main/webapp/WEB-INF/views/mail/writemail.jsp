@@ -20,7 +20,7 @@
         function address(){
             var url = "addresspopup";
             var name = "employee address";
-            var option = "width = 500, height = 700, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+            var option = "width = 500, height = 750, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
             window.open(url, name, option);
         }
 		</script>
@@ -87,8 +87,8 @@
 															<span class="font-weight-bold">수신인</span>
 														</div>
 													</div>
-													<div class="col-sm-6" style="border-bottom:1px solid #ced4da;">
-														<input class="h3 from-control" style="font-weight:bold; border:none;">
+													<div class="col" style="border-bottom:1px solid #ced4da;">
+														<input id="pInput"class="from-control" style="border:none; width:100%;">
 													</div>
 													<div class="col-sm-2" >
 														<button class="btn btn-md btn-inverse-primary mx-2" onclick="address()"  style="font-family: LeferiBaseType-RegularA; font-weight: 700;">

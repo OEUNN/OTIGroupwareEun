@@ -21,10 +21,10 @@
 					<a class="nav-link" href="<c:url value='/writemail'/>">메일쓰기</a>
 						</li>
 					<li class="nav-item">
-					<a class="nav-link" href="<c:url value='/sendmail'/>">받은 메일</a>
+					<a class="nav-link" href="<c:url value='/receivedmail'/>">받은 메일</a>
 						</li>
 					<li class="nav-item">
-					<a class="nav-link" href="<c:url value='/receivedmail'/>">보낸 메일</a>
+					<a class="nav-link" href="<c:url value='/sendmail'/>">보낸 메일</a>
 						</li>
 					<li class="nav-item">
 					<a class="nav-link" href="<c:url value='/importmail'/>">중요 메일</a>

@@ -7,14 +7,6 @@
 	<!-- CSS 관련 파일 -->
 		<%@ include file="/WEB-INF/views/common/head.jsp" %>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css"/>
-		<script src="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-		<script>
-		$(function(){
-			$('#datepicker').datepicker({
-			});	
-		});
-		</script>
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
 	</head>
 	<style>
 	.table th, .jsgrid .jsgrid-table th,
@@ -44,7 +36,7 @@
 					<div class="row">
 						<div class="col-md-12 grid-margin">
 							<div class="row  d-flex justify-content-between align-items-start">
-								<h3 class="font-weight-bold">사내 공지</h3>
+								<h3 class="font-weight-bold">경조사</h3>
 								<a type="submit" class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;" href="<c:url value='/writeboard'/>">
 									<span class="mdi mdi-lead-pencil align-middle"></span> 
 									<span>게시글 쓰기</span>
