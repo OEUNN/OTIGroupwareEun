@@ -35,7 +35,7 @@
 	        		<div class="col-md-9 grid-margin">
 	        			<div class="card gird-margin shadow-2">
 		        			<div class="card-body">
-		        				<p class="card-title mb-3">문서 자세히 보기</p>
+		        				<p class="card-title mb-3 d-flex justify-content-between">문서 상세 보기<span class="font-weight-bold btn btn-warning btn-md">회수</span></p>
 		        				<div class="card-body mb-3" style="box-shadow: 0px 0px 0px white;">
 									<textarea id="document_detail" style="width: inherit;"></textarea>
 	        					</div>
@@ -75,7 +75,7 @@
 		      						</div>
 								</div>
 								<div class="row m-1">
-		       						<div class="card card-tale grid-margin shadow-2 mb-0 w-100 bg-warning" style="background-color: #939495;">
+		       						<div class="card card-tale grid-margin shadow-2 mb-0 w-100 bg-warning">
 					                    <div class="card-body">
 						                    <div class="row mb-3">
 							                    <div class="col-10">
@@ -114,6 +114,49 @@
 						                    <div class="row">
 						                    	<div class="col-12">
 						                    		<h3 style="text-align: center; font-weight:bold; color: white; margin-bottom: -3px;">반려</h3>
+						                    	</div>
+						                    </div>
+					                    </div>
+		         					</div>
+								</div>
+								<div class="row m-1">
+		         					<div class="card bg-warning grid-margin shadow-2 w-100">
+					                    <div class="card-body">
+						                    <div class="row mb-3">
+							                    <div class="col-10">
+							                    	<p class="card-title text-white fs-3">최전무</p>
+							                    	<p class="text-white">공공사업1DIV 대표이사</p>
+							                    </div>
+							                    <div class="col-2">
+							                    	<i class="mdi mdi-close text-white"></i>
+							                    </div>
+						                    </div>
+						                    <div class="row">
+						                    	<div class="col-6">
+						                    		<button class="btn btn-success w-100" style="text-align: center; font-weight:bold; color: white; margin-bottom: -3px;">승인</button>
+						                    	</div>
+						                    	<div class="col-6 d-flex justify-content-center">
+						                    		<button class="btn btn-danger w-100" style="text-align: center; font-weight:bold; color: white; margin-bottom: -3px;">반려</button>
+						                    	</div>
+						                    </div>
+					                    </div>
+		         					</div>
+								</div>
+								<div class="row m-1">
+		         					<div class="card card-warning grid-margin shadow-2 w-100" style="background-color: #939495;">
+					                    <div class="card-body">
+						                    <div class="row mb-3">
+							                    <div class="col-10">
+							                    	<p class="card-title text-white fs-3">최전무</p>
+							                    	<p class="text-white">공공사업1DIV 대표이사</p>
+							                    </div>
+							                    <div class="col-2">
+							                    	<i class="mdi mdi-close text-white"></i>
+							                    </div>
+						                    </div>
+						                   	<div class="row">
+						                    	<div class="col-12">
+						                    		<h3 style="text-align: center; font-weight:bold; color: white; margin-bottom: -3px;">미열람</h3>
 						                    	</div>
 						                    </div>
 					                    </div>
