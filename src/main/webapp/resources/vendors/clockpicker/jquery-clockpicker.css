@@ -17,7 +17,7 @@
   z-index: 1010;
   display: none;
   max-width: 276px;
-  padding: 1px;
+  padding: 8px 2px;
   text-align: left;
   white-space: normal;
   background-color: #fff;
@@ -288,8 +288,9 @@
 	background-color: rgba(0, 149, 221, .25);
 }
 .clockpicker-button {
+	color: white;
 	background-image: none;
-	background-color: #fff;
+	background-color: #4B49AC;
 	border-width: 1px 0 0;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
@@ -298,7 +299,8 @@
 }
 .clockpicker-button:hover {
 	background-image: none;
-	background-color: #ebebeb;
+	background-color: #3f3e91;
+	color: white;
 }
 .clockpicker-button:focus {
 	outline: none!important;

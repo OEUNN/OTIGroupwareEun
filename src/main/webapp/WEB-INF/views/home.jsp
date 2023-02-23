@@ -10,6 +10,12 @@
    <!-- endinject css, js common file -->
 
    <!-- Plugin css,js for this page -->
+   	<style>
+		.custom-border-bottom {
+			border-bottom: 3px solid #4B49AC;
+			opacity: 0.4;
+		}
+	</style>
    <!-- End plugin css,js for this page -->
 </head>
 
@@ -18,8 +24,6 @@
     <!-- Navbar -->
     <%@ include file="/WEB-INF/views/common/_navbar.jsp" %>
     <div class="container-fluid page-body-wrapper">
-      <!-- To_do_List/Chat -->
-      <%@ include file="/WEB-INF/views/common/_settings-panel.jsp" %>
       <!-- Sidebar -->
       <%@ include file="/WEB-INF/views/common/_sidebar.jsp" %>
       <!-- partial -->
@@ -27,141 +31,284 @@
         <div class="content-wrapper">
          <!-- 사진 / 퀵메뉴 / 프로필 / 출퇴근 / 달력 -->
           <div class="row">
-            <div class="col-md-3 grid-margin stretch-card">
+            <div class="col-md-2 grid-margin stretch-card">
               <div class="card">
               	<div class="card-body" style="background-color: #e7e7ff;">
-                 <!-- 사진 -->
-                 <div class="mt-2 row justify-content-center">
-                   <img src="${pageContext.request.contextPath}/resources/images/faces/face10.jpg" style="width:75%; border-radius: 20px; box-shadow: 3px 3px 6px #4747A1;"/>
-               	 </div>
-               	 <!-- 프로필 -->
-                 <div class="row mt-4 justify-content-center" style="font-family: LeferiPoint-WhiteObliqueA;">
-                    <div class="ml-1">
-                      <span class="font-weight-bold text-primary h2">이춘향</span>
-                      <span class="font-weight-bold h5">사원</span>
-                      <div class="font-weight-bold text-muted h6 mt-2 text-center">공공사업1DIV</div>
-                    </div>
-                  </div>
-               	 <!-- 잔여일수 -->
-                 <div class="row mt-3 px-3">
-                    <div class="col-md p-0 d-flex justify-content-center">
-                    	<div>
-	                      <span class="font-weight-bold text-primary h5" style="font-family: LeferiPoint-WhiteObliqueA;">잔여연차</span>
-	                      <span class="font-weight-bold h3" >12</span>
-                    	</div>
-                    </div>
-                    <div class="col-md p-0 d-flex justify-content-center">
-                    	<div>
-	                      <span class="font-weight-bold text-primary h5" style="font-family: LeferiPoint-WhiteObliqueA;">잔여대체휴무</span>
-	                      <span class="font-weight-bold h3">0</span>
-                    	</div>
-                    </div>
-                  </div>
-                  <!-- 퀵메뉴 -->
-                  <div class="row mt-4 justify-content-center">
-	                  <div class="row mt-1">
-	                       <button onclick="" class="btn btn-md btn-inverse-primary btn-icon-text d-flex align-items-center m-1">
-	                          <i class="mdi mdi-lead-pencil"></i>
-	                          <span class="ml-2 font-weight-bold">메일쓰기</span>
-	                       </button>
-	                       <button onclick="" class="btn btn-md btn-inverse-primary btn-icon-text d-flex align-items-center m-1">
-	                          <i class="mdi mdi-file-document"></i>
-	                          <span class="ml-2 font-weight-bold">결재신청</span>
-	                       </button>
+	                 <!-- 사진 -->
+	                 <div class="row justify-content-center px-2">
+	                   <img src="${pageContext.request.contextPath}/resources/images/faces/face10.jpg" style="width:90%; border-radius: 20px; box-shadow: 3px 3px 6px #4747A1;"/>
+	               	 </div>
+	               	 <!-- 프로필 -->
+	                 <div class="row mt-4 pt-2 justify-content-center" style="font-family: LeferiPoint-WhiteObliqueA;">
+	                    <div class="ml-1">
+	                      <span class="font-weight-bold text-primary h2">이춘향</span>
+	                      <span class="font-weight-bold h5">사원</span>
+	                      <div class="font-weight-bold text-muted h6 mt-2 text-center">공공사업1DIV</div>
+	                    </div>
+	                 </div>
+	                 <div class="custom-border-bottom mt-3"></div>
+	               	 <!-- 잔여일수 -->
+	                 <div class="row mt-3 pt-2 px-3">
+	                    <div class="col-md p-0">
+	                    	<div class="row pr-2" style="font-family: LeferiPoint-WhiteObliqueA; font-size: 13px;">
+		                      <div class="col-md font-weight-bold text-primary px-0 text-center">잔여연차</div>
+		                      <div class="col-md font-weight-bold text-primary px-0 text-center">잔여대체휴무</div>
+	                    	</div>
+	                    	<div class="row pr-2">
+		                      <div class="col-md font-weight-bold h3 text-center" >12</div>
+		                      <div class="col-md font-weight-bold h3 text-center">0</div>
+	                    	</div>
+	                    </div>
 	                  </div>
-	                  <div class="row mt-1">
-	                       <button onclick="" class="btn btn-md btn-inverse-primary btn-icon-text d-flex align-items-center m-1">
-	                          <i class="mdi mdi-wallet-travel"></i>
-	                          <span class="ml-2 font-weight-bold">휴가신청</span>
-	                       </button>
-	                       <button onclick="" class="btn btn-md btn-inverse-primary btn-icon-text d-flex align-items-center m-1">
-	                          <i class="mdi mdi-emoticon"></i>
-	                          <span class="ml-1 font-weight-bold" style="font-size: 12px;">프로필수정</span>
-	                       </button>
+	                  <div class="custom-border-bottom mt-2 pt-2"></div>
+	                  <!-- 퀵메뉴 -->
+	                  <div class="row mt-4 pt-2">
+	                  	<div class="col-md h3 text-primary font-weight-bold" style="font-family: LeferiPoint-WhiteObliqueA;">Quick menu</div>
 	                  </div>
-                  </div>
+	                  <div class="row px-1">
+		                  <div class="col-sm px-0">
+		                       <button onclick="" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
+		                          <span class="h3 mdi mdi-lead-pencil m-0"></span>
+		                          <span class="ml-1">메일<br>쓰기</span>
+		                       </button>
+		                  </div>
+		                  <div class="col-sm px-0">
+		                       <button onclick="" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
+		                          <span class="h3 mdi mdi-file-document m-0"></span>
+		                          <span class="ml-1">결재<br>신청</span>
+		                       </button>
+		                  </div>
+	                  </div>
+	                  <div class="row mt-2 px-1">
+		                  <div class="col-sm px-0">
+		                       <button onclick="" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
+		                          <span class="h3 mdi mdi-wallet-travel m-0"></span>
+		                          <span class="ml-1">휴가<br>신청</span>
+		                       </button>
+		                  </div>
+		                  <div class="col-sm px-0">
+		                       <button onclick="" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto pl-2 pr-3">
+		                          <span class="h3 mdi mdi-emoticon m-0"></span>
+		                          <span class="ml-1" style="font-size:12px;">프로필<br>수정</span>
+		                       </button>
+		                  </div>
+	                  </div>
                   </div>
               </div>
             </div>
-            <!-- 출/퇴근 -->
-            <div class="col-md-4 grid-margin stretch-card">
-               <div class="card">
-                  <div class="card-body">
-                        <p class="card-title">오늘의 근무</p>
-		               	<!-- 현재시간 -->
-		                <div class="row justify-content-around align-items-center mt-4">
-		                     <div id="now-date" class="font-weight-bold h6 text-muted"></div>
-		                     <div id="now-time" class="font-weight-bold h1"></div>
-		                     <script>
-		                        $( document ).ready(function() {
-		                           const clock1 = document.getElementById("now-date");
-		                           const clock2 = document.getElementById("now-time");
-		                  
-		                           function getClock(){
-		                             const d = new Date();
-		                             const y = String(d.getFullYear()).padStart(4);
-		                             const M = String(d.getMonth() + 1).padStart(2,"0");
-		                             const da = String(d.getDate()).padStart(2,"0");
-		                             const h = String(d.getHours()).padStart(2,"0");
-		                             const m = String(d.getMinutes()).padStart(2,"0");
-		                             const s = String(d.getSeconds()).padStart(2,"0");
-		                             clock1.innerText = y + "년 " + M + "월 " + da + "일";
-		                             clock2.innerText = h + ":" + m + ":" + s;
-		                           }
-		                        
-		                           getClock(); //맨처음에 한번 실행
-		                           setInterval(getClock, 1000); //1초 주기로 새로실행
-		                        });
-		                     </script>
+            <div class="col-md-10">
+            	<div class="row">
+		            <!-- 출/퇴근 -->
+		            <div class="col-md-8 grid-margin stretch-card">
+		               <div class="card">
+		                  <div class="card-body">
+		                        <p class="card-title">오늘의 근무</p>
+				                <div class="row ml-3 mt-4 pt-2 mb-3">
+				                	<!-- 현재시간 -->
+				                	<div class="col-md-4">
+					                     <div id="now-date" class="font-weight-bold h4 text-muted"></div>
+					                     <div id="now-time" class="font-weight-bold h1"></div>
+					                     <script>
+					                        $( document ).ready(function() {
+					                           const clock1 = document.getElementById("now-date");
+					                           const clock2 = document.getElementById("now-time");
+					                  
+					                           function getClock(){
+					                             const d = new Date();
+					                             const y = String(d.getFullYear()).padStart(4);
+					                             const M = String(d.getMonth() + 1).padStart(2,"0");
+					                             const da = String(d.getDate()).padStart(2,"0");
+					                             const h = String(d.getHours()).padStart(2,"0");
+					                             const m = String(d.getMinutes()).padStart(2,"0");
+					                             const s = String(d.getSeconds()).padStart(2,"0");
+					                             clock1.innerText = y + "년 " + M + "월 " + da + "일";
+					                             clock2.innerText = h + ":" + m + ":" + s;
+					                           }
+					                        
+					                           getClock(); //맨처음에 한번 실행
+					                           setInterval(getClock, 1000); //1초 주기로 새로실행
+					                        });
+					                     </script>
+				                	</div>
+				                	<!-- 근무상태 -->
+				                	<div class="col-md-7 d-flex align-items-end ml-4">
+			                           <button class="btn btn-lg btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" 
+			                                 aria-haspopup="true" aria-expanded="true" style="width: 87%; font-size: 130%; font-weight: bold;">
+			                           	    근무중
+			                           </button>
+			                           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 85%;">
+			                             <h6 class="dropdown-header">근무중</h6>
+			                             <a class="dropdown-item" href="#">출장</a>
+			                             <a class="dropdown-item" href="#">외근</a>
+			                             <div class="dropdown-divider"></div>
+			                             <a class="dropdown-item" href="#">기타</a>
+			                           </div>
+				                	</div>
+				                </div>
+		                        <!-- 출퇴근 버튼 -->
+		                        <div class="row mt-4 pt-2">
+		                        	<div class="col-md">
+			                           <div class="card card-dark-blue">
+						                  <div class="card-body">
+						                  	<div class="row">
+						                  	  <div class="col-md d-flex align-items-center">
+						                           <button class="btn btn-md btn-light text-primary px-3">
+						                           		<h3 class="d-flex align-items-center font-weight-bold mb-0 pt-1">
+							                           		<div class="mdi mdi-alarm-check"></div>
+							                           		<div class="ml-2">출근</div>
+						                           		</h3>
+						                      	   </button>
+						                  	  </div>
+						                  	  <div class="col-md d-flex align-items-center">
+				                               	   <h2 class="mb-0">08:15</h2>
+						                  	  </div>
+						                  	</div>
+					                      </div>
+					                   </div>
+		                        	</div>
+		                        	<div class="col-md">
+			                           <div class="card card-light-danger">
+						                  <div class="card-body">
+						                    <div class="row">
+						                  	   <div class="col-md d-flex align-items-center">
+						                           <button class="btn btn-md btn-light text-danger px-3">
+						                           		<h3 class="d-flex align-items-center font-weight-bold mb-0 pt-1">
+							                           		<div class="mdi mdi-alarm-off"></div>
+							                           		<div class="ml-2">퇴근</div>
+						                           		</h3>
+						                      	   </button>
+						                  	   </div>
+						                  	   <div class="col-md d-flex align-items-center">
+			                               	   		<h2 class="mb-0">18:15</h2>
+						                  	   </div>
+					                  	    </div>
+					                      </div>
+					                   </div>
+		                        	</div>
+		                        </div>
+		                  	</div>
+		               </div>
+		            </div>
+		            <!-- 달력  -->
+		            <div class="col-md-4 grid-margin">
+		            	<%@ include file="/WEB-INF/views/fullcalendar/home_calendar.jsp" %>
+	              	</div>
+            	</div>
+            	<!-- 게시판:start -->
+            	<div class="row">
+		            <div class="col-md-12 grid-margin stretch-card">
+		              <div class="card">
+		                <div class="card-body">
+		                  <div id="detailedReports" class="carousel slide detailed-report-carousel position-static pt-2" data-ride="carousel">
+		                    <div class="carousel-inner">
+		                      <div class="carousel-item active">
+		                        <div class="row">
+		                          <div class="col-md-12 col-xl-3 d-flex justify-content-start">
+		                            <div class="ml-xl-4 mt-3">
+		                              <h1 class="text-primary font-weight-bold">사내공지</h1>
+		                              <div class="d-flex justify-content-center text-primary mt-2"><h1 class="mdi mdi-comment-alert" style="font-size: 90px;"></h1></div>
+		                            </div>  
+		                          </div>
+		                          <div class="col-md-12 col-xl-9">
+		                            <div class="row">
+		                                <div>
+		                               <table class="table table-hover" style="width: 250%">
+		                                    <thead>
+		                                      <tr>
+		                                        <th>문서번호</th>
+		                                        <th>제목</th>
+		                                        <th>작성자</th>
+		                                        <th>날짜</th>
+		                                      </tr>
+		                                    </thead>
+		                                    <tbody>
+		                                       <tr>
+		                                          <td>gdgd</td>
+		                                          <td>gdgd</td>
+		                                          <td>gdgd</td>
+		                                          <td>gdgd</td>
+		                                       </tr>
+		                                       <tr>
+		                                          <td>gdgd</td>
+		                                          <td>gdgd</td>
+		                                          <td>gdgd</td>
+		                                          <td>gdgd</td>
+		                                       </tr>
+		                                       <tr>
+		                                          <td>gdgd</td>
+		                                          <td>gdgd</td>
+		                                          <td>gdgd</td>
+		                                          <td>gdgd</td>
+		                                       </tr>
+		                                    </tbody>
+		                                </table>
+		                             </div>
+		                            </div>
+		                          </div>
+		                        </div>
+		                      </div>
+		                      <div class="carousel-item">
+		                        <div class="row">
+		                          <div class="col-md-12 col-xl-3 d-flex justify-content-start">
+		                            <div class="ml-xl-4 mt-3">
+		                              <h1 class="text-primary font-weight-bold">인사발령</h1>
+		                              <div class="d-flex justify-content-center text-primary mt-2"><h1 class="mdi mdi-human-greeting" style="font-size: 90px;"></h1></div>
+		                            </div>  
+		                          </div>
+		                          <div class="col-md-12 col-xl-9">
+		                            <div class="row">
+		                                <div>
+		                               <table class="table table-hover" style="width: 250%">
+		                                    <thead>
+		                                      <tr>
+		                                        <th>문서번호</th>
+		                                        <th>제목</th>
+		                                        <th>작성자</th>
+		                                        <th>날짜</th>
+		                                      </tr>
+		                                    </thead>
+		                                    <tbody>
+		                                       <tr>
+		                                          <td>gdgd</td>
+		                                          <td>gdgd</td>
+		                                          <td>gdgd</td>
+		                                          <td>gdgd</td>
+		                                       </tr>
+		                                       <tr>
+		                                          <td>gdgd</td>
+		                                          <td>gdgd</td>
+		                                          <td>gdgd</td>
+		                                          <td>gdgd</td>
+		                                       </tr>
+		                                       <tr>
+		                                          <td>gdgd</td>
+		                                          <td>gdgd</td>
+		                                          <td>gdgd</td>
+		                                          <td>gdgd</td>
+		                                       </tr>
+		                                    </tbody>
+		                                </table>
+		                             </div>
+		                            </div>
+		                          </div>
+		                        </div>
+		                      </div>
+		                    </div>
+		                    <a class="carousel-control-prev" href="#detailedReports" role="button" data-slide="prev">
+		                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		                      <span class="sr-only">Previous</span>
+		                    </a>
+		                    <a class="carousel-control-next" href="#detailedReports" role="button" data-slide="next">
+		                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+		                      <span class="sr-only">Next</span>
+		                    </a>
+		                  </div>
 		                </div>
-                        <!-- 출퇴근 버튼 -->
-                        <div class="row mt-3 justify-content-around">
-                           <button class="btn btn-lg btn-outline-primary" style="font-family: LeferiBaseType-RegularA; font-weight: 700; font-size: 120%;">
-                           		<h2 class="mdi mdi-alarm-check"></h2>
-                           		출근
-                      	   </button>
-                      	   <div class="my-auto" style="border: 2px solid rgba(75, 73, 172, 0.2); height: 90px;"></div>
-                           <button class="btn btn-lg btn-outline-danger" style="font-family: LeferiBaseType-RegularA; font-weight: 700; font-size: 120%;">
-                           		<h2 class="mdi mdi-alarm-off"></h2>
-                           		퇴근
-                       	   </button>
-                        </div>
-                        <!-- 근무상태 -->
-                        <div class="row mt-4 justify-content-center">
-                           <button class="btn btn-lg btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" 
-                                 aria-haspopup="true" aria-expanded="true" style="width: 87%; font-size: 130%; font-weight: bold;">
-                           	    근무중
-                           </button>
-                           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 85%;">
-                             <h6 class="dropdown-header">근무중</h6>
-                             <a class="dropdown-item" href="#">출장</a>
-                             <a class="dropdown-item" href="#">외근</a>
-                             <div class="dropdown-divider"></div>
-                             <a class="dropdown-item" href="#">기타</a>
-                           </div>
-                        </div>
-                        <!-- 출퇴근 시간출력 -->
-                        <div class="row mt-4 justify-content-around">
-                           <div class="card card-dark-blue">
-			                  <div class="card-body">
-			                      <p class="card-title text-white">출근</p>
-                               	  <p class="fs-30 ml-1 px-2 py-4">08:45:00</p>
-		                      </div>
-		                   </div>
-                           <div class="card card-light-danger">
-			                  <div class="card-body">
-			                      <p class="card-title text-white">퇴근</p>
-                               	  <p class="fs-30 ml-1 px-2 py-4">18:15:00</p>
-		                      </div>
-		                   </div>
-                      </div>
-                  </div>
-               </div>
-            </div>
-            <!-- 달력  -->
-            <div class="col-md-5 grid-margin">
-            <%@ include file="/WEB-INF/views/fullcalendar/home_calendar.jsp" %>
-              </div>
+		              </div>
+		            </div>
+            	</div>
+            	<!-- 게시판:end-->
+	         </div>
           </div>
           <div class="row">
            <!-- 최근메일 -->
@@ -185,7 +332,7 @@
                            <thead>
                              <tr>
                                <th>문서번호</th>
-                               <th>발신인</th>
+                               <th>발신자</th>
                                <th>제목</th>
                                <th>날짜</th>
                              </tr>
@@ -236,9 +383,9 @@
                            <thead>
                              <tr>
                                <th>문서번호</th>
-                               <th>발신인</th>
-                               <th>제목</th>
-                               <th>날짜</th>
+                               <th>결재자</th>
+                               <th>결재날짜</th>
+                               <th>결재상태</th>
                              </tr>
                            </thead>
                            <tbody>
@@ -266,119 +413,6 @@
                 </div>
               </div>
              </div>
-          </div>
-          <!-- 사내공지 / 인사발령 -->
-          <div class="row">
-            <div class="col-md-12 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <div id="detailedReports" class="carousel slide detailed-report-carousel position-static pt-2" data-ride="carousel">
-                    <div class="carousel-inner">
-                      <div class="carousel-item active">
-                        <div class="row">
-                          <div class="col-md-12 col-xl-3 d-flex justify-content-start">
-                            <div class="ml-xl-4 mt-3">
-                              <h1 class="text-primary font-weight-bold">사내공지</h1>
-                              <div class="d-flex justify-content-center text-primary mt-2"><h1 class="mdi mdi-comment-alert" style="font-size: 90px;"></h1></div>
-                            </div>  
-                          </div>
-                          <div class="col-md-12 col-xl-9">
-                            <div class="row">
-                                <div>
-                               <table class="table table-hover" style="width: 250%">
-                                    <thead>
-                                      <tr>
-                                        <th>문서번호</th>
-                                        <th>제목</th>
-                                        <th>작성인</th>
-                                        <th>날짜</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                       <tr>
-                                          <td>gdgd</td>
-                                          <td>gdgd</td>
-                                          <td>gdgd</td>
-                                          <td>gdgd</td>
-                                       </tr>
-                                       <tr>
-                                          <td>gdgd</td>
-                                          <td>gdgd</td>
-                                          <td>gdgd</td>
-                                          <td>gdgd</td>
-                                       </tr>
-                                       <tr>
-                                          <td>gdgd</td>
-                                          <td>gdgd</td>
-                                          <td>gdgd</td>
-                                          <td>gdgd</td>
-                                       </tr>
-                                    </tbody>
-                                </table>
-                             </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="carousel-item">
-                        <div class="row">
-                          <div class="col-md-12 col-xl-3 d-flex justify-content-start">
-                            <div class="ml-xl-4 mt-3">
-                              <h1 class="text-primary font-weight-bold">인사발령</h1>
-                              <div class="d-flex justify-content-center text-primary mt-2"><h1 class="mdi mdi-human-greeting" style="font-size: 90px;"></h1></div>
-                            </div>  
-                          </div>
-                          <div class="col-md-12 col-xl-9">
-                            <div class="row">
-                                <div>
-                               <table class="table table-hover" style="width: 250%">
-                                    <thead>
-                                      <tr>
-                                        <th>문서번호</th>
-                                        <th>제목</th>
-                                        <th>작성인</th>
-                                        <th>날짜</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                       <tr>
-                                          <td>gdgd</td>
-                                          <td>gdgd</td>
-                                          <td>gdgd</td>
-                                          <td>gdgd</td>
-                                       </tr>
-                                       <tr>
-                                          <td>gdgd</td>
-                                          <td>gdgd</td>
-                                          <td>gdgd</td>
-                                          <td>gdgd</td>
-                                       </tr>
-                                       <tr>
-                                          <td>gdgd</td>
-                                          <td>gdgd</td>
-                                          <td>gdgd</td>
-                                          <td>gdgd</td>
-                                       </tr>
-                                    </tbody>
-                                </table>
-                             </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <a class="carousel-control-prev" href="#detailedReports" role="button" data-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#detailedReports" role="button" data-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
         <!-- content-wrapper ends -->
