@@ -10524,7 +10524,7 @@ pre code {
 .tt-hint:focus {
   color: #495057;
   background-color: #fff;
-  border-color: #80bdff;
+  border-color: #4B49AC;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
@@ -22675,13 +22675,15 @@ select.tt-hint {
   border: 0;
   outline: 1px solid #CED4DA;
   color: #c9c8c8;
+  transition: 0.2s;
 }
 
 select.form-control:focus, select.asColorPicker-input:focus, .dataTables_wrapper select:focus,
 .jsgrid .jsgrid-table .jsgrid-filter-row select:focus, .select2-container--default select.select2-selection--single:focus, .select2-container--default .select2-selection--single select.select2-search__field:focus, select.typeahead:focus,
 select.tt-query:focus,
 select.tt-hint:focus {
-  outline: 1px solid #CED4DA;
+  outline: 1px solid #4B49AC;
+  transition: 0.2s;
 }
 
 select.form-control.border-primary, select.border-primary.asColorPicker-input, .dataTables_wrapper select.border-primary,

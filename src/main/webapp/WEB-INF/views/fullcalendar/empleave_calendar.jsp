@@ -8,6 +8,7 @@
 		var calendarEl = document.getElementById('calendar');
 
 		var calendar = new FullCalendar.Calendar(calendarEl, {
+			height : 750,
 			editable : true,
 			selectable : true,
 			businessHours : true,
@@ -54,68 +55,16 @@
 				title : 'Click for Google',
 				url : 'http://google.com/',
 				start : '2023-01-28'
-			}, {
-				title : '출근',
-				start : '2023-02-20T08:45:02'
-			}, {
-				title : '퇴근',
-				start : '2023-02-20T18:15:04'
 			} ]
 		});
 
 		calendar.render();
 	});
-	
-	/* 달력에서 일자를 누르면 상세보기 가능 */
-	$(document).ready(function(){
-		$('.fc-daygrid-day-frame').click(function(){
-			  let atdArr = $(this).find(".fc-daygrid-day-events .fc-event-title").get();
-			  let timeArr = $(this).find(".fc-daygrid-day-events .fc-event-time").get();
-			  
-			  if(timeArr.length != 0) { //시간이 찍혀있을 경우
-				  for(var i=0; i<timeArr.length; i++){
-					 let atdStr = atdArr[i].innerHTML; 
-					 let timeStr = timeArr[i].innerHTML; 
-					 
-					 console.log(timeStr.substr(4));
-					 
-					 if(timeStr.substr(4)=="a"){
-						 timeStr = "AM " + timeStr.substr(0,4);
-					 } else {
-						 timeStr = "PM " + timeStr.substr(0,4);
-					 }
-					 if(atdStr === "출근") {
-						 $("#today-in-time").html(timeStr);
-					 } else if (atdStr === "퇴근") {
-						 $("#today-out-time").html(timeStr);
-					 }
-				  }
-			  } else { //시간이 찍혀있지 않을 경우
-				  $("#today-in-time").html(" ");
-				  $("#today-out-time").html(" ");
-			  }
-		});
-	});
-	
-	/* 근무시간수정 팝업창 */
-     function upateTimePopup(){
-         var url = "popup/updatetime";
-         var name = "";
-         var option = "width = 800, height = 730, top = 100, left = 400, location = no, resizable=no, scrollbars=no  "
-         window.open(url, name, option);
-     }
-	
-	/* 추가근무신청 팝업창 */
-     function overTimePopup(){
-         var url = "popup/overtime";
-         var name = "";
-         var option = "width = 800, height = 690, top = 100, left = 400, location = no, resizable=no, scrollbars=no  "
-         window.open(url, name, option);
-     }
 </script>
 
 <style>
 	#calendar {
+		width: 100%;
 		min-width: 100%;
 	}
 	
@@ -178,31 +127,12 @@
 		color: white;
 		border-radius: 10px;
 	}
-	
-	/* 팝업 버튼 */
-	#popup-btn {
-		font-family: LeferiBaseType-RegularA;
-		font-weight: 700;
-	}
 </style>
 <!-- End plugin css,js for this page -->
 
-
 <div class="card">
 	<div class="card-body">
-		<p class="card-title d-flex justify-content-between align-items-start">
-			<span>나의 출퇴근</span>
-			<span>
-				<button onclick="upateTimePopup()" id="popup-btn" class="btn btn-md btn-primary mx-2">
-               		<span class="mdi mdi-calendar-clock align-middle"></span>
-               		<span>근무시간수정</span>
-          	   </button>
-               <button onclick="overTimePopup()" id="popup-btn" class="btn btn-md btn-warning mx-2">
-               		<span class="mdi mdi-calendar-plus align-middle"></span>
-               		<span>추가근무신청</span>
-           	   </button>
-			</span>
-		</p>
+		<p class="card-title mb-0">부서 휴가현황</p>
 		<!-- 달력 -->
 		<div id="calendar"></div>
 	</div>
