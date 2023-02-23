@@ -11,8 +11,8 @@
 	
 	<!-- Plugin css,js for this page -->
 	<script>
-        function retry(){
-        	window.opener.top.location.href="<c:url value='/trashmail'/>";
+        function close(){
+        	window.opener.top.location.href="<c:url value='/tempmail'/>";
             window.close();
         }
 	</script>
@@ -43,11 +43,12 @@
 						<div class="card">
 							<div class="card-body row m-0">
 								<div class="container-fluid">
-									<div class="card-title mt-1 row d-flex justify-content-center">중요메일입니다.</div>
-									 <div class="card-title mt-1 row d-flex justify-content-center">휴지통 보내기 하시겠습니까?</div>
+									<div class="card-title mt-1 row d-flex justify-content-center">임시보관함의 메일은 바로 삭제되어</div>
+									 <div class="card-title mt-1 row d-flex justify-content-center">복구할 수 없습니다.</div>
+									<div class="card-title mt-1 row d-flex justify-content-center">메일을 삭제하시겠습니까?</div>
 									<div class="row mb-1" >
 										<div class="col"></div>
-										<button class="col-3 btn btn-primary btn-md mt-1 mx-3" onclick="retry()">확인</button>
+										<button class="col-3 btn btn-primary btn-md mt-1 mx-3" onclick="close()">확인</button>
 										<button class="col-3 btn btn-outline-primary btn-md mt-1 mx-3" onclick="window.close()">취소</button>
 										<div class="col"></div>
 									</div>

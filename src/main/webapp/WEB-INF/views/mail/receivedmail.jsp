@@ -90,7 +90,7 @@
 															</label>
 														</div>
 														<button>
-															<i class="h3 mdi mdi-star text-primary"></i>
+															<i class="h3 mdi mdi-star-outline text-primary"></i>
 														</button>
 													</td>
 													<td>장영은</td>
@@ -122,7 +122,7 @@
 															</label>
 														</div>
 														<button>
-															<i class="h3 mdi mdi-star text-primary"></i>
+															<i class="h3 mdi mdi-star-outline text-primary"></i>
 														</button>
 													</td>
 													<td>장영은</td>
@@ -154,7 +154,7 @@
 															</label>
 														</div>
 														<button>
-															<i class="h3 mdi mdi-star text-primary"></i>
+															<i class="h3 mdi mdi-star-outline text-primary"></i>
 														</button>
 													</td>
 													<td>장영은</td>

@@ -34,7 +34,7 @@ public class MailController {
 
 	// 중요메일 팝업창
 	@RequestMapping(value = "/importpopup", method = RequestMethod.GET)
-	public String importpopup() {
+	public String importPopup() {
 		return "mail/importpopup";
 	}
 	
@@ -42,6 +42,12 @@ public class MailController {
 	@RequestMapping(value = "/tempmail", method = RequestMethod.GET)
 	public String tempMail() {
 		return "mail/tempmail";
+	}
+	
+	// 임시 보관함 팝업
+	@RequestMapping(value = "/temppopup", method = RequestMethod.GET)
+	public String tempPopup() {
+		return "mail/temppopup";
 	}
 	
 	//휴지통
@@ -64,7 +70,7 @@ public class MailController {
 	
 	//주소록 팝업창
 	@RequestMapping(value = "/addresspopup", method = RequestMethod.GET)
-	public String addresspopup() {
+	public String addressPopup() {
 		return "mail/addresspopup";
 	}
 	
