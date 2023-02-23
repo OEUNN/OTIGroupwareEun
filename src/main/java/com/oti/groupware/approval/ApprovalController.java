@@ -18,38 +18,38 @@ public class ApprovalController {
 	}
 
 	//전체문서함
-	@RequestMapping(value = "/totaldocumentbox", method=RequestMethod.GET)
+	@RequestMapping(value = "/totaldocument", method=RequestMethod.GET)
 	public String totalDocumentBox() {
 		log.info("정보 로그");
-		return "approval/totaldocumentbox";
+		return "approval/totaldocument";
 	}
 	
 	//기안함
-	@RequestMapping(value = "/draftdocumentbox", method=RequestMethod.GET)
+	@RequestMapping(value = "/draftdocument", method=RequestMethod.GET)
 	public String draftDocumentBox() {
 		log.info("정보 로그");
-		return "approval/draftdocumentbox";
+		return "approval/draftdocument";
 	}
 	
 	//임시저장함
-	@RequestMapping(value = "/tempdocumentbox", method=RequestMethod.GET)
+	@RequestMapping(value = "/tempdocument", method=RequestMethod.GET)
 	public String tempDocumentBox() {
 		log.info("정보 로그");
-		return "approval/tempdocumentbox";
+		return "approval/tempdocument";
 	}
 	
 	//반려/회수함
-	@RequestMapping(value = "/returneddocumentbox", method=RequestMethod.GET)
+	@RequestMapping(value = "/returneddocument", method=RequestMethod.GET)
 	public String returnedDocumentBox() {
 		log.info("정보 로그");
-		return "approval/returneddocumentbox";
+		return "approval/returneddocument";
 	}
 	
 	//결재대기함
-	@RequestMapping(value = "/pendeddocumentbox", method=RequestMethod.GET)
+	@RequestMapping(value = "/pendeddocument", method=RequestMethod.GET)
 	public String pendedDocumentBox() {
 		log.info("정보 로그");
-		return "approval/pendeddocumentbox";
+		return "approval/pendeddocument";
 	}
 	
 	//결재 문서 작성 화면
