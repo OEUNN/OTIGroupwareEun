@@ -47,7 +47,7 @@
 									<p class="card-title d-flex justify-content-between align-items-start">
 										<span>메일 쓰기</span> 
 										<span>
-											<button class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
+											<button class="btn btn-md btn-warning mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
 												<span class="mdi mdi-calendar-clock align-middle"></span> 
 												<span>임시저장</span>
 											</button>

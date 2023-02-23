@@ -33,7 +33,6 @@
 	<div class="container-fluid page-body-wrapper">
 	
 	  	<!-- partial:../../partials/_settings-panel.jsp -->
-		<%@ include file="/WEB-INF/views/common/_settings-panel.jsp" %>
 		<!-- partial -->
 		
 		<!-- partial:../../partials/_sidebar.jsp -->
@@ -52,7 +51,7 @@
 									<table class="table">
 										<thead>
 											<tr>
-												<th class="pl-0  pb-2 border-bottom">문서 번호</th>
+												<th class="pl-0 border-bottom pb-2">문서 번호</th>
 												<th class="border-bottom pb-2">결재상태</th>
 												<th class="border-bottom pb-2">제목</th>
 												<th class="border-bottom pb-2">기안자</th>

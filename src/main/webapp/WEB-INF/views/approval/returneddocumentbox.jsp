@@ -33,7 +33,6 @@
 	<div class="container-fluid page-body-wrapper">
 	
 	  	<!-- partial:../../partials/_settings-panel.jsp -->
-		<%@ include file="/WEB-INF/views/common/_settings-panel.jsp" %>
 		<!-- partial -->
 		
 		<!-- partial:../../partials/_sidebar.jsp -->
@@ -52,6 +51,13 @@
 									<table class="table">
 										<thead>
 											<tr>
+												<th class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</th>
 												<th class="pl-0  pb-2 border-bottom">문서 번호</th>
 												<th class="border-bottom pb-2">결재상태</th>
 												<th class="border-bottom pb-2">제목</th>
@@ -61,6 +67,13 @@
 										</thead>
 										<tbody>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">02-222</td>
 												<td><div class="badge badge-danger font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-block-helper d-flex align-self-center mr-1"></i><span>반려</span></div></td>
 												<td>
@@ -79,6 +92,13 @@
 												<td>2023/02/20</td>
 											</tr>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">03-333</td>
 												<td><div class="badge badge-secondary font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-replay d-flex align-self-center mr-1"></i><span>회수</span></div></td>
 												<td>
@@ -97,6 +117,13 @@
 												<td>2023/02/19</td>
 											</tr>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">02-222</td>
 												<td><div class="badge badge-danger font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-block-helper d-flex align-self-center mr-1"></i><span>반려</span></div></td>
 												<td>
@@ -115,6 +142,13 @@
 												<td>2023/02/20</td>
 											</tr>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">03-333</td>
 												<td><div class="badge badge-secondary font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-replay d-flex align-self-center mr-1"></i><span>회수</span></div></td>
 												<td>
@@ -133,6 +167,13 @@
 												<td>2023/02/21</td>
 											</tr>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">02-222</td>
 												<td><div class="badge badge-danger font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-block-helper d-flex align-self-center mr-1"></i><span>반려</span></div></td>
 												<td>
@@ -151,6 +192,13 @@
 												<td>2023/02/20</td>
 											</tr>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">03-333</td>
 												<td><div class="badge badge-secondary font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-replay d-flex align-self-center mr-1"></i><span>회수</span></div></td>
 												<td>
@@ -169,6 +217,13 @@
 												<td>2023/02/19</td>
 											</tr>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">02-222</td>
 												<td><div class="badge badge-danger font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-block-helper d-flex align-self-center mr-1"></i><span>반려</span></div></td>
 												<td>
@@ -187,6 +242,13 @@
 												<td>2023/02/20</td>
 											</tr>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">03-333</td>
 												<td><div class="badge badge-secondary font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-replay d-flex align-self-center mr-1"></i><span>회수</span></div></td>
 												<td>
@@ -205,6 +267,13 @@
 												<td>2023/02/21</td>
 											</tr>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">02-222</td>
 												<td><div class="badge badge-danger font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-block-helper d-flex align-self-center mr-1"></i><span>반려</span></div></td>
 												<td>
@@ -223,6 +292,13 @@
 												<td>2023/02/20</td>
 											</tr>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">03-333</td>
 												<td><div class="badge badge-secondary font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-replay d-flex align-self-center mr-1"></i><span>회수</span></div></td>
 												<td>
@@ -247,6 +323,7 @@
 						</div>
 						<div class="card grid-margin">
 							<div class="card-body" >
+								<span class="btn btn-outline-danger btn-sm">선택 삭제</span>
 								<ul class="pagination justify-content-center pb-0 mb-0">
 									<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 									<li class="page-item active" ><a class="page-link" href="#">1</a></li>
