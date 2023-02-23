@@ -86,10 +86,10 @@
 				<ul class="nav flex-column sub-menu">
 					<!-- 공통 -->
 					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/attendance">나의 근무</a></li>
-					<li class="nav-item"><a class="nav-link" href="pages/tables/basic-table.html">나의 휴가</a></li>
-					<li class="nav-item"><a class="nav-link" href="pages/tables/basic-table.html">부서휴가현황</a></li>
+					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/leave">나의 휴가</a></li>
+					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/empleave">부서휴가현황</a></li>
 					<!-- 부서장 -->
-					<li class="nav-item"><a class="nav-link" href="pages/tables/basic-table.html">HR결재내역</a></li>
+					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/hrapproval"">HR 결재내역</a></li>
 				</ul>
 			</div></li>
 		<li class="nav-item">
