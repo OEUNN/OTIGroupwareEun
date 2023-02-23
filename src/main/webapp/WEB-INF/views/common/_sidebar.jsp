@@ -18,7 +18,7 @@
 			<div class="collapse" id="ui-basic">
 				<ul class="nav flex-column sub-menu">
 					<li class="nav-item">
-					<a class="nav-link" href="<c:url value='/writemail'/>">메일쓰기</a>
+					<a class="nav-link" href="<c:url value='/mailwrite'/>">메일쓰기</a>
 						</li>
 					<li class="nav-item">
 					<a class="nav-link" href="<c:url value='/receivedmail'/>">받은 메일</a>
@@ -67,7 +67,7 @@
 			<div class="collapse" id="charts">
 				<ul class="nav flex-column sub-menu">
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/totaldocument'/>">전체문서함</a></li>
-					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/write'/>">기안작성</a></li>
+					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/aprvwrite'/>">기안작성</a></li>
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/draftdocument'/>">기안함</a></li>
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/tempdocument'/>">임시저장함</a></li>
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/returneddocument'/>">반려/회수함</a></li>

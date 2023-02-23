@@ -194,13 +194,13 @@
 		<p class="card-title d-flex justify-content-between align-items-start">
 			<span>나의 출퇴근</span>
 			<span>
-				<button onclick="upateTimePopup()" id="popup-btn" class="btn btn-md btn-primary mx-2">
+				<button onclick="upateTimePopup()" id="popup-btn" class="btn btn-md btn-warning mx-2">
                		<span class="mdi mdi-calendar-clock align-middle"></span>
                		<span>근무시간수정</span>
           	   </button>
-               <button onclick="overTimePopup()" id="popup-btn" class="btn btn-md btn-warning mx-2">
+               <button onclick="overTimePopup()" id="popup-btn" class="btn btn-md btn-primary mx-2">
                		<span class="mdi mdi-calendar-plus align-middle"></span>
-               		<span>추가근무신청</span>
+               		<span>추가근무보고</span>
            	   </button>
 			</span>
 		</p>
