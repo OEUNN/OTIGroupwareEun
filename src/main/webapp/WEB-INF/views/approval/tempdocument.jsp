@@ -33,7 +33,6 @@
 	<div class="container-fluid page-body-wrapper">
 	
 	  	<!-- partial:../../partials/_settings-panel.jsp -->
-		<%@ include file="/WEB-INF/views/common/_settings-panel.jsp" %>
 		<!-- partial -->
 		
 		<!-- partial:../../partials/_sidebar.jsp -->
@@ -52,6 +51,13 @@
 									<table class="table">
 										<thead>
 											<tr>
+												<th class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</th>
 												<th class="pl-0 pb-2 border-bottom">순번</th>
 												<th class="border-bottom pb-2">제목</th>
 												<th class="border-bottom pb-2">작성날짜</th>
@@ -59,6 +65,13 @@
 										</thead>
 										<tbody>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">10</td>
 												<td>
 													<div>
@@ -75,6 +88,13 @@
 												<td>2023/02/19</td>
 											</tr>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">9</td>
 												<td>
 													<div>
@@ -87,6 +107,13 @@
 												<td>2023/02/18</td>
 											</tr>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">8</td>
 												<td>
 													<div>
@@ -99,6 +126,13 @@
 												<td>2023/02/17</td>
 											</tr>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">7</td>
 												<td>
 													<div>
@@ -111,6 +145,13 @@
 												<td>2023/02/16</td>
 											</tr>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">6</td>
 												<td>
 													<div>
@@ -125,6 +166,13 @@
 												<td>2023/02/15</td>
 											</tr>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">5</td>
 												<td>
 													<div>
@@ -137,6 +185,13 @@
 												<td>2023/02/14</td>
 											</tr>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">4</td>
 												<td>
 													<div>
@@ -149,6 +204,13 @@
 												<td>2023/02/13</td>
 											</tr>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">3</td>
 												<td>
 													<div>
@@ -161,6 +223,13 @@
 												<td>2023/02/12</td>
 											</tr>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">2</td>
 												<td>
 													<div>
@@ -175,6 +244,13 @@
 												<td>2023/02/11</td>
 											</tr>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">1</td>
 												<td>
 													<div>
@@ -192,7 +268,8 @@
 							</div>
 						</div>
 						<div class="card grid-margin">
-							<div class="card-body" >
+							<div class="card-body">
+								<span class="btn btn-outline-danger btn-sm">선택 삭제</span>
 								<ul class="pagination justify-content-center pb-0 mb-0">
 									<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 									<li class="page-item active" ><a class="page-link" href="#">1</a></li>
