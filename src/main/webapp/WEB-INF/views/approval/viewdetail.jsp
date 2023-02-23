@@ -75,7 +75,7 @@
 		      						</div>
 								</div>
 								<div class="row m-1">
-		       						<div class="card card-tale grid-margin shadow-2 mb-0 w-100" style="background-color: #939495;">
+		       						<div class="card card-tale grid-margin shadow-2 mb-0 w-100 bg-warning" style="background-color: #939495;">
 					                    <div class="card-body">
 						                    <div class="row mb-3">
 							                    <div class="col-10">
@@ -88,7 +88,7 @@
 						                    </div>
 						                   	<div class="row">
 						                    	<div class="col-12">
-						                    		<h3 style="text-align: center; font-weight:bold; margin-bottom: -3px;">대기</h3>
+						                    		<h3 style="text-align: center; font-weight:bold; margin-bottom: -3px;">열람 중</h3>
 						                    	</div>
 						                    </div>
 					                    </div>
