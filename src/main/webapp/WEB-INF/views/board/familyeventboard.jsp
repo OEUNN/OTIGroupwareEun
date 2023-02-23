@@ -24,8 +24,6 @@
 		<!-- Navbar -->
 		<%@ include file="/WEB-INF/views/common/_navbar.jsp"%>
 		<div class="container-fluid page-body-wrapper">
-			<!-- To_do_List/Chat -->
-			<%@ include file="/WEB-INF/views/common/_settings-panel.jsp"%>
 			<!-- Sidebar -->
 			<%@ include file="/WEB-INF/views/common/_sidebar.jsp"%>
 
