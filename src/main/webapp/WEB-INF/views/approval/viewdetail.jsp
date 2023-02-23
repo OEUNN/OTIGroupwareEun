@@ -22,7 +22,6 @@
 	<div class="container-fluid page-body-wrapper">
 	
 	  	<!-- partial:../../partials/_settings-panel.jsp -->
-		<%@ include file="/WEB-INF/views/common/_settings-panel.jsp" %>
 		<!-- partial -->
 		
 		<!-- partial:../../partials/_sidebar.jsp -->

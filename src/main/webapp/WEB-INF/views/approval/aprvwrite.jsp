@@ -36,7 +36,6 @@
 	<div class="container-fluid page-body-wrapper">
 	
 	  	<!-- partial:../../partials/_settings-panel.jsp -->
-		<%@ include file="/WEB-INF/views/common/_settings-panel.jsp" %>
 		<!-- partial -->
 		
 		<!-- partial:../../partials/_sidebar.jsp -->
@@ -168,8 +167,8 @@
 		        								<div class="row">
 		        									<div class="col-6"><span style="vertical-align: text-top;">내용</span></div> 
 		        									<div class="col-6 d-flex justify-content-end">
-		        										<div class="btn btn-primary">상신하기</div>
-		        										<div class="ml-1 btn btn-warning">임시저장</div>
+		        										<div class="btn btn-warning font-weight-bold"><span class="mdi mdi-calendar-clock align-middle pr-1"></span>임시저장</div>
+		        										<div class="ml-1 btn btn-primary font-weight-bold"><span class="mdi mdi mdi-apple-keyboard-caps align-middle pr-1"></span>상신하기</div>
 		        									</div>
 		        								</div>
 		        							</div>
