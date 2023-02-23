@@ -28,39 +28,42 @@
 			<div class="main-panel">
 				<div class="content-wrapper">
 					<div class="row">
-						<div class="col-lg-12 grid-margin stretch-card">
+						<!-- 받은 메일 col -->
+						<div class="col-lg-6 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
 									<h4 class="card-title">보낸 메일</h4>
+									<div class="row form-inline mx-3">
+										<div>
+											<button class="btn btn-outline-danger btn-sm">선택삭제</button>
+										</div>
+										<div>
+											<button class="btn btn-outline-danger btn-sm">읽은메일</button>
+										</div>
+										<div>
+											<button class="btn btn-outline-danger btn-sm">읽지않은메일</button>
+										</div>
+										<div>
+											<button class="btn btn-outline-danger btn-sm">중요메일</button>
+										</div>
+										<div>
+											<button class="btn btn-outline-danger btn-sm">중요표시안한메일</button>
+										</div>
+									</div>
 									<!-- 테이블 -->
 									<div class="table-responsive">
 										<table class="table table-hover">
 											<thead>
 												<tr>
-													<th class=" form-inline " style="border:none;">
-														<div class="form-check font-weight-bold text-info ">
+													<th class=" form-inline col-2" style="border:none;">
+														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<div class="dropdown">
-															<button class="dropdown-toggle" 
-																 id="dropdownMenuIconButton2"
-																data-toggle="dropdown" aria-haspopup="true"
-																aria-expanded="false">
-															</button>
-															<div class="dropdown-menu"
-																aria-labelledby="dropdownMenuIconButton2">
-																<a class="dropdown-item" href="#">전체선택</a> <a
-																	class="dropdown-item" href="#">읽은메일</a> <a
-																	class="dropdown-item" href="#">읽지않은메일</a>
-																<a class="dropdown-item" href="#">중요메일</a>
-																<a class="dropdown-item" href="#">중요표시안한메일</a>
-															</div>
-														</div>
 													</th>
-													<th class="col-2">발신인</th>
-													<th class="col-6">제목</th>
+													<th class="col-2">ID</th>
+													<th class="col-4">제목</th>
 													<th class="col-2">날짜</th>
 													<th class="col-1">읽음</th>
 												</tr>
@@ -75,98 +78,9 @@
 														</div>
 														<button>
 															<i class="h3 mdi mdi-star text-primary"></i>
-														</button></td>
-													<td>장영은</td>
-													<td>28.76%</td>
-													<td>2023/02/21</td>
-													<td>읽음</td>
-												</tr>
-												<tr>
-													<td class="form-inline">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
-															<i class="h3 mdi mdi-star text-primary"></i>
-														</button></td>
-													<td>장영은</td>
-													<td>28.76%</td>
-													<td>2023/02/21</td>
-													<td>읽음</td>
-												</tr>
-												<tr>
-													<td class="form-inline">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
-															<i class="h3 mdi mdi-star text-primary"></i>
-														</button></td>
-													<td>장영은</td>
-													<td>28.76%</td>
-													<td>2023/02/21</td>
-													<td>읽음</td>
-												</tr>
-												<tr>
-													<td class="form-inline">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
-															<i class="h3 mdi mdi-star text-primary"></i>
-														</button></td>
-													<td>장영은</td>
-													<td>28.76%</td>
-													<td>2023/02/21</td>
-													<td>읽음</td>
-												</tr>
-												<tr>
-													<td class="form-inline">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
-															<i class="h3 mdi mdi-star text-primary"></i>
-														</button></td>
-													<td>장영은</td>
-													<td>28.76%</td>
-													<td>2023/02/21</td>
-													<td>읽음</td>
-												</tr>
-												<tr>
-													<td class="form-inline">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
-															<i class="h3 mdi mdi-star text-primary"></i>
-														</button></td>
-													<td>장영은</td>
-													<td>28.76%</td>
-													<td>2023/02/21</td>
-													<td>읽음</td>
-												</tr>
-												<tr>
-													<td class="form-inline">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
-															<i class="h3 mdi mdi-star text-primary"></i>
-														</button></td>
-													<td>수신인</td>
+														</button>
+													</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
 													<td>28.76%</td>
 													<td>2023/02/21</td>
 													<td>읽음</td>
@@ -180,8 +94,9 @@
 														</div>
 														<button>
 															<i class="h3 mdi mdi-star-outline text-primary"></i>
-														</button></td>
-													<td>장영은</td>
+														</button>
+													</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
 													<td>28.76%</td>
 													<td>2023/02/21</td>
 													<td>읽음</td>
@@ -195,8 +110,25 @@
 														</div>
 														<button>
 															<i class="h3 mdi mdi-star text-primary"></i>
-														</button></td>
-													<td>장영은</td>
+														</button>
+													</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
+												<tr>
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+														<button>
+															<i class="h3 mdi mdi-star-outline text-primary"></i>
+														</button>
+													</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
 													<td>28.76%</td>
 													<td>2023/02/21</td>
 													<td>읽음</td>
@@ -210,8 +142,89 @@
 														</div>
 														<button>
 															<i class="h3 mdi mdi-star text-primary"></i>
-														</button></td>
-													<td>장영은</td>
+														</button>
+													</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
+												<tr>
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+														<button>
+															<i class="h3 mdi mdi-star-outline text-primary"></i>
+														</button>
+													</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
+												<tr>
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+														<button>
+															<i class="h3 mdi mdi-star text-primary"></i>
+														</button>
+													</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
+												<tr>
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+														<button>
+															<i class="h3 mdi mdi-star text-primary"></i>
+														</button>
+													</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
+												<tr>
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+														<button>
+															<i class="h3 mdi mdi-star text-primary"></i>
+														</button>
+													</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
+													<td>28.76%</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
+												<tr>
+													<td class="form-inline">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+														<button>
+															<i class="h3 mdi mdi-star text-primary"></i>
+														</button>
+													</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
 													<td>28.76%</td>
 													<td>2023/02/21</td>
 													<td>읽음</td>
@@ -222,26 +235,30 @@
 									<!-- 테이블 끝 -->
 
 									<!-- 페이징 -->
-									<div class="row mt-3">
-										<div class="col-3"></div>
-										<div class="col" style="text-align: center;">처음 이전 1 2 3
-											4 5 다음 끝</div>
-										<div class="col-3"></div>
-									</div>
-									<div class="row">
-										<div class="col-2">
-											<button class="btn btn-outline-danger btn-sm">선택 삭제</button>
-										</div>
+									<div class="row mt-3 d-flex justify-content-center">
+										<ul class="pagination  pb-0 mb-0">
+											<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+											<li class="page-item active" ><a class="page-link" href="#">1</a></li>
+											<li class="page-item"><a class="page-link" href="#">2</a></li>
+											<li class="page-item"><a class="page-link" href="#">3</a></li>
+											<li class="page-item"><a class="page-link" href="#">Next</a></li>
+										</ul>
 									</div>
 								</div>
 							</div>
-						</div>
+						</div><!-- end 받은 메일 -->
+						
+						<!-- 메일 자세히 보기 -->
+						<div class="col-lg-6 grid-margin stretch-card">
+							<div class="card">
+								<%@ include file="/WEB-INF/views/mail/detailmail.jsp"%>
+							</div>
+						</div><!-- end 메일 자세히 보기 -->
+						
 					</div>
 				</div>
 				<!-- content-wrapper ends -->
 				<!-- partial:partials/_footer.jsp -->
-				<%@ include file="/WEB-INF/views/common/_footer.jsp"%>
-				<!-- partial -->
 			</div>
 			<!-- main-panel ends -->
 		</div>

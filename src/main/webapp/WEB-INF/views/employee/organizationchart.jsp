@@ -90,7 +90,7 @@
 								<div class="card-body">
 									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV1">
 										<div class="d-flex align-items-center m-1">
-											<i class="h3 my-auto mdi mdi-account-multiple"></i> 
+											<i class="h3 my-auto mdi mdi-menu-down"></i> 
 											<span class="ml-2 font-weight-bold">공공사업1DIV</span>
 										</div>
 									</div>
@@ -119,7 +119,7 @@
 								<div class="card-body">
 									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV2">
 										<div class="d-flex align-items-center m-1">
-											<i class="h3 my-auto mdi mdi-account-multiple"></i> 
+											<i class="h3 my-auto mdi mdi-menu-down"></i> 
 											<span class="ml-2 font-weight-bold">공공사업2DIV</span>
 										</div>
 									</div>
@@ -148,7 +148,7 @@
 								<div class="card-body">
 									<div class="text-primary m-1 row" data-toggle="collapse"  data-target="#DIV3">
 										<div class="d-flex align-items-center m-1">
-											<i class="h3 my-auto mdi mdi-account-multiple"></i> 
+											<i class="h3 my-auto mdi mdi-menu-down"></i> 
 											<span class="ml-2 font-weight-bold">공공사업3DIV</span>
 										</div>
 									</div>
@@ -177,7 +177,7 @@
 								<div class="card-body">
 									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV4">
 										<div class="d-flex align-items-center m-1">
-											<i class="h3 my-auto mdi mdi-account-multiple"></i> 
+											<i class="h3 my-auto mdi mdi-menu-down"></i> 
 											<span class="ml-2 font-weight-bold">경영지원</span>
 										</div>
 									</div>
