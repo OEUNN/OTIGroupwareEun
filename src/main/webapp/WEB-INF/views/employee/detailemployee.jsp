@@ -6,7 +6,7 @@
 	<div class="col-md-12 grid-margin">
 		<div class="row  d-flex justify-content-between align-items-start">
 			<h3 class="card-title">임직원 조회</h3>
-			<a type="submit" class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;" href="<c:url value='/writeboard'/>">
+			<a type="submit" class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;" href="<c:url value='/updateemployee'/>">
 				<span class="mdi mdi-lead-pencil align-middle"></span> 
 				<span>수정</span>
 			</a>
@@ -21,7 +21,7 @@
 	<!-- start information -->
 	<div class="col-9">
 		<div class="form-sample">
-			<div class="row">
+			<div class="row" style="height:70%;">
 				<div class="col-md-6">
 					<div class="form-group row align-items-center">
 						<div class="col-sm-6 text-primary">
@@ -31,7 +31,7 @@
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div class="h3" style="font-weight:bold;"></div>
+							<div style="font-weight:bold;text-align:left;">장영은</div>
 						</div>
 					</div>
 				</div>
@@ -44,12 +44,12 @@
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div class="h4" style="font-weight:bold;"></div>
+							<div style="font-weight:bold;">20230211</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" style="height:70%;">
 				<div class="col-md-6">
 					<div class="form-group row align-items-center">
 						<div class="col-sm-6 text-primary">
@@ -59,11 +59,11 @@
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div class="h3" style="font-weight:bold;"></div>
+							<div style="font-weight:bold;">1996/11/4</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-5">
+				<div class="col-md-6">
 					<div class="form-group row align-items-center">
 						<div class="col-sm-6 text-primary">
 							<div class="d-flex align-items-center m-1">
@@ -72,12 +72,12 @@
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div class="h3" style="font-weight:bold;"></div>
+							<div style="font-weight:bold;">2023/2/11</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" style="height:70%;">
 				<div class="col-md-6">
 					<div class="form-group row align-items-center">
 						<div class="col-sm-6 text-primary">
@@ -87,7 +87,7 @@
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div class="h3" style="font-weight:bold;"></div>
+							<div style="font-weight:bold;">FEMAILE</div>
 						</div>
 					</div>
 				</div>
@@ -100,12 +100,12 @@
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div class="h3" style="font-weight:bold;"></div>
+							<div style="font-weight:bold;">longzero1</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" style="height:70%;">
 				<div class="col-md-6">
 					<div class="form-group row align-items-center">
 						<div class="col-sm-6 text-primary">
@@ -115,7 +115,7 @@
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div class="h3" style="font-weight:bold;"></div>
+							<div style="font-weight:bold;">미혼</div>
 						</div>
 					</div>
 				</div>
@@ -128,12 +128,12 @@
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div class="h3" style="font-weight:bold;"></div>
+							<div style="font-weight:bold;">재직중</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" style="height:70%;">
 				<div class="col-md-6">
 					<div class="form-group row align-items-center">
 						<div class="col-sm-6 text-primary">
@@ -143,7 +143,7 @@
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div class="h3" style="font-weight:bold;"></div>
+							<div style="font-weight:bold;">N</div>
 						</div>
 					</div>
 				</div>
@@ -156,12 +156,12 @@
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div class="h3" style="font-weight:bold;"></div>
+							<div style="font-weight:bold;">1년 미만</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" style="height:70%;">
 				<div class="col-md-6">
 					<div class="form-group row align-items-center">
 						<div class="col-sm-6 text-primary">
@@ -171,7 +171,7 @@
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div class="h3" style="font-weight:bold;"></div>
+							<div style="font-weight:bold;">정보통신공학과</div>
 						</div>
 					</div>
 				</div>
@@ -184,12 +184,12 @@
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div class="h3" style="font-weight:bold;"></div>
+							<div style="font-weight:bold;">010-0000-0000</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" style="height:70%;">
 				<div class="col-md-6">
 					<div class="form-group row align-items-center">
 						<div class="col-sm-6 text-primary">
@@ -199,11 +199,11 @@
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div class="h3" style="font-weight:bold;"></div>
+							<div style="font-weight:bold;">학사</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-6 m-0">
 					<div class="form-group row align-items-center">
 						<div class="col-sm-6 text-primary">
 							<div class="d-flex align-items-center m-1">
@@ -212,12 +212,12 @@
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div class="h3" style="font-weight:bold;"></div>
+							<div style="font-weight:bold;">02-000-0000</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" style="height:70%;">
 				<div class="col-12">
 					<div class="form-group row align-items-center">
 						<div class="col-sm-3 text-primary">
@@ -252,7 +252,32 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td></td>
+				<td>2002년 2월 22일</td>
+				<td>2005년 3월 1일</td>
+				<td>사원</td>
+				<td>공공사업1DIV</td>
+				<td>분당</td>
+			</tr>
+			<tr>
+				<td>2005년 3월 1일</td>
+				<td>2007년 3월 1일</td>
+				<td>대리</td>
+				<td>공공사업2DIV</td>
+				<td>분당</td>
+			</tr>
+			<tr>
+				<td>2005년 3월 1일</td>
+				<td>2010년 3월 1일</td>
+				<td>과장</td>
+				<td>공공사업2DIV</td>
+				<td>신촌</td>
+			</tr>
+			<tr>
+				<td>2010년 3월 1일</td>
+				<td>2012년 3월 1일</td>
+				<td>과장</td>
+				<td>공공사업1DIV</td>
+				<td>분당</td>
 			</tr>
 		</tbody>
 	</table>

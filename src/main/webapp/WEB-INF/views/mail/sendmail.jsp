@@ -63,169 +63,169 @@
 														</div>
 													</th>
 													<th class="col-2">ID</th>
-													<th class="col-4">제목</th>
+													<th class="col-5">제목</th>
 													<th class="col-2">날짜</th>
 													<th class="col-1">읽음</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
-													<td class="form-inline">
+													<td class="form-inline p-2 pl-3">
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<button>
-															<i class="h3 mdi mdi-star text-primary"></i>
-														</button>
-													</td>
-													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
-													<td>28.76%</td>
-													<td>2023/02/21</td>
-													<td>읽음</td>
-												</tr>
-												<tr>
-													<td class="form-inline">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
+														<button class="p-0">
 															<i class="h3 mdi mdi-star-outline text-primary"></i>
 														</button>
 													</td>
-													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
-													<td>28.76%</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i>신문영</td>
+													<td>요청부탁드립니다.</td>
 													<td>2023/02/21</td>
 													<td>읽음</td>
 												</tr>
 												<tr>
-													<td class="form-inline">
+													<td class="form-inline p-2 pl-3">
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<button>
+														<button class="p-0">
+															<i class="h3 mdi mdi-star-outline  text-primary"></i>
+														</button>
+													</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
+													<td>공공사업 1DIV 장영은 사원입니다.</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
+												<tr>
+													<td class="form-inline p-2 pl-3">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+														<button class="p-0">
+															<i class="h3 mdi mdi-star-outline  text-primary"></i>
+														</button>
+													</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i>한송민</td>
+													<td>화면설계서 입니다.</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
+												<tr>
+													<td class="form-inline p-2 pl-3">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+														<button class="p-0">
 															<i class="h3 mdi mdi-star text-primary"></i>
 														</button>
 													</td>
 													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
-													<td>28.76%</td>
+													<td>화면 설계서입니다. 확인부탁드립니다.</td>
 													<td>2023/02/21</td>
 													<td>읽음</td>
 												</tr>
 												<tr>
-													<td class="form-inline">
+													<td class="form-inline p-2 pl-3">
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<button>
-															<i class="h3 mdi mdi-star-outline text-primary"></i>
-														</button>
-													</td>
-													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
-													<td>28.76%</td>
-													<td>2023/02/21</td>
-													<td>읽음</td>
-												</tr>
-												<tr>
-													<td class="form-inline">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
+														<button class="p-0">
 															<i class="h3 mdi mdi-star text-primary"></i>
 														</button>
 													</td>
-													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
-													<td>28.76%</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i>한송민</td>
+													<td>자료요쳥서입니다.</td>
 													<td>2023/02/21</td>
 													<td>읽음</td>
 												</tr>
 												<tr>
-													<td class="form-inline">
+													<td class="form-inline p-2 pl-3">
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<button>
-															<i class="h3 mdi mdi-star-outline text-primary"></i>
+														<button class="p-0">
+															<i class="h3 mdi mdi-star-outline  text-primary"></i>
 														</button>
 													</td>
-													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
-													<td>28.76%</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i>이유진</td>
+													<td>결제 요청서입니다.</td>
 													<td>2023/02/21</td>
 													<td>읽음</td>
 												</tr>
 												<tr>
-													<td class="form-inline">
+													<td class="form-inline p-2 pl-3">
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<button>
+														<button class="p-0">
+															<i class="h3 mdi mdi-star-outline  text-primary"></i>
+														</button>
+													</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i>안태환</td>
+													<td>이번주 들어온 문의내용 정리입니다.</td>
+													<td>2023/02/21</td>
+													<td>읽음</td>
+												</tr>
+												<tr>
+													<td class="form-inline p-2 pl-3">
+														<div class="form-check font-weight-bold text-info">
+															<label class="form-check-label">
+																<input type="checkbox" class="form-check-input" name="optradio">
+															</label>
+														</div>
+														<button class="p-0">
 															<i class="h3 mdi mdi-star text-primary"></i>
 														</button>
 													</td>
-													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
-													<td>28.76%</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i>이지호</td>
+													<td>SRM 화면 설계서입니다.</td>
 													<td>2023/02/21</td>
 													<td>읽음</td>
 												</tr>
 												<tr>
-													<td class="form-inline">
+													<td class="form-inline p-2 pl-3">
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<button>
-															<i class="h3 mdi mdi-star text-primary"></i>
+														<button class="p-0">
+															<i class="h3 mdi mdi-star-outline  text-primary"></i>
 														</button>
 													</td>
 													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
-													<td>28.76%</td>
+													<td>청구결제서 요청합니다.</td>
 													<td>2023/02/21</td>
 													<td>읽음</td>
 												</tr>
 												<tr>
-													<td class="form-inline">
+													<td class="form-inline p-2 pl-3">
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<button>
-															<i class="h3 mdi mdi-star text-primary"></i>
+														<button class="p-0">
+															<i class="h3 mdi mdi-star-outline  text-primary"></i>
 														</button>
 													</td>
-													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
-													<td>28.76%</td>
-													<td>2023/02/21</td>
-													<td>읽음</td>
-												</tr>
-												<tr>
-													<td class="form-inline">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
-															<i class="h3 mdi mdi-star text-primary"></i>
-														</button>
-													</td>
-													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
-													<td>28.76%</td>
+													<td><i class="mdi mdi-arrow-right text-primary"></i>장현</td>
+													<td>front 요청서입니다.</td>
 													<td>2023/02/21</td>
 													<td>읽음</td>
 												</tr>
@@ -237,11 +237,11 @@
 									<!-- 페이징 -->
 									<div class="row mt-3 d-flex justify-content-center">
 										<ul class="pagination  pb-0 mb-0">
-											<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+											<li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
 											<li class="page-item active" ><a class="page-link" href="#">1</a></li>
 											<li class="page-item"><a class="page-link" href="#">2</a></li>
 											<li class="page-item"><a class="page-link" href="#">3</a></li>
-											<li class="page-item"><a class="page-link" href="#">Next</a></li>
+											<li class="page-item"><a class="page-link" href="#">다음</a></li>
 										</ul>
 									</div>
 								</div>

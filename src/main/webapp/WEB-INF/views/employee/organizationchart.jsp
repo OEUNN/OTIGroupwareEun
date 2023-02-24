@@ -14,7 +14,7 @@
         function popup(){
             var url = "detailpopup";
             var name = "detail employee";
-            var option = "width = 500, height = 480, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
+            var option = "width = 700, height = 450, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
             window.open(url, name, option);
         }
 	</script>

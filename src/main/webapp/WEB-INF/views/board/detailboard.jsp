@@ -4,7 +4,7 @@
 <form class="card-body">
 	<!-- main title and submit button -->
 	<p class="card-title d-flex justify-content-between align-items-start">
-		<span>제목</span> 
+		<span>2023년 새해복 많이 받으세요!</span> 
 		<span>
 			<button class="btn btn-md btn-danger mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
 				<span class="mdi mdi mdi-window-close"></span> 
@@ -24,7 +24,7 @@
 						</div>
 					</div>
 					<div class="col-sm-9" style="border-bottom:1px solid #ced4da;">
-						<div class="h3 from-control" style="font-weight:bold; border:none;"></div>
+						<div class="from-control" style="font-weight:bold; border:none;">2023년 2월 24일</div>
 					</div>
 				</div>
 			</div>
@@ -39,7 +39,7 @@
 						</div>
 					</div>
 					<div class="col-sm-3" style="border-bottom:1px solid #ced4da;">
-						<div class="h3 from-control" style="font-weight:bold; border:none;"></div>
+						<div class="from-control" style="font-weight:bold; border:none;">경조사</div>
 					</div>
 				</div>
 			</div>

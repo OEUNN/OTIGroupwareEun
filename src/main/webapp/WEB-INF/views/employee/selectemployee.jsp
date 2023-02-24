@@ -89,29 +89,54 @@
 												</thead>
 												<tbody>
 													<tr>
-														<td >28.76%</td>
-														<td> Pending</td>
-														<td>2022/11/11</td>
+														<td >공유</td>
+														<td>20220904</td>
+														<td>경영지원부</td>
 													</tr>
 													<tr>
-														<td >28.76%</td>
-														<td> Pending</td>
-														<td>2022/11/11</td>
+														<td >장영은</td>
+														<td>20230202</td>
+														<td>공공사업1DIV</td>
 													</tr>
 													<tr>
-														<td >28.76%</td>
-														<td> Pending</td>
-														<td>2022/11/11</td>
+														<td >신문영</td>
+														<td>20230202</td>
+														<td>공공사업1DIV</td>
 													</tr>
 													<tr>
-														<td >28.76%</td>
-														<td> Pending</td>
-														<td>2022/11/11</td>
+														<td>한송민</td>
+														<td>20230202</td>
+														<td>공공사업1DIV</td>
 													</tr>
 													<tr>
-														<td >28.76%</td>
-														<td> Pending</td>
-														<td>2022/11/11</td>
+														<td >한지민</td>
+														<td>20230204</td>
+														<td>경영지원부</td>
+													</tr>
+													<tr>
+														<td >강호동</td>
+														<td>20230204</td>
+														<td>공공사업3DIV</td>
+													</tr>
+													<tr>
+														<td >유재석</td>
+														<td>20230204</td>
+														<td>공공사업2DIV</td>
+													</tr>
+													<tr>
+														<td >정우성</td>
+														<td>20230204</td>
+														<td>공공사업2DIV</td>
+													</tr>
+													<tr>
+														<td >전도연</td>
+														<td>20230204</td>
+														<td>공공사업3DIV</td>
+													</tr>
+													<tr>
+														<td >이재욱</td>
+														<td>20230204</td>
+														<td>경영지원부</td>
 													</tr>
 												</tbody>
 											</table>

@@ -58,25 +58,27 @@
 										</div>
 									</div><!-- 메인 title -->
 									<!-- Start search box -->
-									<form>
-										<div class="row form-inline mb-3">
-											<div class=" form-group ml-3">
-												<div class="card" style="border-radius:18px; border: 1px solid #4747A1;">
-					        						<div class="input-daterange input-group" id="datepicker" style="border:none;">
-														<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
-													    <input type="text" class="input-sm form-control" name="start" style="border:0px; text-align: right;"/>
-													    <span class="input-group-addon text-primary font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
-														<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
-													    <input type="text" class="input-sm form-control" name="end" style="border-radius:18px;border:0px; text-align: right;"/>
+									<form class="card gird-margin shadow-2 p-2" style="background-color: #e7e7ff">
+				        				<div class="card-body" style="box-shadow: 0px 0px 0px white; padding-top: 0;">
+				        					<div class="row form-inline">
+												<div class=" form-group">
+													<div class="card" style="border-radius:18px; border: 1px solid #4747A1;">
+						        						<div class="input-daterange input-group" id="datepicker" style="border:none; background-color:transparent;">
+															<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+														    <input type="text" class="input-sm form-control" name="start" style="border:0px; text-align: right;"/>
+														    <span class="input-group-addon text-primary font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
+															<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+														    <input type="text" class="input-sm form-control" name="end" style="border-radius:18px;border:0px; text-align: right;"/>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-										<div class="row  form-inline">
-											<div class="form-group">
+			        					</div>
+			        					<div class="row form-inline py-0" style="padding: 1.25rem;">
+											<div class="form-group" >
 												<label class="h3 my-auto mr-1">카테고리</label>
 												<div class="btn dropdown-toggle d-flex form-control" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
-													style="font-weight:bold;border-radius: 18px; border: 1px solid #4B49AC;">
+													style="font-weight:bold;border-radius: 18px; border: 1px solid #4B49AC; background-color: white;">
 													<i class="text-primary mdi mdi-menu-down"></i> 
 													<input class="selectmenu my-auto" type="text" value="" style="border:none;width:120px;" readonly>
 												</div>
@@ -93,16 +95,16 @@
 												</script>
 											</div>
 											<div class="form-group">
-												<label class="mr-2 h3 my-auto ml-3">검색어</label>
-												<input class="form-control" type="text" style="border-radius: 18px; border: 1px solid #4B49AC;">
+												<label class="h3 my-auto ml-2 mr-1">검색어</label>
+												<input class="form-control p-0" type="text" style="border-radius: 18px; border: 1px solid #4B49AC;">
 											</div>
-											<div class="ml-5 form-group">
-												<button class="btn btn-md btn-primary" style="font-family: LeferiBaseType-RegularA; font-weight:700;">
+											<div class="form-group">
+												<button class="btn btn-md btn-primary ml-4" style="font-family: LeferiBaseType-RegularA; font-weight:700;">
 													<span>검색</span>
 												</button>
 											</div>
 										</div>
-									</form><!-- End search box -->
+				        			</form><!-- End search box -->
 									
 									<div class="row form-inline mx-3 my-3">
 										<div>
@@ -138,8 +140,8 @@
 														</div>
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td >28.76%</td>
-													<td> Pending</td>
+													<td >2023년 인사발령</td>
+													<td> 한송민</td>
 													<td>2022/11/11</td>
 												</tr>
 												<tr>
@@ -151,8 +153,8 @@
 														</div>
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td >28.76%</td>
-													<td> Pending</td>
+													<td >2023년 임원급  인사 발령</td>
+													<td> 장영은</td>
 													<td>2022/11/11</td>
 												</tr>
 												<tr>
@@ -164,9 +166,9 @@
 														</div>
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td >28.76%</td>
-													<td> Pending</td>
-													<td>2022/11/11</td>
+													<td >2022년 하반기 신입사원</td>
+													<td> 장영은</td>
+													<td>2022/10/11</td>
 												</tr>
 												<tr>
 													<td>
@@ -177,9 +179,9 @@
 														</div>
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td >28.76%</td>
-													<td> Pending</td>
-													<td>2022/11/11</td>
+													<td >2022년 하반기 신입사원 공채</td>
+													<td> 장영은</td>
+													<td>2022/09/11</td>
 												</tr>
 												<tr>
 													<td>
@@ -190,8 +192,8 @@
 														</div>
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td >28.76%</td>
-													<td> Pending</td>
+													<td >2022년 상반기 경력지 채용</td>
+													<td> 장영은</td>
 													<td>2022/11/11</td>
 												</tr>
 											</tbody>
@@ -202,11 +204,11 @@
 									<!-- 페이징 -->
 									<div class="row mt-3 d-flex justify-content-center">
 										<ul class="pagination  pb-0 mb-0">
-											<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+											<li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
 											<li class="page-item active" ><a class="page-link" href="#">1</a></li>
 											<li class="page-item"><a class="page-link" href="#">2</a></li>
 											<li class="page-item"><a class="page-link" href="#">3</a></li>
-											<li class="page-item"><a class="page-link" href="#">Next</a></li>
+											<li class="page-item"><a class="page-link" href="#">다음</a></li>
 										</ul>
 									</div>
 								</div>
