@@ -12,6 +12,7 @@
 			editable : true,
 			selectable : true,
 			businessHours : true,
+			locale: 'ko',
 			dayMaxEvents : true, // allow "more" link when too many events
 			events : [ {
 				title : 'All Day Event',
@@ -63,8 +64,14 @@
 				start : '2023-02-20T18:15:04'
 			} ]
 		});
-
 		calendar.render();
+		
+		/* 한국어로 바꿨을 때 생기는 "일"을 지워줌! */
+		$(".fc-daygrid-day-number").each(function(){
+			var day = $(this).text();
+			day = day.replace("일","");
+			$(this).text(day);
+		});
 	});
 	
 	/* 달력에서 일자를 누르면 상세보기 가능 */

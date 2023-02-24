@@ -128,9 +128,40 @@
 		                        		<td>gdgd</td>
 		                        		<td>gdgd</td>
 		                        	</tr>
+		                        	<tr>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        	</tr>
+		                        	<tr>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        	</tr>
+		                        	<tr>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        	</tr>
 		                        </tbody>
 	                    	</table>
 	                    </div>
+	                    <!-- 페이징 -->
+						<div class="row mt-5 d-flex justify-content-center">
+							<ul class="pagination  pb-0 mb-0">
+								<li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
+								<li class="page-item active" ><a class="page-link" href="#">1</a></li>
+								<li class="page-item"><a class="page-link" href="#">2</a></li>
+								<li class="page-item"><a class="page-link" href="#">3</a></li>
+								<li class="page-item"><a class="page-link" href="#">다음</a></li>
+							</ul>
+						</div>
 	                </div>
                   </div>
                 </div>
