@@ -6,10 +6,11 @@
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		var calendarEl = document.getElementById('calendar');
-
+		
 		var calendar = new FullCalendar.Calendar(calendarEl, {
-			height : 280,
+			height : 300,
 			editable : true,
+			locale : 'ko',
 			selectable : true,
 			businessHours : true,
 			dayMaxEvents : true, // allow "more" link when too many events
@@ -57,9 +58,17 @@
 				start : '2023-01-28'
 			} ]
 		});
-
 		calendar.render();
+
+		/* 한국어로 바꿨을 때 생기는 "일"을 지워줌! */
+// 		$(".fc-daygrid-day-number").each(function(){
+// 			var day = $(this).text();
+// 			day = day.replace("일","");
+// 			$(this).text(day);
+// 		});
 	});
+
+	
 </script>
 
 <style>
@@ -80,6 +89,10 @@
 	
 	.fc .fc-button {
 		font-size: 11px;
+	}
+	
+	.fc-daygrid-day-number {
+		font-size: 12px;
 	}
 	
 	.fc-prev-button, .fc-next-button {

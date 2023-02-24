@@ -46,7 +46,7 @@
 	                      <div class="font-weight-bold text-muted h6 mt-2 text-center">공공사업1DIV</div>
 	                    </div>
 	                 </div>
-	                 <div class="custom-border-bottom mt-3"></div>
+	                 <div class="custom-border-bottom mt-4"></div>
 	               	 <!-- 잔여일수 -->
 	                 <div class="row mt-3 pt-2 px-3">
 	                    <div class="col-md p-0">
@@ -63,9 +63,9 @@
 	                  <div class="custom-border-bottom mt-2 pt-2"></div>
 	                  <!-- 퀵메뉴 -->
 	                  <div class="row mt-4 pt-2">
-	                  	<div class="col-md h3 text-primary font-weight-bold" style="font-family: LeferiPoint-WhiteObliqueA;">Quick menu</div>
+	                  	<div class="col-md h3 text-primary font-weight-bold text-center" style="font-family: LeferiPoint-WhiteObliqueA;">Quick menu</div>
 	                  </div>
-	                  <div class="row px-1">
+	                  <div class="row px-1 pt-3">
 		                  <div class="col-sm px-0">
 		                       <button onclick="location.href='${pageContext.request.contextPath}/mailwrite'" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
 		                          <span class="h3 mdi mdi-lead-pencil m-0"></span>
@@ -79,7 +79,7 @@
 		                       </button>
 		                  </div>
 	                  </div>
-	                  <div class="row mt-2 px-1">
+	                  <div class="row pt-4 px-1">
 		                  <div class="col-sm px-0">
 		                       <button onclick="location.href='${pageContext.request.contextPath}/hr/leave'" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
 		                          <span class="h3 mdi mdi-wallet-travel m-0"></span>
@@ -146,7 +146,7 @@
 				                	</div>
 				                </div>
 		                        <!-- 출퇴근 버튼 -->
-		                        <div class="row mt-4 pt-2">
+		                        <div class="row mt-4 pt-4">
 		                        	<div class="col-md">
 			                           <div class="card card-dark-blue">
 						                  <div class="card-body">
@@ -194,226 +194,226 @@
 		            	<%@ include file="/WEB-INF/views/fullcalendar/home_calendar.jsp" %>
 	              	</div>
             	</div>
-            	<!-- 게시판:start -->
             	<div class="row">
-		            <div class="col-md-12 grid-margin stretch-card">
+            		<!-- 최근메일 -->
+		            <div class="col-md-6 grid-margin stretch-card">
 		              <div class="card">
 		                <div class="card-body">
-		                  <div id="detailedReports" class="carousel slide detailed-report-carousel position-static pt-2" data-ride="carousel">
-		                    <div class="carousel-inner">
-		                      <div class="carousel-item active">
-		                        <div class="row">
-		                          <div class="col-md-12 col-xl-3 d-flex justify-content-start">
-		                            <div class="ml-xl-4 mt-3">
-		                              <h1 class="text-primary font-weight-bold">사내공지</h1>
-		                              <div class="d-flex justify-content-center text-primary mt-2"><h1 class="mdi mdi-comment-alert" style="font-size: 90px;"></h1></div>
-		                            </div>  
-		                          </div>
-		                          <div class="col-md-12 col-xl-9">
-		                            <div class="row">
-		                                <div>
-		                               <table class="table table-hover" style="width: 250%">
-		                                    <thead>
-		                                      <tr>
-		                                        <th>문서번호</th>
-		                                        <th>제목</th>
-		                                        <th>작성자</th>
-		                                        <th>날짜</th>
-		                                      </tr>
-		                                    </thead>
-		                                    <tbody>
-		                                       <tr>
-		                                          <td>gdgd</td>
-		                                          <td>gdgd</td>
-		                                          <td>gdgd</td>
-		                                          <td>gdgd</td>
-		                                       </tr>
-		                                       <tr>
-		                                          <td>gdgd</td>
-		                                          <td>gdgd</td>
-		                                          <td>gdgd</td>
-		                                          <td>gdgd</td>
-		                                       </tr>
-		                                       <tr>
-		                                          <td>gdgd</td>
-		                                          <td>gdgd</td>
-		                                          <td>gdgd</td>
-		                                          <td>gdgd</td>
-		                                       </tr>
-		                                    </tbody>
-		                                </table>
-		                             </div>
-		                            </div>
-		                          </div>
-		                        </div>
+		                  <p class="card-title mb-2">최근 받은메일</p>
+		                  <div class="card card-tale mb-2">
+			                  <div class="card-body">
+			                      <p class="card-title text-white mb-2">Mail</p>
+			                      <div class="row">
+			                         <div class="col-md">받은메일<span class="pl-2 h3 font-weight-bold">0</span></div>
+			                         <div class="col-md">안읽음<span class="pl-2 h3 font-weight-bold">1</span></div>
+			                         <div class="col-md">임시저장<span class="pl-2 h3 font-weight-bold">2</span></div>
+			                         <div class="col-md">중요메일<span class="pl-2 h3 font-weight-bold">0</span></div>
+			                      </div>
 		                      </div>
-		                      <div class="carousel-item">
-		                        <div class="row">
-		                          <div class="col-md-12 col-xl-3 d-flex justify-content-start">
-		                            <div class="ml-xl-4 mt-3">
-		                              <h1 class="text-primary font-weight-bold">인사발령</h1>
-		                              <div class="d-flex justify-content-center text-primary mt-2"><h1 class="mdi mdi-human-greeting" style="font-size: 90px;"></h1></div>
-		                            </div>  
-		                          </div>
-		                          <div class="col-md-12 col-xl-9">
-		                            <div class="row">
-		                                <div>
-		                               <table class="table table-hover" style="width: 250%">
-		                                    <thead>
-		                                      <tr>
-		                                        <th>문서번호</th>
-		                                        <th>제목</th>
-		                                        <th>작성자</th>
-		                                        <th>날짜</th>
-		                                      </tr>
-		                                    </thead>
-		                                    <tbody>
-		                                       <tr>
-		                                          <td>gdgd</td>
-		                                          <td>gdgd</td>
-		                                          <td>gdgd</td>
-		                                          <td>gdgd</td>
-		                                       </tr>
-		                                       <tr>
-		                                          <td>gdgd</td>
-		                                          <td>gdgd</td>
-		                                          <td>gdgd</td>
-		                                          <td>gdgd</td>
-		                                       </tr>
-		                                       <tr>
-		                                          <td>gdgd</td>
-		                                          <td>gdgd</td>
-		                                          <td>gdgd</td>
-		                                          <td>gdgd</td>
-		                                       </tr>
-		                                    </tbody>
-		                                </table>
-		                             </div>
-		                            </div>
-		                          </div>
-		                        </div>
-		                      </div>
+		                 </div>
+		                  <div class="table-responsive">
+		                      <table class="table table-hover">
+		                           <thead>
+		                             <tr>
+		                               <th class="px-0">문서번호</th>
+		                               <th>발신자</th>
+		                               <th>제목</th>
+		                               <th>날짜</th>
+		                             </tr>
+		                           </thead>
+		                           <tbody>
+		                              <tr>
+		                                 <td style="font-size:11px; padding: 10px 25px;">3</td>
+		                                 <td style="font-size:11px; padding: 10px 25px;">이춘향</td>
+		                                 <td style="font-size:11px; padding: 10px 25px;">빠른 회신 부탁드립니다!</td>
+		                                 <td style="font-size:9px; padding: 10px 25px;">2023-02-20</td>
+		                              </tr>
+		                              <tr>
+		                                 <td style="font-size:11px; padding: 10px 25px;">2</td>
+		                                 <td style="font-size:11px; padding: 10px 25px;">마부장</td>
+		                                 <td style="font-size:11px; padding: 10px 25px;">현재 진척률 통계 현황 보고 부탁드립니다.</td>
+		                                 <td style="font-size:9px; padding: 10px 25px;">2023-02-20</td>
+		                              </tr>
+		                              <tr>
+		                                 <td style="font-size:11px; padding: 10px 25px;">1</td>
+		                                 <td style="font-size:11px; padding: 10px 25px;">장그래</td>
+		                                 <td style="font-size:11px; padding: 10px 25px;">계약관련해서 메일보냈습니다</td>
+		                                 <td style="font-size:9px; padding: 10px 25px;">2023-02-20</td>
+		                              </tr>
+		                           </tbody>
+		                       </table>
 		                    </div>
-		                    <a class="carousel-control-prev" href="#detailedReports" role="button" data-slide="prev">
-		                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-		                      <span class="sr-only">Previous</span>
-		                    </a>
-		                    <a class="carousel-control-next" href="#detailedReports" role="button" data-slide="next">
-		                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-		                      <span class="sr-only">Next</span>
-		                    </a>
-		                  </div>
 		                </div>
 		              </div>
 		            </div>
+		            <!-- 최근 결재내역-->
+		            <div class="col-md-6 grid-margin stretch-card">
+		              <div class="card">
+		                <div class="card-body">
+		                  <p class="card-title mb-2">최근 결재내역</p>
+		                  <div class="card card-light-blue mb-2">
+		                  <div class="card-body">
+		                      <p class="card-title text-white mb-2">Approval</p>
+		                       <div class="row">
+		                         <div class="col-md">기안<span class="pl-2 h3 font-weight-bold">0</span></div>
+		                         <div class="col-md">결재<span class="pl-2 h3 font-weight-bold">3</span></div>
+		                         <div class="col-md">승인<span class="pl-2 h3 font-weight-bold">0</span></div>
+		                         <div class="col-md">반려<span class="pl-2 h3 font-weight-bold">1</span></div>
+		                      </div>
+		                    </div>
+		                 </div>
+		                  <div class="table-responsive">
+		                      <table class="table table-hover">
+		                           <thead>
+		                             <tr>
+		                               <th class="px-0">문서번호</th>
+		                               <th>결재자</th>
+		                               <th>결재날짜</th>
+		                               <th>결재상태</th>
+		                             </tr>
+		                           </thead>
+		                           <tbody>
+		                              <tr>
+		                                 <td style="font-size:11px; padding: 10px 25px;">1-03</td>
+		                                 <td style="font-size:11px; padding: 10px 25px;">마부장</td>
+		                                 <td style="font-size:11px; padding: 10px 25px;">출장신청서</td>
+		                                 <td style="font-size:9px; padding: 10px 25px;">대기</td>
+		                              </tr>
+		                              <tr>
+		                                 <td style="font-size:11px; padding: 10px 25px;">1-02</td>
+		                                 <td style="font-size:11px; padding: 10px 25px;">이몽룡</td>
+		                                 <td style="font-size:11px; padding: 10px 25px;">출장신청서</td>
+		                                 <td style="font-size:9px; padding: 10px 25px;">승인</td>
+		                              </tr>
+		                              <tr>
+		                                 <td style="font-size:11px; padding: 10px 25px;">1-01</td>
+		                                 <td style="font-size:11px; padding: 10px 25px;">이춘향</td>
+		                                 <td style="font-size:11px; padding: 10px 25px;">출장신청서</td>
+		                                 <td style="font-size:9px; padding: 10px 25px;">반려</td>
+		                              </tr>
+		                           </tbody>
+		                       </table>
+		                    </div>
+		                </div>
+		              </div>
+		             </div>
             	</div>
-            	<!-- 게시판:end-->
 	         </div>
           </div>
+          <!-- 게시판:start-->
           <div class="row">
-           <!-- 최근메일 -->
-            <div class="col-md-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <p class="card-title">최근 받은메일</p>
-                  <div class="card card-light-blue mb-4">
-	                  <div class="card-body">
-	                      <p class="card-title text-white">Mail</p>
-	                      <div class="row">
-	                         <div class="col-md">받은메일<span class="pl-2 h3 font-weight-bold">0</span></div>
-	                         <div class="col-md">안읽음<span class="pl-2 h3 font-weight-bold">1</span></div>
-	                         <div class="col-md">임시저장<span class="pl-2 h3 font-weight-bold">2</span></div>
-	                         <div class="col-md">중요메일<span class="pl-2 h3 font-weight-bold">0</span></div>
+              <div class="col-md-12 grid-margin stretch-card">
+	              <div class="card">
+	                <div class="card-body">
+	                  <div id="detailedReports" class="carousel slide detailed-report-carousel position-static pt-2" data-ride="carousel">
+	                    <div class="carousel-inner">
+	                      <div class="carousel-item active">
+	                        <div class="row">
+	                          <div class="col-md-12 col-xl-3 d-flex justify-content-start">
+	                            <div class="ml-xl-4 mt-3">
+	                              <h1 class="text-primary font-weight-bold">사내공지</h1>
+	                              <div class="d-flex justify-content-center text-primary mt-2"><h1 class="mdi mdi-comment-alert" style="font-size: 90px;"></h1></div>
+	                            </div>  
+	                          </div>
+	                          <div class="col-md-12 col-xl-9">
+	                            <div class="row">
+	                                <div>
+	                               <table class="table table-hover" style="width: 250%">
+	                                    <thead>
+	                                      <tr>
+	                                        <th>문서번호</th>
+	                                        <th>제목</th>
+	                                        <th>작성자</th>
+	                                        <th>날짜</th>
+	                                      </tr>
+	                                    </thead>
+	                                    <tbody>
+	                                       <tr>
+	                                          <td>gdgd</td>
+	                                          <td>gdgd</td>
+	                                          <td>gdgd</td>
+	                                          <td>gdgd</td>
+	                                       </tr>
+	                                       <tr>
+	                                          <td>gdgd</td>
+	                                          <td>gdgd</td>
+	                                          <td>gdgd</td>
+	                                          <td>gdgd</td>
+	                                       </tr>
+	                                       <tr>
+	                                          <td>gdgd</td>
+	                                          <td>gdgd</td>
+	                                          <td>gdgd</td>
+	                                          <td>gdgd</td>
+	                                       </tr>
+	                                    </tbody>
+	                                </table>
+	                             </div>
+	                            </div>
+	                          </div>
+	                        </div>
 	                      </div>
-                      </div>
-                 </div>
-                  <div class="table-responsive">
-                      <table class="table table-hover">
-                           <thead>
-                             <tr>
-                               <th>문서번호</th>
-                               <th>발신자</th>
-                               <th>제목</th>
-                               <th>날짜</th>
-                             </tr>
-                           </thead>
-                           <tbody>
-                              <tr>
-                                 <td>gdgd</td>
-                                 <td>gdgd</td>
-                                 <td>gdgd</td>
-                                 <td>gdgd</td>
-                              </tr>
-                              <tr>
-                                 <td>gdgd</td>
-                                 <td>gdgd</td>
-                                 <td>gdgd</td>
-                                 <td>gdgd</td>
-                              </tr>
-                              <tr>
-                                 <td>gdgd</td>
-                                 <td>gdgd</td>
-                                 <td>gdgd</td>
-                                 <td>gdgd</td>
-                              </tr>
-                           </tbody>
-                       </table>
-                    </div>
-                </div>
+	                      <div class="carousel-item">
+	                        <div class="row">
+	                          <div class="col-md-12 col-xl-3 d-flex justify-content-start">
+	                            <div class="ml-xl-4 mt-3">
+	                              <h1 class="text-primary font-weight-bold">인사발령</h1>
+	                              <div class="d-flex justify-content-center text-primary mt-2"><h1 class="mdi mdi-human-greeting" style="font-size: 90px;"></h1></div>
+	                            </div>  
+	                          </div>
+	                          <div class="col-md-12 col-xl-9">
+	                            <div class="row">
+	                                <div>
+	                               <table class="table table-hover" style="width: 250%">
+	                                    <thead>
+	                                      <tr>
+	                                        <th>문서번호</th>
+	                                        <th>제목</th>
+	                                        <th>작성자</th>
+	                                        <th>날짜</th>
+	                                      </tr>
+	                                    </thead>
+	                                    <tbody>
+	                                       <tr>
+	                                          <td>gdgd</td>
+	                                          <td>gdgd</td>
+	                                          <td>gdgd</td>
+	                                          <td>gdgd</td>
+	                                       </tr>
+	                                       <tr>
+	                                          <td>gdgd</td>
+	                                          <td>gdgd</td>
+	                                          <td>gdgd</td>
+	                                          <td>gdgd</td>
+	                                       </tr>
+	                                       <tr>
+	                                          <td>gdgd</td>
+	                                          <td>gdgd</td>
+	                                          <td>gdgd</td>
+	                                          <td>gdgd</td>
+	                                       </tr>
+	                                    </tbody>
+	                                </table>
+	                             </div>
+	                            </div>
+	                          </div>
+	                        </div>
+	                      </div>
+	                    </div>
+	                    <a class="carousel-control-prev" href="#detailedReports" role="button" data-slide="prev">
+	                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	                      <span class="sr-only">Previous</span>
+	                    </a>
+	                    <a class="carousel-control-next" href="#detailedReports" role="button" data-slide="next">
+	                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	                      <span class="sr-only">Next</span>
+	                    </a>
+	                  </div>
+	                </div>
+	              </div>
               </div>
-            </div>
-            <!-- 최근 결재내역-->
-            <div class="col-md-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <p class="card-title">최근 결재내역</p>
-                  <div class="card card-dark-blue mb-4">
-                  <div class="card-body">
-                      <p class="card-title text-white">Approval</p>
-                       <div class="row">
-                         <div class="col-md">기안<span class="pl-2 h3 font-weight-bold">0</span></div>
-                         <div class="col-md">결재<span class="pl-2 h3 font-weight-bold">3</span></div>
-                         <div class="col-md">승인<span class="pl-2 h3 font-weight-bold">0</span></div>
-                         <div class="col-md">반려<span class="pl-2 h3 font-weight-bold">1</span></div>
-                      </div>
-                    </div>
-                 </div>
-                  <div class="table-responsive">
-                      <table class="table table-hover">
-                           <thead>
-                             <tr>
-                               <th>문서번호</th>
-                               <th>결재자</th>
-                               <th>결재날짜</th>
-                               <th>결재상태</th>
-                             </tr>
-                           </thead>
-                           <tbody>
-                              <tr>
-                                 <td>gdgd</td>
-                                 <td>gdgd</td>
-                                 <td>gdgd</td>
-                                 <td>gdgd</td>
-                              </tr>
-                              <tr>
-                                 <td>gdgd</td>
-                                 <td>gdgd</td>
-                                 <td>gdgd</td>
-                                 <td>gdgd</td>
-                              </tr>
-                              <tr>
-                                 <td>gdgd</td>
-                                 <td>gdgd</td>
-                                 <td>gdgd</td>
-                                 <td>gdgd</td>
-                              </tr>
-                           </tbody>
-                       </table>
-                    </div>
-                </div>
-              </div>
-             </div>
           </div>
+          <!-- 게시판:end-->
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.jsp -->
