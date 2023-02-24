@@ -20,6 +20,11 @@
 	.collapse, .collapsing {
 		box-shadow: 0px 0px 0px white !important;
 	}
+	.table th, .jsgrid .jsgrid-table th,
+	.table td,
+	.jsgrid .jsgrid-table td {
+		padding: 0.525rem 1.375rem;
+	}
 	</style>
 </head>
 
@@ -132,9 +137,9 @@
 															<span class="mx-1"><i class="mdi mdi-close"></i></span>
 														</div>
 													</div>
-													<input type="text" class="form-control mx-4" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search" style="margin-left: .7rem; font-size: 1.25rem; color: #6C7383; background: transparent; border: 0; color: #000; padding: 0;">
+													<input type="text" class="form-control mx-4" id="navbar-search-input" placeholder="검색할 내용 입력" aria-label="search" aria-describedby="search" style="margin-left: .7rem; font-size: 1.25rem; color: #6C7383; background: transparent; border: 0; color: #000; padding: 0;">
 												</div>
-												<button type="submit" class="font-weight-bold btn btn-primary">Search</button>
+												<button type="submit" class="font-weight-bold btn btn-primary" style="min-width: fit-content;">검색</button>
 		        							</div>
 		        							<div class="card-body d-flex" style="padding-top: 0; box-shadow: 0px 0px 0px white;">
 												<div class="mr-3 align-self-center">
@@ -387,11 +392,11 @@
 										<span class="btn btn-danger btn-sm">선택 삭제</span>
 										<span class="btn btn-warning btn-sm">선택 회수</span>
 										<ul class="pagination justify-content-center pb-0 mb-0">
-											<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+											<li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
 											<li class="page-item active" ><a class="page-link" href="#">1</a></li>
 											<li class="page-item"><a class="page-link" href="#">2</a></li>
 											<li class="page-item"><a class="page-link" href="#">3</a></li>
-											<li class="page-item"><a class="page-link" href="#">Next</a></li>
+											<li class="page-item"><a class="page-link" href="#">다음</a></li>
 										</ul>
 									</div>
 								</div>
