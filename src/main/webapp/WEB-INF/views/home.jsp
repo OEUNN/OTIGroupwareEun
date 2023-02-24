@@ -46,7 +46,7 @@
 	                      <div class="font-weight-bold text-muted h6 mt-2 text-center">공공사업1DIV</div>
 	                    </div>
 	                 </div>
-	                 <div class="custom-border-bottom mt-3"></div>
+	                 <div class="custom-border-bottom mt-4"></div>
 	               	 <!-- 잔여일수 -->
 	                 <div class="row mt-3 pt-2 px-3">
 	                    <div class="col-md p-0">
@@ -63,9 +63,9 @@
 	                  <div class="custom-border-bottom mt-2 pt-2"></div>
 	                  <!-- 퀵메뉴 -->
 	                  <div class="row mt-4 pt-2">
-	                  	<div class="col-md h3 text-primary font-weight-bold" style="font-family: LeferiPoint-WhiteObliqueA;">Quick menu</div>
+	                  	<div class="col-md h3 text-primary font-weight-bold text-center" style="font-family: LeferiPoint-WhiteObliqueA;">Quick menu</div>
 	                  </div>
-	                  <div class="row px-1">
+	                  <div class="row px-1 pt-3">
 		                  <div class="col-sm px-0">
 		                       <button onclick="location.href='${pageContext.request.contextPath}/mailwrite'" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
 		                          <span class="h3 mdi mdi-lead-pencil m-0"></span>
@@ -79,7 +79,7 @@
 		                       </button>
 		                  </div>
 	                  </div>
-	                  <div class="row mt-2 px-1">
+	                  <div class="row pt-4 px-1">
 		                  <div class="col-sm px-0">
 		                       <button onclick="location.href='${pageContext.request.contextPath}/hr/leave'" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
 		                          <span class="h3 mdi mdi-wallet-travel m-0"></span>
@@ -146,7 +146,7 @@
 				                	</div>
 				                </div>
 		                        <!-- 출퇴근 버튼 -->
-		                        <div class="row mt-4 pt-2">
+		                        <div class="row mt-4 pt-4">
 		                        	<div class="col-md">
 			                           <div class="card card-dark-blue">
 						                  <div class="card-body">

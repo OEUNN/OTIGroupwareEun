@@ -171,7 +171,7 @@
             	<div class="col-md-6 grid-margin stretch-card">
 	              <div class="card">
 	                <div class="card-body">
-	                  <p class="card-title">근무현황</p>
+	                  <p class="card-title">이번주 근무현황</p>
 	                  <div class="table-responsive">
 	                      <table class="table table-hover">
 		                        <thead>
@@ -190,6 +190,34 @@
 		                        		<td>gdgd</td>
 		                        		<td>gdgd</td>
 		                        		<td><div class="badge badge-success font-weight-bold">정상출근</div></td>
+		                        	</tr>
+		                        	<tr>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        	</tr>
+		                        	<tr>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        	</tr>
+		                        	<tr>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        	</tr>
+		                        	<tr>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
 		                        	</tr>
 		                        	<tr>
 		                        		<td>gdgd</td>
@@ -259,9 +287,33 @@
 		                        		<td>gdgd</td>
 		                        		<td>gdgd</td>
 		                        	</tr>
+		                        	<tr>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        	</tr>
+		                        	<tr>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        		<td>gdgd</td>
+		                        	</tr>
 		                        </tbody>
 	                    	</table>
 	                    </div>
+	                    <!-- 페이징 -->
+						<div class="row mt-5 d-flex justify-content-center">
+							<ul class="pagination  pb-0 mb-0">
+								<li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
+								<li class="page-item active" ><a class="page-link" href="#">1</a></li>
+								<li class="page-item"><a class="page-link" href="#">2</a></li>
+								<li class="page-item"><a class="page-link" href="#">3</a></li>
+								<li class="page-item"><a class="page-link" href="#">다음</a></li>
+							</ul>
+						</div>
 	                </div>
 	              </div>
 	            </div>
