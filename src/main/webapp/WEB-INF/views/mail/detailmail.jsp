@@ -33,7 +33,7 @@
 						</div>
 					</div>
 					<div class="col-sm-5" style="border-bottom:1px solid #ced4da;">
-						<div class="h3 from-control" style="font-weight:bold; border:none;"></div>
+						<div class="from-control" style="font-weight:bold; border:none;">장영은</div>
 					</div>
 				</div>
 			</div>
@@ -49,7 +49,7 @@
 						</div>
 					</div>
 					<div class="col-sm-6" style="border-bottom:1px solid #ced4da;">
-						<div class="h3 from-control" style="font-weight:bold; border:none;"></div>
+						<div class="from-control" style="font-weight:bold; border:none;">신문영</div>
 					</div>
 				</div>
 			</div>
@@ -65,7 +65,7 @@
 						</div>
 					</div>
 					<div class="col-sm-9" style="border-bottom:1px solid #ced4da;">
-						<div class="h3 from-control" style="font-weight:bold; border:none;"></div>
+						<div class="from-control" style="font-weight:bold; border:none;">2023년 2월24일</div>
 					</div>
 				</div>
 			</div>
@@ -81,7 +81,7 @@
 						</div>
 					</div>
 					<div class="col-sm-8 p-0"> 
-						<div class="h3 form-control" style="font-weight:bold; height:120px;"></div>
+						<div class="form-control" style="font-weight:bold; height:120px;"></div>
 					</div>
 				</div>
 			</div>
@@ -89,7 +89,8 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="form-group row">
-					<textarea class="form-control" readonly></textarea>
+					<textarea class="form-control" readonly>
+					</textarea>
 				</div>
 			</div>
 		</div>

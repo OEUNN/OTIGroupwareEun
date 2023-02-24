@@ -10,6 +10,12 @@
 	<!-- endinject css, js common file -->
 	
 	<!-- Plugin css,js for this page -->
+	<script>
+	 function retry(){
+     	window.opener.top.location.href="<c:url value='/'/>";
+         window.close();
+     }
+	</script>
 	<style>
 		.container-fluid{
 			padding:0px;
