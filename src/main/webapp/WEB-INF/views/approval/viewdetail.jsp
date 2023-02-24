@@ -35,7 +35,13 @@
 	        		<div class="col-md-9 grid-margin">
 	        			<div class="card gird-margin shadow-2">
 		        			<div class="card-body">
-		        				<p class="card-title mb-3 d-flex justify-content-between">문서 상세 보기<span class="font-weight-bold btn btn-warning btn-md">회수</span></p>
+		        				<p class="card-title mb-3 d-flex justify-content-between">문서 상세 보기
+		        				<span>
+			        				<span class="font-weight-bold btn btn-success btn-md">승인</span>
+			        				<span class="font-weight-bold btn btn-danger btn-md">반려</span>
+			        				<span class="font-weight-bold btn btn-warning btn-md">회수</span>
+		        				</span>
+		        				</p>
 		        				<div class="card-body mb-3" style="box-shadow: 0px 0px 0px white;">
 									<textarea id="document_detail" style="width: inherit;"></textarea>
 	        					</div>
@@ -120,7 +126,7 @@
 		         					</div>
 								</div>
 								<div class="row m-1">
-		         					<div class="card bg-warning grid-margin shadow-2 w-100">
+		         					<div class="card bg-info grid-margin shadow-2 w-100">
 					                    <div class="card-body">
 						                    <div class="row mb-3">
 							                    <div class="col-10">
@@ -133,10 +139,10 @@
 						                    </div>
 						                    <div class="row">
 						                    	<div class="col-6">
-						                    		<button class="btn btn-success w-100" style="text-align: center; font-weight:bold; color: white; margin-bottom: -3px;">승인</button>
+						                    		<button class="btn btn-success w-100" style="text-align: center; font-weight:bold; margin-bottom: -3px;">승인</button>
 						                    	</div>
 						                    	<div class="col-6 d-flex justify-content-center">
-						                    		<button class="btn btn-danger w-100" style="text-align: center; font-weight:bold; color: white; margin-bottom: -3px;">반려</button>
+						                    		<button class="btn btn-danger w-100" style="text-align: center; font-weight:bold; margin-bottom: -3px;">반려</button>
 						                    	</div>
 						                    </div>
 					                    </div>
@@ -156,7 +162,7 @@
 						                    </div>
 						                   	<div class="row">
 						                    	<div class="col-12">
-						                    		<h3 style="text-align: center; font-weight:bold; color: white; margin-bottom: -3px;">미열람</h3>
+						                    		<h3 style="text-align: center; font-weight:bold; color: white; margin-bottom: -3px;">미열람/대기중</h3>
 						                    	</div>
 						                    </div>
 					                    </div>

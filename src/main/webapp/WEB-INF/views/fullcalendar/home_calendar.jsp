@@ -10,7 +10,7 @@
 		var calendar = new FullCalendar.Calendar(calendarEl, {
 			height : 300,
 			editable : true,
-			locale : 'ko',
+// 			locale : 'ko',
 			selectable : true,
 			businessHours : true,
 			dayMaxEvents : true, // allow "more" link when too many events

@@ -7651,7 +7651,7 @@ var FullCalendar = (function (exports) {
     const globalLocales = [];
 
     const MINIMAL_RAW_EN_LOCALE = {
-        code: 'en',
+        code: 'ko',
         week: {
             dow: 0,
             doy: 4, // 4 days need to be within the year to be considered the first week
@@ -7666,7 +7666,7 @@ var FullCalendar = (function (exports) {
             today: '오늘',
             month: '월',
             week: '주',
-            day: '',
+            day: 'gg',
             list: 'list',
         },
         weekText: '주',
@@ -7693,7 +7693,7 @@ var FullCalendar = (function (exports) {
             return `Show ${eventCnt} more event${eventCnt === 1 ? '' : 's'}`;
         } });
     function organizeRawLocales(explicitRawLocales) {
-        let defaultCode = explicitRawLocales.length > 0 ? explicitRawLocales[0].code : 'en';
+        let defaultCode = explicitRawLocales.length > 0 ? explicitRawLocales[0].code : 'ko';
         let allRawLocales = globalLocales.concat(explicitRawLocales);
         let rawLocaleMap = {
             en: RAW_EN_LOCALE,

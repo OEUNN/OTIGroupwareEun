@@ -39,7 +39,7 @@ tinymce.init({
 	  {
 	    title: '결재품의서',
 	    description: '모든 품의서의 템플릿인 결재품의서',
-	    url: '../resources/html/approvalform.html'
+	    url: '../resources/html/approvalformdetail.html'
 	  }
 	],
 	content : '<h1>EXAMPLE</h1>',
