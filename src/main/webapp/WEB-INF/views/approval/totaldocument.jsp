@@ -18,7 +18,13 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
 	<style type="text/css">
 	.collapse, .collapsing {
+	
 		box-shadow: 0px 0px 0px white !important;
+	}
+	.table th, .jsgrid .jsgrid-table th,
+	.table td,
+	.jsgrid .jsgrid-table td {
+	  padding: 0.525rem 1.375rem;
 	}
 	</style>
 </head>
@@ -47,18 +53,18 @@
 						<div class="card grid-margin">
 							<div class="card-body">
 							<p class="card-title mb-0">전체문서함</p>
-		        			<div class="card card-dark-blue gird-margin shadow-2 my-3">
+		        			<div class="card gird-margin shadow-2 my-3" style="background-color: #e7e7ff;">
 			        			<div class="card-body">
 			        				<div class="card-body" style="box-shadow: 0px 0px 0px white; padding-top: 0;">
 			        					<div class="row">
 			        						<div class="col-3">
-				        						<div class="card" style="border-radius:8px; border: 2px solid #4747A1;">
+				        						<div class="card" style="border-radius:8px;">
 													<div class="card-header bg-white d-flex" style="border-radius:8px; border-bottom: 0px;">
 														<a class="font-weight-bold text-decoration-none" data-target="#filter_by_status" data-toggle="collapse" style="color: #4747A1;">결재상태</a>
-														<div class="flex-grow-1 font-weight-bold text-info" style="text-align: end; color: #7DA0FA;">승인</div>
+														<div class="flex-grow-1" style="text-align: end; color: black;">승인</div>
 													</div>
 				        							<div id="filter_by_status" class="card-body collapse" style="border-radius:8px; padding: 0; padding-left: 1.25rem; padding-right: 1.25rem;">
-					        							<div class="form-check font-weight-bold text-info">
+					        							<div class="form-check font-weight-bold" style="color: black;">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio" checked>승인
 															</label>
@@ -82,13 +88,13 @@
 				        						</div>
 			        						</div>
 			        						<div class="col-3">
-				        						<div class="card" style="border-radius:8px; border: 2px solid #4747A1;">
+				        						<div class="card" style="border-radius:8px;">
 													<div class="card-header bg-white d-flex" style="border-radius:8px; border-bottom: 0px;">
 														<a class="font-weight-bold text-decoration-none" data-target="#filter_by_div" data-toggle="collapse" style="color: #4747A1;">부서</a>
-														<div class="flex-grow-1 font-weight-bold text-info" style="text-align: end; color: #7DA0FA;">공공사업1DIV</div>
+														<div class="flex-grow-1" style="text-align: end; color: black;">공공사업1DIV</div>
 													</div>
 				        							<div id="filter_by_div" class="card-body collapse" style="border-radius:8px; padding: 0; padding-left: 1.25rem; padding-right: 1.25rem;">
-					        							<div class="form-check font-weight-bold text-info">
+					        							<div class="form-check font-weight-bold" style="color: black;">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio" checked>공공사업1DIV
 															</label>
@@ -107,13 +113,13 @@
 				        						</div>
 			        						</div>
 			        						<div class="col-2">
-				        						<div class="card" style="border-radius:8px; border: 2px solid #4747A1;">
+				        						<div class="card" style="border-radius:8px;">
 													<div class="card-header bg-white d-flex" style="border-radius:8px; border-bottom: 0px;">
 														<a class="font-weight-bold text-decoration-none" data-target="#filter_by_date" data-toggle="collapse" style="color: #4747A1;">기준날짜</a>
-														<div class="flex-grow-1 font-weight-bold text-info" style="text-align: end; color: #7DA0FA;">상신</div>
+														<div class="flex-grow-1" style="text-align: end; color: black;">상신</div>
 													</div>
 				        							<div id="filter_by_date" class="card-body collapse" style="border-radius:8px; padding: 0; padding-left: 1.25rem; padding-right: 1.25rem;">
-					        							<div class="form-check font-weight-bold text-info">
+					        							<div class="form-check font-weight-bold" style="color: black;">
 															<label class="form-check-label">
 																<input type="radio" class="form-check-input" name="optradio" checked>상신
 															</label>
@@ -127,7 +133,7 @@
 				        						</div>
 			        						</div>
 			        						<div class="col-4">
-			        							<div class="card" style="border-radius:8px; border: 2px solid #4747A1;">
+			        							<div class="card" style="border-radius:8px;">
 					        						<div class="input-daterange input-group" id="datepicker">
 														<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
 													    <input type="text" class="input-sm form-control text-info font-weight-bold" name="start" style="border:0px; text-align: right;"/>
@@ -141,10 +147,9 @@
 		        					</div>
 		        					<div class="row py-0" style="padding: 1.25rem;">
 		        						<div class="col-2">
-			        						<div class="card" style="border-radius:8px; border: 2px solid #4747A1;">
+			        						<div class="card" style="border-radius:8px;">
 												<div class="card-header bg-white d-flex" style="border-radius:8px; border-bottom: 0px;">
 													<a class="font-weight-bold text-decoration-none" data-target="#searchparameter" data-toggle="collapse" style="color: #4747A1;">#태그</a>
-													<div class="flex-grow-1 font-weight-bold text-info" style="text-align: end; color: #7DA0FA;"><div class="badge badge-warning">제목</div></div>
 												</div>
 			        							<div id="searchparameter" class="card-body collapse" style="border-radius:8px; padding: 0; padding-left: 1.25rem; padding-right: 1.25rem;">
 				        							<div class="form-check font-weight-bold text-info">
@@ -152,7 +157,7 @@
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio" checked/>
 															</label>
-															<div class="badge badge-warning">제목</div>
+															<div class="badge badge-warning font-weight-bold">제목</div>
 														</div>
 													</div>
 													<div class="form-check">
@@ -160,7 +165,7 @@
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio" checked/>
 															</label>
-															<div class="badge badge-warning">기안자</div>
+															<div class="badge badge-warning font-weight-bold">기안자</div>
 														</div>
 													</div>
 													<div class="form-check disabled">
@@ -168,7 +173,7 @@
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio" checked/>
 															</label>
-															<div class="badge badge-warning">결재자</div>
+															<div class="badge badge-warning font-weight-bold">결재자</div>
 														</div>
 													</div>
 			        							</div>
@@ -176,7 +181,7 @@
 		        						</div>
 		        						<div class="col-8">
 		        							<div class="d-flex">
-		        								<div class="input-group w-75" style="border-radius: 18px; border: 1px solid #4B49AC; background-color: white;">
+		        								<div class="input-group w-75" style="border-radius: 18px; background-color: white;">
 													<div class="input-group-prepend hover-cursor mx-3" id="navbar-search-icon">
 														<span class="input-group-text" id="search" style="background: transparent; border: 0; color: #000; padding: 0;">
 														<i class="icon-search" style="font-size: 1.25rem; color: #6C7383;"></i>
@@ -196,7 +201,7 @@
 															<span class="mx-1"><i class="mdi mdi-close"></i></span>
 														</div>
 													</div>
-													<input type="text" class="form-control mx-4" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search" style="margin-left: .7rem; font-size: 1.25rem; color: #6C7383; border: 0; color: #000; padding: 0;">
+													<input type="text" class="form-control mx-4" id="navbar-search-input" placeholder="검색할 내용 입력" aria-label="search" aria-describedby="search" style="margin-left: .7rem; font-size: 1.25rem; color: #6C7383; border: 0; color: #000; padding: 0;">
 												</div>
 												<button type="submit" class="font-weight-bold btn btn-md btn-warning ml-2">검색</button>
 		        							</div>
@@ -390,12 +395,12 @@
 
 										</tbody>
 									</table>
-									<ul class="pagination justify-content-center mt-5 pb-0 mb-0">
-										<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+									<ul class="pagination justify-content-center mt-3 pb-0 mb-0">
+										<li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
 										<li class="page-item active" ><a class="page-link" href="#">1</a></li>
 										<li class="page-item"><a class="page-link" href="#">2</a></li>
 										<li class="page-item"><a class="page-link" href="#">3</a></li>
-										<li class="page-item"><a class="page-link" href="#">Next</a></li>
+										<li class="page-item"><a class="page-link" href="#">다음</a></li>
 									</ul>
 								</div>
 							</div>

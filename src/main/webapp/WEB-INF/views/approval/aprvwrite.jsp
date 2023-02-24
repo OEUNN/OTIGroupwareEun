@@ -24,6 +24,10 @@
 	.collapse, .collapsing {
 		box-shadow: 0px 0px 0px white !important;
 	}
+	
+	#tinymce {
+		contenteditable: false;
+	}
 	</style>
 </head>
 <body>
@@ -54,7 +58,7 @@
 									<p class="col-12 card-title mb-3">기안 작성하기</p>
             					</div>
             					<div class="row ml-1">
-	            					<div class="col-3 card-body mb-3">
+	            					<div class="col-3 card-body mb-3" style="height: fit-content;">
 										<div class="card grid-margin" style="border-radius:8px; border: 2px solid #4747A1;">
 											<div class="card-header bg-white d-flex" style="border-radius:8px; border-bottom: 0px;">
 												<a class="font-weight-bold text-decoration-none" data-target="#filter_by_status" data-toggle="collapse" style="color: #4747A1;">문서종류</a>
@@ -89,7 +93,7 @@
 		        							</div>
 		        						</div>
 		        						
-		        						<div class="card grid-margin">
+		        						<div class="card grid-margin" style="background-color: #e7e7ff;">
 											<div class="card-body">
 												<div class="d-flex justify-content-between">												
 													<p class="card-title">결재선</p>
@@ -127,7 +131,7 @@
 			            						<div class="d-flex align-items-stretch justify-content-center mb-0">
 				            						<h1 class="mdi mdi-menu-down mt-1 mb-0"></h1>
 			            						</div>
-			            						<div class="card card-dark-blue grid-margin shadow-2">
+			            						<div class="card card-dark-blue shadow-2">
 								                    <div class="card-body">
 									                    <div class="row">
 										                    <div class="col-10">
@@ -142,26 +146,23 @@
 			            						</div>
 											</div>
 										</div>
-										
-		        						<div class="card grid-margin">
-											<div class="card-body">
-												<div class="d-flex justify-content-between">												
-													<p class="card-title"><label for="upload">첨부파일</label></p>
-													<h3 class="mdi mdi-plus"></h3>
-												</div>
-												 <div class="form-group">
-													<input type="file" id="upload" class="file-upload-default" multiple>
-													<div class="input-group col-xs-12">
-														<input type="text" class="form-control file-upload-info" disabled placeholder="Upload">
-														<span class="input-group-append">
-															<button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-														</span>
-													</div>
+	            					</div>
+	            					<div class="col-9 card grid-margin mb-3 d-flex justify-content-center flex-column" style="background-color: transparent; box-shadow: 0px 0px 0px white;">
+										<div class="card-body grid-margin" style="background-color: #e7e7ff;">
+											<div class="d-flex justify-content-between">												
+												<p class="card-title"><label for="upload">첨부파일</label></p>
+											</div>
+											 <div class="form-group bg-white">
+												<input type="file" id="upload" class="file-upload-default" multiple>
+												<div class="input-group col-xs-12">
+													<input type="text" class="form-control file-upload-info" style="border-radius: 0;" disabled placeholder="업로드 할 파일">
+													<span class="input-group-append">
+														<button class="file-upload-browse btn btn-primary" style="border-radius: 0;" type="button">파일 첨부</button>
+													</span>
 												</div>
 											</div>
 										</div>
-	            					</div>
-	            					<div class="col-9 card grid-margin mb-3 d-flex justify-content-center flex-column" style="background-color: transparent; box-shadow: 0px 0px 0px white;">
+		        						
 		        						<div class="card-body">
 		        							<div class="card-title">
 		        								<div class="row">
