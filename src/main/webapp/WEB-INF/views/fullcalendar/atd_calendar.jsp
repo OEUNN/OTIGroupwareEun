@@ -8,7 +8,7 @@
 		var calendarEl = document.getElementById('calendar');
 
 		var calendar = new FullCalendar.Calendar(calendarEl, {
-			height: 655,
+			height: 580,
 			editable : true,
 			selectable : true,
 			businessHours : true,
@@ -67,41 +67,35 @@
 		calendar.render();
 		
 		/* 한국어로 바꿨을 때 생기는 "일"을 지워줌! */
-		$(".fc-daygrid-day-number").each(function(){
-			var day = $(this).text();
-			day = day.replace("일","");
-			$(this).text(day);
-		});
+// 		$(".fc-daygrid-day-number").each(function(){
+// 			var day = $(this).text();
+// 			day = day.replace("일","");
+// 			$(this).text(day);
+// 		});
 	});
 	
 	/* 달력에서 일자를 누르면 상세보기 가능 */
 	$(document).ready(function(){
 		$('.fc-daygrid-day-frame').click(function(){
-			  let atdArr = $(this).find(".fc-daygrid-day-events .fc-event-title").get();
-			  let timeArr = $(this).find(".fc-daygrid-day-events .fc-event-time").get();
 			  
-			  if(timeArr.length != 0) { //시간이 찍혀있을 경우
-				  for(var i=0; i<timeArr.length; i++){
+			let atdArr = $(this).find(".fc-daygrid-day-events .fc-event-title").get();
+			let timeArr = $(this).find(".fc-daygrid-day-events .fc-event-time").get();
+			
+			if(timeArr.length != 0) { //시간이 찍혀있을 경우
+				for(var i=0; i<timeArr.length; i++){
 					 let atdStr = atdArr[i].innerHTML; 
 					 let timeStr = timeArr[i].innerHTML; 
 					 
-					 console.log(timeStr.substr(4));
-					 
-					 if(timeStr.substr(4)=="a"){
-						 timeStr = "AM " + timeStr.substr(0,4);
-					 } else {
-						 timeStr = "PM " + timeStr.substr(0,4);
-					 }
 					 if(atdStr === "출근") {
 						 $("#today-in-time").html(timeStr);
 					 } else if (atdStr === "퇴근") {
 						 $("#today-out-time").html(timeStr);
 					 }
 				  }
-			  } else { //시간이 찍혀있지 않을 경우
-				  $("#today-in-time").html(" ");
-				  $("#today-out-time").html(" ");
-			  }
+			} else { //시간이 찍혀있지 않을 경우
+				  $("#today-in-time").html("<br>");
+				  $("#today-out-time").html("<br>");
+			}
 		});
 	});
 	
@@ -198,7 +192,7 @@
 
 <div class="card">
 	<div class="card-body">
-		<p class="card-title d-flex justify-content-between align-items-start">
+		<p class="card-title d-flex justify-content-between align-items-start mb-0">
 			<span>나의 출퇴근</span>
 			<span>
 				<button onclick="upateTimePopup()" id="popup-btn" class="btn btn-md btn-warning mx-2">
@@ -212,6 +206,6 @@
 			</span>
 		</p>
 		<!-- 달력 -->
-		<div id="calendar"></div>
+		<div id="calendar" class="px-2"></div>
 	</div>
 </div>
