@@ -186,15 +186,19 @@
 		font-family: LeferiBaseType-RegularA;
 		font-weight: 700;
 	}
+	
+	.fc-icon-chevron-left:before, .fc-icon-chevron-right:before {
+		color: white;
+	}
 </style>
 <!-- End plugin css,js for this page -->
 
 
 <div class="card">
 	<div class="card-body">
-		<p class="card-title d-flex justify-content-between align-items-start mb-0">
-			<span>나의 출퇴근</span>
-			<span>
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<div class="card-title mb-0">나의 출퇴근</div>
+			<div class="d-flex">
 				<button onclick="upateTimePopup()" id="popup-btn" class="btn btn-md btn-warning mx-2">
                		<span class="mdi mdi-calendar-clock align-middle"></span>
                		<span>근무시간수정</span>
@@ -203,8 +207,8 @@
                		<span class="mdi mdi-calendar-plus align-middle"></span>
                		<span>추가근무보고</span>
            	   </button>
-			</span>
-		</p>
+       		</div>
+        </div>
 		<!-- 달력 -->
 		<div id="calendar" class="px-2"></div>
 	</div>

@@ -62,8 +62,8 @@
 			                                 <td>홍길동</td>
 			                                 <td></td>
 			                                 <td></td>
-			                                 <td></td>
-			                                 <td></td>
+			                                 <td class="custom-border-left custom-border-right"><h4 class="font-weight-bold text-center m-0">신청결과</h4></td>
+			                                 <td><div class="badge badge-danger font-weight-bold">반려</div></td>
 			                                 <td></td>
 			                              </tr>
 			                              <tr>
@@ -104,7 +104,14 @@
 	                      				<h6 class="ml-1 mb-0 text-primary font-weight-bold">연차 사용</h6>
 		                      		</div>
 		                        	<div class="row justify-content-center mt-3">
-		                       			<div style="border: 1px solid #a3a4a5; opacity: 0.5; width:90%;"></div>
+		                       			<div style="border-bottom: 2px solid #4B49AC; width:90%;"></div>
+		                      		</div>
+		                      		<!-- 반려사유 c:if 사용하기 -->
+		                      		<div class="row px-5 mt-3 justify-content-start">
+	                      				<h4 class="mx-4 mb-0 font-weight-bold text-danger">반려 사유</h4>
+		                      		</div>
+		                      		<div class="row px-5 mt-3 ml-1">
+	                      				<h6 class="ml-1 mb-0 text-danger">그냥 안됨요</h6>
 		                      		</div>
 		                        </div>
 								<!-- 버튼 -->
