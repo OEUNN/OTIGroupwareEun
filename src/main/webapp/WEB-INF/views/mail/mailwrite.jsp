@@ -23,6 +23,12 @@
             var option = "width = 500, height = 750, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
             window.open(url, name, option);
         }
+        function popup(){
+            var url = "mailwritepopup";
+            var name = "write popup";
+            var option = "width = 500, height = 250, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
+            window.open(url, name, option);
+        }
 		</script>
 		
 	</head>
@@ -51,7 +57,7 @@
 												<span class="mdi mdi-calendar-clock align-middle"></span> 
 												<span>임시저장</span>
 											</button>
-											<button class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
+											<button class="btn btn-md btn-primary mx-2" onclick="popup()" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
 												<span class="mdi mdi-telegram align-middle"></span> 
 												<span>보내기</span>
 											</button>
@@ -108,7 +114,6 @@
 														</div>
 													</div>
 													<div class="col-sm-9" style="border-bottom:1px solid #ced4da;">
-														<i class="h3 mdi mdi-star text-primary"></i>
 														<input class="h3 from-control" style="font-weight:bold; border:none;">
 													</div>
 												</div>

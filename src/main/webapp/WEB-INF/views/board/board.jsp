@@ -13,6 +13,13 @@
 				$('#datepicker').datepicker({
 				});	
 			});
+			function popup(){
+	            var url = "deleteboard";
+	            var name = "delete board";
+	            var option = "width = 500, height =250, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+	            window.open(url, name, option);
+	        }
+        	
 		</script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
 		<style>
@@ -106,13 +113,6 @@
 											</div>
 										</div>
 				        			</form><!-- End search box -->
-									
-									<div class="row form-inline mx-3 my-3">
-										<div>
-											<button class="btn btn-outline-danger btn-sm" onclick="popup()">선택삭제</button>
-										</div>
-									</div>
-									
 									<!-- 테이블 -->
 									<div class="table-responsive row">
 										<table class="table table-hover">
@@ -201,6 +201,14 @@
 										</table>
 									</div>
 									<!-- 테이블 끝 -->
+									
+									<!-- 하단 버튼 -->
+									<div class="row form-inline m-3">
+										<div class="col-md-10"></div>
+										<div class="col-md-2 col-12">
+											<button class="btn btn-outline-danger btn-sm" onclick="popup()">선택삭제</button>
+										</div>
+									</div><!-- 하단 버튼 -->
 
 									<!-- 페이징 -->
 									<div class="row mt-3 d-flex justify-content-center">

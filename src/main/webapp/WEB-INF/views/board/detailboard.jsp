@@ -1,12 +1,21 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<script>
+	function popup(){
+          var url = "deleteboard";
+          var name = "delete board";
+          var option = "width = 500, height =250, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+          window.open(url, name, option);
+      }
+</script>
+
 <form class="card-body">
 	<!-- main title and submit button -->
 	<p class="card-title d-flex justify-content-between align-items-start">
 		<span>2023년 새해복 많이 받으세요!</span> 
 		<span>
-			<button class="btn btn-md btn-danger mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
+			<button class="btn btn-md btn-danger mx-2" onclick="popup()" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
 				<span class="mdi mdi mdi-window-close"></span> 
 				<span>삭제</span>
 			</button>

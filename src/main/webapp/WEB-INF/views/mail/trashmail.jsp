@@ -19,7 +19,7 @@
 		.table th, .jsgrid .jsgrid-table th,
 		.table td,
 		.jsgrid .jsgrid-table td {
-		  padding: 0.525rem 1.375rem;
+		  padding: 0.225rem 1.375rem;
 		}
 		</style>	
 	</head>
@@ -37,25 +37,21 @@
 				<div class="content-wrapper">
 					<div class="row">
 						<!-- trash mail -->
-						<div class="col-lg-6 grid-margin stretch-card">
+						<div class="col-lg-12 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
 									<h4 class="card-title">휴지통</h4>
-									<div class="row form-inline mx-3">
-										<div>
-											<button class="btn btn-outline-danger btn-sm" onclick="popup()">완전 삭제</button>
+									<!-- 검색 태그 -->
+									<div class="row mb-3 mt-5 mx-3">
+										<div class="form-inline" style="border-bottom:1px solid #e9ecef;">
+											<div class="px-3 py-1 ahover">
+												<a href="" style="color:grey;">읽은메일</a>
+											</div>
+											<div class="px-3 py-1 ahover">
+												<a href="" style="color:grey;">읽지않은메일</a>
+											</div>
 										</div>
-										<div>
-											<button class="btn btn-outline-danger btn-sm">복구</button>
-										</div>
-										<div>
-											<button class="btn btn-outline-danger btn-sm">읽은메일</button>
-										</div>
-										<div>
-											<button class="btn btn-outline-danger btn-sm">읽지않은메일</button>
-										</div>
-										
-									</div>
+									</div><!-- 검색 태그 -->
 									<!-- 테이블 -->
 									<div class="table-responsive">
 										<table class="table table-hover">
@@ -68,10 +64,10 @@
 															</label>
 														</div>
 													</th>
-													<th class="col-2">ID</th>
-													<th class="col-6">제목</th>
+													<th class="col-1">첨부</th>
+													<th class="col-1">ID</th>
+													<th class="col-7">제목</th>
 													<th class="col-2">날짜</th>
-													<th class="col-1">읽음</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -83,13 +79,13 @@
 															</label>
 														</div>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-left text-primary"></i>
 														공유
 													</td>
 													<td>요청서입니다.</td>
 													<td>2023/02/21</td>
-													<td>읽음</td>
 												</tr>
 												<tr>
 													<td>
@@ -99,13 +95,13 @@
 															</label>
 														</div>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-right text-primary"></i>
 														한지민
 													</td>
 													<td>언제까지 요청해야합니까?</td>
 													<td>2023/02/21</td>
-													<td>읽음</td>
 												</tr>
 												<tr>
 													<td>
@@ -115,13 +111,13 @@
 															</label>
 														</div>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-right text-primary"></i>
 														정우성
 													</td>
 													<td>쓰레기 처리합시다.</td>
 													<td>2023/02/21</td>
-													<td>읽음</td>
 												</tr>
 												<tr>
 													<td>
@@ -131,13 +127,13 @@
 															</label>
 														</div>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-right text-primary"></i>
 														유재석
 													</td>
 													<td>쓰레기 정리 안하십니까?</td>
 													<td>2023/02/21</td>
-													<td>읽음</td>
 												</tr>
 												<tr>
 													<td>
@@ -147,13 +143,13 @@
 															</label>
 														</div>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-right text-primary"></i>
 														강호동
 													</td>
 													<td>무언가 아주 많네요?</td>
 													<td>2023/02/21</td>
-													<td>읽음</td>
 												</tr>
 												<tr>
 													<td>
@@ -163,13 +159,13 @@
 															</label>
 														</div>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-right text-primary"></i>
 														김희철
 													</td>
 													<td>이쁘다아</td>
 													<td>2023/02/21</td>
-													<td>읽음</td>
 												</tr>
 												<tr>
 													<td>
@@ -179,13 +175,13 @@
 															</label>
 														</div>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-right text-primary"></i>
 														한송민
 													</td>
 													<td>답신부탁드립니다.</td>
 													<td>2023/02/21</td>
-													<td>읽음</td>
 												</tr>
 												<tr>
 													<td>
@@ -195,13 +191,13 @@
 															</label>
 														</div>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-right text-primary"></i>
 														정우성
 													</td>
 													<td>결제내역 요청서입니다.</td>
 													<td>2023/02/21</td>
-													<td>읽음</td>
 												</tr>
 												<tr>
 													<td>
@@ -211,13 +207,13 @@
 															</label>
 														</div>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-right text-primary"></i>
 														Photoshop
 													</td>
 													<td>게시글이 너무 맣은거 같습니다.</td>
 													<td>2023/02/21</td>
-													<td>읽음</td>
 												</tr>
 												<tr>
 													<td>
@@ -227,19 +223,30 @@
 															</label>
 														</div>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-left text-primary"></i>
 														신문영
 													</td>
 													<td>이제 그만...</td>
 													<td>2023/02/21</td>
-													<td>읽음</td>
 												</tr>
 											</tbody>
 										</table>
 									</div>
 									<!-- 테이블 끝 -->
-
+									
+									<!-- 하단 버튼 -->
+									<div class="row form-inline m-3">
+										<div class="col-md-10"></div>
+										<div class="col-md-1 col-12">
+											<button class="btn btn-outline-warning btn-sm">선택복구</button>
+										</div>
+										<div class="col-md-1 col-12">
+											<button class="btn btn-outline-danger btn-sm">선택삭제</button>
+										</div>
+									</div><!-- 하단 버튼 -->
+									
 									<!-- 페이징 -->
 									<div class="row mt-3 d-flex justify-content-center">
 										<ul class="pagination  pb-0 mb-0">
@@ -254,12 +261,7 @@
 								</div>
 							</div>
 						</div><!-- end trash mail -->
-						<!-- 메일 자세히 보기 -->
-						<div class="col-lg-6 grid-margin stretch-card">
-							<div class="card">
-								<%@ include file="/WEB-INF/views/mail/detailmail.jsp"%>
-							</div>
-						</div><!-- end 메일 자세히 보기 -->
+						
 					</div>
 				</div>
 				<!-- content-wrapper ends -->

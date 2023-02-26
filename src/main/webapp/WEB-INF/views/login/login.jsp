@@ -75,12 +75,11 @@
 												</a>
 											</div>
 											<div
-												class="my-2 d-flex justify-content-between align-items-center">
+												class="mt-2 d-flex justify-content-between align-items-center">
 												<div class="form-check">
 													<label class="form-check-label text-muted">
 													</label>
 												</div>
-												<a href="<c:url value='/errorlogin'/>" class="auth-link text-primary">비밀번호 찾기</a>
 											</div>
 										</form>
 		           					</div>

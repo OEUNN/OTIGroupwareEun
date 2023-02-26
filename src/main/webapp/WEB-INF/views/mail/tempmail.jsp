@@ -16,11 +16,11 @@
         }
 		</script>
 		<style>
-			.table th, .jsgrid .jsgrid-table th,
-			.table td,
-			.jsgrid .jsgrid-table td {
-			  padding: 0.525rem 1.375rem;
-			}
+		.table th, .jsgrid .jsgrid-table th,
+		.table td,
+		.jsgrid .jsgrid-table td {
+		  padding: 0.225rem 1.375rem;
+		}
 		</style>
 	</head>
 
@@ -37,50 +37,38 @@
 				<div class="content-wrapper">
 					<div class="row">
 						<!-- temp mail -->
-						<div class="col-lg-6 grid-margin stretch-card">
+						<div class="col-lg-12 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
 									<h4 class="card-title">임시 보관함</h4>
-									<div class="row form-inline mx-3">
-										<div>
-											<button class="btn btn-outline-danger btn-sm" onclick="popup()">선택삭제</button>
-										</div>
-										<div>
-											<button class="btn btn-outline-danger btn-sm">중요메일</button>
-										</div>
-										<div>
-											<button class="btn btn-outline-danger btn-sm">중요표시안한메일</button>
-										</div>
-									</div>
 									<!-- 테이블 -->
 									<div class="table-responsive">
 										<table class="table table-hover">
 											<thead>
 												<tr>
-													<th class=" form-inline col-2" style="border:none;">
+													<th class=" form-inline col-1" style="border:none;">
 														<div class="form-check font-weight-bold text-info ">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
 													</th>
-													<th class="col-1">발신인</th>
-													<th class="col-6">제목</th>
-													<th class="col-3">날짜</th>
+													<th class="col-1">첨부</th>
+													<th class="col-1">수신인</th>
+													<th class="col-7">제목</th>
+													<th class="col-2">날짜</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
-													<td class="form-inline p-2 pl-3">
+													<td>
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<button class="p-0">
-															<i class="h3 mdi mdi-star-outline text-primary"></i>
-														</button>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-left text-primary"></i>
 														한지민
@@ -89,16 +77,14 @@
 													<td>2023/02/23</td>
 												</tr>
 												<tr>
-													<td class="form-inline p-2 pl-3">
+													<td>
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<button class="p-0">
-															<i class="h3 mdi mdi-star-outline text-primary"></i>
-														</button>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-left text-primary"></i>
 														윤하
@@ -107,16 +93,14 @@
 													<td>2023/02/21</td>
 												</tr>
 												<tr>
-													<td class="form-inline p-2 pl-3">
+													<td>
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<button class="p-0">
-															<i class="h3 mdi mdi-star text-primary"></i>
-														</button>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-right text-primary"></i>
 														정우성
@@ -125,16 +109,14 @@
 													<td>2023/02/14</td>
 												</tr>
 												<tr>
-													<td class="form-inline p-2 pl-3">
+													<td>
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<button class="p-0">
-															<i class="h3 mdi mdi-star-outline text-primary"></i>
-														</button>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-right text-primary"></i>
 														공유
@@ -143,16 +125,14 @@
 													<td>2023/01/30</td>
 												</tr>
 												<tr>
-													<td class="form-inline p-2 pl-3">
+													<td>
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<button class="p-0">
-															<i class="h3 mdi mdi-star-outline text-primary"></i>
-														</button>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-right text-primary"></i>
 														정재영
@@ -161,16 +141,14 @@
 													<td>2023/01/26</td>
 												</tr>
 												<tr>
-													<td class="form-inline p-2 pl-3">
+													<td>
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<button class="p-0">
-															<i class="h3 mdi mdi-star-outline text-primary"></i>
-														</button>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-right text-primary"></i>
 														유재석
@@ -179,16 +157,14 @@
 													<td>2023/01/21</td>
 												</tr>
 												<tr>
-													<td class="form-inline p-2 pl-3">
+													<td>
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<button class="p-0">
-															<i class="h3 mdi mdi-star-outline text-primary"></i>
-														</button>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-right text-primary"></i>
 														강호동
@@ -197,16 +173,14 @@
 													<td>2023/01/17</td>
 												</tr>
 												<tr>
-													<td class="form-inline p-2 pl-3">
+													<td>
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<button class="p-0">
-															<i class="h3 mdi mdi-star-outline text-primary"></i>
-														</button>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-right text-primary"></i>
 														이수근
@@ -215,16 +189,14 @@
 													<td>2023/01/11</td>
 												</tr>
 												<tr>
-													<td class="form-inline p-2 pl-3">
+													<td>
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<button class="p-0">
-															<i class="h3 mdi mdi-star-outline text-primary"></i>
-														</button>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-right text-primary"></i>
 														김희철
@@ -233,16 +205,14 @@
 													<td>2023/01/09</td>
 												</tr>
 												<tr>
-													<td class="form-inline p-2 pl-3">
+													<td>
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
 														</div>
-														<button class="p-0">
-															<i class="h3 mdi mdi-star-outline text-primary"></i>
-														</button>
 													</td>
+													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td>
 														<i class="mdi mdi-arrow-left text-primary"></i>
 														이장훈
@@ -254,6 +224,14 @@
 										</table>
 									</div>
 									<!-- 테이블 끝 -->
+									
+									<!-- 하단 버튼 -->
+									<div class="row form-inline m-3">
+										<div class="col-md-11"></div>
+										<div class="col-md-1 col-12">
+											<button class="btn btn-outline-danger btn-sm">선택삭제</button>
+										</div>
+									</div><!-- 하단 버튼 -->
 
 									<!-- 페이징 -->
 									<div class="row mt-3 d-flex justify-content-center">
@@ -268,13 +246,6 @@
 								</div>
 							</div>
 						</div><!-- end temp mail -->
-						
-						<!-- 메일 자세히 보기 -->
-						<div class="col-lg-6 grid-margin stretch-card">
-							<div class="card">
-								<%@ include file="/WEB-INF/views/mail/detailmail.jsp"%>
-							</div>
-						</div><!-- end 메일 자세히 보기 -->
 						
 					</div>
 				</div>
