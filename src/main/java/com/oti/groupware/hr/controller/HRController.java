@@ -38,7 +38,21 @@ public class HRController {
 		log.info("정보 로그");
 
 		//서비스 로직
-//		hrService.insertIntime
+		int result = hrService.inTime();
+		
+		return "hr/attendance";
+	}
+
+	/**
+	 * 출근시간 등록
+	 * @return 
+	 */
+	@RequestMapping(value = "/outtime")
+	public String outTime() {
+		log.info("정보 로그");
+		
+		//서비스 로직
+		int result = hrService.outTime();
 		
 		return "hr/attendance";
 	}

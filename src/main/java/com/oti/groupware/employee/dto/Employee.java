@@ -3,7 +3,7 @@ package com.oti.groupware.employee.dto;
 import lombok.Data;
 
 @Data
-public class EmployeeDTO {
+public class Employee {
 
     private String empId;
     private int posId;
