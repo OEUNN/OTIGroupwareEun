@@ -2,56 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oti.groupware.approval.dao.ApprovalLineDAO">
 
-    <insert id="insertApprovalLine">
-        INSERT INTO approval_lines (
-        	emp_id,
-        	doc_id,
-        	aprv_line_state,
-        	aprv_line_order,
-        	aprv_line_role, 
-        	aprv_line_approval_date,
-        	aprv_line_open_yn,
-        	aprv_line_opinion
-        )
-        VALUES (
-        	#{empId},
-        	#{docId},
-        	#{aprvLineState},
-        	#{aprvLineOrder},
-        	#{aprvLineRole}, 
-        	#{aprvLineApprovalDate},
-        	#{aprvLineOpenYn},
-        	#{aprvLineOpinion}
-        )
-    </insert>
-    
-	<select id="getApprovalLineById" resultType="approvalLine">
-		SELECT emp_id,
-			doc_id,
-			aprv_line_state,
-			aprv_line_order,
-			aprv_line_role, 
-			aprv_line_approval_date,
-			aprv_line_open_yn,
-			aprv_line_opinion
+	<resultMap id="approvalLineResultMap" type="ApprovalLine">
+		<result column="emp_id" property="empId"/>
+		<result column="doc_id" property="docId"/>
+		<result column="aprv_line_state" property="aprvLineState"/>
+		<result column="aprv_line_order" property="aprvLineOrder"/>
+		<result column="aprv_line_role" property="aprvLineRole"/>
+		<result column="aprv_line_approval_date" property="aprvLineApprovalDate" jdbcType="DATE"/>
+		<result column="aprv_line_open_yn" property="aprvLineOpenYn"/>
+		<result column="aprv_line_opinion" property="aprvLineOpinion"/>
+	</resultMap>
+
+	<select id="getApprovalLineById" resultMap="approvalLineResultMap">
+		SELECT emp_id, doc_id, aprv_line_state, aprv_line_order, aprv_line_role, aprv_line_approval_date, aprv_line_open_yn, aprv_line_opinion
 		FROM approval_lines
 		WHERE emp_id = #{empId} AND doc_id = #{docId}
 	</select>
-    
-    <update id="updateApprovalLine">
-        UPDATE approval_lines
-        SET aprv_line_state = #{aprvLineState},
-	        aprv_line_order = #{aprvLineOrder}, 
-	        aprv_line_role = #{aprvLineRole},
-	        aprv_line_approval_date = #{aprvLineApprovalDate}, 
-	        aprv_line_open_yn = #{aprvLineOpenYn},
-	        aprv_line_opinion = #{aprvLineOpinion}
-        WHERE emp_id = #{empId} AND doc_id = #{docId}
-    </update>
-    
-    <delete id="deleteApprovalLine">
-        DELETE FROM project3.approval_lines
-        WHERE emp_id = #{empId} AND doc_id = #{docId}
-    </delete>
+
+	<insert id="insertApprovalLine" parameterType="ApprovalLine">
+		INSERT INTO approval_lines
+		(emp_id, doc_id, aprv_line_state, aprv_line_order, aprv_line_role, aprv_line_approval_date, aprv_line_open_yn, aprv_line_opinion)
+		VALUES
+		(#{empId}, #{docId}, #{aprvLineState}, #{aprvLineOrder}, #{aprvLineRole}, #{aprvLineApprovalDate,jdbcType=DATE}, #{aprvLineOpenYn}, #{aprvLineOpinion})
+	</insert>
+
+	<update id="updateApprovalLine" parameterType="ApprovalLine">
+		UPDATE approval_lines SET
+		aprv_line_state = #{aprvLineState},
+		aprv_line_order = #{aprvLineOrder},
+		aprv_line_role = #{aprvLineRole},
+		aprv_line_approval_date = #{aprvLineApprovalDate,jdbcType=DATE},
+		aprv_line_open_yn = #{aprvLineOpenYn},
+		aprv_line_opinion = #{aprvLineOpinion}
+		WHERE emp_id = #{empId} AND doc_id = #{docId}
+	</update>
+
+	<delete id="deleteApprovalLine">
+		DELETE FROM approval_lines WHERE emp_id = #{empId} AND doc_id = #{docId}
+	</delete>
     
 </mapper>

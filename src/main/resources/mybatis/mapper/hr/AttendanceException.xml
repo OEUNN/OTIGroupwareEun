@@ -2,7 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oti.groupware.hr.dao.AttendanceExceptionDao">
 
-	<select id="getAttendanceExceptionById" resultType="attendanceException">
+	<resultMap id="attendanceExceptionResultMap" type="attendanceException">
+		<result column="atd_excp_id" property="atdExcpId"/>
+		<result column="emp_id" property="empId"/>
+		<result column="atd_excp_reason" property="atdExcpReason"/>
+		<result column="atd_excp_category" property="atdExcpCategory"/>
+		<result column="atd_excp_in_time" property="atdExcpInTime"/>
+		<result column="atd_excp_out_time" property="atdExcpOutTime"/>
+		<result column="atd_excp_process_state" property="atdExcpProcessState"/>
+		<result column="atd_excp_process_date" property="atdExcpProcessDate"/>
+		<result column="atd_excp_approval_emp" property="atdExcpApprovalEmp"/>
+		<result column="atd_excp_opinion" property="atdExcpOpinion"/>
+	</resultMap>
+
+	<select id="getAttendanceExceptionById" resultMap="attendanceExceptionResultMap">
 		SELECT atd_excp_id,
 		    emp_id,
 		    atd_excp_reason,
