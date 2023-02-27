@@ -88,7 +88,7 @@
 													<td><u>요청부탁드립니다.</u></td>
 													<td>2023/02/24</td>
 												</tr>
-												<tr>
+												<tr class="text-muted">
 													<td class="form-inline py-1" >
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
@@ -101,7 +101,7 @@
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td><i class="mdi mdi-arrow-left text-primary"></i>신문영</td>
-													<td>2월24일자 공지사항입니다.</td>
+													<td><u>2월24일자 공지사항입니다.</u></td>
 													<td>2023/02/24</td>
 												</tr>
 												<tr>
@@ -241,7 +241,7 @@
 									<div class="row form-inline m-3">
 										<div class="col-md-11"></div>
 										<div class="col-md-1 col-12 ">
-											<button class="btn btn-outline-danger btn-sm">선택삭제</button>
+											<button class="btn btn-danger btn-sm">선택삭제</button>
 										</div>
 									</div><!-- 하단 버튼 -->
 
