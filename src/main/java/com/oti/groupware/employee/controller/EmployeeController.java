@@ -1,4 +1,4 @@
-package com.oti.groupware.employee;
+package com.oti.groupware.employee.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

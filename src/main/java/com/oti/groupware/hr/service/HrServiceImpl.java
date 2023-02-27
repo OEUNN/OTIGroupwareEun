@@ -1,4 +1,4 @@
-package com.oti.groupware.hr;
+package com.oti.groupware.hr.service;
 
 import org.springframework.stereotype.Service;
 
