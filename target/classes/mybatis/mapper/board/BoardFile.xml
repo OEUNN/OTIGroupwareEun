@@ -1,3 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.hr.dao.hrDao"></mapper>
+<mapper namespace="com.oti.groupware.board.dao.BoardFileDAO">
+
+   <resultMap id="boardsFileResultMap" type="boardFile">
+        <result property="boardFileId" column="board_file_id" />
+        <result property="boardId" column="board_id" />
+        <result property="boardFileName" column="board_file_name" />
+        <result property="boardFileData" column="board_file_data" />
+        <result property="boardFileType" column="board_file_type" />
+        <result property="boardFileLength" column="board_file_length" />
+    </resultMap>
+
+    <select id="getBoardFileById" resultMap="boardsFileResultMap" parameterType="int">
+        SELECT board_file_id, board_id, board_file_name, board_file_data, board_file_type, board_file_length
+        FROM project3.boards_files
+        WHERE board_file_id = #{boardFileId}
+    </select>
+
+    <insert id="insertBoardFile" parameterType="boardFile">
+        INSERT INTO project3.boards_files (board_file_id, board_id, board_file_name, board_file_data, board_file_type, board_file_length)
+        VALUES (#{boardFileId}, #{boardId}, #{boardFileName}, #{boardFileData}, #{boardFileType}, #{boardFileLength})
+    </insert>
+
+    <update id="updateBoardFile" parameterType="boardFile">
+        UPDATE project3.boards_files
+        SET board_id = #{boardId},
+            board_file_name = #{boardFileName},
+            board_file_data = #{boardFileData},
+            board_file_type = #{boardFileType},
+            board_file_length = #{boardFileLength}
+        WHERE board_file_id = #{boardFileId}
+    </update>
+
+    <delete id="deleteBoardFile" parameterType="int">
+        DELETE FROM project3.boards_files
+        WHERE board_file_id = #{boardFileId}
+    </delete>
+
+</mapper>
