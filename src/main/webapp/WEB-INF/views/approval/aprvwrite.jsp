@@ -54,9 +54,7 @@
             		<div class="col-md-12 grid-margin">
             			<div class="card grid-margin shadow-2">
             				<div class="card-body">
-            					<div class="row">
-									<p class="col-12 card-title mb-3">기안 작성하기</p>
-            					</div>
+            					<p class="card-title mb-3">기안 작성하기</p>
             					<div class="row ml-1">
 	            					<div class="col-3 card-body mb-3" style="height: fit-content;">
 										<div class="card grid-margin" style="border-radius:8px; border: 2px solid #4747A1;">
@@ -103,7 +101,7 @@
 								                    <div class="card-body">
 									                    <div class="row">
 										                    <div class="col-10">
-										                    	<p class="card-title text-white fs-3">장그래(기안)</p>
+										                    	<p class="text-white font-weight-bold">장그래(기안)</p>
 										                    	<p>공공사업1DIV 사원</p>
 										                    </div>
 									                    </div>
@@ -116,7 +114,7 @@
 								                    <div class="card-body">
 									                    <div class="row">
 										                    <div class="col-10">
-										                    	<p class="card-title text-white fs-3">오상식</p>
+										                    	<p class="text-white font-weight-bold">오상식</p>
 										                    	<p>공공사업1DIV 차장</p>
 										                    </div>
 										                    <div class="col-2">
@@ -132,7 +130,7 @@
 								                    <div class="card-body">
 									                    <div class="row">
 										                    <div class="col-10">
-										                    	<p class="card-title text-white fs-3">김부련</p>
+										                    	<p class="text-white font-weight-bold">김부련</p>
 										                    	<p>공공사업1DIV 부장</p>
 										                    </div>
 										                    <div class="col-2">
@@ -148,7 +146,7 @@
 								                    <div class="card-body">
 									                    <div class="row">
 										                    <div class="col-10">
-										                    	<p class="card-title text-white fs-3">최전무</p>
+										                    	<p class="text-white font-weight-bold">최전무</p>
 										                    	<p>공공사업1DIV 대표이사</p>
 										                    </div>
 										                    <div class="col-2">
@@ -177,15 +175,19 @@
 	            					</div>
 	            					<div class="col-9 card grid-margin mb-3 d-flex justify-content-center flex-column" style="background-color: transparent; box-shadow: 0px 0px 0px white;">
 		        						<div class="card-body grid-margin">
-		        							<div class="card-title">
-		        								<div class="row">
-		        									<div class="col-6"><span style="vertical-align: text-top;">내용</span></div> 
-		        									<div class="col-6 d-flex justify-content-end">
-		        										<div class="btn btn-warning font-weight-bold"><span class="mdi mdi-calendar-clock align-middle pr-1"></span>임시저장</div>
-		        										<div class="ml-1 btn btn-primary font-weight-bold"><span class="mdi mdi mdi-apple-keyboard-caps align-middle pr-1"></span>상신하기</div>
-		        									</div>
-		        								</div>
-		        							</div>
+											<div class="d-flex justify-content-between align-items-center mb-4">
+												<div class="card-title mb-0">나의 출퇴근</div>
+												<div class="d-flex">
+													<button onclick="upateTimePopup()" id="popup-btn" class="btn btn-md btn-warning mx-2">
+														<span class="mdi mdi-calendar-clock align-middle"></span>
+														<span>임시저장</span>
+													</button>
+													<button onclick="overTimePopup()" id="popup-btn" class="btn btn-md btn-primary mx-2">
+														<span class="mdi mdi-apple-keyboard-caps align-middle"></span>
+														<span>상신하기</span>
+													</button>
+												</div>
+											</div>
 		        							<textarea id="document" style="width: inherit;"></textarea>
 		        						</div>
 	            					</div>
