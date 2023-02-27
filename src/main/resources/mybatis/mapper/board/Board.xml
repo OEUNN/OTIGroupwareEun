@@ -1,3 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.hr.dao.hrDao"></mapper>
+<mapper namespace="com.oti.groupware.board.dao.BoardDAO">
+
+	<resultMap id="boardResultResultMap" type="board">
+		<id column="board_id" property="boardId" />
+		<result column="emp_id" property="empId" />
+		<result column="board_category_id" property="boardCategoryId" />
+		<result column="board_title" property="boardTitle" />
+		<result column="board_content" property="boardContent" />
+		<result column="board_date" property="boardDate" />
+		<result column="board_file_yn" property="boardFileYn" />
+	</resultMap>
+    
+    <select id="getBoardById" parameterType="int" resultMap="boardResultResultMap">
+        SELECT board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn
+        FROM boards
+        WHERE board_id = #{boardId}
+    </select>
+
+ 	<insert id="insertBoard" parameterType="board">
+        INSERT INTO boards (board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn)
+        VALUES (#{boardId}, #{empId}, #{boardCategoryId}, #{boardTitle}, #{boardContent}, #{boardDate}, #{boardFileYn})
+    </insert>
+    
+    <update id="updateBoard" parameterType="board">
+        UPDATE boards
+        SET emp_id = #{empId}, board_category_id = #{boardCategoryId}, board_title = #{boardTitle},
+            board_content = #{boardContent}, board_date = #{boardDate}, board_file_yn = #{boardFileYn}
+        WHERE board_id = #{boardId}
+    </update>
+    
+    <delete id="deleteBoard" parameterType="int">
+        DELETE FROM boards WHERE board_id = #{boardId}
+    </delete>
+    
+</mapper>
