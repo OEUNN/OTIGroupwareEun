@@ -49,8 +49,7 @@
 									<div class="card-title mt-1 row d-flex justify-content-center">다시 시도 부탁드립니다.</div>
 									<div class="row mb-1" >
 										<div class="col"></div>
-										<button class="col-3 btn btn-primary btn-md mt-1 mx-3" onclick="retry()">확인</button>
-										<button class="col-3 btn btn-outline-primary btn-md mt-1 mx-3" onclick="window.close()">취소</button>
+										<button class="col-3 btn btn-primary btn-md mt-1 mx-3" onclick="window.close()">닫기</button>
 										<div class="col"></div>
 									</div>
 								</div>

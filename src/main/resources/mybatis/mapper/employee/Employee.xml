@@ -1,3 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.hr.dao.hrDao"></mapper>
+<mapper namespace="com.oti.groupware.employee.dao.EmployeeDao">
+
+	<select id="selectByEmpId" parameterType="string" resultType="employee">
+		select 
+			emp_id as "empId", 
+			posId as "posId", 
+			depId as "depId", 
+			emp_mail as "empMail", 
+			emp_name as "empName",
+			emp_password as "empPassword", 
+			emp_extension_number as "empExtensionNumber", 
+			emp_phone_number as "empPhoneNumber", 
+			emp_leave_reserve as "empLeaveReserve", 
+			emp_substitue_reserve as "empSubstitueReserve", 
+			emp_login_failures_cnt as "empLoginFailuresCnt", 
+			emp_file_data as "empFileData", 
+			emp_file_type as "empFileType"
+		from employees
+		where emp_id =#{empId}
+	</select>
+	
+	<update id="updateLoginFailCnt" parameterType="employee">
+		update employees
+		set emp_login_failures_cnt = #{empLoginFailuresCnt}
+		where emp_id = #{empId}
+	</update>
+	
+	<update id="updateLoginSuccessCnt" parameterType="employee">
+		update employees
+		set emp_login_failures_cnt = #{empLoginFailuresCnt}
+		where emp_id = #{empId}
+	</update>
+	
+	
+</mapper>
