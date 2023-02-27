@@ -1,8 +1,17 @@
 package com.oti.groupware.hr.controller;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.oti.groupware.hr.dto.Attendance;
 import com.oti.groupware.hr.service.HrService;
 
 import lombok.extern.log4j.Log4j2;
@@ -17,6 +26,7 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping(value="/hr")
 public class HRController {
 	
+	@Autowired
 	private HrService hrService;
 	
 	/**
@@ -24,34 +34,53 @@ public class HRController {
 	 * @return 나의근무 페이지
 	 */
 	@RequestMapping(value = "/attendance")
-	public String attendance() {
+	public String attendance(HttpSession session, Model model) {
 		log.info("정보 로그");
+		
+		//출퇴근 시간 갖고오기
+//		Attendance attendance = new Attendance();
+//		String empId = (String) session.getAttribute("empId"); //세션에 저장된 임직원ID
+//		int result = hrService.attendanceToday(empId);
+//		
+//			if (attendance != null) {
+//				if (attendance.getOutTime() != null) {
+//				}
+//				model.addAttribute("attendVO", attendVO);
+//			} else {
+//				return "main";
+//			}
+//		}
+//		
+//		//달력 목록 가져오기
+//		
 		return "hr/attendance";
 	}
 
 	/**
-	 * 출근시간 등록
+	 * 출근시간 등록(출근버튼 click)
 	 * @return 
 	 */
 	@RequestMapping(value = "/intime")
-	public String inTime() {
-		log.info("정보 로그");
-
-		//서비스 로직
-		int result = hrService.inTime();
+	public String inTime(@RequestBody String hello, HttpSession session, Model model) {
+		System.out.println(hello);
+//		log.info("정보 로그");
+//		String empId = (String) session.getAttribute("empId");
+		
+		//비즈니스 로직(출근시간 등록)
+//		hrService.inTime(empId, now);
 		
 		return "hr/attendance";
 	}
 
 	/**
-	 * 출근시간 등록
+	 * 퇴근시간 등록(퇴근버튼 click)
 	 * @return 
 	 */
 	@RequestMapping(value = "/outtime")
 	public String outTime() {
 		log.info("정보 로그");
 		
-		//서비스 로직
+		//business logic
 		int result = hrService.outTime();
 		
 		return "hr/attendance";

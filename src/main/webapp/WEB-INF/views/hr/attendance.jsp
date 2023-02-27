@@ -39,17 +39,16 @@
 		//출퇴근 버튼
 		function inTime(){
 			$.ajax({
-				type : 'GET',
+				type : 'POST',
 				url : "/groupware/hr/intime",
-// 				data : {replyId: i},
 				error : function() {
 					alert('통신실패!');
 				},
 				success : function(data) {
-					$("#real-in-btn").css("display", "none");
-					$("#fake-in-btn").css("display", "block");
-					$("#fake-out-btn").css("display", "none");
-					$("#real-out-btn").css("display", "block");
+// 					$("#real-in-btn").css("display", "none");
+// 					$("#fake-in-btn").css("display", "block");
+// 					$("#fake-out-btn").css("display", "none");
+// 					$("#real-out-btn").css("display", "block");
 				}
 			});
 			
