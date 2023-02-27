@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class AttendanceDTO {
+public class Attendance {
     private int atdId;
     private String empId;
     private Date atdInTime;

@@ -3,7 +3,7 @@ package com.oti.groupware.mail.dto;
 import lombok.Data;
 
 @Data
-public class MailFileDTO {
+public class MailFile {
 
     private int mailFileId;
     private int sendMailId;

@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class DocumentDTO {
+public class Document {
     private int docId;
     private String empId;
     private String docType;

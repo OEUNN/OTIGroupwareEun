@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class LeaveApplicationDTO {
+public class LeaveApplication {
     private int levAppId;
     private String empId;
     private Date levAppDate;

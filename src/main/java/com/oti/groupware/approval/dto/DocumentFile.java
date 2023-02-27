@@ -3,7 +3,7 @@ package com.oti.groupware.approval.dto;
 import lombok.Data;
 
 @Data
-public class DocumentFileDTO {
+public class DocumentFile {
     private int docFileId;
     private int docId;
     private String docFileName;
