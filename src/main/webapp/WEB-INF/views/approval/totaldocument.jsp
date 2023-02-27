@@ -216,11 +216,11 @@
 												<th class="pl-0 border-bottom pb-2">문서 번호</th>
 												<th class="border-bottom pb-2 dropdown-toggle" data-toggle="dropdown">
 													결재상태
-													<div class="dropdown-menu" style="position: absolute; transform: translate3d(0px, 44px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
-														<div class="dropdown-item" style="width: fit-content;"><i class="mdi mdi-check-circle-outline d-flex align-self-center mr-1"></i><span>승인</span></div>
-														<div class="dropdown-item" style="width: fit-content;"><i class="mdi mdi-file-document d-flex align-self-center mr-1"></i><span>진행</span></div>
-														<div class="dropdown-item" style="width: fit-content;"><i class="mdi mdi-block-helper d-flex align-self-center mr-1"></i><span>반려</span></div>
-														<div class="dropdown-item" style="width: fit-content;"><i class="mdi mdi-replay d-flex align-self-center mr-1"></i><span>회수</span></div>
+													<div class="dropdown-menu" style="position: absolute; transform: translate3d(0px, 44px, 0px); top: 0px; left: 0px; will-change: transform; width: fit-content;" x-placement="bottom-start">
+														<div class="dropdown-item d-flex justify-content-center p-1"><div class="badge badge-success font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-check-circle-outline d-flex align-self-center mr-1"></i><span>승인</span></div></div>
+														<div class="dropdown-item d-flex justify-content-center p-1"><div class="badge badge-warning font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-file-document d-flex align-self-center mr-1"></i><span>진행</span></div></div>
+														<div class="dropdown-item d-flex justify-content-center p-1"><div class="badge badge-danger font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-block-helper d-flex align-self-center mr-1"></i><span>반려</span></div></div>
+														<div class="dropdown-item d-flex justify-content-center p-1"><div class="badge badge-secondary font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-replay d-flex align-self-center mr-1"></i><span>회수</span></div></div>
 													</div>	
 												</th>
 												<th class="border-bottom pb-2">제목</th>
