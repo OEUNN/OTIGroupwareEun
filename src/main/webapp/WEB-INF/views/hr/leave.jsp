@@ -42,7 +42,7 @@
 		function leaveDetail() {
         	var url = "popup/leavedetail";
          	var name = "";
-         	var option = "width = 800, height = 570, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
+         	var option = "width = 800, height = 650, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
          	window.open(url, name, option);
 		}
 	</script>
@@ -66,31 +66,39 @@
        			<div class="col-md-5 grid-margin stretch-card">
 	              <div class="card">
 	                <div class="card-body">	
-                   		<div class="card-title d-flex align-items-center justify-content-between">
-                   			<div>휴가내역</div>
-                   			<!-- datepicker start -->
-			                <div id="datepicker" class="input-daterange input-group w-50">
-								<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:13px; left: 25px;"></span>
-							    <input type="text" class="form-control font-weight-bold text-center form-control-sm" name="start" style="border:2px solid #4B49AC; border-radius:10px; "/>
-								<button onclick="" class="btn btn-md btn-primary ml-2">검색</button>
-							</div>
-			                <!-- datepicker end -->
-                   		</div>
+                   		<div class="d-flex justify-content-between align-items-center mb-4">
+	              			<div class="card-title mb-0">휴가내역</div>
+	              			<div class="d-flex justify-content-end" style="width: 70%;">
+		              			<!-- datepicker start -->
+		              			<div id="datepicker" class="input-daterange input-group text-primary" style="border:2px solid #4B49AC; border-radius: 15px; width: 70%;">
+									<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:12px; left: 15px;"></span>
+								    <input type="text" class="form-control-sm form-control font-weight-bold" name="start" style="border:0px; text-align: center;">
+								    <span class="input-group-addon font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
+									<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:12px; left: 15px;"></span>
+								    <input type="text" class="form-control-sm form-control font-weight-bold" name="end" style="border:0px; border-radius:15px; text-align: center;">
+								</div>
+					            <!-- datepicker end -->
+					            <button class="btn btn-md btn-primary ml-2">
+									<span>검색</span>
+								</button>
+	              			</div>
+	                   	 </div>
 	                	<!-- 휴가일수 -->
 	                	<div class="card card-light-blue mb-4">
 	                  		<div class="card-body">
-	                     		<p class="card-title text-white">Leave</p>
-	                      		<div class="row text-center px-2" style="font-size: 14px;">
-	                         		<div class="col-md">총 연차</div>
-	                         		<div class="col-md">사용 연차</div>
-	                         		<div class="col-md">잔여 연차</div>
-	                         		<div class="col-md">잔여 대체휴무</div>
+	                      		<div class="row text-center pl-2 pr-4" style="font-size: 13px; font-weight: bold;">
+	                         		<div class="col-md px-0">총 연차</div>
+	                         		<div class="col-md px-0">발생 일수</div>
+	                         		<div class="col-md px-0">사용 일수</div>
+	                         		<div class="col-md px-0">잔여 연차</div>
+	                         		<div class="col-md px-0">잔여 대체휴무</div>
 	                      		</div>
 	                      		<div class="row text-center font-weight-bold h3 mb-0">
 	                         		<div class="col-md">0</div>
 	                         		<div class="col-md">0</div>
 	                         		<div class="col-md">0</div>
 	                         		<div class="col-md">0</div>
+	                         		<div class="col-md mr-3">0</div>
 	                      		</div>
                       		</div>
                  		</div>
@@ -100,10 +108,10 @@
 		                        <thead>
 		                          <tr>
 		                            <th>휴가유형</th>
-		                            <th>기안날짜</th>
+		                            <th>신청날짜</th>
 		                            <th>휴가기간</th>
-		                            <th>결재날짜</th>
-		                            <th>결재상태</th>
+		                            <th>처리날짜</th>
+		                            <th>신청결과</th>
 		                          </tr>
 		                        </thead>
 		                        <tbody>
@@ -255,8 +263,8 @@
 			                    	</div>
 	                      		 </div>
 	                        	 <div class="row justify-content-center mt-3">
-	                       			<div style="border: 1px solid #a3a4a5; opacity: 0.5; width:90%;"></div>
-	                      		 </div>
+		                       			<div style="border-bottom: 2px solid #4B49AC; width:90%;"></div>
+		                      		</div>
 	                       	   </div>
 							   <!-- 버튼 -->
 		                       <div class="row px-5 mt-3 justify-content-end">

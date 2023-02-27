@@ -18,9 +18,9 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
 	<style type="text/css">
 	.collapse, .collapsing {
-	
 		box-shadow: 0px 0px 0px white !important;
 	}
+	
 	.table th, .jsgrid .jsgrid-table th,
 	.table td,
 	.jsgrid .jsgrid-table td {
@@ -60,7 +60,7 @@
 			        						<div class="col-3">
 				        						<div class="card" style="border-radius:8px;">
 													<div class="card-header bg-white d-flex" style="border-radius:8px; border-bottom: 0px;">
-														<a class="font-weight-bold text-decoration-none" data-target="#filter_by_status" data-toggle="collapse" style="color: #4747A1;">결재상태</a>
+														<a class="prevent-collapse font-weight-bold text-decoration-none" data-target="#filter_by_status" data-toggle="collapse" style="color: #4747A1;">결재상태</a>
 														<div class="flex-grow-1" style="text-align: end; color: black;">승인</div>
 													</div>
 				        							<div id="filter_by_status" class="card-body collapse" style="border-radius:8px; padding: 0; padding-left: 1.25rem; padding-right: 1.25rem;">
@@ -149,7 +149,7 @@
 		        						<div class="col-2">
 			        						<div class="card" style="border-radius:8px;">
 												<div class="card-header bg-white d-flex" style="border-radius:8px; border-bottom: 0px;">
-													<a class="font-weight-bold text-decoration-none" data-target="#searchparameter" data-toggle="collapse" style="color: #4747A1;">#태그</a>
+													<a class="font-weight-bold text-decoration-none" data-target="#searchparameter" data-toggle="collapse" style="color: #4747A1;">검색조건</a>
 												</div>
 			        							<div id="searchparameter" class="card-body collapse" style="border-radius:8px; padding: 0; padding-left: 1.25rem; padding-right: 1.25rem;">
 				        							<div class="form-check font-weight-bold text-info">
@@ -214,7 +214,15 @@
 										<thead>
 											<tr>
 												<th class="pl-0 border-bottom pb-2">문서 번호</th>
-												<th class="border-bottom pb-2">결재상태</th>
+												<th class="border-bottom pb-2 dropdown-toggle" data-toggle="dropdown">
+													결재상태
+													<div class="dropdown-menu" style="position: absolute; transform: translate3d(0px, 44px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
+														<div class="dropdown-item" style="width: fit-content;"><i class="mdi mdi-check-circle-outline d-flex align-self-center mr-1"></i><span>승인</span></div>
+														<div class="dropdown-item" style="width: fit-content;"><i class="mdi mdi-file-document d-flex align-self-center mr-1"></i><span>진행</span></div>
+														<div class="dropdown-item" style="width: fit-content;"><i class="mdi mdi-block-helper d-flex align-self-center mr-1"></i><span>반려</span></div>
+														<div class="dropdown-item" style="width: fit-content;"><i class="mdi mdi-replay d-flex align-self-center mr-1"></i><span>회수</span></div>
+													</div>	
+												</th>
 												<th class="border-bottom pb-2">제목</th>
 												<th class="border-bottom pb-2">기안자</th>
 												<th class="border-bottom pb-2">부서</th>
@@ -292,13 +300,13 @@
 												<td><div class="badge badge-secondary font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-replay d-flex align-self-center mr-1"></i><span>회수</span></div></td>
 												<td>
 													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2" style="text-decoration: line-through;">결재 부탁드립니다</span></p>
+														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
 														<p class="mb-0">
-															<span class="font-weight-light text-muted mr-2" style="text-decoration: line-through;">장그래</span>
+															<span class="font-weight-light text-muted mr-2">장그래</span>
 															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-muted mr-2" style="text-decoration: line-through;">오상식</span>
+															<span class="font-weight-light text-muted mr-2">오상식</span>
 															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-muted mr-2" style="text-decoration: line-through;">김부련</span>
+															<span class="font-weight-light text-muted mr-2">김부련</span>
 														</p>
 													</div>
 												</td>
@@ -376,13 +384,13 @@
 												<td><div class="badge badge-secondary font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-replay d-flex align-self-center mr-1"></i><span>회수</span></div></td>
 												<td>
 													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2" style="text-decoration: line-through;">결재 부탁드립니다</span></p>
+														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
 														<p class="mb-0">
-															<span class="font-weight-light text-muted mr-2" style="text-decoration: line-through;">장그래</span>
+															<span class="font-weight-light text-muted mr-2">장그래</span>
 															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-muted mr-2" style="text-decoration: line-through;">오상식</span>
+															<span class="font-weight-light text-muted mr-2">오상식</span>
 															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-muted mr-2" style="text-decoration: line-through;">김부련</span>
+															<span class="font-weight-light text-muted mr-2">김부련</span>
 														</p>
 													</div>
 												</td>

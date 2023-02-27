@@ -47,47 +47,34 @@
 		<!-- ***** content-start ***** -->
 		<div class="main-panel">
 	        <div class="content-wrapper">
-				<div class="row">
+	        	<div class="row">
 	        		<div class="col-md-12 grid-margin">
 	        			<div class="card gird-margin shadow-2">
 		        			<div class="card-body">
 		        				<p class="card-title mb-3">검색</p>
 		        				<div class="card-body mb-3" style="box-shadow: 0px 0px 0px white;">
 		        					<div class="row">
-		        						<div class="col-4">
+		        						<div class="col-6">
 			        						<div class="card" style="border-radius:8px; border: 2px solid #4747A1;">
 												<div class="card-header bg-white d-flex" style="border-radius:8px; border-bottom: 0px;">
-													<a class="font-weight-bold text-decoration-none" data-target="#filter_by_div" data-toggle="collapse" style="color: #4747A1;">부서</a>
-													<div class="flex-grow-1 font-weight-bold text-info" style="text-align: end; color: #7DA0FA;">공공사업1DIV</div>
+													<a class="font-weight-bold text-decoration-none" data-target="#filter_by_date" data-toggle="collapse" style="color: #4747A1;">기준날짜</a>
+													<div class="flex-grow-1 font-weight-bold text-info" style="text-align: end; color: #7DA0FA;">상신</div>
 												</div>
-			        							<div id="filter_by_div" class="card-body collapse" style="border-radius:8px; padding: 0; padding-left: 1.25rem; padding-right: 1.25rem;">
+			        							<div id="filter_by_date" class="card-body collapse" style="border-radius:8px; padding: 0; padding-left: 1.25rem; padding-right: 1.25rem;">
 				        							<div class="form-check font-weight-bold text-info">
 														<label class="form-check-label">
-															<input type="checkbox" class="form-check-input" name="optradio" checked>공공사업1DIV
-														</label>
-													</div>
-													<div class="form-check">
-														<label class="form-check-label text-muted">
-															<input type="checkbox" class="form-check-input" name="optradio">공공사업2DIV
+															<input type="radio" class="form-check-input" name="optradio" checked>상신
 														</label>
 													</div>
 													<div class="form-check disabled">
 														<label class="form-check-label text-muted">
-															<input type="checkbox" class="form-check-input" name="optradio">경영지원부서
+															<input type="radio" class="form-check-input" name="optradio">완결
 														</label>
 													</div>
 			        							</div>
 			        						</div>
 		        						</div>
-		        						<div class="col-4">
-			        						<div class="card" style="border-radius:8px; border: 2px solid #4747A1;">
-												<div class="card-header bg-white d-flex" style="border-radius:8px; border-bottom: 0px;">
-													<a class="font-weight-bold text-decoration-none" style="color: #4747A1;">기준날짜</a>
-													<div class="flex-grow-1 font-weight-bold text-info" style="text-align: end; color: #7DA0FA;">상신</div>
-												</div>
-			        						</div>
-		        						</div>
-		        						<div class="col-4">
+		        						<div class="col-6">
 		        							<div class="card" style="border-radius:8px; border: 2px solid #4747A1;">
 				        						<div class="input-daterange input-group" id="datepicker">
 													<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
@@ -116,10 +103,6 @@
 															<span class="mx-1"><i class="mdi mdi-close"></i></span>
 														</div>
 														<div class="badge badge-primary font-weight-bold">
-															기안자
-															<span class="mx-1"><i class="mdi mdi-close"></i></span>
-														</div>
-														<div class="badge badge-primary font-weight-bold">
 															결재자
 															<span class="mx-1"><i class="mdi mdi-close"></i></span>
 														</div>
@@ -135,10 +118,6 @@
 														<span class="mx-1"><i class="mdi mdi-check"></i></span>
 													</div>
 													<div class="badge badge-primary font-weight-bold">
-														기안자
-														<span class="mx-1"><i class="mdi mdi-check"></i></span>
-													</div>
-													<div class="badge badge-primary font-weight-bold">
 														결재자
 														<span class="mx-1"><i class="mdi mdi-check"></i></span>
 													</div>
@@ -151,45 +130,28 @@
 	        			</div>
 	        		</div>
 	        	</div>
+	        
 	        	<div class="row">
             		<div class="col-md-12 grid-margin">
 						<div class="card grid-margin">
 							<div class="card-body">
-							<p class="card-title mb-0">결재대기함</p>
+							<p class="card-title mb-0">완결문서함</p>
 								<div class="table-responsive">
 									<table class="table">
 										<thead>
 											<tr>
+											<tr>
 												<th class="pl-0  pb-2 border-bottom">문서 번호</th>
+												<th class="border-bottom pb-2">결재상태</th>
 												<th class="border-bottom pb-2">제목</th>
-												<th class="border-bottom pb-2">기안자</th>
-												<th class="border-bottom pb-2">부서</th>
-												<th class="border-bottom pb-2">직급</th>
 												<th class="border-bottom pb-2">상신날짜</th>
+												<th class="border-bottom pb-2">완결날짜</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
 												<td class="pl-0">03-333</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-success mr-2">장그래</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">오상식</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-muted mr-2">김부련</span>
-														</p>
-													</div>
-												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
-												<td>2023/02/19</td>
-											</tr>
-											<tr>
-												<td class="pl-0">01-111</td>
+												<td><div class="badge badge-success font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-check-circle-outline d-flex align-self-center mr-1"></i><span>승인</span></div></td>
 												<td>
 													<div>
 														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
@@ -198,36 +160,16 @@
 															<span class="font-weight-light mr-2">>></span>
 															<span class="font-weight-light text-success mr-2">오상식</span>
 															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">김부련</span>
+															<span class="font-weight-light text-success mr-2">김부련</span>
 														</p>
 													</div>
 												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
+												<td>2023/02/19</td>
 												<td>2023/02/19</td>
 											</tr>
 											<tr>
 												<td class="pl-0">03-333</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-success mr-2">장그래</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">오상식</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-muted mr-2">김부련</span>
-														</p>
-													</div>
-												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
-												<td>2023/02/19</td>
-											</tr>
-											<tr>
-												<td class="pl-0">01-111</td>
+												<td><div class="badge badge-success font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-check-circle-outline d-flex align-self-center mr-1"></i><span>승인</span></div></td>
 												<td>
 													<div>
 														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
@@ -236,36 +178,16 @@
 															<span class="font-weight-light mr-2">>></span>
 															<span class="font-weight-light text-success mr-2">오상식</span>
 															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">김부련</span>
+															<span class="font-weight-light text-success mr-2">김부련</span>
 														</p>
 													</div>
 												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
+												<td>2023/02/19</td>
 												<td>2023/02/19</td>
 											</tr>
 											<tr>
 												<td class="pl-0">03-333</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-success mr-2">장그래</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">오상식</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-muted mr-2">김부련</span>
-														</p>
-													</div>
-												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
-												<td>2023/02/19</td>
-											</tr>
-											<tr>
-												<td class="pl-0">01-111</td>
+												<td><div class="badge badge-success font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-check-circle-outline d-flex align-self-center mr-1"></i><span>승인</span></div></td>
 												<td>
 													<div>
 														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
@@ -274,36 +196,16 @@
 															<span class="font-weight-light mr-2">>></span>
 															<span class="font-weight-light text-success mr-2">오상식</span>
 															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">김부련</span>
+															<span class="font-weight-light text-success mr-2">김부련</span>
 														</p>
 													</div>
 												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
+												<td>2023/02/19</td>
 												<td>2023/02/19</td>
 											</tr>
 											<tr>
 												<td class="pl-0">03-333</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-success mr-2">장그래</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">오상식</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-muted mr-2">김부련</span>
-														</p>
-													</div>
-												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
-												<td>2023/02/19</td>
-											</tr>
-											<tr>
-												<td class="pl-0">01-111</td>
+												<td><div class="badge badge-success font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-check-circle-outline d-flex align-self-center mr-1"></i><span>승인</span></div></td>
 												<td>
 													<div>
 														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
@@ -312,36 +214,16 @@
 															<span class="font-weight-light mr-2">>></span>
 															<span class="font-weight-light text-success mr-2">오상식</span>
 															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">김부련</span>
+															<span class="font-weight-light text-success mr-2">김부련</span>
 														</p>
 													</div>
 												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
+												<td>2023/02/19</td>
 												<td>2023/02/19</td>
 											</tr>
 											<tr>
 												<td class="pl-0">03-333</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-success mr-2">장그래</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">오상식</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-muted mr-2">김부련</span>
-														</p>
-													</div>
-												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
-												<td>2023/02/19</td>
-											</tr>
-											<tr>
-												<td class="pl-0">01-111</td>
+												<td><div class="badge badge-success font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-check-circle-outline d-flex align-self-center mr-1"></i><span>승인</span></div></td>
 												<td>
 													<div>
 														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
@@ -350,13 +232,65 @@
 															<span class="font-weight-light mr-2">>></span>
 															<span class="font-weight-light text-success mr-2">오상식</span>
 															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">김부련</span>
+															<span class="font-weight-light text-success mr-2">김부련</span>
 														</p>
 													</div>
 												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
+												<td>2023/02/19</td>
+												<td>2023/02/19</td>
+											</tr>
+											<tr>
+												<td class="pl-0">03-333</td>
+												<td><div class="badge badge-success font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-check-circle-outline d-flex align-self-center mr-1"></i><span>승인</span></div></td>
+												<td>
+													<div>
+														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
+														<p class="mb-0">
+															<span class="font-weight-light text-success mr-2">장그래</span>
+															<span class="font-weight-light mr-2">>></span>
+															<span class="font-weight-light text-success mr-2">오상식</span>
+															<span class="font-weight-light mr-2">>></span>
+															<span class="font-weight-light text-success mr-2">김부련</span>
+														</p>
+													</div>
+												</td>
+												<td>2023/02/19</td>
+												<td>2023/02/19</td>
+											</tr>
+											<tr>
+												<td class="pl-0">03-333</td>
+												<td><div class="badge badge-success font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-check-circle-outline d-flex align-self-center mr-1"></i><span>승인</span></div></td>
+												<td>
+													<div>
+														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
+														<p class="mb-0">
+															<span class="font-weight-light text-success mr-2">장그래</span>
+															<span class="font-weight-light mr-2">>></span>
+															<span class="font-weight-light text-success mr-2">오상식</span>
+															<span class="font-weight-light mr-2">>></span>
+															<span class="font-weight-light text-success mr-2">김부련</span>
+														</p>
+													</div>
+												</td>
+												<td>2023/02/19</td>
+												<td>2023/02/19</td>
+											</tr>
+											<tr>
+												<td class="pl-0">03-333</td>
+												<td><div class="badge badge-success font-weight-bold d-flex" style="width: fit-content;"><i class="mdi mdi-check-circle-outline d-flex align-self-center mr-1"></i><span>승인</span></div></td>
+												<td>
+													<div>
+														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
+														<p class="mb-0">
+															<span class="font-weight-light text-success mr-2">장그래</span>
+															<span class="font-weight-light mr-2">>></span>
+															<span class="font-weight-light text-success mr-2">오상식</span>
+															<span class="font-weight-light mr-2">>></span>
+															<span class="font-weight-light text-success mr-2">김부련</span>
+														</p>
+													</div>
+												</td>
+												<td>2023/02/19</td>
 												<td>2023/02/19</td>
 											</tr>
 										</tbody>

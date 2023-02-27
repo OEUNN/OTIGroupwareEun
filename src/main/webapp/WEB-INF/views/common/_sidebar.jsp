@@ -67,8 +67,9 @@
 			<div class="collapse" id="charts">
 				<ul class="nav flex-column sub-menu">
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/totaldocument'/>">전체문서함</a></li>
-					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/aprvwrite'/>">기안작성</a></li>
+					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/aprvwrite'/>">기안 작성</a></li>
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/draftdocument'/>">기안함</a></li>
+					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/completeddocument'/>">완결문서함</a></li>
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/tempdocument'/>">임시저장함</a></li>
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/returneddocument'/>">반려/회수함</a></li>
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/pendeddocument'/>">결재대기함</a></li>
@@ -88,7 +89,7 @@
 					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/leave">나의 휴가</a></li>
 					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/empleave">부서휴가현황</a></li>
 					<!-- 부서장 -->
-					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/hrapproval"">HR 결재내역</a></li>
+					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/hrapplication"">HR 신청내역</a></li>
 				</ul>
 			</div></li>
 		<li class="nav-item">

@@ -9,11 +9,6 @@
 	<!-- endinject css, js common file -->
 	
 	<!-- Plugin css,js for this page -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/clockpicker/bootstrap-clockpicker.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/clockpicker/jquery-clockpicker.css">
-	<script src="${pageContext.request.contextPath}/resources/vendors/clockpicker/bootstrap-clockpicker.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendors/clockpicker/jquery-clockpicker.js"></script>
-		
 	<style>
 		.main-panel-popup {
 		  transition: width 0.25s ease, margin 0.25s ease;
@@ -42,37 +37,29 @@
 	</style>
 	
 	<script>
-	 	//clockpicker 렌더링
-	 	$(function(){ 
-			$('.clockpicker').clockpicker();
-	 	});
-	 	
-	 	//출근, 퇴근 체크박스 클릭시 html 추가
-	 	function isCheck(data){
-	 		if(data=='in'){
-	 			if($('input:checkbox[name="intime-checkbtn"]').is(':checked')) {
-	 				$('#today-intime').css('display', 'block');
-	 				$('#intime-clockpicker').css('display', 'block');
-	 			} else {
-	 				$('#today-intime').css('display', 'none');
-	 				$('#intime-clockpicker').css('display', 'none');
-	 			}
-	 		} else if(data=='out') {
-	 			if($('input:checkbox[name="outtime-checkbtn"]').is(':checked')) {
-	 				$('#today-outtime').css('display', 'block');
-	 				$('#outtime-clockpicker').css('display', 'block');
-	 			} else {
-	 				$('#today-outtime').css('display', 'none');
-	 				$('#outtime-clockpicker').css('display', 'none');
-	 			}
-	 		}
-	 	}
-	 	
 	 	//form 내용 제출 후, 이동
 	    function leaveAprv(data){
-	   		window.opener.top.location.href="<c:url value='/hr/hrapproval'/>";
-	        window.close();
+	    	if($('#textarea-reason').val()){
+		        window.opener.top.location.href="<c:url value='/hr/hrapplication'/>";
+		        window.close();
+	    	}
+	
+	    	if(data == "반려") {
+	        	$("#refuse-reason").css("display", "block");
+	        	$("#cancel-btn").css("display", "block");
+	        	$("#approve-btn").css("display", "none");
+	        } else if(data == "승인") {
+		        window.opener.top.location.href="<c:url value='/hr/hrapplication'/>";
+		        window.close();
+	        }
 	    }
+	 	
+	 	//취소버튼
+	 	function cancel() {
+	 		$("#refuse-reason").css("display", "none");
+        	$("#cancel-btn").css("display", "none");
+        	$("#approve-btn").css("display", "block");
+	 	}
 	</script>
     <!-- End plugin css,js for this page -->
 </head>
@@ -146,13 +133,21 @@
                       				<h6 class="ml-1 mb-0 text-primary font-weight-bold">연차 사용</h6>
 	                      		 </div>
 	                        	 <div class="row justify-content-center mt-3">
-	                       			<div style="border: 1px solid #a3a4a5; opacity: 0.5; width:90%;"></div>
-	                      		 </div>
-	                       	   </div>
+		                       			<div style="border-bottom: 2px solid #4B49AC; width:90%;"></div>
+		                      		</div>
+		                      		<!-- 반려사유 c:if 사용하기 -->
+		                      		<div id="refuse-reason" class="row px-5 mt-4 justify-content-center" style="display:none;">
+		                       			<div class="form-group">
+						                	<label class="ml-1" for="reason"><div class="h5 m-0 font-weight-bold text-danger">반려사유</div></label>
+						                    <textarea class="form-control" id="textarea-reason" rows="5" cols="68"></textarea>
+					                    </div>
+		                       		</div>
+		                        </div>
 								<!-- 버튼 -->
 		                        <div class="row px-5 mt-3 justify-content-end">
-		                        	<button onclick="leaveAprv('승인')" type="submit" class="btn btn-primary mr-2">승인</button>
-		                        	<button onclick="leaveAprv('반려')" type="submit" class="btn btn-danger mr-2">반려</button>
+		                        	<button id="approve-btn" onclick="leaveAprv('승인')" type="submit" class="btn btn-primary mr-2">승인</button>
+		                        	<button id="cancel-btn" onclick="cancel()" type="button" class="btn btn-inverse-primary mr-2" style="display:none">취소</button>
+		                        	<button onclick="leaveAprv('반려')" type="button" class="btn btn-danger mr-2">반려</button>
 		                        </div>
 		                        <!-- 변경내용:end -->
 	                      	</div>

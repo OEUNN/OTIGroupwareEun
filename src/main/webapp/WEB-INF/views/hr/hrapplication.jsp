@@ -44,7 +44,7 @@
          		//추가근무보고서 팝업창
 	        	var url = "popup/overtimeaprv";
 	         	var name = "";
-	         	var option = "width = 800, height = 560, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
+	         	var option = "width = 800, height = 570, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
 	         	window.open(url, name, option);
          	}
 		}
@@ -53,7 +53,7 @@
 		function leaveApproval() {
         	var url = "popup/leaveaprv";
          	var name = "";
-         	var option = "width = 800, height = 560, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
+         	var option = "width = 800, height = 570, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
          	window.open(url, name, option);
 		}
 	</script>
@@ -77,23 +77,29 @@
         		<div class="col-md">
         			<div class="card">
 		                <div class="card-body">
-		                  <div class="card-title d-flex align-items-center justify-content-between">
-	                   	  	<div>근무결재내역</div>
-	                   		<!-- datepicker start -->
-				            <div id="datepicker-attendance" class="input-daterange input-group w-50">
-								<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:13px; left: 25px;"></span>
-								<input type="text" class="form-control font-weight-bold text-center form-control-sm" name="start" style="border:2px solid #4B49AC; border-radius:10px; "/>
-								<button onclick="" class="btn btn-md btn-primary ml-2">검색</button>
-							</div>
-				            <!-- datepicker end -->
-	                   	  </div>
+		                  <div class="d-flex justify-content-between align-items-center mb-4">
+	              			<div class="card-title mb-0">근무신청 처리내역</div>
+	              			<div class="d-flex justify-content-end" style="width:70%;">
+		              			<!-- datepicker start -->
+		              			<div id="datepicker-attendance" class="ml-5 input-daterange input-group text-primary" style="border:2px solid #4B49AC; border-radius: 15px; width: 60%;">
+									<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+								    <input type="text" class="form-control-sm form-control font-weight-bold" name="start" style="border:0px; text-align: center;">
+								    <span class="input-group-addon font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
+									<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+								    <input type="text" class="form-control-sm form-control font-weight-bold" name="end" style="border:0px; border-radius:15px; text-align: center;">
+								</div>
+					            <!-- datepicker end -->
+					            <button class="btn btn-md btn-primary ml-2">
+									<span>검색</span>
+								</button>
+	              			</div>
+                   	 	  </div>
 		                  <div class="card card-light-blue mb-4">
 			                  <div class="card-body">
-			                      <p class="card-title text-white">Attendance Approval</p>
 			                      <div class="row">
-			                         <div class="col-md">총 결재<span class="pl-2 h3 font-weight-bold">0</span></div>
-			                         <div class="col-md">결재 중<span class="pl-2 h3 font-weight-bold">1</span></div>
-			                         <div class="col-md">결재 완료<span class="pl-2 h3 font-weight-bold">2</span></div>
+			                         <div class="col-md text-center">미처리<span class="pl-2 h3 font-weight-bold">0</span></div>
+			                         <div class="col-md text-center">승인<span class="pl-2 h3 font-weight-bold">1</span></div>
+			                         <div class="col-md text-center">반려<span class="pl-2 h3 font-weight-bold">2</span></div>
 			                      </div>
 		                      </div>
 		                 </div>
@@ -102,10 +108,10 @@
 	                           <thead>
 	                             <tr>
 	                               <th>신청유형</th>
-	                               <th>기안날짜</th>
-	                               <th>기안자</th>
-	                               <th>결재날짜</th>
-	                               <th>결재상태</th>
+	                               <th>신청날짜</th>
+	                               <th>신청자</th>
+	                               <th>처리날짜</th>
+	                               <th>처리상태</th>
 	                             </tr>
 	                           </thead>
 	                           <tbody>
@@ -140,23 +146,29 @@
         		<div class="col-md">
         			<div class="card">
 		                <div class="card-body">
-		                  <div class="card-title d-flex align-items-center justify-content-between">
-	                   	  	<div>휴가결재내역</div>
-	                   		<!-- datepicker start -->
-				            <div id="datepicker-leave" class="input-daterange input-group w-50">
-								<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:13px; left: 25px;"></span>
-								<input type="text" class="form-control font-weight-bold text-center form-control-sm" name="start" style="border:2px solid #4B49AC; border-radius:10px; "/>
-								<button onclick="" class="btn btn-md btn-primary ml-2">검색</button>
-							</div>
-				            <!-- datepicker end -->
-	                   	  </div>
+		                  <div class="d-flex justify-content-between align-items-center mb-4">
+	              			<div class="card-title mb-0">휴가신청 처리내역</div>
+	              			<div class="d-flex justify-content-end" style="width:70%;">
+		              			<!-- datepicker start -->
+		              			<div id="datepicker-leave" class="ml-5 input-daterange input-group text-primary" style="border:2px solid #4B49AC; border-radius: 15px; width: 60%;">
+									<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+								    <input type="text" class="form-control-sm form-control font-weight-bold" name="start" style="border:0px; text-align: center;">
+								    <span class="input-group-addon font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
+									<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+								    <input type="text" class="form-control-sm form-control font-weight-bold" name="end" style="border:0px; border-radius:15px; text-align: center;">
+								</div>
+					            <!-- datepicker end -->
+					            <button class="btn btn-md btn-primary ml-2">
+									<span>검색</span>
+								</button>
+	              			</div>
+                   	 	  </div>
 		                  <div class="card card-dark-blue mb-4">
 			                  <div class="card-body">
-			                      <p class="card-title text-white">Leave Approval</p>
 			                      <div class="row">
-			                         <div class="col-md">총 결재<span class="pl-2 h3 font-weight-bold">0</span></div>
-			                         <div class="col-md">결재 중<span class="pl-2 h3 font-weight-bold">1</span></div>
-			                         <div class="col-md">결재 완료<span class="pl-2 h3 font-weight-bold">2</span></div>
+			                         <div class="col-md text-center">미처리<span class="pl-2 h3 font-weight-bold">0</span></div>
+			                         <div class="col-md text-center">승인<span class="pl-2 h3 font-weight-bold">1</span></div>
+			                         <div class="col-md text-center">반려<span class="pl-2 h3 font-weight-bold">2</span></div>
 			                      </div>
 		                      </div>
 		                 </div>
@@ -165,10 +177,10 @@
 	                           <thead>
 	                             <tr>
 	                               <th>휴가유형</th>
-	                               <th>기안날짜</th>
-	                               <th>기안자</th>
-	                               <th>결재날짜</th>
-	                               <th>결재상태</th>
+	                               <th>신청날짜</th>
+	                               <th>신청자</th>
+	                               <th>처리날짜</th>
+	                               <th>처리상태</th>
 	                             </tr>
 	                           </thead>
 	                           <tbody>
