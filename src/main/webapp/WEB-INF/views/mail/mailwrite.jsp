@@ -50,19 +50,21 @@
 							<div class="card">
 								<form class="card-body">
 									<!-- main title and submit button -->
-									<p class="card-title d-flex justify-content-between align-items-start">
-										<span>메일 쓰기</span> 
-										<span>
-											<button class="btn btn-md btn-warning mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
+									<div class="d-flex justify-content-between align-items-center">
+										<div class="card-title mb-0">메일 쓰기</div>
+										<div class="d-flex">
+											<button onclick="upateTimePopup()" id="popup-btn" class="btn btn-md btn-warning mx-2">
 												<span class="mdi mdi-calendar-clock align-middle"></span> 
 												<span>임시저장</span>
 											</button>
-											<button class="btn btn-md btn-primary mx-2" onclick="popup()" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
+											<button onclick="popup()" id="popup-btn" class="btn btn-md btn-primary mx-2">
 												<span class="mdi mdi-telegram align-middle"></span> 
 												<span>보내기</span>
 											</button>
-										</span>
-									</p><!-- end main title and submit button -->
+										</div>
+									</div><!-- end main title and submit button -->
+
+
 									<!-- mail data -->
 									<div class="forms-sample">
 										<!-- send mail -->

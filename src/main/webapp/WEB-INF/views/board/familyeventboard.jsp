@@ -51,18 +51,14 @@
 						<div class="col-6 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
-									<!-- main title -->
 									<div class="row">
 										<div class="col-md-12 grid-margin">
-											<div class="row  d-flex justify-content-between align-items-start">
-												<h3 class="card-title">경조사</h3>
-												<a type="submit" class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;" href="<c:url value='/writeboard'/>">
-													<span class="mdi mdi-lead-pencil align-middle"></span> 
-													<span>게시글 쓰기</span>
-												</a>
-											</div>
+											<!-- main title -->
+											<div class="d-flex justify-content-between align-items-center mb-4">
+												<div class="card-title mb-0">경조사</div>
+											</div><!-- 메인 title -->
 										</div>
-									</div><!-- 메인 title -->
+									</div>
 									<!-- Start search box -->
 									<form class="card gird-margin shadow-2 p-2" style="background-color: #e7e7ff">
 				        				<div class="card-body" style="box-shadow: 0px 0px 0px white; padding-top: 0;">
@@ -202,10 +198,12 @@
 									<!-- 테이블 끝 -->
 									
 									<!-- 하단 버튼 -->
-									<div class="row form-inline m-3">
-										<div class="col-md-10"></div>
-										<div class="col-md-2 col-12">
-											<button class="btn btn-outline-danger btn-sm" onclick="popup()">선택삭제</button>
+									<div class="row d-flex justify-content-end mr-3 my-3">
+										<div class="mx-1">
+											<button class="btn btn-danger btn-sm" onclick="popup()">선택삭제</button>
+										</div>
+										<div class="mx-1">
+											<a class="btn btn-primary btn-sm" href="<c:url value='/writeboard'/>">게시글 쓰기</a>
 										</div>
 									</div><!-- 하단 버튼 -->
 

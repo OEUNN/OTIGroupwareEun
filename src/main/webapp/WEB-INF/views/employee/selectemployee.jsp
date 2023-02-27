@@ -40,8 +40,8 @@
 								<div class="card-body">
 									<div class="row">
 										<div class="col-md-12 grid-margin">
-											<div class="row  d-flex justify-content-between align-items-start">
-												<h3 class="card-title">임직원 목록</h3>
+											<div class="d-flex justify-content-between align-items-center">
+												<div class="card-title mb-0">임직원 목록</div>
 											</div>
 										</div>
 									</div>

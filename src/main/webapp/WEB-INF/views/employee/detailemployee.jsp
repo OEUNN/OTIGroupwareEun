@@ -11,15 +11,19 @@ function popup(){
 </script>
 <div class="row">
 	<div class="col-md-12 grid-margin">
-		<div class="row  d-flex justify-content-between align-items-start">
-			<h3 class="card-title">임직원 조회</h3>
-			<a type="submit" class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;" href="<c:url value='/updateemployee'/>">
-				<span class="mdi mdi-lead-pencil align-middle"></span> 
-				<span>수정</span>
-			</a>
+		<div class="d-flex justify-content-between align-items-center">
+			<div class="card-title mb-0">임직원 조회</div>
+			<div class="d-flex">
+				<a class="btn btn-md btn-primary mx-2" href="<c:url value='/updateemployee'/>">
+					<span class="mdi mdi-lead-pencil align-middle"></span> 
+					<span>수정</span>
+				</a>
+			</div>
 		</div>
 	</div>
 </div>
+
+
 
 <div class="row">
 	<div class="col-3">
@@ -250,40 +254,30 @@ function popup(){
 	<table class="table">
 		<thead>
 			<tr>
-				<th class="text-primary h3">발령일</th>
-				<th class="text-primary h3">만기일</th>
-				<th class="text-primary h3">직급</th>
-				<th class="text-primary h3">부서</th>
-				<th class="text-primary h3">근무지</th>
+				<th class="text-primary col-2 h3">근무 기간</th>
+				<th class="text-primary col-7 h3">프로젝트 명</th>
+				<th class="text-primary col-3 h3">근무지</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
 				<td>2002년 2월 22일</td>
-				<td>2005년 3월 1일</td>
 				<td>사원</td>
-				<td>공공사업1DIV</td>
 				<td>분당</td>
 			</tr>
 			<tr>
 				<td>2005년 3월 1일</td>
-				<td>2007년 3월 1일</td>
-				<td>대리</td>
 				<td>공공사업2DIV</td>
 				<td>분당</td>
 			</tr>
 			<tr>
 				<td>2005년 3월 1일</td>
-				<td>2010년 3월 1일</td>
-				<td>과장</td>
 				<td>공공사업2DIV</td>
-				<td>신촌</td>
+				<td>분당</td>
 			</tr>
 			<tr>
-				<td>2010년 3월 1일</td>
-				<td>2012년 3월 1일</td>
-				<td>과장</td>
-				<td>공공사업1DIV</td>
+				<td>2005년 3월 1일</td>
+				<td>공공사업2DIV</td>
 				<td>분당</td>
 			</tr>
 		</tbody>

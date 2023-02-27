@@ -12,15 +12,16 @@
 
 <form class="card-body">
 	<!-- main title and submit button -->
-	<p class="card-title d-flex justify-content-between align-items-start">
-		<span>2023년 새해복 많이 받으세요!</span> 
-		<span>
-			<button class="btn btn-md btn-danger mx-2" onclick="popup()" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
-				<span class="mdi mdi mdi-window-close"></span> 
+	<div class="d-flex justify-content-between align-items-center mb-4">
+		<div class="card-title mb-0">2023년 새해복 많이 받으세요!</div>
+		<div class="d-flex">
+			<button class="btn btn-md btn-danger mx-2" onclick="popup()">
+				<span class="mdi mdi-window-close align-middle"></span> 
 				<span>삭제</span>
 			</button>
-		</span>
-	</p><!-- end main title and submit button -->
+		</div>
+	</div>
+	<!-- end main title and submit button -->
 	<!-- mail data -->
 	<div class="forms-sample">
 		<div class="row">

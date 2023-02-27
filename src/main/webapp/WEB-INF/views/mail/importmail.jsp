@@ -21,6 +21,7 @@
 		.jsgrid .jsgrid-table td {
 		  padding: 0.525rem 1.375rem;
 		}
+		
 		</style>
 	</head>
 
@@ -56,9 +57,9 @@
 									<div class="table-responsive">
 										<table class="table table-hover">
 											<thead>
-												<tr >
+												<tr>
 													<th class=" form-inline col-1" style="border:none;">
-														<div class="form-check font-weight-bold text-info ">
+														<div class="form-check font-weight-bold">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
@@ -71,9 +72,9 @@
 												</tr>
 											</thead>
 											<tbody>
-												<tr style="background-color:#e9ecef88; ">
+												<tr class="text-muted">
 													<td class="form-inline py-1" >
-														<div class="form-check font-weight-bold text-info">
+														<div class="form-check font-weight-bold">
 															<label class="form-check-label">
 																<input type="checkbox" class="form-check-input" name="optradio">
 															</label>
@@ -84,7 +85,7 @@
 													</td>
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
 													<td><i class="mdi mdi-arrow-right text-primary"></i>장영은</td>
-													<td>요청부탁드립니다.</td>
+													<td><u>요청부탁드립니다.</u></td>
 													<td>2023/02/24</td>
 												</tr>
 												<tr>
@@ -119,7 +120,7 @@
 													<td>대법원 요구사항 분석사항입니다.</td>
 													<td>2023/02/21</td>
 												</tr>
-												<tr style="background-color:#e9ecef88; ">
+												<tr>
 													<td class="form-inline py-1" >
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
@@ -167,7 +168,7 @@
 													<td>로그인 기능입니다.</td>
 													<td>2023/01/11</td>
 												</tr>
-												<tr style="background-color:#e9ecef88; ">
+												<tr>
 													<td class="form-inline py-1" >
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
@@ -183,7 +184,7 @@
 													<td>2월10일까지 답신해주셔야합니다.</td>
 													<td>2023/01/08</td>
 												</tr>
-												<tr style="background-color:#e9ecef88; ">
+												<tr>
 													<td class="form-inline py-1" >
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
