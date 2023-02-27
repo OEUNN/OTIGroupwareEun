@@ -25,12 +25,12 @@
             doc_retention_period, doc_write_date, doc_report_date,
             doc_complete_date, doc_importance, doc_state, doc_read_yn,
             doc_temp_yn, doc_aprv_step
-        FROM project3.documents
+        FROM documents
         WHERE doc_id = #{docId}
     </select>
 
     <insert id="insertDocument" parameterType="document">
-        INSERT INTO project3.documents (
+        INSERT INTO documents (
             doc_id, emp_id, doc_type, doc_title, doc_content,
             doc_retention_period, doc_write_date, doc_report_date,
             doc_complete_date, doc_importance, doc_state, doc_read_yn,
@@ -45,7 +45,7 @@
     </insert>
 
     <update id="updateDocument" parameterType="document">
-        UPDATE project3.documents SET
+        UPDATE documents SET
             emp_id = #{empId}, doc_type = #{docType},
             doc_title = #{docTitle}, doc_content = #{docContent},
             doc_retention_period = #{docRetentionPeriod},

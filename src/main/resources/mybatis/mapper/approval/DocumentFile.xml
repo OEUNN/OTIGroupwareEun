@@ -1,3 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.hr.dao.hrDao"></mapper>
+<mapper namespace="com.oti.groupware.approval.dao.DocumentFileDAO">
+
+    <resultMap id="documentFileResultMap" type="documentFile">
+        <result column="doc_file_id" property="docFileId"/>
+        <result column="doc_id" property="docId"/>
+        <result column="doc_file_name" property="docFileName"/>
+        <result column="doc_file_data" property="docFileData"/>
+        <result column="doc_file_type" property="docFileType"/>
+        <result column="doc_file_length" property="docFileLength"/>
+    </resultMap>
+
+    <select id="getDocumentFileById" parameterType="int" resultMap="documentFileResultMap">
+        SELECT doc_file_id,
+            doc_id,
+            doc_file_name,
+            doc_file_data,
+            doc_file_type,
+            doc_file_length
+        FROM documents_files
+        WHERE doc_file_id = #{docFileId}
+    </select>
+
+    <insert id="insertDocumentFile" parameterType="documentFile">
+        INSERT INTO documents_files (
+            doc_file_id,
+            doc_id,
+            doc_file_name,
+            doc_file_data,
+            doc_file_type,
+            doc_file_length
+        ) VALUES (
+            #{docFileId},
+            #{docId},
+            #{docFileName},
+            #{docFileData},
+            #{docFileType},
+            #{docFileLength}
+        )
+    </insert>
+
+
+    <update id="updateDocumentFile" parameterType="documentFile">
+        UPDATE documents_files SET
+            doc_id = #{docId},
+            doc_file_name = #{docFileName},
+            doc_file_data = #{docFileData},
+            doc_file_type = #{docFileType},
+            doc_file_length = #{docFileLength}
+        WHERE doc_file_id = #{docFileId}
+    </update>
+
+    <delete id="deleteDocumentFile" parameterType="int">
+        DELETE FROM documents_files WHERE doc_file_id = #{docFileId}
+    </delete>
+
+</mapper>

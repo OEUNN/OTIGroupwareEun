@@ -3,9 +3,9 @@ package com.oti.groupware.board.dao;
 import com.oti.groupware.board.dto.BoardCategory;
 
 public interface BoardCategoryDAO {
-	BoardCategory getBoardCategoryById(int boardCategoryId);
-    void insertBoardCategory(BoardCategory boardCategory);
-    void updateBoardCategory(BoardCategory boardCategory);
-    void deleteBoardCategory(int boardCategoryId);
+	public BoardCategory getBoardCategoryById(int boardCategoryId);
+	public void insertBoardCategory(BoardCategory boardCategory);
+	public void updateBoardCategory(BoardCategory boardCategory);
+	public void deleteBoardCategory(int boardCategoryId);
 }
 

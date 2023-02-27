@@ -1,3 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.hr.dao.hrDao"></mapper>
+<mapper namespace="com.oti.groupware.employee.dao.PositionDAO">
+
+	<resultMap id="positionResultMap" type="position">
+		<result column="pos_id" property="posId" />
+		<result column="pos_name" property="posName" />
+		<result column="pos_lev_cnt" property="posLevCnt" />
+	</resultMap>
+
+	<select id="getPositionById" parameterType="int" resultMap="positionResultMap">
+		SELECT pos_id, pos_name, pos_lev_cnt
+		FROM project3.positions
+		WHERE pos_id = #{posId}
+	</select>
+
+	<insert id="insertPosition" parameterType="position">
+		INSERT INTO project3.positions (pos_id, pos_name, pos_lev_cnt)
+		VALUES (#{posId}, #{posName}, #{posLevCnt})
+	</insert>
+	
+	<update id="updatePosition" parameterType="position">
+		UPDATE project3.positions
+		SET pos_name = #{posName}, pos_lev_cnt = #{posLevCnt}
+		WHERE pos_id = #{posId}
+	</update>
+	
+	<delete id="deletePosition" parameterType="int">
+		DELETE FROM project3.positions
+		WHERE pos_id = #{posId}
+	</delete>
+
+</mapper>
