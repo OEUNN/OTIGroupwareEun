@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class AttendanceExceptionDTO {
+public class AttendanceException {
     private int atdExcpId;
     private String empId;
     private String atdExcpReason;

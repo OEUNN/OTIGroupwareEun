@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class ApprovalLineDTO {
+public class ApprovalLine {
     private String empId;
     private int docId;
     private String aprvLineState;
