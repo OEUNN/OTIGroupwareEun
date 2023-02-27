@@ -59,7 +59,7 @@
 			        						<div class="col-3">
 				        						<div class="card" style="border-radius:8px;">
 													<div class="card-header bg-white d-flex" style="border-radius:8px; border-bottom: 0px;">
-														<a class="font-weight-bold text-decoration-none" data-target="#filter_by_status" data-toggle="collapse" style="color: #4747A1;">결재상태</a>
+														<a class="prevent-collapse font-weight-bold text-decoration-none" data-target="#filter_by_status" data-toggle="collapse" style="color: #4747A1;">결재상태</a>
 														<div class="flex-grow-1" style="text-align: end; color: black;">승인</div>
 													</div>
 				        							<div id="filter_by_status" class="card-body collapse" style="border-radius:8px; padding: 0; padding-left: 1.25rem; padding-right: 1.25rem;">
@@ -148,7 +148,7 @@
 		        						<div class="col-2">
 			        						<div class="card" style="border-radius:8px;">
 												<div class="card-header bg-white d-flex" style="border-radius:8px; border-bottom: 0px;">
-													<a class="font-weight-bold text-decoration-none" data-target="#searchparameter" data-toggle="collapse" style="color: #4747A1;">#태그</a>
+													<a class="font-weight-bold text-decoration-none" data-target="#searchparameter" data-toggle="collapse" style="color: #4747A1;">검색조건</a>
 												</div>
 			        							<div id="searchparameter" class="card-body collapse" style="border-radius:8px; padding: 0; padding-left: 1.25rem; padding-right: 1.25rem;">
 				        							<div class="form-check font-weight-bold text-info">
@@ -208,15 +208,6 @@
 		        					</div>
 		        				</div>
 		        			</div>
-	        			</div>
-	        		</div>
-	        	</div>
-	        </div>
-	        	<div class="row">
-            		<div class="col-md-12 grid-margin">
-						<div class="card grid-margin">
-							<div class="card-body">
-							<p class="card-title mb-2">기안함</p>
 								<div class="table-responsive">
 									<table class="table">
 										<thead>

@@ -229,7 +229,7 @@
 									<div class="row form-inline m-3">
 										<div class="col-md-11"></div>
 										<div class="col-md-1 col-12">
-											<button class="btn btn-outline-danger btn-sm">선택삭제</button>
+											<button class="btn btn-danger btn-sm">선택삭제</button>
 										</div>
 									</div><!-- 하단 버튼 -->
 

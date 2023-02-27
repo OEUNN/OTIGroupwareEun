@@ -50,7 +50,7 @@
 							<div class="card">
 								<form class="card-body">
 									<!-- main title and submit button -->
-									<div class="d-flex justify-content-between align-items-center">
+									<div class="d-flex justify-content-between align-items-center mb-4">
 										<div class="card-title mb-0">메일 쓰기</div>
 										<div class="d-flex">
 											<button onclick="upateTimePopup()" id="popup-btn" class="btn btn-md btn-warning mx-2">

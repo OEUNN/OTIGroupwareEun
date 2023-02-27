@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class ReceivedMailDTO {
+public class ReceivedMail {
 
     private int sendMailId;
     private String empIdEmployees;

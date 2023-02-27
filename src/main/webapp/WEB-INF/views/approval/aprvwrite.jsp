@@ -54,7 +54,7 @@
             		<div class="col-md-12 grid-margin">
             			<div class="card grid-margin shadow-2">
             				<div class="card-body">
-            					<p class="card-title mb-3">기안 작성하기</p>
+            					<p class="card-title mb-3">기안 작성</p>
             					<div class="row ml-1">
 	            					<div class="col-3 card-body mb-3" style="height: fit-content;">
 										<div class="card grid-margin" style="border-radius:8px; border: 2px solid #4747A1;">

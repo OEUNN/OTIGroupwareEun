@@ -3,7 +3,7 @@ package com.oti.groupware.board.dto;
 import lombok.Data;
 
 @Data
-public class BoardCategoryDTO {
+public class BoardCategory {
     private int boardCategoryId;
     private String boardCategoryName;
 }

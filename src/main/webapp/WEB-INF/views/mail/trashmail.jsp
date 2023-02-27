@@ -71,7 +71,7 @@
 												</tr>
 											</thead>
 											<tbody>
-												<tr>
+												<tr class="text-muted">
 													<td>
 														<div class="form-check font-weight-bold text-info">
 															<label class="form-check-label">
@@ -84,7 +84,7 @@
 														<i class="mdi mdi-arrow-left text-primary"></i>
 														공유
 													</td>
-													<td>요청서입니다.</td>
+													<td><u>요청서입니다.</u></td>
 													<td>2023/02/21</td>
 												</tr>
 												<tr>
@@ -243,7 +243,7 @@
 											<button class="btn btn-outline-warning btn-sm">선택복구</button>
 										</div>
 										<div class="col-md-1 col-12">
-											<button class="btn btn-outline-danger btn-sm">선택삭제</button>
+											<button class="btn btn-danger btn-sm">선택삭제</button>
 										</div>
 									</div><!-- 하단 버튼 -->
 									

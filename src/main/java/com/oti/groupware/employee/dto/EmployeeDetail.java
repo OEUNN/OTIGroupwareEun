@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class EmployeeDetailDTO {
+public class EmployeeDetail {
 
     private String empId;
     private char empDetailGender;

@@ -1,3 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.hr.dao.hrDao"></mapper>
+<mapper namespace="com.oti.groupware.hr.dao.AttendanceExceptionDao">
+
+	<select id="getAttendanceExceptionById" resultType="attendanceException">
+		SELECT atd_excp_id,
+		    emp_id,
+		    atd_excp_reason,
+		    atd_excp_category,
+		    atd_excp_in_time,
+		    atd_excp_out_time,
+		    atd_excp_process_state,
+		    atd_excp_process_date,
+		    atd_excp_approval_emp,
+		    atd_excp_opinion
+		FROM project3.attendance_exceptions
+		WHERE atd_excp_id = #{atdExcpId} AND emp_id = #{empId}
+	</select>
+
+	<insert id="insertAttendanceException" parameterType="attendanceException">
+		INSERT INTO project3.attendance_exceptions (
+			atd_excp_id,
+			emp_id,
+			atd_excp_reason,
+			atd_excp_category,
+			atd_excp_in_time,
+			atd_excp_out_time,
+			atd_excp_process_state,
+			atd_excp_process_date,
+			atd_excp_approval_emp,
+			atd_excp_opinion
+		)
+		VALUES (
+			#{atdExcpId},
+			#{empId},
+			#{atdExcpReason},
+			#{atdExcpCategory},
+			#{atdExcpInTime},
+			#{atdExcpOutTime},
+			#{atdExcpProcessState},
+			#{atdExcpProcessDate},
+			#{atdExcpApprovalEmp},
+			#{atdExcpOpinion}
+		)
+	</insert>
+
+	<update id="updateAttendanceException" parameterType="attendanceException">
+		UPDATE project3.attendance_exceptions
+		SET atd_excp_reason = #{atdExcpReason},
+		    atd_excp_category = #{atdExcpCategory},
+		    atd_excp_in_time = #{atdExcpInTime},
+		    atd_excp_out_time = #{atdExcpOutTime},
+		    atd_excp_process_state = #{atdExcpProcessState},
+		    atd_excp_process_date = #{atdExcpProcessDate},
+		    atd_excp_approval_emp = #{atdExcpApprovalEmp},
+		    atd_excp_opinion = #{atdExcpOpinion}
+		WHERE atd_excp_id = #{atdExcpId} AND emp_id = #{empId}
+	</update>
+
+	<delete id="deleteAttendanceException">
+		DELETE FROM project3.attendance_exceptions
+		WHERE atd_excp_id = #{atdExcpId} AND emp_id = #{empId}
+	</delete>
+
+</mapper>
