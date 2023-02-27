@@ -10,6 +10,14 @@
 	<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/tinymce.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/tinymce/tinymceinit.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/themes/silver/theme.min.js"></script>
+	<script type="text/javascript">
+	function popup(){
+	    let url = "opinion";
+	    let name = "opinion";
+	    let option = "width=600, height=600, top=600px, left=600px, menubars=no, status=no, titlebars=no"
+	    window.open(url, name, option);
+	}
+	</script>
 </head>
 
 <body >
@@ -172,7 +180,7 @@
 						</div>
 						<div class="card">
 							<div class="card-body">
-								<p class="card-title">의견란</p>
+								<p class="card-title"><a onclick="popup()">의견란</a></p>
 									<ul class="icon-data-list">
 									<li>
 										<div class="d-flex">

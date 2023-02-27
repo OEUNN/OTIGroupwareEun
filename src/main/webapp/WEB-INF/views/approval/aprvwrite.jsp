@@ -99,6 +99,19 @@
 													<p class="card-title">결재선</p>
 													<h3 class="mdi mdi-plus" onclick="popup()"></h3>
 												</div>
+			            						<div class="card card-tale grid-margin shadow-2 mb-0">
+								                    <div class="card-body">
+									                    <div class="row">
+										                    <div class="col-10">
+										                    	<p class="card-title text-white fs-3">장그래(기안)</p>
+										                    	<p>공공사업1DIV 사원</p>
+										                    </div>
+									                    </div>
+								                    </div>
+			            						</div>
+			            						<div class="d-flex align-items-stretch justify-content-center mb-0">
+				            						<h1 class="mdi mdi-menu-down mt-1 mb-0"></h1>
+			            						</div>
 			            						<div class="card card-dark-blue grid-margin shadow-2 mb-0">
 								                    <div class="card-body">
 									                    <div class="row">
@@ -146,9 +159,8 @@
 			            						</div>
 											</div>
 										</div>
-	            					</div>
-	            					<div class="col-9 card grid-margin mb-3 d-flex justify-content-center flex-column" style="background-color: transparent; box-shadow: 0px 0px 0px white;">
-										<div class="card-body grid-margin" style="background-color: #e7e7ff;">
+										
+										<div class="card-body" style="background-color: #e7e7ff;">
 											<div class="d-flex justify-content-between">												
 												<p class="card-title"><label for="upload">첨부파일</label></p>
 											</div>
@@ -162,8 +174,9 @@
 												</div>
 											</div>
 										</div>
-		        						
-		        						<div class="card-body">
+	            					</div>
+	            					<div class="col-9 card grid-margin mb-3 d-flex justify-content-center flex-column" style="background-color: transparent; box-shadow: 0px 0px 0px white;">
+		        						<div class="card-body grid-margin">
 		        							<div class="card-title">
 		        								<div class="row">
 		        									<div class="col-6"><span style="vertical-align: text-top;">내용</span></div> 

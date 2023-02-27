@@ -16,14 +16,14 @@ public class ApprovalController {
 		log.info("정보 로그");
 		return "approval/main";
 	}
-
-	//전체문서함
+	
+	//기안함
 	@RequestMapping(value = "/totaldocument", method=RequestMethod.GET)
 	public String totalDocumentBox() {
 		log.info("정보 로그");
 		return "approval/totaldocument";
 	}
-	
+
 	//기안함
 	@RequestMapping(value = "/draftdocument", method=RequestMethod.GET)
 	public String draftDocumentBox() {
@@ -52,6 +52,13 @@ public class ApprovalController {
 		return "approval/pendeddocument";
 	}
 	
+	//완결문서함
+	@RequestMapping(value = "/completeddocument", method=RequestMethod.GET)
+	public String completedDocumentBox() {
+		log.info("정보 로그");
+		return "approval/completeddocument";
+	}
+	
 	//결재 문서 작성 화면
 	@RequestMapping(value = "/aprvwrite", method=RequestMethod.GET)
 	public String write() {
@@ -71,6 +78,13 @@ public class ApprovalController {
 	public String approvalDetail() {
 		log.info("정보 로그");
 		return "approval/viewdetail";
+	}
+	
+	//반려 의견 작성 화면
+	@RequestMapping(value = "/opinion", method=RequestMethod.GET)
+	public String writeOpinion() {
+		log.info("정보 로그");
+		return "approval/opinion";
 	}
 	
 }

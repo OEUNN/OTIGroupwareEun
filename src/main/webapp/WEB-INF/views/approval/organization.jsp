@@ -11,15 +11,14 @@
 	#overflow {
 		overflow: auto;
 	}
-	
 	.highlight:hover {
 		font-weight: bold;
 		color: #4747A1;
 	}
 	.container-fluid{
-			padding:0px;
-			margin:0px;
-		}
+		padding:0px;
+		margin:0px;
+	}
 	.main-panel-popup {
 	  transition: width 0.25s ease, margin 0.25s ease;
 	  width: 100%;
