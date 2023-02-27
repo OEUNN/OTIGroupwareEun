@@ -26,6 +26,20 @@ public class HRController {
 		log.info("정보 로그");
 		return "hr/attendance";
 	}
+
+	/**
+	 * 출근시간 등록
+	 * @return 
+	 */
+	@RequestMapping(value = "/intime")
+	public String inTime() {
+		log.info("정보 로그");
+
+		//서비스 로직
+		
+		
+		return "hr/attendance";
+	}
 	
 	/**
 	 * 
@@ -101,10 +115,10 @@ public class HRController {
 	 * 
 	 * @return hr 결재내역페이지
 	 */
-	@RequestMapping(value = "/hrapproval")
+	@RequestMapping(value = "/hrapplication")
 	public String hrApproval() {
 		log.info("정보 로그");
-		return "hr/hrapproval";
+		return "hr/hrapplication";
 	}
 	
 	/**

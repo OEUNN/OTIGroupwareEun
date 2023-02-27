@@ -127,6 +127,10 @@
 		color: white;
 		border-radius: 10px;
 	}
+	
+	.fc-icon-chevron-left:before, .fc-icon-chevron-right:before {
+		color: white;
+	}
 </style>
 <!-- End plugin css,js for this page -->
 

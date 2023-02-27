@@ -43,6 +43,12 @@
 			top:11px; 
 			left:35px;
 		}
+		
+		table td.disabled, table td.disabled:hover {
+            background: #e7e7ff !important;
+            color: white !important;
+            cursor: not-allowed;
+        }
 	</style>
 	
 	<script>
@@ -54,9 +60,10 @@
 	 	
 	 	//datepicker 렌더링
 	   	$(function(){ 
-		      $('#datepicker-popup').datepicker({
-		    	  showOtherMonths: false,
-		          selectOtherMonths: false,
+		      $('#datepicker-overtimeapp').datepicker({
+		    	  fautoclose: true,
+		    	  startDate: "-7D",
+		    	  endDate: "0D",
 		    	  todayHighlight: true
 		      });
 		});
@@ -90,7 +97,7 @@
 			                                 <td>
 			                                 	<!-- 추가근무날짜 선택 -->
 			                                 	<!-- datepicker start -->
-								                  <div id="datepicker-popup" class="input-daterange input-group">
+								                  <div id="datepicker-overtimeapp" class="input-daterange input-group">
 													<span class="h3 mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:12px; left: 30px;"></span>
 												    <input type="text" class="form-control font-weight-bold text-center" name="start" style="border:2px solid #4B49AC; border-radius:10px; "/>
 												  </div>
@@ -160,7 +167,7 @@
 		                       		</div>
 			                        
 			                        <div class="row justify-content-center mt-3">
-			                       		<div style="border: 1px solid #a3a4a5; opacity: 0.5; width:90%;"></div>
+			                       		<div style="border-bottom: 2px solid #4B49AC; width:90%;"></div>
 		                       		</div>
 		                        </div>
 								<!-- 버튼 -->
