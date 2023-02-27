@@ -56,6 +56,7 @@
 	 	
 	 	//취소버튼
 	 	function cancel() {
+	 		$('#textarea-reason').val('');
 	 		$("#refuse-reason").css("display", "none");
         	$("#cancel-btn").css("display", "none");
         	$("#approve-btn").css("display", "block");

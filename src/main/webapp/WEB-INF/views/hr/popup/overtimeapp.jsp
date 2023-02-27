@@ -48,6 +48,7 @@
             background: #e7e7ff !important;
             color: white !important;
             cursor: not-allowed;
+            border-radius: 0px !important;
         }
 	</style>
 	
