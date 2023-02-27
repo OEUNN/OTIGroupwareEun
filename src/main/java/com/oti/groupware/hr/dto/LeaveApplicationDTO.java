@@ -1,4 +1,4 @@
-package com.oti.groupware.leave.dto;
+package com.oti.groupware.hr.dto;
 
 import java.util.Date;
 
@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class LeaveApplicationDTO {
-
     private int levAppId;
     private String empId;
     private Date levAppDate;

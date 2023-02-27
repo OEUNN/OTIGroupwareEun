@@ -1,9 +1,9 @@
-package com.oti.groupware.hr;
+package com.oti.groupware.hr.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.oti.groupware.approval.ApprovalController;
+import com.oti.groupware.hr.service.HrService;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -16,6 +16,8 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequestMapping(value="/hr")
 public class HRController {
+	
+	private HrService hrService;
 	
 	/**
 	 * 
@@ -36,7 +38,7 @@ public class HRController {
 		log.info("정보 로그");
 
 		//서비스 로직
-		
+//		hrService.insertIntime
 		
 		return "hr/attendance";
 	}
