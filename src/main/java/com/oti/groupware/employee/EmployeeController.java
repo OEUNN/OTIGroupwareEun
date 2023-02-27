@@ -70,13 +70,13 @@ public class EmployeeController {
 		return "employee/detailpopup";
 	}
 	
-	//주소록 popup
-	@RequestMapping(value = "/employeeaddresspopup", method = RequestMethod.GET)
-	public String employeeAddressPopup() {
+	//비밀번호 초기화popup
+	@RequestMapping(value = "/deletepasswordpopup", method = RequestMethod.GET)
+	public String deletePasswordPopup() {
 		log.debug("디버그 로그");
 		log.info("정보 로그");
 		log.warn("경고 로그");
 		log.error("에러 로그");
-		return "employee/addresspopup";
+		return "employee/deletePasswordPopup";
 	}
 }

@@ -28,6 +28,7 @@
 	<!-- End plugin css,js for this page -->
 	</head>
 
+	<!-- 로그인 실패시 뜨는 팝업창 -->
 	<body>
 		<div class="main-panel-popup">
 			<div class="content-wrapper">
@@ -37,7 +38,7 @@
 						<div class="card">
 							<div class="card-body row m-0">
 								<div class="container-fluid">
-									<div class="card-title mt-1 row d-flex justify-content-center">로그인 오류 1회 입니다.</div>
+									<div class="card-title mt-1 row d-flex justify-content-center">로그인 오류 몇회 입니다.</div>
 									<div class="card-title mt-1 row d-flex justify-content-center">로그인 오류 5회시 자동 잠금됩니다.</div>
 									<div class="row mb-1" >
 										<div class="col"></div>

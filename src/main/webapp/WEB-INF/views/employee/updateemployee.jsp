@@ -34,15 +34,16 @@
 							<div class="card">
 								<div class="card-body">
 									<form class="form-sample">
-										<p class="card-title d-flex justify-content-between align-items-start">
-											<span>임직원 수정</span>
-											<span>
-												<button type="submit" class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
+										<div class="d-flex justify-content-between align-items-center mb-4">
+											<div class="card-title mb-0">임직원 수정</div>
+											<div class="d-flex">
+												<a class="btn btn-md btn-primary mx-2" href="<c:url value='/selectemployee'/>"> 
 													<span class="mdi mdi-lead-pencil align-middle"></span> 
 													<span>수정</span>
-												</button>
-											</span>
-										</p>
+												</a>
+											</div>
+										</div>
+										
 										<div class="row">
 											<!-- image card -->
 											<div class="col-3">

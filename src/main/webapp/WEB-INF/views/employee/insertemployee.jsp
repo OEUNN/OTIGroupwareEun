@@ -34,15 +34,15 @@
 							<div class="card">
 								<div class="card-body ">
 									<form class="form-sample">
-										<p class="card-title d-flex justify-content-between align-items-start">
-											<span>임직원 등록</span>
-											<span>
-												<button type="submit" class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
+										<div class="d-flex justify-content-between align-items-center mb-4">
+											<div class="card-title mb-0">임직원 등록</div>
+											<div class="d-flex">
+												<button type="submit" class="btn btn-md btn-primary mx-2" >
 													<span class="mdi mdi-folder-account align-middle"></span> 
 													<span>등록</span>
 												</button>
-											</span>
-										</p>
+											</div>
+										</div>
 										<div class="row">
 											<div class="col-md-6"> 
 												<div class="form-group row align-items-center">

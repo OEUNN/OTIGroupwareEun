@@ -25,14 +25,6 @@ public class LoginController {
 		return "login/loginpopup";
 	}
 	
-	@RequestMapping(value = "/errorlogin", method = RequestMethod.GET)
-	public String errorLogin() {
-		log.debug("디버그 로그");
-		log.info("정보 로그");
-		log.warn("경고 로그");
-		log.error("에러 로그");
-		return "login/errorlogin";
-	}
 	@RequestMapping(value = "/errorloginpopup", method = RequestMethod.GET)
 	public String errorLoginPopup() {
 		log.error("popup 에러로그");
