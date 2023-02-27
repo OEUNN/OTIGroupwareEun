@@ -426,8 +426,10 @@
 											</tr>
 										</tbody>
 									</table>
-									<div class="mt-5" >
-										<span class="btn btn-danger btn-sm">선택 삭제</span>
+									<div class="mt-2" >
+										<div class="d-flex justify-content-end">
+											<span class="btn btn-danger btn-sm">선택 삭제</span>
+										</div>		
 										<ul class="pagination justify-content-center pb-0 mb-0">
 											<li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
 											<li class="page-item active" ><a class="page-link" href="#">1</a></li>
