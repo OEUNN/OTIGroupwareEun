@@ -9,12 +9,6 @@
 	<%@ include file="/WEB-INF/views/common/head.jsp"%>
 	<!-- endinject css, js common file -->
 	<script>
-        function popup(){
-            var url = "employeeaddresspopup";
-            var name = "address popup";
-            var option = "width = 500, height =750, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
-            window.open(url, name, option);
-        }
         function select(){
         	var x = document.getElementById("dropdown-item").value;
         	console.log(x);
@@ -46,8 +40,8 @@
 								<div class="card-body">
 									<div class="row">
 										<div class="col-md-12 grid-margin">
-											<div class="row  d-flex justify-content-between align-items-start">
-												<h3 class="card-title">임직원 목록</h3>
+											<div class="d-flex justify-content-between align-items-center">
+												<div class="card-title mb-0">임직원 목록</div>
 											</div>
 										</div>
 									</div>
@@ -70,8 +64,8 @@
 									        	$(".selectmenu").val(x);
 									        }
 										</script>
-										<label class="h5 my-auto ml-1" for="employee">주소록</label>
-										<input type="text" class="form-control btn" id="employee" onclick="popup()" style="border-radius: 18px; border: 1px solid #4B49AC; background-color: transparent;width:100px;height:30px;" readonly>
+										<label class="h5 my-auto ml-1" for="employee">이름</label>
+										<input type="text" class="form-control" id="employee" style="border-radius: 18px; border: 1px solid #4B49AC; background-color: transparent;width:100px;height:30px;" readonly>
 										<button type="submit" class="btn btn-sm btn-primary ml-1" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
 											<span>검색</span>
 										</button>

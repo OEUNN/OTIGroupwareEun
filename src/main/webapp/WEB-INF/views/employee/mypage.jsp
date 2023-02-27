@@ -97,7 +97,7 @@
 														<div class="col-sm-4 text-primary">
 															<div class="d-flex align-items-center m-1">
 																<i class="h3 my-auto mdi mdi-clipboard-check"></i> 
-																<span class="ml-2 font-weight-bold">채용일</span>
+																<span class="ml-2 font-weight-bold">입사일</span>
 															</div>
 														</div>
 														<div class="col-sm-8">
@@ -152,8 +152,8 @@
 													<div class="form-group row align-items-center">
 														<div class="col-sm-4 text-primary">
 															<div class="d-flex align-items-center m-1">
-																<i class="h3 my-auto mdi mdi-incognito"></i> 
-																<span class="ml-2 font-weight-bold">재직상태</span>
+																<i class="h3 my-auto mdi mdi-flower"></i> 
+																<span class="ml-2 font-weight-bold">근무년수</span>
 															</div>
 														</div>
 														<div class="col-sm-8">
@@ -180,8 +180,8 @@
 													<div class="form-group row align-items-center">
 														<div class="col-sm-4 text-primary">
 															<div class="d-flex align-items-center m-1">
-																<i class="h3 my-auto mdi mdi-flower"></i> 
-																<span class="ml-2 font-weight-bold">근무년수</span>
+																<i class="h3 my-auto mdi mdi-cellphone"></i> 
+																<span class="ml-2 font-weight-bold">개인TEL</span>
 															</div>
 														</div>
 														<div class="col-sm-8">
@@ -208,8 +208,8 @@
 													<div class="form-group row align-items-center">
 														<div class="col-sm-4 text-primary">
 															<div class="d-flex align-items-center m-1">
-																<i class="h3 my-auto mdi mdi-cellphone"></i> 
-																<span class="ml-2 font-weight-bold">개인TEL</span>
+																<i class="h3 my-auto mdi mdi-phone-classic"></i> 
+																<span class="ml-2 font-weight-bold">사내TEL</span>
 															</div>
 														</div>
 														<div class="col-sm-8">
@@ -225,19 +225,6 @@
 															<div class="d-flex align-items-center m-1">
 																<i class="h3 my-auto mdi mdi-school"></i> 
 																<span class="ml-2 font-weight-bold">최종학력</span>
-															</div>
-														</div>
-														<div class="col-sm-8">
-															<div class="h3" style="font-weight:bold;"></div>
-														</div>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-group row align-items-center">
-														<div class="col-sm-4 text-primary">
-															<div class="d-flex align-items-center m-1">
-																<i class="h3 my-auto mdi mdi-phone-classic"></i> 
-																<span class="ml-2 font-weight-bold">사내TEL</span>
 															</div>
 														</div>
 														<div class="col-sm-8">
@@ -284,11 +271,9 @@
 										<table class="table">
 											<thead>
 												<tr>
-													<th class="text-primary h3">발령일</th>
-													<th class="text-primary h3">만기일</th>
-													<th class="text-primary h3">직급</th>
-													<th class="text-primary h3">부서</th>
-													<th class="text-primary h3">근무지</th>
+													<th class="text-primary col-2 h3">근무기간</th>
+													<th class="text-primary col-7 h3">프로젝트 명</th>
+													<th class="text-primary col-3 h3">근무지</th>
 												</tr>
 											</thead>
 											<tbody>
