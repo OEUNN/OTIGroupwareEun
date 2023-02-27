@@ -120,7 +120,17 @@
 														</div>
 													</div>
 													<div class="col-sm-8">
-														<input type="file" class="form-control" />
+														<div class="form-group bg-white">
+															<input type="file" id="upload" class="file-upload-default" multiple>
+															<div class="input-group col-xs-12">
+																<input type="text" class="form-control file-upload-info" style="border-radius: 0;" disabled placeholder="업로드 할 파일"> 
+																	<span class="input-group-append">
+																	<button class="file-upload-browse btn btn-primary" style="border-radius: 0;" type="button">
+																		파일 첨부
+																	</button>
+																</span>
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>
