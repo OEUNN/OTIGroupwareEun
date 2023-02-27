@@ -38,19 +38,21 @@
 		
 		//출퇴근 버튼
 		function inTime(){
-			$.ajax({
-				type : 'POST',
-				url : "/groupware/hr/intime",
-				error : function() {
-					alert('통신실패!');
-				},
-				success : function(data) {
+			location.href = "/groupware/hr/intime";
+			
+// 			$.ajax({
+// 				type : 'POST',
+// 				url : "/groupware/hr/intime",
+// 				error : function() {
+// 					alert('통신실패!');
+// 				},
+// 				success : function(data) {
 // 					$("#real-in-btn").css("display", "none");
 // 					$("#fake-in-btn").css("display", "block");
 // 					$("#fake-out-btn").css("display", "none");
 // 					$("#real-out-btn").css("display", "block");
-				}
-			});
+// 				}
+// 			});
 			
 		}
 		

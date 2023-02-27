@@ -12,41 +12,34 @@ import lombok.extern.log4j.Log4j2;
 @Service
 @Log4j2
 public class HrServiceImpl implements HrService {
+	//Field
+	private String now = Today.TodayDate(); //오늘날짜
 	
 	@Autowired
 	private AttendanceDAO attendanceDAO;
 	
-	//오늘 근태 기록 갖고 오기
+	//오늘의 출퇴근 기록 체크
 	@Override
 	public int attendanceToday(String empId) {
-		String now = Today.TodayDate();
+		Attendance atdToday = attendanceDAO.getAttendanceToday(empId, now);
 		
-		attendanceDAO.getAttendanceToday(empId, now);
-		
-		return 1;
+		if (atdToday == null) {
+			return 0; //출퇴근한 기록이 없을 경우
+		} else {
+			return 1; // 출퇴근한 기록이 있을 경우
+		}
 	}
 
 	//출근시간 등록
 	@Override
-	public int inTime(String empId, String now) {
-		//오늘 날짜의 근태기록 가져오기
-		Attendance today = attendanceDAO.getAttendanceToday(empId, now);
-		
-		if (today == null) {
-			attendanceDAO.insertAttendance(empId, now);
-		} else {
-			// 출근한 기록이 있을경우
-			return 0;
-		}
-		return 1;
+	public void inTime(String empId) {
+		attendanceDAO.insertAttendance(empId, now);
 	}
 	
 	//퇴근시간 등록
 	@Override
-	public int outTime() {
-		//
+	public void outTime(String empId) {
 		
-		return 0;
 	}
 
 

@@ -10,39 +10,40 @@
 		<result column="atd_state" property="atdState"/>
 	</resultMap>
 	
-	<select id="getAttendanceById" resultMap="attendanceResultMap">
-		SELECT
-		  atd_id,
-		  emp_id,
-		  atd_in_time,
-		  atd_out_time,
-		  atd_state
-		FROM project3.attendances
-		WHERE atd_id = #{atdId} AND emp_id = #{empId}
+	<select id="getAttendanceToday" resultMap="attendanceResultMap">
+		SELECT 
+		  atd_id, 
+		  emp_id, 
+		  atd_in_time, 
+		  atd_out_time, 
+		  atd_state 
+		FROM attendances 
+		WHERE emp_id = #{empId} AND 
+			  to_char(atd_in_time, 'yyyy-MM-DD') = to_char(#{now}, 'yyyy-MM-DD') 
 	</select>
 
-	<insert id="insertAttendance" parameterType="attendance">
-		INSERT INTO project3.attendances (
+	<insert id="insertAttendance">
+		<selectKey keyProperty="atdId" resultType="int" order="BEFORE">
+        	select seq_atd_id.nextval from dual
+    	</selectKey>
+		INSERT INTO attendances (
 		  atd_id,
 		  emp_id,
-		  atd_in_time,
-		  atd_out_time,
-		  atd_state
+		  atd_in_time
 		) VALUES (
 		  #{atdId},
 		  #{empId},
-		  #{atdInTime},
-		  #{atdOutTime},
-		  #{atdState}
+		  sysdate
 		)
 	</insert>
 	
 	<update id="updateAttendance" parameterType="attendance">
-		UPDATE project3.attendances SET
-		  atd_in_time = #{atdInTime},
-		  atd_out_time = #{atdOutTime},
-		  atd_state = #{atdState}
-		WHERE atd_id = #{atdId} AND emp_id = #{empId}
+		UPDATE 
+			attendances
+		SET
+		  atd_out_time = #{atdOutTime}
+		WHERE emp_id = #{empId} AND 
+			  to_char(atd_in_time, 'yyyy-MM-DD') = to_char(#{now}, 'yyyy-MM-DD')
 	</update>
 	
 	<delete id="deleteAttendance">

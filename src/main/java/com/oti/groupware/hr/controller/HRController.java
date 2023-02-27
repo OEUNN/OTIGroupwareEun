@@ -38,21 +38,9 @@ public class HRController {
 		log.info("정보 로그");
 		
 		//출퇴근 시간 갖고오기
-//		Attendance attendance = new Attendance();
-//		String empId = (String) session.getAttribute("empId"); //세션에 저장된 임직원ID
-//		int result = hrService.attendanceToday(empId);
-//		
-//			if (attendance != null) {
-//				if (attendance.getOutTime() != null) {
-//				}
-//				model.addAttribute("attendVO", attendVO);
-//			} else {
-//				return "main";
-//			}
-//		}
-//		
-//		//달력 목록 가져오기
-//		
+		
+		//달력기록 갖고오기
+		
 		return "hr/attendance";
 	}
 
@@ -61,13 +49,18 @@ public class HRController {
 	 * @return 
 	 */
 	@RequestMapping(value = "/intime")
-	public String inTime(@RequestBody String hello, HttpSession session, Model model) {
-		System.out.println(hello);
-//		log.info("정보 로그");
+	public String inTime(HttpSession session, Model model) {
+		log.info("정보 로그");
 //		String empId = (String) session.getAttribute("empId");
+		String empId = "202302271";
 		
-		//비즈니스 로직(출근시간 등록)
-//		hrService.inTime(empId, now);
+		//오늘 출근여부 체킹
+		int result = hrService.attendanceToday(empId);
+		
+		//오늘의 출근시간 기록이 없을 경우, 출근시간을 등록함
+		if(result==0) {
+			hrService.inTime(empId);
+		}
 		
 		return "hr/attendance";
 	}
@@ -77,11 +70,19 @@ public class HRController {
 	 * @return 
 	 */
 	@RequestMapping(value = "/outtime")
-	public String outTime() {
+	public String outTime(HttpSession session, Model model) {
 		log.info("정보 로그");
 		
-		//business logic
-		int result = hrService.outTime();
+//		String empId = (String) session.getAttribute("empId");
+		String empId = "202302271";
+		
+		//오늘 출근여부 체킹
+		int result = hrService.attendanceToday(empId);
+		
+		//오늘의 출근시간 기록이 있을 경우, 기존 출근시간 Row에 퇴근시간을 등록해줌
+		if(result==1) {
+			hrService.outTime(empId);
+		}
 		
 		return "hr/attendance";
 	}
