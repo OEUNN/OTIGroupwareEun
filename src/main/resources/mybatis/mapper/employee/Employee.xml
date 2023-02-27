@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oti.groupware.employee.dao.EmployeeDAO">
+
 	<resultMap id="employeeResultMap" type="employee">
 		<result column="emp_id" property="empId"/>
 		<result column="pos_id" property="posId"/>

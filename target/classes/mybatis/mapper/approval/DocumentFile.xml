@@ -40,7 +40,6 @@
         )
     </insert>
 
-
     <update id="updateDocumentFile" parameterType="documentFile">
         UPDATE documents_files SET
             doc_id = #{docId},

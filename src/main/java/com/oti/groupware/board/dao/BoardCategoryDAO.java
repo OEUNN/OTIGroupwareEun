@@ -8,4 +8,3 @@ public interface BoardCategoryDAO {
 	public void updateBoardCategory(BoardCategory boardCategory);
 	public void deleteBoardCategory(int boardCategoryId);
 }
-
