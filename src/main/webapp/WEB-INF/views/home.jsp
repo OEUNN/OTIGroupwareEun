@@ -171,7 +171,7 @@
 						                  <div class="card-body">
 						                    <div class="row">
 						                  	   <div class="col-md d-flex align-items-center">
-						                           <button class="btn btn-md btn-light text-danger px-3">
+						                           <button class="btn btn-md btn-light text-danger px-3" style="pointer-events: none;">
 						                           		<h3 class="d-flex align-items-center font-weight-bold mb-0 pt-1">
 							                           		<div class="mdi mdi-alarm-off"></div>
 							                           		<div class="ml-2">퇴근</div>
@@ -202,7 +202,6 @@
 		                  <p class="card-title mb-2">최근 받은메일</p>
 		                  <div class="card card-tale mb-2">
 			                  <div class="card-body">
-			                      <p class="card-title text-white mb-2">Mail</p>
 			                      <div class="row">
 			                         <div class="col-md">받은메일<span class="pl-2 h3 font-weight-bold">0</span></div>
 			                         <div class="col-md">안읽음<span class="pl-2 h3 font-weight-bold">1</span></div>
@@ -253,7 +252,6 @@
 		                  <p class="card-title mb-2">최근 결재내역</p>
 		                  <div class="card card-light-blue mb-2">
 		                  <div class="card-body">
-		                      <p class="card-title text-white mb-2">Approval</p>
 		                       <div class="row">
 		                         <div class="col-md">기안<span class="pl-2 h3 font-weight-bold">0</span></div>
 		                         <div class="col-md">결재<span class="pl-2 h3 font-weight-bold">3</span></div>
@@ -329,23 +327,29 @@
 	                                    </thead>
 	                                    <tbody>
 	                                       <tr>
-	                                          <td>gdgd</td>
-	                                          <td>gdgd</td>
-	                                          <td>gdgd</td>
-	                                          <td>gdgd</td>
-	                                       </tr>
+			                                 <td style="font-size:11px; padding: 10px 25px;">1-03</td>
+			                                 <td style="font-size:11px; padding: 10px 25px;">마부장</td>
+			                                 <td style="font-size:11px; padding: 10px 25px;">출장신청서</td>
+			                                 <td style="font-size:9px; padding: 10px 25px;">대기</td>
+			                               </tr>
 	                                       <tr>
-	                                          <td>gdgd</td>
-	                                          <td>gdgd</td>
-	                                          <td>gdgd</td>
-	                                          <td>gdgd</td>
-	                                       </tr>
+			                                 <td style="font-size:11px; padding: 10px 25px;">1-03</td>
+			                                 <td style="font-size:11px; padding: 10px 25px;">마부장</td>
+			                                 <td style="font-size:11px; padding: 10px 25px;">출장신청서</td>
+			                                 <td style="font-size:9px; padding: 10px 25px;">대기</td>
+			                               </tr>
 	                                       <tr>
-	                                          <td>gdgd</td>
-	                                          <td>gdgd</td>
-	                                          <td>gdgd</td>
-	                                          <td>gdgd</td>
-	                                       </tr>
+			                                 <td style="font-size:11px; padding: 10px 25px;">1-03</td>
+			                                 <td style="font-size:11px; padding: 10px 25px;">마부장</td>
+			                                 <td style="font-size:11px; padding: 10px 25px;">출장신청서</td>
+			                                 <td style="font-size:9px; padding: 10px 25px;">대기</td>
+			                               </tr>
+	                                       <tr>
+			                                 <td style="font-size:11px; padding: 10px 25px;">1-03</td>
+			                                 <td style="font-size:11px; padding: 10px 25px;">마부장</td>
+			                                 <td style="font-size:11px; padding: 10px 25px;">출장신청서</td>
+			                                 <td style="font-size:9px; padding: 10px 25px;">대기</td>
+			                               </tr>
 	                                    </tbody>
 	                                </table>
 	                             </div>
@@ -374,24 +378,30 @@
 	                                      </tr>
 	                                    </thead>
 	                                    <tbody>
-	                                       <tr>
-	                                          <td>gdgd</td>
-	                                          <td>gdgd</td>
-	                                          <td>gdgd</td>
-	                                          <td>gdgd</td>
-	                                       </tr>
-	                                       <tr>
-	                                          <td>gdgd</td>
-	                                          <td>gdgd</td>
-	                                          <td>gdgd</td>
-	                                          <td>gdgd</td>
-	                                       </tr>
-	                                       <tr>
-	                                          <td>gdgd</td>
-	                                          <td>gdgd</td>
-	                                          <td>gdgd</td>
-	                                          <td>gdgd</td>
-	                                       </tr>
+	                                    	<tr>
+			                                 <td style="font-size:11px; padding: 10px 25px;">1-03</td>
+			                                 <td style="font-size:11px; padding: 10px 25px;">마부장</td>
+			                                 <td style="font-size:11px; padding: 10px 25px;">출장신청서</td>
+			                                 <td style="font-size:9px; padding: 10px 25px;">대기</td>
+			                               </tr>
+			                               <tr>
+			                                 <td style="font-size:11px; padding: 10px 25px;">1-03</td>
+			                                 <td style="font-size:11px; padding: 10px 25px;">마부장</td>
+			                                 <td style="font-size:11px; padding: 10px 25px;">출장신청서</td>
+			                                 <td style="font-size:9px; padding: 10px 25px;">대기</td>
+			                               </tr>
+			                               <tr>
+			                                 <td style="font-size:11px; padding: 10px 25px;">1-03</td>
+			                                 <td style="font-size:11px; padding: 10px 25px;">마부장</td>
+			                                 <td style="font-size:11px; padding: 10px 25px;">출장신청서</td>
+			                                 <td style="font-size:9px; padding: 10px 25px;">대기</td>
+			                               </tr>
+			                               <tr>
+			                                 <td style="font-size:11px; padding: 10px 25px;">1-03</td>
+			                                 <td style="font-size:11px; padding: 10px 25px;">마부장</td>
+			                                 <td style="font-size:11px; padding: 10px 25px;">출장신청서</td>
+			                                 <td style="font-size:9px; padding: 10px 25px;">대기</td>
+			                               </tr>
 	                                    </tbody>
 	                                </table>
 	                             </div>

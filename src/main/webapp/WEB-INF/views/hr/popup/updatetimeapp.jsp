@@ -194,7 +194,7 @@
 		                       		</div>
 			                        
 			                        <div class="row justify-content-center mt-3">
-			                       		<div style="border: 1px solid #a3a4a5; opacity: 0.5; width:90%;"></div>
+			                       		<div style="border-bottom: 2px solid #4B49AC; width:90%;"></div>
 		                       		</div>
 		                        </div>
 								<!-- 버튼 -->

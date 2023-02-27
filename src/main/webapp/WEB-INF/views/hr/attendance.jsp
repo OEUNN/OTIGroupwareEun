@@ -36,6 +36,25 @@
 			setInterval(getClock, 1000); //1초 주기로 새로실행
 		});
 		
+		//출퇴근 버튼
+		function inTime(){
+			$.ajax({
+				type : 'GET',
+				url : "/groupware/hr/intime",
+// 				data : {replyId: i},
+				error : function() {
+					alert('통신실패!');
+				},
+				success : function(data) {
+					$("#real-in-btn").css("display", "none");
+					$("#fake-in-btn").css("display", "block");
+					$("#fake-out-btn").css("display", "none");
+					$("#real-out-btn").css("display", "block");
+				}
+			});
+			
+		}
+		
 		//datepicker 렌더링
 	   	$(function(){ 
 		      $('#datepicker-myatd').datepicker({
@@ -58,13 +77,13 @@
          		//근무시간수정신청서 팝업창
 	        	var url = "popup/updatetimedetail";
 	         	var name = "";
-	         	var option = "width = 800, height = 590, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
+	         	var option = "width = 800, height = 630, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
 	         	window.open(url, name, option);
          	} else {
          		//추가근무보고서 팝업창
 	        	var url = "popup/overtimedetail";
 	         	var name = "";
-	         	var option = "width = 800, height = 560, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
+	         	var option = "width = 800, height = 630, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
 	         	window.open(url, name, option);
          	}
 		}
@@ -115,11 +134,23 @@
 				                  		</div>
 				                  		<!-- 출퇴근 버튼 -->
 					               		<div class="row mt-4 justify-content-between">
-					               			<button class="btn btn-lg btn-outline-primary p-4" style="font-weight: 700; font-size: 120%;">
+					               			<!-- 찍히는 출근버튼 -->
+					               			<button id="real-in-btn" onclick="inTime()" class="btn btn-lg btn-outline-primary p-4" style="font-weight: 700; font-size: 120%;">
 				                           		<span class="mdi mdi-alarm-check align-middle"></span>
 				                           		<span>출근</span>
 				                      	   </button>
-				                           <button class="btn btn-lg btn-outline-danger p-4" style="font-weight: 700; font-size: 120%;">
+				                      	   <!-- 안찍히는 출근버튼 -->
+					               			<button id="fake-in-btn" class="btn btn-lg btn-outline-secondary p-4" style="font-weight: 700; font-size: 120%; display:none; pointer-events: none;">
+				                           		<span class="mdi mdi-alarm-check align-middle"></span>
+				                           		<span>출근</span>
+				                      	   </button>
+				                      	   <!-- 안찍히는 퇴근버튼 -->
+				                           <button id="fake-out-btn" class="btn btn-lg btn-outline-secondary p-4" style="font-weight: 700; font-size: 120%; pointer-events: none;">
+				                           		<span class="mdi mdi-alarm-off align-middle"></span>
+				                           		<span>퇴근</span>
+				                       	   </button>
+				                       	   <!-- 찍히는 퇴근버튼 -->
+				                           <button id="real-out-btn" onclick="outTime()" class="btn btn-lg btn-outline-danger p-4" style="font-weight: 700; font-size: 120%; display:none;">
 				                           		<span class="mdi mdi-alarm-off align-middle"></span>
 				                           		<span>퇴근</span>
 				                       	   </button>
@@ -136,7 +167,8 @@
 		               		<div class="grid-margin stretch-card mb-4">
 					           	<div class="card card card-light-danger">
 					           		<div class="card-body px-4 pb-5">
-				           				<div class="card-title text-white pt-1">출근</div>
+				           				<div class="card-title text-white pt-1" style="background-color: transparent;">출근</div>
+				           				<div id="today-in-date" class="font-weight-bold h6 text-center">2023-02-26</div>
 				           				<div id="today-in-time" class="font-weight-bold h3 text-center mb-0">오전 8:24</div>
 					           		</div>
 				           		</div>
@@ -149,7 +181,8 @@
 		               		<div class="grid-margin stretch-card">
 					           	<div class="card card-dark-blue">
 					           		<div class="card-body px-4 pb-5">
-				           				<div class="card-title text-white pt-1">퇴근</div>
+				           				<div class="card-title text-white pt-1" style="background-color: transparent;">퇴근</div>
+				           				<div id="today-out-date" class="font-weight-bold h6 text-center">2023-02-26</div>
 				           				<div id="today-out-time" class="font-weight-bold h3 text-center mb-0">오후 6:24</div>
 					           		</div>
 				           		</div>
@@ -174,30 +207,32 @@
 			                    <div class="carousel-inner">
 			                      <!-- 월별 근무현황 -->
 			                      <div class="carousel-item active">
-			                      	 <div class="card-title d-flex align-items-center justify-content-start">
-				              			<div>근무현황</div>
-				              			<!-- datepicker start -->
+		                      	 	<div class="d-flex justify-content-between align-items-center mb-4">
+				              			<div class="card-title mb-0">월별 근무현황</div>
 				              			<div class="d-flex">
-										    <div class="input-daterange input-group input-sm" id="datepicker-myatd">
-												<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 100; top:15px; left: 25px;"></span>
-											    <input type="text" class="input-sm form-control" name="start" style="text-align: center;">
-											    <span class="input-group-addon text-primary font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
-												<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 100; top:15px; left: 25px;"></span>
-											    <input type="text" class="input-sm form-control" name="end" style="text-align: center;">
-										    </div>
-										 	<button onclick="" class="btn btn-sm btn-primary ml-2">검색</button>
+					              			<!-- datepicker start -->
+					              			<div id="datepicker-myatd" class="ml-5 input-daterange input-group text-primary" style="border:2px solid #4B49AC; border-radius: 15px; width: 60%;">
+												<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+											    <input type="text" class="form-control-sm form-control font-weight-bold" name="start" style="border:0px; text-align: center;">
+											    <span class="input-group-addon font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
+												<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+											    <input type="text" class="form-control-sm form-control font-weight-bold" name="end" style="border:0px; border-radius:15px; text-align: center;">
+											</div>
+								            <!-- datepicker end -->
+								            <button class="btn btn-md btn-primary ml-2">
+												<span>검색</span>
+											</button>
 				              			</div>
-							            <!-- datepicker end -->
-				                   	 </div>
+		                      	 	</div>
 					                 <!-- 근무현황통계 -->
 					                 <div class="card card-tale mb-2">
 						                  <div class="card-body">
-						                      <p class="card-title text-white mb-2">Attendance</p>
 						                      <div class="row">
-						                         <div class="col-md">지각<span class="pl-2 h3 font-weight-bold">0</span></div>
-						                         <div class="col-md">조퇴<span class="pl-2 h3 font-weight-bold">1</span></div>
-						                         <div class="col-md">결근<span class="pl-2 h3 font-weight-bold">2</span></div>
-						                         <div class="col-md">추가근무<span class="pl-2 h3 font-weight-bold">0</span></div>
+						                         <div class="col-md text-center">정상출근<span class="pl-2 h3 font-weight-bold">20</span></div>
+						                         <div class="col-md text-center">지각<span class="pl-2 h3 font-weight-bold">0</span></div>
+						                         <div class="col-md text-center">조퇴<span class="pl-2 h3 font-weight-bold">1</span></div>
+						                         <div class="col-md text-center">결근<span class="pl-2 h3 font-weight-bold">2</span></div>
+						                         <div class="col-md text-center">추가근무<span class="pl-2 h3 font-weight-bold">0</span></div>
 						                      </div>
 					                      </div>
 					                  </div>
@@ -210,15 +245,15 @@
 						                            <th>출근시간</th>
 						                            <th>퇴근시간</th>
 						                            <th>총 근무시간</th>
-						                            <th>상태</th>
+						                            <th>근무상태</th>
 						                          </tr>
 						                        </thead>
 						                        <tbody>
 						                        	<tr>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
+						                        		<td>2023-02-20</td>
+						                        		<td>8:45</td>
+						                        		<td>18:56</td>
+						                        		<td>8:00</td>
 						                        		<td><div class="badge badge-success font-weight-bold">정상출근</div></td>
 						                        	</tr>
 						                        	<tr>
@@ -279,28 +314,29 @@
 			                      </div>
 			                      <!-- 근무신청내역 -->
 			                      <div class="carousel-item">
-			                      	 <div class="card-title d-flex align-items-center justify-content-start">
-				              			<div>근무신청내역</div>
-				              			<!-- datepicker start -->
+			                      	 <div class="d-flex justify-content-between align-items-center mb-4">
+				              			<div class="card-title mb-0">근무신청내역</div>
 				              			<div class="d-flex">
-										    <div class="input-daterange input-group input-sm" id="datepicker-atdapp">
-												<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 100; top:15px; left: 25px;"></span>
-											    <input type="text" class="input-sm form-control" name="start" style="text-align: center;">
-											    <span class="input-group-addon text-primary font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
-												<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 100; top:15px; left: 25px;"></span>
-											    <input type="text" class="input-sm form-control" name="end" style="text-align: center;">
-										    </div>
-										 	<button onclick="" class="btn btn-sm btn-primary ml-2">검색</button>
+					              			<!-- datepicker start -->
+					              			<div id="datepicker-atdapp" class="ml-5 input-daterange input-group text-primary" style="border:2px solid #4B49AC; border-radius: 15px; width: 60%;">
+												<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+											    <input type="text" class="form-control-sm form-control font-weight-bold" name="start" style="border:0px; text-align: center;">
+											    <span class="input-group-addon font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
+												<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+											    <input type="text" class="form-control-sm form-control font-weight-bold" name="end" style="border:0px; border-radius:15px; text-align: center;">
+											</div>
+								            <!-- datepicker end -->
+								            <button class="btn btn-md btn-primary ml-2">
+												<span>검색</span>
+											</button>
 				              			</div>
-							            <!-- datepicker end -->
 				                   	 </div>
 					                 <!-- 근무신청통계 -->
 					                 <div class="card card-light-blue mb-2">
 						                  <div class="card-body">
-						                      <p class="card-title text-white mb-2">Application</p>
 						                      <div class="row">
-						                         <div class="col-md">근무시간수정<span class="pl-2 h3 font-weight-bold">0</span></div>
-						                         <div class="col-md">추가근무보고<span class="pl-2 h3 font-weight-bold">1</span></div>
+						                         <div class="col-md text-center">근무시간수정<span class="pl-2 h3 font-weight-bold">0</span></div>
+						                         <div class="col-md text-center">추가근무보고<span class="pl-2 h3 font-weight-bold">1</span></div>
 						                      </div>
 					                      </div>
 					                  </div>
@@ -310,10 +346,10 @@
 						                        <thead>
 						                          <tr>
 						                            <th>신청유형</th>
-						                            <th>기안날짜</th>
+						                            <th>신청날짜</th>
 						                            <th>결재자</th>
-						                            <th>결재날짜</th>
-						                            <th>결재상태</th>
+						                            <th>처리날짜</th>
+						                            <th>신청결과</th>
 						                          </tr>
 						                        </thead>
 						                        <tbody>
@@ -329,7 +365,7 @@
 						                        		<td>gdgd</td>
 						                        		<td>gdgd</td>
 						                        		<td>gdgd</td>
-						                        		<td><div class="badge badge-success font-weight-bold">승인</div></td>
+						                        		<td><div class="badge badge-danger font-weight-bold">반려</div></td>
 						                        	</tr>
 						                        	<tr>
 						                        		<td>gdgd</td>

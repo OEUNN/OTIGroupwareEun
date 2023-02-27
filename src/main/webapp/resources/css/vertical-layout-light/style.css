@@ -19397,6 +19397,13 @@ input:focus {
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'LeferiPoint-BlackObliqueA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiPoint-BlackObliqueA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .bg-twitter {
   background: #4747A1;
 }
@@ -22045,13 +22052,25 @@ code {
 }
 
 .card .card-title {
-  color: #010101;
-  font-family: 'LeferiPoint-WhiteObliqueA';
-  margin-bottom: 1.2rem;
+  color: #4B49AC;
+  font-family: 'LeferiPoint-BlackObliqueA';
+  background-color: #e7e7ff;
+  border-radius: 10px;
+  width: fit-content;
+  padding: 6px 4px 2px 4px;
   text-transform: capitalize;
   font-size: 1.125rem;
-  font-weight: 600;
+  font-weight: 700;
 }
+
+/* .card .card-title { */
+/*   color: #010101; */
+/*   font-family: 'LeferiPoint-WhiteObliqueA'; */
+/*   margin-bottom: 1.2rem; */
+/*   text-transform: capitalize; */
+/*   font-size: 1.125rem; */
+/*   font-weight: 600; */
+/* } */
 
 .card .card-subtitle {
   font-weight: 400;
@@ -22127,36 +22146,36 @@ code {
   color: #ffffff;
 }
 
-.card.card-tale:hover {
-  background: #96b2fb;
-}
+/* .card.card-tale:hover { */
+/*   background: #96b2fb; */
+/* } */
 
 .card.card-dark-blue {
   background: #4747A1;
   color: #ffffff;
 }
 
-.card.card-dark-blue:hover {
-  background: #5050b2;
-}
+/* .card.card-dark-blue:hover { */
+/*   background: #5050b2; */
+/* } */
 
 .card.card-light-blue {
   background: #7978E9;
   color: #ffffff;
 }
 
-.card.card-light-blue:hover {
-  background: #8f8eed;
-}
+/* .card.card-light-blue:hover { */
+/*   background: #8f8eed; */
+/* } */
 
 .card.card-light-danger {
   background: #F3797E;
   color: #ffffff;
 }
 
-.card.card-light-danger:hover {
-  background: #f59095;
-}
+/* .card.card-light-danger:hover { */
+/*   background: #f59095; */
+/* } */
 
 .card-inverse-primary {
   background: rgba(75, 73, 172, 0.2);
