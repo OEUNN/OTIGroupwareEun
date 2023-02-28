@@ -1,3 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.hr.dao.hrDao"></mapper>
+<mapper namespace="com.oti.groupware.hr.dao.AttendanceDAO">
+
+	<resultMap id="attendanceResultMap" type="attendance">
+		<result column="atd_id" property="atdId"/>
+		<result column="emp_id" property="empId"/>
+		<result column="atd_in_time" property="atdInTime"/>
+		<result column="atd_out_time" property="atdOutTime"/>
+		<result column="atd_state" property="atdState"/>
+	</resultMap>
+	
+	<select id="getAttendanceById" resultMap="attendanceResultMap">
+		SELECT
+		  atd_id,
+		  emp_id,
+		  atd_in_time,
+		  atd_out_time,
+		  atd_state
+		FROM project3.attendances
+		WHERE atd_id = #{atdId} AND emp_id = #{empId}
+	</select>
+
+	<insert id="insertAttendance" parameterType="attendance">
+		INSERT INTO project3.attendances (
+		  atd_id,
+		  emp_id,
+		  atd_in_time,
+		  atd_out_time,
+		  atd_state
+		) VALUES (
+		  #{atdId},
+		  #{empId},
+		  #{atdInTime},
+		  #{atdOutTime},
+		  #{atdState}
+		)
+	</insert>
+	
+	<update id="updateAttendance" parameterType="attendance">
+		UPDATE project3.attendances SET
+		  atd_in_time = #{atdInTime},
+		  atd_out_time = #{atdOutTime},
+		  atd_state = #{atdState}
+		WHERE atd_id = #{atdId} AND emp_id = #{empId}
+	</update>
+	
+	<delete id="deleteAttendance">
+		DELETE FROM project3.attendances
+		WHERE atd_id = #{atdId} AND emp_id = #{empId}
+	</delete>
+
+</mapper>

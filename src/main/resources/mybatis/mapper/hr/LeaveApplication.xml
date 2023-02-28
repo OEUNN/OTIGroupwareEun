@@ -1,3 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.hr.dao.hrDao"></mapper>
+<mapper namespace="com.oti.groupware.hr.dao.LeaveApplicationDAO">
+
+    <resultMap id="leaveApplicationResultMap" type="leaveApplication">
+        <result column="lev_app_id" property="levAppId"/>
+        <result column="emp_id" property="empId"/>
+        <result column="lev_app_date" property="levAppDate"/>
+        <result column="lev_app_reason" property="levAppReason"/>
+        <result column="lev_app_category" property="levAppCategory"/>
+        <result column="lev_app_start_date" property="levAppStartDate"/>
+        <result column="lev_app_end_date" property="levAppEndDate"/>
+        <result column="lev_app_process_state" property="levAppProcessState"/>
+        <result column="lev_app_process_date" property="levAppProcessDate"/>
+        <result column="lev_app_approval_emp" property="levAppApprovalEmp"/>
+        <result column="lev_app_opinion" property="levAppOpinion"/>
+    </resultMap>
+    
+    <select id="getLeaveApplicationById" resultMap="leaveApplicationResultMap">
+        SELECT lev_app_id, emp_id, lev_app_date, lev_app_reason, lev_app_category, lev_app_start_date, 
+        lev_app_end_date, lev_app_process_state, lev_app_process_date, lev_app_approval_emp, lev_app_opinion
+        FROM project3.leave_applications
+        WHERE lev_app_id = #{levAppId} AND emp_id = #{empId}
+    </select>
+
+    <insert id="insertLeaveApplication" parameterType="leaveApplication">
+        INSERT INTO project3.leave_applications (lev_app_id, emp_id, lev_app_date, lev_app_reason, lev_app_category,
+        lev_app_start_date, lev_app_end_date, lev_app_process_state, lev_app_process_date, lev_app_approval_emp,
+        lev_app_opinion)
+        VALUES (#{levAppId}, #{empId}, #{levAppDate}, #{levAppReason}, #{levAppCategory}, #{levAppStartDate},
+        #{levAppEndDate}, #{levAppProcessState}, #{levAppProcessDate}, #{levAppApprovalEmp}, #{levAppOpinion})
+    </insert>
+
+    <update id="updateLeaveApplication" parameterType="leaveApplication">
+        UPDATE project3.leave_applications
+        SET lev_app_date = #{levAppDate}, lev_app_reason = #{levAppReason}, lev_app_category = #{levAppCategory},
+        lev_app_start_date = #{levAppStartDate}, lev_app_end_date = #{levAppEndDate}, lev_app_process_state = #{levAppProcessState},
+        lev_app_process_date = #{levAppProcessDate}, lev_app_approval_emp = #{levAppApprovalEmp}, lev_app_opinion = #{levAppOpinion}
+        WHERE lev_app_id = #{levAppId} AND emp_id = #{empId}
+    </update>
+
+    <delete id="deleteLeaveApplication">
+        DELETE FROM project3.leave_applications
+        WHERE lev_app_id = #{levAppId} AND emp_id = #{empId}
+    </delete>
+    
+</mapper>

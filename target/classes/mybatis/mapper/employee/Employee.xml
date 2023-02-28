@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.employee.dao.EmployeeDao">
+<mapper namespace="com.oti.groupware.employee.dao.EmployeeDAO">
 
-	<select id="selectByEmpId" parameterType="string" resultType="employee">
-		select 
-			emp_id as "empId", 
-			posId as "posId", 
-			depId as "depId", 
-			emp_mail as "empMail", 
-			emp_name as "empName",
-			emp_password as "empPassword", 
-			emp_extension_number as "empExtensionNumber", 
-			emp_phone_number as "empPhoneNumber", 
-			emp_leave_reserve as "empLeaveReserve", 
-			emp_substitue_reserve as "empSubstitueReserve", 
-			emp_login_failures_cnt as "empLoginFailuresCnt", 
-			emp_file_data as "empFileData", 
-			emp_file_type as "empFileType"
-		from employees
-		where emp_id =#{empId}
+	<resultMap id="employeeResultMap" type="employee">
+		<result column="emp_id" property="empId"/>
+		<result column="pos_id" property="posId"/>
+		<result column="dep_id" property="depId"/>
+		<result column="emp_mail" property="empMail"/>
+		<result column="emp_name" property="empName"/>
+		<result column="emp_password" property="empPassword"/>
+		<result column="emp_extension_number" property="empExtensionNumber"/>
+		<result column="emp_phone_number" property="empPhoneNumber"/>
+		<result column="emp_leave_reserve" property="empLeaveReserve"/>
+		<result column="emp_substitue_reserve" property="empSubstitueReserve"/>
+		<result column="emp_login_failures_cnt" property="empLoginFailuresCnt"/>
+		<result column="emp_file_data" property="empFileData"/>
+		<result column="emp_file_type" property="empFileType"/>
+	</resultMap>
+
+	<select id="selectByEmpId" parameterType="string" resultType="employeeResultMap">
+		SELECT emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
+            emp_extension_number, emp_phone_number, emp_leave_reserve,
+            emp_substitue_reserve, emp_login_failures_cnt, emp_file_data, emp_file_type
+        FROM employees
+        WHERE emp_id = #{empId}
 	</select>
 	
 	<update id="updateLoginFailCnt" parameterType="employee">
@@ -32,6 +37,42 @@
 		set emp_login_failures_cnt = #{empLoginFailuresCnt}
 		where emp_id = #{empId}
 	</update>
+	
+    <insert id="insertEmployee" parameterType="employee">
+        INSERT INTO project3.employees (
+            emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
+            emp_extension_number, emp_phone_number, emp_leave_reserve,
+            emp_substitue_reserve, emp_login_failures_cnt, emp_file_data,
+            emp_file_type
+        ) VALUES (
+            #{empId}, #{posId}, #{depId}, #{empMail}, #{empName},
+            #{empPassword}, #{empExtensionNumber}, #{empPhoneNumber},
+            #{empLeaveReserve}, #{empSubstitueReserve},
+            #{empLoginFailuresCnt}, #{empFileData,jdbcType=BLOB},
+            #{empFileType}
+        )
+    </insert>
+
+    <update id="updateEmployee" parameterType="employee">
+        UPDATE project3.employees SET
+            pos_id = #{posId},
+            dep_id = #{depId},
+            emp_mail = #{empMail},
+            emp_name = #{empName},
+            emp_password = #{empPassword},
+            emp_extension_number = #{empExtensionNumber},
+            emp_phone_number = #{empPhoneNumber},
+            emp_leave_reserve = #{empLeaveReserve},
+            emp_substitue_reserve = #{empSubstitueReserve},
+            emp_login_failures_cnt = #{empLoginFailuresCnt},
+            emp_file_data = #{empFileData,jdbcType=BLOB},
+            emp_file_type = #{empFileType}
+        WHERE emp_id = #{empId}
+    </update>
+
+    <delete id="deleteEmployee" parameterType="String">
+        DELETE FROM project3.employees WHERE emp_id = #{empId}
+    </delete>
 	
 	
 </mapper>

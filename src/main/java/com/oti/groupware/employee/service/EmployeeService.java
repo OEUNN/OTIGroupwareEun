@@ -5,7 +5,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.oti.groupware.employee.dao.EmployeeDao;
+import com.oti.groupware.employee.dao.EmployeeDAO;
 import com.oti.groupware.employee.dto.Employee;
 
 import lombok.extern.log4j.Log4j2;
@@ -23,7 +23,7 @@ public class EmployeeService {
 	}
 	
 	@Autowired
-	private EmployeeDao employeeDao;
+	private EmployeeDAO employeeDao;
 	
 	public LoginResult login(Employee employee) {
 		log.info("login result service");
