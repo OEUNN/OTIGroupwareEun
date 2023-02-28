@@ -18,22 +18,22 @@
 			<div class="collapse" id="ui-basic">
 				<ul class="nav flex-column sub-menu">
 					<li class="nav-item">
-					<a class="nav-link" href="<c:url value='/mailwrite'/>">메일쓰기</a>
+					<a class="nav-link" href="<c:url value='/mail/mailwrite'/>">메일쓰기</a>
 						</li>
 					<li class="nav-item">
-					<a class="nav-link" href="<c:url value='/receivedmail'/>">받은 메일</a>
+					<a class="nav-link" href="<c:url value='/mail/receivedmail'/>">받은 메일</a>
 						</li>
 					<li class="nav-item">
-					<a class="nav-link" href="<c:url value='/sendmail'/>">보낸 메일</a>
+					<a class="nav-link" href="<c:url value='/mail/sendmail'/>">보낸 메일</a>
 						</li>
 					<li class="nav-item">
-					<a class="nav-link" href="<c:url value='/importmail'/>">중요 메일</a>
+					<a class="nav-link" href="<c:url value='/mail/importmail'/>">중요 메일</a>
 						</li>
 					<li class="nav-item">
-					<a class="nav-link" href="<c:url value='/tempmail'/>">임시 보관함</a>
+					<a class="nav-link" href="<c:url value='/mail/tempmail'/>">임시 보관함</a>
 						</li>
 					<li class="nav-item">
-					<a class="nav-link" href="<c:url value='/trashmail'/>">휴지통</a>
+					<a class="nav-link" href="<c:url value='/mail/trashmail'/>">휴지통</a>
 						</li>
 				</ul>
 			</div>
@@ -47,13 +47,13 @@
 			<div class="collapse" id="form-elements">
 				<ul class="nav flex-column sub-menu">
 					<li class="nav-item">
-						<a class="nav-link" href="<c:url value='/board'/>">사내 공지</a>
+						<a class="nav-link" href="<c:url value='/board/board'/>">사내 공지</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="<c:url value='/hrboard'/>">인사 발령</a>
+						<a class="nav-link" href="<c:url value='/board/hrboard'/>">인사 발령</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="<c:url value='/familyeventboard'/>">경조사</a>
+						<a class="nav-link" href="<c:url value='/board/familyeventboard'/>">경조사</a>
 					</li>
 				</ul>
 			</div>
@@ -106,8 +106,8 @@
 			</a>
 			<div class="collapse" id="employee">
 				<ul class="nav flex-column sub-menu">
-					<li class="nav-item"><a class="nav-link" href="<c:url value='/selectemployee'/>">임직원 조회</a></li>
-					<li class="nav-item"><a class="nav-link" href="<c:url value='/insertemployee'/>">임직원 등록</a></li>
+					<li class="nav-item"><a class="nav-link" href="<c:url value='/employee/selectemployee'/>">임직원 조회</a></li>
+					<li class="nav-item"><a class="nav-link" href="<c:url value='/employee/insertemployee'/>">임직원 등록</a></li>
 				</ul>
 			</div>
 		</li>
