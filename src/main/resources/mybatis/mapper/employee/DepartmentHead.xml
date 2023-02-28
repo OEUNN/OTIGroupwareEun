@@ -7,13 +7,13 @@
 		<result column="dep_id" property="depId"/>
 	</resultMap>
 
-    <select id="getDepartmentHeadsByDepartmentId" parameterType="int" resultMap="departmentHeadResultMap">
+    <select id="getDepartmentHeadByDepartmentId" parameterType="int" resultMap="departmentHeadResultMap">
         SELECT emp_id, dep_id
         FROM department_head
         WHERE dep_id = #{depId}
     </select>
 
-    <select id="getDepartmentHeadsByEmployeeId" parameterType="string" resultMap="departmentHeadResultMap">
+    <select id="getDepartmentHeadByEmployeeId" parameterType="string" resultMap="departmentHeadResultMap">
         SELECT emp_id, dep_id
         FROM department_head
         WHERE emp_id = #{empId}
