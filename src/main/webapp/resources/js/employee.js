@@ -12,10 +12,13 @@ function extensionCheck(){
 /** 휴대전화 유효성 검사**/
 function phoneCheck(){
 	let phone_number = $('#empPhoneNumber').val();
+	var obj = document.getElementById("empPhoneNumber");
 	let regExp = /^(01[016789]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
     let result = regExp.test(phone_number);
     if(!result){
-    	document.getElementById('empPhoneNumber').style.backgroundColor('red');
+    	obj.setAttribute("style", "background-color:;");
+    }else{
+    	obj.setAttribute("style", "background-color: none;");
     }
 }
 

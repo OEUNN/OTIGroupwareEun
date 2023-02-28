@@ -18,7 +18,7 @@
 		<result column="emp_file_type" property="empFileType"/>
 	</resultMap>
 
-	<select id="selectByEmpId" parameterType="string" resultType="employeeResultMap">
+	<select id="getEmployeeById" parameterType="string" resultType="employeeResultMap">
 		SELECT emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
             emp_extension_number, emp_phone_number, emp_leave_reserve,
             emp_substitue_reserve, emp_login_failures_cnt, emp_file_data, emp_file_type

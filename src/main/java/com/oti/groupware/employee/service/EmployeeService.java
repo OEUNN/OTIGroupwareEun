@@ -54,14 +54,14 @@ public class EmployeeService {
 	 * @return 해당 아이디에 해당하는 직원의 정보
 	 */
 	private Employee getEmployee(String empId) {
-		return employeeDao.selectByEmpId(empId);
+		return employeeDao.getEmployeeById(empId);
 	}
 	
 	/**
 	 * 비밀번호가 틀렸을 때 fail count +1
 	 * @param employee
 	 * @return employee
-	 */
+	 */ 
 	private void updateLoginFailCnt(Employee employee) {
 		employee.setEmpLoginFailuresCnt(employee.getEmpLoginFailuresCnt()+1);
 		employeeDao.updateLoginFailCnt(employee);

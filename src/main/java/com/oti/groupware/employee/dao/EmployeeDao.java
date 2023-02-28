@@ -3,7 +3,7 @@ package com.oti.groupware.employee.dao;
 import com.oti.groupware.employee.dto.Employee;
 
 public interface EmployeeDAO {
-    public Employee selectByEmpId(String empId);
+    public Employee getEmployeeById(String empId);
     public void updateLoginFailCnt(Employee employee);
     public void updateLoginSuccessCnt(Employee employee);
     public int insertEmployee(Employee employee);
