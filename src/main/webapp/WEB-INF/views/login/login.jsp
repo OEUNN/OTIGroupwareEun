@@ -15,19 +15,19 @@
 		<script>
 			var result = ${result}
 			result("WRONE_ID").onload = function() {
-				var url = "failidpopup";
+				var url = "login/failidpopup";
 	            var name = "fail id";
 	            var option = "width = 500, height =250, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
 	            window.open(url, name, option);
 			}
 			result("WRONG_PASSWPRD").onload = function() {
-				var url = "failpwpopup";
+				var url = "login/failpwpopup";
 	            var name = "fail password";
 	            var option = "width = 500, height =250, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
 	            window.open(url, name, option);
 			}
 			result("FIVE_WRONG_PASSWORD").onload = function() {
-				var url = "fivefailpwpopup";
+				var url = "login/fivefailpwpopup";
 	            var name = "five fail password";
 	            var option = "width = 500, height =250, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
 	            window.open(url, name, option);
@@ -72,7 +72,7 @@
 											<h3 class="text-primary font-weight-bold mb-0">GROUPWARE</h3>
 										</div>
 										<!-- 로그인폼 -->
-										<form action="<c:url value='/'/>" method="post" >
+										<form action="<c:url value='/login/login'/>" method="post" >
 											<div id="id-input" class="form-group mb-0">
 												<input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="아이디를 입력해주세요" value="${employee.empId}" style="border-radius: 10px;">
 												<i class="mdi mdi-account text-secondary" style="position: relative; top:-34px; left:9px;"></i>

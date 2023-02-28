@@ -1,24 +1,28 @@
 /**일반전화 유효성 검사**/
 function extensionCheck(){
 	let tel_number = $('#empExtensionNumber').val();
+	var telNumber = document.getElementById("empExtensionNumber");
 	let regExp = /^(0(2|3[1-3]|4[1-4]|5[1-5]|6[1-4]))(\d{3,4})(\d{4})$/;
     let result = regExp.test(tel_number);
     if(!result){
-    	document.getElementById('empExtensionNumber').style.backgroundColor('red');
+    	telNumber.setAttribute("style", "background-color:;");
     	return false;
+    }else{
+    	telNumber.setAttribute("style", "background-color: none;");
     }
 }
 
 /** 휴대전화 유효성 검사**/
 function phoneCheck(){
 	let phone_number = $('#empPhoneNumber').val();
-	var obj = document.getElementById("empPhoneNumber");
+	var phoneNumber = document.getElementById("empPhoneNumber");
 	let regExp = /^(01[016789]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
     let result = regExp.test(phone_number);
     if(!result){
-    	obj.setAttribute("style", "background-color:;");
+    	phoneNumber.setAttribute("style", "background-color:#;");
+    	return false;
     }else{
-    	obj.setAttribute("style", "background-color: none;");
+    	phoneNumber.setAttribute("style", "background-color: none;");
     }
 }
 
@@ -26,53 +30,122 @@ function phoneCheck(){
 function check(){
 	var result = true;
 	
+	var empName = document.getElementById("empName");
+	var empMail = document.getElementById("empMail");
+	var empBirthdayStr = document.getElementById("empBirthdayStr");
+	var empDetailGender = document.getElementById("empDetailGender");
+	var empFileData = document.getElementById("empFileData");
+	var empDetailMilitaryServiceYN = document.getElementById("empDetailMilitaryServiceYN");
+	var empPhoneNumber = document.getElementById("empPhoneNumber");
+	var empDetailMarriedYN = document.getElementById("empDetailMarriedYN");
+	var empDetailMajor = document.getElementById("empDetailMajor");
+	var empDetailEducation = document.getElementById("empDetailEducation");
+	var employmentDateStr = document.getElementById("employmentDateStr");
+	var depId = document.getElementById("depId");
+	var empExtensionNumber = document.getElementById("empExtensionNumber");
+	
+	//empName
 	if($('#empName').val() == ''){
-		$("#empNameMsg").text('이름이 입력되지 않았습니다.');
+		empName.setAttribute("style", "background-color:;");
 		result= false;
 	}else{
-		$("#empNameMsg").text('');
+		empName.setAttribute("style", "background-color: none;");
 	}
 	
+	//empMail
 	if($('#empMail').val() == ''){
-		$("#empMailMsg").text('이메일 아이디를 입력해주세요.');
+		empMail.setAttribute("style", "background-color:;");
 		result= false;
 	}else{
-		$("#empMailMsg").text('');
+		empMail.setAttribute("style", "background-color: none;");
 	}
 	
+	//empBirthdayStr
 	if($('#empBirthdayStr').val() == ''){
-		$("#empBirthdayStrMsg").text('날짜를 선택해주세요.');
+		empBirthdayStr.setAttribute("style", "background-color:;");
 		result= false;
 	}else{
-		$("#empBirthdayStrMsg").text('');
+		empBirthdayStr.setAttribute("style", "background-color: none;");
 	}
 	
+	//empDetailGender
+	if($('#empDetailGender').val() == ''){
+		empDetailGender.setAttribute("style", "background-color:;");
+		result= false;
+	}else{
+		empDetailGender.setAttribute("style", "background-color: none;");
+	}
+	
+	//empFileData
+	if($('#empFileData').val() == ''){
+		empFileData.setAttribute("style", "background-color:;");
+		result= false;
+	}else{
+		empFileData.setAttribute("style", "background-color: none;");
+	}
+	
+	//empDetailMilitaryServiceYN
+	if($('#empDetailMilitaryServiceYN').val() == ''){
+		empDetailMilitaryServiceYN.setAttribute("style", "background-color:;");
+		result= false;
+	}else{
+		empDetailMilitaryServiceYN.setAttribute("style", "background-color: none;");
+	}
+	
+	//empPhoneNumber
+	if($('#empPhoneNumber').val() == ''){
+		empPhoneNumber.setAttribute("style", "background-color:;");
+		result= false;
+	}else{
+		empPhoneNumber.setAttribute("style", "background-color: none;");
+	}
+	
+	//empDetailMarriedYN
+	if($('#empDetailMarriedYN').val() == ''){
+		empDetailMarriedYN.setAttribute("style", "background-color:;");
+		result= false;
+	}else{
+		empDetailMarriedYN.setAttribute("style", "background-color: none;");
+	}
+	
+	//empDetailMajor
 	if($('#empDetailMajor').val() == ''){
-		$("#empDetailMajorMsg").text('전공을 선택해주세요.');
+		empDetailMajor.setAttribute("style", "background-color:;");
 		result= false;
 	}else{
-		$("#empDetailMajorMsg").text('');
+		empDetailMajor.setAttribute("style", "background-color: none;");
 	}
 	
+	//empDetailEducation
 	if($('#empDetailEducation').val() == ''){
-		$("#empDetailEducationMsg").text('최종 학력을 선택해주세요.');
+		empDetailEducation.setAttribute("style", "background-color:;");
 		result= false;
 	}else{
-		$("#empDetailEducationMsg").text('');
+		empDetailEducation.setAttribute("style", "background-color: none;");
 	}
 	
+	//employmentDateStr
 	if($('#employmentDateStr').val() == ''){
-		$("#employmentDateStrMsg").text('날짜를 선택해주세요.');
+		employmentDateStr.setAttribute("style", "background-color:;");
 		result= false;
 	}else{
-		$("#employmentDateStrMSg").text('');
+		employmentDateStr.setAttribute("style", "background-color: none;");
 	}
 	
+	//depId
 	if($('#depId').val() == ''){
-		$("#depIdMsg").text('부서를 선택해주세요.');
+		depId.setAttribute("style", "background-color:;");
 		result= false;
 	}else{
-		$("#depIdMsg").text('');
+		depId.setAttribute("style", "background-color: none;");
+	}
+	
+	//empExtensionNumber
+	if($('#empExtensionNumber').val() == ''){
+		empExtensionNumber.setAttribute("style", "background-color:;");
+		result= false;
+	}else{
+		empExtensionNumber.setAttribute("style", "background-color: none;");
 	}
 	
 	return result;

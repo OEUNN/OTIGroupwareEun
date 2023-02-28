@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import lombok.extern.log4j.Log4j2;
 
+@RequestMapping("/board")
 @Controller
 @Log4j2
 public class BoardController {

@@ -1,8 +1,5 @@
 package com.oti.groupware.employee.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.oti.groupware.employee.dto.Employee;
-import com.oti.groupware.employee.dto.EmployeeDetail;
 import com.oti.groupware.employee.service.EmployeeService;
 
 import lombok.extern.log4j.Log4j2;
@@ -27,7 +23,7 @@ public class LoginController {
 	
 	@Autowired
 	private EmployeeService employeeService;
-
+ 
 	/**
 	 * 로그인 Controller
 	 * @return 로그인 페이지
@@ -37,7 +33,7 @@ public class LoginController {
 		return "login/login";
 	}
 	
-	@RequestMapping(value="/", method=RequestMethod.POST)
+	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(Employee employee, Model model, HttpSession session) {
 		log.info("login post 실행");
 		EmployeeService.LoginResult loginResult = employeeService.login(employee);
@@ -47,7 +43,7 @@ public class LoginController {
 		}else {
 			model.addAttribute("employee", employee);
 			model.addAttribute("result", loginResult);
-			return "redirect:/";
+			return "redirect:/login";
 		}
 	}
 	
@@ -69,7 +65,7 @@ public class LoginController {
 	@RequestMapping(value ="/logout", method=RequestMethod.GET)
 	public String logout(HttpSession session) {
 		session.removeAttribute("employee");
-		return "redirect:/";
+		return "redirect:/login";
 	}
 	
 }
