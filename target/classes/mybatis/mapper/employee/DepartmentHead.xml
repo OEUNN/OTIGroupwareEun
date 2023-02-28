@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oti.groupware.employee.dao.DepartmentHeadDAO">
+
+	<resultMap type="departmentHead" id="departmentHeadResultMap">
+		<result column="emp_id" property="empId"/>
+		<result column="dep_id" property="depId"/>
+	</resultMap>
+
+    <select id="getDepartmentHeadsByDepartmentId" parameterType="int" resultMap="departmentHeadResultMap">
+        SELECT emp_id, dep_id
+        FROM department_head
+        WHERE dep_id = #{depId}
+    </select>
+
+    <select id="getDepartmentHeadsByEmployeeId" parameterType="string" resultMap="departmentHeadResultMap">
+        SELECT emp_id, dep_id
+        FROM department_head
+        WHERE emp_id = #{empId}
+    </select>
+
+    <insert id="insertDepartmentHead" parameterType="departmentHead">
+        INSERT INTO department_head (emp_id, dep_id)
+        VALUES (#{empId}, #{depId})
+    </insert>
+    
+    <delete id="deleteDepartmentHead">
+        DELETE FROM department_head
+        WHERE emp_id = #{empId} AND dep_id = #{depId}
+    </delete>
+
+</mapper>

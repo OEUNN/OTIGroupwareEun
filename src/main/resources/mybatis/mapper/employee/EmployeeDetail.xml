@@ -1,3 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.hr.dao.hrDao"></mapper>
+<mapper namespace="com.oti.groupware.hr.dao.hrDao">
+
+	<resultMap id="employeeDetailMap" type="employeeDetail">
+        <id column="emp_id" property="empId" />
+        <result column="emp_detail_gender" property="empDetailGender" />
+        <result column="emp_detail_birthday" property="empDetailBirthday" />
+        <result column="emp_detail_workplace" property="empDetailWorkplace" />
+        <result column="emp_detail_married_yn" property="empDetailMarriedYN" />
+        <result column="emp_detail_employment_date" property="empDetailEmploymentDate" />
+        <result column="emp_detail_education" property="empDetailEducation" />
+        <result column="emp_detail_seniority" property="empDetailSeniority" />
+        <result column="emp_detail_employment_state" property="empDetailEmploymentState" />
+        <result column="emp_detail_military_service_yn" property="empDetailMilitaryServiceYN" />
+        <result column="emp_detail_major" property="empDetailMajor" />
+        <result column="emp_detail_quit_date" property="empDetailQuitDate" />
+    </resultMap>
+
+</mapper>

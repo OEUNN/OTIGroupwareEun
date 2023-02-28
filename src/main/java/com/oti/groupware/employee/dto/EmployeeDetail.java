@@ -8,7 +8,6 @@ import lombok.Data;
 
 @Data
 public class EmployeeDetail {
-
     private String empId; //사번
     private char empDetailGender; //성별
     private Date empDetailBirthday; //생일

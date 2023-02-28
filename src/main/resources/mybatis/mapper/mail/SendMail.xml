@@ -1,3 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.hr.dao.hrDao"></mapper>
+<mapper namespace="com.oti.groupware.mail.dao.SendMailDAO">
+
+	<resultMap id="sendMailMap" type="sendMail">
+		<id property="sendMailId" column="send_mail_id"/>
+		<result property="empId" column="emp_id"/>
+		<result property="sendMailTitle" column="send_mail_title"/>
+		<result property="sendMailContent" column="send_mail_content"/>
+		<result property="sendMailImportanceYN" column="send_mail_importance_yn"/>
+		<result property="sendMailDate" column="send_mail_date"/>
+		<result property="sendMailTempYN" column="send_mail_temp_yn"/>
+		<result property="sendMailDelYN" column="send_mail_del_yn"/>
+		<result property="sendMailDelCompleteYN" column="send_mail_del_complete_yn"/>
+	</resultMap>
+
+	<select id="getSendMailById" resultMap="sendMailMap" parameterType="int">
+		SELECT send_mail_id, emp_id, send_mail_title, send_mail_content, send_mail_importance_yn, send_mail_date, send_mail_temp_yn, send_mail_del_yn, send_mail_del_complete_yn 
+		FROM send_mails
+		WHERE send_mail_id = #{sendMailId}
+	</select>
+	
+	<insert id="insertSendMail" parameterType="SendMail">
+        INSERT INTO send_mails (
+            send_mail_id,
+            emp_id,
+            send_mail_title,
+            send_mail_content,
+            send_mail_importance_yn,
+            send_mail_date,
+            send_mail_temp_yn,
+            send_mail_del_yn,
+            send_mail_del_complete_yn
+        )
+        VALUES (
+            #{sendMailId},
+            #{empId},
+            #{sendMailTitle},
+            #{sendMailContent},
+            #{sendMailImportanceYn},
+            #{sendMailDate},
+            #{sendMailTempYn},
+            #{sendMailDelYn},
+            #{sendMailDelCompleteYn}
+        )
+    </insert>
+	
+    <update id="updateSendMail" parameterType="SendMail">
+        UPDATE send_mails SET
+            emp_id = #{empId},
+            send_mail_title = #{sendMailTitle},
+            send_mail_content = #{sendMailContent},
+            send_mail_importance_yn = #{sendMailImportanceYn},
+            send_mail_date = #{sendMailDate},
+            send_mail_temp_yn = #{sendMailTempYn},
+            send_mail_del_yn = #{sendMailDelYn},
+            send_mail_del_complete_yn = #{sendMailDelCompleteYn} 
+        WHERE
+            send_mail_id = #{sendMailId}
+    </update>
+	
+	<delete id="deleteSendMail" parameterType="int">
+		DELETE FROM send_mails WHERE send_mail_id = #{sendMailId}
+	</delete>
+
+</mapper>
