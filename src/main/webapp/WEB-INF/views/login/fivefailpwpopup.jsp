@@ -12,7 +12,7 @@
 	<!-- Plugin css,js for this page -->
 	<script>
 	 function retry(){
-     	window.opener.top.location.href="<c:url value='/'/>";
+     	window.opener.top.location.href="<c:url value='login/'/>";
          window.close();
      }
 	</script>

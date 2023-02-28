@@ -88,4 +88,10 @@ public class EmployeeController {
 	public String deletePasswordPopup() {
 		return "employee/deletePasswordPopup";
 	}
+	
+	//접근권한 페이지
+	@RequestMapping(value="/error", method=RequestMethod.GET)
+	public String errorEmployee() {
+		return "employee/error";
+	}
 }

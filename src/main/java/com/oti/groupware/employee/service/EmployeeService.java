@@ -27,12 +27,11 @@ public class EmployeeService {
 	
 	public LoginResult login(Employee employee) {
 		log.info("login result service");
-		PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		Employee dbEmployee = getEmployee(employee.getEmpId());
 		if(dbEmployee == null) {
 			return LoginResult.WRONE_ID;
 		}else {
-			boolean checkPass = pe.matches(employee.getEmpPassword(), dbEmployee.getEmpPassword());
+			boolean checkPass = matchPassword(employee.getEmpPassword(), dbEmployee.getEmpPassword());
 			if(checkPass == false) {
 				updateLoginFailCnt(employee);
 				employee.setEmpLoginFailuresCnt(employee.getEmpLoginFailuresCnt());
@@ -46,8 +45,26 @@ public class EmployeeService {
 		employee = getEmployee(employee.getEmpId());
 		return LoginResult.SUCCESS;
 	}
+	
+	private boolean matchPassword(String rawPassword, String encodedPassword) {
+		//encodedPassword를 읽고 bcrypt로 복호화해서 비교
+		/*BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		 * return passwordEncoder.matchs(rawPassword, encodedPassword);*/
+		
+		//{alogrithmID}encodedPassword를 읽고 해당 알고리즘으로 복호화해서 비교
+		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		return passwordEncoder.matches(rawPassword, encodedPassword);
+	}
 
-
+	private String getEncodedPassword(String password) {
+		//encodedPassword 리턴
+		/*PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		return passwordEncoder.encode(password);*/
+		
+		//{bcrypt}encodedPassword 리턴
+		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		return passwordEncoder.encode(password);
+	}
 	/**
 	 * 
 	 * @param 작성 아이디

@@ -16,14 +16,16 @@
 		<result column="emp_login_failures_cnt" property="empLoginFailuresCnt"/>
 		<result column="emp_file_data" property="empFileData"/>
 		<result column="emp_file_type" property="empFileType"/>
+		<result column="role_name" property="roleName"/>
+		<result column="emp_enabled" property="empEnabled"/>
 	</resultMap>
 
 	<select id="getEmployeeById" parameterType="string" resultMap="employeeResultMap">
-		SELECT emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
+		SELECT emp_id, pos_id, e.dep_id, emp_mail, emp_name, emp_password,
             emp_extension_number, emp_phone_number, emp_leave_reserve,
-            emp_substitue_reserve, emp_login_failures_cnt, emp_file_data, emp_file_type
-        FROM employees
-        WHERE emp_id = #{empId}
+            emp_substitue_reserve, emp_login_failures_cnt, emp_file_data, emp_file_type, r.role_name, emp_enabled
+        FROM employees e, roles r, departments d
+        WHERE emp_id = #{empId} and d.dep_id=e.dep_id and d.role_id=r.role_id
 	</select>
 	
 	<update id="updateLoginFailCnt" parameterType="employee">

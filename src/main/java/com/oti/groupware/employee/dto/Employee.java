@@ -18,4 +18,6 @@ public class Employee {
     private int empLoginFailuresCnt;
     private byte[] empFileData;
     private String empFileType;
+    private String roleName;
+    private boolean empEnabled;
 }
