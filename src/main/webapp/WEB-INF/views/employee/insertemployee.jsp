@@ -10,6 +10,7 @@
 <!-- endinject css, js common file -->
 
 <!-- Plugin css,js for this page -->
+<script src="<c:url value='/js/employee.js'/>"></script>
 <style>
 	.dropdown-toggle::after{
 		content:none;
@@ -33,7 +34,7 @@
 						<div class="col-12 grid-margin">
 							<div class="card">
 								<div class="card-body ">
-									<form class="form-sample">
+									<form action="<c:url value='/employee/insertemployee'/>" class="form-sample"  onsubmit="return check()" method="post"  enctype="multipart/form-data">
 										<div class="d-flex justify-content-between align-items-center mb-4">
 											<div class="card-title mb-0">임직원 등록</div>
 											<div class="d-flex">
@@ -49,11 +50,11 @@
 													<div class="col-sm-4 text-primary">
 														<div class="d-flex align-items-center m-1">
 															<i class="h3 my-auto mdi mdi-account"></i> 
-															<span class="ml-2 font-weight-bold">이름</span>
+															<span class="ml-2 font-weight-bold" >이름</span>
 														</div>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" />
+														<input type="text" class="form-control" id="empName" name="empName" maxlength="19" />
 													</div>
 												</div>
 											</div>
@@ -66,7 +67,7 @@
 														</div>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control"/>
+														<input type="text" class="form-control" id="empMail" name="empMail" maxlength="50"/>
 													</div>
 												</div>
 											</div>
@@ -81,7 +82,7 @@
 														</div>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" placeholder="YYYY/MM/DD"/>
+														<input type="date" class="form-control" id="empBirthdayStr" name="empBirthdayStr" placeholder="YYYY-MM-DD"/>
 													</div>
 												</div>
 											</div>
@@ -96,14 +97,14 @@
 													<div class="col-sm-4">
 														<div class="form-check">
 															<label class="form-check-label"> 
-															<input type="radio" class="form-check-input" name="gender" id="gender1" value="" checked>Male
+															<input type="radio" class="form-check-input" name="empDetailGender" id="empDetailGender" value="MALE" checked>Male
 															</label>
 														</div>
 													</div>
 													<div class="col-sm-4">
 														<div class="form-check">
 															<label class="form-check-label"> 
-															<input type="radio" class="form-check-input" name="gender" id="gender2" value="option2">Female
+															<input type="radio" class="form-check-input" name="empDetailGender" id="empDetailGender" value="FEAMLE">Female
 															</label>
 														</div>
 													</div>
@@ -121,9 +122,9 @@
 													</div>
 													<div class="col-sm-8">
 														<div class="form-group bg-white">
-															<input type="file" id="upload" class="file-upload-default" multiple>
+															<input type="file" id="empFileData" name="empFileData" class="file-upload-default" multiple>
 															<div class="input-group col-xs-12">
-																<input type="text" class="form-control file-upload-info" style="border-radius: 0;" disabled placeholder="업로드 할 파일"> 
+																<input type="text" class="form-control file-upload-info"  disabled placeholder="업로드 할 파일"> 
 																	<span class="input-group-append">
 																	<button class="file-upload-browse btn btn-primary" style="border-radius: 0;" type="button">
 																		파일 첨부
@@ -145,14 +146,14 @@
 													<div class="col-sm-4">
 														<div class="form-check">
 															<label class="form-check-label"> 
-															<input type="radio" class="form-check-input" name="military" id="military1" value="" checked>YES
+															<input type="radio" class="form-check-input" name="empDetailMilitaryServiceYN" id="empDetailMilitaryServiceYN" value="Y" checked>YES
 															</label>
 														</div>
 													</div>
 													<div class="col-sm-4">
 														<div class="form-check">
 															<label class="form-check-label"> 
-															<input type="radio" class="form-check-input" name="military" id="military2" value="option2">NO
+															<input type="radio" class="form-check-input" name="empDetailMilitaryServiceYN" id="empDetailMilitaryServiceYN" value="N">NO
 															</label>
 														</div>
 													</div>
@@ -169,7 +170,7 @@
 														</div>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" placeholder="000-0000-0000"/>
+														<input type="text" class="form-control" oninput="phoneCheck()" maxlength="20" id="empPhoneNumber" name="empPhoneNumber" placeholder="000-0000-0000"/>
 													</div>
 												</div>
 											</div>
@@ -184,14 +185,14 @@
 													<div class="col-sm-4">
 														<div class="form-check">
 															<label class="form-check-label"> 
-															<input type="radio" class="form-check-input" name="marry" id="marry1" value="" checked>기혼
+															<input type="radio" class="form-check-input" name="empDetailMarriedYN" id="empDetailMarriedYN" value="Y" checked>기혼
 															</label>
 														</div>
 													</div>
 													<div class="col-sm-4">
 														<div class="form-check">
 															<label class="form-check-label"> 
-															<input type="radio" class="form-check-input" name="marry" id="marry2" value="option2">미혼
+															<input type="radio" class="form-check-input" name="empDetailMarriedYN" id="empDetailMarriedYN" value="N">미혼
 															</label>
 														</div>
 													</div>
@@ -208,7 +209,7 @@
 														</div>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" />
+														<input type="text" class="form-control" name="empDetailMajor" id="empDetailMajor"/>
 													</div>
 												</div>
 											</div>
@@ -223,7 +224,7 @@
 													<div class="col-sm-8">
 														<div class="btn dropdown-toggle d-flex form-control " id="school" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 															<i class="text-primary mdi mdi-menu-down"></i> 
-															<input class="selectmenu1 my-auto" type="text" value="" style="border:none;" readonly>
+															<input class="selectmenu1 my-auto" type="text" id="empDetailEducation" name="empDetailEducation" style="border:none;" readonly>
 														</div>
 														<div class="dropdown-menu" aria-labelledby="school" style="width:100%;">
 															<h6 class="dropdown-item" id="select1-1" onclick="select1(1)">고졸</h6>
@@ -247,11 +248,11 @@
 													<div class="col-sm-4 text-primary">
 														<div class="d-flex align-items-center m-1">
 															<i class="h3 my-auto mdi mdi-clipboard-check"></i> 
-															<span class="ml-2 font-weight-bold">채용일</span>
+															<span class="ml-2 font-weight-bold">입사일</span>
 														</div>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" placeholder="YYYY/MM/DD"/>
+														<input type="text" class="form-control" id="employmentDateStr" name="employmentDateStr" placeholder="YYYY-MM-DD"/>
 													</div>
 												</div>
 											</div>
@@ -266,7 +267,7 @@
 													<div class="col-sm-8">
 														<div class="btn dropdown-toggle d-flex form-control" id="department" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 															<i class="text-primary mdi mdi-menu-down"></i> 
-															<input class="selectmenu2 my-auto" type="text" value="" style="border:none;" readonly>
+															<input class="selectmenu2 my-auto" type="text" id="depId" name="depId" style="border:none;" readonly>
 														</div>
 														<div class="dropdown-menu" aria-labelledby="department" style="width:100%;">
 															<h6 class="dropdown-item" id="select2-1" onclick="select2(1)">공공사업1DIV</h6>
@@ -295,7 +296,7 @@
 														</div>
 													</div>
 													<div class="col-sm-8">
-														<input type="text" class="form-control" placeholder="000-000-0000"/>
+														<input type="text" class="form-control" maxlength="20" oninput="extensionCheck()" id="empExtensionNumber" name="empExtensionNumber" placeholder="000-000-0000"/>
 													</div>
 												</div>
 											</div>
