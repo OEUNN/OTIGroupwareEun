@@ -40,21 +40,60 @@
 		where emp_id = #{empId}
 	</update>
 	
-    <insert id="insertEmployee" parameterType="employee">
-        INSERT INTO project3.employees (
+	<select id="getPhoneNumber" resultType="string">
+		select emp_phone_number
+		from employees
+	</select>
+	
+	<select id="getTelNumber" resultType="string">
+		select DEP_PHONE_NUMBER
+		from departments
+	</select>
+	
+	<select id="getMailId" resultType="string">
+		select emp_mail
+		from employees
+	</select>
+	
+	<select id="getEmpId" parameterType="string" resultType="string">
+		select emp_id
+		from employees
+		where emp_id= #{completeId}%
+	</select>
+	
+	<select id="getLeaveReserve" parameterType="int">
+		select pos_lev_cnt
+		from positions
+		where pos_id = #{posId}
+	</select>
+	
+    <insert id="insertEmployee" parameterType="employee"  useGeneratedKeys="true" keyProperty="empId" keyColumn="emp_id">
+        INSERT INTO employees (
             emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
             emp_extension_number, emp_phone_number, emp_leave_reserve,
             emp_substitue_reserve, emp_login_failures_cnt, emp_file_data,
-            emp_file_type
+            emp_file_type, emp_enabled
         ) VALUES (
             #{empId}, #{posId}, #{depId}, #{empMail}, #{empName},
             #{empPassword}, #{empExtensionNumber}, #{empPhoneNumber},
-            #{empLeaveReserve}, #{empSubstitueReserve},
-            #{empLoginFailuresCnt}, #{empFileData,jdbcType=BLOB},
-            #{empFileType}
+            #{empLeaveReserve}, default,
+            default, #{empFileData,jdbcType=BLOB},
+            #{empFileType}, default
         )
     </insert>
 
+	<insert id="insertEmployeeDetail" parameterType="employeeDetail">
+		insert into employees(
+			emp_id, emp_detail_gender, emp_detail_birthday, emp_detail_workplace,
+			emp_married_yn, emp_detail_employment_date, emp_detail_education, 
+			emp_detail_employment_state,emp_detail_military_service_yn, 
+			emp_detail_major
+		) values (
+			#{empId}, #{empDetailGender}, #{empDetailBirthday}, #{empDetailWorkplace},
+			#{empDetailMarriedYN}, #{empDetailEmploymentDate}, #{empDetailEducation},
+			default, #{empDetailMilitaryServiceYN}, #{empDetailMajor}
+		)
+	</insert>
     <update id="updateEmployee" parameterType="employee">
         UPDATE project3.employees SET
             pos_id = #{posId},
@@ -75,6 +114,7 @@
     <delete id="deleteEmployee" parameterType="String">
         DELETE FROM project3.employees WHERE emp_id = #{empId}
     </delete>
+    
 	
 	
 </mapper>

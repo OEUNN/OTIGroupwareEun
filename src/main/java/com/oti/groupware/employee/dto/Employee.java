@@ -1,5 +1,7 @@
 package com.oti.groupware.employee.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
@@ -16,7 +18,7 @@ public class Employee {
     private int empLeaveReserve;
     private int empSubstitueReserve;
     private int empLoginFailuresCnt;
-    private byte[] empFileData;
+    private MultipartFile empFileData;
     private String empFileType;
     private String roleName;
     private boolean empEnabled;
