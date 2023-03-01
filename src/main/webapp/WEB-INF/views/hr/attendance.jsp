@@ -13,7 +13,6 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
 	<script src="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 	
-	
 	<script>
 		//현재 시간
 		$(function() {
@@ -35,28 +34,25 @@
 			getClock(); //맨처음에 한번 실행
 			setInterval(getClock, 1000); //1초 주기로 새로실행
 		});
+
+		//오늘 날짜
+		$(function() {
+			const todayIn = document.getElementById("today-in-date");
+			const todayOut = document.getElementById("today-out-date");
+	
+			function getTodayDate(){
+			  const d = new Date();
+			  const y = String(d.getFullYear()).padStart(4);
+			  const M = String(d.getMonth() + 1).padStart(2,"0");
+			  const da = String(d.getDate()).padStart(2,"0");
+			  todayIn.innerHTML = y + "년 " + M + "월 " + da + "일";
+			  todayOut.innerHTML = y + "년 " + M + "월 " + da + "일";
+			}
 		
-		//출퇴근 버튼
-		function inTime(){
-			location.href = "/groupware/hr/intime";
-			
-// 			$.ajax({
-// 				type : 'POST',
-// 				url : "/groupware/hr/intime",
-// 				error : function() {
-// 					alert('통신실패!');
-// 				},
-// 				success : function(data) {
-// 					$("#real-in-btn").css("display", "none");
-// 					$("#fake-in-btn").css("display", "block");
-// 					$("#fake-out-btn").css("display", "none");
-// 					$("#real-out-btn").css("display", "block");
-// 				}
-// 			});
-			
-		}
+			getTodayDate();
+		});
 		
-		//datepicker 렌더링
+ 		//datepicker 렌더링
 	   	$(function(){ 
 		      $('#datepicker-myatd').datepicker({
 		    	  todayHighlight: true
@@ -88,6 +84,11 @@
 	         	window.open(url, name, option);
          	}
 		}
+	   	
+	   	//근무상태 변경가능한 셀렉박스
+		function select(item) {
+        	$("#selectbox-btn-name").html(item);
+        }
 	</script>
 	<!-- End plugin css,js for this page -->
 </head>
@@ -120,41 +121,61 @@
 											</div>
 					               		</div>
 					               		<!-- 근무상태 -->
-					               		<div class="row mt-3 justify-content-center">
-				                  			<button class="btn btn-lg btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" 
-				                  					aria-haspopup="true" aria-expanded="true" style="width: 200%; font-size: 130%; font-weight: bold;">
-				                         		근무중
-				                        	</button>
-				                        	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width:80%;">
-					                          <h6 class="dropdown-header">근무중</h6>
-					                          <a class="dropdown-item" href="#">출장</a>
-					                          <a class="dropdown-item" href="#">외근</a>
-					                          <div class="dropdown-divider"></div>
-					                          <a class="dropdown-item" href="#">기타</a>
-					                        </div>
+					               		<div id="select-btn" class="row mt-3">
+					               			<!-- 출근버튼 클릭전 or 퇴근버튼 클릭 후 -->
+					               			<c:if test="${empty attendance.atdInTime || (!empty attendance.atdInTime && !empty attendance.atdOutTime)}">
+					                  			<button class="btn btn-lg btn-outline-light" type="button" style="width: 200%; font-size: 130%; font-weight: bold; border: 1px solid #A3A4A5;">
+					                         		<span class="mdi mdi-sleep" ></span>
+					                        	</button>
+					               			</c:if>
+					               			<!-- 출근버튼 클릭후 -->
+					               			<c:if test="${!empty attendance.atdInTime && empty attendance.atdOutTime}">
+					                  			<button class="btn btn-lg btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" 
+					                  					aria-haspopup="true" aria-expanded="true" style="width: 200%; font-size: 130%; font-weight: bold; border: 1px solid #A3A4A5;">
+					                         		<span id="selectbox-btn-name" >근무중</span>
+					                        	</button>
+					                        	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width:80%;">
+						                          <a class="dropdown-item" onclick="select('근무중')">근무중</a>
+						                          <a class="dropdown-item" onclick="select('출장')">출장</a>
+						                          <a class="dropdown-item" onclick="select('외근')">외근</a>
+						                        </div>
+					               			</c:if>
 				                  		</div>
 				                  		<!-- 출퇴근 버튼 -->
 					               		<div class="row mt-4 justify-content-between">
-					               			<!-- 찍히는 출근버튼 -->
-					               			<button id="real-in-btn" onclick="inTime()" class="btn btn-lg btn-outline-primary p-4" style="font-weight: 700; font-size: 120%;">
-				                           		<span class="mdi mdi-alarm-check align-middle"></span>
-				                           		<span>출근</span>
-				                      	   </button>
-				                      	   <!-- 안찍히는 출근버튼 -->
-					               			<button id="fake-in-btn" class="btn btn-lg btn-outline-secondary p-4" style="font-weight: 700; font-size: 120%; display:none; pointer-events: none;">
-				                           		<span class="mdi mdi-alarm-check align-middle"></span>
-				                           		<span>출근</span>
-				                      	   </button>
-				                      	   <!-- 안찍히는 퇴근버튼 -->
-				                           <button id="fake-out-btn" class="btn btn-lg btn-outline-secondary p-4" style="font-weight: 700; font-size: 120%; pointer-events: none;">
-				                           		<span class="mdi mdi-alarm-off align-middle"></span>
-				                           		<span>퇴근</span>
-				                       	   </button>
-				                       	   <!-- 찍히는 퇴근버튼 -->
-				                           <button id="real-out-btn" onclick="outTime()" class="btn btn-lg btn-outline-danger p-4" style="font-weight: 700; font-size: 120%; display:none;">
-				                           		<span class="mdi mdi-alarm-off align-middle"></span>
-				                           		<span>퇴근</span>
-				                       	   </button>
+					               			<!-- 출근버튼 클릭 전 -->
+				                      	   <c:if test="${empty attendance.atdInTime}">
+						               			<button onclick="location.href='${pageContext.request.contextPath}/hr/intime?nowJsp=hr'" class="btn btn-lg btn-outline-primary p-4" style="font-weight: 700; font-size: 120%;">
+					                           		<span class="mdi mdi-alarm-check align-middle"></span>
+					                           		<span>출근</span>
+					                      	   </button>
+					                           <button class="btn btn-lg btn-outline-secondary p-4" style="font-weight: 700; font-size: 120%; pointer-events: none;">
+					                           		<span class="mdi mdi-alarm-off align-middle"></span>
+					                           		<span>퇴근</span>
+					                       	   </button>
+				                      	   </c:if>
+				                      	   <!-- 출근버튼 클릭 후 -->
+				                      	   <c:if test="${!empty attendance.atdInTime && empty attendance.atdOutTime}">
+						               			<button class="btn btn-lg btn-outline-secondary p-4" style="font-weight: 700; font-size: 120%; pointer-events: none;">
+					                           		<span class="mdi mdi-alarm-check align-middle"></span>
+					                           		<span>출근</span>
+					                      	   </button>
+					                           <button onclick="location.href='${pageContext.request.contextPath}/hr/outtime?nowJsp=hr'" class="btn btn-lg btn-outline-danger p-4" style="font-weight: 700; font-size: 120%;">
+					                           		<span class="mdi mdi-alarm-off align-middle"></span>
+					                           		<span>퇴근</span>
+					                       	   </button>
+				                      	   </c:if>
+				                      	   <!-- 퇴근버튼 클릭 후 -->
+				                      	   <c:if test="${!empty attendance.atdInTime && !empty attendance.atdOutTime}">
+						               			<button class="btn btn-lg btn-outline-secondary p-4" style="font-weight: 700; font-size: 120%; pointer-events: none;">
+					                           		<span class="mdi mdi-alarm-check align-middle"></span>
+					                           		<span>출근</span>
+					                      	   </button>
+					                           <button class="btn btn-lg btn-outline-secondary p-4" style="font-weight: 700; font-size: 120%; pointer-events: none;">
+					                           		<span class="mdi mdi-alarm-off align-middle"></span>
+					                           		<span>퇴근</span>
+					                       	   </button>
+				                      	   </c:if>
 					               		</div>
 				               		</div>
 			               		</div>
@@ -169,8 +190,15 @@
 					           	<div class="card card card-light-danger">
 					           		<div class="card-body px-4 pb-5">
 				           				<div class="card-title text-white pt-1" style="background-color: transparent;">출근</div>
-				           				<div id="today-in-date" class="font-weight-bold h6 text-center">2023-02-26</div>
-				           				<div id="today-in-time" class="font-weight-bold h3 text-center mb-0">오전 8:24</div>
+				           				<div id="today-in-date" class="font-weight-bold h5 text-center"></div>
+				           				<div id="today-in-time" class="font-weight-bold h1 text-center mb-0">
+				           					<c:if test="${empty attendance.atdInTime}">
+					           					&nbsp;
+				           					</c:if>
+				           					<c:if test="${!empty attendance.atdInTime}">
+					           					<fmt:formatDate pattern="HH:mm" value="${attendance.atdInTime}" />
+				           					</c:if>
+				           				</div>
 					           		</div>
 				           		</div>
 			           		</div>
@@ -183,8 +211,17 @@
 					           	<div class="card card-dark-blue">
 					           		<div class="card-body px-4 pb-5">
 				           				<div class="card-title text-white pt-1" style="background-color: transparent;">퇴근</div>
-				           				<div id="today-out-date" class="font-weight-bold h6 text-center">2023-02-26</div>
-				           				<div id="today-out-time" class="font-weight-bold h3 text-center mb-0">오후 6:24</div>
+				           				<div id="today-out-date" class="font-weight-bold h5 text-center">
+				           					<fmt:formatDate pattern="yyyy-MM-dd" value="${attendance.atdOutTime}" />
+				           				</div>
+				           				<div id="today-out-time" class="font-weight-bold h1 text-center mb-0">
+				           					<c:if test="${empty attendance.atdOutTime}">
+					           					&nbsp;
+				           					</c:if>
+				           					<c:if test="${!empty attendance.atdOutTime}">
+					           					<fmt:formatDate pattern="HH:mm" value="${attendance.atdOutTime}" />
+				           					</c:if>
+				           				</div>
 					           		</div>
 				           		</div>
 			           		</div>
@@ -197,7 +234,7 @@
         		</div>
         	</div>
 	      	<!-- 근무현황(목록) / 근무신청내역 -->
-          	<div class="row">
+          	<div class="row mt-4">
           		<!-- 근무현황(목록):start -->
             	<div class="col-md-12">
             		<div class="grid-margin stretch-card">
