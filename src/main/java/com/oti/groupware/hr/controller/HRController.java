@@ -1,6 +1,6 @@
 package com.oti.groupware.hr.controller;
 
-import java.util.List;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oti.groupware.hr.dto.Attendance;
@@ -34,19 +36,22 @@ public class HRController {
 	 * 
 	 * @return 나의근무 페이지
 	 */
-	@RequestMapping(value = "/attendance")
+	@RequestMapping(value = "/myattendance")
 	public String attendance(HttpSession session, Model model) {
 		log.info("정보 로그");
-
+		//세션에 저장된 직원ID 갖고옴
 //		String empId = (String) session.getAttribute("empId");
 		String empId = "202302271";
 		
-		Attendance attendance = hrService.attendanceToday(empId); //오늘 출퇴근 시간을 갖고옴
+		//오늘 출퇴근 시간을 갖고옴
+		Attendance attendance = hrService.attendanceToday(empId); 
 		model.addAttribute("attendance", attendance);
 		
-		List<Attendance> atdList = hrService.attendanceList(empId); //페이징된 월별 근무현황 목록을 갖고옴
+		//근무통계 갖고옴
+		HashMap<String, Object> stateCount = hrService.attendanceState(empId); 
+		model.addAttribute("stateCount", stateCount);
 		
-		return "hr/attendance";
+		return "hr/myattendance";
 	}
 	
 	/**
@@ -77,7 +82,7 @@ public class HRController {
 		
 		//만약 HR 페이지에서 출근을 등록했다면, HR페이지로 리다이렉트
 		if(nowJsp.equals("hr")) {
-			return "redirect:/hr/attendance";
+			return "redirect:/hr/myattendance";
 		}
 		
 		return "redirect:/home";
@@ -98,37 +103,38 @@ public class HRController {
 		
 		//만약 HR 페이지에서 출근을 등록했다면, HR페이지로 리다이렉트
 		if(nowJsp.equals("hr")) {
-			return "redirect:/hr/attendance";
+			return "redirect:/hr/myattendance";
 		}
 		
 		return "redirect:/home";
 	}
 	
+	
 	/**
 	 * 
-	 * @return 근무시간수정신청서 작성 팝업창
+	 * @return 나의 근무신청 페이지
 	 */
-	@RequestMapping(value = "/popup/updatetimeapp")
-	public String writeUpdateTime() {
+	@RequestMapping(value = "/myatdapplication")
+	public String myAttendanceApplication() {
 		log.info("정보 로그");
-		
-		//팝업창 정보 갖고오기
-//		String empId = (String) session.getAttribute("empId");
-		String empId = "202302271";
-		
-		return "hr/popup/updatetimeapp";
-	}
-
-	/**
-	 * 
-	 * @return 추가근무보고서 작성 팝업창
-	 */
-	@RequestMapping(value = "/popup/overtimeapp")
-	public String writeOverTime() {
-		log.info("정보 로그");
-		return "hr/popup/overtimeapp";
+		return "hr/myatdapplication";
 	}
 	
+	/**
+	 * 
+	 * @return 근무신청 관련 작성폼(AJAX)
+	 */
+	@RequestMapping(value = "/applicatonform", method=RequestMethod.GET)
+	public String myAttendanceApplication(@RequestParam String category) {
+		log.info("정보 로그");
+		
+		if(category.equals("근무시간수정")) { //근무시간수정양식을 요청한 경우
+			return "hr/updatetimeapp";
+		} else { //추가근무신청양식을 요청한 경우
+			return "hr/overtimeapp";
+		}
+	}
+
 	/**
 	 * 
 	 * @return 근무신청서 상세조회 팝업창
@@ -153,10 +159,10 @@ public class HRController {
 	 * 
 	 * @return 나의 휴가페이지
 	 */
-	@RequestMapping(value = "/leave")
+	@RequestMapping(value = "/myleave")
 	public String leave() {
 		log.info("정보 로그");
-		return "hr/leave";
+		return "hr/myleave";
 	}
 
 	/**

@@ -31,11 +31,11 @@
 							if(eventTime.substring(0, 2) <= 8) {
 								return { html : '<div class="badge" style="background-color:#F3797E;">출근 ' + eventTime + '</div>' }
 							} else { //지각인 경우
-								return { html : '<div class="badge" style="background-color:rgba(243, 121, 126, 0.3); color:#fa2d35">지각 ' + eventTime + '</div>' }
+								return { html : '<div class="badge badge-outline-danger">지각 ' + eventTime + '</div>' }
 							}
 						} else if (eventTitle == '퇴근') {
 							if(eventTime.substring(0, 2) <= 17) { //조퇴인 경우 
-								return { html : '<div class="badge" style="background-color:rgba(71, 71, 161, 0.3); color:#1e1e75;">조퇴 ' + eventTime + '</div>' }
+								return { html : '<div class="badge badge-outline-primary">조퇴 ' + eventTime + '</div>' }
 							} else {
 								return { html : '<div class="badge badge-primary">퇴근 ' + eventTime + '</div>' }
 							}
@@ -43,6 +43,8 @@
 							return { html : '<div class="h4 mt-2 mb-0 font-weight-bold" style="color:rgba(163, 164, 165, 0.9)">결근</div>' }
 						} else if(eventTitle == '휴가') {
 							return { html : '<div class="btn btn-md font-weight-bold px-5" style="background-color:rgba(163, 164, 165, 0.3); color:#5b5b5e;">휴가</div>' }
+						} else if(eventTitle == '추가근무') {
+							return { html : '<div class="badge badge-warning px-1" style="font-size:5%;">추가근무 ' + eventTime + '</div>' }
 						}
 					},
 				});
@@ -70,10 +72,24 @@
 				let inTime = $(this).find(".fc-daygrid-event-harness")[0].innerText;
 				let outTime = $(this).find(".fc-daygrid-event-harness")[1].innerText;
 				
-				if ((inTime.indexOf("지각") == 0 || inTime.indexOf("출근") == 0) && (outTime.indexOf("퇴근") == 0 || outTime.indexOf("조퇴") == 0)) {
+				if ((inTime.indexOf("지각") == 0 || inTime.indexOf("출근") == 0) && (outTime.indexOf("퇴근") == 0 || outTime.indexOf("조퇴") == 0 || outTime.indexOf("추가근무") == 0)) {
 					$("#today-in-time").html(inTime.substring(3));
-					$("#today-out-time").html(outTime.substring(3));
+					
+					if(outTime.indexOf("추가근무") == 0){
+						$("#today-out-time").html(outTime.substring(4));
+					} else { //나머지
+						$("#today-out-time").html(outTime.substring(3));
+					}
 				} 
+			//출근만 있는 경우
+			} else if($(this).find(".fc-daygrid-event-harness").length == 1){
+				let inTime = $(this).find(".fc-daygrid-event-harness")[0].innerText;
+				if(inTime.indexOf("결근") == 0 || inTime.indexOf("휴가") == 0){ //결근이거나 휴가인 경우
+					$("#today-in-time").html("<br>");
+					$("#today-out-time").html("<br>");
+				} else { //출근하나만 있을 경우!
+					$("#today-in-time").html(inTime.substring(3));
+				}
 			//출퇴근 이력이 없는 경우
 			} else { 
 				$("#today-in-time").html("<br>");
@@ -187,28 +203,16 @@
 
 <div class="card">
 	<div class="card-body">
-		<div class="d-flex justify-content-between align-items-center mb-4">
-			<div class="card-title mb-0">나의 출퇴근</div>
-			<div class="d-flex">
-				<button onclick="upateTimePopup()" id="popup-btn" class="btn btn-md btn-warning mx-2">
-               		<span class="mdi mdi-calendar-clock align-middle"></span>
-               		<span>근무시간수정</span>
-          	   </button>
-               <button onclick="overTimePopup()" id="popup-btn" class="btn btn-md btn-primary mx-2">
-               		<span class="mdi mdi-calendar-plus align-middle"></span>
-               		<span>추가근무보고</span>
-           	   </button>
-       		</div>
-        </div>
+		<div class="card-title mb-4">나의 출퇴근</div>
         <!-- 근무현황통계 -->
-        <div class="card card-tale mb-2">
+        <div class="card card-light-blue">
           <div class="card-body">
               <div class="row">
-                 <div class="col-md text-center">정상출근<span class="pl-2 h3 font-weight-bold">20</span></div>
-                 <div class="col-md text-center">지각<span class="pl-2 h3 font-weight-bold">0</span></div>
-                 <div class="col-md text-center">조퇴<span class="pl-2 h3 font-weight-bold">1</span></div>
-                 <div class="col-md text-center">결근<span class="pl-2 h3 font-weight-bold">2</span></div>
-                 <div class="col-md text-center">추가근무<span class="pl-2 h3 font-weight-bold">0</span></div>
+                 <div class="col-md text-center">정상출근<span class="pl-2 h3 font-weight-bold">${stateCount['정상출근']}</span></div>
+                 <div class="col-md text-center">지각<span class="pl-2 h3 font-weight-bold">${stateCount['지각']}</span></div>
+                 <div class="col-md text-center">조퇴<span class="pl-2 h3 font-weight-bold">${stateCount['조퇴']}</span></div>
+                 <div class="col-md text-center">결근<span class="pl-2 h3 font-weight-bold">${stateCount['결근']}</span></div>
+                 <div class="col-md text-center">추가근무<span class="pl-2 h3 font-weight-bold">${stateCount['추가근무']}</span></div>
               </div>
              </div>
          </div>
