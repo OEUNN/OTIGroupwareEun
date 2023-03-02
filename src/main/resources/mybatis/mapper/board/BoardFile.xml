@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oti.groupware.board.dao.BoardFileDAO">
 
-   <resultMap id="boardsFileResultMap" type="boardFile">
+	<resultMap id="boardsFileResultMap" type="boardFile">
         <result property="boardFileId" column="board_file_id" />
         <result property="boardId" column="board_id" />
         <result property="boardFileName" column="board_file_name" />

@@ -3,7 +3,7 @@
 <mapper namespace="com.oti.groupware.board.dao.BoardDAO">
 
 	<resultMap id="boardResultResultMap" type="board">
-		<id column="board_id" property="boardId" />
+		<result column="board_id" property="boardId" />
 		<result column="emp_id" property="empId" />
 		<result column="board_category_id" property="boardCategoryId" />
 		<result column="board_title" property="boardTitle" />

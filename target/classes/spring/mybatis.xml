@@ -16,4 +16,5 @@
 	</bean>
 	
 	<mybatis-spring:scan base-package="com.oti.groupware.hr.dao"/>
+	<mybatis-spring:scan base-package="com.oti.groupware.employee.dao"/>
 </beans>

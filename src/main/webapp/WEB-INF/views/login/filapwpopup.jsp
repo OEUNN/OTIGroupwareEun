@@ -42,8 +42,7 @@
 									<div class="card-title mt-1 row d-flex justify-content-center">로그인 오류 5회시 자동 잠금됩니다.</div>
 									<div class="row mb-1" >
 										<div class="col"></div>
-										<button class="col-3 btn btn-primary btn-md mt-1 mx-3" onclick="retry()">확인</button>
-										<button class="col-3 btn btn-outline-primary btn-md mt-1 mx-3" onclick="window.close()">취소</button>
+										<button class="col-3 btn btn-primary btn-md mt-1 mx-3" onclick="window.close()">닫기</button>
 										<div class="col"></div>
 									</div>
 								</div>
