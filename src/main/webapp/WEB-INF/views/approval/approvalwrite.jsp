@@ -1,22 +1,34 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 	<!-- CSS, JS 관련 파일 -->
 	<%@ include file="/WEB-INF/views/common/head.jsp" %>
 	<!-- Custom js for this page-->
-	<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/tinymce.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/tinymce/tinymceinit.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/themes/silver/theme.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/file-upload.js"></script>
-	<script>
+	<script src="<c:url value="/resources/vendors/tinymce/tinymce.min.js"></c:url>"></script>
+	<script src="<c:url value="/resources/js/tinymce/tinymceinit.js"></c:url>"></script>
+	<script src="<c:url value="/resources/vendors/tinymce/themes/silver/theme.min.js"></c:url>"></script>
+	<script src="<c:url value="/resources/js/file-upload.js"></c:url>"></script>
+	<script src="<c:url value="/resources/js/custom/dropdown.js"></c:url>"></script>
+	<script type="text/javascript">
 	function popup(){
 	    let url = "organization";
 	    let name = "organization";
 	    let option = "width=500, height=700, top=500px, left=500px, menubars=no, status=no, titlebars=no"
 	    window.open(url, name, option);
-	    
-	    console.log($('.main-panel'));
+	}
+	
+	function selectDocumentType() {
+		
+	}
+	
+	function addApprovalLineItem() {
+		
+	}
+	
+	function deleteApprovalLineItem() {
+		
 	}
 	</script>
 
@@ -25,7 +37,7 @@
 		box-shadow: 0px 0px 0px white !important;
 	}
 	
-	#tinymce {
+	.tox-editor-area {
 		contenteditable: false;
 	}
 	</style>
@@ -60,32 +72,32 @@
 										<div class="card grid-margin" style="border-radius:8px; border: 2px solid #4747A1;">
 											<div class="card-header bg-white d-flex" style="border-radius:8px; border-bottom: 0px;">
 												<a class="font-weight-bold text-decoration-none" data-target="#filter_by_status" data-toggle="collapse" style="color: #4747A1;">문서종류</a>
-												<div class="flex-grow-1 font-weight-bold text-info" style="text-align: end; color: #7DA0FA;">결재품의서</div>
+												<div id="status" class="flex-grow-1 font-weight-bold text-info" style="text-align: end; color: #7DA0FA;">결재품의서</div>
 											</div>
 		        							<div id="filter_by_status" class="card-body collapse" style="border-radius:8px; padding: 0; padding-left: 1.25rem; padding-right: 1.25rem;">
-			        							<div class="form-check font-weight-bold text-info">
+			        							<div class="form-check">
 													<label class="form-check-label">
-														<input type="checkbox" class="form-check-input" name="optradio" checked>결재품의서
+														<input type="radio" class="form-check-input" name="docType">결재품의서
 													</label>
 												</div>
 												<div class="form-check">
-													<label class="form-check-label text-muted">
-														<input type="checkbox" class="form-check-input" name="optradio">휴일근무품의서
+													<label class="form-check-label">
+														<input type="radio" class="form-check-input" name="docType">휴일근무품의서
 													</label>
 												</div>
-												<div class="form-check disabled">
-													<label class="form-check-label text-muted">
-														<input type="checkbox" class="form-check-input" name="optradio">출장품의서
+												<div class="form-check">
+													<label class="form-check-label">
+														<input type="radio" class="form-check-input" name="docType">출장품의서
 													</label>
 												</div>
-												<div class="form-check disabled">
-													<label class="form-check-label text-muted">
-														<input type="checkbox" class="form-check-input" name="optradio">경조사품의서
+												<div class="form-check">
+													<label class="form-check-label">
+														<input type="radio" class="form-check-input" name="docType">경조사품의서
 													</label>
 												</div>
-												<div class="form-check disabled">
-													<label class="form-check-label text-muted">
-														<input type="checkbox" class="form-check-input" name="optradio">예비군공가품의서
+												<div class="form-check">
+													<label class="form-check-label">
+														<input type="radio" class="form-check-input" name="docType">예비군공가품의서
 													</label>
 												</div>
 		        							</div>
@@ -188,7 +200,9 @@
 													</button>
 												</div>
 											</div>
-		        							<textarea id="document" style="width: inherit;"></textarea>
+											<form action="<c:url value='/approval/approvalwrite'/>" method="post">
+		        								<textarea id="document" name="document" style="width: inherit;"></textarea>
+											</form>
 		        						</div>
 	            					</div>
             					</div>

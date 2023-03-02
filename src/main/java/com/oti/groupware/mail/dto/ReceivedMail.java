@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class ReceivedMail {
-
     private int sendMailId;
     private String empIdEmployees;
     private char recdMailImportanceYN;

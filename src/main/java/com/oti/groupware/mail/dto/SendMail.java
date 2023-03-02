@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class SendMail {
-
     private int sendMailId;
     private String empId;
     private String sendMailTitle;
@@ -16,5 +15,4 @@ public class SendMail {
     private char sendMailTempYN;
     private char sendMailDelYN;
     private char sendMailDelCompleteYN;
-    private char sendSR;
 }

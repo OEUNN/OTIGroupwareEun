@@ -1,13 +1,14 @@
 tinymce.init({
+	language: 'ko_KR',
 	selector: '#document',
 	height: '297mm',
 	theme: 'silver',
 	plugins: [
-	    'print noneditable',
+	    'print noneditable save',
 	    'wordcount fullscreen charmap hr textcolor colorpicker textpattern',
-	    'template searchreplace insertdatetime anchor pagebreak emoticons'
+	    'template searchreplace insertdatetime pagebreak emoticons'
 	],
-	toolbar1: 'template fullscreen print',
+	toolbar1: 'template fullscreen print save',
 	toolbar2: 'undo redo | insert | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
 	template_mdate_format: '%m/%d/%Y : %H:%M',
 	templates : [
@@ -22,11 +23,13 @@ tinymce.init({
 	    content: '<p>Name: {$username}, StaffID: {$staffid}</p>'
 	  }
 	],
+	readonly: 1,
 	content_css : '../resources/css/approvalform.css',
 	object_resizing : false
 });
 
 tinymce.init({
+	language: 'ko_KR',
 	selector: '#document_detail',
 	height: '297mm',
 	theme: 'silver',
@@ -42,6 +45,7 @@ tinymce.init({
 	    url: '../resources/html/approvalformdetail.html'
 	  }
 	],
+	readonly: 1,
 	content : '<h1>EXAMPLE</h1>',
 	content_css : '../resources/css/approvalform.css',
 	object_resizing : false

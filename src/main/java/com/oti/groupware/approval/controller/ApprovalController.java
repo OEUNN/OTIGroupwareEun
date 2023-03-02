@@ -60,10 +60,18 @@ public class ApprovalController {
 	}
 	
 	//결재 문서 작성 화면
-	@RequestMapping(value = "/aprvwrite", method=RequestMethod.GET)
-	public String write() {
+	@RequestMapping(value = "/approvalwrite", method=RequestMethod.GET)
+	public String getApprovalWrite() {
 		log.info("정보 로그");
-		return "approval/aprvwrite";
+		return "approval/approvalwrite";
+	}
+	
+	//결재 문서 작성 화면
+	@RequestMapping(value = "/approvalwrite", method=RequestMethod.POST)
+	public String postApprovalWrite(String document) {
+		log.info("정보 로그");
+		System.out.println(document);
+		return "approval/approvalwrite";
 	}
 	
 	//주소록 화면

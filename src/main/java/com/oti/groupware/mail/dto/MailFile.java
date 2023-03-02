@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class MailFile {
-
     private int mailFileId;
     private int sendMailId;
     private String mailFileName;

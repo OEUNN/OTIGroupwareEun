@@ -67,7 +67,7 @@
 			<div class="collapse" id="charts">
 				<ul class="nav flex-column sub-menu">
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/totaldocument'/>">전체문서함</a></li>
-					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/aprvwrite'/>">기안 작성</a></li>
+					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/approvalwrite'/>">기안 작성</a></li>
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/draftdocument'/>">기안함</a></li>
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/completeddocument'/>">완결문서함</a></li>
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/tempdocument'/>">임시저장함</a></li>

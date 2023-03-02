@@ -17,6 +17,11 @@
 	    let option = "width=600, height=600, top=600px, left=600px, menubars=no, status=no, titlebars=no"
 	    window.open(url, name, option);
 	}
+	
+	$(function() { function toggleEditorMode() {
+		tinymce.activeEditor.mode.set("readonly");
+		}
+	});
 	</script>
 </head>
 
