@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.oti.groupware.employee.dto.Employee;
-import com.oti.groupware.employee.service.EmployeeService;
+import com.oti.groupware.employee.service.EmployeeServiceImpl;
 
 import lombok.extern.log4j.Log4j2;
 /**
@@ -22,7 +22,7 @@ import lombok.extern.log4j.Log4j2;
 public class LoginController {
 	
 	@Autowired
-	private EmployeeService employeeService;
+	private EmployeeServiceImpl employeeService;
  
 	/**
 	 * 로그인 Controller
@@ -36,8 +36,8 @@ public class LoginController {
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(Employee employee, Model model, HttpSession session) {
 		log.info("login post 실행");
-		EmployeeService.LoginResult loginResult = employeeService.login(employee);
-		if(loginResult == EmployeeService.LoginResult.SUCCESS) {
+		EmployeeServiceImpl.LoginResult loginResult = employeeService.login(employee);
+		if(loginResult == EmployeeServiceImpl.LoginResult.SUCCESS) {
 			session.setAttribute("employee", employee);
 			return "redirect:/home";
 		}else {
