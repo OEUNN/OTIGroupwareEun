@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oti.groupware.hr.dao.AttendanceDAO">
-
+	<!-- resultMap -->
 	<resultMap id="attendanceResultMap" type="attendance">
 		<result column="atd_id" property="atdId"/>
 		<result column="emp_id" property="empId"/>
@@ -10,44 +10,106 @@
 		<result column="atd_state" property="atdState"/>
 	</resultMap>
 	
-	<select id="getAttendanceById" resultMap="attendanceResultMap">
-		SELECT
-		  atd_id,
-		  emp_id,
-		  atd_in_time,
-		  atd_out_time,
-		  atd_state
-		FROM project3.attendances
-		WHERE atd_id = #{atdId} AND emp_id = #{empId}
+	<!-- 오늘 근무현황 -->
+	<select id="getAttendanceToday" resultMap="attendanceResultMap">
+		SELECT 
+		  atd_id, 
+		  emp_id, 
+		  atd_in_time, 
+		  atd_out_time, 
+		  atd_state 
+		FROM attendances 
+		WHERE emp_id = #{empId} AND 
+			  to_char(atd_in_time, 'yyyy-MM-DD') = to_char(sysdate, 'yyyy-MM-DD') 
 	</select>
 
-	<insert id="insertAttendance" parameterType="attendance">
-		INSERT INTO project3.attendances (
-		  atd_id,
-		  emp_id,
-		  atd_in_time,
+	<!-- 근무현황목록 -->
+	<select id="getAttendanceList" resultMap="attendanceResultMap">
+		SELECT
+		  emp_id, 
+		  atd_in_time, 
 		  atd_out_time,
 		  atd_state
+		FROM attendances
+		<where>
+			<!-- 캘린더 -->
+			<if test="choice == 'calendar'">
+				emp_id = #{empId}
+			</if>
+			<!-- 페이징 -->
+			<if test="choice == 'choice'">
+				emp_id = #{empId} AND
+				
+			</if>
+		</where> 
+	</select>
+	
+	<!-- 출근시간 등록 -->
+	<insert id="insertAttendance">
+		<selectKey keyProperty="atdId" resultType="int" order="BEFORE">
+        	select seq_atd_id.nextval from dual
+    	</selectKey>
+		INSERT INTO attendances (
+		  atd_id,
+		  emp_id,
+		  atd_in_time
 		) VALUES (
 		  #{atdId},
 		  #{empId},
-		  #{atdInTime},
-		  #{atdOutTime},
-		  #{atdState}
+		  sysdate
 		)
 	</insert>
 	
+	<!-- 퇴근시간 등록 -->
 	<update id="updateAttendance" parameterType="attendance">
-		UPDATE project3.attendances SET
-		  atd_in_time = #{atdInTime},
-		  atd_out_time = #{atdOutTime},
-		  atd_state = #{atdState}
-		WHERE atd_id = #{atdId} AND emp_id = #{empId}
+		UPDATE 
+			attendances
+		SET
+		  atd_out_time = sysdate
+		WHERE emp_id = #{empId} AND 
+			  to_char(atd_in_time, 'yyyy-MM-DD') = to_char(sysdate, 'yyyy-MM-DD')
 	</update>
 	
-	<delete id="deleteAttendance">
-		DELETE FROM project3.attendances
-		WHERE atd_id = #{atdId} AND emp_id = #{empId}
-	</delete>
-
+	<!-- 모든 임직원ID 목록(스케줄러) -->
+	<select id="getEmployeeList" resultType="employee">
+		SELECT 
+		  emp_id as "empId"
+		FROM employees 
+	</select>
+	
+	<!-- 모든 임직원의 오늘 근무현황목록(스케줄러) -->
+	<select id="getAttendanceNullList" resultMap="attendanceResultMap">
+		SELECT 
+		  emp_id, 
+		  atd_in_time, 
+		  atd_out_time, 
+		  atd_state 
+		FROM attendances 
+		WHERE emp_id = #{empId} AND 
+			  (atd_state is null OR atd_state = '')
+	</select>
+	
+	<!-- 오늘 근무상태 변경(스케줄러) -->
+	<update id="updateAttendanceState" parameterType="attendance">
+		<if test="atdState == '정상출근'">
+			UPDATE 
+				attendances
+			SET
+				atd_state = #{atdState}
+		  	WHERE
+			  	emp_id = #{empId} AND 
+	  			to_char(atd_in_time, 'yyyy-MM-DD') = to_char(sysdate, 'yyyy-MM-DD')
+		</if>
+		<if test="atdState == '결근'">
+			UPDATE 
+				attendances
+			SET
+				atd_state = #{atdState},
+				atd_in_time = sysdate
+		  	WHERE 
+		  		emp_id = #{empId} AND 
+		  	    (atd_in_time is null OR atd_in_time = '') AND
+		  	    (atd_state is null OR atd_state = '')
+		</if>
+	</update>
 </mapper>
