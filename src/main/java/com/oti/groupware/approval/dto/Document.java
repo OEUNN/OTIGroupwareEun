@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class Document {
-    private int docId;
+    private String docId;
     private String empId;
     private String docType;
     private String docTitle;

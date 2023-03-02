@@ -7,7 +7,7 @@
 	    <result property="empId" column="emp_id"/>
 	    <result property="docType" column="doc_type"/>
 	    <result property="docTitle" column="doc_title"/>
-	    <result property="docContent" column="doc_content"/>
+	    <result property="docContent" column="doc_content" jdbcType="CLOB" javaType="string"/>
 	    <result property="docRetentionPeriod" column="doc_retention_period"/>
 	    <result property="docWriteDate" column="doc_write_date"/>
 	    <result property="docReportDate" column="doc_report_date"/>
@@ -63,4 +63,17 @@
 	<delete id="deleteDocument" parameterType="int">
 		DELETE FROM documents WHERE doc_id = #{docId}
 	</delete>
+	    
+    <insert id="insertDraft" parameterType="document">
+        INSERT INTO documents (
+            doc_id, emp_id, doc_type, doc_title, doc_content,
+            doc_retention_period, doc_write_date, doc_state,
+            doc_temp_yn
+        )
+        VALUES (
+            #{docId}, #{empId}, #{docType}, #{docTitle}, #{docContent},
+            #{docRetentionPeriod}, #{docWriteDate}, #{docState},
+            #{docTempYn}
+        )
+    </insert>
 </mapper>
