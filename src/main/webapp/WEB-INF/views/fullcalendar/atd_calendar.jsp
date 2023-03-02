@@ -200,6 +200,18 @@
            	   </button>
        		</div>
         </div>
+        <!-- 근무현황통계 -->
+        <div class="card card-tale mb-2">
+          <div class="card-body">
+              <div class="row">
+                 <div class="col-md text-center">정상출근<span class="pl-2 h3 font-weight-bold">20</span></div>
+                 <div class="col-md text-center">지각<span class="pl-2 h3 font-weight-bold">0</span></div>
+                 <div class="col-md text-center">조퇴<span class="pl-2 h3 font-weight-bold">1</span></div>
+                 <div class="col-md text-center">결근<span class="pl-2 h3 font-weight-bold">2</span></div>
+                 <div class="col-md text-center">추가근무<span class="pl-2 h3 font-weight-bold">0</span></div>
+              </div>
+             </div>
+         </div>
 		<!-- 달력 -->
 		<div id="calendar" class="px-2"></div>
 	</div>

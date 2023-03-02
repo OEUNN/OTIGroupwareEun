@@ -244,114 +244,114 @@
 		                	<div id="detailedReports" class="carousel slide detailed-report-carousel position-static pt-2" data-ride="carousel">
 			                    <div class="carousel-inner">
 			                      <!-- 월별 근무현황 -->
-			                      <div class="carousel-item active">
-		                      	 	<div class="d-flex justify-content-between align-items-center mb-4">
-				              			<div class="card-title mb-0">월별 근무현황</div>
-				              			<div class="d-flex">
-					              			<!-- datepicker start -->
-					              			<div id="datepicker-myatd" class="ml-5 input-daterange input-group text-primary" style="border:2px solid #4B49AC; border-radius: 15px; width: 60%;">
-												<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
-											    <input type="text" class="form-control-sm form-control font-weight-bold" name="start" style="border:0px; text-align: center;">
-											    <span class="input-group-addon font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
-												<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
-											    <input type="text" class="form-control-sm form-control font-weight-bold" name="end" style="border:0px; border-radius:15px; text-align: center;">
-											</div>
-								            <!-- datepicker end -->
-								            <button class="btn btn-md btn-primary ml-2">
-												<span>검색</span>
-											</button>
-				              			</div>
-		                      	 	</div>
-					                 <!-- 근무현황통계 -->
-					                 <div class="card card-tale mb-2">
-						                  <div class="card-body">
-						                      <div class="row">
-						                         <div class="col-md text-center">정상출근<span class="pl-2 h3 font-weight-bold">20</span></div>
-						                         <div class="col-md text-center">지각<span class="pl-2 h3 font-weight-bold">0</span></div>
-						                         <div class="col-md text-center">조퇴<span class="pl-2 h3 font-weight-bold">1</span></div>
-						                         <div class="col-md text-center">결근<span class="pl-2 h3 font-weight-bold">2</span></div>
-						                         <div class="col-md text-center">추가근무<span class="pl-2 h3 font-weight-bold">0</span></div>
-						                      </div>
-					                      </div>
-					                  </div>
-					                  <!-- 근무현황목록 -->
-					                  <div class="table-responsive">
-					                      <table class="table table-hover">
-						                        <thead>
-						                          <tr>
-						                            <th>날짜</th>
-						                            <th>출근시간</th>
-						                            <th>퇴근시간</th>
-						                            <th>총 근무시간</th>
-						                            <th>근무상태</th>
-						                          </tr>
-						                        </thead>
-						                        <tbody>
-						                        	<tr>
-						                        		<td>2023-02-20</td>
-						                        		<td>8:45</td>
-						                        		<td>18:56</td>
-						                        		<td>8:00</td>
-						                        		<td><div class="badge badge-success font-weight-bold">정상출근</div></td>
-						                        	</tr>
-						                        	<tr>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        	</tr>
-						                        	<tr>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        	</tr>
-						                        	<tr>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        	</tr>
-						                        	<tr>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        	</tr>
-						                        	<tr>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        	</tr>
-						                        	<tr>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        		<td>gdgd</td>
-						                        	</tr>
-						                        </tbody>
-					                    	</table>
-					                    </div>
-					                    <!-- 페이징 -->
-										<div class="row mt-3 d-flex justify-content-center">
-											<ul class="pagination  pb-0 mb-0">
-												<li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
-												<li class="page-item active" ><a class="page-link" href="#">1</a></li>
-												<li class="page-item"><a class="page-link" href="#">2</a></li>
-												<li class="page-item"><a class="page-link" href="#">3</a></li>
-												<li class="page-item"><a class="page-link" href="#">다음</a></li>
-											</ul>
-										</div>
-			                      </div>
+<!-- 			                      <div class="carousel-item active"> -->
+<!-- 		                      	 	<div class="d-flex justify-content-between align-items-center mb-4"> -->
+<!-- 				              			<div class="card-title mb-0">월별 근무현황</div> -->
+<!-- 				              			<div class="d-flex"> -->
+<!-- 					              			datepicker start -->
+<!-- 					              			<div id="datepicker-myatd" class="ml-5 input-daterange input-group text-primary" style="border:2px solid #4B49AC; border-radius: 15px; width: 60%;"> -->
+<!-- 												<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span> -->
+<!-- 											    <input type="text" class="form-control-sm form-control font-weight-bold" name="start" style="border:0px; text-align: center;"> -->
+<!-- 											    <span class="input-group-addon font-weight-bold d-flex align-self-center mx-2 fs-30">~</span> -->
+<!-- 												<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span> -->
+<!-- 											    <input type="text" class="form-control-sm form-control font-weight-bold" name="end" style="border:0px; border-radius:15px; text-align: center;"> -->
+<!-- 											</div> -->
+<!-- 								            datepicker end -->
+<!-- 								            <button class="btn btn-md btn-primary ml-2"> -->
+<!-- 												<span>검색</span> -->
+<!-- 											</button> -->
+<!-- 				              			</div> -->
+<!-- 		                      	 	</div> -->
+<!-- 					                 근무현황통계 -->
+<!-- 					                 <div class="card card-tale mb-2"> -->
+<!-- 						                  <div class="card-body"> -->
+<!-- 						                      <div class="row"> -->
+<!-- 						                         <div class="col-md text-center">정상출근<span class="pl-2 h3 font-weight-bold">20</span></div> -->
+<!-- 						                         <div class="col-md text-center">지각<span class="pl-2 h3 font-weight-bold">0</span></div> -->
+<!-- 						                         <div class="col-md text-center">조퇴<span class="pl-2 h3 font-weight-bold">1</span></div> -->
+<!-- 						                         <div class="col-md text-center">결근<span class="pl-2 h3 font-weight-bold">2</span></div> -->
+<!-- 						                         <div class="col-md text-center">추가근무<span class="pl-2 h3 font-weight-bold">0</span></div> -->
+<!-- 						                      </div> -->
+<!-- 					                      </div> -->
+<!-- 					                  </div> -->
+<!-- 					                  근무현황목록 -->
+<!-- 					                  <div class="table-responsive"> -->
+<!-- 					                      <table class="table table-hover"> -->
+<!-- 						                        <thead> -->
+<!-- 						                          <tr> -->
+<!-- 						                            <th>날짜</th> -->
+<!-- 						                            <th>출근시간</th> -->
+<!-- 						                            <th>퇴근시간</th> -->
+<!-- 						                            <th>총 근무시간</th> -->
+<!-- 						                            <th>근무상태</th> -->
+<!-- 						                          </tr> -->
+<!-- 						                        </thead> -->
+<!-- 						                        <tbody> -->
+<!-- 						                        	<tr> -->
+<!-- 						                        		<td>2023-02-20</td> -->
+<!-- 						                        		<td>8:45</td> -->
+<!-- 						                        		<td>18:56</td> -->
+<!-- 						                        		<td>8:00</td> -->
+<!-- 						                        		<td><div class="badge badge-success font-weight-bold">정상출근</div></td> -->
+<!-- 						                        	</tr> -->
+<!-- 						                        	<tr> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        	</tr> -->
+<!-- 						                        	<tr> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        	</tr> -->
+<!-- 						                        	<tr> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        	</tr> -->
+<!-- 						                        	<tr> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        	</tr> -->
+<!-- 						                        	<tr> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        	</tr> -->
+<!-- 						                        	<tr> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        		<td>gdgd</td> -->
+<!-- 						                        	</tr> -->
+<!-- 						                        </tbody> -->
+<!-- 					                    	</table> -->
+<!-- 					                    </div> -->
+<!-- 					                    페이징 -->
+<!-- 										<div class="row mt-3 d-flex justify-content-center"> -->
+<!-- 											<ul class="pagination  pb-0 mb-0"> -->
+<!-- 												<li class="page-item disabled"><a class="page-link" href="#">이전</a></li> -->
+<!-- 												<li class="page-item active" ><a class="page-link" href="#">1</a></li> -->
+<!-- 												<li class="page-item"><a class="page-link" href="#">2</a></li> -->
+<!-- 												<li class="page-item"><a class="page-link" href="#">3</a></li> -->
+<!-- 												<li class="page-item"><a class="page-link" href="#">다음</a></li> -->
+<!-- 											</ul> -->
+<!-- 										</div> -->
+<!-- 			                      </div> -->
 			                      <!-- 근무신청내역 -->
-			                      <div class="carousel-item">
+			                      <div class="carousel-item active">
 			                      	 <div class="d-flex justify-content-between align-items-center mb-4">
 				              			<div class="card-title mb-0">근무신청내역</div>
 				              			<div class="d-flex">

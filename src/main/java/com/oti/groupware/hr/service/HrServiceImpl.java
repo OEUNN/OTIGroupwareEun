@@ -33,7 +33,7 @@ public class HrServiceImpl implements HrService {
 		return attendanceDAO.getAttendanceToday(empId);
 	}
 	
-	//ㅇ근무현황 목록 가져오기
+	//근무현황 목록 가져오기
 	@Override
 	public List<Attendance> attendanceList(String empId) {
 		//근무현황목록을 갖고옴
@@ -79,6 +79,7 @@ public class HrServiceImpl implements HrService {
 					jsonObj.put("title", "휴가");
 					jsonObj.put("start",  formatDate.format(atd.getAtdInTime()));
 				}
+				jsonArr.put(jsonObj);
 				
 			//오늘 근무목록 or 과거에 지각/조퇴한경우
 			} else if(atd.getAtdState() == null && atd.getAtdInTime() != null) {
@@ -90,9 +91,9 @@ public class HrServiceImpl implements HrService {
 					jsonObj = new JSONObject();
 					jsonObj.put("title", "퇴근");
 					jsonObj.put("start", formatDate.format(atd.getAtdOutTime()));
+					jsonArr.put(jsonObj);
 				}
 			}
-			jsonArr.put(jsonObj);
 		}
 		return jsonArr;
 	}
