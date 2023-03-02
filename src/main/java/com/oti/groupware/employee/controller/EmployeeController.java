@@ -33,7 +33,7 @@ public class EmployeeController {
 	private EmployeeServiceImpl employeeService;
 	
 	//휴대전화 유효성 체크
-	@RequestMapping(value="/phonecheck")
+	@RequestMapping(value="/phonecheck", method = RequestMethod.POST)
 	public boolean phoneCheck(String phoneNumber) {
 		log.info("phoneCheckt실행");
 		boolean result = employeeService.phoneCheck(phoneNumber);
@@ -41,7 +41,7 @@ public class EmployeeController {
 	}
 	
 	//휴대전화 유효성 체크
-	@RequestMapping(value = "/telcheck")
+	@RequestMapping(value = "/telcheck", method = RequestMethod.POST)
 	public boolean telCheck(String telNumber) {
 		log.info("telCheck실행");
 		boolean result = employeeService.tleCheck(telNumber);
@@ -49,7 +49,7 @@ public class EmployeeController {
 	}
 	
 	//이메일 유효성 체크
-	@RequestMapping(value="/mailidcheck")
+	@RequestMapping(value="/mailidcheck", method = RequestMethod.POST)
 	public boolean mailIdCheck(String mailId) {
 		log.info("telCheck실행");
 		boolean result = employeeService.mailIdCheck(mailId);
