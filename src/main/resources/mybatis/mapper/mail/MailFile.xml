@@ -1,3 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.hr.dao.hrDao"></mapper>
+<mapper namespace="com.oti.groupware.hr.dao.hrDao">
+
+    <resultMap id="mailsFileResult" type="mailFile">
+        <result column="mail_file_id" property="mailFileId" />
+        <result column="send_mail_id" property="sendMailId" />
+        <result column="mail_file_name" property="mailFileName" />
+        <result column="mail_file_data" property="mailFileData" />
+        <result column="mail_file_type" property="mailFileType" />
+        <result column="mail_file_length" property="mailFileLength" />
+    </resultMap>
+
+    <select id="getMailFileById" parameterType="int" resultMap="mailsFileResult">
+        SELECT
+            mail_file_id,
+            send_mail_id,
+            mail_file_name,
+            mail_file_data,
+            mail_file_type,
+            mail_file_length
+        FROM
+            project3.mails_files
+        WHERE
+            mail_file_id = #{mailFileId}
+    </select>
+
+    <insert id="insertMailFile" parameterType="mailFile">
+		INSERT INTO project3.mails_files (
+		    mail_file_id,
+		    send_mail_id,
+		    mail_file_name,
+		    mail_file_data,
+		    mail_file_type,
+		    mail_file_length
+		) VALUES (
+		    #{mailFileId},
+		    #{sendMailId},
+		    #{mailFileName},
+		    #{mailFileData},
+		    #{mailFileType},
+		    #{mailFileLength}
+		)
+    </insert>
+
+    <update id="updateMailFile" parameterType="mailFile">
+		UPDATE project3.mails_files SET
+		    send_mail_id = #{sendMailId},
+		    mail_file_name = #{mailFileName},
+		    mail_file_data = #{mailFileData},
+		    mail_file_type = #{mailFileType},
+		    mail_file_length = #{mailFileLength}
+		WHERE
+		    mail_file_id = #{mailFileId}
+    </update>
+
+    <delete id="deleteMailFile" parameterType="int">
+        DELETE FROM project3.mails_files WHERE mail_file_id = #{mailFileId}
+    </delete>
+
+</mapper>

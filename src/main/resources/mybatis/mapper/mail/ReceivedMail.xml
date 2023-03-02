@@ -1,3 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.hr.dao.hrDao"></mapper>
+<mapper namespace="com.oti.groupware.mail.dao.ReceivedMail">
+
+	<resultMap id="receivedMailResultMap" type="receivedMail">
+	    <result property="sendMailId" column="send_mail_id"/>
+	    <result property="empIdEmployees" column="emp_id_employees"/>
+	    <result property="recdMailImportanceYN" column="recd_mail_importance_yn"/>
+	    <result property="recdMailDate" column="recd_mail_date"/>
+	    <result property="recdMailReadReceiptYN" column="recd_mail_read_receipt_yn"/>
+	    <result property="recdMailDelDate" column="recd_mail_del_date"/>
+	    <result property="recdMailDelYN" column="recd_mail_del_yn"/>
+	    <result property="recdMailDelCompleteYN" column="recd_mail_del_complete_yn"/>
+	    <result property="recdSR" column="recd_sr"/>
+	</resultMap>
+
+	<select id="getReceivedMail" resultMap="receivedMailResultMap">
+		SELECT send_mail_id,
+		    emp_id_employees,
+		    recd_mail_importance_yn,
+		    recd_mail_date,
+		    recd_mail_read_receipt_yn,
+		    recd_mail_del_date,
+		    recd_mail_del_yn,
+		    recd_mail_del_complete_yn,
+		    recd_sr,
+		FROM received_mails
+		WHERE send_mail_id = #{sendMailId} AND emp_id_employees = #{empIdEmployees}
+	</select>
+    
+    <insert id="insertReceivedMail" parameterType="receivedMail">
+        INSERT INTO received_mails (send_mail_id, emp_id_employees, recd_mail_importance_yn,
+            recd_mail_date, recd_mail_read_receipt_yn, recd_mail_del_date, recd_mail_del_yn,
+            recd_mail_del_complete_yn, recd_sr)
+        VALUES (#{sendMailId}, #{empIdEmployees}, #{recdMailImportanceYn}, #{recdMailDate},
+            #{recdMailReadReceiptYn}, #{recdMailDelDate}, #{recdMailDelYn}, #{recdMailDelCompleteYn},
+            #{recdSr})
+    </insert>
+
+    <update id="updateReceivedMail" parameterType="receivedMail">
+        UPDATE received_mails
+        SET recd_mail_importance_yn = #{recdMailImportanceYn}, recd_mail_date = #{recdMailDate},
+            recd_mail_read_receipt_yn = #{recdMailReadReceiptYn}, recd_mail_del_date = #{recdMailDelDate},
+            recd_mail_del_yn = #{recdMailDelYn}, recd_mail_del_complete_yn = #{recdMailDelCompleteYn},
+            recd_sr = #{recdSr}
+        WHERE send_mail_id = #{sendMailId} AND emp_id_employees = #{empIdEmployees}
+    </update>
+
+    <delete id="deleteReceivedMail">
+        DELETE FROM received_mails WHERE send_mail_id = #{sendMailId} AND emp_id_employees = #{empIdEmployees}
+    </delete>
+    
+</mapper>

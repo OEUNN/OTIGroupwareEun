@@ -67,6 +67,8 @@
 		    	  endDate: "0D",
 		    	  todayHighlight: true
 		      });
+		      
+		      $(".datepicker-switch").css("pointer-events", "none");
 		});
 	 	
 	 	//clockpicker 렌더링

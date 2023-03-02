@@ -5,120 +5,111 @@
 <script src='${pageContext.request.contextPath}/resources/vendors/fullcalendar/js/index.global.js'></script>
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
-		var calendarEl = document.getElementById('calendar');
+		  $(function () {
+              var request = $.ajax({
+                  url: "../hr/calendar",
+                  method: "GET",
+                  dataType: "json"
+              });
+              //성공시
+              request.done(function (data) {
+				//달력 렌더링
+				var calendarEl = document.getElementById('calendar');
+				var calendar = new FullCalendar.Calendar(calendarEl, {
+					contentHeight : 550,
+					selectable : true,
+					businessHours : true,
+					locale : 'ko',
+					dayMaxEvents : true,
+					events : data,
+					eventContent : function(info) {
+						let eventTitle = info.event.title;
+						let eventTime = info.event.start.toTimeString().split(' ')[0];
+						eventTime = eventTime.substring(0, 5);
+						
+						if (eventTitle == '출근') {
+							if(eventTime.substring(0, 2) <= 8) {
+								return { html : '<div class="badge" style="background-color:#F3797E;">출근 ' + eventTime + '</div>' }
+							} else { //지각인 경우
+								return { html : '<div class="badge" style="background-color:rgba(243, 121, 126, 0.3); color:#fa2d35">지각 ' + eventTime + '</div>' }
+							}
+						} else if (eventTitle == '퇴근') {
+							if(eventTime.substring(0, 2) <= 17) { //조퇴인 경우 
+								return { html : '<div class="badge" style="background-color:rgba(71, 71, 161, 0.3); color:#1e1e75;">조퇴 ' + eventTime + '</div>' }
+							} else {
+								return { html : '<div class="badge badge-primary">퇴근 ' + eventTime + '</div>' }
+							}
+						} else if(eventTitle == '결근' ) {
+							return { html : '<div class="h4 mt-2 mb-0 font-weight-bold" style="color:rgba(163, 164, 165, 0.9)">결근</div>' }
+						} else if(eventTitle == '휴가') {
+							return { html : '<div class="btn btn-md font-weight-bold px-5" style="background-color:rgba(163, 164, 165, 0.3); color:#5b5b5e;">휴가</div>' }
+						}
+					},
+				});
+				calendar.render();
+			});
 
-		var calendar = new FullCalendar.Calendar(calendarEl, {
-			height: 580,
-			editable : true,
-			selectable : true,
-			businessHours : true,
-			locale: 'ko',
-			dayMaxEvents : true, // allow "more" link when too many events
-			events : [ {
-				title : 'All Day Event',
-				start : '2023-01-02'
-			}, {
-				title : 'Long Event',
-				start : '2023-01-06',
-				end : '2023-01-10'
-			}, {
-				groupId : 999,
-				title : 'Repeating Event',
-				start : '2023-01-09T16:00:00'
-			}, {
-				groupId : 999,
-				title : 'Repeating Event',
-				start : '2023-01-16T16:00:00'
-			}, {
-				title : 'Conference',
-				start : '2023-01-11',
-				end : '2023-01-13'
-			}, {
-				title : 'Meeting',
-				start : '2023-01-12T10:30:00',
-				end : '2023-01-12T12:30:00'
-			}, {
-				title : 'Lunch',
-				start : '2023-01-12T12:00:00'
-			}, {
-				title : 'Meeting',
-				start : '2023-01-12T14:30:00'
-			}, {
-				title : 'Happy Hour',
-				start : '2023-01-12T17:30:00'
-			}, {
-				title : 'Dinner',
-				start : '2023-01-12T20:00:00'
-			}, {
-				title : 'Birthday Party',
-				start : '2023-01-13T07:00:00'
-			}, {
-				title : 'Click for Google',
-				url : 'http://google.com/',
-				start : '2023-01-28'
-			}, {
-				title : '출근',
-				start : '2023-02-20T08:45:02'
-			}, {
-				title : '퇴근',
-				start : '2023-02-20T18:15:04'
-			} ]
+			//실패시
+			request.fail(function(jqXHR, textStatus) {
+				alert("Request failed: " + textStatus);
+			});
 		});
-		calendar.render();
-		
-		/* 한국어로 바꿨을 때 생기는 "일"을 지워줌! */
-// 		$(".fc-daygrid-day-number").each(function(){
-// 			var day = $(this).text();
-// 			day = day.replace("일","");
-// 			$(this).text(day);
-// 		});
+
 	});
-	
+
 	/* 달력에서 일자를 누르면 상세보기 가능 */
-	$(document).ready(function(){
-		$('.fc-daygrid-day-frame').click(function(){
-			  
-			let atdArr = $(this).find(".fc-daygrid-day-events .fc-event-title").get();
-			let timeArr = $(this).find(".fc-daygrid-day-events .fc-event-time").get();
+	$(document).ready(function() {
+		$(document).on("click", ".fc .fc-daygrid-day-frame", function () {
+			//달력에서 클릭한 날짜의 연월일을 변환
+			let clickDate = $(this).find(".fc-daygrid-day-number")[0].ariaLabel;
+			$("#today-in-date").html(clickDate);
+			$("#today-out-date").html(clickDate);
 			
-			if(timeArr.length != 0) { //시간이 찍혀있을 경우
-				for(var i=0; i<timeArr.length; i++){
-					 let atdStr = atdArr[i].innerHTML; 
-					 let timeStr = timeArr[i].innerHTML; 
-					 
-					 if(atdStr === "출근") {
-						 $("#today-in-time").html(timeStr);
-					 } else if (atdStr === "퇴근") {
-						 $("#today-out-time").html(timeStr);
-					 }
-				  }
-			} else { //시간이 찍혀있지 않을 경우
-				  $("#today-in-time").html("<br>");
-				  $("#today-out-time").html("<br>");
+			//출퇴근 이력이 있는 경우
+			if($(this).find(".fc-daygrid-event-harness").length == 2) {
+				let inTime = $(this).find(".fc-daygrid-event-harness")[0].innerText;
+				let outTime = $(this).find(".fc-daygrid-event-harness")[1].innerText;
+				
+				if ((inTime.indexOf("지각") == 0 || inTime.indexOf("출근") == 0) && (outTime.indexOf("퇴근") == 0 || outTime.indexOf("조퇴") == 0)) {
+					$("#today-in-time").html(inTime.substring(3));
+					$("#today-out-time").html(outTime.substring(3));
+				} 
+			//출퇴근 이력이 없는 경우
+			} else { 
+				$("#today-in-time").html("<br>");
+				$("#today-out-time").html("<br>");
 			}
+			
 		});
 	});
-	
+
 	/* 근무시간수정 팝업창 */
-     function upateTimePopup(){
-         var url = "popup/updatetimeapp";
-         var name = "";
-         var option = "width = 800, height = 750, top = 100, left = 400, location = no, resizable=no, scrollbars=no  "
-         window.open(url, name, option);
-     }
-	
+	function upateTimePopup() {
+		var url = "popup/updatetimeapp";
+		var name = "";
+		var option = "width = 800, height = 750, top = 100, left = 400, location = no, resizable=no, scrollbars=no  "
+		window.open(url, name, option);
+	}
+
 	/* 추가근무신청 팝업창 */
-     function overTimePopup(){
-         var url = "popup/overtimeapp";
-         var name = "";
-         var option = "width = 800, height = 740, top = 100, left = 400, location = no, resizable=no, scrollbars=no  "
-         window.open(url, name, option);
-     }
+	function overTimePopup() {
+		var url = "popup/overtimeapp";
+		var name = "";
+		var option = "width = 800, height = 740, top = 100, left = 400, location = no, resizable=no, scrollbars=no  "
+		window.open(url, name, option);
+	}
 </script>
 
 <style>
 	#calendar {
 		min-width: 100%;
+	}
+	
+	.fc-direction-ltr .fc-daygrid-event.fc-event-end {
+		display: flex;
+		justify-content: center;
+		margin: 0px;
+		padding: 1px;
 	}
 	
 	.fc-theme-standard td, .fc-theme-standard th,
@@ -170,7 +161,7 @@
 	
 	/* 오늘 날짜 */
 	.fc .fc-daygrid-day.fc-day-today {
-		background-color: rgba(255, 71, 71, 0.2);
+		background-color: rgba(255, 193, 0, 0.3);
 		border-radius: 10px;
 	}
 	

@@ -1,3 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.hr.dao.hrDao"></mapper>
+<mapper namespace="com.oti.groupware.employee.dao.DepartmentDAO">
+
+    <resultMap id="departmentResultMap" type="department">
+        <id property="depId" column="dep_id" />
+        <result property="empId" column="emp_id" />
+        <result property="depName" column="dep_name" />
+        <result property="depPhoneNumber" column="dep_phone_number" />
+    </resultMap>
+
+    <select id="getDepartmentById" resultMap="departmentResultMap">
+        SELECT dep_id, emp_id, dep_name, dep_phone_number
+        FROM project3.departments
+        WHERE dep_id = #{depId}
+    </select>
+
+    <insert id="insertDepartment" parameterType="department">
+        INSERT INTO project3.departments(dep_id, emp_id, dep_name, dep_phone_number)
+        VALUES (#{depId}, #{empId}, #{depName}, #{depPhoneNumber})
+    </insert>
+
+    <update id="updateDepartment" parameterType="department">
+        UPDATE project3.departments
+        SET emp_id = #{empId}, dep_name = #{depName}, dep_phone_number = #{depPhoneNumber}
+        WHERE dep_id = #{depId}
+    </update>
+
+    <delete id="deleteDepartment">
+        DELETE FROM project3.departments WHERE dep_id = #{depId}
+    </delete>
+
+</mapper>

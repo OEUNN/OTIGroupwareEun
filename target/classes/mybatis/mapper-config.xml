@@ -3,19 +3,29 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
+		<!-- Approval -->
 		<typeAlias type="com.oti.groupware.approval.dto.DocumentFile" alias="documentFile"/>
 		<typeAlias type="com.oti.groupware.approval.dto.Document" alias="document"/>
 		<typeAlias type="com.oti.groupware.approval.dto.ApprovalLine" alias="approvalLine"/>
+		
+		<!-- Board -->
 		<typeAlias type="com.oti.groupware.board.dto.Board" alias="board"/>
 		<typeAlias type="com.oti.groupware.board.dto.BoardCategory" alias="boardCategory"/>
 		<typeAlias type="com.oti.groupware.board.dto.BoardFile" alias="boardFile"/>
+		
+		<!-- Employee -->
 		<typeAlias type="com.oti.groupware.employee.dto.Employee" alias="employee"/>
 		<typeAlias type="com.oti.groupware.employee.dto.EmployeeDetail" alias="employeeDetail"/>
 		<typeAlias type="com.oti.groupware.employee.dto.Position" alias="position"/>
 		<typeAlias type="com.oti.groupware.employee.dto.Department" alias="department"/>
+		<typeAlias type="com.oti.groupware.employee.dto.DepartmentHead" alias="departmentHead"/>
+		
+		<!-- HR -->
 		<typeAlias type="com.oti.groupware.hr.dto.Attendance" alias="attendance"/>
 		<typeAlias type="com.oti.groupware.hr.dto.AttendanceException" alias="attendanceException"/>
 		<typeAlias type="com.oti.groupware.hr.dto.LeaveApplication" alias="leaveApplication"/>
+		
+		<!-- Mail -->
 		<typeAlias type="com.oti.groupware.mail.dto.SendMail" alias="sendMail"/>
 		<typeAlias type="com.oti.groupware.mail.dto.ReceivedMail" alias="receivedMail"/>
 		<typeAlias type="com.oti.groupware.mail.dto.MailFile" alias="mailFile"/>
