@@ -10,7 +10,6 @@ import com.oti.groupware.employee.service.EmployeeServiceImpl.LoginResult;
 public interface EmployeeService {
 	public LoginResult login(Employee employee);
 	public String phoneCheck(String phoneNumber);
-	public String telCheck(String telNumber);
 	public String mailIdCheck(String mailId);
 	public void insertEmployee(Employee employee, EmployeeDetail employeeDetail);
 	

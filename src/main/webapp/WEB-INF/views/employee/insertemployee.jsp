@@ -18,254 +18,223 @@
 			}
 		</style>
 		<script>
-		var result = true;
+
+		function check(){
+			var result = true;
+			//empId
+			let empId = $('#empDetailEmploymentDate').val();
+			$('#empId').val(empId);
+
+			//empName
+			var empName = document.getElementById("empName");
+			if ($('#empName').val() == '') {
+				empName.setAttribute("style", "border:1px solid red;");
+				result = false;
+			} else {
+				empName.setAttribute("style", "border:1px solid none;");
+			}
+			
+			//empDetailBirthday
+			var empDetailBirthday = document.getElementById("empDetailBirthday");
+			if ($('#empDetailBirthday').val() == '') {
+				empDetailBirthday.setAttribute("style", "border:1px solid red;");
+				result = false;
+			} else {
+				empDetailBirthday.setAttribute("style", "border:1px solid none;");
+			}
+
+			//empDetailGender
+			var empDetailGender = document.getElementById("empDetailGender");
+			if ($('#empDetailGender').val() == '') {
+				empDetailGender.setAttribute("style", "border:1px solid red;");
+				result = false;
+			} else {
+				empDetailGender.setAttribute("style", "border:1px solid none;");
+			}
+
+			//empFileData
+			var empFileDataMulti = document.getElementById("uploadInfo");
+			if ($('#empFileDataMulti').val() == '') {
+				empFileDataMulti.setAttribute("style", "border:1px solid red;");
+				result = false;
+			} else {
+				empFileDataMulti.setAttribute("style", "border:1px solid none;");
+			}
+
+			//empDetailMilitaryServiceYN
+			var empDetailMilitaryServiceYN = document.getElementById("empDetailMilitaryServiceYN");
+			if ($('#empDetailMilitaryServiceYN').val() == '') {
+				empDetailMilitaryServiceYN.setAttribute("style", "border:1px solid red;");
+				result = false;
+			} else {
+				empDetailMilitaryServiceYN.setAttribute("style", "border:1px solid none;");
+			}
+
+			//empPhoneNumber
+			var empPhoneNumber = document.getElementById("empPhoneNumber");
+			if ($('#empPhoneNumber').val() == '') {
+				empPhoneNumber.setAttribute("style", "border:1px solid red;");
+				result = false;
+			} else {
+				empPhoneNumber.setAttribute("style", "border:1px solid none;");
+			}
+			
+			//empDetailMarriedYN
+			var empDetailMarriedYN = document.getElementById("empDetailMarriedYN");
+			if ($('#empDetailMarriedYN').val() == '') {
+				empDetailMarriedYN.setAttribute("style", "border:1px solid red;");
+				result = false;
+			} else {
+				empDetailMarriedYN.setAttribute("style", "border:1px solid none;");
+			}
+
+			//empDetailMajor
+			var empDetailMajor = document.getElementById("empDetailMajor");
+			if ($('#empDetailMajor').val() == '') {
+				empDetailMajor.setAttribute("style", "border:1px solid red;");
+				result = false;
+			} else {
+				empDetailMajor.setAttribute("style", "border:1px solid none;");
+			}
+
+			//empDetailEducation
+			var school = document.getElementById("school");
+			if ($('#empDetailEducation').val() == '') {
+				school.setAttribute("style", "border:1px solid red;");
+				result = false;
+			} else {
+				school.setAttribute("style", "border:1px solid none;");
+			}
+
+			//empDetailEmploymentDate
+			var empDetailEmploymentDate = document.getElementById("empDetailEmploymentDate");
+			if ($('#empDetailEmploymentDate').val() == '') {
+				empDetailEmploymentDate.setAttribute("style","border:1px solid red;");
+				result = false;
+			} else {
+				empDetailEmploymentDate.setAttribute("style","border:1px solid none;");
+				
+			}
+
+			//depId
+			var department = document.getElementById("department");
+			let depId = $('#depId').val();
+			if ($('#depId').val() == '') {
+				department.setAttribute("style", "border:1px solid red;");
+				result = false;
+			} else {
+				department.setAttribute("style", "border:1px solid none;");
+				if ($('#depId').val() == '공공사업1DIV') {
+					$("#depId").val(1);
+					$('#empExtensionNumber').val('02-111-1111');
+				} else if ($('#depId').val() == '공공사업2DIV') {
+					$("#depId").val(2);
+					$('#empExtensionNumber').val('02-222-2222');
+				} else if ($('#depId').val() == '공공사업3DIV') {
+					$("#depId").val(3);
+					$('#empExtensionNumber').val('02-333-3333');
+				} else if ($('#depId').val() == '경영지원부') {
+					$("#depId").val(4);
+					$('#empExtensionNumber').val('02-444-4444');
+				}
+			}
+
+			//posId
+			var position = document.getElementById("position");
+			if ($('#posId').val() == '') {
+				position.setAttribute("style", "border:1px solid red;");
+				result = false;
+			} else {
+				position.setAttribute("style", "border:1px solid none;");
+				if ($('#posId').val() == '사원') {
+					$("#posId").val(1);
+				} else if ($('#posId').val() == '대리') {
+					$("#posId").val(2);
+				} else if ($('#posId').val() == '과장') {
+					$("#posId").val(3);
+				} else if ($('#posId').val() == '차장') {
+					$("#posId").val(4);
+				} else if ($('#posId').val() == '부장') {
+					$("#posId").val(5);
+				}
+			}
+
+			//empDetailWorkplace
+			var empDetailWorkplace = document.getElementById("empDetailWorkplace");
+			if ($('#empDetailWorkplace').val() == '') {
+				empDetailWorkplace.setAttribute("style","border:1px solid red;");
+				result = false;
+			} else {
+				empDetailWorkplace.setAttribute("style","border:1px solid none;");
+			}
+			return result;
+		}
 		
-		/**일반전화 유효성 검사**/
-		function extensionCheck(){
-			let tel_number = $('#empExtensionNumber').val();
-			var telNumber = document.getElementById("empExtensionNumber");
-			let regExp = /^\d{2,3}-\d{3,4}-\d{4}$/;
-		    let telresult = regExp.test(tel_number);
-		    if(!telresult){
-		    	telNumber.setAttribute("style", "border:1px solid red;");
-		    }else{
-		    	telNumber.setAttribute("style", "border:1px solid none;");
-		    	$.ajax({
-	    			type: 'post',
-	    			url : 'employee/telcheck',
-	    			data : {telNumber : tel_number},
-	    			success : function(data){
-	    				if(data == 'false'){
-	    					telNumber.setAttribute("style", "border:1px solid red;");
-	    					$('input[name=empExtensionNumber]').attr('value','존재하지 않는 부서 번호입니다.');
-	    					result = false;
-	    				}else{
-	    					telNumber.setAttribute("style", "border:1px solid none;");
-	    				}
-	    			}
-	    		});
-		    }
+
+		//empMail
+		/** 메일ID 유효성 검사**/
+		function mailIdCheck() {
+			var empMail = document.getElementById("empMail");
+			if ($('#empMail').val() == '') {
+				mailId.setAttribute("style", "border:1px solid red;");
+				result = false;
+			} else {
+				$.ajax({
+					type : 'post',
+					url : 'employee/mailidcheck',
+					data : {
+						mailId : $('#empMail').val()
+					},
+					success : function(data) {
+						if (data == 'false') {
+							empMail.setAttribute("style", "border:1px solid red;");
+							$('small[id=mailResult]').attr('value','존재하는 ID입니다.');
+							return false;
+						} else {
+							empMail.setAttribute("style", "border:1px solid none;");
+							return true;
+						}
+					}
+				});
+
+			}
 		}
 		
 		/** 휴대전화 유효성 검사**/
 		function phoneCheck(){
 			let phone_number = $('#empPhoneNumber').val();
 			var phoneNumber = document.getElementById("empPhoneNumber");
-			let regExp = /^(01[016789]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
-		    let phoneresult = regExp.test(phone_number);
-		    if(!phoneresult){
-		    	phoneNumber.setAttribute("style", "border:1px solid red;");
-		    }else{
-		    	phoneNumber.setAttribute("style", "border:1px solid none;");
-	    		$.ajax({
-	    			type: 'post',
-	    			url : 'employee/phonecheck',
-	    			data : {phoneNumber : phone_number},
-	    			success : function(data){
-	    				if(data == 'false'){
-	    					phoneNumber.setAttribute("style", "border:1px solid red;");
-	    					$('input[name=empPhoneNumber]').attr('value','존재하는 번호입니다.');
-	    					result = false;
-	    				}else{
-	    					phoneNumber.setAttribute("style", "border:1px solid none;");
-	    					
-	    				}
-	    			}
-	    		});
-		    	
-		    }
-		}
-		
-		/** 메일ID 유효성 검사**/
-		function mailIdCheck(){
-			var empMail = document.getElementById("empMail");
-			if($('#empMail').val() == ''){
-				mailId.setAttribute("style", "border:1px solid red;");
-		    	result = false;
+			if(phone_numbers == ''){
+				phoneNumber.setAttribute("style", "border:1px solid red;");
+				return false;
 			}else{
-	    		$.ajax({
-	    			type: 'post',
-	    			url : 'employee/mailidcheck',
-	    			data : {mailId : $('#empMail').val()},
-	    			success : function(data){
-	    				if(data == 'false'){
-	    					empMail.setAttribute("style", "border:1px solid red;");
-	    					$('input[name=empMail]').attr('placeholder','존재하는 ID입니다.');
-	    					result = false;
-	    				}else{
-	    					empMail.setAttribute("style", "border:1px solid none;");
-	    				}
-	    			}
-	    		});
-		    	
-		    }
-		}
-		
-		
-		function check(){
-			
-			//empId
-			let empId = $('#empDetailEmploymentDate').val();
-			$('#empId').val(empId);
-			
-			//empName
-			var empName = document.getElementById("empName");
-			if($('#empName').val() == ''){
-				empName.setAttribute("style", "border:1px solid red;");
-				result= false;
-			}else{
-				empName.setAttribute("style", "border:1px solid none;");
-			}
-			
-			//empMail
-			var empMail = document.getElementById("empMail");
-			if($('#empMail').val() == '' || $('#empMail').val() == 'false'){
-				empMail.setAttribute("style", "border:1px solid red;");
-				result= false;
-			}else{
-				empMail.setAttribute("style", "border:1px solid none;");
-			}
-			
-			//empDetailBirthday
-			var empDetailBirthday = document.getElementById("empDetailBirthday");
-			if($('#empDetailBirthday').val() == ''){
-				empDetailBirthday.setAttribute("style", "border:1px solid red;");
-				result= false;
-			}else{
-				empDetailBirthday.setAttribute("style", "border:1px solid none;");
-			}
-			
-			//empDetailGender
-			var empDetailGender = document.getElementById("empDetailGender");
-			if($('#empDetailGender').val() == ''){
-				empDetailGender.setAttribute("style", "border:1px solid red;");
-				result= false;
-			}else{
-				empDetailGender.setAttribute("style", "border:1px solid none;");
-			}
-			
-			//empFileData
-			var empFileDataMulti = document.getElementById("empFileDataMulti");
-			if($('#empFileDataMulti').val() == ''){
-				empFileDataMulti.setAttribute("style", "border:1px solid red;");
-				result= false;
-			}else{
-				empFileDataMulti.setAttribute("style", "border:1px solid none;");
-			}
-			
-			//empDetailMilitaryServiceYN
-			var empDetailMilitaryServiceYN = document.getElementById("empDetailMilitaryServiceYN");
-			if($('#empDetailMilitaryServiceYN').val() == ''){
-				empDetailMilitaryServiceYN.setAttribute("style", "border:1px solid red;");
-				result= false;
-			}else{
-				empDetailMilitaryServiceYN.setAttribute("style", "border:1px solid none;");
-			}
-			
-			//empPhoneNumber
-			var empPhoneNumber = document.getElementById("empPhoneNumber");
-			if($('#empPhoneNumber').val() == ''||$('#empPhoneNumber').val() == 'false'){
-				empPhoneNumber.setAttribute("style", "border:1px solid red;");
-				result= false;
-			}else{
-				empPhoneNumber.setAttribute("style", "border:1px solid none;");
-			}
-			
-			//empDetailMarriedYN
-			var empDetailMarriedYN = document.getElementById("empDetailMarriedYN");
-			if($('#empDetailMarriedYN').val() == ''){
-				empDetailMarriedYN.setAttribute("style", "border:1px solid red;");
-				result= false;
-			}else{
-				empDetailMarriedYN.setAttribute("style", "border:1px solid none;");
-			}
-			
-			//empDetailMajor
-			var empDetailMajor = document.getElementById("empDetailMajor");
-			if($('#empDetailMajor').val() == ''){
-				empDetailMajor.setAttribute("style", "border:1px solid red;");
-				result= false;
-			}else{
-				empDetailMajor.setAttribute("style", "border:1px solid none;");
-			}
-			
-			//empDetailEducation
-			var school = document.getElementById("school");
-			if($('#empDetailEducation').val() == ''){
-				school.setAttribute("style", "border:1px solid red;");
-				result= false;
-			}else{
-				school.setAttribute("style", "border:1px solid none;");
-			}
-			
-			//empDetailEmploymentDate
-			var empDetailEmploymentDate = document.getElementById("empDetailEmploymentDate");
-			if($('#empDetailEmploymentDate').val() == ''){
-				empDetailEmploymentDate.setAttribute("style", "border:1px solid red;");
-				result= false;
-			}else{
-				empDetailEmploymentDate.setAttribute("style", "border:1px solid none;");
-			}
-			
-			//depId
-			var department = document.getElementById("department");
-			if($('#depId').val() == ''){
-				department.setAttribute("style", "border:1px solid red;");
-				result= false;
-			}else{
-				department.setAttribute("style", "border:1px solid none;");
-				if($('#depId').val()=='공공사업1DIV'){
-					$("#depId").val(1);
-				}else if($('#depId').val()=='공공사업2DIV'){
-					$("#depId").val(2);
-				}else if($('#depId').val()=='공공사업3DIV'){
-					$("#depId").val(3);
-				}else if($('#depId').val()=='경영지원부'){
-					$("#depId").val(4);
+				let regExp = /^(01[016789]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
+				let phoneresult = regExp.test(phone_number);
+				if (!phoneresult) {
+					phoneNumber.setAttribute("style", "border:1px solid red;");
+					return false;
+				} else {
+					phoneNumber.setAttribute("style", "border:1px solid none;");
+					$.ajax({
+						type : 'post',
+						url : 'employee/phonecheck',
+						data : {
+							phoneNumber : phone_number
+						},
+						success : function(data) {
+							if (data == 'false') {
+								phoneNumber.setAttribute("style", "border:1px solid red;");
+								$('small[id=phoneResult]').attr('value','존재하는 휴대폰번호 입니다.');
+								return false;
+							} else {
+								phoneNumber.setAttribute("style", "border:1px solid none;");
+								return true;
+							}
+						}
+					});
 				}
 			}
-			
-			//empExtensionNumber
-			var empExtensionNumber = document.getElementById("empExtensionNumber");
-			if($('#empExtensionNumber').val() == ''||$('#empExtensionNumber').val() == 'false'){
-				empExtensionNumber.setAttribute("style", "border:1px solid red;");
-				result= false;
-			}else{
-				empExtensionNumber.setAttribute("style", "border:1px solid none;");
-			}
-			
-			//posId
-			var position = document.getElementById("position");
-			if($('#posId').val() == ''){
-				position.setAttribute("style", "border:1px solid red;");
-				result= false;
-			}else{
-				position.setAttribute("style", "border:1px solid none;");
-				if($('#posId').val()=='사원'){
-					$("#posId").val(1);
-				}else if($('#posId').val()=='대리'){
-					$("#posId").val(2);
-				}else if($('#posId').val()=='과장'){
-					$("#posId").val(3);
-				}else if($('#posId').val()=='차장'){
-					$("#posId").val(4);
-				}else if($('#posId').val()=='부장'){
-					$("#posId").val(5);
-				}
-			}
-			
-			//empDetailWorkplace
-			var empDetailWorkplace = document.getElementById("empDetailWorkplace");
-			if($('#empDetailWorkplace').val() == ''){
-				empDetailWorkplace.setAttribute("style", "border:1px solid red;");
-				result= false;
-			}else{
-				empDetailWorkplace.setAttribute("style", "border:1px solid none;");
-			}
-			
-			return result;
 		}
-		
 		</script>
 		<!-- End plugin css,js for this page -->
 	</head>
@@ -285,7 +254,7 @@
 							<div class="col-12 grid-margin">
 								<div class="card">
 									<div class="card-body ">
-										<form action="<c:url value='/employee/insertemployee'/>" class="form-sample" id="fomm" onsubmit="return check()" method="post" enctype="multipart/form-data">
+										<form action="<c:url value='/employee/insertemployee'/>" class="form-sample" onsubmit="return check()" method="post" enctype="multipart/form-data">
 											<div class="d-flex justify-content-between align-items-center mb-4">
 												<div class="card-title mb-0">임직원 등록</div>
 												<div class="d-flex">
@@ -305,7 +274,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="empName" name="empName" maxlength="19" value="홍길동"/>
+															<input type="text" class="form-control" id="empName" name="empName" maxlength="19"/>
 														</div>
 													</div>
 												</div>
@@ -318,7 +287,8 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" oninput="mailIdCheck()" id="empMail" name="empMail" maxlength="50" value="hong@mycompany.com"/>
+															<input type="text" class="form-control" oninput="mailIdCheck()" id="empMail" name="empMail" maxlength="50" />
+															<small id="mailResult"></small>
 														</div>
 													</div>
 												</div>
@@ -333,7 +303,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="date" class="form-control" id="empDetailBirthday" name="empDetailBirthday" placeholder="YYYY-MM-DD" value="2000-05-15"/>
+															<input type="date" class="form-control" id="empDetailBirthday" name="empDetailBirthday" placeholder="YYYY-MM-DD"/>
 														</div>
 													</div>
 												</div>
@@ -421,7 +391,8 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" oninput="phoneCheck()" maxlength="20" id="empPhoneNumber" name="empPhoneNumber" placeholder="000-0000-0000" value="010-1234-1234"/>
+															<input type="text" class="form-control" oninput="phoneCheck()" maxlength="20" id="empPhoneNumber" name="empPhoneNumber" placeholder="000-0000-0000" />
+															<small id="phoneResult"></small>
 														</div>
 													</div>
 												</div>
@@ -460,7 +431,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" name="empDetailMajor" id="empDetailMajor" value="컴퓨터"/>
+															<input type="text" class="form-control" name="empDetailMajor" id="empDetailMajor"/>
 														</div>
 													</div>
 												</div>
@@ -475,7 +446,7 @@
 														<div class="col-sm-8">
 															<div class="btn dropdown-toggle d-flex form-control " id="school" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 																<i class="text-primary mdi mdi-menu-down"></i> 
-																<input class="my-auto" type="text" id="empDetailEducation" name="empDetailEducation" style="border:none;"  value="1" readonly>
+																<input class="my-auto" type="text" id="empDetailEducation" name="empDetailEducation" style="border:none;" readonly>
 															</div>
 															<div class="dropdown-menu" aria-labelledby="school" style="width:100%;">
 																<h6 class="dropdown-item" id="select1-1" onclick="select1(1)">고졸</h6>
@@ -503,8 +474,8 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="hidden" id="empId" name="empId" value/>
-															<input type="date" class="form-control" id="empDetailEmploymentDate" name="empDetailEmploymentDate"  placeholder="YYYY-MM-DD" value="2023-02-27"/>
+															<input type="hidden" id="empId" name="empId" />
+															<input type="date" class="form-control" id="empDetailEmploymentDate" name="empDetailEmploymentDate"  placeholder="YYYY-MM-DD"/>
 														</div>
 													</div>
 												</div>
@@ -519,7 +490,8 @@
 														<div class="col-sm-8">
 															<div class="btn dropdown-toggle d-flex form-control" id="department" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 																<i class="text-primary mdi mdi-menu-down"></i> 
-																<input class="my-auto" type="text" id="depId" name="depId" style="border:none;" value="1" readonly>
+																<input type="hidden" id="empExtensionNumber" name="empExtensionNumber"/>
+																<input class="my-auto" type="text" id="depId" name="depId" style="border:none;" readonly>
 															</div>
 															<div class="dropdown-menu" aria-labelledby="department" style="width:100%;">
 																<h6 class="dropdown-item" id="select2-1" onclick="select2(1)">공공사업1DIV</h6>
@@ -543,11 +515,11 @@
 														<div class="col-sm-4 text-primary">
 															<div class="d-flex align-items-center m-1">
 																<i class="h3 my-auto mdi mdi-phone-classic"></i> 
-																<span class="ml-2 font-weight-bold">사내TEL</span>
+																<span class="ml-2 font-weight-bold">근무지</span>
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" maxlength="20" oninput="extensionCheck()" id="empExtensionNumber" name="empExtensionNumber" value="1" placeholder="000-000-0000"/>
+															<input type="text" class="form-control" maxlength="40" id="empDetailWorkplace" name="empDetailWorkplace"/>
 														</div>
 													</div>
 												</div>
@@ -560,7 +532,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<div class="btn dropdown-toggle d-flex form-control" id="position" data-toggle="dropdown" aria-haspopup="true" value="1" aria-expanded="true">
+															<div class="btn dropdown-toggle d-flex form-control" id="position" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 																<i class="text-primary mdi mdi-menu-down"></i> 
 																<input class="my-auto" type="text" id="posId" name="posId" style="border:none;" readonly>
 															</div>
@@ -576,21 +548,6 @@
 														        	$("#posId").val(x);
 														        }
 															</script>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-md-6">
-													<div class="form-group row align-items-center">
-														<div class="col-sm-4 text-primary">
-															<div class="d-flex align-items-center m-1">
-																<i class="h3 my-auto mdi mdi-phone-classic"></i> 
-																<span class="ml-2 font-weight-bold">근무지</span>
-															</div>
-														</div>
-														<div class="col-sm-8">
-															<input type="text" class="form-control" maxlength="40" id="empDetailWorkplace" name="empDetailWorkplace" value="혜화"/>
 														</div>
 													</div>
 												</div>

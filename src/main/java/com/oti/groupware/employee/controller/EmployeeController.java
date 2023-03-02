@@ -40,15 +40,6 @@ public class EmployeeController {
 		return result;
 	}
 	
-	//휴대전화 유효성 체크
-	@RequestMapping(value = "/telcheck", method = RequestMethod.POST)
-	@ResponseBody
-	public String telCheck(String telNumber) {
-		log.info("telCheck실행");
-		String result = employeeService.telCheck(telNumber);
-		return result;
-	}
-	
 	//이메일 유효성 체크
 	@RequestMapping(value="/mailidcheck", method = RequestMethod.POST)
 	@ResponseBody
@@ -69,6 +60,8 @@ public class EmployeeController {
 	@PostMapping(value = "/insertemployee")
 	public String insertEmployee(Employee employee, EmployeeDetail employeeDetail) throws IOException{
 		log.info("insert employee 실행");
+		log.info(employee);
+		log.info(employeeDetail);
 		//파일 데이터
 		MultipartFile employeeFile = employee.getEmpFileDataMulti();
 		if(!employeeFile.isEmpty()) {

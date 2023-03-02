@@ -12,7 +12,6 @@ public interface EmployeeDAO {
     public void updateLoginFailCnt(Employee employee);
     public void updateLoginSuccessCnt(Employee employee);
 	public List<String> getPhoneNumber();
-	public List<String> getTelNumber();
 	public List<String> getMailId();
 	public List<String> getEmpId(@Param("completeId") String completeId);
 	public int getLeaveReserve(int posId);

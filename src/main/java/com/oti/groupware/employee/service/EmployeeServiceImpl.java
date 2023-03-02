@@ -124,21 +124,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public String telCheck(String telNumber) {
-		List<String> telNumberList = employeeDao.getTelNumber();
-		String result = "false";
-		if(!telNumberList.isEmpty() && telNumberList != null) {
-			for (String tel : telNumberList) {
-				//존재한다면
-				if (telNumber.equals(tel)) {
-					result = "true";
-				}
-			}
-		}
-		return result;
-	}
-
-	@Override
 	public String mailIdCheck(String mailId) {
 		List<String> mailIdList = employeeDao.getMailId();
 		String result = "true";
@@ -161,12 +146,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 		boolean result = true;
 		// id가 존재하지 않으면
 		if (!empId.isEmpty() && empId != null) {
+			int endNum=0;
+			String endId=null;
+			int highNum = 0;
 			for (String id : empId) {
-				String endId = id.substring(6);
-				int endNum = (Integer.parseInt(endId)) + 1;
-				endId = Integer.toString(endNum);
-				employee.setEmpId(completeId + endId);
+				endId = id.substring(6);
+				endNum = (Integer.parseInt(endId)) + 1;
+				if(endNum>highNum) {
+					highNum=endNum;
+				}
 			}
+			endId = Integer.toString(highNum);
+			employee.setEmpId(completeId + endId);
 			result = false;
 		} else {
 			employee.setEmpId(completeId + "1");
@@ -176,13 +167,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 			employee.setEmpPassword(RandomStringUtils.randomNumeric(4));
 			PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 			employee.setEmpPassword(pe.encode(employee.getEmpPassword()));
-			log.info(employee.getEmpPassword());
 			// 직급에 따른 연차 갯수 얻어오기
 			int leaveReserve = employeeDao.getLeaveReserve(employee.getPosId());
 			employee.setEmpLeaveReserve(leaveReserve);
 			employeeDao.insertEmployee(employee);
 			employeeDetail.setEmpId(employee.getEmpId());
-			log.info(employeeDetail);
+//			log.info(employeeDetail);
 			employeeDao.insertEmployeeDetail(employeeDetail);
 		}
 
