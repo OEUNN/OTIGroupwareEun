@@ -3,16 +3,10 @@
 
 <!-- Plugin css,js for this page -->
 <script src='${pageContext.request.contextPath}/resources/vendors/fullcalendar/js/index.global.js'></script>
+<script src='${pageContext.request.contextPath}/resources/vendors/fullcalendar/js/goggle.calendar.min.js'></script>
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		  $(function () {
-              var request = $.ajax({
-                  url: "../hr/calendar",
-                  method: "GET",
-                  dataType: "json"
-              });
-              //성공시
-              request.done(function (data) {
 				//달력 렌더링
 				var calendarEl = document.getElementById('calendar');
 				var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -21,8 +15,20 @@
 					businessHours : true,
 					locale : 'ko',
 					dayMaxEvents : true,
-					events : data,
-					eventContent : function(info) {
+					eventSources: [
+						{
+						  //DB에 담긴 이벤트 데이터를 갖고옴
+						  url: '../hr/calendar',
+						},
+					    {
+						  //구글 API를 이용하여 공휴일을 표시
+					      googleCalendarApiKey: 'AIzaSyAocA5FID3dzNX7LOO3N02rbI_4oEKjQPM',
+					      googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+					      className: 'fc-holiday-ko', // 특별한 클래스 이름을 사용하여 구분
+					      color: '#FF7B54'
+					    }
+					],
+					eventContent: function(info) {
 						let eventTitle = info.event.title;
 						let eventTime = info.event.start.toTimeString().split(' ')[0];
 						eventTime = eventTime.substring(0, 5);
@@ -44,17 +50,14 @@
 						} else if(eventTitle == '휴가') {
 							return { html : '<div class="btn btn-md font-weight-bold px-5" style="background-color:rgba(163, 164, 165, 0.3); color:#5b5b5e;">휴가</div>' }
 						} else if(eventTitle == '추가근무') {
-							return { html : '<div class="badge badge-warning px-1" style="font-size:5%;">추가근무 ' + eventTime + '</div>' }
+							return { html : '<div class="badge" style="background-color:#FDD36A; padding: 7px 5px; font-size:5%;">추가근무 ' + eventTime + '</div>' }
+						} else if($('.fc-holiday-ko')){
+// 							$( '.fc-holiday-ko' ).parent().parent().css({"background-color":"#57B657", "border-radius":"5px", "color":"white", "opacity":"0.7"});
+							return { html : '<div id="ko-holiday">' + eventTitle + '</div>' }
 						}
-					},
+					}
 				});
 				calendar.render();
-			});
-
-			//실패시
-			request.fail(function(jqXHR, textStatus) {
-				alert("Request failed: " + textStatus);
-			});
 		});
 
 	});
@@ -121,6 +124,24 @@
 		min-width: 100%;
 	}
 	
+	.fc-daygrid-event {
+		border-radius: 3px;
+	}
+	
+	.fc .fc-daygrid-day-bottom {
+		position: relative;
+		margin: 0px 0px;
+		background-color: #FF7B54;
+		border-radius: 0 0 3px 3px;
+		z-index: 200;
+		top: -3px;
+	}
+	
+	
+	.fc-popover .fc-popover-body .fc-daygrid-event-harness .fc-holiday-ko {
+		display: none;
+	}
+	
 	.fc-direction-ltr .fc-daygrid-event.fc-event-end {
 		display: flex;
 		justify-content: center;
@@ -150,17 +171,17 @@
 		color: black;
 	}
 	
+	/* 더보기 버튼 */
 	.fc .fc-daygrid-more-link {
-		color: #FF4747;
+		position: relative;
+		color: #fae1a2;
+		padding: 5px 0;
+		left: 5px;
 	}
 
 	.fc-col-header-cell-cushion:hover, .fc-daygrid-day-number:hover {
 		text-decoration-line: none;
 		color: #4B49AC;
-	}
-	
-	.fc-event-time, .fc-event-title {
-		color: black;
 	}
 	
 	/* 일요일 날짜 빨간색 */
@@ -203,7 +224,6 @@
 
 <div class="card">
 	<div class="card-body">
-		<div class="card-title mb-4">나의 출퇴근</div>
         <!-- 근무현황통계 -->
         <div class="card card-light-blue">
           <div class="card-body">
