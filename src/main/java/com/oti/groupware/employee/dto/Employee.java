@@ -18,8 +18,10 @@ public class Employee {
     private int empLeaveReserve;
     private int empSubstitueReserve;
     private int empLoginFailuresCnt;
-    private MultipartFile empFileData;
+    private byte[] empFileData;
+    private MultipartFile empFileDataMulti;
     private String empFileType;
+    private String empFileName;
     private String roleName;
     private boolean empEnabled;
 }

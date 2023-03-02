@@ -1,22 +1,21 @@
 package com.oti.groupware.employee.controller;
 
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.io.IOException;
 import java.util.Date;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.employee.dto.EmployeeDetail;
-import com.oti.groupware.employee.service.EmployeeServiceImpl;
+import com.oti.groupware.employee.service.EmployeeService;
 
 import lombok.extern.log4j.Log4j2;
 /**
@@ -24,35 +23,38 @@ import lombok.extern.log4j.Log4j2;
  * @author 장영은
  *
  */
-@RequestMapping("/employee")
 @Controller
 @Log4j2
+@RequestMapping("/employee")
 public class EmployeeController {
 	
 	@Autowired
-	private EmployeeServiceImpl employeeService;
+	private EmployeeService employeeService;
 	
 	//휴대전화 유효성 체크
 	@RequestMapping(value="/phonecheck", method = RequestMethod.POST)
-	public boolean phoneCheck(String phoneNumber) {
+	@ResponseBody
+	public String phoneCheck(String phoneNumber) {
 		log.info("phoneCheckt실행");
-		boolean result = employeeService.phoneCheck(phoneNumber);
+		String result = employeeService.phoneCheck(phoneNumber);
 		return result;
 	}
 	
 	//휴대전화 유효성 체크
 	@RequestMapping(value = "/telcheck", method = RequestMethod.POST)
-	public boolean telCheck(String telNumber) {
+	@ResponseBody
+	public String telCheck(String telNumber) {
 		log.info("telCheck실행");
-		boolean result = employeeService.tleCheck(telNumber);
+		String result = employeeService.telCheck(telNumber);
 		return result;
 	}
 	
 	//이메일 유효성 체크
 	@RequestMapping(value="/mailidcheck", method = RequestMethod.POST)
-	public boolean mailIdCheck(String mailId) {
+	@ResponseBody
+	public String mailIdCheck(String mailId) {
 		log.info("telCheck실행");
-		boolean result = employeeService.mailIdCheck(mailId);
+		String result = employeeService.mailIdCheck(mailId);
 		return result;
 	}
 	
@@ -64,37 +66,29 @@ public class EmployeeController {
 	 * @param employmentDateStr - 입사일에 대한 String
 	 * @return 성공시 redirect를 통해 인사관리의 메인인 select 페이지로 이동한다.
 	 */
-	@RequestMapping(value = "/insertemployee", method = RequestMethod.POST)
-	public String insertEmployee(Employee employee, EmployeeDetail employeeDetail, String empBirthdayStr, String employmentDateStr) {
+	@PostMapping(value = "/insertemployee")
+	public String insertEmployee(Employee employee, EmployeeDetail employeeDetail) throws IOException{
 		log.info("insert employee 실행");
-		//String을 원하는 형태로 Date타입으로 바꾸기
-		SimpleDateFormat formatYear = new SimpleDateFormat("yyyy-MM-dd");
-		//사번을 비교하기 위한 로직
-		String completeId = employmentDateStr.replace("-","");
-		completeId = completeId.substring(2,7);
-		//string to date
-		try {
-			employeeDetail.setEmpDetailBirthday(formatYear.parse(empBirthdayStr));
-			employeeDetail.setEmpDetailEmploymentDate(formatYear.parse(employmentDateStr));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		System.out.println("employeeDetail : "+employeeDetail);
 		//파일 데이터
-		MultipartFile employeeFile = employee.getEmpFileData();
-		if(employeeFile.isEmpty()) {
+		MultipartFile employeeFile = employee.getEmpFileDataMulti();
+		if(!employeeFile.isEmpty()) {
+			String attachsname = new Date().getTime() +"-"+employeeFile.getOriginalFilename();
+			employee.setEmpFileData(employeeFile.getBytes());
+			employee.setEmpFileName(attachsname);
 			//파일의 타입 설정
 			employee.setEmpFileType(employeeFile.getContentType());
+			//서버 파일 시스템에 파일로 저장
+			File file = new File("C:/Temp/uploadFiles/"+attachsname);
+			employeeFile.transferTo(file);
 		}
 		//insert를 위한 service
-		employeeService.insertEmployee(employee, employeeDetail, completeId);
-		System.out.println("성공?");
+		employeeService.insertEmployee(employee, employeeDetail);
 		return "redirect:/employee/selectemployee";
 	}
 	
 	
 	// 임직원 등록
-	@RequestMapping(value = "/insertemployee", method = RequestMethod.GET)
+	@GetMapping(value = "/insertemployee")
 	public String insertEmployee() {
 		return "employee/insertemployee";
 	}

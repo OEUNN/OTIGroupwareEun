@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.oti.groupware.employee.dto.Employee;
+import com.oti.groupware.employee.service.EmployeeService;
 import com.oti.groupware.employee.service.EmployeeServiceImpl;
 
 import lombok.extern.log4j.Log4j2;
@@ -22,7 +23,7 @@ import lombok.extern.log4j.Log4j2;
 public class LoginController {
 	
 	@Autowired
-	private EmployeeServiceImpl employeeService;
+	private EmployeeService employeeService;
  
 	/**
 	 * 로그인 Controller

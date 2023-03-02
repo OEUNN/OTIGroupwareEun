@@ -12,12 +12,261 @@
 		<!-- Plugin css,js for this page -->
 		<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/themes/silver/theme.min.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/file-upload.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/employee.js"></script>
 		<style>
 			.dropdown-toggle::after{
 				content:none;
 			}
 		</style>
+		<script>
+		var result = true;
+		
+		/**일반전화 유효성 검사**/
+		function extensionCheck(){
+			let tel_number = $('#empExtensionNumber').val();
+			var telNumber = document.getElementById("empExtensionNumber");
+			let regExp = /^\d{2,3}-\d{3,4}-\d{4}$/;
+		    let telresult = regExp.test(tel_number);
+		    if(!telresult){
+		    	telNumber.setAttribute("style", "border:1px solid red;");
+		    }else{
+		    	telNumber.setAttribute("style", "border:1px solid none;");
+		    	$.ajax({
+	    			type: 'post',
+	    			url : 'employee/telcheck',
+	    			data : {telNumber : tel_number},
+	    			success : function(data){
+	    				if(data == 'false'){
+	    					telNumber.setAttribute("style", "border:1px solid red;");
+	    					$('input[name=empExtensionNumber]').attr('value','존재하지 않는 부서 번호입니다.');
+	    					result = false;
+	    				}else{
+	    					telNumber.setAttribute("style", "border:1px solid none;");
+	    				}
+	    			}
+	    		});
+		    }
+		}
+		
+		/** 휴대전화 유효성 검사**/
+		function phoneCheck(){
+			let phone_number = $('#empPhoneNumber').val();
+			var phoneNumber = document.getElementById("empPhoneNumber");
+			let regExp = /^(01[016789]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
+		    let phoneresult = regExp.test(phone_number);
+		    if(!phoneresult){
+		    	phoneNumber.setAttribute("style", "border:1px solid red;");
+		    }else{
+		    	phoneNumber.setAttribute("style", "border:1px solid none;");
+	    		$.ajax({
+	    			type: 'post',
+	    			url : 'employee/phonecheck',
+	    			data : {phoneNumber : phone_number},
+	    			success : function(data){
+	    				if(data == 'false'){
+	    					phoneNumber.setAttribute("style", "border:1px solid red;");
+	    					$('input[name=empPhoneNumber]').attr('value','존재하는 번호입니다.');
+	    					result = false;
+	    				}else{
+	    					phoneNumber.setAttribute("style", "border:1px solid none;");
+	    					
+	    				}
+	    			}
+	    		});
+		    	
+		    }
+		}
+		
+		/** 메일ID 유효성 검사**/
+		function mailIdCheck(){
+			var empMail = document.getElementById("empMail");
+			if($('#empMail').val() == ''){
+				mailId.setAttribute("style", "border:1px solid red;");
+		    	result = false;
+			}else{
+	    		$.ajax({
+	    			type: 'post',
+	    			url : 'employee/mailidcheck',
+	    			data : {mailId : $('#empMail').val()},
+	    			success : function(data){
+	    				if(data == 'false'){
+	    					empMail.setAttribute("style", "border:1px solid red;");
+	    					$('input[name=empMail]').attr('placeholder','존재하는 ID입니다.');
+	    					result = false;
+	    				}else{
+	    					empMail.setAttribute("style", "border:1px solid none;");
+	    				}
+	    			}
+	    		});
+		    	
+		    }
+		}
+		
+		
+		function check(){
+			
+			//empId
+			let empId = $('#empDetailEmploymentDate').val();
+			$('#empId').val(empId);
+			
+			//empName
+			var empName = document.getElementById("empName");
+			if($('#empName').val() == ''){
+				empName.setAttribute("style", "border:1px solid red;");
+				result= false;
+			}else{
+				empName.setAttribute("style", "border:1px solid none;");
+			}
+			
+			//empMail
+			var empMail = document.getElementById("empMail");
+			if($('#empMail').val() == '' || $('#empMail').val() == 'false'){
+				empMail.setAttribute("style", "border:1px solid red;");
+				result= false;
+			}else{
+				empMail.setAttribute("style", "border:1px solid none;");
+			}
+			
+			//empDetailBirthday
+			var empDetailBirthday = document.getElementById("empDetailBirthday");
+			if($('#empDetailBirthday').val() == ''){
+				empDetailBirthday.setAttribute("style", "border:1px solid red;");
+				result= false;
+			}else{
+				empDetailBirthday.setAttribute("style", "border:1px solid none;");
+			}
+			
+			//empDetailGender
+			var empDetailGender = document.getElementById("empDetailGender");
+			if($('#empDetailGender').val() == ''){
+				empDetailGender.setAttribute("style", "border:1px solid red;");
+				result= false;
+			}else{
+				empDetailGender.setAttribute("style", "border:1px solid none;");
+			}
+			
+			//empFileData
+			var empFileDataMulti = document.getElementById("empFileDataMulti");
+			if($('#empFileDataMulti').val() == ''){
+				empFileDataMulti.setAttribute("style", "border:1px solid red;");
+				result= false;
+			}else{
+				empFileDataMulti.setAttribute("style", "border:1px solid none;");
+			}
+			
+			//empDetailMilitaryServiceYN
+			var empDetailMilitaryServiceYN = document.getElementById("empDetailMilitaryServiceYN");
+			if($('#empDetailMilitaryServiceYN').val() == ''){
+				empDetailMilitaryServiceYN.setAttribute("style", "border:1px solid red;");
+				result= false;
+			}else{
+				empDetailMilitaryServiceYN.setAttribute("style", "border:1px solid none;");
+			}
+			
+			//empPhoneNumber
+			var empPhoneNumber = document.getElementById("empPhoneNumber");
+			if($('#empPhoneNumber').val() == ''||$('#empPhoneNumber').val() == 'false'){
+				empPhoneNumber.setAttribute("style", "border:1px solid red;");
+				result= false;
+			}else{
+				empPhoneNumber.setAttribute("style", "border:1px solid none;");
+			}
+			
+			//empDetailMarriedYN
+			var empDetailMarriedYN = document.getElementById("empDetailMarriedYN");
+			if($('#empDetailMarriedYN').val() == ''){
+				empDetailMarriedYN.setAttribute("style", "border:1px solid red;");
+				result= false;
+			}else{
+				empDetailMarriedYN.setAttribute("style", "border:1px solid none;");
+			}
+			
+			//empDetailMajor
+			var empDetailMajor = document.getElementById("empDetailMajor");
+			if($('#empDetailMajor').val() == ''){
+				empDetailMajor.setAttribute("style", "border:1px solid red;");
+				result= false;
+			}else{
+				empDetailMajor.setAttribute("style", "border:1px solid none;");
+			}
+			
+			//empDetailEducation
+			var school = document.getElementById("school");
+			if($('#empDetailEducation').val() == ''){
+				school.setAttribute("style", "border:1px solid red;");
+				result= false;
+			}else{
+				school.setAttribute("style", "border:1px solid none;");
+			}
+			
+			//empDetailEmploymentDate
+			var empDetailEmploymentDate = document.getElementById("empDetailEmploymentDate");
+			if($('#empDetailEmploymentDate').val() == ''){
+				empDetailEmploymentDate.setAttribute("style", "border:1px solid red;");
+				result= false;
+			}else{
+				empDetailEmploymentDate.setAttribute("style", "border:1px solid none;");
+			}
+			
+			//depId
+			var department = document.getElementById("department");
+			if($('#depId').val() == ''){
+				department.setAttribute("style", "border:1px solid red;");
+				result= false;
+			}else{
+				department.setAttribute("style", "border:1px solid none;");
+				if($('#depId').val()=='공공사업1DIV'){
+					$("#depId").val(1);
+				}else if($('#depId').val()=='공공사업2DIV'){
+					$("#depId").val(2);
+				}else if($('#depId').val()=='공공사업3DIV'){
+					$("#depId").val(3);
+				}else if($('#depId').val()=='경영지원부'){
+					$("#depId").val(4);
+				}
+			}
+			
+			//empExtensionNumber
+			var empExtensionNumber = document.getElementById("empExtensionNumber");
+			if($('#empExtensionNumber').val() == ''||$('#empExtensionNumber').val() == 'false'){
+				empExtensionNumber.setAttribute("style", "border:1px solid red;");
+				result= false;
+			}else{
+				empExtensionNumber.setAttribute("style", "border:1px solid none;");
+			}
+			
+			//posId
+			var position = document.getElementById("position");
+			if($('#posId').val() == ''){
+				position.setAttribute("style", "border:1px solid red;");
+				result= false;
+			}else{
+				position.setAttribute("style", "border:1px solid none;");
+				if($('#posId').val()=='사원'){
+					$("#posId").val(1);
+				}else if($('#posId').val()=='대리'){
+					$("#posId").val(2);
+				}else if($('#posId').val()=='과장'){
+					$("#posId").val(3);
+				}else if($('#posId').val()=='차장'){
+					$("#posId").val(4);
+				}else if($('#posId').val()=='부장'){
+					$("#posId").val(5);
+				}
+			}
+			
+			//empDetailWorkplace
+			var empDetailWorkplace = document.getElementById("empDetailWorkplace");
+			if($('#empDetailWorkplace').val() == ''){
+				empDetailWorkplace.setAttribute("style", "border:1px solid red;");
+				result= false;
+			}else{
+				empDetailWorkplace.setAttribute("style", "border:1px solid none;");
+			}
+			
+			return result;
+		}
+		
+		</script>
 		<!-- End plugin css,js for this page -->
 	</head>
 
@@ -36,7 +285,7 @@
 							<div class="col-12 grid-margin">
 								<div class="card">
 									<div class="card-body ">
-										<form action="<c:url value='/employee/insertemployee'/>" class="form-sample"  onsubmit="return check()" method="post"  enctype="multipart/form-data">
+										<form action="<c:url value='/employee/insertemployee'/>" class="form-sample" id="fomm" onsubmit="return check()" method="post" enctype="multipart/form-data">
 											<div class="d-flex justify-content-between align-items-center mb-4">
 												<div class="card-title mb-0">임직원 등록</div>
 												<div class="d-flex">
@@ -56,7 +305,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="empName" name="empName" maxlength="19" />
+															<input type="text" class="form-control" id="empName" name="empName" maxlength="19" value="홍길동"/>
 														</div>
 													</div>
 												</div>
@@ -69,7 +318,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" oninput="mailIdCheck()" id="empMail" name="empMail" maxlength="50"/>
+															<input type="text" class="form-control" oninput="mailIdCheck()" id="empMail" name="empMail" maxlength="50" value="hong@mycompany.com"/>
 														</div>
 													</div>
 												</div>
@@ -84,7 +333,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="date" class="form-control" id="empBirthdayStr" name="empBirthdayStr" placeholder="YYYY-MM-DD"/>
+															<input type="date" class="form-control" id="empDetailBirthday" name="empDetailBirthday" placeholder="YYYY-MM-DD" value="2000-05-15"/>
 														</div>
 													</div>
 												</div>
@@ -124,7 +373,7 @@
 														</div>
 														<div class="col-sm-8">
 															<div class="form-group bg-white">
-																<input type="file" id="empFileData" name="empFileData" class="file-upload-default" multiple>
+																<input type="file" id="empFileDataMulti" name="empFileDataMulti" class="file-upload-default" multiple>
 																<div class="input-group col-xs-12">
 																	<input type="text" class="form-control file-upload-info"  id="uploadInfo" disabled placeholder="업로드 할 파일"> 
 																		<span class="input-group-append">
@@ -172,7 +421,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" oninput="phoneCheck()" maxlength="20" id="empPhoneNumber" name="empPhoneNumber" placeholder="000-0000-0000"/>
+															<input type="text" class="form-control" oninput="phoneCheck()" maxlength="20" id="empPhoneNumber" name="empPhoneNumber" placeholder="000-0000-0000" value="010-1234-1234"/>
 														</div>
 													</div>
 												</div>
@@ -211,7 +460,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" name="empDetailMajor" id="empDetailMajor"/>
+															<input type="text" class="form-control" name="empDetailMajor" id="empDetailMajor" value="컴퓨터"/>
 														</div>
 													</div>
 												</div>
@@ -226,7 +475,7 @@
 														<div class="col-sm-8">
 															<div class="btn dropdown-toggle d-flex form-control " id="school" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 																<i class="text-primary mdi mdi-menu-down"></i> 
-																<input class="selectmenu1 my-auto" type="text" id="empDetailEducation" name="empDetailEducation" style="border:none;" readonly>
+																<input class="my-auto" type="text" id="empDetailEducation" name="empDetailEducation" style="border:none;"  value="1" readonly>
 															</div>
 															<div class="dropdown-menu" aria-labelledby="school" style="width:100%;">
 																<h6 class="dropdown-item" id="select1-1" onclick="select1(1)">고졸</h6>
@@ -237,7 +486,7 @@
 															<script>
 														        function select1(No){
 														        	var x = document.getElementById("select1-" + No).innerText;
-														        	$(".selectmenu1").val(x);
+														        	$("#empDetailEducation").val(x);
 														        }
 															</script>
 														</div>
@@ -254,7 +503,8 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="date" class="form-control" id="employmentDateStr" name="employmentDateStr" placeholder="YYYY-MM-DD"/>
+															<input type="hidden" id="empId" name="empId" value/>
+															<input type="date" class="form-control" id="empDetailEmploymentDate" name="empDetailEmploymentDate"  placeholder="YYYY-MM-DD" value="2023-02-27"/>
 														</div>
 													</div>
 												</div>
@@ -269,7 +519,7 @@
 														<div class="col-sm-8">
 															<div class="btn dropdown-toggle d-flex form-control" id="department" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 																<i class="text-primary mdi mdi-menu-down"></i> 
-																<input class="selectmenu2 my-auto" type="text" id="depId" name="depId" style="border:none;" readonly>
+																<input class="my-auto" type="text" id="depId" name="depId" style="border:none;" value="1" readonly>
 															</div>
 															<div class="dropdown-menu" aria-labelledby="department" style="width:100%;">
 																<h6 class="dropdown-item" id="select2-1" onclick="select2(1)">공공사업1DIV</h6>
@@ -280,8 +530,7 @@
 															<script>
 														        function select2(No){
 														        	var x = document.getElementById("select2-" + No).innerText;
-														        	$(".selectmenu2").val(x);
-														        	$('input[name=depId]').attr('value',No);
+														        	$("#depId").val(x);
 														        }
 															</script>
 														</div>
@@ -298,7 +547,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" maxlength="20" oninput="extensionCheck()" id="empExtensionNumber" name="empExtensionNumber" placeholder="000-000-0000"/>
+															<input type="text" class="form-control" maxlength="20" oninput="extensionCheck()" id="empExtensionNumber" name="empExtensionNumber" value="1" placeholder="000-000-0000"/>
 														</div>
 													</div>
 												</div>
@@ -311,9 +560,9 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<div class="btn dropdown-toggle d-flex form-control" id="position" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+															<div class="btn dropdown-toggle d-flex form-control" id="position" data-toggle="dropdown" aria-haspopup="true" value="1" aria-expanded="true">
 																<i class="text-primary mdi mdi-menu-down"></i> 
-																<input class="selectmenu3 my-auto" type="text" id="posId" name="posId" style="border:none;" readonly>
+																<input class="my-auto" type="text" id="posId" name="posId" style="border:none;" readonly>
 															</div>
 															<div class="dropdown-menu" aria-labelledby="position" style="width:100%;">
 																<h6 class="dropdown-item" id="select3-1" onclick="select3(1)">사원</h6>
@@ -324,8 +573,7 @@
 															<script>
 														        function select3(No){
 														        	var x = document.getElementById("select3-" + No).innerText;
-														        	$(".selectmenu3").val(x);
-														        	$('input[name="posId"]').attr('value',No);
+														        	$("#posId").val(x);
 														        }
 															</script>
 														</div>
@@ -342,7 +590,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" maxlength="40" id="empDetailWorkplace" name="empDetailWorkplace" placeholder="000-000-0000"/>
+															<input type="text" class="form-control" maxlength="40" id="empDetailWorkplace" name="empDetailWorkplace" value="혜화"/>
 														</div>
 													</div>
 												</div>
