@@ -3,7 +3,7 @@ $(document).ready(function(){
 	let labelList = $('.form-check-label');
 	
 	var cachedElement;
-	var isEditorContentEmpty;
+	var isEditorContentEmpty = true;
 	
 	addAjaxEvent(inputList, isEditorContentEmpty);
 	
@@ -109,11 +109,11 @@ function addAjaxEvent(list, isEditorContentEmpty) {
 					tinymce.get("document").setContent(data);
 				}
 			});
-			return isEditorContentEmpty = true;
+			isEditorContentEmpty = true;
 		}
 		else {
 			alert('작성한 내용이 있습니다.');
-			return isEditorContentEmpty = false;
+			isEditorContentEmpty = false;
 		}
 	});
 }
