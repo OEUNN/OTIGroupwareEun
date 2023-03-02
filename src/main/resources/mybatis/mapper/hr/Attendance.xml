@@ -22,26 +22,34 @@
 		WHERE emp_id = #{empId} AND 
 			  to_char(atd_in_time, 'yyyy-MM-DD') = to_char(sysdate, 'yyyy-MM-DD') 
 	</select>
-
+	
+	<!-- 근무통계 -->
+	<select id="countAttendanceState" resultType="hashmap">
+		<![CDATA[
+		SELECT
+		    count(CASE WHEN atd_state = '정상출근' THEN 1 END) AS 정상출근,
+		    count(CASE WHEN TO_CHAR(atd_in_time, 'HH24') >= 9 AND atd_state is null THEN 1 END) AS 지각,
+		    count(CASE WHEN TO_CHAR(atd_out_time, 'HH24') < 18 AND atd_out_time is not null THEN 1 END) AS 조퇴,
+		    count(CASE WHEN atd_state = '결근' THEN 1 END) AS 결근,
+		    count(CASE WHEN atd_state = '추가근무' THEN 1 END) AS 추가근무
+		FROM 
+		    attendances
+		WHERE
+		    emp_id = #{empId}
+		]]>
+	</select>
+	
 	<!-- 근무현황목록 -->
 	<select id="getAttendanceList" resultMap="attendanceResultMap">
 		SELECT
-		  emp_id, 
-		  atd_in_time, 
-		  atd_out_time,
-		  atd_state
-		FROM attendances
-		<where>
-			<!-- 캘린더 -->
-			<if test="choice == 'calendar'">
-				emp_id = #{empId}
-			</if>
-			<!-- 페이징 -->
-			<if test="choice == 'choice'">
-				emp_id = #{empId} AND
-				
-			</if>
-		</where> 
+		    emp_id, 
+		    atd_in_time, 
+		    atd_out_time,
+		    atd_state
+		FROM 
+			attendances
+		WHERE
+			emp_id = #{empId}
 	</select>
 	
 	<!-- 출근시간 등록 -->

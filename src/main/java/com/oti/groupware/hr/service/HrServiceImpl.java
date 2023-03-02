@@ -1,7 +1,7 @@
 package com.oti.groupware.hr.service;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -33,23 +33,17 @@ public class HrServiceImpl implements HrService {
 		return attendanceDAO.getAttendanceToday(empId);
 	}
 	
-	//ㅇ근무현황 목록 가져오기
+	//근무통계 가져오기
 	@Override
-	public List<Attendance> attendanceList(String empId) {
-		//근무현황목록을 갖고옴
-		String choice = "paging";
-		List<Attendance> atdList = attendanceDAO.getAttendanceList(empId, choice);
-		
-		
-		return attendanceDAO.getAttendanceList(empId, choice);
+	public HashMap<String, Object> attendanceState(String empId) {
+		return attendanceDAO.countAttendanceState(empId);
 	}
 	
 	//달력을 채울 출퇴근 기록 목록 가져오기(달력에 알맞게 값 가공)
 	@Override
 	public JSONArray attendanceCalendarList(String empId) {
 		//근무현황목록을 갖고옴
-		String choice = "calendar";
-		List<Attendance> atdList = attendanceDAO.getAttendanceList(empId, choice);
+		List<Attendance> atdList = attendanceDAO.getAttendanceList(empId);
 		
 		//날짜와 시간 포맷 변경
 		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -78,7 +72,17 @@ public class HrServiceImpl implements HrService {
 				} else if(atd.getAtdState().equals("휴가")) { //휴가인 경우
 					jsonObj.put("title", "휴가");
 					jsonObj.put("start",  formatDate.format(atd.getAtdInTime()));
+				} else if(atd.getAtdState().equals("추가근무")) { //추가근무인 경우
+					//출근
+					jsonObj.put("title", "출근");
+					jsonObj.put("start", formatDate.format(atd.getAtdInTime()));
+					jsonArr.put(jsonObj);
+					//추가근무
+					jsonObj = new JSONObject();
+					jsonObj.put("title", "추가근무");
+					jsonObj.put("start", formatDate.format(atd.getAtdOutTime()));
 				}
+				jsonArr.put(jsonObj);
 				
 			//오늘 근무목록 or 과거에 지각/조퇴한경우
 			} else if(atd.getAtdState() == null && atd.getAtdInTime() != null) {
@@ -90,9 +94,9 @@ public class HrServiceImpl implements HrService {
 					jsonObj = new JSONObject();
 					jsonObj.put("title", "퇴근");
 					jsonObj.put("start", formatDate.format(atd.getAtdOutTime()));
+					jsonArr.put(jsonObj);
 				}
 			}
-			jsonArr.put(jsonObj);
 		}
 		return jsonArr;
 	}
@@ -142,5 +146,4 @@ public class HrServiceImpl implements HrService {
 			}
 		}
 	}
-	
 }
