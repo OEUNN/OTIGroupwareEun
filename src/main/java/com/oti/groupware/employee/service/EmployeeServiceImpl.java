@@ -170,9 +170,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 			// 직급에 따른 연차 갯수 얻어오기
 			int leaveReserve = employeeDao.getLeaveReserve(employee.getPosId());
 			employee.setEmpLeaveReserve(leaveReserve);
+			log.info(employee);
 			employeeDao.insertEmployee(employee);
 			employeeDetail.setEmpId(employee.getEmpId());
-//			log.info(employeeDetail);
+			log.info(employeeDetail);
 			employeeDao.insertEmployeeDetail(employeeDetail);
 		}
 

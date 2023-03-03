@@ -60,8 +60,6 @@ public class EmployeeController {
 	@PostMapping(value = "/insertemployee")
 	public String insertEmployee(Employee employee, EmployeeDetail employeeDetail) throws IOException{
 		log.info("insert employee 실행");
-		log.info(employee);
-		log.info(employeeDetail);
 		//파일 데이터
 		MultipartFile employeeFile = employee.getEmpFileDataMulti();
 		if(!employeeFile.isEmpty()) {

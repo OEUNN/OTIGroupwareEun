@@ -167,72 +167,82 @@
 			} else {
 				empDetailWorkplace.setAttribute("style","border:1px solid none;");
 			}
+			
+			//phoneNumber
+			var empPhoneNumber = document.getElementById("empPhoneNumber");
+			if($('#empPhoneNumber').val() == ''){
+				empPhoneNumber.setAttribute("style","border:1px solid red;");
+				result = false;
+			}else{
+				empPhoneNumber.setAttribute("style","border:1px solid none;");
+			}
+			
+			//empMail
+			var empMail = document.getElementById("empMail");
+			if ($('#empMail').val() == '') {
+				empMail.setAttribute("style","border:1px solid red;");
+				result = false;
+			}else{
+				empMail.setAttribute("style","border:1px solid none;");
+			}
+			
 			return result;
 		}
 		
-
-		//empMail
 		/** 메일ID 유효성 검사**/
 		function mailIdCheck() {
 			var empMail = document.getElementById("empMail");
-			if ($('#empMail').val() == '') {
-				mailId.setAttribute("style", "border:1px solid red;");
-				result = false;
-			} else {
-				$.ajax({
-					type : 'post',
-					url : 'employee/mailidcheck',
-					data : {
-						mailId : $('#empMail').val()
-					},
-					success : function(data) {
-						if (data == 'false') {
-							empMail.setAttribute("style", "border:1px solid red;");
-							$('small[id=mailResult]').attr('value','존재하는 ID입니다.');
-							return false;
-						} else {
-							empMail.setAttribute("style", "border:1px solid none;");
-							return true;
-						}
+			$.ajax({
+				type : 'post',
+				url : 'employee/mailidcheck',
+				data : {
+					mailId : $('#empMail').val()
+				},
+				success : function(data) {
+					if (data == 'false') {
+						empMail.setAttribute("style", "border:1px solid red;");
+						$('#mailResult').val('존재하는 ID입니다.');
+						return false;
+					} else {
+						empMail.setAttribute("style", "border:1px solid none;");
+						$('#mailResult').val('');
+						return true;
 					}
-				});
+				}
+			});
 
-			}
 		}
 		
 		/** 휴대전화 유효성 검사**/
 		function phoneCheck(){
 			let phone_number = $('#empPhoneNumber').val();
 			var phoneNumber = document.getElementById("empPhoneNumber");
-			if(phone_numbers == ''){
+			let regExp = /^(01[016789]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
+			let phoneresult = regExp.test(phone_number);
+			if (!phoneresult) {
 				phoneNumber.setAttribute("style", "border:1px solid red;");
 				return false;
-			}else{
-				let regExp = /^(01[016789]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
-				let phoneresult = regExp.test(phone_number);
-				if (!phoneresult) {
-					phoneNumber.setAttribute("style", "border:1px solid red;");
-					return false;
-				} else {
-					phoneNumber.setAttribute("style", "border:1px solid none;");
-					$.ajax({
-						type : 'post',
-						url : 'employee/phonecheck',
-						data : {
-							phoneNumber : phone_number
-						},
-						success : function(data) {
-							if (data == 'false') {
-								phoneNumber.setAttribute("style", "border:1px solid red;");
-								$('small[id=phoneResult]').attr('value','존재하는 휴대폰번호 입니다.');
-								return false;
-							} else {
-								phoneNumber.setAttribute("style", "border:1px solid none;");
-								return true;
-							}
+			} else {
+				phoneNumber.setAttribute("style", "border:1px solid none;");
+				$.ajax({
+					type : 'post',
+					url : 'employee/phonecheck',
+					data : {
+						phoneNumber : phone_number
+					},
+					success : function(data) {
+						console.log(data)
+						if (data == 'false') {
+							phoneNumber.setAttribute("style", "border:1px solid red;");
+							$('#phoneResult').val('존재하는 휴대폰번호 입니다.');
+							return false;
+						} else {
+							phoneNumber.setAttribute("style", "border:1px solid none;");
+							$('#phoneResult').val('');
+							return true;
 						}
-					});
-				}
+					}
+				});
 			}
 		}
 		</script>
