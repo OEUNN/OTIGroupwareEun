@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Controller
 @Log4j2
+@RequestMapping("/mail")
 public class MailController {
 	
 	//받은 메일
