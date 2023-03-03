@@ -117,7 +117,7 @@ public class ApprovalController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/viewdetail/{docId}", method=RequestMethod.GET)
+	@RequestMapping(value = "/viewdetail/{docId}/documentdetail", method=RequestMethod.GET)
 	public Document getDocumentDetail(@PathVariable String docId) {
 		document = approvalService.readDocument(docId);
 		return document;
