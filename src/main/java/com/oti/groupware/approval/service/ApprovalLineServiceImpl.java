@@ -1,5 +1,3 @@
-package com.oti.groupware.approval.service;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +19,3 @@ public class ApprovalLineServiceImpl implements ApprovalLineService{
 		approvalLines = approvalLineDAO.getApprovalLinesBydocId(docId);
 		return approvalLines;
 	}
-
-}

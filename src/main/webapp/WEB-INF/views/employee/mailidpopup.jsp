@@ -10,12 +10,6 @@
 	<!-- endinject css, js common file -->
 	
 	<!-- Plugin css,js for this page -->
-	<script>
-	 function retry(){
-     	window.opener.top.location.href="<c:url value='login/'/>";
-         window.close();
-     }
-	</script>
 	<style>
 		.container-fluid{
 			padding:0px;
@@ -31,10 +25,35 @@
 		  flex-direction: column;
 		}
 	</style>
+	<script>
+	var empMail = document.getElementById("empMail");
+	if($('#empMail').val() == ''){
+		mailId.setAttribute("style", "border:1px solid red;");
+    	result = false;
+	}else{
+		$.ajax({
+			type: 'post',
+			url : 'employee/mailidcheck',
+			data : {mailId : $('#empMail').val()},
+			success : function(data){
+				if(data == 'false'){
+					empMail.setAttribute("style", "border:1px solid red;");
+					$('input[name=empMail]').attr('placeholder','존재하는 ID입니다.');
+					result = false;
+				}else{
+					empMail.setAttribute("style", "border:1px solid none;");
+				}
+			}
+		});
+    	
+    }
+}
+	
+	</script>
 	<!-- End plugin css,js for this page -->
 	</head>
 
-	<!-- 5회 로그인 오류시 뜨는 팝업창 -->
+	<!-- 로그인 실패시 뜨는 팝업창 -->
 	<body>
 		<div class="main-panel-popup">
 			<div class="content-wrapper">
@@ -44,9 +63,8 @@
 						<div class="card">
 							<div class="card-body row m-0">
 								<div class="container-fluid">
-									<div class="card-title mt-1 row d-flex justify-content-center">로그인 5회 실패하셨습니다.</div>
-									<div class="card-title mt-1 row d-flex justify-content-center">경영지원부에 비밀번호 초기화 요청 후</div>
-									<div class="card-title mt-1 row d-flex justify-content-center">다시 시도 부탁드립니다.</div>
+									<div class="card-title mt-1 row d-flex justify-content-center">없는 아이디 입니다.</div>
+									<div class="card-title mt-1 row d-flex justify-content-center">다시 확인 부탁드립니다.</div>
 									<div class="row mb-1" >
 										<div class="col"></div>
 										<button class="col-3 btn btn-primary btn-md mt-1 mx-3" onclick="window.close()">닫기</button>

@@ -2,77 +2,55 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oti.groupware.employee.dao.EmployeeDAO">
 
-	<resultMap id="employeeResultMap" type="employee">
-		<result column="emp_id" property="empId"/>
-		<result column="pos_id" property="posId"/>
-		<result column="dep_id" property="depId"/>
-		<result column="emp_mail" property="empMail"/>
-		<result column="emp_name" property="empName"/>
-		<result column="emp_password" property="empPassword"/>
-		<result column="emp_extension_number" property="empExtensionNumber"/>
-		<result column="emp_phone_number" property="empPhoneNumber"/>
-		<result column="emp_leave_reserve" property="empLeaveReserve"/>
-		<result column="emp_substitue_reserve" property="empSubstitueReserve"/>
-		<result column="emp_login_failures_cnt" property="empLoginFailuresCnt"/>
-		<result column="emp_file_data" property="empFileData"/>
-		<result column="emp_file_type" property="empFileType"/>
-	</resultMap>
-
-	<select id="selectByEmpId" parameterType="string" resultMap="employeeResultMap">
-		SELECT emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
-            emp_extension_number, emp_phone_number, emp_leave_reserve,
-            emp_substitue_reserve, emp_login_failures_cnt, emp_file_data, emp_file_type
-        FROM employees
-        WHERE emp_id = #{empId}
+    <select id="getPhoneNumber" resultType="string">
+		select emp_phone_number
+		from employees
 	</select>
 	
-	<update id="updateLoginFailCnt" parameterType="employee">
-		update employees
-		set emp_login_failures_cnt = #{empLoginFailuresCnt}
-		where emp_id = #{empId}
-	</update>
+	<select id="getMailId" resultType="string">
+		select emp_mail
+		from employees
+	</select>
 	
-	<update id="updateLoginSuccessCnt" parameterType="employee">
-		update employees
-		set emp_login_failures_cnt = #{empLoginFailuresCnt}
-		where emp_id = #{empId}
-	</update>
+	<select id="getEmpId" parameterType="map" resultType="string">
+		select emp_id
+		from employees
+		where emp_id like #{completeId}
+	</select>
 	
-    <insert id="insertEmployee" parameterType="employee">
-        INSERT INTO project3.employees (
+	<select id="getLeaveReserve" parameterType="int" resultType="int">
+		select pos_lev_cnt
+		from positions
+		where pos_id = #{posId}
+	</select>
+	
+    <insert id="insertEmployee" parameterType="employee"  useGeneratedKeys="true" keyProperty="empId" keyColumn="emp_id">
+        INSERT INTO employees (
             emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
             emp_extension_number, emp_phone_number, emp_leave_reserve,
             emp_substitue_reserve, emp_login_failures_cnt, emp_file_data,
-            emp_file_type
+            emp_file_type,emp_file_name, emp_enabled
         ) VALUES (
             #{empId}, #{posId}, #{depId}, #{empMail}, #{empName},
             #{empPassword}, #{empExtensionNumber}, #{empPhoneNumber},
-            #{empLeaveReserve}, #{empSubstitueReserve},
-            #{empLoginFailuresCnt}, #{empFileData,jdbcType=BLOB},
-            #{empFileType}
+            #{empLeaveReserve}, default,
+            default, #{empFileData},
+            #{empFileType}, #{empFileName}, default
         )
     </insert>
 
-    <update id="updateEmployee" parameterType="employee">
-        UPDATE project3.employees SET
-            pos_id = #{posId},
-            dep_id = #{depId},
-            emp_mail = #{empMail},
-            emp_name = #{empName},
-            emp_password = #{empPassword},
-            emp_extension_number = #{empExtensionNumber},
-            emp_phone_number = #{empPhoneNumber},
-            emp_leave_reserve = #{empLeaveReserve},
-            emp_substitue_reserve = #{empSubstitueReserve},
-            emp_login_failures_cnt = #{empLoginFailuresCnt},
-            emp_file_data = #{empFileData,jdbcType=BLOB},
-            emp_file_type = #{empFileType}
-        WHERE emp_id = #{empId}
-    </update>
-
-    <delete id="deleteEmployee" parameterType="String">
-        DELETE FROM project3.employees WHERE emp_id = #{empId}
-    </delete>
+	<insert id="insertEmployeeDetail" parameterType="employeeDetail">
+		insert into employees_detail(
+			EMP_ID, EMP_DETAIL_GENDER, EMP_DETAIL_BIRTHDAY, EMP_DETAIL_WORKPLACE,
+			EMP_DETAIL_MARRIED_YN, EMP_DETAIL_EMPLOYMENT_DATE, EMP_DETAIL_EDUCATION, 
+			EMP_DETAIL_EMPLOYMENT_STATE,EMP_DETAIL_MILITARY_SERVICE_YN, 
+			EMP_DETAIL_MAJOR
+		) values (
+			#{empId}, #{empDetailGender}, #{empDetailBirthday}, #{empDetailWorkplace},
+			#{empDetailMarriedYN}, #{empDetailEmploymentDate}, #{empDetailEducation},
+			default, #{empDetailMilitaryServiceYN}, #{empDetailMajor}
+		)
+	</insert>
 	
 	
 </mapper>
