@@ -37,9 +37,9 @@
 					<div class="col-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body row m-0">
-								<div class="container-fluid">
-									<div class="card-title mt-1 row d-flex justify-content-center">없는 아이디 입니다.</div>
-									<div class="card-title mt-1 row d-flex justify-content-center">다시 확인 부탁드립니다.</div>
+								<div class="container-fluid d-flex justify-content-center">
+									<div class="mt-1 row ">없는 아이디 입니다.</div>
+									<div class="mt-1 row">다시 확인 부탁드립니다.</div>
 									<div class="row mb-1" >
 										<div class="col"></div>
 										<button class="col-3 btn btn-primary btn-md mt-1 mx-3" onclick="window.close()">닫기</button>

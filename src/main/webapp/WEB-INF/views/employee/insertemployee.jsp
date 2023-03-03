@@ -202,21 +202,26 @@
 		/** 메일ID 유효성 검사**/
 		function mailIdCheck() {
 			var empMail = document.getElementById("empMail");
+			let mail_id =  $('#empMail').val();
 			$.ajax({
 				type : 'post',
 				url : '../employee/mailidcheck',
 				data : {
-					mailId : $('#empMail').val()
+					mailId : mail_id
 				},
 				success : function(data) {
 					if (data == 'false') {
 						empMail.setAttribute("style", "border:1px solid red;");
 						$('#mailResult').html('존재하는 ID입니다.');
-						$('#empMail').val("");
+						$('#empMail').focusout(function(){
+							$('#empMail').val("");
+						})
 					} else {
 						empMail.setAttribute("style", "border:1px solid none;");
 						$('#mailResult').html('');
-						return true;
+						$('#empMail').focusout(function(){
+							$('#empMail').val(mail_id);
+						})
 					}
 				}
 			});
@@ -259,11 +264,17 @@
 				});
 			}
 		}
+		function popup() {
+			console.log($('#pw').val()); 
+			var url = "../employee/passwordpopup";
+            var name = "password popup";
+            var option = "width = 500, height =250, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+            window.open(url, name, option);
+		}
 		</script>
 		<!-- End plugin css,js for this page -->
 	</head>
-
-	<body>
+		<body>
 		<div class="container-scroller">
 			<!-- Navbar -->
 			<%@ include file="/WEB-INF/views/common/_navbar.jsp"%>

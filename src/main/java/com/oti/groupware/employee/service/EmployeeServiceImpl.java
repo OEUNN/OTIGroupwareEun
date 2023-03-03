@@ -3,8 +3,8 @@ package com.oti.groupware.employee.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,59 +23,33 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-	
-	public enum LoginResult {
-		SUCCESS, WRONE_ID, WRONG_PASSWPRD, FIVE_WRONG_PASSWORD
-	}
 
 	@Autowired
 	private EmployeeDAO employeeDao;
 
 	@Override
-	public LoginResult login(Employee employee) {
+	public String login(Employee employee) {
 		log.info("login result service");
+		PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		Employee dbEmployee = getEmployee(employee.getEmpId());
 		if (dbEmployee == null) {
-			return LoginResult.WRONE_ID;
+			return "WRONE_ID";
 		} else {
-			boolean checkPass = matchPassword(employee.getEmpPassword(), dbEmployee.getEmpPassword());
+			boolean checkPass = pe.matches(employee.getEmpPassword(), dbEmployee.getEmpPassword());
 			if (checkPass == false) {
-				updateLoginFailCnt(employee);
+				updateLoginFailCnt(dbEmployee);
 				employee.setEmpLoginFailuresCnt(employee.getEmpLoginFailuresCnt());
 				if (employee.getEmpLoginFailuresCnt() == 5) {
-					return LoginResult.FIVE_WRONG_PASSWORD;
+					return "FIVE_WRONG_PASSWORD";
 				}
-				return LoginResult.WRONG_PASSWPRD;
+				return "WRONG_PASSWPRD";
 			}
 		}
 		updateLoginSuccessCnt(employee);
 		employee = getEmployee(employee.getEmpId());
-		return LoginResult.SUCCESS;
+		return "SUCCESS";
 	}
 
-	private boolean matchPassword(String rawPassword, String encodedPassword) {
-		// encodedPassword를 읽고 bcrypt로 복호화해서 비교
-		/*
-		 * BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); return
-		 * passwordEncoder.matchs(rawPassword, encodedPassword);
-		 */
-
-		// {alogrithmID}encodedPassword를 읽고 해당 알고리즘으로 복호화해서 비교
-		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		return passwordEncoder.matches(rawPassword, encodedPassword);
-	}
-
-	private String getEncodedPassword(String password) {
-		// encodedPassword 리턴
-		/*
-		 * PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); return
-		 * passwordEncoder.encode(password);
-		 */
-
-		// {bcrypt}encodedPassword 리턴
-		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		return passwordEncoder.encode(password);
-	}
 
 	/**
 	 * 
@@ -88,13 +62,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	/**
 	 * 비밀번호가 틀렸을 때 fail count +1
-	 * 
 	 * @param employee
 	 * @return employee
 	 */
-	private void updateLoginFailCnt(Employee employee) {
-		employee.setEmpLoginFailuresCnt(employee.getEmpLoginFailuresCnt() + 1);
-		employeeDao.updateLoginFailCnt(employee);
+	private void updateLoginFailCnt(Employee dbEmployee) {
+		dbEmployee.setEmpLoginFailuresCnt(dbEmployee.getEmpLoginFailuresCnt() + 1);
+		employeeDao.updateLoginFailCnt(dbEmployee);
 	}
 
 	/**
@@ -163,10 +136,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		} else {
 			employee.setEmpId(completeId + "1");
 		}
-		// 랜덤 숫자로만 이뤄진 4개 문자열 반환
-		employee.setEmpPassword(RandomStringUtils.randomNumeric(4));
 		PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		employee.setEmpPassword(pe.encode(employee.getEmpPassword()));
+		employee.setEmpPassword(pe.encode("12345"));
 		// 직급에 따른 연차 갯수 얻어오기
 		int leaveReserve = employeeDao.getLeaveReserve(employee.getPosId());
 		employee.setEmpLeaveReserve(leaveReserve);
