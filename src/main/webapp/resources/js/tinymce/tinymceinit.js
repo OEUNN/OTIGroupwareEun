@@ -23,8 +23,8 @@ tinymce.init({
 	    content: '<p>Name: {$username}, StaffID: {$staffid}</p>'
 	  }
 	],
-	readonly: 1,
 	content_css : '../resources/css/approvalform.css',
+	save_enablewhendirty: false,
 	object_resizing : false
 });
 
@@ -34,19 +34,11 @@ tinymce.init({
 	height: '297mm',
 	theme: 'silver',
 	plugins: [
-		'template noneditable'
+		'noneditable'
 		],
 	menubar : '',
-	toolbar1: 'fullscreen print preview wordcount template',
-	templates : [
-	  {
-	    title: '결재품의서',
-	    description: '모든 품의서의 템플릿인 결재품의서',
-	    url: '../resources/html/approvalformdetail.html'
-	  }
-	],
+	toolbar1: 'fullscreen print preview wordcount',
 	readonly: 1,
-	content : '<h1>EXAMPLE</h1>',
 	content_css : '../resources/css/approvalform.css',
 	object_resizing : false
 });
