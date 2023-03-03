@@ -41,7 +41,7 @@
 		DELETE FROM approval_lines WHERE emp_id = #{empId} AND doc_id = #{docId}
 	</delete>
 	
-	<select id="getApprovalLineBydocId" parameterType="string">
+	<select id="getApprovalLinesBydocId" parameterType="string">
 		SELECT emp_id, doc_id, aprv_line_state, aprv_line_order, aprv_line_role, aprv_line_approval_date, aprv_line_open_yn, aprv_line_opinion
 		FROM approval_lines
 		WHERE doc_id = #{docId}

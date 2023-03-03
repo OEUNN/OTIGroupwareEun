@@ -194,18 +194,18 @@
 			var empMail = document.getElementById("empMail");
 			$.ajax({
 				type : 'post',
-				url : 'employee/mailidcheck',
+				url : '../employee/mailidcheck',
 				data : {
 					mailId : $('#empMail').val()
 				},
 				success : function(data) {
 					if (data == 'false') {
 						empMail.setAttribute("style", "border:1px solid red;");
-						$('#mailResult').val('존재하는 ID입니다.');
-						return false;
+						$('#mailResult').html('존재하는 ID입니다.');
+						$('#empMail').val("");
 					} else {
 						empMail.setAttribute("style", "border:1px solid none;");
-						$('#mailResult').val('');
+						$('#mailResult').html('');
 						return true;
 					}
 				}
@@ -221,12 +221,14 @@
 			let phoneresult = regExp.test(phone_number);
 			if (!phoneresult) {
 				phoneNumber.setAttribute("style", "border:1px solid red;");
-				return false;
+				$('#empPhoneNumber').focusout(function(){
+					$('#empPhoneNumber').val("");
+				})
 			} else {
 				phoneNumber.setAttribute("style", "border:1px solid none;");
 				$.ajax({
 					type : 'post',
-					url : 'employee/phonecheck',
+					url : '../employee/phonecheck',
 					data : {
 						phoneNumber : phone_number
 					},
@@ -234,11 +236,12 @@
 						console.log(data)
 						if (data == 'false') {
 							phoneNumber.setAttribute("style", "border:1px solid red;");
-							$('#phoneResult').val('존재하는 휴대폰번호 입니다.');
+							$('#empPhoneNumber').val("");
+							$('#phoneResult').html('존재하는 휴대폰번호 입니다.');
 							return false;
 						} else {
 							phoneNumber.setAttribute("style", "border:1px solid none;");
-							$('#phoneResult').val('');
+							$('#phoneResult').html('val','');
 							return true;
 						}
 					}
@@ -298,7 +301,7 @@
 														</div>
 														<div class="col-sm-8">
 															<input type="text" class="form-control" oninput="mailIdCheck()" id="empMail" name="empMail" maxlength="50" />
-															<small id="mailResult"></small>
+															<small class="text-danger" id="mailResult" style="font-size:5px;"></small>
 														</div>
 													</div>
 												</div>
@@ -402,7 +405,7 @@
 														</div>
 														<div class="col-sm-8">
 															<input type="text" class="form-control" oninput="phoneCheck()" maxlength="20" id="empPhoneNumber" name="empPhoneNumber" placeholder="000-0000-0000" />
-															<small id="phoneResult"></small>
+															<small class="text-danger" id="phoneResult" style="font-size:5px;"></small>
 														</div>
 													</div>
 												</div>
