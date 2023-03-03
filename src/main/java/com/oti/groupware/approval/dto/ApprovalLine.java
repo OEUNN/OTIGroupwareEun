@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class ApprovalLine {
     private String empId;
-    private int docId;
+    private String docId;
     private String aprvLineState;
     private int aprvLineOrder;
     private String aprvLineRole;

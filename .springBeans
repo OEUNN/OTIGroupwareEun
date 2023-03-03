@@ -8,6 +8,7 @@
 	<enableImports><![CDATA[true]]></enableImports>
 	<configs>
 		<config>src/main/resources/spring/jasypt.xml</config>
+		<config>src/main/resources/spring/component_scan.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/resources/spring/multipartResolver.xml</config>
@@ -15,7 +16,6 @@
 		<config>src/main/resources/spring/mybatis.xml</config>
 		<config>src/main/resources/spring/interceptor.xml</config>
 		<config>src/main/resources/spring/resources.xml</config>
-		<config>src/main/resources/spring/conponent_scan.xml</config>
 		<config>src/main/resources/spring/datasource.xml</config>
 	</autoconfigs>
 	<configSets>

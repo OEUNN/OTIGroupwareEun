@@ -188,20 +188,22 @@
 	            					<div class="col-9 card grid-margin mb-3 d-flex justify-content-center flex-column" style="background-color: transparent; box-shadow: 0px 0px 0px white;">
 		        						<div class="card-body grid-margin">
 											<div class="d-flex justify-content-between align-items-center mb-4">
-												<div class="card-title mb-0">나의 출퇴근</div>
+												<div class="card-title mb-0">문서 내용</div>
 												<div class="d-flex">
-													<button onclick="upateTimePopup()" id="popup-btn" class="btn btn-md btn-warning mx-2">
+													<button type="submit" form="approvalForm" id="popup-btn" class="btn btn-md btn-warning mx-2">
 														<span class="mdi mdi-calendar-clock align-middle"></span>
 														<span>임시저장</span>
 													</button>
-													<button onclick="overTimePopup()" id="popup-btn" class="btn btn-md btn-primary mx-2">
+													<button type="submit" form="approvalForm" id="popup-btn" class="btn btn-md btn-primary mx-2">
 														<span class="mdi mdi-apple-keyboard-caps align-middle"></span>
 														<span>상신하기</span>
 													</button>
 												</div>
 											</div>
-											<form action="<c:url value='/approval/approvalwrite'/>" method="post">
+											<form id="approvalForm" action="<c:url value='/approval/approvalwrite'/>" method="post">
 		        								<textarea id="document" name="document" style="width: inherit;"></textarea>
+		        								<input type="hidden" name="empId" value="202302271">
+		        								<input type="hidden" name="docReportDate" value="2023/03/02">
 											</form>
 		        						</div>
 	            					</div>

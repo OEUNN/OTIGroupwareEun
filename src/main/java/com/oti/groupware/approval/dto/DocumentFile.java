@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class DocumentFile {
     private int docFileId;
-    private int docId;
+    private String docId;
     private String docFileName;
     private byte[] docFileData;
     private String docFileType;
