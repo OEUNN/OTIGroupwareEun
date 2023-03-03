@@ -139,12 +139,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public void insertEmployee(Employee employee, EmployeeDetail employeeDetail) {
+		log.info("insert service 실행");
 		String completeId = employee.getEmpId().replace("-","");
 		completeId = completeId.substring(2,8)+"%";
 		List<String> empId = employeeDao.getEmpId(completeId);
 		completeId=completeId.replace("%", "");
-		boolean result = true;
-		// id가 존재하지 않으면
+		//사번 만들기
+		//해당 날짜에 사번이 존재한다면
 		if (!empId.isEmpty() && empId != null) {
 			int endNum=0;
 			String endId=null;
@@ -158,24 +159,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 			}
 			endId = Integer.toString(highNum);
 			employee.setEmpId(completeId + endId);
-			result = false;
+		//해당날짜에 사번이 없다면
 		} else {
 			employee.setEmpId(completeId + "1");
 		}
-		if (!result) {
-			// 랜덤 숫자로만 이뤄진 4개 문자열 반환
-			employee.setEmpPassword(RandomStringUtils.randomNumeric(4));
-			PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-			employee.setEmpPassword(pe.encode(employee.getEmpPassword()));
-			// 직급에 따른 연차 갯수 얻어오기
-			int leaveReserve = employeeDao.getLeaveReserve(employee.getPosId());
-			employee.setEmpLeaveReserve(leaveReserve);
-			log.info(employee);
-			employeeDao.insertEmployee(employee);
-			employeeDetail.setEmpId(employee.getEmpId());
-			log.info(employeeDetail);
-			employeeDao.insertEmployeeDetail(employeeDetail);
-		}
+		// 랜덤 숫자로만 이뤄진 4개 문자열 반환
+		employee.setEmpPassword(RandomStringUtils.randomNumeric(4));
+		PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		employee.setEmpPassword(pe.encode(employee.getEmpPassword()));
+		// 직급에 따른 연차 갯수 얻어오기
+		int leaveReserve = employeeDao.getLeaveReserve(employee.getPosId());
+		employee.setEmpLeaveReserve(leaveReserve);
+		log.info(employee);
+		employeeDao.insertEmployee(employee);
+		employeeDetail.setEmpId(employee.getEmpId());
+		log.info(employeeDetail);
+		employeeDao.insertEmployeeDetail(employeeDetail);
 
 	}
 
