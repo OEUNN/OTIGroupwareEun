@@ -25,7 +25,8 @@
 					      googleCalendarApiKey: 'AIzaSyAocA5FID3dzNX7LOO3N02rbI_4oEKjQPM',
 					      googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
 					      className: 'fc-holiday-ko', // 특별한 클래스 이름을 사용하여 구분
-					      color: '#FF7B54'
+					      color: '#fadbcf',
+					      textColor: 'white'
 					    }
 					],
 					eventContent: function(info) {
@@ -52,7 +53,6 @@
 						} else if(eventTitle == '추가근무') {
 							return { html : '<div class="badge" style="background-color:#FDD36A; padding: 7px 5px; font-size:5%;">추가근무 ' + eventTime + '</div>' }
 						} else if($('.fc-holiday-ko')){
-// 							$( '.fc-holiday-ko' ).parent().parent().css({"background-color":"#57B657", "border-radius":"5px", "color":"white", "opacity":"0.7"});
 							return { html : '<div id="ko-holiday">' + eventTitle + '</div>' }
 						}
 					}
@@ -83,7 +83,11 @@
 					} else { //나머지
 						$("#today-out-time").html(outTime.substring(3));
 					}
-				} 
+				}
+				
+			//이벤트가 3개이상인 경우(ex. 공휴일에 근무했을 경우, ...)
+			} else if($(this).find(".fc-daygrid-event-harness").length >= 3) {
+				console.log($(this));				
 			//출근만 있는 경우
 			} else if($(this).find(".fc-daygrid-event-harness").length == 1){
 				let inTime = $(this).find(".fc-daygrid-event-harness")[0].innerText;
@@ -124,6 +128,11 @@
 		min-width: 100%;
 	}
 	
+	/* 공휴일	 */
+	#ko-holiday {
+		font-weight: bold;
+	}
+	
 	.fc-daygrid-event {
 		border-radius: 3px;
 	}
@@ -131,7 +140,7 @@
 	.fc .fc-daygrid-day-bottom {
 		position: relative;
 		margin: 0px 0px;
-		background-color: #FF7B54;
+		background-color: #fadbcf;
 		border-radius: 0 0 3px 3px;
 		z-index: 200;
 		top: -3px;
@@ -174,7 +183,7 @@
 	/* 더보기 버튼 */
 	.fc .fc-daygrid-more-link {
 		position: relative;
-		color: #fae1a2;
+		color: #F3797E;
 		padding: 5px 0;
 		left: 5px;
 	}
