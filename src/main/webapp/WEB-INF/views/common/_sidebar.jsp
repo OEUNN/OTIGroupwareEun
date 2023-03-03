@@ -85,8 +85,9 @@
 			<div class="collapse" id="tables">
 				<ul class="nav flex-column sub-menu">
 					<!-- 공통 -->
-					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/attendance">나의 근무</a></li>
-					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/leave">나의 휴가</a></li>
+					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/myattendance">나의 근무</a></li>
+					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/myatdapplication">나의 근무신청</a></li>
+					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/myleave">나의 휴가</a></li>
 					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/empleave">부서휴가현황</a></li>
 					<!-- 부서장 -->
 					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/hrapplication"">HR 신청내역</a></li>

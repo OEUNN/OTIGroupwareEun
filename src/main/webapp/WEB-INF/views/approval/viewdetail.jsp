@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 
@@ -18,9 +18,9 @@
 	    window.open(url, name, option);
 	}
 	
-	$(function() { function toggleEditorMode() {
+	$(document).ready(function(){
 		tinymce.activeEditor.mode.set("readonly");
-		}
+		tinymce.get("document_detail").setContent(${document.docContent});
 	});
 	</script>
 </head>
@@ -67,6 +67,29 @@
 								<div class="d-flex justify-content-between">												
 									<p class="card-title">결재선</p>
 								</div>
+								
+								<c:forEach items="${approvalLines}" var="approvalLine">
+								<div class="row m-1">
+		       						<div class="card card-dark-blue grid-margin shadow-2 mb-0 w-100" style="background-color: #57B657;">
+					                    <div class="card-body">
+						                    <div class="row mb-3">
+							                    <div class="col-10">
+							                    	<p class="card-title text-white fs-3">${approvalLine.empId}오상식</p>
+							                    	<p>공공사업1DIV 차장</p>
+							                    </div>
+							                    <div class="col-2">
+							                    	<i class="mdi mdi-close"></i>
+							                    </div>
+						                    </div>
+						                    <div class="row">
+						                    	<div class="col-12">
+						                    		<h3 style="text-align: center; font-weight:bold; margin-bottom: -3px;">${approvalLine.aprvLineApprovalDate}</h3>
+						                    	</div>
+						                    </div>
+					                    </div>
+									</div>
+								</div>
+								</c:forEach>
 								
 								<div class="row m-1">
 		       						<div class="card card-dark-blue grid-margin shadow-2 mb-0 w-100" style="background-color: #57B657;">
