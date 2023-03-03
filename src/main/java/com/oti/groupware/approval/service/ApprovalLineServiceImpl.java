@@ -1,8 +1,8 @@
-import java.util.List;
+package com.oti.groupware.approval.service;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.oti.groupware.approval.dao.ApprovalLineDAO;
 import com.oti.groupware.approval.dto.ApprovalLine;
 
@@ -19,3 +19,4 @@ public class ApprovalLineServiceImpl implements ApprovalLineService{
 		approvalLines = approvalLineDAO.getApprovalLinesBydocId(docId);
 		return approvalLines;
 	}
+}
