@@ -13,4 +13,5 @@ public interface HrService {
 	public void inTime(String empId);
 	public void outTime(String empId);
 	public void attendanceStateAll();
+	public HashMap<String, String> empNamesMap(String empId);
 }

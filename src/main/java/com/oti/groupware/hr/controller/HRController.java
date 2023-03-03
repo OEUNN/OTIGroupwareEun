@@ -121,15 +121,22 @@ public class HRController {
 	}
 	
 	/**
-	 * 
+	 * @param category
 	 * @return 근무신청 관련 작성폼(AJAX)
 	 */
 	@RequestMapping(value = "/applicatonform", method=RequestMethod.GET)
-	public String myAttendanceApplication(@RequestParam String category) {
+	public String myAttendanceApplication(@RequestParam String category, Model model) {
 		log.info("정보 로그");
 		
 		if(category.equals("근무시간수정")) { //근무시간수정양식을 요청한 경우
+			//작성자, 결재자 이름 갖고오기(나중에 employeeSerivce에 넣기)
+//			String empId = (String) session.getAttribute("empId");
+			String empId = "202302271";
+			HashMap<String, String> empNames = hrService.empNamesMap(empId); //작성자이름과 결재자이름을 가져옴
+		
+			model.addAttribute("empNames", empNames);
 			return "hr/updatetimeapp";
+			
 		} else { //추가근무신청양식을 요청한 경우
 			return "hr/overtimeapp";
 		}

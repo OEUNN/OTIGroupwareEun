@@ -146,4 +146,10 @@ public class HrServiceImpl implements HrService {
 			}
 		}
 	}
+	
+	//결재자 이름 가져오기
+	@Override
+	public HashMap<String, String> empNamesMap(String empId) {
+		return attendanceDAO.getEmpNamesMap(empId);
+	}
 }

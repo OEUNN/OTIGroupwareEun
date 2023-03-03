@@ -120,4 +120,16 @@
 		  	    (atd_state is null OR atd_state = '')
 		</if>
 	</update>
+	
+	<!-- 신청폼에서 결재자이름 갖고오기 -->
+	<select id="getEmpNamesMap" resultType="hashmap">
+		select e.emp_name, (select emp_name from employees where emp_id = d.emp_id) as "dname", a.atd_in_time, a.atd_out_time 
+from employees e, attendances a, departments d 
+where e.emp_id = a.emp_id and e.dep_id = d.dep_id 
+and e.emp_id = '202302271'
+and EXTRACT(year from a.atd_in_time) = EXTRACT(year from sysdate)
+and EXTRACT(month from a.atd_in_time) = EXTRACT(month from sysdate)
+and EXTRACT(day from a.atd_in_time) = EXTRACT(day from sysdate);
+	</select>
+	
 </mapper>

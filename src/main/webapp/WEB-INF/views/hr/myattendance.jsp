@@ -163,29 +163,16 @@
 		               		</div>
         				</div>
         			</div>
-        			<!-- 여기서도 근무수정/추가근무신청을 할 수 있음 -->
-<!--         			<div class="row"> -->
-<!--         				<div class="col-md-12"> -->
-<!--         					<button onclick="upateTimePopup()" id="popup-btn" class="btn btn-md btn-warning mx-2"> -->
-<!-- 			               		<span class="mdi mdi-calendar-clock align-middle"></span> -->
-<!-- 			               		<span>근무시간수정</span> -->
-<!-- 			          	   </button> -->
-<!-- 			               <button onclick="overTimePopup()" id="popup-btn" class="btn btn-md btn-primary mx-2"> -->
-<!-- 			               		<span class="mdi mdi-calendar-plus align-middle"></span> -->
-<!-- 			               		<span>추가근무보고</span> -->
-<!-- 			           	   </button> -->
-<!--         				</div> -->
-<!--         			</div> -->
                		<!-- 달력에서 원하는 일자를 선택하면, 해당 일자의 출/퇴근 시간이 찍힘 -->
-               		<!-- 출근 -->
         			<div class="row">
-        				<div class="col-md-12">
+	               		<!-- 출근 -->
+        				<div class="col-lg-6">
 		               		<div class="grid-margin stretch-card mb-4">
 					           	<div class="card card card-light-danger">
 					           		<div class="card-body px-4 pb-5">
 				           				<div class="card-title text-white pt-1" style="background-color: transparent;">출근</div>
-				           				<div id="today-in-date" class="font-weight-bold h5 text-center"></div>
-				           				<div id="today-in-time" class="font-weight-bold h1 text-center mb-0">
+				           				<div id="today-in-date" class="font-weight-bold text-center mb-2" style="font-size: 50%;"></div>
+				           				<div id="today-in-time" class="font-weight-bold h2 text-center mb-0">
 				           					<c:if test="${empty attendance.atdInTime}">
 					           					&nbsp;
 				           					</c:if>
@@ -197,18 +184,16 @@
 				           		</div>
 			           		</div>
         				</div>
-        			</div>
-        			<!-- 퇴근 -->
-        			<div class="row">
-        				<div class="col-md-12">
+        				<!-- 퇴근 -->
+        				<div class="col-lg-6">
 		               		<div class="grid-margin stretch-card">
 					           	<div class="card card-dark-blue">
 					           		<div class="card-body px-4 pb-5">
 				           				<div class="card-title text-white pt-1" style="background-color: transparent;">퇴근</div>
-				           				<div id="today-out-date" class="font-weight-bold h5 text-center">
+				           				<div id="today-out-date" class="font-weight-bold text-center mb-2" style="font-size: 50%;">
 				           					<fmt:formatDate pattern="yyyy-MM-dd" value="${attendance.atdOutTime}" />
 				           				</div>
-				           				<div id="today-out-time" class="font-weight-bold h1 text-center mb-0">
+				           				<div id="today-out-time" class="font-weight-bold h2 text-center mb-0">
 				           					<c:if test="${empty attendance.atdOutTime}">
 					           					&nbsp;
 				           					</c:if>
@@ -219,6 +204,36 @@
 					           		</div>
 				           		</div>
 			           		</div>
+        				</div>
+        			</div>
+        			<!-- 통계 -->
+        			<div class="row">
+        				<div class="col-md-12">
+					    	<!-- 근무현황통계 -->
+					    	<div class="card">
+					        	<div class="card-body">
+					            	<div class="row">
+						                <div class="col-md h4 text-primary font-weight-bold d-flex justify-content-center align-items-center">정상출근</div>
+						                <div class="col-md h2 font-weight-bold text-center">${stateCount['정상출근']}</div>
+					                </div>
+					            	<div class="row">
+						                <div class="col-md h4 text-primary font-weight-bold d-flex justify-content-center align-items-center">지각</div>
+						                <div class="col-md h2 font-weight-bold text-center">${stateCount['지각']}</div>
+					                </div>
+					            	<div class="row">
+						                <div class="col-md h4 text-primary font-weight-bold d-flex justify-content-center align-items-center">조퇴</div>
+						                <div class="col-md h2 font-weight-bold text-center">${stateCount['조퇴']}</div>
+					                </div>
+					            	<div class="row">
+						                <div class="col-md h4 text-primary font-weight-bold d-flex justify-content-center align-items-center">결근</div>
+						                <div class="col-md h2 font-weight-bold text-center">${stateCount['결근']}</div>
+					                </div>
+					            	<div class="row">
+						                <div class="col-md h4 text-primary font-weight-bold d-flex justify-content-center align-items-center">추가근무</div>
+						                <div class="col-md h2 font-weight-bold text-center">${stateCount['추가근무']}</div>
+					                </div>
+					          	</div>
+					    	</div>
         				</div>
         			</div>
         		</div>

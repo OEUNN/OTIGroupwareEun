@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!-- Plugin css,js for this page -->
 <!-- clockpicker -->
@@ -68,18 +68,22 @@
 			<tr class="custom-border-left custom-border-right">
 				<td class="custom-border-right"><h4
 						class="font-weight-bold text-center m-0">작성자</h4></td>
-				<td>이춘향</td>
+				<td>${empNames['작성자']}</td>
 				<td></td>
 				<td></td>
 				<td class="custom-border-left custom-border-right"><h4
 						class="font-weight-bold text-center m-0">근무날짜</h4></td>
-				<td>2023-02-21</td>
+				<td>
+					<!-- 오늘날짜 -->
+					<c:set var="now" value="<%=new java.util.Date()%>" />
+					<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" />
+				</td>
 				<td></td>
 			</tr>
 			<tr class="custom-border-left custom-border-right">
 				<td class="custom-border-right"><h4
 						class="font-weight-bold text-center m-0">결재자</h4></td>
-				<td>홍길동</td>
+				<td>${empNames['결재자']}</td>
 				<td></td>
 				<td></td>
 				<td></td>

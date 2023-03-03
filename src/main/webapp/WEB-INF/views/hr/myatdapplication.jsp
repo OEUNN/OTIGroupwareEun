@@ -207,16 +207,14 @@
 		                <form>
 		                    <div class="d-flex align-items-baseline">
 		                    	<div id="change-title" class="card-title">근무신청</div>
-			                  	<div class="dropdown">
-			                        <button class="btn btn-light dropdown-toggle p-0" type="button" id="dropdownMenuButton8" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-			                        </button>
+		                        <div class="dropdown-toggle p-0 text-primary" id="dropdownMenuButton8" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 			                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton8">
 			                          <button type="button" class="dropdown-item" onclick="applicationChange('근무시간수정')">근무시간수정 신청서</button>
 			                          <button type="button" class="dropdown-item" onclick="applicationChange('추가근무')">추가근무 보고서</button>
 			                        </div>
-		                      	</div>
+		                        </div>
 		                    </div>
-		                    <!-- AJAX 작성양식이 바뀌는 부분 -->
+		                    <!-- AJAX 작성폼이 바뀌는 부분 -->
 		                    <div id="change-form">
 		                        <div class="table-responsive px-3 py-2">
 		                       	  <!-- 고정 내용 -->
