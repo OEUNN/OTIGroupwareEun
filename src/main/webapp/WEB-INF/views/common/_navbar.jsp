@@ -70,7 +70,7 @@
                 <i class="mdi mdi-account-outline text-primary"></i>
                 	마이페이지
               </a>
-              <a class="dropdown-item" href="<c:url value='/login/logout'/>">
+              <a class="dropdown-item" href="<c:url value='/logout'/>">
                 <i class="ti-power-off text-primary"></i>
                 	로그아웃
               </a>
