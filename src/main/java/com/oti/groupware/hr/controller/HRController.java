@@ -58,7 +58,7 @@ public class HRController {
 	 *  AJAX통신으로 달력의 출퇴근 목록을 갖고옴
 	 * @return 달력 출퇴근 목록
 	 */
-	@GetMapping(value = "/calendar")
+	@GetMapping(value = "/calendar",  produces="application/json; charset=UTF-8")
 	@ResponseBody
 	public String attendanceCalendar() {
 //		String empId = (String) session.getAttribute("empId");
