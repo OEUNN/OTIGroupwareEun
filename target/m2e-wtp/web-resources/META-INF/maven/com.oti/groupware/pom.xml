@@ -168,16 +168,7 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.14.2</version>
 		</dependency>
-<<<<<<< HEAD
 
-=======
-		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-annotations</artifactId>
-		    <version>2.14.2</version>
-		</dependency>
-		
->>>>>>> branch 'main' of https://github.com/AlwaysTwentyFive/OTIGroupware.git
 		<!-- JDBC Encryption -->
 		<dependency>
 			<groupId>org.jasypt</groupId>
@@ -195,14 +186,15 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.12.0</version>
 		</dependency>
-		
+
 		<!-- Jsoup (HTML Parser) -->
 		<dependency>
-		    <groupId>org.jsoup</groupId>
-		    <artifactId>jsoup</artifactId>
-		    <version>1.15.4</version>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.15.4</version>
 		</dependency>
-	</dependencies>
+		</dependencies>
+	
 
 	<!-- 프로젝트를 빌드하기 위한 설정 -->
 	<build>
