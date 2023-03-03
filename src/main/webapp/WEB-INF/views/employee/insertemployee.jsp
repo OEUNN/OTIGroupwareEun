@@ -136,6 +136,12 @@
 				} else if ($('#depId').val() == '경영지원부') {
 					$("#depId").val(4);
 					$('#empExtensionNumber').val('02-444-4444');
+				} else if ($('#depId').val() == '이사') {
+					$("#depId").val(5);
+					$('#empExtensionNumber').val('02-555-5555');
+				} else if ($('#depId').val() == '대표이사') {
+					$("#depId").val(6);
+					$('#empExtensionNumber').val('02-666-6666');
 				}
 			}
 
@@ -156,6 +162,10 @@
 					$("#posId").val(4);
 				} else if ($('#posId').val() == '부장') {
 					$("#posId").val(5);
+				} else if ($('#posId').val() == '이사') {
+					$("#posId").val(6);
+				} else if ($('#posId').val() == '대표이사') {
+					$("#posId").val(7);
 				}
 			}
 
@@ -236,13 +246,14 @@
 						console.log(data)
 						if (data == 'false') {
 							phoneNumber.setAttribute("style", "border:1px solid red;");
-							$('#empPhoneNumber').val("");
 							$('#phoneResult').html('존재하는 휴대폰번호 입니다.');
-							return false;
+							$('#empPhoneNumber').val("");
 						} else {
 							phoneNumber.setAttribute("style", "border:1px solid none;");
-							$('#phoneResult').html('val','');
-							return true;
+							$('#phoneResult').html('');
+							$('#empPhoneNumber').focusout(function(){
+								$('#empPhoneNumber').val(phone_number);
+							})
 						}
 					}
 				});
@@ -511,6 +522,8 @@
 																<h6 class="dropdown-item" id="select2-2" onclick="select2(2)">공공사업2DIV</h6> 
 																<h6 class="dropdown-item" id="select2-3" onclick="select2(3)">공공사업3DIV</h6>
 																<h6 class="dropdown-item" id="select2-4" onclick="select2(4)">경영지원부</h6>
+																<h6 class="dropdown-item" id="select2-5" onclick="select2(5)">이사</h6>
+																<h6 class="dropdown-item" id="select2-6" onclick="select2(6)">대표이사</h6>
 															</div>
 															<script>
 														        function select2(No){
@@ -554,6 +567,8 @@
 																<h6 class="dropdown-item" id="select3-2" onclick="select3(2)">대리</h6> 
 																<h6 class="dropdown-item" id="select3-3" onclick="select3(3)">차장</h6>
 																<h6 class="dropdown-item" id="select3-4" onclick="select3(4)">부장</h6>
+																<h6 class="dropdown-item" id="select3-5" onclick="select3(5)">이사</h6>
+																<h6 class="dropdown-item" id="select3-6" onclick="select3(6)">대표이사</h6>
 															</div>
 															<script>
 														        function select3(No){

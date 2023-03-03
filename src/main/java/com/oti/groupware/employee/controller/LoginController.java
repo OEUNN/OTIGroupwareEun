@@ -44,7 +44,7 @@ public class LoginController {
 		}else {
 			model.addAttribute("employee", employee);
 			model.addAttribute("result", loginResult);
-			return "redirect:/login";
+			return "redirect:/";
 		}
 	}
 	
@@ -66,7 +66,7 @@ public class LoginController {
 	@RequestMapping(value ="/logout", method=RequestMethod.GET)
 	public String logout(HttpSession session) {
 		session.removeAttribute("employee");
-		return "redirect:/login";
+		return "redirect:/";
 	}
 	
 }
