@@ -52,4 +52,34 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return document;
 	}
 
+	@Override
+	public List<Document> getDraftDocumentList(int pageNo, String empId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Document> getCompletedDocumentList(int pageNo, String empId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Document> getTempDocumentList(int pageNo, String empId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Document> getReturnedDocumentList(int pageNo, String empId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Document> getpendedDocumentList(int pageNo, String empId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
