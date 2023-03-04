@@ -19,7 +19,7 @@
 	    <result property="docAprvStep" column="doc_aprv_step"/>
 	</resultMap>
 
-    <select id="getDocumentById" parameterType="int" resultMap="documentResultMap">
+    <select id="getDocumentById" parameterType="string" resultMap="documentResultMap">
         SELECT
             doc_id, emp_id, doc_type, doc_title, doc_content,
             doc_retention_period, doc_write_date, doc_report_date,
@@ -60,7 +60,7 @@
 		WHERE doc_id = #{docId}
 	</update>
 	
-	<delete id="deleteDocument" parameterType="int">
+	<delete id="deleteDocument" parameterType="string">
 		DELETE FROM documents WHERE doc_id = #{docId}
 	</delete>
 	    

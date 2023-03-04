@@ -20,7 +20,16 @@
 	
 	$(document).ready(function(){
 		tinymce.activeEditor.mode.set("readonly");
-		tinymce.get("document_detail").setContent(${document.docContent});
+		docId = $("#docId").val();
+		contextPath = $("#contextPath").val();
+		
+		$.ajax({
+			url: contextPath + '/approval/viewdetail/' + docId + '/documentdetail',
+			success: function(data) {
+				console.log(data);
+				tinymce.get("document_detail").setContent(data.docContent);
+			} 
+		});
 	});
 	</script>
 </head>
@@ -49,6 +58,8 @@
 	        			<div class="card gird-margin shadow-2">
 		        			<div class="card-body">
 		        				<p class="card-title mb-3 d-flex justify-content-between">문서 상세 보기
+		        				<input id="contextPath" type="hidden" value="${pageContext.request.contextPath}"/>
+		        				<input id="docId" type="hidden" value="01-111"/>
 		        				<span>
 			        				<span class="font-weight-bold btn btn-success btn-md">승인</span>
 			        				<span class="font-weight-bold btn btn-danger btn-md">반려</span>
@@ -74,7 +85,7 @@
 					                    <div class="card-body">
 						                    <div class="row mb-3">
 							                    <div class="col-10">
-							                    	<p class="card-title text-white fs-3">${approvalLine.empId}오상식</p>
+							                    	<p class="card-title text-white fs-3">${approvalLine.empId}</p>
 							                    	<p>공공사업1DIV 차장</p>
 							                    </div>
 							                    <div class="col-2">

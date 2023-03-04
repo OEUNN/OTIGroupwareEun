@@ -109,9 +109,7 @@ public class ApprovalController {
 	@RequestMapping(value = "/viewdetail/{docId}", method=RequestMethod.GET)
 	public String getApprovalDetail(@PathVariable String docId, Model model) {
 		log.info("정보 로그");
-		document = approvalService.readDocument(docId);
 		approvalLines = approvalLineService.readApprovalLines(docId);
-		model.addAttribute("document", document);
 		model.addAttribute("approvalLines", approvalLine);
 		return "approval/viewdetail";
 	}
