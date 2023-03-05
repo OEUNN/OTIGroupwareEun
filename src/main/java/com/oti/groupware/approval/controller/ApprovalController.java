@@ -1,6 +1,9 @@
 package com.oti.groupware.approval.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +19,7 @@ import com.oti.groupware.approval.dto.Document;
 import com.oti.groupware.approval.dto.DocumentFile;
 import com.oti.groupware.approval.service.ApprovalLineService;
 import com.oti.groupware.approval.service.ApprovalService;
+import com.oti.groupware.common.dto.Organization;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -28,6 +32,8 @@ public class ApprovalController {
 	DocumentFile documentFile;
 	List<ApprovalLine> approvalLines;
 	List<DocumentFile> documentFiles;
+	List<Organization> organizations;
+	Map<Integer , List<Organization>> organizationsMap;
 	
 	@Autowired
 	ApprovalService approvalService;
@@ -100,8 +106,24 @@ public class ApprovalController {
 	
 	//주소록 화면
 	@RequestMapping(value = "/organization", method=RequestMethod.GET)
-	public String organization() {
+	public String organization(Model model) {
 		log.info("정보 로그");
+		
+		organizations = approvalService.getOrganization();
+		organizationsMap = new HashMap<Integer , List<Organization>>();
+		
+		for (Organization organization : organizations) {
+			int depId = organization.getDepId();
+			
+			List<Organization> list = organizationsMap.getOrDefault(depId, new ArrayList<Organization>());
+			
+			list.add(organization);
+			
+			organizationsMap.put(depId, list);
+		}
+		
+		model.addAttribute("organizationsMapKeySet", organizationsMap.keySet());
+		model.addAttribute("organizationsMap", organizationsMap);
 		return "approval/organization";
 	}
 	
@@ -110,6 +132,9 @@ public class ApprovalController {
 	public String getApprovalDetail(@PathVariable String docId, Model model) {
 		log.info("정보 로그");
 		approvalLines = approvalLineService.readApprovalLines(docId);
+		
+		
+		
 		model.addAttribute("approvalLines", approvalLine);
 		return "approval/viewdetail";
 	}
