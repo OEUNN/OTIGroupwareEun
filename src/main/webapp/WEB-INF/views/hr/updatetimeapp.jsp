@@ -27,12 +27,6 @@
 </style>
 
 <script>
-	//form 내용 제출 후, 이동
-	function updateTime() {
-		window.opener.top.location.href = "<c:url value='/hr/attendance'/>";
-		window.close();
-	}
-
 	//clockpicker 렌더링
 	$(function() {
 		$('.clockpicker').clockpicker();
@@ -41,7 +35,7 @@
 	//출근, 퇴근 체크박스 클릭시 html 추가
 	function isCheck(data) {
 		if (data == 'in') {
-			if ($('input:checkbox[name="intime-checkbtn"]').is(':checked')) {
+			if ($('input:checkbox[id="intime-checkbtn"]').is(':checked')) {
 				$('#today-intime').css('display', 'block');
 				$('#intime-clockpicker').css('display', 'block');
 			} else {
@@ -49,7 +43,7 @@
 				$('#intime-clockpicker').css('display', 'none');
 			}
 		} else if (data == 'out') {
-			if ($('input:checkbox[name="outtime-checkbtn"]').is(':checked')) {
+			if ($('input:checkbox[id="outtime-checkbtn"]').is(':checked')) {
 				$('#today-outtime').css('display', 'block');
 				$('#outtime-clockpicker').css('display', 'block');
 			} else {
@@ -58,6 +52,49 @@
 			}
 		}
 	}
+	
+	//작성폼 초기화
+	function resetForm() {
+		$('#today-intime').css('display', 'none');
+		$('#intime-clockpicker').css('display', 'none');
+		$('#today-outtime').css('display', 'none');
+		$('#outtime-clockpicker').css('display', 'none');
+	}
+	
+	//폼 유효성검사
+	function validateForm() {
+		var result = true;
+		
+		//출근체크박스 선택했을 경우
+		if($('input:checkbox[id="intime-checkbtn"]').is(':checked') && $('#no-today-intime').val() == '' ){
+			$('#no-today-intime').css('color', 'red');
+			$('#no-today-intime').text('출근을 해주세요!');
+			result = false;
+		}
+		//퇴근체크박스 선택했을 경우
+		if($('input:checkbox[id="outtime-checkbtn"]').is(':checked') && $('#no-today-outtime').val() == '') {
+			$("#no-today-outtime").css('color', 'red');
+			$('#no-today-intime').text('퇴근을 해주세요!');
+			result = false;
+		}
+		//사유를 작성하지 않았을 경우
+		if($('#reason').val() == ''){
+			$("textarea.form-control").css('border-color', 'red');
+			result = false;
+		}
+		
+		return result;
+	}
+	
+	$(function() {
+		$("textarea.form-control").focusin(function(){
+		    $(this).css("border-color", "#4B49AC");
+		  });
+
+		$("textarea.form-control").focusout(function(){
+		    $(this).css("border-color", "#CED4DA");
+		  });
+	});
 </script>
 <!-- End plugin css,js for this page -->
 
@@ -68,7 +105,7 @@
 			<tr class="custom-border-left custom-border-right">
 				<td class="custom-border-right"><h4
 						class="font-weight-bold text-center m-0">작성자</h4></td>
-				<td>${empNames['작성자']}</td>
+				<td>${empFormInfo['작성자']}</td>
 				<td></td>
 				<td></td>
 				<td class="custom-border-left custom-border-right"><h4
@@ -83,7 +120,7 @@
 			<tr class="custom-border-left custom-border-right">
 				<td class="custom-border-right"><h4
 						class="font-weight-bold text-center m-0">결재자</h4></td>
-				<td>${empNames['결재자']}</td>
+				<td>${empFormInfo['결재자']}</td>
 				<td></td>
 				<td></td>
 				<td></td>
@@ -102,7 +139,8 @@
 		</tbody>
 	</table>
 </div>
-<!-- 변경내용-->
+<!-- 변경내용(폼) -->
+<form action="${pageContext.request.contextPath}/hr/applicationform" onsubmit="return validateForm();" method="post">
 <div class="container-fluid">
 	<div class="row justify-content-around">
 		<div class="col-md"></div>
@@ -119,25 +157,29 @@
 	<div class="row px-5 py-2">
 		<div class="col-md">
 			<div class="form-check font-weight-bold text-info">
-				<label class="form-check-label"> <input type="checkbox"
-					class="form-check-input" name="intime-checkbtn"
-					onclick="isCheck('in')"> <i class="input-helper"></i> <span
-					class="text-primary">출근</span>
+				<label class="form-check-label"> 
+					<input type="checkbox" class="form-check-input" id="intime-checkbtn" onclick="isCheck('in')"> 
+					<i class="input-helper">
+					</i> <span class="text-primary">출근</span>
 				</label>
 			</div>
 		</div>
 		<div class="col-md d-flex align-items-center pr-0">
 			<div id="today-intime" style="display: none">
-				<div class="h5 mb-0 ml-3">08:45</div>
+				<c:if test="${!empty attendance.atdInTime}">
+					<div class="h5 mb-0 ml-3"><fmt:formatDate value="${attendance.atdInTime}" pattern="HH:mm" /></div>
+				</c:if>
+				<c:if test="${empty attendance.atdInTime}">
+					<div id="no-today-intime" class="h5 mb-0" style="position: relative; left:-30px;">출근이력이 없습니다.</div>
+				</c:if>
 			</div>
 		</div>
 		<div class="col-md d-flex align-items-center pl-0">
-			<!-- clockpicker:start -->
+			<!-- 출근시간:clockpicker:start -->
 			<div id="intime-clockpicker" style="display: none">
 				<div class="input-group clockpicker">
-					<span class="h3 mdi mdi-timer text-primary"></span> <input
-						type="text" class="form-control"
-						style="border-radius: 8px; border: 2px solid #4747A1; text-align: center;">
+					<span class="h3 mdi mdi-timer text-primary"></span> 
+					<input type="text" class="form-control" name="atdExcpInTime" style="border-radius: 8px; border: 2px solid #4747A1; text-align: center;">
 				</div>
 			</div>
 			<!-- clockpicker:end -->
@@ -146,25 +188,29 @@
 	<div class="row px-5 py-2">
 		<div class="col-md">
 			<div class="form-check font-weight-bold text-info">
-				<label class="form-check-label"> <input type="checkbox"
-					class="form-check-input" name="outtime-checkbtn"
-					onclick="isCheck('out')"> <i class="input-helper"></i> <span
-					class="text-primary">퇴근</span>
+				<label class="form-check-label"> 
+				<input type="checkbox" class="form-check-input" id="outtime-checkbtn" onclick="isCheck('out')"> 
+				<i class="input-helper"></i> 
+				<span class="text-primary">퇴근</span>
 				</label>
 			</div>
 		</div>
 		<div class="col-md d-flex align-items-center pr-0">
 			<div id="today-outtime" style="display: none">
-				<div class="h5 mb-0 ml-3">18:45</div>
+				<c:if test="${!empty attendance.atdOutTime}">
+					<div class="h5 mb-0 ml-3"><fmt:formatDate value="${attendance.atdOutTime}" pattern="HH:mm" /></div>
+				</c:if>
+				<c:if test="${empty attendance.atdOutTime}">
+					<div id="no-today-outtime" class="h5 mb-0" style="position: relative; left:-30px;">퇴근이력이 없습니다.</div>
+				</c:if>
 			</div>
 		</div>
 		<div class="col-md d-flex align-items-center pl-0">
-			<!-- clockpicker:start -->
+			<!-- 퇴근시간:clockpicker:start -->
 			<div id="outtime-clockpicker" style="display: none">
 				<div class="input-group clockpicker">
-					<span class="h3 mdi mdi-timer text-primary"></span> <input
-						type="text" class="form-control"
-						style="border-radius: 8px; border: 2px solid #4747A1; text-align: center;">
+					<span class="h3 mdi mdi-timer text-primary"></span> 
+					<input type="text" class="form-control" name="atdExcpOutTime" style="border-radius: 8px; border: 2px solid #4747A1; text-align: center;">
 				</div>
 			</div>
 			<!-- clockpicker:end -->
@@ -172,18 +218,22 @@
 	</div>
 	<div class="row px-5 mt-4 justify-content-center">
 		<div class="form-group">
-			<label class="ml-1" for="reason"><div class="h5 m-0 font-weight-bold text-primary">사유</div></label>
-			<textarea class="form-control" id="reason" rows="5" cols="68"></textarea>
+			<label class="ml-1" for="atdExcpReason"><div class="h5 m-0 font-weight-bold text-primary">사유</div></label>
+			<textarea class="form-control" id="reason" rows="5" cols="68" name="atdExcpReason"></textarea>
 		</div>
 	</div>
-
 	<div class="row justify-content-center mt-3">
 		<div style="border-bottom: 2px solid #4B49AC; width: 90%;"></div>
 	</div>
+	<!-- hidden input -->
+	<input type="hidden" name="empId" value="${attendance.empId}">
+	<input type="hidden" name="atdExcpApprovalEmp" value="${empFormInfo['결재자']}">
+	<input type="hidden" name="atdExcpCategory" value="근무시간수정">
 </div>
 <!-- 버튼 -->
 <div class="row px-5 mt-3 justify-content-end">
-	<button onclick="updateTime()" type="submit" class="btn btn-primary mr-2">신청</button>
-	<button onclick="window.close()" type="button" class="btn btn-inverse-primary mr-2">취소</button>
+	<button type="submit" class="btn btn-primary mr-2">신청</button>
+	<button onclick="resetForm()" type="reset" class="btn btn-inverse-primary mr-2">취소</button>
 </div>
 <!-- 변경내용:end -->
+</form>

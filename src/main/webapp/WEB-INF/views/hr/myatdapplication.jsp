@@ -67,7 +67,7 @@
 			
 			$.ajax({
 				type : 'GET',
-				url : "../hr/applicatonform",
+				url : "../hr/applicationform",
 				data : {category: data},
 				error : function() {
 					alert('통신실패!');
@@ -102,18 +102,20 @@
                    		<div class="d-flex justify-content-between align-items-center mb-4">
 	              			<div class="card-title mb-0">근무신청내역</div>
 	              			<div class="d-flex justify-content-end" style="width: 70%;">
-		              			<!-- datepicker start -->
-		              			<div id="datepicker" class="input-daterange input-group text-primary" style="border:2px solid #4B49AC; border-radius: 15px; width: 70%;">
-									<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:12px; left: 15px;"></span>
-								    <input type="text" class="form-control-sm form-control font-weight-bold" name="start" style="border:0px; text-align: center;">
-								    <span class="input-group-addon font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
-									<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:12px; left: 15px;"></span>
-								    <input type="text" class="form-control-sm form-control font-weight-bold" name="end" style="border:0px; border-radius:15px; text-align: center;">
-								</div>
-					            <!-- datepicker end -->
-					            <button class="btn btn-md btn-primary ml-2">
-									<span>검색</span>
-								</button>
+	              				<form action='${pageContext.request.contextPath}/hr/myatdapplication?pageNo=1' method="GET">
+			              			<!-- datepicker start -->
+			              			<div id="datepicker" class="input-daterange input-group text-primary" style="border:2px solid #4B49AC; border-radius: 15px; width: 70%;">
+										<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:12px; left: 15px;"></span>
+									    <input type="text" class="form-control-sm form-control font-weight-bold" name="startDate" style="border:0px; text-align: center;">
+									    <span class="input-group-addon font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
+										<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:12px; left: 15px;"></span>
+									    <input type="text" class="form-control-sm form-control font-weight-bold" name="endDate" style="border:0px; border-radius:15px; text-align: center;">
+									</div>
+						            <!-- datepicker end -->
+						            <button type="submit" class="btn btn-md btn-primary ml-2">
+										<span>검색</span>
+									</button>
+								</form>
 	              			</div>
 	                   	 </div>
 	                	 <!-- 근무신청통계 -->
@@ -142,48 +144,16 @@
 			                          </tr>
 			                        </thead>
 			                        <tbody>
-			                        	<tr onclick="atdAppDetail('근무시간수정')">
-			                        		<td>근무시간수정</td>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        		<td><div class="badge badge-success font-weight-bold">승인</div></td>
-			                        	</tr>
-			                        	<tr onclick="atdAppDetail('추가근무')">
-			                        		<td>추가근무</td>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        		<td><div class="badge badge-danger font-weight-bold">반려</div></td>
-			                        	</tr>
-			                        	<tr>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        	</tr>
-			                        	<tr>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        	</tr>
-			                        	<tr>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        	</tr>
-			                        	<tr>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        		<td>gdgd</td>
-			                        	</tr>
+			                        	<c:forEach var="atdExcp" items="${atdExcpList}">
+				                        	<tr onclick="atdAppDetail('근무시간수정')">
+				                        		<td>${atdExcp.atdExcpCategory}</td>
+				                        		<td>${atdExcp.atdExcpDate}</td>
+				                        		<td>${atdExcp.atdExcpApprovalEmp}</td>
+				                        		<td>${atdExcp.atdExcpProcessDate}</td>
+				                        		<td><div class="badge badge-success font-weight-bold">${atdExcp.atdExcpProcessState}</div></td>
+				                        	</tr>
+			                        	</c:forEach>
+<!-- 			                        	<tr onclick="atdAppDetail('추가근무')"> -->
 			                        </tbody>
 		                    	</table>
 		                    </div>
@@ -263,7 +233,7 @@
 	                       	    </div>
 								<!-- 버튼 -->
 			                    <div class="row px-5 mt-3 justify-content-end">
-		                        	<button onclick="updateTime()" type="submit" class="btn btn-primary mr-2">신청</button>
+		                        	<button type="button" class="btn btn-primary mr-2">신청</button>
 			                    </div>
 			                    <!-- 변경내용:end -->
 		                    </div>

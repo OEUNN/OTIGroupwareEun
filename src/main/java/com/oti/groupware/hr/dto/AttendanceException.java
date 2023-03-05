@@ -10,10 +10,11 @@ public class AttendanceException {
     private String empId;
     private String atdExcpReason;
     private String atdExcpCategory;
-    private Date atdExcpInTime;
-    private Date atdExcpOutTime;
-    private String atdExcpProcessState;
+    private String atdExcpInTime;
+    private String atdExcpOutTime;
+    private String atdExcpDate;
     private Date atdExcpProcessDate;
     private String atdExcpApprovalEmp;
     private String atdExcpOpinion;
+    private String atdExcpProcessState;
 }
