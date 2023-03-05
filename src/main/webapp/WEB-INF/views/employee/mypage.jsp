@@ -10,6 +10,26 @@
 <!-- endinject css, js common file -->
 
 <!-- Plugin css,js for this page -->
+<script>
+function img(){
+	let image = $('#image').val();
+	console.log(image);
+	var imgCss = document.getElementById("image");
+	if (image != '') {
+		$.ajax({
+			type : 'post',
+			url : '../employee/updateImg',
+			data : {
+				image : image
+			},
+			success : function(data) {
+				console.log(data);
+			}
+		});
+	}
+}
+
+</script>
 <!-- End plugin css,js for this page -->
 </head>
 
@@ -38,12 +58,10 @@
 										<div>
 											<!-- 사진 -->
 											<div class="row mt-1 m-auto">
-												<img src="${pageContext.request.contextPath}/resources/images/faces/face10.jpg" style="width:250px; height:300px;border-radius:20px;"/>
+												<img src="filedownload" style="width:250px; height:300px;border-radius:20px;"/>
 											</div>
 											<div class="row mt-3 ml-5" >
-												<button type="submit" class="btn btn-md btn-inverse-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
-													<span>사진 수정</span>
-												</button>
+												<input type="file" id="image" oninput="img()" class="btn btn-md btn-inverse-primary" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
 											</div>
 										</div>
 									</div><!-- End image card -->
@@ -60,7 +78,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<div class="h3" style="font-weight:bold;"></div>
+															<div>${subEmployee.empName}</div>
 														</div>
 													</div>
 												</div>
@@ -73,7 +91,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<div class="h3" style="font-weight:bold;"></div>
+															<div>${subEmployee.empId}</div>
 														</div>
 													</div>
 												</div>
@@ -88,7 +106,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<div class="h3" style="font-weight:bold;"></div>
+															<div><fmt:formatDate pattern="yyyy년 MM월 dd일" value="${employeeDetail.empDetailBirthday}"/></div>
 														</div>
 													</div>
 												</div>
@@ -101,7 +119,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<div class="h3" style="font-weight:bold;"></div>
+															<div><fmt:formatDate pattern="yyyy년 MM월 dd일" value="${employeeDetail.empDetailEmploymentDate}"/></div>
 														</div>
 													</div>
 												</div>
@@ -116,7 +134,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<div class="h3" style="font-weight:bold;"></div>
+															<div>${employeeDetail.empDetailGender}</div>
 														</div>
 													</div>
 												</div>
@@ -129,7 +147,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<div class="h3" style="font-weight:bold;"></div>
+															<div>${subEmployee.empMail}</div>
 														</div>
 													</div>
 												</div>
@@ -144,7 +162,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<div class="h3" style="font-weight:bold;"></div>
+															<div>${employeeDetail.empDetailMarriedYN}</div>
 														</div>
 													</div>
 												</div>
@@ -157,7 +175,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<div class="h3" style="font-weight:bold;"></div>
+															<div>${employeeDetail.empDetailSeniority}년</div>
 														</div>
 													</div>
 												</div>
@@ -172,7 +190,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<div class="h3" style="font-weight:bold;"></div>
+															<div>${employeeDetail.empDetailMilitaryServiceYN }</div>
 														</div>
 													</div>
 												</div>
@@ -185,7 +203,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<div class="h3" style="font-weight:bold;"></div>
+															<div>${subEmployee.empPhoneNumber }</div>
 														</div>
 													</div>
 												</div>
@@ -200,7 +218,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<div class="h3" style="font-weight:bold;"></div>
+															<div>${employeeDetail.empDetailMajor}</div>
 														</div>
 													</div>
 												</div>
@@ -213,7 +231,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<div class="h3" style="font-weight:bold;"></div>
+															<div>${subEmployee.empExtensionNumber}</div>
 														</div>
 													</div>
 												</div>
@@ -228,7 +246,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<div class="h3" style="font-weight:bold;"></div>
+															<div>${employeeDetail.empDetailEducation}</div>
 														</div>
 													</div>
 												</div>

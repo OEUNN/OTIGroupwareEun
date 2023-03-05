@@ -11,6 +11,7 @@
 		<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/tinymce.min.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/write-template.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/themes/silver/theme.min.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/file-upload.js"></script>
 		<style type="text/css">
 		.collapse, .collapsing {
 			box-shadow: 0px 0px 0px white !important;
@@ -24,11 +25,12 @@
             window.open(url, name, option);
         }
         function popup(){
-            var url = "mailwritepopup";
+            var url = "mail/mailwritepopup";
             var name = "write popup";
             var option = "width = 500, height = 250, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
             window.open(url, name, option);
         }
+        
 		</script>
 		
 	</head>
@@ -78,7 +80,7 @@
 														</div>
 													</div>
 													<div class="col-sm-5" style="border-bottom:1px solid #ced4da;">
-														<input class="h3 from-control" style="font-weight:bold; border:none;">
+														<div class="from-control" style="font-weight:bold;">${employee.empName}</div>
 													</div>
 												</div>
 											</div>
@@ -112,11 +114,10 @@
 													<div class="col-sm-1 text-primary">
 														<div class="d-flex align-items-center m-1">
 															<span class="font-weight-bold">제목</span>
-															
 														</div>
 													</div>
 													<div class="col-sm-9" style="border-bottom:1px solid #ced4da;">
-														<input class="h3 from-control" style="font-weight:bold; border:none;">
+														<input class="from-control" style="border:none;">
 													</div>
 												</div>
 											</div>
@@ -124,20 +125,18 @@
 										<!-- file upload -->
 										<div class="row">
 											<div class="col-md-12">
-												<div class="form-group row">
-													<div class="col-sm-2 text-primary">
-														<div class="row d-flex align-items-center m-1">
-															<i class="h3 my-auto mdi mdi-cloud-upload"></i> 
-															<span class="ml-2 font-weight-bold">파일 업로드</span>
-														</div>
-														<div class="row mt-3 ml-1" >
-															<button class="btn btn-md btn-inverse-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
-																<span>업로드</span>
+												<div class="form-group row bg-white">
+													<div class="col-sm-2 text-primary ">
+														<input type="file" id="mailFile" name="mailFile" class="file-upload-default" multiple>
+														<div class="input-group col-xs-12">
+															<button class="row d-flex align-items-center m-1 file-upload-browse text-primary">
+																<i class="h3 my-auto mdi mdi-cloud-upload"></i> 
+																<span class="ml-2 font-weight-bold ">파일 업로드</span>
 															</button>
 														</div>
 													</div>
 													<div class="col-sm-8 p-0"> 
-														<input class="h3 form-control" style="font-weight:bold; height:120px;">
+														<input type="text"  class="form-control file-upload-info" id="uploadInfo" disabled style="font-weight:bold; height:120px;">
 													</div>
 												</div>
 											</div>
