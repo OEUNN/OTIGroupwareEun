@@ -90,11 +90,11 @@
 					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/myleave">나의 휴가</a></li>
 					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/empleave">부서휴가현황</a></li>
 					<!-- 부서장 -->
-					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/hrapplication"">HR 신청내역</a></li>
+					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/hrapplication">HR 신청내역</a></li>
 				</ul>
 			</div></li>
 		<li class="nav-item">
-			<a class="nav-link" href="<c:url value='/organizationchart'/>" aria-expanded="false" aria-controls="icons"> 
+			<a class="nav-link" href="<c:url value='/employee/organizationchart'/>" aria-expanded="false" aria-controls="icons"> 
 				<i class="mdi mdi-sitemap menu-icon"></i>
 				<span class="menu-title">조직도</span>
 			</a>
