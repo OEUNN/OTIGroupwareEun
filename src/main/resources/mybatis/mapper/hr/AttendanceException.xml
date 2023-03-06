@@ -17,20 +17,15 @@
 
 	<!-- 전체 행의 수 -->
 	<select id="getAttendanceExceptionCount" resultType="int">
-	    <![CDATA[
 	    SELECT 
 	      count(*)
 	    FROM 
 	      attendance_exceptions
-	    <where>
+	    WHERE
 	      emp_id = #{empId}
-	      <if test="#{startDate} != null and #{endDate} != null">
-	      	AND atd_excp_date between TO_DATE(#{startDate}, 'YYYY-MM') AND TO_DATE(#{endDate}, 'YYYY-MM')
+	      <if test="startDate != null and endDate != null">
+	      	AND atd_excp_date BETWEEN TO_DATE(#{startDate}, 'YYYY-MM') AND TO_DATE(#{endDate}, 'YYYY-MM')
 	      </if>
-	      	AND atd_excp_date >= TRUNC(SYSDATE, 'YEAR')
-  			AND atd_excp_date < TRUNC(SYSDATE, 'YEAR') + INTERVAL '1' YEAR
-	    </where> 
-	    ]]>
 	</select>
 
 	<!-- 페이징 목록 -->
@@ -42,12 +37,11 @@
 		    atd_excp_process_date,
 		    atd_excp_process_state
 		FROM attendance_exceptions
-		<where>
+		WHERE
 	      emp_id = #{empId}
-	      <if test="#{startDate} != null and #{endDate} != null ">
-	      	AND atd_excp_date between TO_DATE(#{startDate}, 'YYYY-MM') AND TO_DATE(#{endDate}, 'YYYY-MM')
+	      <if test="startDate != null and endDate != null ">
+	      	AND atd_excp_date BETWEEN TO_DATE(#{startDate}, 'YYYY-MM') AND TO_DATE(#{endDate}, 'YYYY-MM')
 	      </if>
-	    </where> 
 		ORDER BY atd_excp_date desc
 		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
 		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY

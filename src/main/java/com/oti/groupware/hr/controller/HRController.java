@@ -122,22 +122,42 @@ public class HRController {
 	/**
 	 * 나의 근무신청 페이지로 이동
 	 * @author 한송민
-	 * @param pageNo(시작페이지),  startYear(시작월-필터링), endYear(종료월-필터링)
+	 * @param pageNo(시작페이지), startYear(시작월-필터링), endYear(종료월-필터링)
 	 * @return 나의 근무신청 페이지
 	 */
 	@RequestMapping(value = "/myatdapplication")
-	public String myAttendanceApplication(int pageNo, String startDate, String endDate, Model model) {
+	public String myAttendanceApplication(Integer pageNo, String startDate, String endDate, Model model) {
 		log.info("정보 로그");
-		log.info(startDate + endDate);
+		
 		//String empId = (String) session.getAttribute("empId"); //세션에 저장된 임직원ID를 갖고옴
 		String empId = "202302271"; //임시방편
+		
+		//pageNo에 값이 매핑이 안될 경우, 1을 넣어줌
+		if(pageNo == null) {
+			pageNo = 1;
+		}
+		
+		//startDate와 endDate값이 비어있을 경우
+		if(startDate.isEmpty() && endDate.isEmpty()) {
+			startDate = null;
+			endDate = null;
+		}
+
 		//전체 행수 갖고옴
 		int totalRows = hrService.attendanceExceptionCount(startDate, endDate, empId);
+		
 		//페이저 객체 생성
 		Pager pager = new Pager(5, 5, totalRows, pageNo);
+		
 		//페이징된 목록
-		List<AttendanceException>  atdExcpList = hrService.attendanceExceptionList(startDate, endDate, empId, pager);
-		model.addAttribute("atdExcpList", atdExcpList);
+		List<AttendanceException> atdExcpList = hrService.attendanceExceptionList(startDate, endDate, empId, pager);
+		
+		if(!atdExcpList.isEmpty()) {
+			model.addAttribute("startDate", startDate);
+			model.addAttribute("endDate", endDate);
+			model.addAttribute("pager", pager);
+			model.addAttribute("atdExcpList", atdExcpList);
+		}
 		
 		return "hr/myatdapplication";
 	}
