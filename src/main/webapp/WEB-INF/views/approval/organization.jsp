@@ -34,7 +34,7 @@
 			elementId = '#' + elementId;
 			let jQueryElement = $(elementId).html();
 			console.log($(elementId).attr('class')[3]);
-			jQueryElement = '<div class="highlight row m-1 ' + $(elementId).attr('class')[3] + '" onclick="removeFromList("' + elementId + '")">' + jQueryElement + '</div>'
+			jQueryElement = '<div class="highlight row m-1 ' + $(elementId).attr('class')[3] + '" onclick="removeFromList("'+ elementId + '")">' + jQueryElement + '</div>'
 			$("#approvalLine").append(jQueryElement);
 		}
 		
