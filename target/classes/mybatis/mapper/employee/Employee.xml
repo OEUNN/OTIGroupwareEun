@@ -55,12 +55,6 @@
 		where emp_id like #{completeId}
 	</select>
 	
-	<select id="getLeaveReserve" parameterType="int" resultType="int">
-		select pos_lev_cnt
-		from positions
-		where pos_id = #{posId}
-	</select>
-	
     <insert id="insertEmployee" parameterType="employee"  useGeneratedKeys="true" keyProperty="empId" keyColumn="emp_id">
         INSERT INTO employees (
             emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
@@ -75,19 +69,11 @@
             #{empFileType}, #{empFileName}, default
         )
     </insert>
+    
+    <update id="updateImg" parameterType="employee" >
+    	update employees
+    	set emp_file_data=#{empFileData} , emp_file_type=  #{empFileType}, emp_file_name= #{empFileName}
+    	where emp_id = #{empId}
+    </update>
 
-	<insert id="insertEmployeeDetail" parameterType="employeeDetail">
-		insert into employees_detail(
-			EMP_ID, EMP_DETAIL_GENDER, EMP_DETAIL_BIRTHDAY, EMP_DETAIL_WORKPLACE,
-			EMP_DETAIL_MARRIED_YN, EMP_DETAIL_EMPLOYMENT_DATE, EMP_DETAIL_EDUCATION, 
-			EMP_DETAIL_EMPLOYMENT_STATE,EMP_DETAIL_MILITARY_SERVICE_YN, 
-			EMP_DETAIL_MAJOR
-		) values (
-			#{empId}, #{empDetailGender}, #{empDetailBirthday}, #{empDetailWorkplace},
-			#{empDetailMarriedYN}, #{empDetailEmploymentDate}, #{empDetailEducation},
-			default, #{empDetailMilitaryServiceYN}, #{empDetailMajor}
-		)
-	</insert>
-	
-	
 </mapper>

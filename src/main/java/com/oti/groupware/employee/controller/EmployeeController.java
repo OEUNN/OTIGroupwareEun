@@ -3,22 +3,18 @@ package com.oti.groupware.employee.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.employee.dto.EmployeeDetail;
@@ -93,8 +89,36 @@ public class EmployeeController {
 	
 	// 마이페이지
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
-	public String mypage() {
+	public String mypage(HttpSession session, Model model) {
+		Employee employee = (Employee)session.getAttribute("employee");
+		employee = employeeService.getEmployee(employee.getEmpId());
+		if(employee!=null) {
+			Date now = new Date(System.currentTimeMillis());
+			EmployeeDetail employeeDetail = employeeService.getEmployeeDetail(employee.getEmpId(), now);
+			model.addAttribute("subEmployee", employee);
+			model.addAttribute("employeeDetail", employeeDetail);
+		}
 		return "employee/mypage";
+	}
+	
+	@RequestMapping(value = "/updateImg", method = RequestMethod.POST)
+	@ResponseBody
+	public void updateImg(HttpSession session, MultipartFile image) throws IOException {
+		log.info("실행");
+		log.info(image);
+		Employee employee =(Employee)session.getAttribute("employee");
+		MultipartFile imgFile = image;
+		if(!imgFile.isEmpty()) {
+			String attachsname = new Date().getTime() +"-"+imgFile.getOriginalFilename();
+			employee.setEmpFileData(imgFile.getBytes());
+			employee.setEmpFileName(attachsname);
+			//파일의 타입 설정
+			employee.setEmpFileType(imgFile.getContentType());
+			//서버 파일 시스템에 파일로 저장
+			File file = new File("C:/Temp/uploadFiles/"+attachsname);
+			imgFile.transferTo(file);
+		}
+		employeeService.updateImg(employee);
 	}
 
 	//임직원 조회

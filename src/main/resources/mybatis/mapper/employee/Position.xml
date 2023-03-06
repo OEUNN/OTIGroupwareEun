@@ -8,26 +8,16 @@
 		<result column="pos_lev_cnt" property="posLevCnt" />
 	</resultMap>
 
-	<select id="getPositionById" parameterType="int" resultMap="positionResultMap">
-		SELECT pos_id, pos_name, pos_lev_cnt
-		FROM project3.positions
-		WHERE pos_id = #{posId}
+	<select id="getLeaveReserve" parameterType="int" resultType="int">
+		select pos_lev_cnt
+		from positions
+		where pos_id = #{posId}
 	</select>
-
-	<insert id="insertPosition" parameterType="position">
-		INSERT INTO project3.positions (pos_id, pos_name, pos_lev_cnt)
-		VALUES (#{posId}, #{posName}, #{posLevCnt})
-	</insert>
 	
-	<update id="updatePosition" parameterType="position">
-		UPDATE project3.positions
-		SET pos_name = #{posName}, pos_lev_cnt = #{posLevCnt}
-		WHERE pos_id = #{posId}
-	</update>
-	
-	<delete id="deletePosition" parameterType="int">
-		DELETE FROM project3.positions
-		WHERE pos_id = #{posId}
-	</delete>
+	<select id="getPositionById" parameterType="int" resultType="String">
+		select pos_name
+		from positions
+		where pos_id = #{posId}
+	</select>
 
 </mapper>
