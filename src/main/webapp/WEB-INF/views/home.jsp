@@ -36,14 +36,14 @@
               	<div class="card-body" style="background-color: #e7e7ff;">
 	                 <!-- 사진 -->
 	                 <div class="row justify-content-center px-2">
-	                   <img src="${pageContext.request.contextPath}/resources/images/faces/face10.jpg" style="width:90%; border-radius: 20px; box-shadow: 3px 3px 6px #4747A1;"/>
+	                   <img src="<c:url value='/login/filedownload'/>" style="width:90%; border-radius: 20px; box-shadow: 3px 3px 6px #4747A1;"/>
 	               	 </div>
 	               	 <!-- 프로필 -->
 	                 <div class="row mt-4 pt-2 justify-content-center" style="font-family: LeferiPoint-WhiteObliqueA;">
 	                    <div class="ml-1">
-	                      <span class="font-weight-bold text-primary h2">이춘향</span>
-	                      <span class="font-weight-bold h5">사원</span>
-	                      <div class="font-weight-bold text-muted h6 mt-2 text-center">공공사업1DIV</div>
+	                      <span class="font-weight-bold text-primary h2">${employee.empName}</span>
+	                      <span class="font-weight-bold h5">${employee.posName}</span>
+	                      <div class="font-weight-bold text-muted h6 mt-2 text-center">${employee.depName}</div>
 	                    </div>
 	                 </div>
 	                 <div class="custom-border-bottom mt-4"></div>
@@ -55,8 +55,8 @@
 		                      <div class="col-md font-weight-bold text-primary px-0 text-center">잔여대체휴무</div>
 	                    	</div>
 	                    	<div class="row pr-2">
-		                      <div class="col-md font-weight-bold h3 text-center" >12</div>
-		                      <div class="col-md font-weight-bold h3 text-center">0</div>
+		                      <div class="col-md font-weight-bold h3 text-center" >${employee.empLeaveReserve }</div>
+		                      <div class="col-md font-weight-bold h3 text-center">${employee.empSubstitueReserve}</div>
 	                    	</div>
 	                    </div>
 	                  </div>

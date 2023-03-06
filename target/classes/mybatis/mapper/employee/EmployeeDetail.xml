@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.hr.dao.hrDao">
+<mapper namespace="com.oti.groupware.employee.dao.EmployeeDetailDAO">
 
 	<resultMap id="employeeDetailMap" type="employeeDetail">
         <id column="emp_id" property="empId" />
@@ -17,4 +17,30 @@
         <result column="emp_detail_quit_date" property="empDetailQuitDate" />
     </resultMap>
 
+	<insert id="insertEmployeeDetail" parameterType="employeeDetail">
+		insert into employees_detail(
+			EMP_ID, EMP_DETAIL_GENDER, EMP_DETAIL_BIRTHDAY, EMP_DETAIL_WORKPLACE,
+			EMP_DETAIL_MARRIED_YN, EMP_DETAIL_EMPLOYMENT_DATE, EMP_DETAIL_EDUCATION, 
+			EMP_DETAIL_EMPLOYMENT_STATE,EMP_DETAIL_MILITARY_SERVICE_YN, 
+			EMP_DETAIL_MAJOR
+		) values (
+			#{empId}, #{empDetailGender}, #{empDetailBirthday}, #{empDetailWorkplace},
+			#{empDetailMarriedYN}, #{empDetailEmploymentDate}, #{empDetailEducation},
+			default, #{empDetailMilitaryServiceYN}, #{empDetailMajor}
+		)
+	</insert>
+	
+	<select id="getEmployeeDetail" parameterType="string" resultMap="employeeDetailMap">
+		select emp_id, emp_detail_gender, emp_detail_birthday, emp_detail_workplace, emp_detail_married_yn,
+			emp_detail_employment_date, emp_detail_education, emp_detail_seniority, emp_detail_employment_state, 
+			emp_detail_military_service_yn, emp_detail_major, emp_detail_quit_date
+		from employees_detail
+		where emp_id = #{empId}
+	</select>
+	
+	<update id="updateSeniority" parameterType="map">
+		update employees_detail
+		set emp_detail_seniority = #{year}
+		where emp_id = #{empId}
+	</update>
 </mapper>

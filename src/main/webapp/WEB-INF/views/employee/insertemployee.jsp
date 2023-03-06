@@ -136,13 +136,9 @@
 				} else if ($('#depId').val() == '경영지원부') {
 					$("#depId").val(4);
 					$('#empExtensionNumber').val('02-444-4444');
-				} else if ($('#depId').val() == '이사') {
+				} else if ($('#depId').val() == '임원') {
 					$("#depId").val(5);
 					$('#empExtensionNumber').val('02-555-5555');
-				} else if ($('#depId').val() == '대표이사') {
-					$("#depId").val(6);
-					$('#empExtensionNumber').val('02-666-6666');
-				}
 			}
 
 			//posId
@@ -202,21 +198,26 @@
 		/** 메일ID 유효성 검사**/
 		function mailIdCheck() {
 			var empMail = document.getElementById("empMail");
+			let mail_id =  $('#empMail').val();
 			$.ajax({
 				type : 'post',
 				url : '../employee/mailidcheck',
 				data : {
-					mailId : $('#empMail').val()
+					mailId : mail_id
 				},
 				success : function(data) {
 					if (data == 'false') {
 						empMail.setAttribute("style", "border:1px solid red;");
 						$('#mailResult').html('존재하는 ID입니다.');
-						$('#empMail').val("");
+						$('#empMail').focusout(function(){
+							$('#empMail').val("");
+						})
 					} else {
 						empMail.setAttribute("style", "border:1px solid none;");
 						$('#mailResult').html('');
-						return true;
+						$('#empMail').focusout(function(){
+							$('#empMail').val(mail_id);
+						})
 					}
 				}
 			});
@@ -259,11 +260,17 @@
 				});
 			}
 		}
+		function popup() {
+			console.log($('#pw').val()); 
+			var url = "../employee/passwordpopup";
+            var name = "password popup";
+            var option = "width = 500, height =250, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+            window.open(url, name, option);
+		}
 		</script>
 		<!-- End plugin css,js for this page -->
 	</head>
-
-	<body>
+		<body>
 		<div class="container-scroller">
 			<!-- Navbar -->
 			<%@ include file="/WEB-INF/views/common/_navbar.jsp"%>
@@ -522,8 +529,7 @@
 																<h6 class="dropdown-item" id="select2-2" onclick="select2(2)">공공사업2DIV</h6> 
 																<h6 class="dropdown-item" id="select2-3" onclick="select2(3)">공공사업3DIV</h6>
 																<h6 class="dropdown-item" id="select2-4" onclick="select2(4)">경영지원부</h6>
-																<h6 class="dropdown-item" id="select2-5" onclick="select2(5)">이사</h6>
-																<h6 class="dropdown-item" id="select2-6" onclick="select2(6)">대표이사</h6>
+																<h6 class="dropdown-item" id="select2-5" onclick="select2(5)">임원</h6>
 															</div>
 															<script>
 														        function select2(No){
