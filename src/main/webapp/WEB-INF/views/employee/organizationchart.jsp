@@ -11,12 +11,33 @@
 	
 	<!-- Plugin css,js for this page  -->
 	<script>
-        function popup(){
-            var url = "detailpopup";
-            var name = "detail employee";
-            var option = "width = 700, height = 450, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
-            window.open(url, name, option);
-        }
+      //비밀번호 수정
+		function popup() {
+			var password = $('#password').val();
+			jQuery.ajax({
+				type : 'post',
+				url : "../employee/password",
+				data : {password : password},
+				success : function(data) {
+					var url = "detailpopup";
+		            var name = "detail employee";
+		            var option = "width = 700, height = 450, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
+		            window.open(url, name, option);
+				}
+			});
+		}
+      function department(No){
+    	  var x = No;
+    	  console.log(x);
+			jQuery.ajax({
+				type : 'post',
+				url : "../employee/searchdepartment",
+				data : {depId : x},
+				success : function(data) {
+					console.log(data);
+				}
+			});
+      }
 	</script>
 	
 	<style>
@@ -31,6 +52,10 @@
 			background-color:transparent;
 			color:#ced4da;
 			text-decoration: none;
+		}
+		.dep{
+			border : none;
+			background-color: transparent;
 		}
 	</style>
 	<!-- End plugin css,js for this page -->
@@ -59,7 +84,7 @@
 							<div class="card">
 								<div class="card-body">
 									<div class="d-flex justify-content-center">
-										<button class="d-flex align-items-center m-1 btn-color text-primary" onclick="popup()">
+										<button id="ceo" class="d-flex align-items-center m-1 btn-color text-primary" onclick="popup()">
 											<i class="h3 my-auto mdi mdi-worker"></i> 
 											<span class="ml-2 font-weight-bold">대표이사</span>
 										</button>
@@ -74,7 +99,7 @@
 							<div class="card">
 								<div class="card-body">
 									<div class=" d-flex justify-content-center">
-										<button class="d-flex align-items-center m-1 btn-color text-primary">
+										<button class="d-flex align-items-center m-1 btn-color text-primary" onclick="popup()">
 											<i class="h3 my-auto mdi mdi-account"></i> 
 											<span class="ml-2 font-weight-bold">이사</span>
 										</button>
@@ -89,10 +114,10 @@
 							<div class="card">
 								<div class="card-body">
 									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV1">
-										<div class="d-flex align-items-center m-1">
+										<button class="dep d-flex align-items-center m-1 text-primary" onclick="department(1)">
 											<i class="h3 my-auto mdi mdi-menu-down"></i> 
 											<span class="ml-2 font-weight-bold">공공사업1DIV</span>
-										</div>
+										</button>
 									</div>
 									<div id="DIV1" class="row m-1 collapse text-primary mt-3 ">
 										<div class=" flex-column">
@@ -118,10 +143,10 @@
 							<div class="card">
 								<div class="card-body">
 									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV2">
-										<div class="d-flex align-items-center m-1">
+										<button class="dep d-flex align-items-center m-1 text-primary" onclick="department(2)">
 											<i class="h3 my-auto mdi mdi-menu-down"></i> 
-											<span class="ml-2 font-weight-bold">공공사업2DIV</span>
-										</div>
+											<span class="ml-2 font-weight-bold" >공공사업2DIV</span>
+										</button>
 									</div>
 									<div id="DIV2" class="row m-1 collapse text-primary mt-3">
 										<div class="flex-column">
@@ -147,10 +172,10 @@
 							<div class="card">
 								<div class="card-body">
 									<div class="text-primary m-1 row" data-toggle="collapse"  data-target="#DIV3">
-										<div class="d-flex align-items-center m-1">
+										<button class="dep d-flex align-items-center m-1 text-primary" onclick="department(3)">
 											<i class="h3 my-auto mdi mdi-menu-down"></i> 
 											<span class="ml-2 font-weight-bold">공공사업3DIV</span>
-										</div>
+										</button>
 									</div>
 									<div id="DIV3" class="row m-1 collapse text-primary mt-3">
 										<div class="flex-column">
@@ -176,10 +201,10 @@
 							<div class="card">
 								<div class="card-body">
 									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV4">
-										<div class="d-flex align-items-center m-1">
+										<button class="dep d-flex align-items-center m-1 text-primary" onclick="department(4)">
 											<i class="h3 my-auto mdi mdi-menu-down"></i> 
 											<span class="ml-2 font-weight-bold">경영지원</span>
-										</div>
+										</button>
 									</div>
 									<div id="DIV4" class="row m-1 collapse text-primary mt-3">
 										<div class="flex-column">

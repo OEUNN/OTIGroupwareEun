@@ -55,22 +55,22 @@
           	<!-- 사원이름/부서 -->
           	<div class="mr-3" style="font-family: 'LeferiBaseType-RegularA'; font-weight: bold;">
           		<div>
-	          		<span class="font-weight-bold text-primary h4 mb-0">이춘향</span>
-	                <span>사원</span>
+	          		<span class="font-weight-bold text-primary h4 mb-0">${employee.empName}</span>
+	                <span>${employee.posName}</span>
           		</div>
-                <div class="text-muted h6 mb-0 text-center">공공사업1DIV</div>
+                <div class="text-muted h6 mb-0 text-center">${employee.depName}</div>
           	</div>
           	<!-- 마이페이지/로그아웃 -->
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="${pageContext.request.contextPath}/resources/images/faces/face10.jpg" alt="profile"/>
+              <img src= "<c:url value='/login/filedownload'/>" alt="profile"/>
               <i class="icon-ellipsis ml-2" style="transform: rotate( 90deg );"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item" href="<c:url value='/mypage'/>" >
+              <a class="dropdown-item" href="<c:url value='/employee/mypage'/>" >
                 <i class="mdi mdi-account-outline text-primary"></i>
                 	마이페이지
               </a>
-              <a class="dropdown-item" href="<c:url value='/logout'/>">
+              <a class="dropdown-item" href="<c:url value='/login/logout'/>">
                 <i class="ti-power-off text-primary"></i>
                 	로그아웃
               </a>

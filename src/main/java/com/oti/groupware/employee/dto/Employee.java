@@ -9,7 +9,9 @@ public class Employee {
 
     private String empId;
     private int posId;
+    private String posName;
     private int depId;
+    private String depName;
     private String empMail;
     private String empName;
     private String empPassword;
@@ -22,6 +24,4 @@ public class Employee {
     private MultipartFile empFileDataMulti;
     private String empFileType;
     private String empFileName;
-    private String roleName;
-    private boolean empEnabled;
 }

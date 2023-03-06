@@ -66,6 +66,7 @@ public class MailController {
 	//메일쓰기
 	@RequestMapping(value = "/mailwrite", method = RequestMethod.GET)
 	public String writeMail() {
+		log.info("실행");
 		return "mail/mailwrite";
 	}
 	
