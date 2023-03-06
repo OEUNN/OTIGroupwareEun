@@ -12,20 +12,17 @@ public class HomeController {
 	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home() {
-		log.debug("디버그 로그");
-		log.info("정보 로그");
-		log.warn("경고 로그");
-		log.error("에러 로그");
 		return "home";
 	}
 
 	@RequestMapping(value = "/home", method = RequestMethod.POST)
 	public String login() {
-		log.debug("디버그 로그");
-		log.info("정보 로그");
-		log.warn("경고 로그");
-		log.error("에러 로그");
 		return "home";
+	}
+	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String main() {
+		return "redirect:/login/login";
 	}
 	
 }

@@ -13,26 +13,27 @@
 		</style>
 		
 		<script>
-			var result = ${result}
-			result("WRONE_ID").onload = function() {
-				var url = "login/failidpopup";
+		function popup() {
+			result = $('#result').val(); 
+			if(result == 'WRONE_ID'){
+				var url = "failidpopup";
 	            var name = "fail id";
-	            var option = "width = 500, height =250, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+	            var option = "width = 500, height =230, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
 	            window.open(url, name, option);
-			}
-			result("WRONG_PASSWPRD").onload = function() {
-				var url = "login/failpwpopup";
+			}else if(result == 'WRONG_PASSWPRD'){
+				var url = "failpwpopup";
 	            var name = "fail password";
-	            var option = "width = 500, height =250, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+	            var option = "width = 500, height =230, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
 	            window.open(url, name, option);
-			}
-			result("FIVE_WRONG_PASSWORD").onload = function() {
-				var url = "login/fivefailpwpopup";
+			}else if(result == 'FIVE_WRONG_PASSWORD'){
+				var url = "fivefailpwpopup";
 	            var name = "five fail password";
-	            var option = "width = 500, height =250, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+	            var option = "width = 500, height =270, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
 	            window.open(url, name, option);
+			}else if(result == 'SUCCESS'){
+				 $('#result').val(""); 
 			}
-			
+		}
 			
 	        /* input박스를 클릭하였을 때, 아이콘 색상 변경 */
 	        $(document).ready(function(){
@@ -54,7 +55,14 @@
 		    });
 		</script>
 	</head>
-	<body>
+	<c:if test="${!empty result}">
+		<body onload="popup()">
+		<input type="hidden" name="result" id="result" value="${result}"/>
+		<input type="hidden" name="employee" id="employee" value="${employee.empLoginFailuresCnt}"/>
+	</c:if>
+	<c:if test="${empty result}">
+		<body>
+	</c:if>
 		<div class="container-scroller">
 			<div class="container-fluid page-body-wrapper full-page-wrapper">
 				<div class="content-wrapper d-flex align-items-center auth px-0">
@@ -74,11 +82,11 @@
 										<!-- 로그인폼 -->
 										<form action="<c:url value='/login/login'/>" method="post" >
 											<div id="id-input" class="form-group mb-0">
-												<input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="아이디를 입력해주세요" value="${employee.empId}" style="border-radius: 10px;">
+												<input type="text" class="form-control form-control-lg" id="empId" name="empId" placeholder="아이디를 입력해주세요" style="border-radius: 10px;">
 												<i class="mdi mdi-account text-secondary" style="position: relative; top:-34px; left:9px;"></i>
 											</div>
 											<div id="pw-input" class="form-group mb-0">
-												<input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="패스워드를 입력해주세요" value="${employee.empPassword}" style="border-radius: 10px;">
+												<input type="password" class="form-control form-control-lg" id="empPassword" name="empPassword" placeholder="패스워드를 입력해주세요"  style="border-radius: 10px;">
 												<i class="mdi mdi-lock text-secondary" style="position: relative; top:-34px; left:9px;"></i>
 											</div>
 											<div class="mt-3">

@@ -39,6 +39,6 @@ tinymce.init({
 	menubar : '',
 	toolbar1: 'fullscreen print preview wordcount',
 	readonly: 1,
-	content_css : '../resources/css/approvalform.css',
+	content_css : '../../resources/css/approvalform.css',
 	object_resizing : false
 });

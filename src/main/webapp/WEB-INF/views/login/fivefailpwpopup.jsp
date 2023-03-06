@@ -30,6 +30,14 @@
 		  -webkit-flex-direction: column;
 		  flex-direction: column;
 		}
+		.wrap{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .box{
+            text-align: center;
+        }
 	</style>
 	<!-- End plugin css,js for this page -->
 	</head>
@@ -40,17 +48,15 @@
 			<div class="content-wrapper">
 				<!-- Start information -->
 				<div class="row">
-					<div class="col-12 grid-margin stretch-card">
+					<div class="col-12 stretch-card">
 						<div class="card">
 							<div class="card-body row m-0">
-								<div class="container-fluid">
-									<div class="card-title mt-1 row d-flex justify-content-center">로그인 5회 실패하셨습니다.</div>
-									<div class="card-title mt-1 row d-flex justify-content-center">경영지원부에 비밀번호 초기화 요청 후</div>
-									<div class="card-title mt-1 row d-flex justify-content-center">다시 시도 부탁드립니다.</div>
-									<div class="row mb-1" >
-										<div class="col"></div>
-										<button class="col-3 btn btn-primary btn-md mt-1 mx-3" onclick="window.close()">닫기</button>
-										<div class="col"></div>
+								<div class="container-fluid wrap">
+									<div class="row card-title box">로그인에 5회 실패하셨습니다.</div>
+									<div class="row card-title box" >경영지원부에 비밀번호 초기화 요청 후</div>
+									<div class="row card-title box">다시 시도 부탁드립니다.</div>
+									<div class="row box" >
+										<button class="btn btn-primary btn-md" onclick="window.close()">닫기</button>
 									</div>
 								</div>
 							</div>

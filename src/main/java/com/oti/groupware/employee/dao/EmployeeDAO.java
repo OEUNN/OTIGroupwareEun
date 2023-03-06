@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.oti.groupware.employee.dto.Employee;
-import com.oti.groupware.employee.dto.EmployeeDetail;
 
 public interface EmployeeDAO {
     public Employee getEmployeeById(String empId);
@@ -14,11 +13,11 @@ public interface EmployeeDAO {
 	public List<String> getPhoneNumber();
 	public List<String> getMailId();
 	public List<String> getEmpId(@Param("completeId") String completeId);
-	public int getLeaveReserve(int posId);
 	public int insertEmployee(Employee employee);
-	public void insertEmployeeDetail(EmployeeDetail employeeDetail);
-	
 	public int updateEmployee(Employee employee);
     public int deleteEmployee(String empId);
+	public void updateImg(Employee employee);
+	public void updatePassword(@Param("empId")String empId, @Param("password")String password);
+	public List<String> getDepartment(int depId);
 	
 }

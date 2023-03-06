@@ -1,15 +1,19 @@
 package com.oti.groupware.employee.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.oti.groupware.employee.dao.DepartmentDAO;
 import com.oti.groupware.employee.dao.EmployeeDAO;
+import com.oti.groupware.employee.dao.EmployeeDetailDAO;
+import com.oti.groupware.employee.dao.PositionDAO;
 import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.employee.dto.EmployeeDetail;
 
@@ -23,58 +27,47 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-	
-	public enum LoginResult {
-		SUCCESS, WRONE_ID, WRONG_PASSWPRD, FIVE_WRONG_PASSWORD
-	}
 
 	@Autowired
 	private EmployeeDAO employeeDao;
+	@Autowired
+	private PositionDAO positionDao;
+	@Autowired
+	private EmployeeDetailDAO employeeDetailDao;
+	@Autowired
+	private DepartmentDAO departmentDao;
 
 	@Override
-	public LoginResult login(Employee employee) {
+	public String login(Employee employee) {
 		log.info("login result service");
 		Employee dbEmployee = getEmployee(employee.getEmpId());
 		if (dbEmployee == null) {
-			return LoginResult.WRONE_ID;
+			return "WRONE_ID";
 		} else {
-			boolean checkPass = matchPassword(employee.getEmpPassword(), dbEmployee.getEmpPassword());
+			PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+			boolean checkPass = pe.matches(employee.getEmpPassword(), dbEmployee.getEmpPassword());
 			if (checkPass == false) {
-				updateLoginFailCnt(employee);
-				employee.setEmpLoginFailuresCnt(employee.getEmpLoginFailuresCnt());
-				if (employee.getEmpLoginFailuresCnt() == 5) {
-					return LoginResult.FIVE_WRONG_PASSWORD;
+				int cnt = updateLoginFailCnt(dbEmployee);
+				employee.setEmpLoginFailuresCnt(cnt);
+				if (employee.getEmpLoginFailuresCnt() >= 5) {
+					return "FIVE_WRONG_PASSWORD";
 				}
-				return LoginResult.WRONG_PASSWPRD;
+				return "WRONG_PASSWPRD";
 			}
 		}
 		updateLoginSuccessCnt(employee);
-		employee = getEmployee(employee.getEmpId());
-		return LoginResult.SUCCESS;
-	}
-
-	private boolean matchPassword(String rawPassword, String encodedPassword) {
-		// encodedPassword를 읽고 bcrypt로 복호화해서 비교
-		/*
-		 * BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); return
-		 * passwordEncoder.matchs(rawPassword, encodedPassword);
-		 */
-
-		// {alogrithmID}encodedPassword를 읽고 해당 알고리즘으로 복호화해서 비교
-		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		return passwordEncoder.matches(rawPassword, encodedPassword);
-	}
-
-	private String getEncodedPassword(String password) {
-		// encodedPassword 리턴
-		/*
-		 * PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); return
-		 * passwordEncoder.encode(password);
-		 */
-
-		// {bcrypt}encodedPassword 리턴
-		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		return passwordEncoder.encode(password);
+		employee.setEmpId(dbEmployee.getEmpId());
+		employee.setEmpPassword(null);
+		employee.setEmpMail(dbEmployee.getEmpMail());
+		employee.setEmpName(dbEmployee.getEmpName());
+		employee.setEmpLeaveReserve(dbEmployee.getEmpLeaveReserve());
+		employee.setEmpSubstitueReserve(dbEmployee.getEmpSubstitueReserve());
+		employee.setEmpFileData(dbEmployee.getEmpFileData());
+		employee.setEmpFileType(dbEmployee.getEmpFileType());
+		employee.setEmpFileName(dbEmployee.getEmpFileName());
+		employee.setPosName(getPositionName(dbEmployee.getDepId()));
+		employee.setDepName(getDepartmentName(dbEmployee.getDepId()));
+		return "SUCCESS";
 	}
 
 	/**
@@ -82,19 +75,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 * @param 작성 아이디
 	 * @return 해당 아이디에 해당하는 직원의 정보
 	 */
-	private Employee getEmployee(String empId) {
+	@Override
+	public Employee getEmployee(String empId) {
 		return employeeDao.getEmployeeById(empId);
 	}
 
 	/**
 	 * 비밀번호가 틀렸을 때 fail count +1
-	 * 
 	 * @param employee
 	 * @return employee
 	 */
-	private void updateLoginFailCnt(Employee employee) {
-		employee.setEmpLoginFailuresCnt(employee.getEmpLoginFailuresCnt() + 1);
-		employeeDao.updateLoginFailCnt(employee);
+	private int updateLoginFailCnt(Employee dbEmployee) {
+		dbEmployee.setEmpLoginFailuresCnt(dbEmployee.getEmpLoginFailuresCnt() + 1);
+		log.info("failCnt :" +dbEmployee.getEmpLoginFailuresCnt());
+		employeeDao.updateLoginFailCnt(dbEmployee);
+		return dbEmployee.getEmpLoginFailuresCnt();
 	}
 
 	/**
@@ -106,6 +101,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private void updateLoginSuccessCnt(Employee employee) {
 		employee.setEmpLoginFailuresCnt(0);
 		employeeDao.updateLoginSuccessCnt(employee);
+	}
+	
+	private String getDepartmentName(int depId) {
+		String depStr = departmentDao.getDepartmentById(depId);
+		return depStr;
+	}
+	
+	private String getPositionName(int posId) {
+		String posStr = positionDao.getPositionById(posId);
+		return posStr;
 	}
 
 	@Override
@@ -163,17 +168,57 @@ public class EmployeeServiceImpl implements EmployeeService {
 		} else {
 			employee.setEmpId(completeId + "1");
 		}
-		// 랜덤 숫자로만 이뤄진 4개 문자열 반환
-		employee.setEmpPassword(RandomStringUtils.randomNumeric(4));
 		PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		employee.setEmpPassword(pe.encode(employee.getEmpPassword()));
+		employee.setEmpPassword(pe.encode("12345"));
 		// 직급에 따른 연차 갯수 얻어오기
-		int leaveReserve = employeeDao.getLeaveReserve(employee.getPosId());
+		int leaveReserve = positionDao.getLeaveReserve(employee.getPosId());
 		employee.setEmpLeaveReserve(leaveReserve);
 		employeeDao.insertEmployee(employee);
 		employeeDetail.setEmpId(employee.getEmpId());
-		employeeDao.insertEmployeeDetail(employeeDetail);
+		employeeDetailDao.insertEmployeeDetail(employeeDetail);
 
 	}
+	
+	@Override
+	public EmployeeDetail getEmployeeDetail(String empId, Date now) {
+		EmployeeDetail employeeDetail = employeeDetailDao.getEmployeeDetail(empId);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM");
+		String nowStr = format.format(now);
+		String employmentStr = format.format(employeeDetail.getEmpDetailEmploymentDate());
+		String[] nowSplit = nowStr.split("/");
+		String[] employmentSplit = employmentStr.split("/");
+		int year = (Integer.parseInt(nowSplit[0]))-(Integer.parseInt(employmentSplit[0]));
+		int month=0;
+		if((Integer.parseInt(nowSplit[1]))>(Integer.parseInt(employmentSplit[1]))){
+			month=1;
+		}
+		year = year + month;
+		employeeDetail.setEmpDetailSeniority(year);
+		employeeDetailDao.updateSeniority(empId, year);
+		return employeeDetailDao.getEmployeeDetail(empId);
+	}
+	
+	/**
+	 * a-jax mypage 이미지 바꾸기
+	 */
+	@Override
+	public void updateImg(Employee employee) {
+		employeeDao.updateImg(employee);
+	}
 
+	/**
+	 * 마이페이지 비밀번호 수정하기
+	 */
+	@Override
+	public void updatePassword(String empId, String password) {
+		PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		password = pe.encode(password);
+		employeeDao.updatePassword(empId, password);
+	}
+
+	@Override
+	public List<String> getDepartment(int depId) { 
+		return employeeDao.getDepartment(depId);
+	}
+	
 }
