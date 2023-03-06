@@ -86,7 +86,7 @@
 				<ul class="nav flex-column sub-menu">
 					<!-- 공통 -->
 					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/myattendance">나의 근무</a></li>
-					<li class="nav-item"><a class="nav-link" href="<c:url value='/hr/myatdapplication?pageNo=1&startDate=${startDate}&endDate=${endDate}'/>">나의 근무신청</a></li>
+					<li class="nav-item"><a class="nav-link" href="<c:url value='/hr/myatdexception?pageNo=1&startDate=${startDate}&endDate=${endDate}'/>">나의 근무신청</a></li>
 					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/myleave">나의 휴가</a></li>
 					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/hr/empleave">부서휴가현황</a></li>
 					<!-- 부서장 -->

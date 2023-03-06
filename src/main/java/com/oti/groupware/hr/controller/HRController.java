@@ -52,7 +52,7 @@ public class HRController {
 		model.addAttribute("attendance", attendance);
 		
 		//근무통계 갖고옴
-		HashMap<String, Object> stateCount = hrService.attendanceState(empId); 
+		HashMap<String, Integer> stateCount = hrService.attendanceStats(empId); 
 		model.addAttribute("stateCount", stateCount);
 		
 		return "hr/myattendance";
@@ -125,7 +125,7 @@ public class HRController {
 	 * @param pageNo(시작페이지), startYear(시작월-필터링), endYear(종료월-필터링)
 	 * @return 나의 근무신청 페이지
 	 */
-	@RequestMapping(value = "/myatdapplication")
+	@RequestMapping(value = "/myatdexception")
 	public String myAttendanceApplication(Integer pageNo, String startDate, String endDate, Model model) {
 		log.info("정보 로그");
 		
@@ -159,7 +159,11 @@ public class HRController {
 			model.addAttribute("atdExcpList", atdExcpList);
 		}
 		
-		return "hr/myatdapplication";
+		//근무신청서 통계
+		HashMap<String, Integer> atdExcpStats = hrService.attendanceExceptionStats(empId);
+		model.addAttribute("atdExcpStats", atdExcpStats);
+		
+		return "hr/myatdexception";
 	}
 	
 	/**
@@ -179,7 +183,7 @@ public class HRController {
 		HashMap<String, String> empFormInfo = hrService.empFormInfoMap(empId); //신청양식에 필요한 정보 갖고옴(나중에 employeeSerivce에 넣기)
 		model.addAttribute("empFormInfo", empFormInfo);
 		
-		//오늘의 출퇴근 기록 갖고 오기
+		//오늘의 출퇴근 기록 가져오기
 		Attendance attendance = hrService.attendanceToday(empId);
 		model.addAttribute("attendance", attendance);
 		
@@ -200,17 +204,29 @@ public class HRController {
 		log.info("정보 로그");
 		//작성내용 등록
 		hrService.writeAttendanceExceptionApplication(attendanceException);
-		return "redirect:/hr/myatdapplication";
+		return "redirect:/hr/myatdexception";
 	}
 
 	/**
-	 * 
+	 * 근무시간수정 신청서 상세내용 조회
+	 * @author 한송민
+	 * @param atdExcpId(근무신청서ID)
 	 * @return 근무신청서 상세조회 팝업창
 	 */
-	@RequestMapping(value = "/popup/updatetimedetail")
-	public String updateTimeDetail() {
+	@RequestMapping(value = "/popup/attendanceApplicationdetail")
+	public String attendanceApplicationDetail(int atdExcpId, Model model) {
 		log.info("정보 로그");
-		return "hr/popup/updatetimedetail";
+		
+		//신청서의 상세내용 가져오기
+		AttendanceException atdExcp = hrService.attendanceExcptionDetail(atdExcpId);
+		model.addAttribute("atdExcp", atdExcp);
+		
+		//유형에 따라 근무시간수정서 or 추가근무보고서 팝업을 리턴
+		if(atdExcp.getAtdExcpCategory().equals("근무시간수정")) {
+			return "hr/popup/updatetimedetail";
+		} else {
+			return "hr/popup/overtimedetail";
+		}
 	}
 
 	/**

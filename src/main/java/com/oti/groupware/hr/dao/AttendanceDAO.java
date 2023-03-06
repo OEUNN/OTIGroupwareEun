@@ -13,7 +13,7 @@ import com.oti.groupware.hr.dto.Attendance;
 public interface AttendanceDAO {
 	public Attendance getAttendanceToday(@Param("empId") String empId);
 	public List<Attendance> getAttendanceList(@Param("empId")String empId);
-	public HashMap<String, Object> countAttendanceState(@Param("empId") String empId);
+	public HashMap<String, Integer> getAttendanceStats(@Param("empId") String empId);
 	public void insertAttendance(@Param("empId") String empId);
 	public void updateAttendance(@Param("empId") String empId);
 	public void deleteAttendance(@Param("atdId") int atdId, @Param("empId") String empId);

@@ -140,7 +140,7 @@
 	</table>
 </div>
 <!-- 변경내용(폼) -->
-<form action="${pageContext.request.contextPath}/hr/applicationform" onsubmit="return validateForm();" method="post">
+<form action="<c:url value='/hr/myatdexception?pageNo=1&startDate=${startDate}&endDate=${endDate}'/>" onsubmit="return validateForm();" method="post">
 <div class="container-fluid">
 	<div class="row justify-content-around">
 		<div class="col-md"></div>

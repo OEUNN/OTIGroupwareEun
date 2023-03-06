@@ -50,20 +50,31 @@
 			                           <tbody>
 			                              <tr class="custom-border-left custom-border-right">
 			                                 <td class="custom-border-right"><h4 class="font-weight-bold text-center m-0">작성자</h4></td>
-			                                 <td>이춘향</td>
+			                                 <td>${atdExcp.empName}</td>
 			                                 <td></td>
 			                                 <td></td>
 			                                 <td class="custom-border-left custom-border-right"><h4 class="font-weight-bold text-center m-0">근무날짜</h4></td>
-			                                 <td>2023-02-21</td>
+			                                 <td>${atdExcp.atdExcpDate}</td>
 			                                 <td></td>
 			                              </tr>
 			                              <tr class="custom-border-left custom-border-right">
 			                                 <td class="custom-border-right"><h4 class="font-weight-bold text-center m-0">결재자</h4></td>
-			                                 <td>홍길동</td>
+			                                 <td>${atdExcp.atdExcpApprovalEmp}</td>
 			                                 <td></td>
 			                                 <td></td>
 			                                 <td class="custom-border-left custom-border-right"><h4 class="font-weight-bold text-center m-0">신청결과</h4></td>
-			                                 <td><div class="badge badge-danger font-weight-bold">반려</div></td>
+			                                 <td>
+												<!-- 결재상태 -->
+												<c:if test="${atdExcp.atdExcpProcessState == '미처리'}">
+													<div class="badge badge-secondary font-weight-bold text-white">${atdExcp.atdExcpProcessState}</div>
+												</c:if>
+												<c:if test="${atdExcp.atdExcpProcessState == '승인'}">
+													<div class="badge badge-success font-weight-bold">${atdExcp.atdExcpProcessState}</div>
+												</c:if>
+												<c:if test="${atdExcp.atdExcpProcessState == '반려'}">
+													<div class="badge badge-danger font-weight-bold">${atdExcp.atdExcpProcessState}</div>
+												</c:if>
+											 </td>
 			                                 <td></td>
 			                              </tr>
 			                              <tr>
@@ -91,9 +102,9 @@
 		                       		<!-- 추가근무시간 el -->
 		                       		<div class="row px-5 py-2 mt-2">
 		                       			<div class="col-md d-flex justify-content-center">
-		                       				<h4 class="mx-4 mb-0 text-primary font-weight-bold">시작시간</h4>
+		                       				<h4 class="mx-4 mb-0 text-primary font-weight-bold">${atdExcp.atdExcpInTime}</h4>
 		                       				<h4 class="mx-4 mb-0 text-primary font-weight-bold">~</h4>
-		                       				<h4 class="mx-4 mb-0 text-primary font-weight-bold">종료시간</h4>
+		                       				<h4 class="mx-4 mb-0 text-primary font-weight-bold">${atdExcp.atdExcpOutTime}</h4>
 		                       			</div>
 		                       		</div>
 		                       		<!-- 휴가사유 -->
@@ -101,18 +112,20 @@
 	                      				<h4 class="mx-4 mb-0 font-weight-bold ">사유</h4>
 		                      		</div>
 		                      		<div class="row px-5 mt-3 ml-1">
-	                      				<h6 class="ml-1 mb-0 text-primary font-weight-bold">연차 사용</h6>
+	                      				<h6 class="ml-1 mb-0 text-primary font-weight-bold">${atdExcp.atdExcpReason}</h6>
 		                      		</div>
 		                        	<div class="row justify-content-center mt-3">
 		                       			<div style="border-bottom: 2px solid #4B49AC; width:90%;"></div>
 		                      		</div>
-		                      		<!-- 반려사유 c:if 사용하기 -->
+		                      		<!-- 반려사유 -->
+		                      		<c:if test="${!empty atdExcp.atdExcpOpinion}">
 		                      		<div class="row px-5 mt-3 justify-content-start">
 	                      				<h4 class="mx-4 mb-0 font-weight-bold text-danger">반려 사유</h4>
 		                      		</div>
 		                      		<div class="row px-5 mt-3 ml-1">
-	                      				<h6 class="ml-1 mb-0 text-danger">그냥 안됨요</h6>
+	                      				<h6 class="ml-1 mb-0 text-danger">${atdExcp.atdExcpOpinion}</h6>
 		                      		</div>
+		                      		</c:if>
 		                        </div>
 								<!-- 버튼 -->
 		                        <div class="row px-5 mt-3 justify-content-end">

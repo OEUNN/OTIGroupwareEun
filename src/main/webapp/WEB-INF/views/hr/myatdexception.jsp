@@ -41,22 +41,11 @@
 	});
 
 	/* 근무신청내역 상세보기 팝업창 */
-	function atdAppDetail(data) {
-
-		//추후 근무신청서 유형에 따라 다른 팝업창이 열려야함! 매개변수!!! 잊지말자!
-		if (data == '근무시간수정') {
-			//근무시간수정신청서 팝업창
-			var url = "popup/updatetimedetail";
-			var name = "";
-			var option = "width = 800, height = 630, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
-			window.open(url, name, option);
-		} else {
-			//추가근무보고서 팝업창
-			var url = "popup/overtimedetail";
-			var name = "";
-			var option = "width = 800, height = 630, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
-			window.open(url, name, option);
-		}
+	function atdAppDetail(id) {
+		var url = "popup/attendanceApplicationdetail?atdExcpId=" + id;
+		var name = "";
+		var option = "width = 800, height = 630, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
+		window.open(url, name, option);
 	}
 
 	//근무시간수정, 추가근무신청서 양식 변경
@@ -106,8 +95,7 @@
 										class="d-flex justify-content-between align-items-center mb-4">
 										<div class="card-title mb-0">근무신청내역</div>
 										<div class="d-flex justify-content-end" style="width: 70%;">
-											<form
-												action="<c:url value='/hr/myatdapplication?pageNo=1&startDate=${startDate}&endDate=${endDate}'/>"
+											<form action="<c:url value='/hr/myatdexception?pageNo=1&startDate=${startDate}&endDate=${endDate}'/>"
 												method="GET">
 												<div class="d-flex justify-content-end">
 													<!-- datepicker start -->
@@ -145,8 +133,8 @@
 												<div class="col-md px-0">추가근무보고</div>
 											</div>
 											<div class="row text-center font-weight-bold h3 mb-0">
-												<div class="col-md">0</div>
-												<div class="col-md">0</div>
+												<div class="col-md">${atdExcpStats['근무시간수정']}</div>
+												<div class="col-md">${atdExcpStats['추가근무보고']}</div>
 											</div>
 										</div>
 									</div>
@@ -165,16 +153,26 @@
 											<tbody>
 												<c:if test="${!empty atdExcpList}">
 													<c:forEach var="atdExcp" items="${atdExcpList}">
-														<tr onclick="atdAppDetail('근무시간수정')">
-															<td>${atdExcp.atdExcpCategory}</td>
-															<td>${atdExcp.atdExcpDate}</td>
+															<tr onclick="atdAppDetail('${atdExcp.atdExcpId}')">
+															<td><small>${atdExcp.atdExcpCategory}</small></td>
+															<td><small>${atdExcp.atdExcpDate}</small></td>
 															<td>${atdExcp.atdExcpApprovalEmp}</td>
 															<td>${atdExcp.atdExcpProcessDate}</td>
-															<td><div class="badge badge-success font-weight-bold">${atdExcp.atdExcpProcessState}</div></td>
+															<td>
+																<!-- 결재상태 -->
+																<c:if test="${atdExcp.atdExcpProcessState == '미처리'}">
+																	<div class="badge badge-secondary font-weight-bold text-white">${atdExcp.atdExcpProcessState}</div>
+																</c:if>
+																<c:if test="${atdExcp.atdExcpProcessState == '승인'}">
+																	<div class="badge badge-success font-weight-bold">${atdExcp.atdExcpProcessState}</div>
+																</c:if>
+																<c:if test="${atdExcp.atdExcpProcessState == '반려'}">
+																	<div class="badge badge-danger font-weight-bold">${atdExcp.atdExcpProcessState}</div>
+																</c:if>
+															</td>
 														</tr>
 													</c:forEach>
 												</c:if>
-												<!-- 			                        	<tr onclick="atdAppDetail('추가근무')"> -->
 												<c:if test="${empty atdExcpList}">
 													<tr>
 														<td></td>
@@ -187,17 +185,17 @@
 											</tbody>
 										</table>
 										<c:if test="${empty atdExcpList}">
-											<div>해당 날</div>
+											<div class="row mx-0 justify-content-center">해당 날짜의 목록이 없습니다.</div>
 										</c:if>
 									</div>
 									<!-- 페이징 -->
 									<c:if test="${!empty pager}">
 										<div class="row mt-5 d-flex justify-content-center">
-											<ul class="pagination  pb-0 mb-0">
+											<ul class="pagination pb-0 mb-0">
 												<!-- 이전 -->
 												<c:if test="${pager.groupNo > 1}">
 													<li class="page-item disabled"><a class="page-link"
-														href="<c:url value='/hr/myatdapplication?pageNo=${pager.startPageNo-5}&startDate=${startDate}&endDate=${endDate}'/>">이전</a>
+														href="<c:url value='/hr/myatdexception?pageNo=${pager.startPageNo-5}&startDate=${startDate}&endDate=${endDate}'/>">이전</a>
 													</li>
 												</c:if>
 												<c:forEach var="i" begin="${pager.startPageNo}"
@@ -205,7 +203,7 @@
 													<!-- 선택할 페이지 -->
 													<c:if test="${pager.pageNo != i}">
 														<li class="page-item"><a class="page-link"
-															href="<c:url value='/hr/myatdapplication?pageNo=${i}&startDate=${startDate}&endDate=${endDate}'/>">${i}</a>
+															href="<c:url value='/hr/myatdexception?pageNo=${i}&startDate=${startDate}&endDate=${endDate}'/>">${i}</a>
 														</li>
 													</c:if>
 													<!-- 현재페이지 -->
@@ -215,7 +213,7 @@
 												</c:forEach>
 												<c:if test="${pager.groupNo < pager.totalGroupNo}">
 													<li class="page-item"><a class="page-link"
-														href="<c:url value='/hr/myatdapplication?pageNo=${pager.startPageNo+5}&startDate=${startDate}&endDate=${endDate}'/>">다음</a></li>
+														href="<c:url value='/hr/myatdexception?pageNo=${pager.startPageNo+5}&startDate=${startDate}&endDate=${endDate}'/>">다음</a></li>
 												</c:if>
 											</ul>
 										</div>

@@ -11,7 +11,7 @@ import com.oti.groupware.hr.dto.AttendanceException;
 
 public interface HrService {
 	public Attendance attendanceToday(String empId);
-	public HashMap<String, Object> attendanceState(String empId);
+	public HashMap<String, Integer> attendanceStats(String empId);
 	public JSONArray attendanceCalendarList(String empId);
 	public void inTime(String empId);
 	public void outTime(String empId);
@@ -21,4 +21,6 @@ public interface HrService {
 	public int attendanceExceptionCount(String startDate, String endDate, String empId);
 	public List<AttendanceException> attendanceExceptionList(String startDate, String endDate, String empId,
 			Pager pager);
+	public AttendanceException attendanceExcptionDetail(int atdExcpId);
+	public HashMap<String, Integer> attendanceExceptionStats(String empId);
 }

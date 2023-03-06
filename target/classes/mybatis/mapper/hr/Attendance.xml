@@ -24,7 +24,7 @@
 	</select>
 	
 	<!-- 근무통계 -->
-	<select id="countAttendanceState" resultType="hashmap">
+	<select id="getAttendanceStats" resultType="hashmap">
 		<![CDATA[
 		SELECT
 		    count(CASE WHEN atd_state = '정상출근' THEN 1 END) AS 정상출근,
