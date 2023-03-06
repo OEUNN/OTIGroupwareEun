@@ -32,6 +32,9 @@
 			$("#approvalForm").append('<input type="hidden" name="approvalName" value="' + receivedData.empName + '">');
 			$("#approvalForm").append('<input type="hidden" name="depName" value="' + receivedData.depName + '">');
 			$("#approvalForm").append('<input type="hidden" name="posName" value="' + receivedData.posName + '">');
+			$("#approvalForm").append('<input type="hidden" name="approvalOrder" value="' + receivedData.approvalOrder + '">');
+			$("#approvalForm").append('<input type="hidden" name="approvalState" value="미결">');
+			$("#approvalForm").append('<input type="hidden" name="approvalDate" value="미정">');
 			
 			//iframe은 일반적인 $()로 접근할 수 없다
 			$("iframe").contents().find("body").find("#position").append('<td class="' + receivedData.removeClass + ' content-align-center text-content">' + receivedData.posName + '</td>');
@@ -172,7 +175,7 @@
 											</div>
 											<form id="approvalForm" action="<c:url value='/approval/approvalwrite'/>" method="post">
 		        								<textarea id="document" name="document" style="width: inherit;"></textarea>
-		        								<input type="hidden" name="empId" value="202302271">
+		        								<input type="hidden" name="drafterId" value="202302271">
 		        								<input type="hidden" name="docReportDate" value="2023/03/02">
 											</form>
 		        						</div>

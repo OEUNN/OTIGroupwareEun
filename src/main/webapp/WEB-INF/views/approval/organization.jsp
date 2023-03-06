@@ -30,6 +30,8 @@
 	}
 	</style>
 	<script>
+		var order = 1;
+		
 		function appendToList(elementId) {
 			if ($("#approvalLine div").length < 3) {
 				delId = 'del' + elementId;
@@ -43,9 +45,10 @@
 					clonedElement.addClass('mdi-minus');
 					let jQueryElement = clonedElement.html();
 					
-					jQueryElement = '<div id="' + delId + '" class="highlight row m-1 ' + $(elementId).attr('class').split(' ')[3] + '" onclick="removeFromList('+originalId+')">' + jQueryElement + '</div>'
-					
+					jQueryElement = '<div id="' + delId + '" class="'+order+' highlight row m-1 ' + $(elementId).attr('class').split(' ')[3] + '" onclick="removeFromList('+originalId+')">' + jQueryElement + '</div>'
 					$("#approvalLine").append(jQueryElement);
+					
+					order += 1;
 				}
 				else {
 					alert("결재선에 같은 사람을 두번 이상 지정할 수 없습니다.");
@@ -57,15 +60,17 @@
 		}
 		
 		function removeFromList(Id) {
-			console.log(Id);
 			Id = '#del' + Id;
 			$(Id).remove();
+			if (order > 0) {
+				order -= 1;
+			}
 		}
 		
 		function sendApprovalLine(tagId) {
 			$(tagId).each((index, element) => {
-				var empId = $(element).attr('id');
-				var depName = $(element).attr('class').split(' ')[3];
+				var empId = $(element).attr('id').substr(3);
+				var depName = $(element).attr('class').split(' ')[4];
 				
 				var empData = $(element).text().split(' ');
 				
@@ -74,6 +79,7 @@
 				//var empMail = empData[2];
 				
 				var removeClass = 'r' + empId;
+				var approvalOrder = $(element).attr('class').split(' ')[0];
 				
 				var sendData = {
 					content :	
@@ -88,7 +94,7 @@
 										empName +
 									'</p>' +
 									'<p>' +
-										depName + posName +
+										depName + ' ' + posName +
 									'</p>' +
 								'</div>' +
 								'<div class="col-2">' +
@@ -101,7 +107,8 @@
 					empId : empId,
 					empName : empName,
 					depName : depName,
-					posName : posName
+					posName : posName,
+					approvalOrder : approvalOrder
 				}
 				opener.postMessage(sendData);
 				window.close();

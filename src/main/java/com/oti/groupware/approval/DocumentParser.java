@@ -16,8 +16,6 @@ import com.oti.groupware.approval.dto.Document;
 public class DocumentParser {
 	private org.jsoup.nodes.Document approvalDocument;
 	private Document document;
-	private ApprovalLine approvalLine;
-	private List<ApprovalLine> approvalLineList;
 
 	public void ParseDraft(String html, String drafterId) {
 		approvalDocument = Jsoup.parse(html, "UTF-8");
@@ -32,14 +30,6 @@ public class DocumentParser {
 		String documentTitle = body.getElementsByClass("documentTitle").text();
 		String documentWriteDate = body.getElementsByClass("documentWriteDate").text();
 		
-		Elements documentApprovalLine = body.getElementsByClass("documentApprovalLine");
-		
-		Elements employeeIds = documentApprovalLine.get(0).getElementsByClass("employeeId");
-		Elements approvalLineStates = documentApprovalLine.get(0).getElementsByClass("approvalLineState");
-		Elements approvalDates = documentApprovalLine.get(0).getElementsByClass("approvalDate");
-		
-		int length = approvalDates.size();
-		
 		document = new Document();
 		document.setDocId(documentId);
 		document.setEmpId(drafterId);
@@ -50,38 +40,11 @@ public class DocumentParser {
 		document.setDocWriteDate(Date.valueOf(documentWriteDate));
 		document.setDocState("결재중");
 		document.setDocTempYn('N');
-		/*
-		 * document.setDocReportDate(docReportDate);
-		 */
-		
-		approvalLineList = new ArrayList<ApprovalLine>();
-		
-		approvalLine = new ApprovalLine();
-		approvalLine.setDocId(documentId);
-		approvalLine.setEmpId(drafterId);
-		approvalLine.setAprvLineState("승인");
-		approvalLine.setAprvLineOrder(0);
-		approvalLine.setAprvLineRole("기안");
-		approvalLineList.add(approvalLine);
-		
-		for (int i = 0; i < length; i++) {
-			approvalLine = new ApprovalLine();
-			approvalLine.setDocId(documentId);
-			approvalLine.setEmpId(employeeIds.get(i).text());
-			approvalLine.setAprvLineState(approvalLineStates.get(i).text());
-			approvalLine.setAprvLineOrder(i + 1);
-			approvalLine.setAprvLineRole("결재");
-			approvalLineList.add(approvalLine);
-		}
 
 	}
 	
 	public Document getParsedDocument() {
 		return document;
-	}
-	
-	public List<ApprovalLine> getParsedApprovalLines() {
-		return approvalLineList;
 	}
 	
 }

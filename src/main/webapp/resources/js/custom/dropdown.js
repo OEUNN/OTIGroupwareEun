@@ -59,6 +59,7 @@ function addChangeLabelTextColorEvent(list, cachedElement, isEditorContentEmpty)
 		
 		else {
 			alert("지원하지 않는 유형입니다.");
+			return;
 		}
 	}
 	

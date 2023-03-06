@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.OrderComparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oti.groupware.approval.dto.ApprovalLine;
 import com.oti.groupware.approval.dto.Document;
+import com.oti.groupware.approval.dto.DocumentContent;
 import com.oti.groupware.approval.dto.DocumentFile;
 import com.oti.groupware.approval.service.ApprovalLineService;
 import com.oti.groupware.approval.service.ApprovalService;
@@ -99,9 +99,10 @@ public class ApprovalController {
 	
 	//결재 문서 작성 화면
 	@RequestMapping(value = "/approvalwrite", method=RequestMethod.POST)
-	public String postApprovalWrite(@RequestParam("document") String document, @RequestParam("empId") String drafterId) {
+	public String postApprovalWrite(@RequestParam("document") String document, DocumentContent documentContent) {
+		
 		log.info("정보 로그");
-		int result = approvalService.saveDraft(document, drafterId);
+		int result = approvalService.saveDraft(document, documentContent);
 		return "approval/approvalwrite";
 	}
 	
@@ -133,8 +134,6 @@ public class ApprovalController {
 	public String getApprovalDetail(@PathVariable String docId, Model model) {
 		log.info("정보 로그");
 		approvalLines = approvalLineService.readApprovalLines(docId);
-		
-		
 		
 		model.addAttribute("approvalLines", approvalLine);
 		return "approval/viewdetail";
