@@ -10,7 +10,7 @@
 				//달력 렌더링
 				var calendarEl = document.getElementById('calendar');
 				var calendar = new FullCalendar.Calendar(calendarEl, {
-					contentHeight : 550,
+					contentHeight : 700,
 					selectable : true,
 					businessHours : true,
 					locale : 'ko',
@@ -25,8 +25,7 @@
 					      googleCalendarApiKey: 'AIzaSyAocA5FID3dzNX7LOO3N02rbI_4oEKjQPM',
 					      googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
 					      className: 'fc-holiday-ko', // 특별한 클래스 이름을 사용하여 구분
-					      color: '#fadbcf',
-					      textColor: 'white'
+				    	  color: '#89c989'
 					    }
 					],
 					eventContent: function(info) {
@@ -36,7 +35,7 @@
 						
 						if (eventTitle == '출근') {
 							if(eventTime.substring(0, 2) <= 8) {
-								return { html : '<div class="badge" style="background-color:#F3797E;">출근 ' + eventTime + '</div>' }
+								return { html : '<div id="intime-badge" class="badge" style="background-color:#F3797E;">출근 ' + eventTime + '</div>' }
 							} else { //지각인 경우
 								return { html : '<div class="badge badge-outline-danger">지각 ' + eventTime + '</div>' }
 							}
@@ -53,7 +52,7 @@
 						} else if(eventTitle == '추가근무') {
 							return { html : '<div class="badge" style="background-color:#FDD36A; padding: 7px 5px; font-size:5%;">추가근무 ' + eventTime + '</div>' }
 						} else if($('.fc-holiday-ko')){
-							return { html : '<div id="ko-holiday">' + eventTitle + '</div>' }
+							return { html : eventTitle }
 						}
 					}
 				});
@@ -84,10 +83,6 @@
 						$("#today-out-time").html(outTime.substring(3));
 					}
 				}
-				
-			//이벤트가 3개이상인 경우(ex. 공휴일에 근무했을 경우, ...)
-			} else if($(this).find(".fc-daygrid-event-harness").length >= 3) {
-				console.log($(this));				
 			//출근만 있는 경우
 			} else if($(this).find(".fc-daygrid-event-harness").length == 1){
 				let inTime = $(this).find(".fc-daygrid-event-harness")[0].innerText;
@@ -96,7 +91,14 @@
 					$("#today-out-time").html("<br>");
 				} else { //출근하나만 있을 경우!
 					$("#today-in-time").html(inTime.substring(3));
+					$("#today-out-time").html("<br>");
 				}
+			//이벤트가 3개 이상인 경우(공휴일..)
+			} else if($(this).find(".fc-daygrid-event-harness").length >= 3) {
+				let inTime = $(this).find(".fc-daygrid-event-harness")[1].innerText;
+				let outTime = $(this).find(".fc-daygrid-event-harness")[2].innerText;
+				$("#today-in-time").html(inTime.substring(3));
+				$("#today-out-time").html(outTime.substring(3));
 			//출퇴근 이력이 없는 경우
 			} else { 
 				$("#today-in-time").html("<br>");
@@ -129,9 +131,9 @@
 	}
 	
 	/* 공휴일	 */
-	#ko-holiday {
-		font-weight: bold;
-	}
+/* 	.fc-holiday-ko { */
+/* 		display: none; */
+/* 	} */
 	
 	.fc-daygrid-event {
 		border-radius: 3px;
@@ -227,25 +229,14 @@
 	.fc-icon-chevron-left:before, .fc-icon-chevron-right:before {
 		color: white;
 	}
+	
 </style>
 <!-- End plugin css,js for this page -->
 
 
 <div class="card">
-	<div class="card-body">
-        <!-- 근무현황통계 -->
-        <div class="card card-light-blue">
-          <div class="card-body">
-              <div class="row">
-                 <div class="col-md text-center">정상출근<span class="pl-2 h3 font-weight-bold">${stateCount['정상출근']}</span></div>
-                 <div class="col-md text-center">지각<span class="pl-2 h3 font-weight-bold">${stateCount['지각']}</span></div>
-                 <div class="col-md text-center">조퇴<span class="pl-2 h3 font-weight-bold">${stateCount['조퇴']}</span></div>
-                 <div class="col-md text-center">결근<span class="pl-2 h3 font-weight-bold">${stateCount['결근']}</span></div>
-                 <div class="col-md text-center">추가근무<span class="pl-2 h3 font-weight-bold">${stateCount['추가근무']}</span></div>
-              </div>
-             </div>
-         </div>
+	<div class="card-body pt-0 pb-3">
 		<!-- 달력 -->
-		<div id="calendar" class="px-2"></div>
+		<div id="calendar"></div>
 	</div>
 </div>

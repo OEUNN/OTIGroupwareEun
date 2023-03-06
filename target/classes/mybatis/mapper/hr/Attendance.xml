@@ -24,7 +24,7 @@
 	</select>
 	
 	<!-- 근무통계 -->
-	<select id="countAttendanceState" resultType="hashmap">
+	<select id="getAttendanceStats" resultType="hashmap">
 		<![CDATA[
 		SELECT
 		    count(CASE WHEN atd_state = '정상출근' THEN 1 END) AS 정상출근,
@@ -120,4 +120,17 @@
 		  	    (atd_state is null OR atd_state = '')
 		</if>
 	</update>
+	
+	<!-- 신청폼에서 결재자이름, 작성자이름 갖고오기 -->
+	<select id="getEmpNames" resultType="hashmap">
+		SELECT 
+			e.emp_name AS 작성자, 
+			(SELECT emp_name FROM employees WHERE emp_id = d.emp_id) AS 결재자
+		FROM 
+			employees e, departments d 
+		WHERE 
+			e.dep_id = d.dep_id 
+			AND e.emp_id = #{empId}
+	</select>
+	
 </mapper>

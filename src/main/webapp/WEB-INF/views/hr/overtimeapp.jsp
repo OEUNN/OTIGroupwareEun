@@ -37,12 +37,6 @@
 </style>
 	
 <script>
- 	//팝업창 닫을 시 이동
-       function overTime(){
-      		window.opener.top.location.href="<c:url value='/hr/attendance'/>";
-           window.close();
-       }
- 	
  	//datepicker 렌더링
    	$(function(){ 
 	      $('#datepicker-overtimeapp').datepicker({
@@ -59,9 +53,61 @@
  	$(function(){ 
 		$('.clockpicker').clockpicker();
  	});
+ 	
+ 	//폼 유효성검사
+	function validateForm() {
+		var result = true;
+		
+		//날짜를 선택하지 않았을 경우
+		if($('#atdExcpDate').val() == ''){
+			$('#atdExcpDate').css('border-color', 'red');
+			result = false;
+		}
+		//시작시간을 선택하지 않았을 경우
+		if($('#atdExcpInTime').val() == '') {
+			$('#atdExcpInTime').css('border-color', 'red');
+			result = false;
+		}
+
+		//종료시간을 선택하지 않았을 경우
+		if($('#atdExcpOutTime').val() == '') {
+			$('#atdExcpOutTime').css('border-color', 'red');
+			result = false;
+		}
+		//사유를 작성하지 않았을 경우
+		if($('#reason').val() == ''){
+			$("textarea.form-control").css('border-color', 'red');
+			result = false;
+		}
+		
+		return result;
+	}
+	
+	$(function() {
+		$("#atdExcpDate").focusin(function(){
+		    $(this).css("border-color", "#4B49AC");
+		  });
+
+		$("#atdExcpInTime").focusin(function(){
+		    $(this).css("border-color", "#4B49AC");
+		  });
+		
+		$("#atdExcpOutTime").focusin(function(){
+		    $(this).css("border-color", "#4B49AC");
+		  });
+
+		$("textarea.form-control").focusin(function(){
+		    $(this).css("border-color", "#4B49AC");
+		  });
+
+		$("textarea.form-control").focusout(function(){
+		    $(this).css("border-color", "#CED4DA");
+		  });
+	});
 </script>
 <!-- End plugin css,js for this page -->
 
+<form action="<c:url value='/hr/myatdexception?pageNo=1&startDate=${startDate}&endDate=${endDate}'/>" onsubmit="return validateForm();" method="post">
 <div class="table-responsive px-3 py-2">
 	<!-- 고정 내용 -->
 	<table class="table">
@@ -69,28 +115,26 @@
 			<tr class="custom-border-left custom-border-right">
 				<td class="custom-border-right"><h4
 						class="font-weight-bold text-center m-0">작성자</h4></td>
-				<td>이춘향</td>
+				<td>${empFormInfo['작성자']}</td>
 				<td></td>
 				<td></td>
 				<td class="custom-border-left custom-border-right"><h4
 						class="font-weight-bold text-center m-0">근무날짜</h4></td>
 				<td>
-					<!-- 추가근무날짜 선택 --> <!-- datepicker start -->
-					<div id="datepicker-overtimeapp"
-						class="input-daterange input-group">
-						<span class="h3 mdi mdi-calendar-clock text-primary"
-							style="position: relative; z-index: 1; top: 12px; left: 30px;"></span>
-						<input type="text"
-							class="form-control font-weight-bold text-center" name="start"
-							style="border: 2px solid #4B49AC; border-radius: 10px;" />
+					<!-- 추가근무날짜 선택 --> 
+					<!-- datepicker start -->
+					<div id="datepicker-overtimeapp" class="input-daterange input-group">
+						<span class="h3 mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top: 12px; left: 30px;"></span>
+						<input id="atdExcpDate" type="text" name="atdExcpDate" class="form-control font-weight-bold text-center" name="start" style="border: 2px solid #4B49AC; border-radius: 10px;" />
 					</div> <!-- datepicker end -->
 				</td>
 				<td></td>
 			</tr>
 			<tr class="custom-border-left custom-border-right">
-				<td class="custom-border-right"><h4
-						class="font-weight-bold text-center m-0">결재자</h4></td>
-				<td>홍길동</td>
+				<td class="custom-border-right">
+					<h4 class="font-weight-bold text-center m-0">결재자</h4>
+				</td>
+				<td>${empFormInfo['결재자']}</td>
 				<td></td>
 				<td></td>
 				<td></td>
@@ -109,7 +153,7 @@
 		</tbody>
 	</table>
 </div>
-<!-- 변경내용-->
+<!-- 변경내용(폼) -->
 <div class="container-fluid">
 	<div class="row ml-3">
 		<div class="col-md">
@@ -124,9 +168,8 @@
 			<!-- clockpicker-시작시간:start -->
 			<div id="intime-clockpicker">
 				<div class="input-group clockpicker">
-					<span class="h3 mdi mdi-timer text-primary"></span> <input
-						type="text" class="form-control"
-						style="border-radius: 8px; border: 2px solid #4747A1; text-align: center;">
+					<span class="h3 mdi mdi-timer text-primary"></span> 
+					<input id="atdExcpInTime" type="text" name="atdExcpInTime" class="form-control" style="border-radius: 8px; border: 2px solid #4747A1; text-align: center;">
 				</div>
 			</div>
 			<!-- clockpicker-시작시간:end -->
@@ -136,9 +179,8 @@
 			<!-- clockpicker-종료시간:start -->
 			<div id="outtime-clockpicker">
 				<div class="input-group clockpicker">
-					<span class="h3 mdi mdi-timer text-primary"></span> <input
-						type="text" class="form-control"
-						style="border-radius: 8px; border: 2px solid #4747A1; text-align: center">
+					<span class="h3 mdi mdi-timer text-primary"></span> 
+					<input id="atdExcpOutTime" type="text" name="atdExcpOutTime" class="form-control" style="border-radius: 8px; border: 2px solid #4747A1; text-align: center">
 				</div>
 			</div>
 			<!-- clockpicker-종료시간:end -->
@@ -146,21 +188,23 @@
 	</div>
 	<div class="row px-5 mt-4 justify-content-center">
 		<div class="form-group">
-			<label class="ml-1" for="reason"><div
-					class="h5 m-0 font-weight-bold text-primary">사유</div></label>
-			<textarea class="form-control" id="reason" rows="5" cols="68"></textarea>
+			<label class="ml-1" for="atdExcpReason"><div class="h5 m-0 font-weight-bold text-primary">사유</div></label>
+			<textarea class="form-control" id="reason" rows="5" cols="68" name="atdExcpReason"></textarea>
 		</div>
 	</div>
-
 	<div class="row justify-content-center mt-3">
 		<div style="border-bottom: 2px solid #4B49AC; width: 90%;"></div>
 	</div>
+	<!-- hidden input -->
+	<input type="hidden" name="empId" value="${attendance.empId}">
+	<input type="hidden" name="atdExcpApprovalEmp" value="${empFormInfo['결재자']}">
+	<input type="hidden" name="atdExcpCategory" value="추가근무">
 </div>
 <!-- 버튼 -->
 <div class="row px-5 mt-3 justify-content-end">
-	<button onclick="overTime()" type="submit" class="btn btn-primary mr-2">신청</button>
-	<button onclick="window.close()" type="button"
-		class="btn btn-inverse-primary mr-2">취소</button>
+	<button type="submit" class="btn btn-primary mr-2">신청</button>
+	<button onclick="resetForm()" type="reset" class="btn btn-inverse-primary mr-2">취소</button>
 </div>
 <!-- 변경내용:end -->
+</form>
 

@@ -50,20 +50,31 @@
 			                           <tbody>
 			                              <tr class="custom-border-left custom-border-right">
 			                                 <td class="custom-border-right"><h4 class="font-weight-bold text-center m-0">작성자</h4></td>
-			                                 <td>이춘향</td>
+			                                 <td>${atdExcp.empName}</td>
 			                                 <td></td>
 			                                 <td></td>
 			                                 <td class="custom-border-left custom-border-right"><h4 class="font-weight-bold text-center m-0">근무날짜</h4></td>
-			                                 <td>2023-02-21</td>
+			                                 <td>${atdExcp.atdExcpDate}</td>
 			                                 <td></td>
 			                              </tr>
 			                              <tr class="custom-border-left custom-border-right">
 			                                 <td class="custom-border-right"><h4 class="font-weight-bold text-center m-0">결재자</h4></td>
-			                                 <td>홍길동</td>
+			                                 <td>${atdExcp.atdExcpApprovalEmp}</td>
 			                                 <td></td>
 			                                 <td></td>
 			                                 <td class="custom-border-left custom-border-right"><h4 class="font-weight-bold text-center m-0">신청결과</h4></td>
-			                                 <td><div class="badge badge-success font-weight-bold">승인</div></td>
+			                                 <td>
+			                                 	<!-- 결재상태 -->
+												<c:if test="${atdExcp.atdExcpProcessState == '미처리'}">
+													<div class="badge badge-secondary font-weight-bold text-white">${atdExcp.atdExcpProcessState}</div>
+												</c:if>
+												<c:if test="${atdExcp.atdExcpProcessState == '승인'}">
+													<div class="badge badge-success font-weight-bold">${atdExcp.atdExcpProcessState}</div>
+												</c:if>
+												<c:if test="${atdExcp.atdExcpProcessState == '반려'}">
+													<div class="badge badge-danger font-weight-bold">${atdExcp.atdExcpProcessState}</div>
+												</c:if>
+			                                 </td>
 			                                 <td></td>
 			                              </tr>
 			                              <tr>
@@ -94,29 +105,33 @@
 			                       		<div style="border: 1px solid #a3a4a5; opacity: 0.5; width:90%;"></div>
 		                       		</div>
 		                       		<!-- 출근부분 -->
-		                       		<div class="row px-5 py-2 mt-2">
-		                       			<div class="col-md">
-											<h4 class="mx-4 mb-0 text-primary font-weight-bold">출근</h4>
-		                       			</div>
-		                       			<div class="col-md d-flex align-items-center pr-0">
-		                       				<div class="h5 mb-0 ml-3 text-muted">08:45</div>
-		                       			</div>
-		                       			<div class="col-md d-flex align-items-center pl-0">
-		                       				<h6 class="ml-5 mb-0 text-primary font-weight-bold">수정된시간</h6>
-		                       			</div>
-		                       		</div>
+		                       		<c:if test="${!empty atdExcp.atdExcpInTime}">
+			                       		<div class="row px-5 py-2 mt-2">
+			                       			<div class="col-md">
+												<h4 class="mx-4 mb-0 text-primary font-weight-bold">출근</h4>
+			                       			</div>
+			                       			<div class="col-md d-flex align-items-center pr-0">
+			                       				<div class="h5 mb-0 ml-3 text-muted">${atdExcp.atdInTime}</div>
+			                       			</div>
+			                       			<div class="col-md d-flex align-items-center pl-0">
+			                       				<h6 class="ml-5 mb-0 text-primary font-weight-bold">${atdExcp.atdExcpInTime}</h6>
+			                       			</div>
+			                       		</div>
+		                       		</c:if>
 		                       		<!-- 퇴근부분 -->
-		                       		<div class="row px-5 py-2">
-		                       			<div class="col-md">
-		                       				<h4 class="mx-4 mb-0 text-primary font-weight-bold">퇴근</h4>
-		                       			</div>
-		                       			<div class="col-md d-flex align-items-center pr-0">
-		                       				<div class="h5 mb-0 ml-3 text-muted">18:45</div>
-		                       			</div>
-		                       			<div class="col-md d-flex align-items-center pl-0">
-		                       				<h6 class="ml-5 mb-0 text-primary font-weight-bold">수정된시간</h6>
-		                       			</div>
-		                       		</div>
+		                       		<c:if test="${!empty atdExcp.atdExcpOutTime}">
+			                       		<div class="row px-5 py-2">
+			                       			<div class="col-md">
+			                       				<h4 class="mx-4 mb-0 text-primary font-weight-bold">퇴근</h4>
+			                       			</div>
+			                       			<div class="col-md d-flex align-items-center pr-0">
+			                       				<div class="h5 mb-0 ml-3 text-muted">${atdExcp.atdOutTime}</div>
+			                       			</div>
+			                       			<div class="col-md d-flex align-items-center pl-0">
+			                       				<h6 class="ml-5 mb-0 text-primary font-weight-bold">${atdExcp.atdExcpOutTime}</h6>
+			                       			</div>
+			                       		</div>
+		                       		</c:if>
 		                       		<!-- 사유 -->
 		                      		<div class="row px-5 py-2 mt-3">
 	                       				<div class="col-md">
@@ -125,19 +140,21 @@
 	                       			</div>
 		                      		<div class="row px-5 mt-2 ml-1">
 	                      				<div class="col-md">
-	                      					<h6 class="ml-1 mb-0 text-primary font-weight-bold">근무했음</h6>
+	                      					<h6 class="ml-1 mb-0 text-primary font-weight-bold">${atdExcp.atdExcpReason}</h6>
 		                      			</div>
 		                      		</div>
 		                        	<div class="row justify-content-center mt-3">
 		                       			<div style="border-bottom: 2px solid #4B49AC; width:90%;"></div>
 		                      		</div>
-		                      		<!-- 반려사유 c:if 사용하기! -->
-		                      		<div class="row px-5 mt-3 justify-content-start">
-	                      				<h4 class="mx-4 mb-0 font-weight-bold text-danger">반려 사유</h4>
-		                      		</div>
-		                      		<div class="row px-5 mt-3 ml-1">
-	                      				<h6 class="ml-1 mb-0 text-danger">나중에 c:if 이용하기!</h6>
-		                      		</div>
+		                      		<!-- 반려사유 -->
+		                      		<c:if test="${!empty atdExcp.atdExcpOpinion}">
+			                      		<div class="row px-5 mt-3 justify-content-start">
+		                      				<h4 class="mx-4 mb-0 font-weight-bold text-danger">반려 사유</h4>
+			                      		</div>
+			                      		<div class="row px-5 mt-3 ml-1">
+		                      				<h6 class="ml-1 mb-0 text-danger">${atdExcp.atdExcpOpinion}</h6>
+			                      		</div>
+		                      		</c:if>
 		                        </div>
 								<!-- 버튼 -->
 		                        <div class="row px-5 mt-3 justify-content-end">

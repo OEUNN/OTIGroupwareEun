@@ -1,6 +1,9 @@
 package com.oti.groupware.hr.service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,9 +12,12 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.oti.groupware.common.Pager;
 import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.hr.dao.AttendanceDAO;
+import com.oti.groupware.hr.dao.AttendanceExceptionDAO;
 import com.oti.groupware.hr.dto.Attendance;
+import com.oti.groupware.hr.dto.AttendanceException;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -27,6 +33,9 @@ public class HrServiceImpl implements HrService {
 	@Autowired
 	private AttendanceDAO attendanceDAO;
 	
+	@Autowired
+	private AttendanceExceptionDAO attendanceExceptionDAO;
+	
 	//오늘의 출퇴근 기록 가져오기
 	@Override
 	public Attendance attendanceToday(String empId) {
@@ -35,8 +44,8 @@ public class HrServiceImpl implements HrService {
 	
 	//근무통계 가져오기
 	@Override
-	public HashMap<String, Object> attendanceState(String empId) {
-		return attendanceDAO.countAttendanceState(empId);
+	public HashMap<String, Integer> attendanceStats(String empId) {
+		return attendanceDAO.getAttendanceStats(empId);
 	}
 	
 	//달력을 채울 출퇴근 기록 목록 가져오기(달력에 알맞게 값 가공)
@@ -146,4 +155,44 @@ public class HrServiceImpl implements HrService {
 			}
 		}
 	}
+	
+	//신청폼에 필요한 정보 갖고오기
+	@Override
+	public HashMap<String, String> empFormInfoMap(String empId) {
+		//작성자, 결재자 이름 갖고오기
+		return attendanceDAO. getEmpNames(empId);
+	}
+	
+	//근무예외신청서 등록하기
+	@Override
+	public void writeAttendanceExceptionApplication(AttendanceException attendanceException) {
+		attendanceExceptionDAO.insertAttendanceException(attendanceException);
+	}
+	
+	//근무예외신청서 목록의 전체 행의 수를 가져옴 
+	@Override
+	public int attendanceExceptionCount(String startDate, String endDate, String empId) {
+		return attendanceExceptionDAO.getAttendanceExceptionCount(startDate, endDate, empId);
+	}
+	
+	//페이징된 근무예외 신청서 목록을 가져옴
+	@Override
+	public List<AttendanceException> attendanceExceptionList(String startDate, String endDate, String empId,
+			Pager pager) {
+		return attendanceExceptionDAO.getAttendanceExceptionList(startDate, endDate, empId, pager);
+	}
+	
+	//근무예외신청서 상세내용을 가져옴
+	@Override
+	public AttendanceException attendanceExcptionDetail(int atdExcpId) {
+		return attendanceExceptionDAO.getAttendanceExceptionDetail(atdExcpId);
+	}
+	
+	
+	//근무예외신청서 통계
+	@Override
+	public HashMap<String, Integer> attendanceExceptionStats(String empId) {
+		return attendanceExceptionDAO.getAttendanceExceptionStats(empId);
+	}
+	
 }

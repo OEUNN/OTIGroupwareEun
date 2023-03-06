@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.hr.dao.AttendanceExceptionDao">
+<mapper namespace="com.oti.groupware.hr.dao.AttendanceExceptionDAO">
 
 	<resultMap id="attendanceExceptionResultMap" type="attendanceException">
 		<result column="atd_excp_id" property="atdExcpId"/>
@@ -10,51 +10,107 @@
 		<result column="atd_excp_in_time" property="atdExcpInTime"/>
 		<result column="atd_excp_out_time" property="atdExcpOutTime"/>
 		<result column="atd_excp_process_state" property="atdExcpProcessState"/>
+		<result column="atd_excp_date" property="atdExcpDate"/>
 		<result column="atd_excp_process_date" property="atdExcpProcessDate"/>
 		<result column="atd_excp_approval_emp" property="atdExcpApprovalEmp"/>
 		<result column="atd_excp_opinion" property="atdExcpOpinion"/>
+		<result column="emp_name" property="empName"/>
+		<result column="atd_in_time" property="atdInTime"/>
+		<result column="atd_out_time" property="atdOutTime"/>
 	</resultMap>
 
-	<select id="getAttendanceExceptionById" resultMap="attendanceExceptionResultMap">
-		SELECT atd_excp_id,
-		    emp_id,
-		    atd_excp_reason,
+	<!-- 전체 행의 수 -->
+	<select id="getAttendanceExceptionCount" resultType="int">
+	    SELECT 
+	      count(*)
+	    FROM 
+	      attendance_exceptions
+	    WHERE
+	      emp_id = #{empId}
+	      <if test="startDate != null and endDate != null">
+	      	AND atd_excp_date BETWEEN TO_DATE(#{startDate}, 'YYYY-MM') AND TO_DATE(#{endDate}, 'YYYY-MM')
+	      </if>
+	</select>
+
+	<!-- 페이징 목록 -->
+	<select id="getAttendanceExceptionList" resultMap="attendanceExceptionResultMap">
+		SELECT 
+		    atd_excp_id,
 		    atd_excp_category,
-		    atd_excp_in_time,
-		    atd_excp_out_time,
-		    atd_excp_process_state,
-		    atd_excp_process_date,
+		    to_char(atd_excp_date, 'yyyy-MM-DD') AS atd_excp_date,
 		    atd_excp_approval_emp,
-		    atd_excp_opinion
-		FROM project3.attendance_exceptions
-		WHERE atd_excp_id = #{atdExcpId} AND emp_id = #{empId}
+		    atd_excp_process_date,
+		    atd_excp_process_state
+		FROM attendance_exceptions
+		WHERE
+	      emp_id = #{empId}
+	      <if test="startDate != null and endDate != null ">
+	      	AND atd_excp_date BETWEEN TO_DATE(#{startDate}, 'YYYY-MM') AND TO_DATE(#{endDate}, 'YYYY-MM')
+	      </if>
+		ORDER BY atd_excp_date desc
+		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
+		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
+	</select>
+
+	<!-- 상세조회 -->
+	<select id="getAttendanceExceptionDetail" resultMap="attendanceExceptionResultMap">
+		SELECT 
+		    e.emp_name AS emp_name,
+            to_char(a.atd_in_time, 'HH:mm') AS atd_in_time,
+            to_char(a.atd_out_time, 'HH:mm') AS atd_out_time,
+		    ae.atd_excp_reason,
+		    ae.atd_excp_category,
+		    ae.atd_excp_in_time,
+		    ae.atd_excp_out_time,
+		    ae.atd_excp_process_state,
+		    to_char(ae.atd_excp_date, 'yyyy-MM-DD') AS atd_excp_date,
+		    to_char(ae.atd_excp_process_date, 'yyyy-MM-DD') AS atd_excp_process_date,
+		    ae.atd_excp_approval_emp,
+		    ae.atd_excp_opinion
+		FROM 
+			attendance_exceptions ae,  employees e, attendances a
+		WHERE
+            ae.emp_id = e.emp_id AND a.emp_id = e.emp_id
+        AND
+            ae.atd_excp_id = #{atdExcpId}
+        AND
+            to_char(ae.atd_excp_date, 'yyyy-MM-DD') = to_char(a.atd_in_time, 'yyyy-MM-DD')
+	</select>
+	
+	<!-- 근무신청서 통계 -->
+	<select id="getAttendanceExceptionStats" resultType="hashmap">
+		SELECT
+		    count(CASE WHEN atd_excp_category = '근무시간수정' THEN 1 END) AS 근무시간수정,
+		    count(CASE WHEN atd_excp_category = '추가근무' THEN 1 END) AS 추가근무보고
+		FROM 
+		    attendance_exceptions
+		WHERE
+		    emp_id = #{empId}
 	</select>
 
 	<insert id="insertAttendanceException" parameterType="attendanceException">
-		INSERT INTO project3.attendance_exceptions (
-			atd_excp_id,
-			emp_id,
-			atd_excp_reason,
-			atd_excp_category,
-			atd_excp_in_time,
-			atd_excp_out_time,
-			atd_excp_process_state,
-			atd_excp_process_date,
-			atd_excp_approval_emp,
-			atd_excp_opinion
-		)
-		VALUES (
-			#{atdExcpId},
-			#{empId},
-			#{atdExcpReason},
-			#{atdExcpCategory},
-			#{atdExcpInTime},
-			#{atdExcpOutTime},
-			#{atdExcpProcessState},
-			#{atdExcpProcessDate},
-			#{atdExcpApprovalEmp},
-			#{atdExcpOpinion}
-		)
+    	INSERT INTO attendance_exceptions (
+	        atd_excp_id,
+	        emp_id,
+	        atd_excp_reason,
+	        atd_excp_category,
+	        atd_excp_in_time,
+	        atd_excp_out_time,
+	        atd_excp_process_state,
+	        atd_excp_date,
+	        atd_excp_approval_emp
+	    )
+	    VALUES (
+	        SEQ_ATD_EXCP_ID.NEXTVAL,
+	        #{empId},
+	        #{atdExcpReason},
+	        #{atdExcpCategory},
+	        #{atdExcpInTime},
+	        #{atdExcpOutTime},
+	        '미처리',
+	        sysdate,
+	        #{atdExcpApprovalEmp}
+	    )
 	</insert>
 
 	<update id="updateAttendanceException" parameterType="attendanceException">
