@@ -87,7 +87,6 @@
 			<div class="main-panel">
 				<div class="content-wrapper">
 					<div class="row">
-						<!-- 연차일수 현황 -->
 						<div class="col-md-5 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
@@ -95,8 +94,7 @@
 										class="d-flex justify-content-between align-items-center mb-4">
 										<div class="card-title mb-0">근무신청내역</div>
 										<div class="d-flex justify-content-end" style="width: 70%;">
-											<form action="<c:url value='/hr/myatdexception?pageNo=1&startDate=${startDate}&endDate=${endDate}'/>"
-												method="GET">
+											<form action="<c:url value='/hr/myatdexception?pageNo=1'/>" method="POST">
 												<div class="d-flex justify-content-end">
 													<!-- datepicker start -->
 													<div id="datepicker"

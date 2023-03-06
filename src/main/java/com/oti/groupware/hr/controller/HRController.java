@@ -138,12 +138,6 @@ public class HRController {
 		if(pageNo == null) {
 			pageNo = 1;
 		}
-		
-		//startDate와 endDate값이 비어있을 경우
-		if(startDate.isEmpty() && endDate.isEmpty()) {
-			startDate = null;
-			endDate = null;
-		}
 
 		//전체 행수 갖고옴
 		int totalRows = hrService.attendanceExceptionCount(startDate, endDate, empId);

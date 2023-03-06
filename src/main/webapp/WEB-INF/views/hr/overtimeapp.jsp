@@ -107,7 +107,7 @@
 </script>
 <!-- End plugin css,js for this page -->
 
-<form action="<c:url value='/hr/myatdexception?pageNo=1&startDate=${startDate}&endDate=${endDate}'/>" onsubmit="return validateForm();" method="post">
+<form action="<c:url value='/hr/applicationform'/>" onsubmit="return validateForm();" method="post">
 <div class="table-responsive px-3 py-2">
 	<!-- 고정 내용 -->
 	<table class="table">
