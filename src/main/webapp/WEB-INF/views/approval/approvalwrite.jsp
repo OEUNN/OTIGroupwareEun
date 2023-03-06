@@ -19,17 +19,35 @@
 	    window.open(url, name, option);
 	}
 	
-	function selectDocumentType() {
-		
-	}
-	
-	function addApprovalLineItem() {
-		
-	}
-	
-	function deleteApprovalLineItem() {
-		
-	}
+	$(document).ready(function(){
+		$(window).on("message", (event) => {
+			//팝업창에서 전송한 데이터 얻기(팝업창에서 postMessage() 사용해야 함)
+			let receivedData = event.originalEvent.data;
+			
+			//결재선에 추가하기
+			$("#approvalLine").append(receivedData.content);
+			
+			//form 양식에 추가하기
+			$("#approvalForm").append('<input type="hidden" name="approvalId" value="' + receivedData.empId + '">');
+			$("#approvalForm").append('<input type="hidden" name="approvalName" value="' + receivedData.empName + '">');
+			$("#approvalForm").append('<input type="hidden" name="depName" value="' + receivedData.depName + '">');
+			$("#approvalForm").append('<input type="hidden" name="posName" value="' + receivedData.posName + '">');
+			
+			//iframe은 일반적인 $()로 접근할 수 없다
+			$("iframe").contents().find("body").find("#position").append('<td class="' + receivedData.removeClass + ' content-align-center text-content">' + receivedData.posName + '</td>');
+			$("iframe").contents().find("body").find("#state").append('<td class="' + receivedData.removeClass + ' approvalLineState content-align-center text-content">미결</td>');
+			$("iframe").contents().find("body").find("#name").append('<td class="' + receivedData.removeClass + ' content-align-center text-content">' + receivedData.empName + '</td>');
+			$("iframe").contents().find("body").find("#date").append('<td class="' + receivedData.removeClass + ' approvalDate content-align-center text-content">날짜 미정</td>');
+			
+			//x에다가 클릭 시 삭제 이벤트 등록하기
+			var remover = '#' + receivedData.removeClass;
+			var removee = '.' + receivedData.removeClass;
+			$(remover).on('click', (event) => {
+				$(removee).remove();
+				$("iframe").contents().find("body").find(removee).remove();
+			});
+		});
+	});
 	</script>
 
 	<style type="text/css">
@@ -104,7 +122,7 @@
 		        						</div>
 		        						
 		        						<div class="card grid-margin" style="background-color: #e7e7ff;">
-											<div class="card-body">
+											<div id="approvalLine" class="card-body">
 												<div class="d-flex justify-content-between">												
 													<p class="card-title">결재선</p>
 													<h3 class="mdi mdi-plus" onclick="popup()"></h3>
@@ -115,54 +133,6 @@
 										                    <div class="col-10">
 										                    	<p class="text-white font-weight-bold">장그래(기안)</p>
 										                    	<p>공공사업1DIV 사원</p>
-										                    </div>
-									                    </div>
-								                    </div>
-			            						</div>
-			            						<div class="d-flex align-items-stretch justify-content-center mb-0">
-				            						<h1 class="mdi mdi-menu-down mt-1 mb-0"></h1>
-			            						</div>
-			            						<div class="card card-dark-blue grid-margin shadow-2 mb-0">
-								                    <div class="card-body">
-									                    <div class="row">
-										                    <div class="col-10">
-										                    	<p class="text-white font-weight-bold">오상식</p>
-										                    	<p>공공사업1DIV 차장</p>
-										                    </div>
-										                    <div class="col-2">
-										                    	<i class="mdi mdi-close"></i>
-										                    </div>
-									                    </div>
-								                    </div>
-			            						</div>
-			            						<div class="d-flex align-items-stretch justify-content-center mb-0">
-				            						<h1 class="mdi mdi-menu-down mt-1 mb-0"></h1>
-			            						</div>
-			            						<div class="card card-dark-blue grid-margin shadow-2 mb-0">
-								                    <div class="card-body">
-									                    <div class="row">
-										                    <div class="col-10">
-										                    	<p class="text-white font-weight-bold">김부련</p>
-										                    	<p>공공사업1DIV 부장</p>
-										                    </div>
-										                    <div class="col-2">
-										                    	<i class="mdi mdi-close"></i>
-										                    </div>
-									                    </div>
-								                    </div>
-			            						</div>
-			            						<div class="d-flex align-items-stretch justify-content-center mb-0">
-				            						<h1 class="mdi mdi-menu-down mt-1 mb-0"></h1>
-			            						</div>
-			            						<div class="card card-dark-blue shadow-2">
-								                    <div class="card-body">
-									                    <div class="row">
-										                    <div class="col-10">
-										                    	<p class="text-white font-weight-bold">최전무</p>
-										                    	<p>공공사업1DIV 대표이사</p>
-										                    </div>
-										                    <div class="col-2">
-										                    	<i class="mdi mdi-close"></i>
 										                    </div>
 									                    </div>
 								                    </div>

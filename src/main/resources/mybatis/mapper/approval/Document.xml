@@ -19,7 +19,7 @@
 	    <result property="docAprvStep" column="doc_aprv_step"/>
 	</resultMap>
 
-    <select id="getDocumentById" parameterType="int" resultMap="documentResultMap">
+    <select id="getDocumentById" parameterType="string" resultMap="documentResultMap">
         SELECT
             doc_id, emp_id, doc_type, doc_title, doc_content,
             doc_retention_period, doc_write_date, doc_report_date,
@@ -60,7 +60,7 @@
 		WHERE doc_id = #{docId}
 	</update>
 	
-	<delete id="deleteDocument" parameterType="int">
+	<delete id="deleteDocument" parameterType="string">
 		DELETE FROM documents WHERE doc_id = #{docId}
 	</delete>
 	    
@@ -76,4 +76,20 @@
             #{docTempYn}
         )
     </insert>
+    
+    <select id="getDraftDocumentList">
+    <![CDATA[
+        SELECT
+            rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
+            doc_complete_date, doc_state, doc_read_yn
+        FROM (
+        	SELECT
+        		rownum as rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
+        		doc_complete_date, doc_state, doc_read_yn
+        	FROM documents
+        	WHERE emp_id = #{empId} and doc_temp_yn = #{docTempYn} and rownum <= (#{Pager.rowsPerPage} * (#{Pager.pageNo} - 1))
+        )
+        WHERE rownum > (#{Pager.rowsPerPage} * #{Pager.pageNo})
+    ]]>
+    </select>
 </mapper>
