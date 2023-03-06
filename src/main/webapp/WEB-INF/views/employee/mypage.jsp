@@ -4,34 +4,75 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-<!-- inject css, js common file -->
-<%@ include file="/WEB-INF/views/common/head.jsp"%>
-<!-- endinject css, js common file -->
+	<head>
+		<!-- inject css, js common file -->
+		<%@ include file="/WEB-INF/views/common/head.jsp"%>
+		<!-- endinject css, js common file -->
+		
+		<!-- Plugin css,js for this page -->
+		<script type="text/javascript">
+		
+			$(function () {
+			$('#multiBtn').click(function(e) {
+					e.preventDefault();
+					$('#multi').click();
+				});
+			});
+			//이미지 미리보기
+			var sel_file;
+			$(document).ready(function() {
+				$("#multi").on("change", handleImgFileSelect);
+			});
 
-<!-- Plugin css,js for this page -->
-<script>
-function img(){
-	let image = $('#image').val();
-	console.log(image);
-	var imgCss = document.getElementById("image");
-	if (image != '') {
-		$.ajax({
-			type : 'post',
-			url : '../employee/updateImg',
-			data : {
-				image : image
-			},
-			success : function(data) {
-				console.log(data);
+			function handleImgFileSelect(e) {
+				var files = e.target.files;
+				var filesArr = Array.prototype.slice.call(files);
+				var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
+				filesArr.forEach(function(f) {
+					if (!f.type.match(reg)) {
+						return;
+					}
+					sel_file = f;
+					var reader = new FileReader();
+					reader.onload = function(e) {
+						$("#img").attr("src", e.target.result);
+					}
+					reader.readAsDataURL(f);
+				});
 			}
-		});
-	}
-}
-
-</script>
-<!-- End plugin css,js for this page -->
-</head>
+			//파일 업로드
+			function fn_submit() {
+				var form = new FormData();
+				form.append("multi", $("#multi")[0].files[0]);
+				jQuery.ajax({
+					url : "../employee/updateimg",
+					type : "POST",
+					processData : false,
+					contentType : false,
+					data : form,
+					success : function(response) {
+						console.log(response);
+					}
+				});
+			}
+			
+			//비밀번호 수정
+			function update_password() {
+				var password = $('#password').val();
+				jQuery.ajax({
+					type : 'post',
+					url : "../employee/password",
+					data : {password : password},
+					success : function(data) {
+					}
+				});
+			}
+		</script>
+		<style>
+			#multi { display:none; } 
+		</style>
+	<!-- End plugin css,js for this page -->
+	</head>
 
 <body>
 	<div class="container-scroller">
@@ -58,16 +99,17 @@ function img(){
 										<div>
 											<!-- 사진 -->
 											<div class="row mt-1 m-auto">
-												<img src="filedownload" style="width:250px; height:300px;border-radius:20px;"/>
+												<img src="<c:url value='/login/filedownload'/>" id="img" style="width:250px; height:300px;border-radius:20px;"/>
 											</div>
-											<div class="row mt-3 ml-5" >
-												<input type="file" id="image" oninput="img()" class="btn btn-md btn-inverse-primary" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
+											<div class="row mt-3" style="margin-left:70px;">
+												<label id="multiBtn" class="btn btn-md btn-inverse-primary" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">사진 수정</label>
+												<input type="file" id="multi" oninput="fn_submit()">
 											</div>
 										</div>
 									</div><!-- End image card -->
 									<!-- start information -->
 									<div class="col-9">
-										<form class="form-sample">
+										<div class="form-sample">
 											<div class="row">
 												<div class="col-md-6">
 													<div class="form-group row align-items-center">
@@ -261,19 +303,18 @@ function img(){
 															</div>
 														</div>
 														<div class="col-sm-7">
-															<input type="text" class="form-control" placeholder="수정하고싶은 비밀번호를 입력하세요."/>
+															<input type="text" class="form-control" id="password" name="password" placeholder="수정하고싶은 비밀번호를 입력하세요."/>
 														</div>
 														<div class="col-sm-2">
-															<button onclick=""
-																class="btn btn-md btn-inverse-primary btn-icon-text d-flex align-items-center m-1">
-																<i class="mdi mdi-key"></i> <span
-																	class="ml-2 font-weight-bold">수정</span>
+															<button onclick="update_password()" class="btn btn-md btn-inverse-primary btn-icon-text d-flex align-items-center m-1">
+																<i class="mdi mdi-key"></i> 
+																<span class="ml-2 font-weight-bold">수정</span>
 															</button>
 														</div>
 													</div>
 												</div>
 											</div>
-										</form>
+										</div>
 									</div>
 								</div>
 							</div>

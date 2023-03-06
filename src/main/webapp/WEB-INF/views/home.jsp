@@ -36,7 +36,7 @@
               	<div class="card-body" style="background-color: #e7e7ff;">
 	                 <!-- 사진 -->
 	                 <div class="row justify-content-center px-2">
-	                   <img src="filedownload" style="width:90%; border-radius: 20px; box-shadow: 3px 3px 6px #4747A1;"/>
+	                   <img src="<c:url value='/login/filedownload'/>" style="width:90%; border-radius: 20px; box-shadow: 3px 3px 6px #4747A1;"/>
 	               	 </div>
 	               	 <!-- 프로필 -->
 	                 <div class="row mt-4 pt-2 justify-content-center" style="font-family: LeferiPoint-WhiteObliqueA;">

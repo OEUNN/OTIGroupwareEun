@@ -62,7 +62,7 @@
           	</div>
           	<!-- 마이페이지/로그아웃 -->
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="filedownload" alt="profile"/>
+              <img src= "<c:url value='/login/filedownload'/>" alt="profile"/>
               <i class="icon-ellipsis ml-2" style="transform: rotate( 90deg );"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
@@ -70,7 +70,7 @@
                 <i class="mdi mdi-account-outline text-primary"></i>
                 	마이페이지
               </a>
-              <a class="dropdown-item" href="<c:url value='/logout'/>">
+              <a class="dropdown-item" href="<c:url value='/login/logout'/>">
                 <i class="ti-power-off text-primary"></i>
                 	로그아웃
               </a>

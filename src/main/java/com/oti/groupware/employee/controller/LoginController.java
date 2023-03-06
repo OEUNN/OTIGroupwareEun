@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +28,7 @@ import lombok.extern.log4j.Log4j2;
  *
  */
 @Controller
+@RequestMapping("/login")
 @Log4j2
 public class LoginController {
 	
@@ -39,14 +39,13 @@ public class LoginController {
 	 * 로그인 Controller
 	 * @return 로그인 페이지
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
 		return "login/login";
 	}
 	
-	@RequestMapping(value="/", method=RequestMethod.POST)
+	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(Employee employee, Model model, HttpSession session) {
-		log.info("login post 실행");
 		String loginResult = employeeService.login(employee);
 		if(loginResult.equals("SUCCESS")) {
 			session.setAttribute("employee", employee);
@@ -61,61 +60,59 @@ public class LoginController {
 	
 	@GetMapping("/filedownload")
 	public void filedownload(@RequestHeader("User-Agent")String userAgent, HttpServletResponse response, HttpSession session) throws Exception {
-		log.info("실행");
 		Employee employee = (Employee)session.getAttribute("employee");
-		String originalName = employee.getEmpId();
-		String savedName = employee.getEmpFileName();
-		String contentType = employee.getEmpFileType();
-		
-		//originalName이 한글이 포함되어 있을 경우, 브라우저 별로 한글을 인코딩하는 방법
-		if(userAgent.contains("Trident")||userAgent.contains("MSIE")) {
-			//Trident : IE 11
-			//MSIE : IE 10 이하
-			originalName = URLEncoder.encode(originalName, "UTF-8");
-		}else {
-			//Edge, Chrome, Safari
-			originalName = new String(originalName.getBytes("UTF-8"), "ISO-8859-1");
-		}
-		
-		//응답 해더 설정
-		response.setHeader("Content-Disposition","attachment; filename=\""+ originalName +"\"");
-		response.setContentType(contentType);
-		
-		//응답 바디에 파일 데이터 실기
-		String filePath = "C:/Temp/uploadfiles/"+savedName;
-		File file = new File(filePath);
-		if(file.exists()) {
-			InputStream is = new FileInputStream(file);
-			OutputStream os = response.getOutputStream();
-			FileCopyUtils.copy(is, os);
-			os.flush();
-			os.close();
-			is.close();
+		if(employee != null) {
+			String originalName = employee.getEmpId();
+			String savedName = employee.getEmpFileName();
+			String contentType = employee.getEmpFileType();
+			
+			//originalName이 한글이 포함되어 있을 경우, 브라우저 별로 한글을 인코딩하는 방법
+			if(userAgent.contains("Trident")||userAgent.contains("MSIE")) {
+				//Trident : IE 11
+				//MSIE : IE 10 이하
+				originalName = URLEncoder.encode(originalName, "UTF-8");
+			}else {
+				//Edge, Chrome, Safari
+				originalName = new String(originalName.getBytes("UTF-8"), "ISO-8859-1");
+			}
+			
+			//응답 해더 설정
+			response.setHeader("Content-Disposition","attachment; filename=\""+ originalName +"\"");
+			response.setContentType(contentType);
+			
+			//응답 바디에 파일 데이터 실기
+			String filePath = "C:/Temp/uploadfiles/"+savedName;
+			File file = new File(filePath);
+			if(file.exists()) {
+				InputStream is = new FileInputStream(file);
+				OutputStream os = response.getOutputStream();
+				FileCopyUtils.copy(is, os);
+				os.flush();
+				os.close();
+				is.close();
+			}
 		}
 	}	
 	
 	@RequestMapping(value = "/failidpopup", method = RequestMethod.GET)
 	public String failIdPopup() {
-		log.info("faildpopup");
 		return "login/failidpopup";
 	}
 	
 	@RequestMapping(value = "/failpwpopup", method = RequestMethod.GET)
 	public String failPwPopup() {
-		log.info("failpwpopup");
 		return "login/failpwpopup";
 	}
 	
 	@RequestMapping(value = "/fivefailpwpopup", method = RequestMethod.GET)
 	public String fiveFailPwPopup() {
-		log.info("failfivepopup");
 		return "login/fivefailpwpopup";
 	}
 	
 	@RequestMapping(value ="/logout", method=RequestMethod.GET)
 	public String logout(HttpSession session) {
 		session.removeAttribute("employee");
-		return "redirect:/";
+		return "redirect:/login/login";
 	}
 	
 }

@@ -24,6 +24,4 @@ public class Employee {
     private MultipartFile empFileDataMulti;
     private String empFileType;
     private String empFileName;
-    private String roleName;
-    private boolean empEnabled;
 }

@@ -80,7 +80,7 @@
 											<h3 class="text-primary font-weight-bold mb-0">GROUPWARE</h3>
 										</div>
 										<!-- 로그인폼 -->
-										<form action="<c:url value='/'/>" method="post" >
+										<form action="<c:url value='/login/login'/>" method="post" >
 											<div id="id-input" class="form-group mb-0">
 												<input type="text" class="form-control form-control-lg" id="empId" name="empId" placeholder="아이디를 입력해주세요" style="border-radius: 10px;">
 												<i class="mdi mdi-account text-secondary" style="position: relative; top:-34px; left:9px;"></i>

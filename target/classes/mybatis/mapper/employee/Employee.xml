@@ -75,5 +75,17 @@
     	set emp_file_data=#{empFileData} , emp_file_type=  #{empFileType}, emp_file_name= #{empFileName}
     	where emp_id = #{empId}
     </update>
+    
+    <update id="updatePassword" parameterType="map">
+    	update employees
+    	set emp_password = #{password}
+    	where emp_id = #{empId}
+    </update>
+    
+    <select id="getDepartment" parameterType="int" resultType="string">
+    	select emp_name
+    	from employees
+    	where dep_id = #{depId}
+    </select>
 
 </mapper>

@@ -136,13 +136,9 @@
 				} else if ($('#depId').val() == '경영지원부') {
 					$("#depId").val(4);
 					$('#empExtensionNumber').val('02-444-4444');
-				} else if ($('#depId').val() == '이사') {
+				} else if ($('#depId').val() == '임원') {
 					$("#depId").val(5);
 					$('#empExtensionNumber').val('02-555-5555');
-				} else if ($('#depId').val() == '대표이사') {
-					$("#depId").val(6);
-					$('#empExtensionNumber').val('02-666-6666');
-				}
 			}
 
 			//posId
@@ -533,8 +529,7 @@
 																<h6 class="dropdown-item" id="select2-2" onclick="select2(2)">공공사업2DIV</h6> 
 																<h6 class="dropdown-item" id="select2-3" onclick="select2(3)">공공사업3DIV</h6>
 																<h6 class="dropdown-item" id="select2-4" onclick="select2(4)">경영지원부</h6>
-																<h6 class="dropdown-item" id="select2-5" onclick="select2(5)">이사</h6>
-																<h6 class="dropdown-item" id="select2-6" onclick="select2(6)">대표이사</h6>
+																<h6 class="dropdown-item" id="select2-5" onclick="select2(5)">임원</h6>
 															</div>
 															<script>
 														        function select2(No){

@@ -40,11 +40,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public String login(Employee employee) {
 		log.info("login result service");
-		PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		Employee dbEmployee = getEmployee(employee.getEmpId());
 		if (dbEmployee == null) {
 			return "WRONE_ID";
 		} else {
+			PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 			boolean checkPass = pe.matches(employee.getEmpPassword(), dbEmployee.getEmpPassword());
 			if (checkPass == false) {
 				int cnt = updateLoginFailCnt(dbEmployee);
@@ -198,9 +198,27 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDetailDao.getEmployeeDetail(empId);
 	}
 	
+	/**
+	 * a-jax mypage 이미지 바꾸기
+	 */
 	@Override
 	public void updateImg(Employee employee) {
 		employeeDao.updateImg(employee);
+	}
+
+	/**
+	 * 마이페이지 비밀번호 수정하기
+	 */
+	@Override
+	public void updatePassword(String empId, String password) {
+		PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		password = pe.encode(password);
+		employeeDao.updatePassword(empId, password);
+	}
+
+	@Override
+	public List<String> getDepartment(int depId) { 
+		return employeeDao.getDepartment(depId);
 	}
 	
 }
