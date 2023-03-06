@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oti.groupware.common.Pager;
+import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.hr.dto.Attendance;
 import com.oti.groupware.hr.dto.AttendanceException;
 import com.oti.groupware.hr.service.HrService;
@@ -44,8 +45,8 @@ public class HRController {
 	public String attendance(HttpSession session, Model model) {
 		log.info("정보 로그");
 		//세션에 저장된 직원ID 갖고옴
-		//String empId = (String) session.getAttribute("empId");
-		String empId = "202302271";
+		Employee employee = (Employee) session.getAttribute("employee");
+		String empId = employee.getEmpId();
 		
 		//오늘 출퇴근 시간을 갖고옴
 		Attendance attendance = hrService.attendanceToday(empId); 
@@ -65,9 +66,10 @@ public class HRController {
 	 */
 	@GetMapping(value = "/calendar",  produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public String attendanceCalendar() {
-		//String empId = (String) session.getAttribute("empId");
-		String empId = "202302271";
+	public String attendanceCalendar(HttpSession session) {
+		Employee employee = (Employee) session.getAttribute("employee");
+		String empId = employee.getEmpId();
+		
 		JSONArray atdCalList = hrService.attendanceCalendarList(empId);
 		return atdCalList.toString();
 	}
@@ -83,8 +85,8 @@ public class HRController {
 		log.info("정보 로그");
 		
 		//출근시간을 등록함
-		//String empId = (String) session.getAttribute("empId"); //세션에 저장된 임직원ID를 갖고옴
-		String empId = "202302271"; //임시방편
+		Employee employee = (Employee) session.getAttribute("employee");
+		String empId = employee.getEmpId();
 		hrService.inTime(empId);
 		
 		//만약 HR 페이지에서 출근을 등록했다면, HR페이지로 리다이렉트
@@ -106,8 +108,8 @@ public class HRController {
 		log.info("정보 로그");
 		
 		//퇴근시간 등록
-		//String empId = (String) session.getAttribute("empId");
-		String empId = "202302271";
+		Employee employee = (Employee) session.getAttribute("employee");
+		String empId = employee.getEmpId();
 		hrService.outTime(empId);
 		
 		//만약 HR 페이지에서 출근을 등록했다면, HR페이지로 리다이렉트
@@ -126,11 +128,11 @@ public class HRController {
 	 * @return 나의 근무신청 페이지
 	 */
 	@RequestMapping(value = "/myatdexception")
-	public String myAttendanceApplication(Integer pageNo, String startDate, String endDate, Model model) {
+	public String myAttendanceApplication(Integer pageNo, String startDate, String endDate, HttpSession session, Model model) {
 		log.info("정보 로그");
 		
-		//String empId = (String) session.getAttribute("empId"); //세션에 저장된 임직원ID를 갖고옴
-		String empId = "202302271"; //임시방편
+		Employee employee = (Employee) session.getAttribute("employee");
+		String empId = employee.getEmpId();
 		
 		//pageNo에 값이 매핑이 안될 경우, 1을 넣어줌
 		if(pageNo == null) {
@@ -173,11 +175,11 @@ public class HRController {
 	 * @return 근무시간수정 신청서 or 추가근무 보고서
 	 */
 	@RequestMapping(value = "/applicationform", method=RequestMethod.GET)
-	public String myAttendanceApplication(@RequestParam String category, Model model) {
+	public String myAttendanceApplication(@RequestParam String category, HttpSession session, Model model) {
 		log.info("정보 로그");
 		
-		//String empId = (String) session.getAttribute("empId");
-		String empId = "202302271";
+		Employee employee = (Employee) session.getAttribute("employee");
+		String empId = employee.getEmpId();
 		
 		//작성자, 결재자 이름 가져오기
 		HashMap<String, String> empFormInfo = hrService.empFormInfoMap(empId); //신청양식에 필요한 정보 갖고옴(나중에 employeeSerivce에 넣기)
