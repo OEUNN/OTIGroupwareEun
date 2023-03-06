@@ -30,16 +30,16 @@
 	}
 	</style>
 	<script>
-		function appendList(elementId) {
+		function appendToList(elementId) {
 			elementId = '#' + elementId;
-			let jQueryElement = $(elementId);
-			jQueryElement.wrap('<div class="highlight row m-1"></div>');
-			jQueryElement.addClass($(elementId).attr('class')[3]);
-			jQueryElement.addEventListener('click', function(event) {
-				$(event.target).remove();
-			})
-			let html = $(jQueryElement).html();
-			$("#approvalLine").append(html);
+			let jQueryElement = $(elementId).html();
+			console.log($(elementId).attr('class')[3]);
+			jQueryElement = '<div class="highlight row m-1 ' + $(elementId).attr('class')[3] + '" onclick="removeFromList("' + elementId + '")">' + jQueryElement + '</div>'
+			$("#approvalLine").append(jQueryElement);
+		}
+		
+		function removeFromList(Id) {
+			$(Id).remove();
 		}
 		
 		$(document).ready(function(){
@@ -111,18 +111,18 @@
 								<!-- 드롭다운을 이용해서 부에 따라 사람 불러오기 -->
 								<div class="row m-1 mt-3 form-group d-flex flex-column" style="height: 300px; border: 1px solid #ced4da;">
 									<div class="overflow">
-									<c:forEach items="${organizationsMapKeySet}" var=key>
-										<c:if test="${keySet} >= 5">
+									<c:forEach items="${organizationsMapKeySet}" var="key">
+										<c:if test="${key >= 5}">
 											<c:forEach items="${organizationsMap[key]}" var="org">
-											<div id="${org.empId}" class="highlight row m-1 ${org.depName}" onclick='appendList("${org.empId}")'><span class="mdi mdi-account-star d-flex align-self-center mx-1"></span>${org.empName} ${org.posName} <span class="ml-2">[${org.empMail}]</span></div>
+											<div id="${org.empId}" class="highlight row m-1 ${org.depName}" onclick='appendToList("${org.empId}")'><span class="mdi mdi-account-star d-flex align-self-center mx-1"></span>${org.empName} ${org.posName} <span class="ml-2">[${org.empMail}]</span></div>
 											</c:forEach>
 										</c:if>
 	
-										<c:if test="${keySet} < 5">
-										<div class="highlight row m-1" data-toggle="collapse" data-target="#DIV${keySet}"><span class="mdi mdi-folder-account d-flex align-self-center mx-1"></span>${organizationsMap[key][0].depName}</div>
-										<div id="DIV${keySet}" class="row m-1 collapse">	
+										<c:if test="${key < 5}">
+										<div class="highlight row m-1" data-toggle="collapse" data-target="#DIV${key}"><span class="mdi mdi-folder-account d-flex align-self-center mx-1"></span>${organizationsMap[key][0].depName}</div>
+										<div id="DIV${key}" class="row m-1 collapse">	
 											<c:forEach items="${organizationsMap[key]}" var="org">
-											<div id="${org.empId}" class="highlight row m-1 ${org.depName}" onclick='appendList("${org.empId}")'><span class="mdi mdi-account-star d-flex align-self-center mx-1"></span>${org.empName} ${org.posName} <span class="ml-2">[${org.empMail}]</span></div>
+											<div id="${org.empId}" class="highlight row m-1 ${org.depName}" onclick='appendToList("${org.empId}")'><span class="mdi mdi-account-star d-flex align-self-center mx-1"></span>${org.empName} ${org.posName} <span class="ml-2">[${org.empMail}]</span></div>
 											</c:forEach>
 										</div>
 										</c:if>
@@ -131,7 +131,6 @@
 								</div>
 								<div class="row m-1 mt-3 mb-5 form-group d-flex flex-column" style="height: 150px; border:1px solid #ced4da;">
 									<div id="approvalLine" class="overflow">
-										<div class="highlight row m-1"><span class="mdi mdi mdi-minus d-flex align-self-center mx-1"></span>김부련 부장<span class="ml-2">[kimbujang@oti.com]</span></div>
 									</div>
 								</div>
 								<div class="row mb-3" >

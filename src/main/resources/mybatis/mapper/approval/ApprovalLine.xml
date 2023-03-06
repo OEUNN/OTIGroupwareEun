@@ -67,7 +67,7 @@
 	</insert>
 	
 	<!-- 임시 -->	
-	<select id="getOrganization" resultType="organization">
+	<select id="getOrganization" resultMap="organizationResultMap">
 		SELECT employees.emp_id, employees.pos_id, employees.dep_id, emp_mail, emp_name, dep_name, dep_phone_number, pos_name
 		FROM employees, departments, positions
 		WHERE emp_name != '장영은' and emp_name != '한송민' and employees.dep_id = departments.dep_id and employees.pos_id = positions.pos_id
