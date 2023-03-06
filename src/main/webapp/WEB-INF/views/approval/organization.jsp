@@ -31,64 +31,84 @@
 	</style>
 	<script>
 		function appendToList(elementId) {
-			elementId = '#' + elementId;
-			let jQueryElement = $(elementId).html();
-			console.log($(elementId).attr('class')[3]);
-			jQueryElement = '<div class="highlight row m-1 ' + $(elementId).attr('class')[3] + '" onclick="removeFromList("'+ elementId + '")">' + jQueryElement + '</div>'
-			$("#approvalLine").append(jQueryElement);
+			if ($("#approvalLine div").length < 3) {
+				delId = 'del' + elementId;
+				if ($("#approvalLine").has("div[id=" + delId + "]").length === 0) {
+					
+					originalId = elementId;
+					elementId = '#' + elementId;
+					
+					clonedElement = $(elementId).clone();
+					clonedElement.removeClass('mdi-account-star');
+					clonedElement.addClass('mdi-minus');
+					let jQueryElement = clonedElement.html();
+					
+					jQueryElement = '<div id="' + delId + '" class="highlight row m-1 ' + $(elementId).attr('class').split(' ')[3] + '" onclick="removeFromList('+originalId+')">' + jQueryElement + '</div>'
+					
+					$("#approvalLine").append(jQueryElement);
+				}
+				else {
+					alert("결재선에 같은 사람을 두번 이상 지정할 수 없습니다.");
+				}
+			}
+			else {
+				alert("결재선은 최대 3명까지만 지정이 가능합니다.");
+			}
 		}
 		
 		function removeFromList(Id) {
+			console.log(Id);
+			Id = '#del' + Id;
 			$(Id).remove();
 		}
 		
-		$(document).ready(function(){
-			function sendApprovalLine(tagId) {
-				$(tagId).forEach((employee) => {
-					var empId = employee.attr('id');
-					var depName = employee.attr('class')[3];
-					
-					var empData = employee.text().split(' ');
-					
-					var empName = empData[0];
-					var posName = empData[1];
-					//var empMail = empData[2];
-					
-					var removeClass = 'r' + empId;
-					
-					var sendData = {
-						content :	
-						'<div class="' + removeClass + ' d-flex align-items-stretch justify-content-center mb-0">' +
-							'<h1 class="mdi mdi-menu-down mt-1 mb-0"></h1>' +
-						'</div>' +
-						'<div class="' + removeClass + ' card card-dark-blue grid-margin shadow-2 mb-0">' +
-							'<div class="card-body">' +
-								'<div class="row">' +
-									'<div id=' + empId + ' class="empId col-10">' +
-										'<p class="text-white font-weight-bold">' +
-											empName +
-										'</p>' +
-										'<p>' +
-											depName + posName +
-										'</p>' +
-									'</div>' +
-									'<div class="col-2">' +
-										'<i id=' + removeClass + ' class="mdi mdi-close"></i>' +
-									'</div>' +
+		function sendApprovalLine(tagId) {
+			$(tagId).each((index, element) => {
+				var empId = $(element).attr('id');
+				var depName = $(element).attr('class').split(' ')[3];
+				
+				var empData = $(element).text().split(' ');
+				
+				var empName = empData[0];
+				var posName = empData[1];
+				//var empMail = empData[2];
+				
+				var removeClass = 'r' + empId;
+				
+				var sendData = {
+					content :	
+					'<div class="' + removeClass + ' d-flex align-items-stretch justify-content-center mb-0">' +
+						'<h1 class="mdi mdi-menu-down mt-1 mb-0"></h1>' +
+					'</div>' +
+					'<div class="' + removeClass + ' card card-dark-blue grid-margin shadow-2 mb-0">' +
+						'<div class="card-body">' +
+							'<div class="row">' +
+								'<div id=' + empId + ' class="empId col-10">' +
+									'<p class="text-white font-weight-bold">' +
+										empName +
+									'</p>' +
+									'<p>' +
+										depName + posName +
+									'</p>' +
+								'</div>' +
+								'<div class="col-2">' +
+									'<i id=' + removeClass + ' class="mdi mdi-close"></i>' +
 								'</div>' +
 							'</div>' +
-						'</div>',
-						removeClass : removeClass
-					}
-				//$(tagId).forEach
-				});
-				opener.postMessage(data, '/sendApprovalList');
+						'</div>' +
+					'</div>',
+					removeClass : removeClass,
+					empId : empId,
+					empName : empName,
+					depName : depName,
+					posName : posName
+				}
+				opener.postMessage(sendData);
 				window.close();
-			//function sendApprovalLine
-			}
-		//$(document).ready
-		});
-		
+			//$(tagId).forEach
+			});
+		//function sendApprovalLine
+		}
 		
 		function cancel() {
 			window.close();
@@ -135,7 +155,8 @@
 								</div>
 								<div class="row mb-3" >
 									<div class="col"></div>
-									<button class="col btn btn-primary btn-md mt-1 mx-3" onclick="sendApprovalLine('#approvalLine')">확인</button>
+									<div onclick="sendApprovalLine('#approvalLine div')">test</div>
+									<button class="col btn btn-primary btn-md mt-1 mx-3" onclick="sendApprovalLine('#approvalLine div')">확인</button>
 									<button class="col btn btn-outline-primary btn-md mt-1 mx-3" onclick="cancel()">취소</button>
 									<div class="col"></div>
 								</div>

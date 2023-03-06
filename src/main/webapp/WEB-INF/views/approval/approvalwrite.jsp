@@ -20,17 +20,31 @@
 	}
 	
 	$(document).ready(function(){
-		$(window).on("message", function(event) {
+		$(window).on("message", (event) => {
 			//팝업창에서 전송한 데이터 얻기(팝업창에서 postMessage() 사용해야 함)
 			let receivedData = event.originalEvent.data;
 			
 			//결재선에 추가하기
 			$("#approvalLine").append(receivedData.content);
 			
+			//form 양식에 추가하기
+			$("#approvalForm").append('<input type="hidden" name="approvalId" value="' + receivedData.empId + '">');
+			$("#approvalForm").append('<input type="hidden" name="approvalName" value="' + receivedData.empName + '">');
+			$("#approvalForm").append('<input type="hidden" name="depName" value="' + receivedData.depName + '">');
+			$("#approvalForm").append('<input type="hidden" name="posName" value="' + receivedData.posName + '">');
+			
+			//iframe은 일반적인 $()로 접근할 수 없다
+			$("iframe").contents().find("body").find("#position").append('<td class="' + receivedData.removeClass + ' content-align-center text-content">' + receivedData.posName + '</td>');
+			$("iframe").contents().find("body").find("#state").append('<td class="' + receivedData.removeClass + ' approvalLineState content-align-center text-content">미결</td>');
+			$("iframe").contents().find("body").find("#name").append('<td class="' + receivedData.removeClass + ' content-align-center text-content">' + receivedData.empName + '</td>');
+			$("iframe").contents().find("body").find("#date").append('<td class="' + receivedData.removeClass + ' approvalDate content-align-center text-content">날짜 미정</td>');
+			
 			//x에다가 클릭 시 삭제 이벤트 등록하기
 			var remover = '#' + receivedData.removeClass;
-			$(remover).addEventListener('click', () => {
-				$(data.removeClass).remove();
+			var removee = '.' + receivedData.removeClass;
+			$(remover).on('click', (event) => {
+				$(removee).remove();
+				$("iframe").contents().find("body").find(removee).remove();
 			});
 		});
 	});
