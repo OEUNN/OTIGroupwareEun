@@ -28,4 +28,7 @@ public interface HrService {
 	public List<LeaveApplication> leaveApplicationList(String startDate, String endDate, String empId, Pager pager);
 	public LeaveApplication leaveApplicationDetail(int levAppId);
 	public void writeleaveApplication(LeaveApplication leaveApplication);
+	public int attendanceExceptionApprovalRowsCount(String atdStartDate, String atdEndDate, String empName);
+	public List<AttendanceException> attendanceExcptionApprovalList(String atdStartDate, String atdEndDate,
+			String empName, Pager pager);
 }

@@ -319,13 +319,55 @@ public class HRController {
 	}
 	
 	/**
-	 * 
+	 * 부서장만 볼 수 있는 HR 결재내역 페이지
+	 * @author 한송민
+	 * @param 
 	 * @return hr 결재내역페이지
 	 */
 	@RequestMapping(value = "/hrapplication")
-	public String hrApproval() {
+	public String hrApproval(Integer atdPageNo, Integer levPageNo, String atdStartDate, String atdEndDate, String levStartDate, String levEndDate, HttpSession session, Model model) {
 		log.info("정보 로그");
 		return "hr/hrapplication";
+	}
+
+	/**
+	 * 결재내역 페이지 - 근무신청내역 목록 (AJAX)
+	 * @author 한송민
+	 * @param 
+	 * @return hr 결재내역페이지
+	 */
+	@RequestMapping(value = "/atdexcpaprvlist")
+	public String hrAtdExcpApprovalList(Integer atdPageNo, String atdStartDate, String atdEndDate, HttpSession session, Model model) {
+		log.info("정보 로그");
+		
+		Employee employee = (Employee) session.getAttribute("employee"); //세션에 저장된 로그인유저 정보 가져옴
+		String empName = employee.getEmpName();
+		System.out.println("dasf" + empName);
+		
+		//pageNo에 값이 매핑이 안될 경우, 1을 넣어줌
+		if(atdPageNo == null) {
+			atdPageNo = 1;
+		}
+
+		//전체 행수 갖고옴
+		int totalRows = hrService.attendanceExceptionApprovalRowsCount(atdStartDate, atdEndDate, empName);
+		System.out.println("dasf" + totalRows);
+		
+		//페이저 객체 생성
+		Pager pager = new Pager(5, 5, totalRows, atdPageNo);
+		
+		//페이징된 목록
+		List<AttendanceException> atdExcpList = hrService.attendanceExcptionApprovalList(atdStartDate, atdEndDate, empName, pager);
+		System.out.println("dasf" + atdExcpList.toString());
+		
+		if(!atdExcpList.isEmpty()) {
+			model.addAttribute("atdStartDate", atdStartDate);
+			model.addAttribute("atdEndDate", atdEndDate);
+			model.addAttribute("atdPager", pager);
+			model.addAttribute("atdExcpList", atdExcpList);
+		}
+		
+		return "hr/atdexcpaprvlist";
 	}
 	
 	/**

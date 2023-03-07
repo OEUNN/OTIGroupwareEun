@@ -19,7 +19,7 @@
 		<result column="atd_out_time" property="atdOutTime"/>
 	</resultMap>
 
-	<!-- 전체 행의 수 -->
+	<!-- 근무신청서(일반임직원) - 전체 행의 수 -->
 	<select id="getAttendanceExceptionRowsCount" resultType="int">
 	    SELECT 
 	      count(*)
@@ -33,7 +33,7 @@
 	    </where>
 	</select>
 
-	<!-- 페이징 목록 -->
+	<!-- 근무신청서(일반임직원) - 페이징 목록 -->
 	<select id="getAttendanceExceptionList" resultMap="attendanceExceptionResultMap">
 		SELECT 
 		    atd_excp_id,
@@ -115,6 +115,42 @@
 	        #{atdExcpApprovalEmp}
 	    )
 	</insert>
+	
+	<!-- 근무신청결재서(부서장) - 전체 행의 수 -->
+	<select id="getAttendanceExcptionApprovalRowsCount" resultType="int">
+	    SELECT 
+	      count(*)
+	    FROM 
+	      attendance_exceptions
+	    <where>
+	      atd_excp_approval_emp = #{empName}
+	      <if test="(atdStartDate != null and !atdStartDate.equals('')) and (atdEndDate != null and !atdEndDate.equals(''))">
+	      	AND atd_excp_date BETWEEN TO_DATE(#{atdStartDate, jdbcType=VARCHAR}, 'YYYY-MM') AND TO_DATE(#{atdEndDate, jdbcType=VARCHAR}, 'YYYY-MM')
+	      </if>
+	    </where>
+	</select>
+
+	<!-- 근무신청결재서(부서장) - 페이징 목록 -->
+	<select id="getAttendanceExceptionApprovalList" resultMap="attendanceExceptionResultMap">
+		SELECT 
+		    atd_excp_id,
+		    atd_excp_category,
+		    to_char(atd_excp_date, 'yyyy-MM-DD') AS atd_excp_date,
+		    atd_excp_approval_emp,
+		    atd_excp_process_date,
+		    atd_excp_process_state
+		FROM attendance_exceptions
+		<where>
+	      atd_excp_approval_emp = #{empName}
+	      <if test="(atdStartDate != null and !atdStartDate.equals('')) and (atdEndDate != null and !atdEndDate.equals(''))">
+	      	AND atd_excp_date BETWEEN TO_DATE(#{atdStartDate, jdbcType=VARCHAR}, 'YYYY-MM') AND TO_DATE(#{atdEndDate, jdbcType=VARCHAR}, 'YYYY-MM')
+	      </if>
+		</where>
+		ORDER BY atd_excp_date DESC
+		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
+		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
+	</select>
+	
 
 	<update id="updateAttendanceException" parameterType="attendanceException">
 		UPDATE project3.attendance_exceptions
@@ -133,5 +169,5 @@
 		DELETE FROM project3.attendance_exceptions
 		WHERE atd_excp_id = #{atdExcpId} AND emp_id = #{empId}
 	</delete>
-
+	
 </mapper>

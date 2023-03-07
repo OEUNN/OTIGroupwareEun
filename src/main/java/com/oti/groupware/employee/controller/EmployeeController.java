@@ -32,7 +32,6 @@ import lombok.extern.log4j.Log4j2;
 @Controller
 @Log4j2
 @RequestMapping("/employee")
-@Authorization
 public class EmployeeController {
 	
 	@Autowired
@@ -63,7 +62,6 @@ public class EmployeeController {
 	 * @return 성공시 redirect를 통해 인사관리의 메인인 select 페이지로 이동한다.
 	 */
 	@PostMapping(value = "/insertemployee")
-	@Authorization("ROLE_HR")
 	public String insertEmployee(Employee employee, EmployeeDetail employeeDetail) throws IOException{
 		//파일 데이터
 		MultipartFile employeeFile = employee.getEmpFileDataMulti();
@@ -85,7 +83,6 @@ public class EmployeeController {
 	
 	// 임직원 등록
 	@GetMapping(value = "/insertemployee")
-	@Authorization("ROLE_HR")
 	public String insertEmployee() {
 		return "employee/insertemployee";
 	}

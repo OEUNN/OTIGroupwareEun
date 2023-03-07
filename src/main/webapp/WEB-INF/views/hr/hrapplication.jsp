@@ -56,6 +56,26 @@
          	var option = "width = 800, height = 570, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
          	window.open(url, name, option);
 		}
+	   	
+	   	
+	   	/* AJAX통신 - 근무결재내역 날짜 필터링 */
+	   	$(function(){
+        	$('#atd-excp-aprv-btn').on("click",function () { 
+        		let atdExcpAprvForm = $("#atd-excp-aprv-form").serialize();
+        		
+        		$.ajax({
+                    type: "post",
+                    url: "../hr/atdexcpaprvlist",
+                    data: atdExcpAprvForm,
+                    error: function () {
+                    	alert("통신실패!");
+                    },
+                    success: function (data) {
+                        $('#atd-excp-aprv-list').html(data);
+                    }
+                });
+        	});
+	    });
 	</script>
 	<!-- End plugin css,js for this page -->
 </head>
@@ -73,182 +93,13 @@
       <div class="main-panel">
         <div class="content-wrapper">
         	<div class="row">
-        		<!-- 근무결재내역 -->
-        		<div class="col-md">
-        			<div class="card">
-		                <div class="card-body">
-		                  <div class="d-flex justify-content-between align-items-center mb-4">
-	              			<div class="card-title mb-0">근무신청 처리내역</div>
-	              			<div class="d-flex justify-content-end" style="width:70%;">
-	              				<form action="<c:url value='/hr/hrapplication?pageNo=1'/>" method="POST">
-	              					<div class="d-flex justify-content-end">
-				              			<!-- datepicker start -->
-				              			<div id="datepicker-attendance" class="ml-5 input-daterange input-group text-primary" style="border:2px solid #4B49AC; border-radius: 15px; width: 60%;">
-											<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
-										    <input type="text" class="form-control-sm form-control font-weight-bold" name="start" style="border:0px; text-align: center;">
-										    <span class="input-group-addon font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
-											<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
-										    <input type="text" class="form-control-sm form-control font-weight-bold" name="end" style="border:0px; border-radius:15px; text-align: center;">
-										</div>
-							            <!-- datepicker end -->
-							            <button class="btn btn-md btn-primary ml-2">
-											<span>검색</span>
-										</button>
-	              					</div>
-	              				</form>
-	              			</div>
-                   	 	  </div>
-		                  <div class="card card-light-blue mb-4">
-			                  <div class="card-body">
-			                      <div class="row">
-			                         <div class="col-md text-center">미처리<span class="pl-2 h3 font-weight-bold">0</span></div>
-			                         <div class="col-md text-center">승인<span class="pl-2 h3 font-weight-bold">1</span></div>
-			                         <div class="col-md text-center">반려<span class="pl-2 h3 font-weight-bold">2</span></div>
-			                      </div>
-		                      </div>
-		                 </div>
-	                 	 <div class="table-responsive">
-	                    	<table class="table table-hover">
-	                           <thead>
-	                             <tr>
-	                               <th>신청유형</th>
-	                               <th>신청날짜</th>
-	                               <th>신청자</th>
-	                               <th>처리날짜</th>
-	                               <th>처리상태</th>
-	                             </tr>
-	                           </thead>
-	                           <tbody>
-	                              <tr onclick="atdApproval('근무시간수정')">
-	                                 <td>근무시간수정</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                              </tr>
-	                              <tr onclick="atdApproval('추가근무')">
-	                                 <td>추가근무</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                              </tr>
-	                              <tr>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                              </tr>
-	                           </tbody>
-	                        </table>
-	                     </div>
-	                 </div>
-	               </div>
+        		<!-- 근무신청결재내역 -->
+        		<div id="atd-excp-aprv-list" class="col-md">
+	        		<%@ include file="/WEB-INF/views/hr/atdexcpaprvlist.jsp" %>
         		</div>
-        		<!-- 휴가결재내역 -->
-        		<div class="col-md">
-        			<div class="card">
-		                <div class="card-body">
-		                  <div class="d-flex justify-content-between align-items-center mb-4">
-	              			<div class="card-title mb-0">휴가신청 처리내역</div>
-	              			<div class="d-flex justify-content-end" style="width:70%;">
-		              			<!-- datepicker start -->
-		              			<div id="datepicker-leave" class="ml-5 input-daterange input-group text-primary" style="border:2px solid #4B49AC; border-radius: 15px; width: 60%;">
-									<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
-								    <input type="text" class="form-control-sm form-control font-weight-bold" name="start" style="border:0px; text-align: center;">
-								    <span class="input-group-addon font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
-									<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
-								    <input type="text" class="form-control-sm form-control font-weight-bold" name="end" style="border:0px; border-radius:15px; text-align: center;">
-								</div>
-					            <!-- datepicker end -->
-					            <button class="btn btn-md btn-primary ml-2">
-									<span>검색</span>
-								</button>
-	              			</div>
-                   	 	  </div>
-		                  <div class="card card-dark-blue mb-4">
-			                  <div class="card-body">
-			                      <div class="row">
-			                         <div class="col-md text-center">미처리<span class="pl-2 h3 font-weight-bold">0</span></div>
-			                         <div class="col-md text-center">승인<span class="pl-2 h3 font-weight-bold">1</span></div>
-			                         <div class="col-md text-center">반려<span class="pl-2 h3 font-weight-bold">2</span></div>
-			                      </div>
-		                      </div>
-		                 </div>
-	                 	 <div class="table-responsive">
-	                    	<table class="table table-hover">
-	                           <thead>
-	                             <tr>
-	                               <th>휴가유형</th>
-	                               <th>신청날짜</th>
-	                               <th>신청자</th>
-	                               <th>처리날짜</th>
-	                               <th>처리상태</th>
-	                             </tr>
-	                           </thead>
-	                           <tbody>
-	                              <tr onclick="leaveApproval()">
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                              </tr>
-	                              <tr>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                              </tr>
-	                              <tr>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                              </tr>
-	                              <tr>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                              </tr>
-	                              <tr>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                              </tr>
-	                              <tr>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                              </tr>
-	                              <tr>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                              </tr>
-	                              <tr>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                                 <td>gdgd</td>
-	                              </tr>
-	                           </tbody>
-	                        </table>
-	                     </div>
-	                 </div>
-	               </div>
+        		<!-- 휴가신청결재내역 -->
+        		<div id="lev-app-aprv-list" class="col-md">
+	        		<%@ include file="/WEB-INF/views/hr/levappaprvlist.jsp" %>
         		</div>
         	</div>
         </div>

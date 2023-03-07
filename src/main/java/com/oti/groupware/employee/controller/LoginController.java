@@ -50,6 +50,7 @@ public class LoginController {
 		if(loginResult.equals("SUCCESS")) {
 			session.setAttribute("employee", employee);
 			model.addAttribute("result", loginResult);
+			log.info(employee);
 			return "redirect:/home";
 		}else {
 			model.addAttribute("employee", employee);
