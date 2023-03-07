@@ -18,5 +18,5 @@ public interface EmployeeService {
 	public EmployeeDetail getEmployeeDetail(String empId, Date now);
 	public void updateImg(Employee employee);
 	public void updatePassword(String empId, String password);
-	public List<String> getDepartment(int depId);
+	public List<Employee> getDepartment(int depId);
 }

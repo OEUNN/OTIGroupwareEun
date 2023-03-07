@@ -18,17 +18,17 @@
 			if(result == 'WRONE_ID'){
 				var url = "failidpopup";
 	            var name = "fail id";
-	            var option = "width = 500, height =230, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+	            var option = "width = 500, height =230, top = 300, left = 400, location = no, resizable=no, scrollbars=no "
 	            window.open(url, name, option);
 			}else if(result == 'WRONG_PASSWPRD'){
 				var url = "failpwpopup";
 	            var name = "fail password";
-	            var option = "width = 500, height =230, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+	            var option = "width = 500, height =230, top = 300, left = 400, location = no, resizable=no, scrollbars=no "
 	            window.open(url, name, option);
 			}else if(result == 'FIVE_WRONG_PASSWORD'){
 				var url = "fivefailpwpopup";
 	            var name = "five fail password";
-	            var option = "width = 500, height =270, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+	            var option = "width = 500, height =270, top = 300, left = 400, location = no, resizable=no, scrollbars=no "
 	            window.open(url, name, option);
 			}else if(result == 'SUCCESS'){
 				 $('#result').val(""); 

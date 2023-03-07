@@ -1,6 +1,7 @@
 package com.oti.groupware.employee.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -18,6 +19,8 @@ public interface EmployeeDAO {
     public int deleteEmployee(String empId);
 	public void updateImg(Employee employee);
 	public void updatePassword(@Param("empId")String empId, @Param("password")String password);
-	public List<String> getDepartment(int depId);
+	public List<Employee> getDepartment(int depId);
+	public Employee getEmployeeByName(String empName);
+	public int getPositionIdById(String empId);
 	
 }

@@ -126,19 +126,15 @@
 				department.setAttribute("style", "border:1px solid none;");
 				if ($('#depId').val() == '공공사업1DIV') {
 					$("#depId").val(1);
-					$('#empExtensionNumber').val('02-111-1111');
 				} else if ($('#depId').val() == '공공사업2DIV') {
 					$("#depId").val(2);
-					$('#empExtensionNumber').val('02-222-2222');
 				} else if ($('#depId').val() == '공공사업3DIV') {
 					$("#depId").val(3);
-					$('#empExtensionNumber').val('02-333-3333');
 				} else if ($('#depId').val() == '경영지원부') {
 					$("#depId").val(4);
-					$('#empExtensionNumber').val('02-444-4444');
 				} else if ($('#depId').val() == '임원') {
 					$("#depId").val(5);
-					$('#empExtensionNumber').val('02-555-5555');
+				}
 			}
 
 			//posId
@@ -190,6 +186,15 @@
 				result = false;
 			}else{
 				empMail.setAttribute("style","border:1px solid none;");
+			}
+			
+			//empExtensionNumber
+			var empExtensionNumber = document.getElementById("empExtensionNumber");
+			if ($('#empExtensionNumber').val() == '') {
+				empExtensionNumber.setAttribute("style","border:1px solid red;");
+				result = false;
+			}else{
+				empExtensionNumber.setAttribute("style","border:1px solid none;");
 			}
 			
 			return result;
@@ -521,7 +526,6 @@
 														<div class="col-sm-8">
 															<div class="btn dropdown-toggle d-flex form-control" id="department" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 																<i class="text-primary mdi mdi-menu-down"></i> 
-																<input type="hidden" id="empExtensionNumber" name="empExtensionNumber"/>
 																<input class="my-auto" type="text" id="depId" name="depId" style="border:none;" readonly>
 															</div>
 															<div class="dropdown-menu" aria-labelledby="department" style="width:100%;">
@@ -582,6 +586,21 @@
 														        	$("#posId").val(x);
 														        }
 															</script>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group row align-items-center">
+														<div class="col-sm-4 text-primary">
+															<div class="d-flex align-items-center m-1">
+																<i class="h3 my-auto mdi mdi-phone-classic"></i> 
+																<span class="ml-2 font-weight-bold">사내 TEL</span>
+															</div>
+														</div>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" maxlength="20" id=empExtensionNumber name="empExtensionNumber" placeholder="000-000-0000"/>
 														</div>
 													</div>
 												</div>
