@@ -53,7 +53,7 @@
 															</div>
 														</div>
 														<div class="col-8 align-items-start">
-															<div>${emp.empName} ${emp.empId}</div>
+															<div>${emp.empName} ${emp.empId} </div>
 														</div>
 													</div>
 												</div>
