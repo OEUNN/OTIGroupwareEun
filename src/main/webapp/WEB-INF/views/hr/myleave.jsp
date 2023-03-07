@@ -199,7 +199,7 @@
 															 		~ 
 															 	<fmt:formatDate value="${levApp.levAppEndDate}" pattern="yyyy-MM-dd" />
 															</small></td>
-															<td class="px-2 py-1 text-center">${levApp.levAppApprovalEmp}</td>
+															<td class="px-2 py-1 text-center">${levApp.levAppApprovalEmpName}</td>
 															<td class="px-2 py-1 text-center">
 																<!-- 결재상태 -->
 																<c:if test="${levApp.levAppProcessState == '미처리'}">

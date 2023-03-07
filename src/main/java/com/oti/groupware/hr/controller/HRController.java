@@ -197,12 +197,34 @@ public class HRController {
 	 * @param atdExcpId(근무신청서ID)
 	 * @return 근무신청서(근무시간수정, 추가근무보고) 상세조회 팝업창
 	 */
+//	@RequestMapping(value = "/popup/atdapplicationdetail")
+//	public String attendanceApplicationDetail(int atdExcpId, Model model) {
+//		log.info("정보 로그");
+//		
+//		//신청서의 상세내용 가져오기
+//		AttendanceException atdExcp = hrService.attendanceExcptionDetail(atdExcpId);
+//		model.addAttribute("atdExcp", atdExcp);
+//		
+//		//유형에 따라 근무시간수정서 or 추가근무보고서 팝업을 리턴
+//		if(atdExcp.getAtdExcpCategory().equals("근무시간수정")) { //근무시간수정신청서일 경우
+//			return "hr/popup/updatetimedetail";
+//		} else { //추가근무보고서일 경우
+//			return "hr/popup/overtimedetail";
+//		}
+//	}
+
+	/**
+	 * 근무관련 신청서 상세내용 조회 (AJAX)
+	 * @author 한송민
+	 * @param atdExcpId(근무신청서ID)
+	 * @return 근무신청서(근무시간수정, 추가근무보고) 상세조회 팝업창
+	 */
 	@RequestMapping(value = "/popup/atdapplicationdetail")
-	public String attendanceApplicationDetail(int atdExcpId, Model model) {
+	public String attendanceApplicationDetail(@RequestParam int atdExcpId, Model model) {
 		log.info("정보 로그");
-		
 		//신청서의 상세내용 가져오기
 		AttendanceException atdExcp = hrService.attendanceExcptionDetail(atdExcpId);
+		log.info("daskjl" + atdExcp);
 		model.addAttribute("atdExcp", atdExcp);
 		
 		//유형에 따라 근무시간수정서 or 추가근무보고서 팝업을 리턴
@@ -325,8 +347,12 @@ public class HRController {
 	 * @return hr 결재내역페이지
 	 */
 	@RequestMapping(value = "/hrapplication")
-	public String hrApproval(Integer atdPageNo, Integer levPageNo, String atdStartDate, String atdEndDate, String levStartDate, String levEndDate, HttpSession session, Model model) {
+	public String hrApproval(HttpSession session, Model model) {
 		log.info("정보 로그");
+		//근무신청내역목록 가져오기
+		hrAtdExcpApprovalList(1, null, null, session, model);
+		//휴가신청내역목록 가져오기
+		hrLevAppApprovalList(1, null, null, session, model);
 		return "hr/hrapplication";
 	}
 
@@ -334,40 +360,64 @@ public class HRController {
 	 * 결재내역 페이지 - 근무신청내역 목록 (AJAX)
 	 * @author 한송민
 	 * @param 
-	 * @return hr 결재내역페이지
+	 * @return 근무신청결재목록
 	 */
 	@RequestMapping(value = "/atdexcpaprvlist")
-	public String hrAtdExcpApprovalList(Integer atdPageNo, String atdStartDate, String atdEndDate, HttpSession session, Model model) {
+	public String hrAtdExcpApprovalList(int pageNo, String startDate, String endDate, HttpSession session, Model model) {
 		log.info("정보 로그");
 		
 		Employee employee = (Employee) session.getAttribute("employee"); //세션에 저장된 로그인유저 정보 가져옴
-		String empName = employee.getEmpName();
-		System.out.println("dasf" + empName);
+		String empId = employee.getEmpId();
 		
-		//pageNo에 값이 매핑이 안될 경우, 1을 넣어줌
-		if(atdPageNo == null) {
-			atdPageNo = 1;
-		}
-
 		//전체 행수 갖고옴
-		int totalRows = hrService.attendanceExceptionApprovalRowsCount(atdStartDate, atdEndDate, empName);
-		System.out.println("dasf" + totalRows);
+		int totalRows = hrService.attendanceExceptionApprovalRowsCount(startDate, endDate, empId);
 		
 		//페이저 객체 생성
-		Pager pager = new Pager(5, 5, totalRows, atdPageNo);
+		Pager pager = new Pager(5, 5, totalRows, pageNo);
 		
 		//페이징된 목록
-		List<AttendanceException> atdExcpList = hrService.attendanceExcptionApprovalList(atdStartDate, atdEndDate, empName, pager);
-		System.out.println("dasf" + atdExcpList.toString());
+		List<AttendanceException> atdExcpList = hrService.attendanceExcptionApprovalList(startDate, endDate, empId, pager);
 		
 		if(!atdExcpList.isEmpty()) {
-			model.addAttribute("atdStartDate", atdStartDate);
-			model.addAttribute("atdEndDate", atdEndDate);
+			model.addAttribute("startDate", startDate);
+			model.addAttribute("endDate", endDate);
 			model.addAttribute("atdPager", pager);
 			model.addAttribute("atdExcpList", atdExcpList);
 		}
 		
 		return "hr/atdexcpaprvlist";
+	}
+
+	/**
+	 * 결재내역 페이지 - 휴가신청내역 목록 (AJAX)
+	 * @author 한송민
+	 * @param 
+	 * @return 휴가신청결재목록
+	 */
+	@RequestMapping(value = "/levappaprvlist")
+	public String hrLevAppApprovalList(int pageNo, String startDate, String endDate, HttpSession session, Model model) {
+		log.info("정보 로그");
+		
+		Employee employee = (Employee) session.getAttribute("employee"); //세션에 저장된 로그인유저 정보 가져옴
+		String empId = employee.getEmpId();
+		
+		//전체 행수 갖고옴
+		int totalRows = hrService.leaveApplicationApprovalRowsCount(startDate, endDate, empId);
+		
+		//페이저 객체 생성
+		Pager pager = new Pager(5, 5, totalRows, pageNo);
+		
+		//페이징된 목록
+		List<AttendanceException> levAppList = hrService.leaveApplicationApprovalList(startDate, endDate, empId, pager);
+		
+		if(!levAppList.isEmpty()) {
+			model.addAttribute("startDate", startDate);
+			model.addAttribute("endDate", endDate);
+			model.addAttribute("levPager", pager);
+			model.addAttribute("levAppList", levAppList);
+		}
+		
+		return "hr/levappaprvlist";
 	}
 	
 	/**

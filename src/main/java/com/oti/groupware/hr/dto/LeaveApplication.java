@@ -15,6 +15,7 @@ public class LeaveApplication {
     private Date levAppEndDate;
     private String levAppProcessState;
     private Date levAppProcessDate;
-    private String levAppApprovalEmp;
+    private String levAppApprovalEmpName;
+    private String levAppApprovalEmpId;
     private String levAppOpinion;
 }

@@ -12,7 +12,8 @@ public class AttendanceException {
     private String atdExcpOutTime;
     private String atdExcpDate;
     private String atdExcpProcessDate;
-    private String atdExcpApprovalEmp;
+    private String atdExcpApprovalEmpName;
+    private String atdExcpApprovalEmpId;
     private String atdExcpOpinion;
     private String atdExcpProcessState;
     private String empName; //new - 작성자 이름

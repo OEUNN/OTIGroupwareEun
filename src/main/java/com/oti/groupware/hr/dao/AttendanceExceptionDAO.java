@@ -19,7 +19,6 @@ public interface AttendanceExceptionDAO {
 	public void updateAttendanceException(AttendanceException attendanceException);
 	public void deleteAttendanceException(@Param("atdExcpId") int atdExcpId, @Param("empId") String empId);
 
-	public int getAttendanceExcptionApprovalRowsCount(@Param("atdStartDate") String atdStartDate, @Param("atdEndDate") String atdEndDate, @Param("empName") String empName);
-	public List<AttendanceException> getAttendanceExceptionApprovalList(@Param("atdStartDate") String atdStartDate, @Param("atdEndDate") String atdEndDate,
-			@Param("empName") String empName, @Param("pager") Pager pager);
+	public int getAttendanceExcptionApprovalRowsCount(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("empId") String empId);
+	public List<AttendanceException> getAttendanceExceptionApprovalList(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("empId") String empId, @Param("pager") Pager pager);
 }

@@ -12,14 +12,15 @@
 		<result column="atd_excp_process_state" property="atdExcpProcessState"/>
 		<result column="atd_excp_date" property="atdExcpDate"/>
 		<result column="atd_excp_process_date" property="atdExcpProcessDate"/>
-		<result column="atd_excp_approval_emp" property="atdExcpApprovalEmp"/>
+		<result column="atd_excp_approval_emp_name" property="atdExcpApprovalEmpName"/>
+		<result column="atd_excp_approval_emp_id" property="atdExcpApprovalEmpId"/>
 		<result column="atd_excp_opinion" property="atdExcpOpinion"/>
 		<result column="emp_name" property="empName"/>
 		<result column="atd_in_time" property="atdInTime"/>
 		<result column="atd_out_time" property="atdOutTime"/>
 	</resultMap>
 
-	<!-- 근무신청서(일반임직원) - 전체 행의 수 -->
+	<!-- 근무신청서(일반 임직원) - 전체 행의 수 -->
 	<select id="getAttendanceExceptionRowsCount" resultType="int">
 	    SELECT 
 	      count(*)
@@ -33,13 +34,13 @@
 	    </where>
 	</select>
 
-	<!-- 근무신청서(일반임직원) - 페이징 목록 -->
+	<!-- 근무신청서(일반 임직원) - 페이징 목록 -->
 	<select id="getAttendanceExceptionList" resultMap="attendanceExceptionResultMap">
 		SELECT 
 		    atd_excp_id,
 		    atd_excp_category,
 		    to_char(atd_excp_date, 'yyyy-MM-DD') AS atd_excp_date,
-		    atd_excp_approval_emp,
+		    atd_excp_approval_emp_name,
 		    atd_excp_process_date,
 		    atd_excp_process_state
 		FROM attendance_exceptions
@@ -67,7 +68,7 @@
 		    ae.atd_excp_process_state,
 		    to_char(ae.atd_excp_date, 'yyyy-MM-DD') AS atd_excp_date,
 		    to_char(ae.atd_excp_process_date, 'yyyy-MM-DD') AS atd_excp_process_date,
-		    ae.atd_excp_approval_emp,
+		    ae.atd_excp_approval_emp_name,
 		    ae.atd_excp_opinion
 		FROM 
 			attendance_exceptions ae,  employees e, attendances a
@@ -101,7 +102,7 @@
 	        atd_excp_out_time,
 	        atd_excp_process_state,
 	        atd_excp_date,
-	        atd_excp_approval_emp
+	        atd_excp_approval_emp_name
 	    )
 	    VALUES (
 	        SEQ_ATD_EXCP_ID.NEXTVAL,
@@ -112,7 +113,7 @@
 	        #{atdExcpOutTime},
 	        '미처리',
 	        SYSDATE,
-	        #{atdExcpApprovalEmp}
+	        #{atdExcpApprovalEmpName}
 	    )
 	</insert>
 	
@@ -123,9 +124,9 @@
 	    FROM 
 	      attendance_exceptions
 	    <where>
-	      atd_excp_approval_emp = #{empName}
-	      <if test="(atdStartDate != null and !atdStartDate.equals('')) and (atdEndDate != null and !atdEndDate.equals(''))">
-	      	AND atd_excp_date BETWEEN TO_DATE(#{atdStartDate, jdbcType=VARCHAR}, 'YYYY-MM') AND TO_DATE(#{atdEndDate, jdbcType=VARCHAR}, 'YYYY-MM')
+	      atd_excp_approval_emp_id = #{empId}
+	      <if test="(startDate != null and !startDate.equals('')) and (endDate != null and !endDate.equals(''))">
+	      	AND atd_excp_date BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'YYYY-MM') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'YYYY-MM')
 	      </if>
 	    </where>
 	</select>
@@ -136,14 +137,14 @@
 		    atd_excp_id,
 		    atd_excp_category,
 		    to_char(atd_excp_date, 'yyyy-MM-DD') AS atd_excp_date,
-		    atd_excp_approval_emp,
+		    atd_excp_approval_emp_name,
 		    atd_excp_process_date,
 		    atd_excp_process_state
 		FROM attendance_exceptions
 		<where>
-	      atd_excp_approval_emp = #{empName}
-	      <if test="(atdStartDate != null and !atdStartDate.equals('')) and (atdEndDate != null and !atdEndDate.equals(''))">
-	      	AND atd_excp_date BETWEEN TO_DATE(#{atdStartDate, jdbcType=VARCHAR}, 'YYYY-MM') AND TO_DATE(#{atdEndDate, jdbcType=VARCHAR}, 'YYYY-MM')
+	      atd_excp_approval_emp_id = #{empId}
+	      <if test="(startDate != null and !startDate.equals('')) and (endDate != null and !endDate.equals(''))">
+	      	AND atd_excp_date BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'YYYY-MM') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'YYYY-MM')
 	      </if>
 		</where>
 		ORDER BY atd_excp_date DESC
