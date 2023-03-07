@@ -42,7 +42,7 @@
 
 	/* 근무신청내역 상세보기 팝업창 */
 	function atdAppDetail(id) {
-		var url = "popup/attendanceApplicationdetail?atdExcpId=" + id;
+		var url = "popup/atdapplicationdetail?atdExcpId=" + id;
 		var name = "";
 		var option = "width = 800, height = 630, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
 		window.open(url, name, option);
@@ -58,7 +58,7 @@
 
 		$.ajax({
 			type : 'GET',
-			url : "../hr/applicationform",
+			url : "../hr/atdapplicationform",
 			data : {
 				category : data
 			},
@@ -90,8 +90,8 @@
 						<div class="col-md-5 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
-									<div
-										class="d-flex justify-content-between align-items-center mb-4">
+									<!-- 근무신청목록 -->
+									<div class="d-flex justify-content-between align-items-center mb-4">
 										<div class="card-title mb-0">근무신청내역</div>
 										<div class="d-flex justify-content-end" style="width: 70%;">
 											<form action="<c:url value='/hr/myatdexception?pageNo=1'/>" method="POST">
@@ -144,7 +144,6 @@
 													<th>신청유형</th>
 													<th>신청날짜</th>
 													<th>결재자</th>
-													<th>처리날짜</th>
 													<th>신청결과</th>
 												</tr>
 											</thead>
@@ -155,7 +154,6 @@
 															<td><small>${atdExcp.atdExcpCategory}</small></td>
 															<td><small>${atdExcp.atdExcpDate}</small></td>
 															<td>${atdExcp.atdExcpApprovalEmp}</td>
-															<td>${atdExcp.atdExcpProcessDate}</td>
 															<td>
 																<!-- 결재상태 -->
 																<c:if test="${atdExcp.atdExcpProcessState == '미처리'}">
@@ -283,19 +281,8 @@
 													<div
 														style="border: 1px solid #a3a4a5; opacity: 0.5; width: 90%;"></div>
 												</div>
-												<br>
-												<br>
-												<br>
-												<br>
-												<br>
-												<br>
-												<br> <br>
-												<br>
-												<br>
-												<br>
-												<br>
-												<br>
-												<br>
+												<br><br><br><br><br><br><br>
+												<br><br><br><br><br><br><br>
 												<div class="row justify-content-center mt-3">
 													<div style="border-bottom: 2px solid #4B49AC; width: 90%;"></div>
 												</div>

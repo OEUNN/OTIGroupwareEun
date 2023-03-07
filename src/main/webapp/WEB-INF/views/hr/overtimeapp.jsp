@@ -107,7 +107,7 @@
 </script>
 <!-- End plugin css,js for this page -->
 
-<form action="<c:url value='/hr/applicationform'/>" onsubmit="return validateForm();" method="post">
+<form action="<c:url value='/hr/atdapplicationform'/>" onsubmit="return validateForm();" method="post">
 <div class="table-responsive px-3 py-2">
 	<!-- 고정 내용 -->
 	<table class="table">
@@ -189,7 +189,7 @@
 	<div class="row px-5 mt-4 justify-content-center">
 		<div class="form-group">
 			<label class="ml-1" for="atdExcpReason"><div class="h5 m-0 font-weight-bold text-primary">사유</div></label>
-			<textarea class="form-control" id="reason" rows="5" cols="68" name="atdExcpReason"></textarea>
+			<textarea class="form-control" id="reason" rows="5" cols="150" name="atdExcpReason"></textarea>
 		</div>
 	</div>
 	<div class="row justify-content-center mt-3">

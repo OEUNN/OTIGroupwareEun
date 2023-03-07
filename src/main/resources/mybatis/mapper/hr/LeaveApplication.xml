@@ -16,20 +16,105 @@
         <result column="lev_app_opinion" property="levAppOpinion"/>
     </resultMap>
     
-    <select id="getLeaveApplicationById" resultMap="leaveApplicationResultMap">
-        SELECT lev_app_id, emp_id, lev_app_date, lev_app_reason, lev_app_category, lev_app_start_date, 
-        lev_app_end_date, lev_app_process_state, lev_app_process_date, lev_app_approval_emp, lev_app_opinion
-        FROM project3.leave_applications
-        WHERE lev_app_id = #{levAppId} AND emp_id = #{empId}
-    </select>
+    <!-- 전체 행의 수 -->
+	<select id="getLeaveApplicationRowsCount" resultType="int">
+	    SELECT 
+	      count(*)
+	    FROM 
+	      leave_applications
+	    <where>
+	      emp_id = #{empId}
+	      <if test="(startDate != null and !startDate.equals('')) and (endDate != null and !endDate.equals(''))">
+	      	AND lev_app_date BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'YYYY-MM') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'YYYY-MM')
+	      </if>
+	    </where>
+	</select>
 
+	<!-- 페이징 목록 -->
+	<select id="getLeaveApplicationList" resultMap="leaveApplicationResultMap">
+		SELECT 
+		    lev_app_id,
+		    lev_app_date,
+		    lev_app_category,
+		    lev_app_start_date,
+		    lev_app_end_date,
+		    lev_app_approval_emp,
+		    lev_app_process_state
+		FROM leave_applications
+		<where>
+	      emp_id = #{empId}
+	      <if test="(startDate != null and !startDate.equals('')) and (endDate != null and !endDate.equals(''))">
+	      	AND lev_app_date BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'YYYY-MM') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'YYYY-MM')
+	      </if>
+		</where>
+		ORDER BY lev_app_date DESC
+		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
+		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
+	</select>
+
+	<!-- 상세조회 -->
+	<select id="getLeaveApplicationDetail" resultMap="leaveApplicationResultMap">
+		SELECT 
+		    lev_app_date,
+		    lev_app_reason,
+		    lev_app_category,
+		    lev_app_start_date,
+		    lev_app_end_date,
+		    lev_app_approval_emp,
+		    lev_app_process_state,
+		    lev_app_opinion
+		FROM 
+			leave_applications
+		WHERE
+            lev_app_id = #{levAppId}
+	</select>
+	
+	<!-- 근무신청서 통계 -->
+<!-- 	<select id="getAttendanceExceptionStats" resultType="hashmap"> -->
+<!-- 		SELECT -->
+<!-- 		    count(CASE WHEN atd_excp_category = '근무시간수정' THEN 1 END) AS 근무시간수정, -->
+<!-- 		    count(CASE WHEN atd_excp_category = '추가근무' THEN 1 END) AS 추가근무보고 -->
+<!-- 		FROM  -->
+<!-- 		    attendance_exceptions -->
+<!-- 		WHERE -->
+<!-- 		    emp_id = #{empId} -->
+<!-- 	</select> -->
+	
+	<!-- 휴가신청서 등록 -->
     <insert id="insertLeaveApplication" parameterType="leaveApplication">
-        INSERT INTO project3.leave_applications (lev_app_id, emp_id, lev_app_date, lev_app_reason, lev_app_category,
-        lev_app_start_date, lev_app_end_date, lev_app_process_state, lev_app_process_date, lev_app_approval_emp,
-        lev_app_opinion)
-        VALUES (#{levAppId}, #{empId}, #{levAppDate}, #{levAppReason}, #{levAppCategory}, #{levAppStartDate},
-        #{levAppEndDate}, #{levAppProcessState}, #{levAppProcessDate}, #{levAppApprovalEmp}, #{levAppOpinion})
+        INSERT INTO leave_applications (
+        	lev_app_id, 
+        	emp_id, 
+        	lev_app_date, 
+        	lev_app_reason, 
+        	lev_app_category,
+        	lev_app_start_date, 
+        	lev_app_end_date, 
+        	lev_app_process_state, 
+        	lev_app_approval_emp
+       	)
+        VALUES (
+        	SEQ_ATD_EXCP_ID.NEXTVAL, 
+        	#{empId}, 
+        	SYSDATE, 
+        	#{levAppReason}, 
+        	#{levAppCategory}, 
+        	#{levAppStartDate},
+        	#{levAppEndDate}, 
+        	'미처리', 
+        	#{levAppApprovalEmp}
+       	)
     </insert>
+    
+    <!-- 잔여일수 수정 -->
+<!--     <update id="updateEmployeeReserve"> -->
+<!--     	UPDATE  -->
+<!--     		employees -->
+<!--    		SET -->
+   			
+<!-- 		WHERE emp_id = #{empId} -->
+<!--     </update> -->
+    
 
     <update id="updateLeaveApplication" parameterType="leaveApplication">
         UPDATE project3.leave_applications

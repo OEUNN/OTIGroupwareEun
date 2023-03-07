@@ -20,7 +20,7 @@
 	</resultMap>
 
 	<!-- 전체 행의 수 -->
-	<select id="getAttendanceExceptionCount" resultType="int">
+	<select id="getAttendanceExceptionRowsCount" resultType="int">
 	    SELECT 
 	      count(*)
 	    FROM 
@@ -89,7 +89,8 @@
 		WHERE
 		    emp_id = #{empId}
 	</select>
-
+	
+	<!-- 근무신청서 등록 -->
 	<insert id="insertAttendanceException" parameterType="attendanceException">
     	INSERT INTO attendance_exceptions (
 	        atd_excp_id,
@@ -110,7 +111,7 @@
 	        #{atdExcpInTime},
 	        #{atdExcpOutTime},
 	        '미처리',
-	        sysdate,
+	        SYSDATE,
 	        #{atdExcpApprovalEmp}
 	    )
 	</insert>

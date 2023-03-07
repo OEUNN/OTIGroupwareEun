@@ -11,7 +11,7 @@ import com.oti.groupware.hr.dto.AttendanceException;
 
 @Mapper
 public interface AttendanceExceptionDAO {
-	public int getAttendanceExceptionCount(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("empId") String empId);
+	public int getAttendanceExceptionRowsCount(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("empId") String empId);
 	public List<AttendanceException> getAttendanceExceptionList(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("empId") String empId, @Param("pager") Pager pager);
 	public AttendanceException getAttendanceExceptionDetail(@Param("atdExcpId") int atdExcpId);
     public void insertAttendanceException(AttendanceException attendanceException);

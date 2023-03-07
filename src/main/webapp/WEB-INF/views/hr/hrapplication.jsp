@@ -80,18 +80,22 @@
 		                  <div class="d-flex justify-content-between align-items-center mb-4">
 	              			<div class="card-title mb-0">근무신청 처리내역</div>
 	              			<div class="d-flex justify-content-end" style="width:70%;">
-		              			<!-- datepicker start -->
-		              			<div id="datepicker-attendance" class="ml-5 input-daterange input-group text-primary" style="border:2px solid #4B49AC; border-radius: 15px; width: 60%;">
-									<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
-								    <input type="text" class="form-control-sm form-control font-weight-bold" name="start" style="border:0px; text-align: center;">
-								    <span class="input-group-addon font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
-									<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
-								    <input type="text" class="form-control-sm form-control font-weight-bold" name="end" style="border:0px; border-radius:15px; text-align: center;">
-								</div>
-					            <!-- datepicker end -->
-					            <button class="btn btn-md btn-primary ml-2">
-									<span>검색</span>
-								</button>
+	              				<form action="<c:url value='/hr/hrapplication?pageNo=1'/>" method="POST">
+	              					<div class="d-flex justify-content-end">
+				              			<!-- datepicker start -->
+				              			<div id="datepicker-attendance" class="ml-5 input-daterange input-group text-primary" style="border:2px solid #4B49AC; border-radius: 15px; width: 60%;">
+											<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+										    <input type="text" class="form-control-sm form-control font-weight-bold" name="start" style="border:0px; text-align: center;">
+										    <span class="input-group-addon font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
+											<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+										    <input type="text" class="form-control-sm form-control font-weight-bold" name="end" style="border:0px; border-radius:15px; text-align: center;">
+										</div>
+							            <!-- datepicker end -->
+							            <button class="btn btn-md btn-primary ml-2">
+											<span>검색</span>
+										</button>
+	              					</div>
+	              				</form>
 	              			</div>
                    	 	  </div>
 		                  <div class="card card-light-blue mb-4">
