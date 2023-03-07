@@ -20,16 +20,17 @@
 	</resultMap>
 
 	<!-- 전체 행의 수 -->
-	<select id="getAttendanceExceptionCount" resultType="int">
+	<select id="getAttendanceExceptionRowsCount" resultType="int">
 	    SELECT 
 	      count(*)
 	    FROM 
 	      attendance_exceptions
-	    WHERE
+	    <where>
 	      emp_id = #{empId}
-	      <if test="startDate != null and endDate != null">
-	      	AND atd_excp_date BETWEEN TO_DATE(#{startDate}, 'YYYY-MM') AND TO_DATE(#{endDate}, 'YYYY-MM')
+	      <if test="(startDate != null and !startDate.equals('')) and (endDate != null and !endDate.equals(''))">
+	      	AND atd_excp_date BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'YYYY-MM') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'YYYY-MM')
 	      </if>
+	    </where>
 	</select>
 
 	<!-- 페이징 목록 -->
@@ -42,12 +43,13 @@
 		    atd_excp_process_date,
 		    atd_excp_process_state
 		FROM attendance_exceptions
-		WHERE
+		<where>
 	      emp_id = #{empId}
-	      <if test="startDate != null and endDate != null ">
-	      	AND atd_excp_date BETWEEN TO_DATE(#{startDate}, 'YYYY-MM') AND TO_DATE(#{endDate}, 'YYYY-MM')
+	      <if test="(startDate != null and !startDate.equals('')) and (endDate != null and !endDate.equals(''))">
+	      	AND atd_excp_date BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'YYYY-MM') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'YYYY-MM')
 	      </if>
-		ORDER BY atd_excp_date desc
+		</where>
+		ORDER BY atd_excp_date DESC
 		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
 		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
 	</select>
@@ -87,7 +89,8 @@
 		WHERE
 		    emp_id = #{empId}
 	</select>
-
+	
+	<!-- 근무신청서 등록 -->
 	<insert id="insertAttendanceException" parameterType="attendanceException">
     	INSERT INTO attendance_exceptions (
 	        atd_excp_id,
@@ -108,7 +111,7 @@
 	        #{atdExcpInTime},
 	        #{atdExcpOutTime},
 	        '미처리',
-	        sysdate,
+	        SYSDATE,
 	        #{atdExcpApprovalEmp}
 	    )
 	</insert>

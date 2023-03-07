@@ -55,7 +55,7 @@
 		                      <div class="col-md font-weight-bold text-primary px-0 text-center">잔여대체휴무</div>
 	                    	</div>
 	                    	<div class="row pr-2">
-		                      <div class="col-md font-weight-bold h3 text-center" >${employee.empLeaveReserve }</div>
+		                      <div class="col-md font-weight-bold h3 text-center" >${employee.empLeaveReserve}</div>
 		                      <div class="col-md font-weight-bold h3 text-center">${employee.empSubstitueReserve}</div>
 	                    	</div>
 	                    </div>

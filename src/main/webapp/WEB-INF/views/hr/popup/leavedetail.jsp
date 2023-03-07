@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,34 +41,6 @@
 			left:35px;
 		}
 	</style>
-	
-	<script>
-	 	//clockpicker 렌더링
-	 	$(function(){ 
-			$('.clockpicker').clockpicker();
-	 	});
-	 	
-	 	//출근, 퇴근 체크박스 클릭시 html 추가
-	 	function isCheck(data){
-	 		if(data=='in'){
-	 			if($('input:checkbox[name="intime-checkbtn"]').is(':checked')) {
-	 				$('#today-intime').css('display', 'block');
-	 				$('#intime-clockpicker').css('display', 'block');
-	 			} else {
-	 				$('#today-intime').css('display', 'none');
-	 				$('#intime-clockpicker').css('display', 'none');
-	 			}
-	 		} else if(data=='out') {
-	 			if($('input:checkbox[name="outtime-checkbtn"]').is(':checked')) {
-	 				$('#today-outtime').css('display', 'block');
-	 				$('#outtime-clockpicker').css('display', 'block');
-	 			} else {
-	 				$('#today-outtime').css('display', 'none');
-	 				$('#outtime-clockpicker').css('display', 'none');
-	 			}
-	 		}
-	 	}
-	</script>
     <!-- End plugin css,js for this page -->
 </head>
 
@@ -85,20 +58,31 @@
 			                           <tbody>
 			                              <tr class="custom-border-left custom-border-right">
 			                                 <td class="custom-border-right"><h4 class="font-weight-bold text-center m-0">작성자</h4></td>
-			                                 <td>이춘향</td>
+			                                 <td>${sessionScope.employee.empName}</td>
 			                                 <td></td>
 			                                 <td></td>
-			                                 <td class="custom-border-left custom-border-right"><h4 class="font-weight-bold text-center m-0">근무날짜</h4></td>
-			                                 <td>2023-02-21</td>
+			                                 <td class="custom-border-left custom-border-right"><h4 class="font-weight-bold text-center m-0">신청날짜</h4></td>
+			                                 <td><fmt:formatDate value="${levApp.levAppDate}" pattern="yyyy-MM-dd" /></td>
 			                                 <td></td>
 			                              </tr>
 			                              <tr class="custom-border-left custom-border-right">
 			                                 <td class="custom-border-right"><h4 class="font-weight-bold text-center m-0">결재자</h4></td>
-			                                 <td>홍길동</td>
+			                                 <td>${levApp.levAppApprovalEmp}</td>
 			                                 <td></td>
 			                                 <td></td>
 			                                 <td class="custom-border-left custom-border-right"><h4 class="font-weight-bold text-center m-0">신청결과</h4></td>
-			                                 <td><div class="badge badge-success font-weight-bold">승인</div></td>
+			                                 <td>
+											 	<!-- 결재상태 -->
+												<c:if test="${levApp.levAppProcessState == '미처리'}">
+													<div class="badge badge-secondary font-weight-bold text-white">${levApp.levAppProcessState}</div>
+												</c:if>
+												<c:if test="${levApp.levAppProcessState == '승인'}">
+													<div class="badge badge-success font-weight-bold">${levApp.levAppProcessState}</div>
+												</c:if>
+												<c:if test="${levApp.levAppProcessState == '반려'}">
+													<div class="badge badge-danger font-weight-bold">${levApp.levAppProcessState}</div>
+												</c:if>
+											 </td>
 			                                 <td></td>
 			                              </tr>
 			                              <tr>
@@ -122,14 +106,18 @@
 	                      		 <div class="row">
 	                      		 	<div class="col-md d-flex align-items-center px-5 py-2">
 	                      		 		<h4 class="mx-4 mb-0 font-weight-bold">휴가유형</h4>
-		                      		 	<h6 class="ml-2 mb-0 text-primary font-weight-bold">연차</h6>
+		                      		 	<h6 class="ml-2 mb-0 text-primary font-weight-bold">${levApp.levAppCategory}</h6>
 	                      		 	</div>
 	                      		 </div>
 	                      		 <!-- 기간(날짜) 선택 -->
 	                      		 <div class="row px-5 py-2">
 	                      			<div class="col-md d-flex align-items-center pl-0">
 	                      				<h4 class="mx-4 mb-0 font-weight-bold">휴가기간</h4>
-	                      				<h6 class="ml-2 mb-0 text-primary font-weight-bold">2023-02-22 ~ 2023-02-23</h6>
+	                      				<h6 class="ml-2 mb-0 text-primary font-weight-bold">
+	                      					<fmt:formatDate value="${levApp.levAppStartDate}" pattern="yyyy-MM-dd" />
+										 		~ 
+										 	<fmt:formatDate value="${levApp.levAppEndDate}" pattern="yyyy-MM-dd" />
+	                      				</h6>
 	                      			</div>
 	                      		 </div>
 	                      		 <!-- 휴가사유 -->
@@ -137,18 +125,20 @@
                       				<h4 class="mx-4 mb-0 font-weight-bold ">사유</h4>
 	                      		 </div>
 	                      		 <div class="row px-5 mt-3 ml-1">
-                      				<h6 class="ml-1 mb-0 text-primary font-weight-bold">연차 사용</h6>
+                      				<h6 class="ml-1 mb-0 text-primary font-weight-bold">${levApp.levAppReason}</h6>
 	                      		 </div>
 	                        	 <div class="row justify-content-center mt-3">
 		                       			<div style="border-bottom: 2px solid #4B49AC; width:90%;"></div>
 		                      		</div>
-		                      		<!-- 반려사유 c:if 사용하기 -->
-		                      		<div class="row px-5 mt-3 justify-content-start">
-	                      				<h4 class="mx-4 mb-0 font-weight-bold text-danger">반려 사유</h4>
-		                      		</div>
-		                      		<div class="row px-5 mt-3 ml-1">
-	                      				<h6 class="ml-1 mb-0 text-danger">c:if 이용하기!</h6>
-		                      		</div>
+		                      		<!-- 반려사유 -->
+		                      		<c:if test="${!empty levApp.levAppOpinion}">
+			                      		<div class="row px-5 mt-3 justify-content-start">
+		                      				<h4 class="mx-4 mb-0 font-weight-bold text-danger">반려 사유</h4>
+			                      		</div>
+			                      		<div class="row px-5 mt-3 ml-1">
+		                      				<h6 class="ml-1 mb-0 text-danger">${levApp.levAppOpinion}</h6>
+			                      		</div>
+		                      		</c:if>
 	                       	   </div>
 								<!-- 버튼 -->
 		                        <div class="row px-5 mt-3 justify-content-end">

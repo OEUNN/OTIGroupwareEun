@@ -89,8 +89,11 @@
 				if(inTime.indexOf("결근") == 0 || inTime.indexOf("휴가") == 0){ //결근이거나 휴가인 경우
 					$("#today-in-time").html("<br>");
 					$("#today-out-time").html("<br>");
-				} else { //출근하나만 있을 경우!
+				} else if(inTime.indexOf("지각") == 0 || inTime.indexOf("출근") == 0) { //출근하나만 있을 경우!
 					$("#today-in-time").html(inTime.substring(3));
+					$("#today-out-time").html("<br>");
+				} else {
+					$("#today-in-time").html("<br>");
 					$("#today-out-time").html("<br>");
 				}
 			//이벤트가 3개 이상인 경우(공휴일..)
