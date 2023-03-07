@@ -69,12 +69,14 @@
 		if($('input:checkbox[id="intime-checkbtn"]').is(':checked') && $('#no-today-intime').val() == '' ){
 			$('#no-today-intime').css('color', 'red');
 			$('#no-today-intime').text('출근을 해주세요!');
+			$('input[name="atdExcpInTime').css('border-color', 'red');
 			result = false;
 		}
 		//퇴근체크박스 선택했을 경우
 		if($('input:checkbox[id="outtime-checkbtn"]').is(':checked') && $('#no-today-outtime').val() == '') {
 			$("#no-today-outtime").css('color', 'red');
 			$('#no-today-intime').text('퇴근을 해주세요!');
+			$('input[name="atdExcpOutTime').css('border-color', 'red');
 			result = false;
 		}
 		//사유를 작성하지 않았을 경우
@@ -87,6 +89,14 @@
 	}
 	
 	$(function() {
+		$('input[name="atdExcpInTime').focusin(function(){
+		    $(this).css("border-color", "#4B49AC");
+		  });
+		
+		$('input[name="atdExcpOutTime').focusin(function(){
+		    $(this).css("border-color", "#4B49AC");
+		  });
+		
 		$("textarea.form-control").focusin(function(){
 		    $(this).css("border-color", "#4B49AC");
 		  });
@@ -140,7 +150,7 @@
 	</table>
 </div>
 <!-- 변경내용(폼) -->
-<form action="<c:url value='/hr/myatdexception?pageNo=1&startDate=${startDate}&endDate=${endDate}'/>" onsubmit="return validateForm();" method="post">
+<form action="<c:url value='/hr/atdapplicationform'/>" onsubmit="return validateForm();" method="post">
 <div class="container-fluid">
 	<div class="row justify-content-around">
 		<div class="col-md"></div>
@@ -219,7 +229,7 @@
 	<div class="row px-5 mt-4 justify-content-center">
 		<div class="form-group">
 			<label class="ml-1" for="atdExcpReason"><div class="h5 m-0 font-weight-bold text-primary">사유</div></label>
-			<textarea class="form-control" id="reason" rows="5" cols="68" name="atdExcpReason"></textarea>
+			<textarea class="form-control" id="reason" rows="5" cols="150" name="atdExcpReason"></textarea>
 		</div>
 	</div>
 	<div class="row justify-content-center mt-3">

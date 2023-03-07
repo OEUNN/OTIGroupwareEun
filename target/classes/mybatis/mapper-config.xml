@@ -2,6 +2,11 @@
 
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+	<properties>
+    	<property name="jdbcTypeForNull" value="VARCHAR"/>
+  	</properties>
+	
+	<!-- 별칭지정 -->
 	<typeAliases>
 		<!-- Approval -->
 		<typeAlias type="com.oti.groupware.approval.dto.DocumentFile" alias="documentFile"/>
