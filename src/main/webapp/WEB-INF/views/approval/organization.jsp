@@ -59,9 +59,17 @@
 			}
 		}
 		
+		//In Javascript, 숫자로만 이루어진 문자열이 0으로 시작하면 8진수로 인식한다.
+		//따라서 8진수를 10진수로 다시 바꾼 수를 넘겨주게 된다.
 		function removeFromList(Id) {
-			Id = '#del' + Id;
-			$(Id).remove();
+			var delId = '#del' + Id;
+			
+			if ($(delId).length === 0) {
+				delId = '#del' + '0' + Id.toString(8);
+			}
+			
+			$(delId).remove();
+			
 			if (order > 0) {
 				order -= 1;
 			}
@@ -162,7 +170,6 @@
 								</div>
 								<div class="row mb-3" >
 									<div class="col"></div>
-									<div onclick="sendApprovalLine('#approvalLine div')">test</div>
 									<button class="col btn btn-primary btn-md mt-1 mx-3" onclick="sendApprovalLine('#approvalLine div')">확인</button>
 									<button class="col btn btn-outline-primary btn-md mt-1 mx-3" onclick="cancel()">취소</button>
 									<div class="col"></div>

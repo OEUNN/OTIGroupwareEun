@@ -1,15 +1,9 @@
 package com.oti.groupware.approval;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
-import com.oti.groupware.approval.dto.ApprovalLine;
 import com.oti.groupware.approval.dto.Document;
 
 @Component
@@ -28,7 +22,6 @@ public class DocumentParser {
 		String documentId = body.getElementsByClass("documentId").text();
 		String documentRetentionPeriod = body.getElementsByClass("documentRetentionPeriod").text();
 		String documentTitle = body.getElementsByClass("documentTitle").text();
-		String documentWriteDate = body.getElementsByClass("documentWriteDate").text();
 		
 		document = new Document();
 		document.setDocId(documentId);
@@ -37,10 +30,8 @@ public class DocumentParser {
 		document.setDocTitle(documentTitle);
 		document.setDocContent(html);
 		document.setDocRetentionPeriod(documentRetentionPeriod);
-		document.setDocWriteDate(Date.valueOf(documentWriteDate));
 		document.setDocState("결재중");
 		document.setDocTempYn('N');
-
 	}
 	
 	public Document getParsedDocument() {
