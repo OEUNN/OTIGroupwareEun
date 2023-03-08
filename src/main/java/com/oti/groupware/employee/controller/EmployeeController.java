@@ -9,19 +9,24 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.oti.groupware.common.Pager;
 import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.employee.dto.EmployeeDetail;
 import com.oti.groupware.employee.service.EmployeeService;
-import com.oti.groupware.interceptor.Authorization;
 
 import lombok.extern.log4j.Log4j2;
 /**
@@ -63,6 +68,7 @@ public class EmployeeController {
 	 */
 	@PostMapping(value = "/insertemployee")
 	public String insertEmployee(Employee employee, EmployeeDetail employeeDetail) throws IOException{
+		log.info("실행");
 		//파일 데이터
 		MultipartFile employeeFile = employee.getEmpFileDataMulti();
 		if(!employeeFile.isEmpty()) {
@@ -133,14 +139,50 @@ public class EmployeeController {
 
 	//임직원 조회
 	@RequestMapping(value = "/selectemployee", method = RequestMethod.GET)
-	public String selectEmployee() {
+	public String selectEmployee(Model model) {
+		log.info("실행");
+		//전체 행수 갖고옴
+		int totalRows = employeeService.employeeRowsCount();
+		//페이저 객체 생성
+		Pager pager = new Pager(10, 5, totalRows, 1);
+		List<Employee> empList = employeeService.getEmployees(pager);
+		if(empList != null) {
+			Employee emp = employeeService.ceoInformation();
+			EmployeeDetail empDetail = employeeService.detailEmployee(emp.getEmpId());
+			model.addAttribute("empList", empList);
+			model.addAttribute("pager", pager);
+			model.addAttribute("emp", emp);
+			model.addAttribute("empDetail", empDetail);
+		}
 		return "employee/selectemployee";
 	}
 	
-	// 임직원 조회
-	@RequestMapping(value = "/updateemployee", method = RequestMethod.GET)
-	@Authorization("ROLE_HR")
-	public String updateEmployee() {
+	@RequestMapping(value = "/selectemployee", method = RequestMethod.POST)
+	public String selectEmployee(String empId, Model model) {
+		log.info("실행");
+		Employee emp = employeeService.getEmployee(empId);
+		EmployeeDetail empDetail = employeeService.detailEmployee(empId);
+		model.addAttribute("emp", emp);
+		model.addAttribute("empDetail", empDetail);
+		return "employee/detailemployee";
+	}
+	
+	// 비밀번호 초기화popup
+	@RequestMapping(value = "/resetpasswordpopup", method = RequestMethod.GET)
+	public String resetPasswordPopup() {
+		return "employee/resetpasswordpopup";
+	}
+		
+	// 비밀번호 초기화popup
+	@RequestMapping(value = "/reset", method = RequestMethod.POST)
+	@ResponseBody
+	public void resetPasswordPopup(String empId) {
+		employeeService.resetPassword(empId);
+	}
+	
+	// 임직원
+	@RequestMapping(value = "/updateemployee/{empId}", method = RequestMethod.GET)
+	public String updateEmployee(@PathVariable String empId) {
 		return "employee/updateemployee";
 	}
 
@@ -153,25 +195,32 @@ public class EmployeeController {
 	
 	@RequestMapping(value = "/searchdepartment", method = RequestMethod.POST)
 	@ResponseBody
-	public List<String> searchDepartment(HttpSession session, String depId) {
-		log.info("실행");
-		List<String> depEmployee = new ArrayList<>();
+	public List<Employee> searchDepartment(String depId) {
+		List<Employee>  depEmployee = new ArrayList<>();
 		depEmployee = employeeService.getDepartment(Integer.parseInt(depId));
 		return depEmployee;
 	}
 	
 	//직원정보 디테일 popup
-	@RequestMapping(value = "/detailpopup", method = RequestMethod.GET)
-	public String detailPopup() {
+	@RequestMapping(value = "/detailpopup/{empId}", method = RequestMethod.GET)
+	public String detailPopup(@PathVariable String empId, Model model) {
+		Employee employee = employeeService.getEmployee(empId);
+		model.addAttribute("emp", employee);
 		return "employee/detailpopup";
 	}
 	
-	//비밀번호 초기화popup
-	@RequestMapping(value = "/deletepasswordpopup", method = RequestMethod.GET)
-	public String deletePasswordPopup() {
-		return "employee/deletePasswordPopup";
-	}
+	//이미지
+	@GetMapping("/file/{empId}")
+	public ResponseEntity<byte[]> file(@PathVariable String empId) throws Exception {
+		Employee employee = employeeService.getEmployee(empId);
+		final HttpHeaders headers = new HttpHeaders();
+		String[] mtypes = employee.getEmpFileType().split("/");
+		headers.setContentType(new MediaType(mtypes[0],mtypes[1]));
+		headers.setContentDispositionFormData("attachment",new String(employee.getEmpFileName().getBytes("UTF-8"), "ISO-8859-1") );
+		return new ResponseEntity<byte[]>(employee.getEmpFileData(), headers, HttpStatus.OK);
+	}	
 	
+		
 	//접근권한 페이지
 	@RequestMapping(value="/error", method=RequestMethod.GET)
 	public String errorEmployee() {

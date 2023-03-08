@@ -12,7 +12,6 @@
 	    <result property="docWriteDate" column="doc_write_date"/>
 	    <result property="docReportDate" column="doc_report_date"/>
 	    <result property="docCompleteDate" column="doc_complete_date"/>
-	    <result property="docImportance" column="doc_importance"/>
 	    <result property="docState" column="doc_state"/>
 	    <result property="docReadYn" column="doc_read_yn"/>
 	    <result property="docTempYn" column="doc_temp_yn"/>
@@ -23,7 +22,7 @@
         SELECT
             doc_id, emp_id, doc_type, doc_title, doc_content,
             doc_retention_period, doc_write_date, doc_report_date,
-            doc_complete_date, doc_importance, doc_state, doc_read_yn,
+            doc_complete_date, doc_state, doc_read_yn,
             doc_temp_yn, doc_aprv_step
         FROM documents
         WHERE doc_id = #{docId}
@@ -33,13 +32,13 @@
         INSERT INTO documents (
             doc_id, emp_id, doc_type, doc_title, doc_content,
             doc_retention_period, doc_write_date, doc_report_date,
-            doc_complete_date, doc_importance, doc_state, doc_read_yn,
+            doc_complete_date, doc_state, doc_read_yn,
             doc_temp_yn, doc_aprv_step
         )
         VALUES (
             #{docId}, #{empId}, #{docType}, #{docTitle}, #{docContent},
             #{docRetentionPeriod}, #{docWriteDate}, #{docReportDate},
-            #{docCompleteDate}, #{docImportance}, #{docState}, #{docReadYn},
+            #{docCompleteDate}, #{docState}, #{docReadYn},
             #{docTempYn}, #{docAprvStep}
         )
     </insert>
@@ -52,7 +51,6 @@
             doc_write_date = #{docWriteDate},
             doc_report_date = #{docReportDate},
             doc_complete_date = #{docCompleteDate},
-            doc_importance = #{docImportance},
             doc_state = #{docState},
             doc_read_yn = #{docReadYn} ,
             doc_temp_yn = #{docTempYn},
@@ -67,29 +65,38 @@
     <insert id="insertDraft" parameterType="document">
         INSERT INTO documents (
             doc_id, emp_id, doc_type, doc_title, doc_content,
-            doc_retention_period, doc_write_date, doc_state,
-            doc_temp_yn
+            doc_retention_period, doc_write_date, doc_report_date, doc_state,
+            doc_read_yn, doc_temp_yn, doc_aprv_step
         )
         VALUES (
             #{docId}, #{empId}, #{docType}, #{docTitle}, #{docContent},
-            #{docRetentionPeriod}, #{docWriteDate}, #{docState},
-            #{docTempYn}
+            #{docRetentionPeriod}, #{docWriteDate}, SYSDATE, #{docState},
+            default, #{docTempYn}, default
         )
     </insert>
     
-    <select id="getDraftDocumentList">
+    <select id="getDraftDocumentCount" resultType="int" parameterType="string">
+    <![CDATA[
+        SELECT count(*) 
+        FROM documents 
+        WHERE emp_id = #{empId}
+    ]]>
+    </select>
+    
+    <select id="getDraftDocumentList" resultMap="documentResultMap">
     <![CDATA[
         SELECT
-            rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
+            doc_id, emp_id, doc_type, doc_title, doc_report_date,
             doc_complete_date, doc_state, doc_read_yn
         FROM (
         	SELECT
         		rownum as rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
         		doc_complete_date, doc_state, doc_read_yn
         	FROM documents
-        	WHERE emp_id = #{empId} and doc_temp_yn = #{docTempYn} and rownum <= (#{Pager.rowsPerPage} * (#{Pager.pageNo} - 1))
+        	WHERE emp_id = #{empId} and doc_temp_yn = 'N' and 
+        	rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
         )
-        WHERE rownum > (#{Pager.rowsPerPage} * #{Pager.pageNo})
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
     ]]>
     </select>
 </mapper>

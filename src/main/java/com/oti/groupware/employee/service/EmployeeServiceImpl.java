@@ -4,12 +4,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.oti.groupware.common.Pager;
 import com.oti.groupware.employee.dao.DepartmentDAO;
 import com.oti.groupware.employee.dao.EmployeeDAO;
 import com.oti.groupware.employee.dao.EmployeeDetailDAO;
@@ -65,7 +67,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employee.setEmpFileData(dbEmployee.getEmpFileData());
 		employee.setEmpFileType(dbEmployee.getEmpFileType());
 		employee.setEmpFileName(dbEmployee.getEmpFileName());
-		employee.setPosName(getPositionName(dbEmployee.getDepId()));
+		employee.setPosName(getPositionName(dbEmployee.getPosId()));
 		employee.setDepName(getDepartmentName(dbEmployee.getDepId()));
 		return "SUCCESS";
 	}
@@ -77,17 +79,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public Employee getEmployee(String empId) {
-		return employeeDao.getEmployeeById(empId);
+		Employee employee = employeeDao.getEmployeeById(empId);;
+		String depName = departmentDao.getDepartmentById(employee.getDepId());
+		String posName = positionDao.getPositionById(employee.getPosId());
+		employee.setDepName(depName);
+		employee.setPosName(posName);
+		return employee;
 	}
 
 	/**
 	 * 비밀번호가 틀렸을 때 fail count +1
+	 * 
 	 * @param employee
 	 * @return employee
 	 */
 	private int updateLoginFailCnt(Employee dbEmployee) {
 		dbEmployee.setEmpLoginFailuresCnt(dbEmployee.getEmpLoginFailuresCnt() + 1);
-		log.info("failCnt :" +dbEmployee.getEmpLoginFailuresCnt());
+		log.info("failCnt :" + dbEmployee.getEmpLoginFailuresCnt());
 		employeeDao.updateLoginFailCnt(dbEmployee);
 		return dbEmployee.getEmpLoginFailuresCnt();
 	}
@@ -102,12 +110,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employee.setEmpLoginFailuresCnt(0);
 		employeeDao.updateLoginSuccessCnt(employee);
 	}
-	
+
 	private String getDepartmentName(int depId) {
 		String depStr = departmentDao.getDepartmentById(depId);
 		return depStr;
 	}
-	
+
 	private String getPositionName(int posId) {
 		String posStr = positionDao.getPositionById(posId);
 		return posStr;
@@ -118,7 +126,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		List<String> phoneNumberList = new ArrayList<>();
 		phoneNumberList = employeeDao.getPhoneNumber();
 		String result = "true";
-		if(!phoneNumberList.isEmpty() && phoneNumberList != null) {
+		if (!phoneNumberList.isEmpty() && phoneNumberList != null) {
 			for (String phone : phoneNumberList) {
 				if (phoneNumber.equals(phone)) {
 					result = "false";
@@ -132,7 +140,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public String mailIdCheck(String mailId) {
 		List<String> mailIdList = employeeDao.getMailId();
 		String result = "true";
-		if(!mailIdList.isEmpty() && mailIdList != null) {
+		if (!mailIdList.isEmpty() && mailIdList != null) {
 			for (String mail : mailIdList) {
 				if (mailId.equals(mail)) {
 					result = "false";
@@ -145,26 +153,26 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public void insertEmployee(Employee employee, EmployeeDetail employeeDetail) {
 		log.info("insert service 실행");
-		String completeId = employee.getEmpId().replace("-","");
-		completeId = completeId.substring(2,8)+"%";
+		String completeId = employee.getEmpId().replace("-", "");
+		completeId = completeId.substring(2, 8) + "%";
 		List<String> empId = employeeDao.getEmpId(completeId);
-		completeId=completeId.replace("%", "");
-		//사번 만들기
-		//해당 날짜에 사번이 존재한다면
+		completeId = completeId.replace("%", "");
+		// 사번 만들기
+		// 해당 날짜에 사번이 존재한다면
 		if (!empId.isEmpty() && empId != null) {
-			int endNum=0;
-			String endId=null;
+			int endNum = 0;
+			String endId = null;
 			int highNum = 0;
 			for (String id : empId) {
 				endId = id.substring(6);
 				endNum = (Integer.parseInt(endId)) + 1;
-				if(endNum>highNum) {
-					highNum=endNum;
+				if (endNum > highNum) {
+					highNum = endNum;
 				}
 			}
 			endId = Integer.toString(highNum);
 			employee.setEmpId(completeId + endId);
-		//해당날짜에 사번이 없다면
+			// 해당날짜에 사번이 없다면
 		} else {
 			employee.setEmpId(completeId + "1");
 		}
@@ -178,7 +186,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employeeDetailDao.insertEmployeeDetail(employeeDetail);
 
 	}
-	
+
 	@Override
 	public EmployeeDetail getEmployeeDetail(String empId, Date now) {
 		EmployeeDetail employeeDetail = employeeDetailDao.getEmployeeDetail(empId);
@@ -187,17 +195,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 		String employmentStr = format.format(employeeDetail.getEmpDetailEmploymentDate());
 		String[] nowSplit = nowStr.split("/");
 		String[] employmentSplit = employmentStr.split("/");
-		int year = (Integer.parseInt(nowSplit[0]))-(Integer.parseInt(employmentSplit[0]));
-		int month=0;
-		if((Integer.parseInt(nowSplit[1]))>(Integer.parseInt(employmentSplit[1]))){
-			month=1;
+		int year = (Integer.parseInt(nowSplit[0])) - (Integer.parseInt(employmentSplit[0]));
+		int month = 0;
+		if ((Integer.parseInt(nowSplit[1])) > (Integer.parseInt(employmentSplit[1]))) {
+			month = 1;
 		}
 		year = year + month;
 		employeeDetail.setEmpDetailSeniority(year);
 		employeeDetailDao.updateSeniority(empId, year);
 		return employeeDetailDao.getEmployeeDetail(empId);
 	}
-	
+
 	/**
 	 * a-jax mypage 이미지 바꾸기
 	 */
@@ -211,14 +219,54 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public void updatePassword(String empId, String password) {
-		PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		password = pe.encode(password);
+		if(password != null) {
+			PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+			password = pe.encode(password);
+		}
 		employeeDao.updatePassword(empId, password);
 	}
 
 	@Override
-	public List<String> getDepartment(int depId) { 
-		return employeeDao.getDepartment(depId);
+	public List<Employee> getDepartment(int depId) {
+		List<Employee> list = employeeDao.getDepartment(depId);
+		for(Employee employeeList : list) {
+			int posId = employeeDao.getPositionIdById(employeeList.getEmpId());
+			String posName = getPositionName(posId);
+			employeeList.setPosName(posName);
+		}
+		return list;
 	}
-	
+
+	@Override
+	public void resetPassword(String empId) {
+		PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		String password  = pe.encode("12345");
+		employeeDao.updatePassword(empId, password);
+	}
+
+	@Override
+	public int employeeRowsCount() {
+		return employeeDao.employeeRowsCount();
+	}
+
+	@Override
+	public List<Employee> getEmployees(Pager pager) {
+		List<Employee> list = employeeDao.getEmployees(pager);
+		for(Employee employeeList : list) {
+			String depId = getDepartmentName(employeeList.getDepId());
+			employeeList.setDepName(depId);
+		}
+		return list;
+	}
+
+	@Override
+	public Employee ceoInformation() {
+		return employeeDao.getCeoInformation();
+	}
+
+	@Override
+	public EmployeeDetail detailEmployee(String empId) {
+		return employeeDetailDao.getEmployeeDetail(empId);
+	}
+
 }

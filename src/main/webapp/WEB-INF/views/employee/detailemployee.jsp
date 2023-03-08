@@ -3,9 +3,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script>
 function popup(){
-    var url = "deletepasswordpopup";
+	console.log($('#id').val());
+    var url = 'resetpasswordpopup';
     var name = "delete password popup";
-    var option = "width = 500, height =350, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+    var option = "width = 500, height =230, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
     window.open(url, name, option);
 }
 </script>
@@ -14,7 +15,7 @@ function popup(){
 		<div class="d-flex justify-content-between align-items-center">
 			<div class="card-title mb-0">임직원 조회</div>
 			<div class="d-flex">
-				<a class="btn btn-md btn-primary mx-2" href="<c:url value='/updateemployee'/>">
+				<a class="btn btn-md btn-primary mx-2" href="<c:url value='/employee/updateemployee/${emp.empId}'/>">
 					<span class="mdi mdi-lead-pencil align-middle"></span> 
 					<span>수정</span>
 				</a>
@@ -27,7 +28,7 @@ function popup(){
 
 <div class="row">
 	<div class="col-3">
-		<img src="${pageContext.request.contextPath}/resources/images/faces/face10.jpg" style="width:200px; height:240px;border-radius:20px;"/>
+<%-- 		<img src="<c:url value='/employee/file/${emp.empId}'/>" style="width:200px; height:240px;border-radius:20px;"/> --%>
 	</div> <!-- End image card -->
 	<!-- start information -->
 	<div class="col-9">
@@ -42,7 +43,7 @@ function popup(){
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div style="font-weight:bold;text-align:left;">장영은</div>
+							<div>${emp.empName}</div>
 						</div>
 					</div>
 				</div>
@@ -55,7 +56,8 @@ function popup(){
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div style="font-weight:bold;">20230211</div>
+							<div>${emp.empId}</div>
+							<input type="hidden" id="id" value="${emp.empId}"/>
 						</div>
 					</div>
 				</div>
@@ -70,7 +72,7 @@ function popup(){
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div style="font-weight:bold;">1996/11/4</div>
+							<div><fmt:formatDate pattern="yyyy년 MM월 dd일" value="${empDetail.empDetailBirthday}"/></div>
 						</div>
 					</div>
 				</div>
@@ -79,11 +81,11 @@ function popup(){
 						<div class="col-sm-6 text-primary">
 							<div class="d-flex align-items-center m-1">
 								<i class="h3 my-auto mdi mdi-clipboard-check"></i> 
-								<span class="ml-2 font-weight-bold">채용일</span>
+								<span class="ml-2 font-weight-bold">입사일</span>
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div style="font-weight:bold;">2023/2/11</div>
+							<div><fmt:formatDate pattern="yyyy년 MM월 dd일" value="${empDetail.empDetailEmploymentDate}"/></div>
 						</div>
 					</div>
 				</div>
@@ -98,7 +100,7 @@ function popup(){
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div style="font-weight:bold;">FEMAILE</div>
+							<div>${empDetail.empDetailGender}</div>
 						</div>
 					</div>
 				</div>
@@ -111,7 +113,7 @@ function popup(){
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div style="font-weight:bold;">longzero1</div>
+							<div>${emp.empMail}</div>
 						</div>
 					</div>
 				</div>
@@ -126,7 +128,7 @@ function popup(){
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div style="font-weight:bold;">미혼</div>
+							<div>${empDetail.empDetailMarriedYN}</div>
 						</div>
 					</div>
 				</div>
@@ -139,7 +141,7 @@ function popup(){
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div style="font-weight:bold;">재직중</div>
+							<div>${empDetail.empDetailEmploymentState}</div>
 						</div>
 					</div>
 				</div>
@@ -154,7 +156,7 @@ function popup(){
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div style="font-weight:bold;">N</div>
+							<div>${empDetail.empDetailMilitaryServiceYN }</div>
 						</div>
 					</div>
 				</div>
@@ -167,7 +169,7 @@ function popup(){
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div style="font-weight:bold;">1년 미만</div>
+							<div>${empDetail.empDetailSeniority}년</div>
 						</div>
 					</div>
 				</div>
@@ -182,7 +184,7 @@ function popup(){
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div style="font-weight:bold;">정보통신공학과</div>
+							<div>${empDetail.empDetailMajor}</div>
 						</div>
 					</div>
 				</div>
@@ -195,7 +197,7 @@ function popup(){
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div style="font-weight:bold;">010-0000-0000</div>
+							<div>${emp.empPhoneNumber }</div>
 						</div>
 					</div>
 				</div>
@@ -210,7 +212,7 @@ function popup(){
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div style="font-weight:bold;">학사</div>
+							<div>${empDetail.empDetailEducation}</div>
 						</div>
 					</div>
 				</div>
@@ -223,7 +225,7 @@ function popup(){
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div style="font-weight:bold;">02-000-0000</div>
+							<div>${emp.empExtensionNumber}</div>
 						</div>
 					</div>
 				</div>

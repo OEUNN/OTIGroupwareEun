@@ -38,7 +38,7 @@
 								<div class="card-body row m-0">
 									<!-- image card -->
 									<div class="col-5 d-flex justify-content-center" >
-										<img src="${pageContext.request.contextPath}/resources/images/faces/face10.jpg" style="width:180px; height:270px;border-radius:20px;"/>
+										<img src="<c:url value='/employee/file/${emp.empId}'/>" style="width:180px; height:270px;border-radius:20px;"/>
 									</div> <!-- End image card -->
 									<!-- start information -->
 									<div class="col-7">
@@ -53,7 +53,7 @@
 															</div>
 														</div>
 														<div class="col-8 align-items-start">
-															<div>장영은 23022201</div>
+															<div>${emp.empName} ${emp.empId} </div>
 														</div>
 													</div>
 												</div>
@@ -68,7 +68,7 @@
 															</div>
 														</div>
 														<div class="col-8 align-items-start">
-															<div>qweqwe</div>
+															<div>${emp.empMail}</div>
 														</div>
 													</div>
 												</div>
@@ -83,7 +83,7 @@
 															</div>
 														</div>
 														<div class="col-8 align-items-start">
-															<div>경영지원부</div>
+															<div>${emp.depName}</div>
 														</div>
 													</div>
 												</div>
@@ -98,7 +98,7 @@
 															</div>
 														</div>
 														<div class="col-8 align-items-start">
-															<div>02-000-0000</div>
+															<div>${emp.empExtensionNumber}</div>
 														</div>
 													</div>
 												</div>
@@ -113,7 +113,7 @@
 															</div>
 														</div>
 														<div class="col-8 align-items-start">
-															<div>010-0000-0000</div>
+															<div>${emp.empPhoneNumber}</div>
 														</div>
 													</div>
 												</div>

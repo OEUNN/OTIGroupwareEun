@@ -32,12 +32,15 @@
 			$("#approvalForm").append('<input type="hidden" name="approvalName" value="' + receivedData.empName + '">');
 			$("#approvalForm").append('<input type="hidden" name="depName" value="' + receivedData.depName + '">');
 			$("#approvalForm").append('<input type="hidden" name="posName" value="' + receivedData.posName + '">');
+			$("#approvalForm").append('<input type="hidden" name="approvalOrder" value="' + receivedData.approvalOrder + '">');
+			$("#approvalForm").append('<input type="hidden" name="approvalState" value="미결">');
+			$("#approvalForm").append('<input type="hidden" name="approvalDate" value="미정">');
 			
 			//iframe은 일반적인 $()로 접근할 수 없다
-			$("iframe").contents().find("body").find("#position").append('<td class="' + receivedData.removeClass + ' content-align-center text-content">' + receivedData.posName + '</td>');
-			$("iframe").contents().find("body").find("#state").append('<td class="' + receivedData.removeClass + ' approvalLineState content-align-center text-content">미결</td>');
-			$("iframe").contents().find("body").find("#name").append('<td class="' + receivedData.removeClass + ' content-align-center text-content">' + receivedData.empName + '</td>');
-			$("iframe").contents().find("body").find("#date").append('<td class="' + receivedData.removeClass + ' approvalDate content-align-center text-content">날짜 미정</td>');
+			$("iframe").contents().find("body").find("#formApprovalPosition").append('<td class="' + receivedData.removeClass + ' content-align-center text-content">' + receivedData.posName + '</td>');
+			$("iframe").contents().find("body").find("#formApprovalState").append('<td class="' + receivedData.removeClass + ' approvalLineState content-align-center text-content">미결</td>');
+			$("iframe").contents().find("body").find("#formApprovalName").append('<td class="' + receivedData.removeClass + ' content-align-center text-content">' + receivedData.empName + '</td>');
+			$("iframe").contents().find("body").find("#formApprovalDate").append('<td class="' + receivedData.removeClass + ' approvalDate content-align-center text-content">날짜 미정</td>');
 			
 			//x에다가 클릭 시 삭제 이벤트 등록하기
 			var remover = '#' + receivedData.removeClass;
@@ -62,7 +65,9 @@
 </head>
 <body>
 <div class="container-scroller">
-
+	<input type="hidden" id="drafterName" value="${sessionScope.employee.empName}">
+	<input type="hidden" id="drafterDepName" value="${sessionScope.employee.depName}">
+	<input type="hidden" id="drafterPosName" value="${sessionScope.employee.posName}">
 	<!-- partial:../../partials/_navbar.jsp -->
 	<%@ include file="/WEB-INF/views/common/_navbar.jsp" %>
 	
@@ -90,32 +95,27 @@
 										<div class="card grid-margin" style="border-radius:8px; border: 2px solid #4747A1;">
 											<div class="card-header bg-white d-flex" style="border-radius:8px; border-bottom: 0px;">
 												<a class="font-weight-bold text-decoration-none" data-target="#filter_by_status" data-toggle="collapse" style="color: #4747A1;">문서종류</a>
-												<div id="status" class="flex-grow-1 font-weight-bold text-info" style="text-align: end; color: #7DA0FA;">결재품의서</div>
+												<div id="status" class="flex-grow-1 font-weight-bold text-info" style="text-align: end; color: #7DA0FA;"></div>
 											</div>
 		        							<div id="filter_by_status" class="card-body collapse" style="border-radius:8px; padding: 0; padding-left: 1.25rem; padding-right: 1.25rem;">
-			        							<div class="form-check">
+												<div class="form-check">
 													<label class="form-check-label">
-														<input type="radio" class="form-check-input" name="docType">결재품의서
+														<input type="radio" class="form-check-input" name="docType" value="extrawork">휴일근무품의서
 													</label>
 												</div>
 												<div class="form-check">
 													<label class="form-check-label">
-														<input type="radio" class="form-check-input" name="docType">휴일근무품의서
+														<input type="radio" class="form-check-input" name="docType" value="businesstrip">출장품의서
 													</label>
 												</div>
 												<div class="form-check">
 													<label class="form-check-label">
-														<input type="radio" class="form-check-input" name="docType">출장품의서
+														<input type="radio" class="form-check-input" name="docType" value="familyevent">경조사품의서
 													</label>
 												</div>
 												<div class="form-check">
 													<label class="form-check-label">
-														<input type="radio" class="form-check-input" name="docType">경조사품의서
-													</label>
-												</div>
-												<div class="form-check">
-													<label class="form-check-label">
-														<input type="radio" class="form-check-input" name="docType">예비군공가품의서
+														<input type="radio" class="form-check-input" name="docType" value="militaryservice">예비군공가품의서
 													</label>
 												</div>
 		        							</div>
@@ -131,8 +131,8 @@
 								                    <div class="card-body">
 									                    <div class="row">
 										                    <div class="col-10">
-										                    	<p class="text-white font-weight-bold">장그래(기안)</p>
-										                    	<p>공공사업1DIV 사원</p>
+										                    	<p class="text-white font-weight-bold">${sessionScope.employee.empName}(기안)</p>
+										                    	<p>${sessionScope.employee.depName} ${sessionScope.employee.posName}</p>
 										                    </div>
 									                    </div>
 								                    </div>
@@ -172,8 +172,7 @@
 											</div>
 											<form id="approvalForm" action="<c:url value='/approval/approvalwrite'/>" method="post">
 		        								<textarea id="document" name="document" style="width: inherit;"></textarea>
-		        								<input type="hidden" name="empId" value="202302271">
-		        								<input type="hidden" name="docReportDate" value="2023/03/02">
+		        								<input type="hidden" name="drafterId" value="${sessionScope.employee.empId}">
 											</form>
 		        						</div>
 	            					</div>

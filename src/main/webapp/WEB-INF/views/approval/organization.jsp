@@ -30,6 +30,8 @@
 	}
 	</style>
 	<script>
+		var order = 1;
+		
 		function appendToList(elementId) {
 			if ($("#approvalLine div").length < 3) {
 				delId = 'del' + elementId;
@@ -43,9 +45,10 @@
 					clonedElement.addClass('mdi-minus');
 					let jQueryElement = clonedElement.html();
 					
-					jQueryElement = '<div id="' + delId + '" class="highlight row m-1 ' + $(elementId).attr('class').split(' ')[3] + '" onclick="removeFromList('+originalId+')">' + jQueryElement + '</div>'
-					
+					jQueryElement = '<div id="' + delId + '" class="'+order+' highlight row m-1 ' + $(elementId).attr('class').split(' ')[3] + '" onclick="removeFromList('+originalId+')">' + jQueryElement + '</div>'
 					$("#approvalLine").append(jQueryElement);
+					
+					order += 1;
 				}
 				else {
 					alert("결재선에 같은 사람을 두번 이상 지정할 수 없습니다.");
@@ -56,16 +59,26 @@
 			}
 		}
 		
+		//In Javascript, 숫자로만 이루어진 문자열이 0으로 시작하면 8진수로 인식한다.
+		//따라서 8진수를 10진수로 다시 바꾼 수를 넘겨주게 된다.
 		function removeFromList(Id) {
-			console.log(Id);
-			Id = '#del' + Id;
-			$(Id).remove();
+			var delId = '#del' + Id;
+			
+			if ($(delId).length === 0) {
+				delId = '#del' + '0' + Id.toString(8);
+			}
+			
+			$(delId).remove();
+			
+			if (order > 0) {
+				order -= 1;
+			}
 		}
 		
 		function sendApprovalLine(tagId) {
 			$(tagId).each((index, element) => {
-				var empId = $(element).attr('id');
-				var depName = $(element).attr('class').split(' ')[3];
+				var empId = $(element).attr('id').substr(3);
+				var depName = $(element).attr('class').split(' ')[4];
 				
 				var empData = $(element).text().split(' ');
 				
@@ -74,6 +87,7 @@
 				//var empMail = empData[2];
 				
 				var removeClass = 'r' + empId;
+				var approvalOrder = $(element).attr('class').split(' ')[0];
 				
 				var sendData = {
 					content :	
@@ -88,7 +102,7 @@
 										empName +
 									'</p>' +
 									'<p>' +
-										depName + posName +
+										depName + ' ' + posName +
 									'</p>' +
 								'</div>' +
 								'<div class="col-2">' +
@@ -101,7 +115,8 @@
 					empId : empId,
 					empName : empName,
 					depName : depName,
-					posName : posName
+					posName : posName,
+					approvalOrder : approvalOrder
 				}
 				opener.postMessage(sendData);
 				window.close();
@@ -155,7 +170,6 @@
 								</div>
 								<div class="row mb-3" >
 									<div class="col"></div>
-									<div onclick="sendApprovalLine('#approvalLine div')">test</div>
 									<button class="col btn btn-primary btn-md mt-1 mx-3" onclick="sendApprovalLine('#approvalLine div')">확인</button>
 									<button class="col btn btn-outline-primary btn-md mt-1 mx-3" onclick="cancel()">취소</button>
 									<div class="col"></div>
