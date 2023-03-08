@@ -11,33 +11,36 @@
 	
 	<!-- Plugin css,js for this page  -->
 	<script>
-      //비밀번호 수정
-		function popup() {
-			var password = $('#password').val();
-			jQuery.ajax({
-				type : 'post',
-				url : "../employee/password",
-				data : {password : password},
-				success : function(data) {
-					var url = "detailpopup";
-		            var name = "detail employee";
-		            var option = "width = 700, height = 450, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
-		            window.open(url, name, option);
-				}
-			});
-		}
       function department(No){
     	  var x = No;
-    	  console.log(x);
+    	  var values = [];
 			jQuery.ajax({
 				type : 'post',
 				url : "../employee/searchdepartment",
 				data : {depId : x},
-				success : function(data) {
+				success : function(data){
+					$('#dep-'+x).empty();
 					console.log(data);
+					 $.each(data, function( index, value) {
+						var sql = ""
+						sql += '<button class="row my-1 ml-3 text-primary btn-color" onclick="popup(\''+value.empId+'\')">'
+						sql += '<i class="h3 my-auto  mdi mdi-account"></i> '
+						sql += '<span id="empName" class="ml-4 font-weight-bold" >' + value.empName+' '+value.posName+ '</span>'
+						sql += '</button>'
+						$('#dep-'+x).append(sql);
+					 });
 				}
 			});
       }
+      
+      //직원 정보 popup창
+		function popup(value) {
+			var url = 'detailpopup/'+value;
+            var name = "detail employee";
+            var option = "width = 700, height = 450, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
+            window.open(url, name, option);
+		}
+     
 	</script>
 	
 	<style>
@@ -120,19 +123,7 @@
 										</button>
 									</div>
 									<div id="DIV1" class="row m-1 collapse text-primary mt-3 ">
-										<div class=" flex-column">
-											<button class="row my-1 ml-3 text-primary btn-color">
-												<i class="h3 my-auto  mdi mdi-account-check"></i> 
-												<span class="ml-2 font-weight-bold">김부련 부장</span>
-											</button>
-											<button class="row my-1 ml-3 text-primary btn-color">
-												<i class="h3 my-auto  mdi mdi-account-check"></i> 
-												<span class="ml-2 font-weight-bold">오상식 차장</span>
-											</button>
-											<button class="row my-1 ml-3 text-primary btn-color">
-												<i class="h3 my-auto  mdi mdi-account-check"></i> 
-												<span class="ml-2 font-weight-bold">장그래 사원</span>
-											</button>
+										<div id="dep-1" class=" flex-column">
 										</div>
 									</div>
 								</div>
@@ -149,19 +140,7 @@
 										</button>
 									</div>
 									<div id="DIV2" class="row m-1 collapse text-primary mt-3">
-										<div class="flex-column">
-											<button class="row my-1 ml-3 text-primary btn-color">
-												<i class="h3 my-auto  mdi mdi-account-check"></i> 
-												<span class="ml-2 font-weight-bold">김부련 부장</span>
-											</button>
-											<button class="row my-1 ml-3 text-primary btn-color">
-												<i class="h3 my-auto  mdi mdi-account-check"></i> 
-												<span class="ml-2 font-weight-bold">오상식 차장</span>
-											</button>
-											<button class="row my-1 ml-3 text-primary btn-color">
-												<i class="h3 my-auto  mdi mdi-account-check"></i> 
-												<span class="ml-2 font-weight-bold">장그래 사원</span>
-											</button>
+										<div id="dep-2" class="flex-column">
 										</div>
 									</div>
 								</div>
@@ -178,19 +157,7 @@
 										</button>
 									</div>
 									<div id="DIV3" class="row m-1 collapse text-primary mt-3">
-										<div class="flex-column">
-											<button class="row my-1 ml-3 text-primary btn-color">
-												<i class="h3 my-auto  mdi mdi-account-check"></i> 
-												<span class="ml-2 font-weight-bold">김부련 부장</span>
-											</button>
-											<button class="row my-1 ml-3 text-primary btn-color">
-												<i class="h3 my-auto  mdi mdi-account-check"></i> 
-												<span class="ml-2 font-weight-bold">오상식 차장</span>
-											</button>
-											<button class="row my-1 ml-3 text-primary btn-color">
-												<i class="h3 my-auto  mdi mdi-account-check"></i> 
-												<span class="ml-2 font-weight-bold">장그래 사원</span>
-											</button>
+										<div id="dep-3" class="flex-column">
 										</div>
 									</div>
 								</div>
@@ -206,20 +173,8 @@
 											<span class="ml-2 font-weight-bold">경영지원</span>
 										</button>
 									</div>
-									<div id="DIV4" class="row m-1 collapse text-primary mt-3">
-										<div class="flex-column">
-											<button class="row my-1 ml-3 text-primary btn-color">
-												<i class="h3 my-auto  mdi mdi-account-check"></i> 
-												<span class="ml-2 font-weight-bold">김부련 부장</span>
-											</button>
-											<button class="row my-1 ml-3 text-primary btn-color">
-												<i class="h3 my-auto  mdi mdi-account-check"></i> 
-												<span class="ml-2 font-weight-bold">오상식 차장</span>
-											</button>
-											<button class="row my-1 ml-3 text-primary btn-color">
-												<i class="h3 my-auto  mdi mdi-account-check"></i> 
-												<span class="ml-2 font-weight-bold">장그래 사원</span>
-											</button>
+									<div id="DIV4" class="hide row m-1 collapse text-primary mt-3">
+										<div id="dep-4" class="flex-column">
 										</div>
 									</div>
 								</div>

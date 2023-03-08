@@ -60,13 +60,13 @@
             emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
             emp_extension_number, emp_phone_number, emp_leave_reserve,
             emp_substitue_reserve, emp_login_failures_cnt, emp_file_data,
-            emp_file_type,emp_file_name, emp_enabled
+            emp_file_type,emp_file_name
         ) VALUES (
             #{empId}, #{posId}, #{depId}, #{empMail}, #{empName},
             #{empPassword}, #{empExtensionNumber}, #{empPhoneNumber},
             #{empLeaveReserve}, default,
             default, #{empFileData},
-            #{empFileType}, #{empFileName}, default
+            #{empFileType}, #{empFileName}
         )
     </insert>
     
@@ -82,10 +82,24 @@
     	where emp_id = #{empId}
     </update>
     
-    <select id="getDepartment" parameterType="int" resultType="string">
-    	select emp_name
+    <select id="getDepartment" parameterType="int" resultMap="employeeResultMap">
+    	select emp_id, emp_name
     	from employees
     	where dep_id = #{depId}
+    	ORDER BY pos_id desc 
     </select>
 
+	<select id="getEmployeeByName" parameterType="string" resultMap="employeeResultMap">
+		SELECT emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
+            emp_extension_number, emp_phone_number, emp_leave_reserve,
+            emp_substitue_reserve, emp_login_failures_cnt, emp_file_data, emp_file_type, emp_file_name
+        FROM employees
+        WHERE emp_name = #{empName}
+	</select>
+	
+	<select id="getPositionIdById" parameterType="string" resultType="int">
+		select pos_id
+		from employees
+		where emp_id = #{empId}
+	</select>
 </mapper>
