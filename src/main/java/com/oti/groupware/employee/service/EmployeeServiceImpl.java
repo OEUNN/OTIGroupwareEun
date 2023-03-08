@@ -11,6 +11,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.oti.groupware.common.Pager;
 import com.oti.groupware.employee.dao.DepartmentDAO;
 import com.oti.groupware.employee.dao.EmployeeDAO;
 import com.oti.groupware.employee.dao.EmployeeDetailDAO;
@@ -66,7 +67,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employee.setEmpFileData(dbEmployee.getEmpFileData());
 		employee.setEmpFileType(dbEmployee.getEmpFileType());
 		employee.setEmpFileName(dbEmployee.getEmpFileName());
-		employee.setPosName(getPositionName(dbEmployee.getDepId()));
+		employee.setPosName(getPositionName(dbEmployee.getPosId()));
 		employee.setDepName(getDepartmentName(dbEmployee.getDepId()));
 		return "SUCCESS";
 	}
@@ -234,6 +235,38 @@ public class EmployeeServiceImpl implements EmployeeService {
 			employeeList.setPosName(posName);
 		}
 		return list;
+	}
+
+	@Override
+	public void resetPassword(String empId) {
+		PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		String password  = pe.encode("12345");
+		employeeDao.updatePassword(empId, password);
+	}
+
+	@Override
+	public int employeeRowsCount() {
+		return employeeDao.employeeRowsCount();
+	}
+
+	@Override
+	public List<Employee> getEmployees(Pager pager) {
+		List<Employee> list = employeeDao.getEmployees(pager);
+		for(Employee employeeList : list) {
+			String depId = getDepartmentName(employeeList.getDepId());
+			employeeList.setDepName(depId);
+		}
+		return list;
+	}
+
+	@Override
+	public Employee ceoInformation() {
+		return employeeDao.getCeoInformation();
+	}
+
+	@Override
+	public EmployeeDetail detailEmployee(String empId) {
+		return employeeDetailDao.getEmployeeDetail(empId);
 	}
 
 }

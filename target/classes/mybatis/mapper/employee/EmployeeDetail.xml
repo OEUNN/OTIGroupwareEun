@@ -43,4 +43,6 @@
 		set emp_detail_seniority = #{year}
 		where emp_id = #{empId}
 	</update>
+	
+	
 </mapper>

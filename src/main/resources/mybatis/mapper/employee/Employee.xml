@@ -102,4 +102,31 @@
 		from employees
 		where emp_id = #{empId}
 	</select>
+	
+	<select id="employeeRowsCount" resultType="int">
+		select count(emp_id)
+		from employees
+	</select>
+	
+	<select id="getEmployees" resultMap="employeeResultMap">
+		SELECT 
+		    emp_id, emp_name, dep_id
+		FROM employees
+		ORDER BY pos_id DESC
+		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
+		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
+	</select>
+	
+	<select id="getCeoInformation" resultMap="employeeResultMap">
+		SELECT emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
+            emp_extension_number, emp_phone_number, emp_leave_reserve,
+            emp_substitue_reserve, emp_login_failures_cnt, emp_file_data, emp_file_type, emp_file_name
+		FROM
+		(SELECT e.emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
+            emp_extension_number, emp_phone_number, emp_leave_reserve,
+            emp_substitue_reserve, emp_login_failures_cnt, emp_file_data, emp_file_type, emp_file_name
+		FROM employees e, employees_detail d
+		ORDER BY pos_id desc)
+		WHERE ROWNUM= 1
+	</select>
 </mapper>
