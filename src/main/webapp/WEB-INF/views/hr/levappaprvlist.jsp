@@ -82,14 +82,15 @@
 												pattern="yyyy-MM-dd" />
 									</small></td>
 									<td class="px-2 py-1 text-center">${levApp.levAppApprovalEmpName}</td>
-									<td class="px-2 py-1 text-center">
-										<!-- 결재상태 --> <c:if
-											test="${levApp.levAppProcessState == '미처리'}">
-											<div
-												class="badge badge-secondary font-weight-bold text-white">${levApp.levAppProcessState}</div>
-										</c:if> <c:if test="${levApp.levAppProcessState == '승인'}">
+									<td id="aprv-state" class="px-2 py-1 text-center">
+										<!-- 결재상태 --> 
+										<c:if test="${levApp.levAppProcessState == '미처리'}">
+											<div class="badge badge-secondary font-weight-bold text-white">${levApp.levAppProcessState}</div>
+										</c:if> 
+										<c:if test="${levApp.levAppProcessState == '승인'}">
 											<div class="badge badge-success font-weight-bold">${levApp.levAppProcessState}</div>
-										</c:if> <c:if test="${levApp.levAppProcessState == '반려'}">
+										</c:if> 
+										<c:if test="${levApp.levAppProcessState == '반려'}">
 											<div class="badge badge-danger font-weight-bold">${levApp.levAppProcessState}</div>
 										</c:if>
 									</td>

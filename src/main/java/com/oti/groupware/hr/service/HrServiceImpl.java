@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.oti.groupware.common.Pager;
 import com.oti.groupware.employee.dto.Employee;
@@ -162,7 +163,7 @@ public class HrServiceImpl implements HrService {
 	@Override
 	public HashMap<String, String> empFormInfoMap(String empId) {
 		//작성자, 결재자 이름 갖고오기
-		return attendanceDAO. getEmpNames(empId);
+		return attendanceDAO.getEmpNames(empId);
 	}
 	
 	//근무예외신청서 목록의 전체 행의 수를 가져옴 
@@ -225,7 +226,7 @@ public class HrServiceImpl implements HrService {
 	//근무 신청 결재목록의 전체 행의 수를 가져옴
 	@Override
 	public int attendanceExceptionApprovalRowsCount(String startDate, String endDate, String empId) {
-		return attendanceExceptionDAO.getAttendanceExcptionApprovalRowsCount(startDate, endDate, empId);
+		return attendanceExceptionDAO.getAttendanceExceptionApprovalRowsCount(startDate, endDate, empId);
 	}
 
 	//근무 신청 결재목록을 가져옴
@@ -234,6 +235,12 @@ public class HrServiceImpl implements HrService {
 		return attendanceExceptionDAO.getAttendanceExceptionApprovalList(startDate, endDate, empId, pager);
 	}
 	
+	//(부서장) 근무신청 결재 상세조회
+	@Override
+	public AttendanceException attendanceExcptionApprovalDetail(int atdExcpId) {
+		return attendanceExceptionDAO.getAttendanceExcptionApprovalDetail(atdExcpId);
+	}
+
 	//휴가 신청 결재목록의 전체 행의 수를 가져옴
 	@Override
 	public int leaveApplicationApprovalRowsCount(String startDate, String endDate, String empId) {
@@ -245,6 +252,38 @@ public class HrServiceImpl implements HrService {
 	public List<AttendanceException> leaveApplicationApprovalList(String startDate, String endDate, String empId, Pager pager) {
 		return leaveApplicationDAO.getLeaveApplicationApprovalList(startDate, endDate, empId, pager);
 	}
+	
+	//휴가 신청 결재 상세조회
+	@Override
+	public LeaveApplication leaveApplicationApprovalDetail(int levAppId) {
+		return leaveApplicationDAO.getLeaveApplicationApprovalDetail(levAppId);
+	}
+	
+	//휴가 신청 결재의 결재상태를 수정(승인, 반려)
+	@Override
+	@Transactional
+	public void leaveApplicationApprovalProcessState(LeaveApplication leaveApplication) {
+		//승인했을 경우에만 적용
+		if(leaveApplication.getLevAppProcessState().equals("승인")) {
+			log.info("승인왔따!");
+			//반차일 경우에는 카운팅되는 잔여일수가 다름
+			if(leaveApplication.getLevAppCategory().equals("반차")) {
+				leaveApplication.setLevPeriod(leaveApplication.getLevPeriod()*0.5);
+				log.info("반차왔따!");
+			}
+			//잔여 일수 바꾸기
+			leaveApplicationDAO.updateEmployeeReserve(leaveApplication.getEmpId(), leaveApplication.getLevAppCategory(), leaveApplication.getLevPeriod());
+			log.info("잔여일수 바꿈?");
+			
+			//신청날짜에 해당하는 Attendances 데이터를 미리 만든 후, 근무상태를 변경
+			attendanceDAO.insertBeforehandAttendance(leaveApplication);
+			log.info("출석 등록!");
+		}
+		
+		leaveApplicationDAO.updateLeaveApplicationProcessState(leaveApplication);
+		log.info("수정!");
+	}
+	
 	
 	
 }

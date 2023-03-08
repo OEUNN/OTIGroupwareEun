@@ -125,6 +125,7 @@
 	<select id="getEmpNames" resultType="hashmap">
 		SELECT 
 			e.emp_name AS 작성자, 
+			d.emp_id AS 결재자ID,
 			(SELECT emp_name FROM employees WHERE emp_id = d.emp_id) AS 결재자
 		FROM 
 			employees e, departments d 
@@ -132,5 +133,19 @@
 			e.dep_id = d.dep_id 
 			AND e.emp_id = #{empId}
 	</select>
-	
+
+	<!-- 휴가/대체휴무를 위해 미리 테이블에 출/퇴근 데이터 등록 -->
+	<insert id="insertBeforehandAttendance">
+		INSERT INTO attendances (
+			atd_id,
+			emp_id,
+			atd_in_time,
+			atd_state
+		)
+		<![CDATA[
+		SELECT SEQ_ATD_EXCP_ID.NEXTVAL, #{empId}, to_date(to_char(#{levAppStartDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD') + LEVEL - 1, #{levAppCategory}
+		FROM dual
+		CONNECT BY LEVEL <= to_date(to_char(#{levAppEndDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD') - to_date(to_char(#{levAppStartDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD') + 1
+		]]>
+	</insert>
 </mapper>

@@ -237,7 +237,8 @@
 	</div>
 	<!-- hidden input -->
 	<input type="hidden" name="empId" value="${attendance.empId}">
-	<input type="hidden" name="atdExcpApprovalEmp" value="${empFormInfo['결재자']}">
+	<input type="hidden" name="atdExcpApprovalEmpName" value="${empFormInfo['결재자']}">
+	<input type="hidden" name="atdExcpApprovalEmpId" value="${empFormInfo['결재자ID']}">
 	<input type="hidden" name="atdExcpCategory" value="근무시간수정">
 </div>
 <!-- 버튼 -->

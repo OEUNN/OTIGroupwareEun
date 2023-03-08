@@ -16,9 +16,11 @@ public interface LeaveApplicationDAO {
 	public LeaveApplication getLeaveApplicationDetail(@Param("levAppId") int levAppId);
 	public int insertLeaveApplication(LeaveApplication leaveApplication);
 	public int updateLeaveApplication(LeaveApplication leaveApplication);
-	public void updateEmployeeReserve(@Param("empId") String empId);
 	public int deleteLeaveApplication(@Param("empId") String empId, @Param("levAppId") int levAppId);
 	
 	public int getLeaveApplicationApprovalRowsCount(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("empId") String empId);
 	public List<AttendanceException> getLeaveApplicationApprovalList(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("empId") String empId, @Param("pager") Pager pager);
+	public LeaveApplication getLeaveApplicationApprovalDetail(@Param("levAppId") int levAppId);
+	public void updateEmployeeReserve(@Param("empId") String empId, @Param("levAppCategory") String levAppCategory, @Param("levPeriod") double levPeriod);
+	public void updateLeaveApplicationProcessState(LeaveApplication leaveApplication);
 }

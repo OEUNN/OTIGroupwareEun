@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -192,39 +193,17 @@ public class HRController {
 	}
 	
 	/**
-	 * 근무관련 신청서 상세내용 조회
+	 * (일반 임직원) 자신의 근무관련 신청서 상세내용 조회
 	 * @author 한송민
 	 * @param atdExcpId(근무신청서ID)
 	 * @return 근무신청서(근무시간수정, 추가근무보고) 상세조회 팝업창
 	 */
-//	@RequestMapping(value = "/popup/atdapplicationdetail")
-//	public String attendanceApplicationDetail(int atdExcpId, Model model) {
-//		log.info("정보 로그");
-//		
-//		//신청서의 상세내용 가져오기
-//		AttendanceException atdExcp = hrService.attendanceExcptionDetail(atdExcpId);
-//		model.addAttribute("atdExcp", atdExcp);
-//		
-//		//유형에 따라 근무시간수정서 or 추가근무보고서 팝업을 리턴
-//		if(atdExcp.getAtdExcpCategory().equals("근무시간수정")) { //근무시간수정신청서일 경우
-//			return "hr/popup/updatetimedetail";
-//		} else { //추가근무보고서일 경우
-//			return "hr/popup/overtimedetail";
-//		}
-//	}
-
-	/**
-	 * 근무관련 신청서 상세내용 조회 (AJAX)
-	 * @author 한송민
-	 * @param atdExcpId(근무신청서ID)
-	 * @return 근무신청서(근무시간수정, 추가근무보고) 상세조회 팝업창
-	 */
-	@RequestMapping(value = "/popup/atdapplicationdetail")
-	public String attendanceApplicationDetail(@RequestParam int atdExcpId, Model model) {
+	@RequestMapping(value = "/popup/atdexcpapplicationdetail")
+	public String attendanceExceptionApplicationDetail(int atdExcpId, Model model) {
 		log.info("정보 로그");
+		
 		//신청서의 상세내용 가져오기
 		AttendanceException atdExcp = hrService.attendanceExcptionDetail(atdExcpId);
-		log.info("daskjl" + atdExcp);
 		model.addAttribute("atdExcp", atdExcp);
 		
 		//유형에 따라 근무시간수정서 or 추가근무보고서 팝업을 리턴
@@ -232,6 +211,27 @@ public class HRController {
 			return "hr/popup/updatetimedetail";
 		} else { //추가근무보고서일 경우
 			return "hr/popup/overtimedetail";
+		}
+	}
+
+	/**
+	 * (부서장) 부서원들의 근무결재관련 신청서 상세내용 조회 (AJAX)
+	 * @author 한송민
+	 * @param atdExcpId(근무신청서ID)
+	 * @return 근무신청서(근무시간수정, 추가근무보고) 상세조회 팝업창
+	 */
+	@RequestMapping(value = "/atdexcpapprovaldetail")
+	public String attendanceExceptionApprovalDetail(@RequestParam int atdExcpId, Model model) {
+		log.info("정보 로그");
+		//신청서의 상세내용 가져오기
+		AttendanceException atdExcp = hrService.attendanceExcptionApprovalDetail(atdExcpId);
+		model.addAttribute("atdExcp", atdExcp);
+		
+		//유형에 따라 근무시간수정서 or 추가근무보고서 팝업을 리턴
+		if(atdExcp.getAtdExcpCategory().equals("근무시간수정")) { //근무시간수정신청서일 경우
+			return "hr/updatetimedetail";
+		} else { //추가근무보고서일 경우
+			return "hr/overtimedetail";
 		}
 	}
 	
@@ -314,6 +314,22 @@ public class HRController {
 		model.addAttribute("levApp", levApp);
 		
 		return "hr/popup/leavedetail";
+	}
+	
+	/**
+	 * (부서장) 부서원들의 휴가 신청서 상세내용 조회 (AJAX)
+	 * @author 한송민
+	 * @param levAppId(휴가신청서ID)
+	 * @return 휴가신청서 상세조회 팝업창
+	 */
+	@RequestMapping(value = "/levappaprvdetail")
+	public String LeaveApplicationApprovalDetail(@RequestParam int levAppId, Model model) {
+		log.info("정보 로그");
+		//신청서의 상세내용 가져오기
+		LeaveApplication levApp = hrService.leaveApplicationApprovalDetail(levAppId);
+		model.addAttribute("levApp", levApp);
+		
+		return "hr/leavedetail";
 	}
 	
 	/**
@@ -421,34 +437,32 @@ public class HRController {
 	}
 	
 	/**
-	 * 
-	 * @return 근무시간수정신청서 결재 팝업창
+	 * 근무신청 승인/반려 완료 (AJAX)
+	 * @author 한송민
+	 * @param
+	 * @return 근무신청결재 상세조회
 	 */
-	@RequestMapping(value = "/popup/updatetimeaprv")
-	public String updateTimeApproval() {
+	@RequestMapping(value = "/atdexcpaprvstatecomplete" , method=RequestMethod.POST)
+	public String hrAtdExcpApprovalProcessStateComplete() {
 		log.info("정보 로그");
-		return "hr/popup/updatetimeaprv";
+		
+		return "redirect:/hr/atdexcpaprvdetail";
 	}
 
 	/**
-	 * 
-	 * @return 추가근무보고서 결재 팝업창
+	 * 휴가신청 승인/반려 완려 (AJAX)
+	 * @author 한송민
+	 * @param
+	 * @return 휴가신청결재 상세조회
 	 */
-	@RequestMapping(value = "/popup/overtimeaprv")
-	public String overTimeApproval() {
+	@RequestMapping(value = "/levappaprvstatecomplete")
+	public String hrLevApplicationApprovalProcessComplete(@RequestParam String levAppProcessState, @RequestParam int levAppId ,Model model) {
 		log.info("정보 로그");
-		return "hr/popup/overtimeaprv";
+		//leaveApplication 정보 가져오기
+		LeaveApplication levApp = hrService.leaveApplicationApprovalDetail(levAppId);
+		levApp.setLevAppProcessState(levAppProcessState);
+		log.info("제바라ㅣ어ㅣㅁ" + levApp.toString());
+		hrService.leaveApplicationApprovalProcessState(levApp);
+		return LeaveApplicationApprovalDetail(levAppId, model);
 	}
-	
-	/**
-	 * 
-	 * @return 추가근무보고서 결재 팝업창
-	 */
-	@RequestMapping(value = "/popup/leaveaprv")
-	public String leaveApproval() {
-		log.info("정보 로그");
-		return "hr/popup/leaveaprv";
-	}
-	
-
 }

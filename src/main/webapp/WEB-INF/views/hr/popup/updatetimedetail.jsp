@@ -33,6 +33,33 @@
 			border-right: 1px solid rgb(206,212,218);
 		}
 	</style>
+	
+	<script>
+		//form 내용 제출 후, 이동
+	    function updateTimeAprv(data){
+        	if($('#textarea-reason').val()){
+		        window.opener.top.location.href="<c:url value='/hr/hrapplication'/>";
+		        window.close();
+        	}
+
+        	if(data == "반려") {
+	        	$("#refuse-reason").css("display", "block");
+	        	$("#cancel-btn").css("display", "block");
+	        	$("#approve-btn").css("display", "none");
+	        } else if(data == "승인") {
+		        window.opener.top.location.href="<c:url value='/hr/hrapplication'/>";
+		        window.close();
+	        }
+	    }
+		
+	  	//취소버튼
+	 	function cancel() {
+	 		$('#textarea-reason').val('');
+	 		$("#refuse-reason").css("display", "none");
+        	$("#cancel-btn").css("display", "none");
+        	$("#approve-btn").css("display", "block");
+	 	}
+	</script>
     <!-- End plugin css,js for this page -->
 </head>
 
@@ -146,7 +173,7 @@
 		                        	<div class="row justify-content-center mt-3">
 		                       			<div style="border-bottom: 2px solid #4B49AC; width:90%;"></div>
 		                      		</div>
-		                      		<!-- 반려사유 -->
+		                      		<!-- 반려사유 조회 -->
 		                      		<c:if test="${!empty atdExcp.atdExcpOpinion}">
 			                      		<div class="row px-5 mt-3 justify-content-start">
 		                      				<h4 class="mx-4 mb-0 font-weight-bold text-danger">반려 사유</h4>
@@ -155,11 +182,34 @@
 		                      				<h6 class="ml-1 mb-0 text-danger">${atdExcp.atdExcpOpinion}</h6>
 			                      		</div>
 		                      		</c:if>
+		                      		<!-- 반려사유 작성 -->
+		                      		<div id="refuse-reason" class="row px-5 mt-4 justify-content-center" style="display:none;">
+		                       			<div class="form-group">
+						                	<label class="ml-1" for="reason"><div class="h5 m-0 font-weight-bold text-danger">반려사유</div></label>
+						                    <textarea class="form-control" id="textarea-reason" rows="5" cols="68"></textarea>
+					                    </div>
+		                       		</div>
 		                        </div>
-								<!-- 버튼 -->
-		                        <div class="row px-5 mt-3 justify-content-end">
-			                        <button onclick="window.close()" type="button" class="btn btn-inverse-primary mr-2">닫기</button>
-		                        </div>
+		                        <!-- 일반 임직원일 경우의 버튼 -->
+		                        <c:if test="${sessionScope.employee.empId ne atdExcp.atdExcpApprovalEmpId}">
+			                        <div class="row px-5 mt-3 justify-content-end">
+				                        <button onclick="window.close()" type="button" class="btn btn-inverse-primary mr-2">닫기</button>
+			                        </div>
+		                        </c:if>
+		                        <!-- 부서장일 경우의 버튼 - 미처리 결재인 경우 -->
+		                        <c:if test="${(sessionScope.employee.empId eq atdExcp.atdExcpApprovalEmpId) && (atdExcp.atdExcpProcessState eq '미처리') }">
+		                        	<div class="row px-5 mt-3 justify-content-end">
+			                        	<button id="approve-btn" onclick="updateTimeAprv('승인')" type="submit" class="btn btn-primary mr-2">승인</button>
+			                        	<button id="cancel-btn" onclick="cancel()" type="button" class="btn btn-inverse-primary mr-2" style="display:none">취소</button>
+			                        	<button onclick="updateTimeAprv('반려')" type="button" class="btn btn-danger mr-2">반려</button>
+		                        	</div>
+		                        </c:if>
+		                        <!-- 부서장일 경우의 버튼 - 승인,반려 완료한 경우 -->
+		                        <c:if test="${sessionScope.employee.empId eq atdExcp.atdExcpApprovalEmpId && (atdExcp.atdExcpProcessState eq '승인' || atdExcp.atdExcpProcessState eq '반려')}">
+			                        <div class="row px-5 mt-3 justify-content-end">
+				                        <button onclick="window.close()" type="button" class="btn btn-inverse-primary mr-2">닫기</button>
+			                        </div>
+		                        </c:if>
 		                        <!-- 변경내용:end -->
 	                      	</div>
 	                      	<!-- card-body:end -->

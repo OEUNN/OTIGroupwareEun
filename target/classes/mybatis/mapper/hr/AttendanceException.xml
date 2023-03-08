@@ -55,12 +55,12 @@
 		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
 	</select>
 
-	<!-- 상세조회 -->
+	<!-- 근무신청서(일반 임직원) - 상세조회 -->
 	<select id="getAttendanceExceptionDetail" resultMap="attendanceExceptionResultMap">
 		SELECT 
 		    e.emp_name AS emp_name,
-            to_char(a.atd_in_time, 'HH:mm') AS atd_in_time,
-            to_char(a.atd_out_time, 'HH:mm') AS atd_out_time,
+            to_char(a.atd_in_time, 'HH:mi') AS atd_in_time,
+            to_char(a.atd_out_time, 'HH:mi') AS atd_out_time,
 		    ae.atd_excp_reason,
 		    ae.atd_excp_category,
 		    ae.atd_excp_in_time,
@@ -68,6 +68,7 @@
 		    ae.atd_excp_process_state,
 		    to_char(ae.atd_excp_date, 'yyyy-MM-DD') AS atd_excp_date,
 		    to_char(ae.atd_excp_process_date, 'yyyy-MM-DD') AS atd_excp_process_date,
+		    ae.atd_excp_approval_emp_id,
 		    ae.atd_excp_approval_emp_name,
 		    ae.atd_excp_opinion
 		FROM 
@@ -102,6 +103,7 @@
 	        atd_excp_out_time,
 	        atd_excp_process_state,
 	        atd_excp_date,
+	        atd_excp_approval_emp_id,
 	        atd_excp_approval_emp_name
 	    )
 	    VALUES (
@@ -113,12 +115,13 @@
 	        #{atdExcpOutTime},
 	        '미처리',
 	        SYSDATE,
+	        #{atdExcpApprovalEmpId},
 	        #{atdExcpApprovalEmpName}
 	    )
 	</insert>
 	
 	<!-- 근무신청결재서(부서장) - 전체 행의 수 -->
-	<select id="getAttendanceExcptionApprovalRowsCount" resultType="int">
+	<select id="getAttendanceExceptionApprovalRowsCount" resultType="int">
 	    SELECT 
 	      count(*)
 	    FROM 
@@ -152,6 +155,44 @@
 		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
 	</select>
 	
+	<!-- 근무신청결재서(부서장) - 상세조회 -->
+	<select id="getAttendanceExcptionApprovalDetail" resultMap="attendanceExceptionResultMap">
+		SELECT 
+		    ( SELECT e.emp_name  
+		        FROM  employees e, attendance_exceptions ae  
+		        WHERE e.emp_id = ae.emp_id 
+		            AND ae.atd_excp_id = #{atdExcpId}) AS emp_name,
+		    ( SELECT to_char(a.atd_in_time, 'HH:mi')
+		        FROM  attendances a,  attendance_exceptions ae1 
+		        WHERE a.emp_id = ae1.emp_id  
+		            AND to_char(ae1.atd_excp_date, 'yyyy-MM-DD') = to_char(a.atd_in_time, 'yyyy-MM-DD')
+		            AND ae1.atd_excp_id = #{atdExcpId}
+		    ) AS atd_in_time,
+		    ( SELECT to_char(a1.atd_out_time, 'HH:mi')
+		        FROM  attendances a1,  attendance_exceptions ae2 
+		        WHERE a1.emp_id = ae2.emp_id  
+		            AND to_char(ae2.atd_excp_date, 'yyyy-MM-DD') = to_char(a1.atd_in_time, 'yyyy-MM-DD')
+		            AND ae2.atd_excp_id = #{atdExcpId}
+		    ) AS atd_out_time,
+		    ae3.atd_excp_id,
+		    ae3.atd_excp_reason,
+		    ae3.atd_excp_category,
+		    ae3.atd_excp_in_time,
+		    ae3.atd_excp_out_time,
+		    ae3.atd_excp_process_state,
+		    to_char(ae3.atd_excp_date, 'yyyy-MM-DD') AS atd_excp_date,
+		    to_char(ae3.atd_excp_process_date, 'yyyy-MM-DD') AS atd_excp_process_date,
+		    ae3.atd_excp_approval_emp_id,
+		    ae3.atd_excp_approval_emp_name,
+		    ae3.atd_excp_opinion
+		FROM 
+		    attendance_exceptions ae3, employees e1
+		WHERE
+		    ae3.atd_excp_approval_emp_id = e1.emp_id
+		AND
+		    ae3.atd_excp_id = #{atdExcpId}
+	</select>
+
 
 	<update id="updateAttendanceException" parameterType="attendanceException">
 		UPDATE project3.attendance_exceptions

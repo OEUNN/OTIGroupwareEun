@@ -386,7 +386,8 @@
 										</div>
 										<!-- hidden input -->
 										<input type="hidden" name="empId" value="${sessionScope.employee.empId}">
-										<input type="hidden" name="levAppApprovalEmp" value="${empFormInfo['결재자']}">
+										<input type="hidden" name="levAppApprovalEmpId" value="${empFormInfo['결재자ID']}">
+										<input type="hidden" name="levAppApprovalEmpName" value="${empFormInfo['결재자']}">
 									</div>
 									<!-- 버튼 -->
 									<div class="row px-5 mt-3 justify-content-end">

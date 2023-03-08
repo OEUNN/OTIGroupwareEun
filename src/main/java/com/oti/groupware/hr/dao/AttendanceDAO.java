@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.hr.dto.Attendance;
+import com.oti.groupware.hr.dto.LeaveApplication;
 
 @Mapper
 public interface AttendanceDAO {
@@ -21,4 +22,5 @@ public interface AttendanceDAO {
 	public List<Attendance> getAttendanceNullList(@Param("empId") String empId);
 	public void updateAttendanceState(Attendance attendance);
 	public HashMap<String, String> getEmpNames(@Param("empId") String empId); //나중에 EmployeeDAO에 넣기!
+	public void insertBeforehandAttendance(LeaveApplication leaveApplication);
 }

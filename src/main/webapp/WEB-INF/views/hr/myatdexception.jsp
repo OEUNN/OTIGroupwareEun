@@ -42,7 +42,7 @@
 
 	/* 근무신청내역 상세보기 팝업창 */
 	function atdAppDetail(id) {
-		var url = "popup/atdapplicationdetail?atdExcpId=" + id;
+		var url = "popup/atdexcpapplicationdetail?atdExcpId=" + id;
 		var name = "";
 		var option = "width = 800, height = 630, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
 		window.open(url, name, option);
