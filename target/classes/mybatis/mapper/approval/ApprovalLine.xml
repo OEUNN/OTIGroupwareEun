@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oti.groupware.approval.dao.ApprovalLineDAO">
 
-	<resultMap id="approvalLineResultMap" type="ApprovalLine">
-		<result column="emp_id" property="empId"/>
+	<resultMap id="approvalLineResultMap" type="approvalLine">
+		<id column="emp_id" property="empId"/>
 		<result column="doc_id" property="docId"/>
 		<result column="aprv_line_state" property="aprvLineState"/>
 		<result column="aprv_line_order" property="aprvLineOrder"/>
@@ -11,6 +11,9 @@
 		<result column="aprv_line_approval_date" property="aprvLineApprovalDate" jdbcType="DATE"/>
 		<result column="aprv_line_open_yn" property="aprvLineOpenYn"/>
 		<result column="aprv_line_opinion" property="aprvLineOpinion"/>
+		<association column="emp_name" property="employee" javaType="employee">
+			<result column="emp_name" property="empName"/>
+		</association>
 	</resultMap>
 	
 	<!-- 임시 -->
@@ -26,7 +29,7 @@
 	</resultMap>
 
 	<select id="getApprovalLineById" resultMap="approvalLineResultMap">
-		SELECT emp_id, doc_id, aprv_line_state, aprv_line_order, aprv_line_role, aprv_line_approval_date, aprv_line_open_yn, aprv_line_opinion
+		SELECT emp_id, doc_id, aprv_line_state, aprv_line_order, aprv_line_role, aprv_line_approval_date, aprv_line_open_yn, aprv_line_opinion 
 		FROM approval_lines
 		WHERE emp_id = #{empId} AND doc_id = #{docId}
 	</select>
@@ -54,16 +57,23 @@
 	</delete>
 	
 	<select id="getApprovalLinesBydocId" parameterType="string" resultMap="approvalLineResultMap">
-		SELECT emp_id, doc_id, aprv_line_state, aprv_line_order, aprv_line_role, aprv_line_approval_date, aprv_line_open_yn, aprv_line_opinion
-		FROM approval_lines
-		WHERE doc_id = #{docId}
+		SELECT emp.emp_id, doc_id, aprv_line_state, aprv_line_order, aprv_line_role, aprv_line_approval_date, aprv_line_open_yn, aprv_line_opinion, emp_name
+		FROM approval_lines, employees emp
+		WHERE doc_id = #{docId} AND approval_lines.emp_id = emp.emp_id
+		ORDER BY aprv_line_order
 	</select>
     
     <insert id="insertDraftApprovalLine" parameterType="ApprovalLine">
 		INSERT INTO approval_lines
-		(emp_id, doc_id, aprv_line_state, aprv_line_order, aprv_line_role)
+		(emp_id, doc_id, aprv_line_state, aprv_line_order, aprv_line_role, aprv_line_approval_date)
 		VALUES
-		(#{empId}, #{docId}, #{aprvLineState}, #{aprvLineOrder}, #{aprvLineRole})
+		(#{empId}, #{docId}, #{aprvLineState}, #{aprvLineOrder}, #{aprvLineRole}, 
+		<if test="aprvLineRole == '기안'">
+		SYSDATE
+		</if>
+		<if test="aprvLineRole != '기안'">
+		null
+		</if>)
 	</insert>
 	
 	<!-- 임시 -->	
