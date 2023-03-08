@@ -161,18 +161,27 @@ public class ApprovalController {
 	
 	//결재 문서 자세히 보기
 	@RequestMapping(value = "/viewdetail/{docId}", method=RequestMethod.GET)
-	public String getApprovalDetail(@PathVariable String docId, Model model) {
+	public String getApprovalDetail(@PathVariable String docId, HttpSession session, Model model) {
 		log.info("정보 로그");
 		
-		approvalLines = approvalLineService.getApprovalLines(docId);
-		model.addAttribute("approvalLines", approvalLine);
+		document = approvalService.readDocument(docId);
 		
+		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
+		approvalLines = approvalLineService.getApprovalLines(docId);
+		
+		for(ApprovalLine approvalLine : approvalLines) {
+			if (empId.equals(approvalLine.getEmpId())) {
+				model.addAttribute("reader", approvalLine);
+			}
+		}
+		
+		model.addAttribute("document", document);
+		model.addAttribute("approvalLines", approvalLines);
 		return "approval/viewdetail";
 	}
 	
-	@ResponseBody
 	@RequestMapping(value = "/viewdetail/{docId}/documentdetail", method=RequestMethod.GET)
-	public Document getDocumentDetail(@PathVariable String docId) {
+	public @ResponseBody Document getDocumentDetail(@PathVariable String docId) {
 		log.info("정보 로그");
 		
 		document = approvalService.readDocument(docId);

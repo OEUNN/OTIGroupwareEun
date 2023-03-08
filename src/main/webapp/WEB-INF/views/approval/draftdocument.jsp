@@ -30,6 +30,15 @@
 	tr:hover {
 		background-color: #F3F3F3;
 	}
+	
+	a {
+		color:black;
+	}
+	
+	a:hover {
+		text-decoration: none;
+	}
+	
 	</style>
 </head>
 
@@ -266,7 +275,7 @@
 												</td>
 												<td>
 													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">${document.docTitle}</span></p>
+														<p class="mb-0"><a href="<c:url value='/approval/viewdetail/${document.docId}'/>"><span class="font-weight-bold mr-2">${document.docTitle}</span></a></p>
 														<p class="mb-0">
 															<c:forEach items="${approvalLines}" var="approvalLine" varStatus="i">
 															<c:choose>

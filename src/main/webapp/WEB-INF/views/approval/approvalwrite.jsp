@@ -27,28 +27,29 @@
 			//결재선에 추가하기
 			$("#approvalLine").append(receivedData.content);
 			
-			//form 양식에 추가하기
-			$("#approvalForm").append('<input type="hidden" name="approvalId" value="' + receivedData.empId + '">');
-			$("#approvalForm").append('<input type="hidden" name="approvalName" value="' + receivedData.empName + '">');
-			$("#approvalForm").append('<input type="hidden" name="depName" value="' + receivedData.depName + '">');
-			$("#approvalForm").append('<input type="hidden" name="posName" value="' + receivedData.posName + '">');
-			$("#approvalForm").append('<input type="hidden" name="approvalOrder" value="' + receivedData.approvalOrder + '">');
-			$("#approvalForm").append('<input type="hidden" name="approvalState" value="미결">');
-			$("#approvalForm").append('<input type="hidden" name="approvalDate" value="미정">');
-			
-			//iframe은 일반적인 $()로 접근할 수 없다
-			$("iframe").contents().find("body").find("#formApprovalPosition").append('<td class="' + receivedData.removeClass + ' content-align-center text-content">' + receivedData.posName + '</td>');
-			$("iframe").contents().find("body").find("#formApprovalState").append('<td class="' + receivedData.removeClass + ' approvalLineState content-align-center text-content">미결</td>');
-			$("iframe").contents().find("body").find("#formApprovalName").append('<td class="' + receivedData.removeClass + ' content-align-center text-content">' + receivedData.empName + '</td>');
-			$("iframe").contents().find("body").find("#formApprovalDate").append('<td class="' + receivedData.removeClass + ' approvalDate content-align-center text-content">날짜 미정</td>');
-			
 			//x에다가 클릭 시 삭제 이벤트 등록하기
 			var remover = '#' + receivedData.removeClass;
 			var removee = '.' + receivedData.removeClass;
 			$(remover).on('click', (event) => {
 				$(removee).remove();
+				//iframe은 일반적인 $()로 접근할 수 없다
 				$("iframe").contents().find("body").find(removee).remove();
 			});
+
+			//form 양식에 추가하기
+			$("#approvalForm").append('<input class="' + receivedData.removeClass + '" type="hidden" name="approvalId" value="' + receivedData.empId + '">');
+			$("#approvalForm").append('<input class="' + receivedData.removeClass + '" type="hidden" name="approvalName" value="' + receivedData.empName + '">');
+			$("#approvalForm").append('<input class="' + receivedData.removeClass + '" type="hidden" name="depName" value="' + receivedData.depName + '">');
+			$("#approvalForm").append('<input class="' + receivedData.removeClass + '" type="hidden" name="posName" value="' + receivedData.posName + '">');
+			$("#approvalForm").append('<input class="' + receivedData.removeClass + '" type="hidden" name="approvalOrder" value="' + receivedData.approvalOrder + '">');
+			$("#approvalForm").append('<input class="' + receivedData.removeClass + '" type="hidden" name="approvalState" value="미결">');
+			$("#approvalForm").append('<input class="' + receivedData.removeClass + '" type="hidden" name="approvalDate" value="미정">');
+			
+			//iframe 내부 초기화
+			$("iframe").contents().find("body").find("#formApprovalPosition").append('<td class="' + receivedData.removeClass + ' content-align-center text-content">' + receivedData.posName + '</td>');
+			$("iframe").contents().find("body").find("#formApprovalState").append('<td class="' + receivedData.removeClass + ' approvalLineState content-align-center text-content">미결</td>');
+			$("iframe").contents().find("body").find("#formApprovalName").append('<td class="' + receivedData.removeClass + ' content-align-center text-content">' + receivedData.empName + '</td>');
+			$("iframe").contents().find("body").find("#formApprovalDate").append('<td class="' + receivedData.removeClass + ' approvalDate content-align-center text-content">날짜 미정</td>');
 		});
 	});
 	</script>

@@ -14,6 +14,12 @@
 		<association column="emp_name" property="employee" javaType="employee">
 			<result column="emp_name" property="empName"/>
 		</association>
+		<association column="pos_name" property="position" javaType="position">
+			<result column="pos_name" property="posName"/>
+		</association>
+		<association column="dep_name" property="department" javaType="department">
+			<result column="dep_name" property="depName"/>
+		</association>
 	</resultMap>
 	
 	<!-- 임시 -->
@@ -57,9 +63,9 @@
 	</delete>
 	
 	<select id="getApprovalLinesBydocId" parameterType="string" resultMap="approvalLineResultMap">
-		SELECT emp.emp_id, doc_id, aprv_line_state, aprv_line_order, aprv_line_role, aprv_line_approval_date, aprv_line_open_yn, aprv_line_opinion, emp_name
-		FROM approval_lines, employees emp
-		WHERE doc_id = #{docId} AND approval_lines.emp_id = emp.emp_id
+		SELECT emp.emp_id, doc_id, aprv_line_state, aprv_line_order, aprv_line_role, aprv_line_approval_date, aprv_line_open_yn, aprv_line_opinion, emp_name, pos_name, dep_name
+		FROM approval_lines, employees emp, positions pos, departments dep
+		WHERE doc_id = #{docId} AND approval_lines.emp_id = emp.emp_id AND emp.pos_id = pos.pos_id AND emp.dep_id = dep.dep_id
 		ORDER BY aprv_line_order
 	</select>
     

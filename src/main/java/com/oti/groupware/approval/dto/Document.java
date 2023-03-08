@@ -16,7 +16,7 @@ public class Document {
     private Date docReportDate;
     private Date docCompleteDate;
     private String docState;
-    private char docReadYn;
-    private char docTempYn;
+    private String docReadYn;
+    private String docTempYn;
     private int docAprvStep;
 }
