@@ -15,7 +15,6 @@ public class Document {
     private Date docWriteDate;
     private Date docReportDate;
     private Date docCompleteDate;
-    private int docImportance;
     private String docState;
     private char docReadYn;
     private char docTempYn;

@@ -16,8 +16,9 @@ public interface DocumentDAO {
 	public void deleteDocument(String docId);
 	
 	public void insertDraft(Document draft);
-	
+	public int getDraftDocumentCount(String empId);
 	public List<Document> getDraftDocumentList(@Param("pager") Pager pager, @Param("empId") String empId);
+	
 	public List<Document> getCompletedDocumentList(Pager pager, String empId);
 	public List<Document> getTempDocumentList(Pager pager, String empId);
 	public List<Document> getReturnedDocumentList(Pager pager, String empId);

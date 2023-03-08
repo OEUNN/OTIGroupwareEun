@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.OrderComparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,10 +19,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oti.groupware.approval.dto.ApprovalLine;
 import com.oti.groupware.approval.dto.Document;
+import com.oti.groupware.approval.dto.DocumentContent;
 import com.oti.groupware.approval.dto.DocumentFile;
 import com.oti.groupware.approval.service.ApprovalLineService;
 import com.oti.groupware.approval.service.ApprovalService;
+import com.oti.groupware.common.Pager;
 import com.oti.groupware.common.dto.Organization;
+import com.oti.groupware.employee.dto.Employee;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -31,10 +36,15 @@ public class ApprovalController {
 	Document document;
 	ApprovalLine approvalLine;
 	DocumentFile documentFile;
+	Pager pager;
+	
+	List<Document> documents;
 	List<ApprovalLine> approvalLines;
 	List<DocumentFile> documentFiles;
 	List<Organization> organizations;
-	Map<Integer , List<Organization>> organizationsMap;
+	List<List<ApprovalLine>> approvalLinesList;
+	
+	Map<Integer, List<Organization>> organizationsMap;
 	
 	@Autowired
 	ApprovalService approvalService;
@@ -45,20 +55,33 @@ public class ApprovalController {
 	@RequestMapping(value = "/main")
 	public String main() {
 		log.info("정보 로그");
+		
 		return "approval/main";
-	}
-	
-	//기안함
-	@RequestMapping(value = "/totaldocument", method=RequestMethod.GET)
-	public String totalDocumentBox() {
-		log.info("정보 로그");
-		return "approval/totaldocument";
 	}
 
 	//기안함
 	@RequestMapping(value = "/draftdocument", method=RequestMethod.GET)
-	public String draftDocumentBox() {
+	public String getDraftDocumentList(HttpSession session, Model model) {
 		log.info("정보 로그");
+		
+		return getDraftDocumentList(1, session, model);
+	}
+	
+	//기안함
+	@RequestMapping(value = "/draftdocument/{pageNo}", method=RequestMethod.GET)
+	public String getDraftDocumentList(@PathVariable int pageNo, HttpSession session, Model model) {
+		log.info("정보 로그");
+		
+		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
+		pager = new Pager();
+		
+		documents = approvalService.getDraftDocumentList(pageNo, pager, empId);
+		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
+		
+		model.addAttribute("pager", pager);
+		model.addAttribute("documents", documents);
+		model.addAttribute("approvalLinesList", approvalLinesList);
+		
 		return "approval/draftdocument";
 	}
 	
@@ -66,6 +89,7 @@ public class ApprovalController {
 	@RequestMapping(value = "/tempdocument", method=RequestMethod.GET)
 	public String tempDocumentBox() {
 		log.info("정보 로그");
+		
 		return "approval/tempdocument";
 	}
 	
@@ -73,6 +97,7 @@ public class ApprovalController {
 	@RequestMapping(value = "/returneddocument", method=RequestMethod.GET)
 	public String returnedDocumentBox() {
 		log.info("정보 로그");
+		
 		return "approval/returneddocument";
 	}
 	
@@ -80,6 +105,7 @@ public class ApprovalController {
 	@RequestMapping(value = "/pendeddocument", method=RequestMethod.GET)
 	public String pendedDocumentBox() {
 		log.info("정보 로그");
+		
 		return "approval/pendeddocument";
 	}
 	
@@ -87,22 +113,26 @@ public class ApprovalController {
 	@RequestMapping(value = "/completeddocument", method=RequestMethod.GET)
 	public String completedDocumentBox() {
 		log.info("정보 로그");
+		
 		return "approval/completeddocument";
 	}
 	
 	//결재 문서 작성 화면
 	@RequestMapping(value = "/approvalwrite", method=RequestMethod.GET)
-	public String getApprovalWrite() {
+	public String getApprovalWrite(HttpSession session) {
 		log.info("정보 로그");
+		
 		return "approval/approvalwrite";
 	}
 	
 	//결재 문서 작성 화면
 	@RequestMapping(value = "/approvalwrite", method=RequestMethod.POST)
-	public String postApprovalWrite(@RequestParam("document") String document, @RequestParam("empId") String drafterId) {
+	public String postApprovalWrite(@RequestParam("document") String document, DocumentContent documentContent) {
 		log.info("정보 로그");
-		int result = approvalService.saveDraft(document, drafterId);
-		return "approval/approvalwrite";
+		
+		int result = approvalService.saveDraft(document, documentContent);
+		
+		return "redirect:approvalwrite";
 	}
 	
 	//주소록 화면
@@ -125,6 +155,7 @@ public class ApprovalController {
 		
 		model.addAttribute("organizationsMapKeySet", organizationsMap.keySet());
 		model.addAttribute("organizationsMap", organizationsMap);
+		
 		return "approval/organization";
 	}
 	
@@ -132,18 +163,20 @@ public class ApprovalController {
 	@RequestMapping(value = "/viewdetail/{docId}", method=RequestMethod.GET)
 	public String getApprovalDetail(@PathVariable String docId, Model model) {
 		log.info("정보 로그");
-		approvalLines = approvalLineService.readApprovalLines(docId);
 		
-		
-		
+		approvalLines = approvalLineService.getApprovalLines(docId);
 		model.addAttribute("approvalLines", approvalLine);
+		
 		return "approval/viewdetail";
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/viewdetail/{docId}/documentdetail", method=RequestMethod.GET)
 	public Document getDocumentDetail(@PathVariable String docId) {
+		log.info("정보 로그");
+		
 		document = approvalService.readDocument(docId);
+		
 		return document;
 	}
 	
@@ -151,6 +184,7 @@ public class ApprovalController {
 	@RequestMapping(value = "/opinion", method=RequestMethod.GET)
 	public String writeOpinion() {
 		log.info("정보 로그");
+		
 		return "approval/opinion";
 	}
 	

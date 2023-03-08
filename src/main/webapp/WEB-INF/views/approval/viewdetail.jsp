@@ -81,7 +81,18 @@
 								
 								<c:forEach items="${approvalLines}" var="approvalLine">
 								<div class="row m-1">
+									<c:if test="${approvalLines.aprvLineState == '승인'}">
 		       						<div class="card card-dark-blue grid-margin shadow-2 mb-0 w-100" style="background-color: #57B657;">
+									</c:if>
+									<c:if test="${approvalLines.aprvLineState == '반려'}">
+		       						<div class="card card-dark-danger grid-margin shadow-2 mb-0 w-100" style="background-color: #57B657;">
+									</c:if>
+									<c:if test="${approvalLines.aprvLineState == '열람'}">
+		       						<div class="card card-tale grid-margin shadow-2 mb-0 w-100" style="background-color: #57B657;">
+									</c:if>
+									<c:if test="${approvalLines.aprvLineState == '대기'}">
+		       						<div class="card card-dark-blue grid-margin shadow-2 mb-0 w-100" style="background-color: #57B657;">
+									</c:if>
 					                    <div class="card-body">
 						                    <div class="row mb-3">
 							                    <div class="col-10">
@@ -93,30 +104,22 @@
 							                    </div>
 						                    </div>
 						                    <div class="row">
+						                    	<c:if test="${session.empId != approvalLines.empId}">
 						                    	<div class="col-12">
 						                    		<h3 style="text-align: center; font-weight:bold; margin-bottom: -3px;">${approvalLine.aprvLineApprovalDate}</h3>
 						                    	</div>
-						                    </div>
-					                    </div>
-									</div>
-								</div>
-								</c:forEach>
-								
-								<div class="row m-1">
-		       						<div class="card card-dark-blue grid-margin shadow-2 mb-0 w-100" style="background-color: #57B657;">
-					                    <div class="card-body">
-						                    <div class="row mb-3">
-							                    <div class="col-10">
-							                    	<p class="card-title text-white fs-3">오상식</p>
-							                    	<p>공공사업1DIV 차장</p>
-							                    </div>
-							                    <div class="col-2">
-							                    	<i class="mdi mdi-close"></i>
-							                    </div>
-						                    </div>
-						                    <div class="row">
+						                    	</c:if>
+						                    	<c:if test="${session.empId == approvalLines.empId}">
+					            	        	<div class="col-6">
+						                    		<button class="btn btn-success w-100" style="text-align: center; font-weight:bold; margin-bottom: -3px;">승인</button>
+						                    	</div>
+						                    	
+						                    	<div class="col-6 d-flex justify-content-center">
+						                    		<button class="btn btn-danger w-100" style="text-align: center; font-weight:bold; margin-bottom: -3px;">반려</button>
+						                    	</div>
+						                    	</c:if>
 						                    	<div class="col-12">
-						                    		<h3 style="text-align: center; font-weight:bold; margin-bottom: -3px;">승인</h3>
+						                    		<h3 style="text-align: center; font-weight:bold; color: white; margin-bottom: -3px;">미열람/대기중</h3>
 						                    	</div>
 						                    </div>
 					                    </div>
@@ -127,94 +130,7 @@
 		          						<h1 class="mdi mdi-menu-down mt-1 mb-0 align-self-center"></h1>
 		      						</div>
 								</div>
-								<div class="row m-1">
-		       						<div class="card card-tale grid-margin shadow-2 mb-0 w-100 bg-warning">
-					                    <div class="card-body">
-						                    <div class="row mb-3">
-							                    <div class="col-10">
-							                    	<p class="card-title text-white fs-3">김부련</p>
-							                    	<p>공공사업1DIV 부장</p>
-							                    </div>
-							                    <div class="col-2">
-							                    	<i class="mdi mdi-close"></i>
-							                    </div>
-						                    </div>
-						                   	<div class="row">
-						                    	<div class="col-12">
-						                    		<h3 style="text-align: center; font-weight:bold; margin-bottom: -3px;">열람 중</h3>
-						                    	</div>
-						                    </div>
-					                    </div>
-		         					</div>
-								</div>
-								<div class="row m-1">
-		       						<div class="d-flex align-items-stretch justify-content-center mb-0 w-100">
-		          						<h1 class="mdi mdi-menu-down mt-1 mb-0"></h1>
-		      						</div>
-								</div> 
-								<div class="row m-1">
-		         					<div class="card card-dark-danger grid-margin shadow-2 w-100" style="background-color: #DC4A38;">
-					                    <div class="card-body">
-						                    <div class="row mb-3">
-							                    <div class="col-10">
-							                    	<p class="card-title text-white fs-3">최전무</p>
-							                    	<p class="text-white">공공사업1DIV 대표이사</p>
-							                    </div>
-							                    <div class="col-2">
-							                    	<i class="mdi mdi-close text-white"></i>
-							                    </div>
-						                    </div>
-						                    <div class="row">
-						                    	<div class="col-12">
-						                    		<h3 style="text-align: center; font-weight:bold; color: white; margin-bottom: -3px;">반려</h3>
-						                    	</div>
-						                    </div>
-					                    </div>
-		         					</div>
-								</div>
-								<div class="row m-1">
-		         					<div class="card bg-info grid-margin shadow-2 w-100">
-					                    <div class="card-body">
-						                    <div class="row mb-3">
-							                    <div class="col-10">
-							                    	<p class="card-title text-white fs-3">최전무</p>
-							                    	<p class="text-white">공공사업1DIV 대표이사</p>
-							                    </div>
-							                    <div class="col-2">
-							                    	<i class="mdi mdi-close text-white"></i>
-							                    </div>
-						                    </div>
-						                    <div class="row">
-						                    	<div class="col-6">
-						                    		<button class="btn btn-success w-100" style="text-align: center; font-weight:bold; margin-bottom: -3px;">승인</button>
-						                    	</div>
-						                    	<div class="col-6 d-flex justify-content-center">
-						                    		<button class="btn btn-danger w-100" style="text-align: center; font-weight:bold; margin-bottom: -3px;">반려</button>
-						                    	</div>
-						                    </div>
-					                    </div>
-		         					</div>
-								</div>
-								<div class="row m-1">
-		         					<div class="card card-warning grid-margin shadow-2 w-100" style="background-color: #939495;">
-					                    <div class="card-body">
-						                    <div class="row mb-3">
-							                    <div class="col-10">
-							                    	<p class="card-title text-white fs-3">최전무</p>
-							                    	<p class="text-white">공공사업1DIV 대표이사</p>
-							                    </div>
-							                    <div class="col-2">
-							                    	<i class="mdi mdi-close text-white"></i>
-							                    </div>
-						                    </div>
-						                   	<div class="row">
-						                    	<div class="col-12">
-						                    		<h3 style="text-align: center; font-weight:bold; color: white; margin-bottom: -3px;">미열람/대기중</h3>
-						                    	</div>
-						                    </div>
-					                    </div>
-		         					</div>
-								</div>
+								</c:forEach>
 							</div>
 						</div>
 						<div class="card">
