@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.oti.groupware.common.Pager;
 import com.oti.groupware.employee.dto.Employee;
 
 public interface EmployeeDAO {
@@ -22,5 +23,8 @@ public interface EmployeeDAO {
 	public List<Employee> getDepartment(int depId);
 	public Employee getEmployeeByName(String empName);
 	public int getPositionIdById(String empId);
+	public int employeeRowsCount();
+	public List<Employee> getEmployees(@Param("pager") Pager pager);
+	public Employee getCeoInformation();
 	
 }

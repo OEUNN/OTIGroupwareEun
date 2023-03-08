@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.oti.groupware.common.Pager;
 import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.employee.dto.EmployeeDetail;
 import com.oti.groupware.employee.service.EmployeeService;
@@ -138,13 +139,50 @@ public class EmployeeController {
 
 	//임직원 조회
 	@RequestMapping(value = "/selectemployee", method = RequestMethod.GET)
-	public String selectEmployee() {
+	public String selectEmployee(Model model) {
+		log.info("실행");
+		//전체 행수 갖고옴
+		int totalRows = employeeService.employeeRowsCount();
+		//페이저 객체 생성
+		Pager pager = new Pager(10, 5, totalRows, 1);
+		List<Employee> empList = employeeService.getEmployees(pager);
+		if(empList != null) {
+			Employee emp = employeeService.ceoInformation();
+			EmployeeDetail empDetail = employeeService.detailEmployee(emp.getEmpId());
+			model.addAttribute("empList", empList);
+			model.addAttribute("pager", pager);
+			model.addAttribute("emp", emp);
+			model.addAttribute("empDetail", empDetail);
+		}
 		return "employee/selectemployee";
 	}
 	
+	@RequestMapping(value = "/selectemployee", method = RequestMethod.POST)
+	public String selectEmployee(String empId, Model model) {
+		log.info("실행");
+		Employee emp = employeeService.getEmployee(empId);
+		EmployeeDetail empDetail = employeeService.detailEmployee(empId);
+		model.addAttribute("emp", emp);
+		model.addAttribute("empDetail", empDetail);
+		return "employee/detailemployee";
+	}
+	
+	// 비밀번호 초기화popup
+	@RequestMapping(value = "/resetpasswordpopup", method = RequestMethod.GET)
+	public String resetPasswordPopup() {
+		return "employee/resetpasswordpopup";
+	}
+		
+	// 비밀번호 초기화popup
+	@RequestMapping(value = "/reset", method = RequestMethod.POST)
+	@ResponseBody
+	public void resetPasswordPopup(String empId) {
+		employeeService.resetPassword(empId);
+	}
+	
 	// 임직원
-	@RequestMapping(value = "/updateemployee", method = RequestMethod.GET)
-	public String updateEmployee() {
+	@RequestMapping(value = "/updateemployee/{empId}", method = RequestMethod.GET)
+	public String updateEmployee(@PathVariable String empId) {
 		return "employee/updateemployee";
 	}
 
@@ -182,12 +220,7 @@ public class EmployeeController {
 		return new ResponseEntity<byte[]>(employee.getEmpFileData(), headers, HttpStatus.OK);
 	}	
 	
-	//비밀번호 초기화popup
-	@RequestMapping(value = "/deletepasswordpopup", method = RequestMethod.GET)
-	public String deletePasswordPopup() {
-		return "employee/deletePasswordPopup";
-	}
-	
+		
 	//접근권한 페이지
 	@RequestMapping(value="/error", method=RequestMethod.GET)
 	public String errorEmployee() {
