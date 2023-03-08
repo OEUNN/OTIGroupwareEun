@@ -183,7 +183,6 @@ public class EmployeeController {
 	// 임직원
 	@RequestMapping(value = "/updateemployee/{empId}", method = RequestMethod.GET)
 	public String updateEmployee(@PathVariable String empId) {
-		log.info("실행");
 		return "employee/updateemployee";
 	}
 
