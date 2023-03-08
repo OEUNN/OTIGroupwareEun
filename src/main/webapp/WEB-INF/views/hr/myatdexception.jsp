@@ -150,10 +150,10 @@
 											<tbody>
 												<c:if test="${!empty atdExcpList}">
 													<c:forEach var="atdExcp" items="${atdExcpList}">
-															<tr onclick="atdAppDetail('${atdExcp.atdExcpId}')">
+														<tr onclick="atdAppDetail('${atdExcp.atdExcpId}')">
 															<td><small>${atdExcp.atdExcpCategory}</small></td>
 															<td><small>${atdExcp.atdExcpDate}</small></td>
-															<td>${atdExcp.atdExcpApprovalEmp}</td>
+															<td>${atdExcp.atdExcpApprovalEmpName}</td>
 															<td>
 																<!-- 결재상태 -->
 																<c:if test="${atdExcp.atdExcpProcessState == '미처리'}">

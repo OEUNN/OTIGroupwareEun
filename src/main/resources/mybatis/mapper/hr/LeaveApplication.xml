@@ -12,11 +12,12 @@
         <result column="lev_app_end_date" property="levAppEndDate"/>
         <result column="lev_app_process_state" property="levAppProcessState"/>
         <result column="lev_app_process_date" property="levAppProcessDate"/>
-        <result column="lev_app_approval_emp" property="levAppApprovalEmp"/>
+        <result column="lev_app_approval_emp_name" property="levAppApprovalEmpName"/>
+        <result column="lev_app_approval_emp_id" property="levAppApprovalEmpId"/>
         <result column="lev_app_opinion" property="levAppOpinion"/>
     </resultMap>
     
-    <!-- 전체 행의 수 -->
+    <!-- 휴가신청서(일반 임직원) - 전체 행의 수 -->
 	<select id="getLeaveApplicationRowsCount" resultType="int">
 	    SELECT 
 	      count(*)
@@ -30,7 +31,7 @@
 	    </where>
 	</select>
 
-	<!-- 페이징 목록 -->
+    <!-- 휴가신청서(일반 임직원) - 페이징 목록 -->
 	<select id="getLeaveApplicationList" resultMap="leaveApplicationResultMap">
 		SELECT 
 		    lev_app_id,
@@ -38,7 +39,7 @@
 		    lev_app_category,
 		    lev_app_start_date,
 		    lev_app_end_date,
-		    lev_app_approval_emp,
+		    lev_app_approval_emp_name,
 		    lev_app_process_state
 		FROM leave_applications
 		<where>
@@ -60,7 +61,7 @@
 		    lev_app_category,
 		    lev_app_start_date,
 		    lev_app_end_date,
-		    lev_app_approval_emp,
+		    lev_app_approval_emp_name,
 		    lev_app_process_state,
 		    lev_app_opinion
 		FROM 
@@ -91,7 +92,7 @@
         	lev_app_start_date, 
         	lev_app_end_date, 
         	lev_app_process_state, 
-        	lev_app_approval_emp
+        	lev_app_approval_emp_name
        	)
         VALUES (
         	SEQ_ATD_EXCP_ID.NEXTVAL, 
@@ -102,10 +103,46 @@
         	#{levAppStartDate},
         	#{levAppEndDate}, 
         	'미처리', 
-        	#{levAppApprovalEmp}
+        	#{levAppApprovalEmpName}
        	)
     </insert>
     
+    <!-- 휴가신청결재서(부서장) - 전체 행의 수 -->
+	<select id="getLeaveApplicationApprovalRowsCount" resultType="int">
+	    SELECT 
+	      count(*)
+	    FROM 
+	      leave_applications
+	    <where>
+	      lev_app_approval_emp_id = #{empId}
+	      <if test="(startDate != null and !startDate.equals('')) and (endDate != null and !endDate.equals(''))">
+	      	AND lev_app_date BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'YYYY-MM') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'YYYY-MM')
+	      </if>
+	    </where>
+	</select>
+
+    <!-- 휴가신청결재서(부서장) - 페이징 목록 -->
+	<select id="getLeaveApplicationApprovalList" resultMap="leaveApplicationResultMap">
+		SELECT 
+		    lev_app_id,
+		    lev_app_date,
+		    lev_app_category,
+		    lev_app_start_date,
+		    lev_app_end_date,
+		    lev_app_approval_emp_name,
+		    lev_app_process_state
+		FROM leave_applications
+		<where>
+	      lev_app_approval_emp_id = #{empId}
+	      <if test="(startDate != null and !startDate.equals('')) and (endDate != null and !endDate.equals(''))">
+	      	AND lev_app_date BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'YYYY-MM') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'YYYY-MM')
+	      </if>
+		</where>
+		ORDER BY lev_app_date DESC
+		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
+		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
+	</select>
+	
     <!-- 잔여일수 수정 -->
 <!--     <update id="updateEmployeeReserve"> -->
 <!--     	UPDATE  -->

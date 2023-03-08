@@ -222,4 +222,29 @@ public class HrServiceImpl implements HrService {
 	}
 	
 	
+	//근무 신청 결재목록의 전체 행의 수를 가져옴
+	@Override
+	public int attendanceExceptionApprovalRowsCount(String startDate, String endDate, String empId) {
+		return attendanceExceptionDAO.getAttendanceExcptionApprovalRowsCount(startDate, endDate, empId);
+	}
+
+	//근무 신청 결재목록을 가져옴
+	@Override
+	public List<AttendanceException> attendanceExcptionApprovalList(String startDate, String endDate, String empId, Pager pager) {
+		return attendanceExceptionDAO.getAttendanceExceptionApprovalList(startDate, endDate, empId, pager);
+	}
+	
+	//휴가 신청 결재목록의 전체 행의 수를 가져옴
+	@Override
+	public int leaveApplicationApprovalRowsCount(String startDate, String endDate, String empId) {
+		return leaveApplicationDAO.getLeaveApplicationApprovalRowsCount(startDate, endDate, empId);
+	}
+	
+	//휴가 신청 결재목록을 가져옴
+	@Override
+	public List<AttendanceException> leaveApplicationApprovalList(String startDate, String endDate, String empId, Pager pager) {
+		return leaveApplicationDAO.getLeaveApplicationApprovalList(startDate, endDate, empId, pager);
+	}
+	
+	
 }
