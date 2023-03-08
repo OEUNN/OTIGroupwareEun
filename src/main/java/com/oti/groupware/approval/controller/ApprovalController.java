@@ -7,11 +7,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -103,8 +103,26 @@ public class ApprovalController {
 	
 	//결재대기함
 	@RequestMapping(value = "/pendeddocument", method=RequestMethod.GET)
-	public String pendedDocumentBox() {
+	public String getPendedDocumentList(HttpSession session, Model model) {
 		log.info("정보 로그");
+		
+		return getPendedDocumentList(1, session, model);
+	}
+	
+	//결재대기함
+	@RequestMapping(value = "/pendeddocument/{pageNo}", method=RequestMethod.GET)
+	public String getPendedDocumentList(@PathVariable int pageNo, HttpSession session, Model model) {
+		log.info("정보 로그");
+		
+		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
+		pager = new Pager();
+		
+		documents = approvalService.getpendedDocumentList(pageNo, pager, empId);
+		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
+		
+		model.addAttribute("pager", pager);
+		model.addAttribute("documents", documents);
+		model.addAttribute("approvalLinesList", approvalLinesList);
 		
 		return "approval/pendeddocument";
 	}
@@ -135,7 +153,7 @@ public class ApprovalController {
 		return "redirect:approvalwrite";
 	}
 	
-	//주소록 화면
+	//주소록 화면 요청
 	@RequestMapping(value = "/organization", method=RequestMethod.GET)
 	public String organization(Model model) {
 		log.info("정보 로그");
@@ -180,6 +198,25 @@ public class ApprovalController {
 		return "approval/viewdetail";
 	}
 	
+	//결재 문서 승인 또는 반려 요청
+	@RequestMapping(value = "/viewdetail/{docId}", method=RequestMethod.POST)
+	public String postApprovalDetail(Document document, ApprovalLine approvalLine, @PathVariable("docId") String docId, HttpSession session, Model model) {
+		log.info("정보 로그");
+		
+		//approval 승인 또는 반려 판별해서 처리
+		System.out.println(approvalLine);
+		System.out.println(document);
+		approvalLineService.modifyApprovalLineDeterminedState(approvalLine, document);
+		document.setDocReadYn("N");
+		approvalService.updateDocumentReadState(document);
+		if (approvalLine.getAprvLineOpinion() != null && "".equals(approvalLine.getAprvLineOpinion())) {
+			approvalLineService.writeOpinion(approvalLine);
+		}
+		
+		return "redirect:approval/viewdetail/" + docId;
+	}
+	
+	//결재 문서 내용 요청
 	@RequestMapping(value = "/viewdetail/{docId}/documentdetail", method=RequestMethod.GET)
 	public @ResponseBody Document getDocumentDetail(@PathVariable String docId) {
 		log.info("정보 로그");
@@ -189,11 +226,24 @@ public class ApprovalController {
 		return document;
 	}
 	
-	//반려 의견 작성 화면
-	@RequestMapping(value = "/opinion", method=RequestMethod.GET)
-	public String writeOpinion() {
+	//결재문서 열람 상태 변경 요청
+	@RequestMapping(value = "/viewdetail/{docId}/open")
+	public void openDocument(Document document, ApprovalLine approvalLine) {
 		log.info("정보 로그");
-		
+		approvalLineService.modifyApprovalLineOpenState(approvalLine);
+		approvalService.updateDocumentReadState(document);
+	}
+	
+	//반려 의견 작성 화면 요청
+	@RequestMapping(value = "/opinion/{approvalLineState}", method=RequestMethod.GET)
+	public String writeOpinion(@PathVariable("approvalLineState") String approvalLineState, Model model) {
+		log.info("정보 로그");
+		if (approvalLineState.equals("approve")) {
+			model.addAttribute("approvalLineState", "승인");
+		}
+		else if (approvalLineState.equals("return")){
+			model.addAttribute("approvalLineState", "반려");
+		}
 		return "approval/opinion";
 	}
 	

@@ -4,8 +4,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.print.Doc;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,26 +95,24 @@ public class ApprovalServiceImpl implements ApprovalService {
 
 	@Override
 	public List<Document> getCompletedDocumentList(int pageNo, String empId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<Document> getTempDocumentList(int pageNo, String empId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<Document> getReturnedDocumentList(int pageNo, String empId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Document> getpendedDocumentList(int pageNo, String empId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Document> getpendedDocumentList(int pageNo, Pager pager, String empId) {
+		int totalRows = documentDAO.getPendedDocumentCount(empId);
+		pager = new Pager(10, 10, totalRows, pageNo);
+		return documentDAO.getPendedDocumentList(pager, empId);
 	}
 
 	/*
@@ -126,6 +122,11 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public List<Organization> getOrganization() {
 		employees = approvalLineDAO.getOrganization();
 		return employees;
+	}
+
+	@Override
+	public int updateDocumentReadState(Document document) {
+		return documentDAO.updateDocumentReadState(document);
 	}
 
 }

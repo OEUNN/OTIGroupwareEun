@@ -16,7 +16,7 @@ public class ApprovalLine {
     private int aprvLineOrder;
     private String aprvLineRole;
     private Timestamp aprvLineApprovalDate;
-    private char aprvLineOpenYn;
+    private String aprvLineOpenYn;
     private String aprvLineOpinion;
     
     private Employee employee;

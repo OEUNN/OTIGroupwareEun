@@ -26,19 +26,15 @@
 	.jsgrid .jsgrid-table td {
 		padding: 0.525rem 1.375rem;
 	}
-	
 	tr:hover {
 		background-color: #F3F3F3;
 	}
-	
 	a {
 		color:black;
 	}
-	
 	a:hover {
 		text-decoration: none;
 	}
-	
 	</style>
 </head>
 
@@ -225,7 +221,6 @@
 								<div class="table-responsive">
 									<table class="table">
 										<thead>
-											<tr>
 											<tr>
 												<th class="py-0 pl-1">
 													<div class="form-check font-weight-bold text-info my-1">

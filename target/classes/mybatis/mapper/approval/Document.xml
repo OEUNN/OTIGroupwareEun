@@ -3,7 +3,7 @@
 <mapper namespace="com.oti.groupware.approval.dao.DocumentDAO">
 
 	<resultMap id="documentResultMap" type="document">
-	    <result property="docId" column="doc_id"/>
+	    <id property="docId" column="doc_id"/>
 	    <result property="empId" column="emp_id"/>
 	    <result property="docType" column="doc_type"/>
 	    <result property="docTitle" column="doc_title"/>
@@ -16,6 +16,9 @@
 	    <result property="docReadYn" column="doc_read_yn"/>
 	    <result property="docTempYn" column="doc_temp_yn"/>
 	    <result property="docAprvStep" column="doc_aprv_step"/>
+	    <association column="emp_name" property="employee" javaType="employee">
+	    	<result column="emp_name" property="empName"/>
+	    </association>
 	</resultMap>
 
     <select id="getDocumentById" parameterType="string" resultMap="documentResultMap">
@@ -76,11 +79,9 @@
     </insert>
     
     <select id="getDraftDocumentCount" resultType="int" parameterType="string">
-    <![CDATA[
         SELECT count(*) 
         FROM documents 
-        WHERE emp_id = #{empId}
-    ]]>
+        WHERE emp_id = #{empId} and doc_temp_yn = 'N'
     </select>
     
     <select id="getDraftDocumentList" resultMap="documentResultMap">
@@ -99,4 +100,33 @@
         WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
     ]]>
     </select>
+    
+    <select id="getPendedDocumentCount" resultType="int" parameterType="string">
+        SELECT count(*) 
+		FROM documents doc, approval_lines apl
+		WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order and doc_temp_yn = 'N'
+    </select>
+    
+    <select id="getPendedDocumentList" resultMap="documentResultMap">
+    <![CDATA[
+        SELECT
+            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            doc_complete_date, doc_state, doc_read_yn
+        FROM (
+        	SELECT
+        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+        		doc_complete_date, doc_state, doc_read_yn
+        	FROM documents doc, approval_lines apl, employees emp
+        	WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order AND doc_temp_yn = 'N' AND emp.emp_id = doc.emp_id AND 
+        	rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
+        )
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
+    ]]>
+    </select>
+    
+    <update id="updateDocumentReadState" parameterType="document">
+    	UPDATE documents SET
+    		doc_read_yn = #{docReadYn}
+    	WHERE doc_id = #{docId}
+    </update>
 </mapper>

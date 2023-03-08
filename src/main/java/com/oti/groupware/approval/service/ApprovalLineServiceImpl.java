@@ -34,4 +34,24 @@ public class ApprovalLineServiceImpl implements ApprovalLineService{
 		}
 		return approvalLineList;
 	}
+	
+	@Override
+	public int modifyApprovalLineOpenState(ApprovalLine approvalLine) {
+		return approvalLineDAO.updateApprovalLineOpener(approvalLine);
+	}
+	
+	@Override
+	public int modifyApprovalLineDeterminedState(ApprovalLine approvalLine, Document document) {
+		if (approvalLine.getAprvLineOrder() == document.getDocAprvStep()) {
+			return approvalLineDAO.updateApprovalLineDeterminant(approvalLine);
+		}
+		else {
+			return -1;
+		}
+	}
+
+	@Override
+	public int writeOpinion(ApprovalLine approvalLine) {
+		return approvalLineDAO.updateOpinion(approvalLine);
+	}
 }

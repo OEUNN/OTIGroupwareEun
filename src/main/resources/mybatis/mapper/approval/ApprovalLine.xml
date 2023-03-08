@@ -40,14 +40,14 @@
 		WHERE emp_id = #{empId} AND doc_id = #{docId}
 	</select>
 
-	<insert id="insertApprovalLine" parameterType="ApprovalLine">
+	<insert id="insertApprovalLine" parameterType="approvalLine">
 		INSERT INTO approval_lines
 		(emp_id, doc_id, aprv_line_state, aprv_line_order, aprv_line_role, aprv_line_approval_date, aprv_line_open_yn, aprv_line_opinion)
 		VALUES
 		(#{empId}, #{docId}, #{aprvLineState}, #{aprvLineOrder}, #{aprvLineRole}, #{aprvLineApprovalDate,jdbcType=DATE}, #{aprvLineOpenYn}, #{aprvLineOpinion})
 	</insert>
 
-	<update id="updateApprovalLine" parameterType="ApprovalLine">
+	<update id="updateApprovalLine" parameterType="approvalLine">
 		UPDATE approval_lines SET
 		aprv_line_state = #{aprvLineState},
 		aprv_line_order = #{aprvLineOrder},
@@ -69,7 +69,7 @@
 		ORDER BY aprv_line_order
 	</select>
     
-    <insert id="insertDraftApprovalLine" parameterType="ApprovalLine">
+    <insert id="insertDraftApprovalLine" parameterType="approvalLine">
 		INSERT INTO approval_lines
 		(emp_id, doc_id, aprv_line_state, aprv_line_order, aprv_line_role, aprv_line_approval_date)
 		VALUES
@@ -81,6 +81,31 @@
 		null
 		</if>)
 	</insert>
+	
+	<update id="updateApprovalLineOpener" parameterType="approvalLine">
+		UPDATE approval_lines SET
+		aprv_line_state = #{aprvLineState},
+		aprv_line_open_yn = #{aprvLineOpenYn}
+		WHERE emp_id = #{empId} AND doc_id = #{docId} AND emp_id != 
+		(
+			SELECT emp_id
+			FROM documents
+			WHERE doc_id = #{docId}
+		)
+	</update>
+	
+	<update id="updateApprovalLineDeterminant" parameterType="approvalLine">
+		UPDATE approval_lines SET
+		aprv_line_state = #{aprvLineState},
+		aprv_line_approval_date = SYSDATE
+		WHERE emp_id = #{empId} AND doc_id = #{docId}
+	</update>
+	
+	<update id="updateOpinion" parameterType="approvalLine">
+		UPDATE approval_lines SET
+		aprv_line_opinion = #{aprvLineOpinion}
+		WHERE emp_id = #{empId} AND doc_id = #{docId}
+	</update>
 	
 	<!-- 임시 -->	
 	<select id="getOrganization" resultMap="organizationResultMap">

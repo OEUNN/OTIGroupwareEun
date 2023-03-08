@@ -2,6 +2,8 @@ package com.oti.groupware.approval.dto;
 
 import java.util.Date;
 
+import com.oti.groupware.employee.dto.Employee;
+
 import lombok.Data;
 
 @Data
@@ -19,4 +21,6 @@ public class Document {
     private String docReadYn;
     private String docTempYn;
     private int docAprvStep;
+    
+    private Employee employee;
 }

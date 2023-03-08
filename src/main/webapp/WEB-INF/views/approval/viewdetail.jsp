@@ -11,13 +11,21 @@
 	<script src="${pageContext.request.contextPath}/resources/js/tinymce/tinymceinit.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/themes/silver/theme.min.js"></script>
 	<script type="text/javascript">
-	function popup(){
-	    let url = "../opinion";
+	function approvePopup(){
+	    let url = "../opinion/approve";
 	    let name = "opinion";
 	    let option = "width=800, height=400, top=100px, left=100px, menubars=no, status=no, titlebars=no"
 	    window.open(url, name, option);
 	}
 	
+	function returnPopup(){
+	    let url = "../opinion/return";
+	    let name = "opinion";
+	    let option = "width=800, height=400, top=100px, left=100px, menubars=no, status=no, titlebars=no"
+	    window.open(url, name, option);
+	}
+	
+	//결재문서 요청
 	$(document).ready(function(){
 		tinymce.activeEditor.mode.set("readonly");
 		docId = $("#docId").val();
@@ -30,6 +38,24 @@
 		});
 	});
 	
+	//열람으로 상태 업데이트
+	$(document).ready(function(){
+		empId = $("#empId").val();
+		docId = $("#docId").val();
+		
+		contextPath = $("#contextPath").val();
+		$.ajax({
+			url: contextPath + '/approval/viewdetail/' + docId + '/open',
+			data: {
+				empId: empId,
+				docId: docId,
+				aprvLineState : "열람", 
+				aprvLineOpenYn : "Y",
+				docReadYn: "Y"
+			}
+		});
+	});
+	
 	$(document).ready(function(){
 		$(window).on("message", (event) => {
 			//팝업창에서 전송한 데이터 얻기(팝업창에서 postMessage() 사용해야 함)
@@ -39,9 +65,9 @@
 			$("#opinion").append(receivedData.content);
 			
 			//form 양식에 추가하기
-			$("#opinionForm").append('<input class="removeOpinion" type="hidden" name="employeeId" value="' + receivedData.empId + '">');
-			$("#opinionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineOpinion" value="' + receivedData.empName + '">');
-			$("#opinionForm").append('<input class="removeOpinion" type="hidden" name="depName" value="' + receivedData.depName + '">');
+			$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="employeeId" value="' + receivedData.empId + '">');
+			$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineOpinion" value="' + receivedData.opinion + '">');
+			$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineState" value="' + receivedData.approvalLineState + '">');
 			
 			//x에다가 클릭 시 삭제 이벤트 등록하기
 			var remover = '#' + receivedData.removeClass;
@@ -49,6 +75,8 @@
 			$(remover).on('click', (event) => {
 				$(removee).remove();
 			});
+			
+			$("#decisionForm").submit();
 		});
 	});
 	</script>
@@ -72,12 +100,14 @@
 			
 		<!-- ***** content-start ***** -->
 		<input id="contextPath" type="hidden" value="${pageContext.request.contextPath}"/>
-		<form id="decisionForm" action="<c:url value='/approval/decision'/>" method="post">
-		<input id="docId" type="hidden" name="docId" value="${document.docId}"/>
-		<input id="docTitle" type="hidden" name="docTitle" value="${document.docTitle}"/>
-		<input id="docState" type="hidden" name="docState" value="${document.docState}"/>
-		<input id="docReadYn" type="hidden" name="docReadYn" value="${document.docReadYn}"/>
-		<input id="docAprvStep" type="hidden" name="docAprvStep" value="${document.docAprvStep}"/>
+		<form id="decisionForm" action="<c:url value='/approval/viewdetail/${document.docId}'/>" method="post">
+			<input id="empId" type="hidden" name="empId" value="${sessionScope.employee.empId}"/>
+			<input id="docId" type="hidden" name="docId" value="${document.docId}"/>
+			<input id="docTitle" type="hidden" name="docTitle" value="${document.docTitle}"/>
+			<input id="docState" type="hidden" name="docState" value="${document.docState}"/>
+			<input id="docReadYn" type="hidden" name="docReadYn" value="${document.docReadYn}"/>
+			<input id="docAprvStep" type="hidden" name="docAprvStep" value="${document.docAprvStep}"/>
+			<input id="aprvLineOrder" type="hidden" name="aprvLineOrder" value="${reader.aprvLineOrder}"/>
 		</form>
 		<div class="main-panel">
 	        <div class="content-wrapper">
@@ -89,11 +119,11 @@
 		        					<div class="card-title mb-0">문서 상세 보기</div>
 		        					<div class="d-flex">
 		        						<c:if test="${reader.aprvLineRole == '결재' && (reader.aprvLineState != '승인' || reader.aprvLineState != '반려')}">
-										<button type="submit" form="decisionForm" id="popup-btn" class="btn btn-md btn-success mx-2">
+										<button type="submit" onclick="approvePopup()" id="popup-btn" class="btn btn-md btn-success mx-2">
 											<span class="mdi mdi-calendar-clock align-middle"></span>
 											<span>승인</span>
 										</button>
-										<button type="submit" form="decisionForm" id="popup-btn" class="btn btn-md btn-warning mx-2">
+										<button type="submit" onclick="returnPopup()" id="popup-btn" class="btn btn-md btn-warning mx-2">
 											<span class="mdi mdi-apple-keyboard-caps align-middle"></span>
 											<span>반려</span>
 										</button>
@@ -146,12 +176,12 @@
 							                    </div>
 						                    </div>
 						                    <div class="row">
-						                    	<c:if test="${session.empId != approvalLine.empId}">
+						                    	<c:if test="${sessionScope.employee.empId != approvalLine.empId}">
 						                    	<div class="col-12">
 						                    		<h3 style="text-align: center; font-weight:bold; color: white; margin-bottom: -3px;">${approvalLine.aprvLineState}</h3>
 						                    	</div>
 						                    	</c:if>
-						                    	<c:if test="${session.empId == approvalLine.empId}">
+						                    	<c:if test="${sessionScope.employee.empId == approvalLine.empId}">
 					            	        	<div class="col-6">
 						                    		<button class="btn btn-success w-100" style="text-align: center; font-weight:bold; margin-bottom: -3px;">승인</button>
 						                    	</div>
