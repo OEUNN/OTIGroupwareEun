@@ -31,7 +31,7 @@ public class DocumentParser {
 		document.setDocContent(html);
 		document.setDocRetentionPeriod(documentRetentionPeriod);
 		document.setDocState("결재중");
-		document.setDocTempYn('N');
+		document.setDocTempYn("N");
 	}
 	
 	public Document getParsedDocument() {
