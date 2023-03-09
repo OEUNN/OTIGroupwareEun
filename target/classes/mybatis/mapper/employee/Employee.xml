@@ -55,7 +55,10 @@
 		where emp_id like #{completeId}
 	</select>
 	
-    <insert id="insertEmployee" parameterType="employee"  useGeneratedKeys="true" keyProperty="empId" keyColumn="emp_id">
+    <insert id="insertEmployee" parameterType="employee">
+    	<selectKey keyProperty="empId" resultType="int" order="AFTER">
+	    	select emp_id from employees
+	  	</selectKey>
         INSERT INTO employees (
             emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
             emp_extension_number, emp_phone_number, emp_leave_reserve,
@@ -83,7 +86,7 @@
     </update>
     
     <select id="getDepartment" parameterType="int" resultMap="employeeResultMap">
-    	select emp_id, emp_name
+    	select emp_id, emp_name, emp_mail
     	from employees
     	where dep_id = #{depId}
     	ORDER BY pos_id desc 
@@ -128,5 +131,10 @@
 		FROM employees e, employees_detail d
 		ORDER BY pos_id desc)
 		WHERE ROWNUM= 1
+	</select>
+	
+	<select id="getemp" resultMap="employeeResultMap">
+		select emp_id, emp_name, emp_mail, pos_id, dep_id
+		from employees
 	</select>
 </mapper>

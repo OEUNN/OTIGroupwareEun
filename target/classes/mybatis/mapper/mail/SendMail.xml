@@ -20,7 +20,11 @@
 		WHERE send_mail_id = #{sendMailId}
 	</select>
 	
-	<insert id="insertSendMail" parameterType="SendMail">
+	<insert id="insertSendMail"  parameterType="SendMail">
+		<selectKey keyProperty="sendMailId" resultType="int" order="BEFORE">
+	    	select sendmail_seq.nextval from dual
+	  	</selectKey>
+	  	
         INSERT INTO send_mails (
             send_mail_id,
             emp_id,
@@ -37,11 +41,39 @@
             #{empId},
             #{sendMailTitle},
             #{sendMailContent},
-            #{sendMailImportanceYn},
-            #{sendMailDate},
-            #{sendMailTempYn},
-            #{sendMailDelYn},
-            #{sendMailDelCompleteYn}
+            default,
+            default,
+            default,
+            default,
+            default
+        )
+    </insert>
+    
+    <insert id="insertTempMail"  parameterType="SendMail">
+		<selectKey keyProperty="sendMailId" resultType="int" order="BEFORE">
+	    	select sendmail_seq.nextval from dual
+	  	</selectKey>
+        INSERT INTO send_mails (
+            send_mail_id,
+            emp_id,
+            send_mail_title,
+            send_mail_content,
+            send_mail_importance_yn,
+            send_mail_date,
+            send_mail_temp_yn,
+            send_mail_del_yn,
+            send_mail_del_complete_yn
+        )
+        VALUES (
+            #{sendMailId},
+            #{empId},
+            #{sendMailTitle},
+            #{sendMailContent},
+            default,
+            default,
+            'Y',
+            default,
+            default
         )
     </insert>
 	

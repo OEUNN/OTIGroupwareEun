@@ -37,8 +37,6 @@
 	function result(){
 		// 부모창에서 id가 parent_val인 요소(태그)의 값 가져오기
 		var parent_val = opener.$("#employee").val(); 
-		console.log("ppp");
-		console.log(parent_val);
 		// 자식창(팝업창)에서 id가 child_val인 요소(태그)의 값에 부모창에서 가져온 값 넣기
 		$('#failCnt').val(parent_val);
 		$('#failCnt').html(parent_val);

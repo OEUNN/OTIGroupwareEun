@@ -1,6 +1,7 @@
 package com.oti.groupware.mail.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -8,11 +9,10 @@ import lombok.Data;
 public class ReceivedMail {
     private int sendMailId;
     private String empIdEmployees;
-    private char recdMailImportanceYN;
+    private String recdMailImportanceYN;
     private Date recdMailDate;
-    private char recdMailReadReceiptYN;
+    private String recdMailReadReceiptYN;
     private Date recdMailDelDate;
-    private char recdMailDelYN;
-    private char recdMailDelCompleteYN;
-    private char recdSR;
+    private String recdMailDelYN;
+    private String recdMailDelCompleteYN;
 }

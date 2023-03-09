@@ -26,5 +26,6 @@ public interface EmployeeDAO {
 	public int employeeRowsCount();
 	public List<Employee> getEmployees(@Param("pager") Pager pager);
 	public Employee getCeoInformation();
+	public List<Employee> getemp();
 	
 }

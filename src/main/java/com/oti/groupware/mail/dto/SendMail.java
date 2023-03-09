@@ -1,6 +1,9 @@
 package com.oti.groupware.mail.dto;
 
 import java.util.Date;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
@@ -10,9 +13,10 @@ public class SendMail {
     private String empId;
     private String sendMailTitle;
     private String sendMailContent;
-    private char sendMailImportanceYN;
+    private String sendMailImportanceYN;
     private Date sendMailDate;
-    private char sendMailTempYN;
-    private char sendMailDelYN;
-    private char sendMailDelCompleteYN;
+    private String sendMailTempYN;
+    private String sendMailDelYN;
+    private String sendMailDelCompleteYN;
+    private List<MultipartFile> fileList;
 }

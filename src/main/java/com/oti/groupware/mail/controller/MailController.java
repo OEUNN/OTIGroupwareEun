@@ -1,8 +1,22 @@
 package com.oti.groupware.mail.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.oti.groupware.employee.dto.Employee;
+import com.oti.groupware.mail.dto.MailFile;
+import com.oti.groupware.mail.dto.ReceivedMail;
+import com.oti.groupware.mail.dto.SendMail;
+import com.oti.groupware.mail.service.MailService;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -11,20 +25,61 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/mail")
 public class MailController {
 	
-	//받은 메일
-	@RequestMapping(value = "/sendmail", method = RequestMethod.GET)
-	public String sendMail() {
-		log.debug("디버그 로그");
-		log.info("정보 로그");
-		log.warn("경고 로그");
-		log.error("에러 로그");
+	@Autowired
+	private MailService mailService;
+	
+	//write
+	@RequestMapping(value = "/sendmail", method = RequestMethod.POST)
+	public String sendMail(@RequestParam("write") String write, SendMail sendMail, String receive, @RequestParam("resultString")String resultString) throws Exception {
+		log.info("실행");
+		sendMail.setSendMailContent(write);
+		if(resultString.equals("temp")) {
+			mailService.writeTempMail(sendMail);
+		}else {
+			String[] arr = receive.split(",");
+			mailService.writeMail(sendMail, arr);
+		}
+		log.info(sendMail);
+		List<MultipartFile> mFileList = sendMail.getFileList();
+		if(mFileList != null && !mFileList.isEmpty()) {
+			for(MultipartFile mFile : mFileList) {
+				if(!mFile.getOriginalFilename().equals("")) {
+					MailFile mailFile = new MailFile();
+					mailFile.setSendMailId(sendMail.getSendMailId());
+					mailFile.setMailFileName(mFile.getOriginalFilename());
+					mailFile.setMailFileType(mFile.getContentType());
+					mailFile.setMailFileLength(mFile.getSize());
+					mailFile.setMailFileData(mFile.getBytes());
+					
+					mailService.writeFile(mailFile);
+				}else {
+					break;
+				}
+			}
+		}
 		return "mail/sendmail";
+	}
+	
+	//메일 write 보내기 팝업
+	@RequestMapping(value = "/mailwritepopup", method = RequestMethod.GET)
+	public String mailWritePopup() {
+		return "mail/mailwritepopup";
 	}
 	
 	//받은메일
 	@RequestMapping(value = "/receivedmail", method = RequestMethod.GET)
-	public String receivedMail() {
+	public String receivedMail(HttpSession session, Model model) {
+		Employee employee = (Employee)session.getAttribute("employee");
+		List<ReceivedMail> receivedMail = mailService.getReceivedMail(employee.getEmpId());
+		model.addAttribute("receivedmail", receivedMail);
 		return "mail/receivedmail";
+	}
+	
+	//보낸 메일
+	@RequestMapping(value = "/sendmail", method = RequestMethod.GET)
+	public String sendMail() {
+		log.info("실행");
+		return "mail/sendmail";
 	}
 	
 	//중요메일
@@ -72,7 +127,9 @@ public class MailController {
 	
 	//주소록 팝업창
 	@RequestMapping(value = "/addresspopup", method = RequestMethod.GET)
-	public String addressPopup() {
+	public String addressPopup(Model model) {
+		List<Employee> employee = mailService.getEmployee();
+		model.addAttribute("emp", employee);
 		return "mail/addresspopup";
 	}
 	

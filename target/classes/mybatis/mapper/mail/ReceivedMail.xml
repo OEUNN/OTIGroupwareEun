@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.mail.dao.ReceivedMail">
+<mapper namespace="com.oti.groupware.mail.dao.ReceivedMailDAO">
 
 	<resultMap id="receivedMailResultMap" type="receivedMail">
 	    <result property="sendMailId" column="send_mail_id"/>
@@ -11,10 +11,9 @@
 	    <result property="recdMailDelDate" column="recd_mail_del_date"/>
 	    <result property="recdMailDelYN" column="recd_mail_del_yn"/>
 	    <result property="recdMailDelCompleteYN" column="recd_mail_del_complete_yn"/>
-	    <result property="recdSR" column="recd_sr"/>
 	</resultMap>
 
-	<select id="getReceivedMail" resultMap="receivedMailResultMap">
+	<select id="getReceivedMailById" resultMap="receivedMailResultMap">
 		SELECT send_mail_id,
 		    emp_id_employees,
 		    recd_mail_importance_yn,
@@ -22,19 +21,30 @@
 		    recd_mail_read_receipt_yn,
 		    recd_mail_del_date,
 		    recd_mail_del_yn,
-		    recd_mail_del_complete_yn,
-		    recd_sr,
+		    recd_mail_del_complete_yn
 		FROM received_mails
-		WHERE send_mail_id = #{sendMailId} AND emp_id_employees = #{empIdEmployees}
+		WHERE emp_id_employees = #{empId}
 	</select>
     
-    <insert id="insertReceivedMail" parameterType="receivedMail">
-        INSERT INTO received_mails (send_mail_id, emp_id_employees, recd_mail_importance_yn,
-            recd_mail_date, recd_mail_read_receipt_yn, recd_mail_del_date, recd_mail_del_yn,
-            recd_mail_del_complete_yn, recd_sr)
-        VALUES (#{sendMailId}, #{empIdEmployees}, #{recdMailImportanceYn}, #{recdMailDate},
-            #{recdMailReadReceiptYn}, #{recdMailDelDate}, #{recdMailDelYn}, #{recdMailDelCompleteYn},
-            #{recdSr})
+    <insert id="insertReceivedMail" parameterType="map">
+        INSERT INTO received_mails (
+        	send_mail_id, 
+        	emp_id_employees, 
+        	recd_mail_importance_yn,
+            recd_mail_date, 
+            recd_mail_read_receipt_yn, 
+            recd_mail_del_date, 
+            recd_mail_del_yn,
+            recd_mail_del_complete_yn)
+        VALUES (
+        	#{sendMailId}, 
+        	#{empId}, 
+        	default, 
+        	default,
+            default, 
+            default, 
+            default, 
+            default)
     </insert>
 
     <update id="updateReceivedMail" parameterType="receivedMail">

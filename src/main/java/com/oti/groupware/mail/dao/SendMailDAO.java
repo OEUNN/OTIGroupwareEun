@@ -7,4 +7,5 @@ public interface SendMailDAO {
     public void insertSendMail(SendMail sendMail);
     public void updateSendMail(SendMail sendMail);
     public void deleteSendMail(int sendMailId);
+	public void insertTempMail(SendMail sendMail);
 }

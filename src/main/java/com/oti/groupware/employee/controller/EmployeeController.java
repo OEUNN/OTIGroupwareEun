@@ -196,6 +196,7 @@ public class EmployeeController {
 	@RequestMapping(value = "/searchdepartment", method = RequestMethod.POST)
 	@ResponseBody
 	public List<Employee> searchDepartment(String depId) {
+		log.info("실행");
 		List<Employee>  depEmployee = new ArrayList<>();
 		depEmployee = employeeService.getDepartment(Integer.parseInt(depId));
 		return depEmployee;
@@ -220,7 +221,6 @@ public class EmployeeController {
 		return new ResponseEntity<byte[]>(employee.getEmpFileData(), headers, HttpStatus.OK);
 	}	
 	
-		
 	//접근권한 페이지
 	@RequestMapping(value="/error", method=RequestMethod.GET)
 	public String errorEmployee() {

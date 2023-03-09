@@ -32,7 +32,7 @@
 						<div class="col-lg-12 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
-									<h4 class="card-title">보낸 메일</h4>
+									<h4 class="card-title">받은 메일</h4>
 									<!-- 검색 태그 -->
 									<div class="row mb-3 mt-5 mx-3">
 										<div class="form-inline" style="border-bottom:1px solid #e9ecef;">
@@ -69,6 +69,10 @@
 												</tr>
 											</thead>
 											<tbody>
+												<c:if test="!empty receivedMail">
+													<c:forEach items="${receivedMail.id}" var="rec">
+													</c:forEach>
+												</c:if>
 												<tr class="text-muted">
 													<td class="form-inline py-1">
 														<div class="form-check font-weight-bold text-info">
