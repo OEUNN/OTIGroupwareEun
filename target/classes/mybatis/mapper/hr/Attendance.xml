@@ -136,16 +136,28 @@
 
 	<!-- 휴가/대체휴무를 위해 미리 테이블에 출/퇴근 데이터 등록 -->
 	<insert id="insertBeforehandAttendance">
-		INSERT INTO attendances (
-			atd_id,
-			emp_id,
-			atd_in_time,
-			atd_state
-		)
-		<![CDATA[
-		SELECT SEQ_ATD_EXCP_ID.NEXTVAL, #{empId}, to_date(to_char(#{levAppStartDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD') + LEVEL - 1, #{levAppCategory}
-		FROM dual
-		CONNECT BY LEVEL <= to_date(to_char(#{levAppEndDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD') - to_date(to_char(#{levAppStartDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD') + 1
-		]]>
+	    INSERT INTO attendances (
+	        atd_id,
+	        emp_id,
+	        atd_in_time,
+	        atd_out_time,
+	        atd_state
+	    )
+	    <![CDATA[
+	    SELECT SEQ_ATD_EXCP_ID.NEXTVAL, #{empId}, 
+	        CASE #{levAppCategory}
+	            WHEN '오전반차' THEN to_date(to_char(#{levAppStartDate}, 'YYYY-MM-DD') || ' 14:00:00', 'YYYY-MM-DD HH24:MI:SS') + LEVEL - 1
+	            WHEN '연차' THEN to_date(to_char(#{levAppStartDate}, 'YYYY-MM-DD') || ' 08:59:00', 'YYYY-MM-DD HH24:MI:SS') + LEVEL - 1
+	            WHEN '대체휴무일' THEN to_date(to_char(#{levAppStartDate}, 'YYYY-MM-DD') || ' 08:59:00', 'YYYY-MM-DD HH24:MI:SS') + LEVEL - 1
+	            ELSE NULL
+	        END,
+	        CASE #{levAppCategory}
+	            WHEN '오후반차' THEN to_date(to_char(#{levAppEndDate}, 'YYYY-MM-DD') || ' 18:00:00', 'YYYY-MM-DD HH24:MI:SS') + LEVEL - 1
+	            ELSE NULL
+	        END,
+	        #{levAppCategory}
+	    FROM dual
+	    CONNECT BY LEVEL <= to_date(to_char(#{levAppEndDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD') - to_date(to_char(#{levAppStartDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD') + 1
+	    ]]>
 	</insert>
 </mapper>

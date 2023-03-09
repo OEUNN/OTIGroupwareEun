@@ -66,7 +66,7 @@ public class HrServiceImpl implements HrService {
 		for(Attendance atd : atdList) {
 			JSONObject  jsonObj = new JSONObject();
 			//과거 근무목록
-			if(atd.getAtdState() != null) {
+			if(atd.getAtdState() != null && !atd.getAtdState().contains("반차")) {
 				if(atd.getAtdState().equals("정상출근")) { //정상출근한 경우
 					//출근
 					jsonObj.put("title", "출근");
@@ -81,9 +81,10 @@ public class HrServiceImpl implements HrService {
 					jsonObj.put("title", "결근");
 					jsonObj.put("start",  formatDate.format(atd.getAtdInTime()));
 					
-				} else if(atd.getAtdState().equals("휴가")) { //휴가인 경우
-					jsonObj.put("title", "휴가");
+				} else if(atd.getAtdState().equals("연차")) { //연차인 경우
+					jsonObj.put("title", "연차");
 					jsonObj.put("start",  formatDate.format(atd.getAtdInTime()));
+					
 				} else if(atd.getAtdState().equals("추가근무")) { //추가근무인 경우
 					//출근
 					jsonObj.put("title", "출근");
@@ -95,6 +96,25 @@ public class HrServiceImpl implements HrService {
 					jsonObj.put("start", formatDate.format(atd.getAtdOutTime()));
 				}
 				jsonArr.put(jsonObj);
+				
+			} else if(atd.getAtdState() != null && atd.getAtdState().contains("반차")) {
+				jsonObj.put("title", atd.getAtdState());
+				jsonObj.put("start",  formatDate.format(atd.getAtdInTime()));
+				jsonArr.put(jsonObj);
+				//출근이 있을 경우
+				if(atd.getAtdInTime() != null) { 
+					jsonObj = new JSONObject();
+					jsonObj.put("title", "출근");
+					jsonObj.put("start", formatDate.format(atd.getAtdInTime()));
+					jsonArr.put(jsonObj);
+				}
+				//퇴근이 있을 경우
+				if(atd.getAtdOutTime() != null) { 
+					jsonObj = new JSONObject();
+					jsonObj.put("title", "퇴근");
+					jsonObj.put("start", formatDate.format(atd.getAtdOutTime()));
+					jsonArr.put(jsonObj);
+				}
 				
 			//오늘 근무목록 or 과거에 지각/조퇴한경우
 			} else if(atd.getAtdState() == null && atd.getAtdInTime() != null) {
@@ -219,6 +239,15 @@ public class HrServiceImpl implements HrService {
 	//휴가신청서 등록하기
 	@Override
 	public void writeleaveApplication(LeaveApplication leaveApplication) {
+		//반차일 경우에는 카운팅되는 잔여일수가 다름
+		if(leaveApplication.getLevAppCategory().contains("반차")) { 
+   			leaveApplication.setLevPeriod(leaveApplication.getLevPeriod()*0.5);
+		}
+		//기존에 있던 잔여일수 차감(카운팅)
+		String kind = "신청";
+		leaveApplicationDAO.updateEmployeeReserve(leaveApplication.getEmpId(), leaveApplication.getLevAppCategory(), leaveApplication.getLevPeriod(), kind);
+		
+		//휴가신청테이블에 데이터 추가
 		leaveApplicationDAO.insertLeaveApplication(leaveApplication);
 	}
 	
@@ -237,8 +266,8 @@ public class HrServiceImpl implements HrService {
 	
 	//(부서장) 근무신청 결재 상세조회
 	@Override
-	public AttendanceException attendanceExcptionApprovalDetail(int atdExcpId) {
-		return attendanceExceptionDAO.getAttendanceExcptionApprovalDetail(atdExcpId);
+	public AttendanceException attendanceExcptionApprovalDetail(int atdExcpId, String atdExcpCategory) {
+		return attendanceExceptionDAO.getAttendanceExcptionApprovalDetail(atdExcpId, atdExcpCategory);
 	}
 
 	//휴가 신청 결재목록의 전체 행의 수를 가져옴
@@ -265,25 +294,22 @@ public class HrServiceImpl implements HrService {
 	public void leaveApplicationApprovalProcessState(LeaveApplication leaveApplication) {
 		//승인했을 경우에만 적용
 		if(leaveApplication.getLevAppProcessState().equals("승인")) {
-			log.info("승인왔따!");
-			//반차일 경우에는 카운팅되는 잔여일수가 다름
-			if(leaveApplication.getLevAppCategory().equals("반차")) {
-				leaveApplication.setLevPeriod(leaveApplication.getLevPeriod()*0.5);
-				log.info("반차왔따!");
-			}
-			//잔여 일수 바꾸기
-			leaveApplicationDAO.updateEmployeeReserve(leaveApplication.getEmpId(), leaveApplication.getLevAppCategory(), leaveApplication.getLevPeriod());
-			log.info("잔여일수 바꿈?");
-			
 			//신청날짜에 해당하는 Attendances 데이터를 미리 만든 후, 근무상태를 변경
 			attendanceDAO.insertBeforehandAttendance(leaveApplication);
-			log.info("출석 등록!");
+		} else { //반려일 경우
+			//차감되었던 잔여일수를 원래대로 복귀
+			String kind = "결재";
+			leaveApplicationDAO.updateEmployeeReserve(leaveApplication.getEmpId(), leaveApplication.getLevAppCategory(), leaveApplication.getLevPeriod(), kind);
 		}
 		
 		leaveApplicationDAO.updateLeaveApplicationProcessState(leaveApplication);
-		log.info("수정!");
 	}
 	
+	//잔여 일수 가져옴
+	@Override
+	public Employee empReserveInfo(String empId) {
+		return leaveApplicationDAO.getEmpReserveInfo(empId);
+	}
 	
 	
 }

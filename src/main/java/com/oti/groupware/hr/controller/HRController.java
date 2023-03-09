@@ -221,10 +221,10 @@ public class HRController {
 	 * @return 근무신청서(근무시간수정, 추가근무보고) 상세조회 팝업창
 	 */
 	@RequestMapping(value = "/atdexcpapprovaldetail")
-	public String attendanceExceptionApprovalDetail(@RequestParam int atdExcpId, Model model) {
+	public String attendanceExceptionApprovalDetail(@RequestParam int atdExcpId, @RequestParam String atdExcpCategory, Model model) {
 		log.info("정보 로그");
 		//신청서의 상세내용 가져오기
-		AttendanceException atdExcp = hrService.attendanceExcptionApprovalDetail(atdExcpId);
+		AttendanceException atdExcp = hrService.attendanceExcptionApprovalDetail(atdExcpId, atdExcpCategory);
 		model.addAttribute("atdExcp", atdExcp);
 		
 		//유형에 따라 근무시간수정서 or 추가근무보고서 팝업을 리턴
@@ -287,11 +287,10 @@ public class HRController {
 //		HashMap<String, Integer> atdExcpStats = hrService.attendanceExceptionStats(empId);
 //		model.addAttribute("atdExcpStats", atdExcpStats);
 		
-		//잔여연차와 대체휴무일수(세션에서 가져오기)
-		int leaveReserve = employee.getEmpLeaveReserve();
-		int substitueReserve = employee.getEmpSubstitueReserve();
-		model.addAttribute("leaveReserve", leaveReserve);
-		model.addAttribute("substitueReserve", substitueReserve);
+		//잔여연차와 대체휴무일수 가져오기
+		Employee emp = hrService.empReserveInfo(empId);
+		model.addAttribute("leaveReserve", emp.getEmpLeaveReserve());
+		model.addAttribute("substitueReserve", emp.getEmpSubstitueReserve());
 		
 		//작성폼에 필요한 정보를 가져옴
 		HashMap<String, String> empFormInfo = hrService.empFormInfoMap(empId); //신청양식에 필요한 정보 갖고옴(나중에 employeeSerivce에 넣기)
@@ -339,9 +338,16 @@ public class HRController {
 	 * @return redirect:/나의 휴가 페이지
 	 */
 	@RequestMapping(value = "/levapplicationform", method=RequestMethod.POST)
-	public String myLeaveApplication(LeaveApplication leaveApplication) {
+	public String myLeaveApplication(LeaveApplication leaveApplication, HttpSession session) {
 		log.info("정보 로그");
+		
+		//세션에 저장된 직원ID 저장
+		Employee employee = (Employee) session.getAttribute("employee"); 
+		leaveApplication.setEmpId(employee.getEmpId());
+		
+		//휴가신청서 등록
 		hrService.writeleaveApplication(leaveApplication);
+		
 		return "redirect:/hr/myleave";
 	}
 	
@@ -450,19 +456,21 @@ public class HRController {
 	}
 
 	/**
-	 * 휴가신청 승인/반려 완려 (AJAX)
+	 * 휴가신청 승인/반려 완료 (AJAX)
 	 * @author 한송민
 	 * @param
 	 * @return 휴가신청결재 상세조회
 	 */
 	@RequestMapping(value = "/levappaprvstatecomplete")
-	public String hrLevApplicationApprovalProcessComplete(@RequestParam String levAppProcessState, @RequestParam int levAppId ,Model model) {
+	public String hrLevApplicationApprovalProcessComplete(@RequestParam String levAppProcessState, @RequestParam int levAppId, @RequestParam String levAppOpinion, Model model) {
 		log.info("정보 로그");
 		//leaveApplication 정보 가져오기
 		LeaveApplication levApp = hrService.leaveApplicationApprovalDetail(levAppId);
-		levApp.setLevAppProcessState(levAppProcessState);
-		log.info("제바라ㅣ어ㅣㅁ" + levApp.toString());
+		levApp.setLevAppProcessState(levAppProcessState); //승인, 반려 넣기
+		
+		//신청 내역 결재 로직
 		hrService.leaveApplicationApprovalProcessState(levApp);
+		
 		return LeaveApplicationApprovalDetail(levAppId, model);
 	}
 }

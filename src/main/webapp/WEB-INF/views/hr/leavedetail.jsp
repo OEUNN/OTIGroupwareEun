@@ -28,51 +28,42 @@
 <script>
 	//form 내용 제출 후, 이동
 	function levAppAprv(state, id) {
-// 		if ($('#textarea-reason').val()) {
-// // 			location.href = "<c:url value='/hr/hrapplication'/>";
-// // 			window.close();
-// 		}
-		
 		//"승인" 버튼을 눌렀을 경우
 		if(state == "승인") {
 			$.ajax({
 				type: 'GET',
 				url: '../hr/levappaprvstatecomplete',
-				data: {levAppProcessState: state, levAppId: id},
+				data: {levAppProcessState: state, levAppId: id, levAppOpinion: null},
 				error: function() {
 					alert('결재를 실패하였습니다.');
 				},
 				success: function(data) {
 					$('#lev-app-aprv-detail').html(data);
-					$('#aprv-state').html('<div class="badge badge-success font-weight-bold text-white">승인</div>');
+					$('#aprv-state' + id).html('<div class="badge badge-success font-weight-bold text-white">승인</div>');
 				}
 			});
+			
+		//"반려" 버튼을 눌렀을 경우
 		} else if(state == "반려") {
 			$("#refuse-reason").css("display", "block");
 			$("#cancel-btn").css("display", "block");
 			$("#approve-btn").css("display", "none");
 			
 			let opinion = $("#textarea-reason").val(); //반려사유 선택
+			
 			$.ajax({
 				 type : 'GET',
 				 url : "../hr/levappaprvstatecomplete",
-				 data : {levAppProcessState: data, levAppId: id, levAppOpinion: opinion},
+				 data : {levAppProcessState: state, levAppId: id, levAppOpinion: opinion},
 				 error : function() {
 					 alert('통신실패!');
 				 },
 				 success : function(data) {
 					 $('#lev-app-aprv-detail').html(data);
+					 $('#aprv-state' + id).html('<div class="badge badge-danger font-weight-bold text-white">반려</div>');
 				 }
 			 });
 		}
-	}
-
-	//취소버튼
-	function cancel() {
-		$('#textarea-reason').val('');
-		$("#refuse-reason").css("display", "none");
-		$("#cancel-btn").css("display", "none");
-		$("#approve-btn").css("display", "block");
 	}
 </script>
 <!-- End plugin css,js for this page -->
@@ -205,10 +196,10 @@
 			<c:if test="${(sessionScope.employee.empId eq levApp.levAppApprovalEmpId) && (levApp.levAppProcessState eq '미처리') }">
 				<div class="row px-5 mt-3 justify-content-end">
 					<button id="approve-btn" onclick="levAppAprv('승인', '${levApp.levAppId}')" type="button" class="btn btn-primary mr-2">승인</button>
-					<button id="cancel-btn" onclick="cancel()" type="button"
-						class="btn btn-inverse-primary mr-2" style="display: none">취소</button>
-					<button onclick="levAppAprv('반려', '${levApp.levAppId}')" type="button"
-						class="btn btn-danger mr-2">반려</button>
+					<button id="first-refuse-btn" onclick="refuseBtn()" type="button" class="btn btn-danger mr-2">반려</button>
+					<!-- 반려사유 작성 후, -->
+					<button id="cancel-btn" onclick="cancel()" type="button" class="btn btn-inverse-primary mr-2" style="display: none">취소</button>
+					<button id="second-refuse-btn" onclick="levAppAprv('반려', '${levApp.levAppId}')" type="button" class="btn btn-danger mr-2" style="display: none">반려</button>
 				</div>
 			</c:if>
 			<!-- 변경내용:end -->

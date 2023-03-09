@@ -82,7 +82,7 @@
 												pattern="yyyy-MM-dd" />
 									</small></td>
 									<td class="px-2 py-1 text-center">${levApp.levAppApprovalEmpName}</td>
-									<td id="aprv-state" class="px-2 py-1 text-center">
+									<td id="aprv-state${levApp.levAppId}" class="px-2 py-1 text-center">
 										<!-- 결재상태 --> 
 										<c:if test="${levApp.levAppProcessState == '미처리'}">
 											<div class="badge badge-secondary font-weight-bold text-white">${levApp.levAppProcessState}</div>

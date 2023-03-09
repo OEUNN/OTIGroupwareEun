@@ -157,40 +157,42 @@
 	
 	<!-- 근무신청결재서(부서장) - 상세조회 -->
 	<select id="getAttendanceExcptionApprovalDetail" resultMap="attendanceExceptionResultMap">
-		SELECT 
-		    ( SELECT e.emp_name  
-		        FROM  employees e, attendance_exceptions ae  
-		        WHERE e.emp_id = ae.emp_id 
-		            AND ae.atd_excp_id = #{atdExcpId}) AS emp_name,
-		    ( SELECT to_char(a.atd_in_time, 'HH:mi')
-		        FROM  attendances a,  attendance_exceptions ae1 
-		        WHERE a.emp_id = ae1.emp_id  
-		            AND to_char(ae1.atd_excp_date, 'yyyy-MM-DD') = to_char(a.atd_in_time, 'yyyy-MM-DD')
-		            AND ae1.atd_excp_id = #{atdExcpId}
-		    ) AS atd_in_time,
-		    ( SELECT to_char(a1.atd_out_time, 'HH:mi')
-		        FROM  attendances a1,  attendance_exceptions ae2 
-		        WHERE a1.emp_id = ae2.emp_id  
-		            AND to_char(ae2.atd_excp_date, 'yyyy-MM-DD') = to_char(a1.atd_in_time, 'yyyy-MM-DD')
-		            AND ae2.atd_excp_id = #{atdExcpId}
-		    ) AS atd_out_time,
-		    ae3.atd_excp_id,
-		    ae3.atd_excp_reason,
-		    ae3.atd_excp_category,
-		    ae3.atd_excp_in_time,
-		    ae3.atd_excp_out_time,
-		    ae3.atd_excp_process_state,
-		    to_char(ae3.atd_excp_date, 'yyyy-MM-DD') AS atd_excp_date,
-		    to_char(ae3.atd_excp_process_date, 'yyyy-MM-DD') AS atd_excp_process_date,
-		    ae3.atd_excp_approval_emp_id,
-		    ae3.atd_excp_approval_emp_name,
-		    ae3.atd_excp_opinion
-		FROM 
-		    attendance_exceptions ae3, employees e1
-		WHERE
-		    ae3.atd_excp_approval_emp_id = e1.emp_id
-		AND
-		    ae3.atd_excp_id = #{atdExcpId}
+			SELECT 
+			    ( SELECT e.emp_name  
+			        FROM  employees e, attendance_exceptions ae  
+			        WHERE e.emp_id = ae.emp_id 
+			            AND ae.atd_excp_id = #{atdExcpId}) AS emp_name,
+			<if test="atdExcpCategory == '근무시간수정'">
+			    ( SELECT to_char(a.atd_in_time, 'HH:mi')
+			        FROM  attendances a,  attendance_exceptions ae1 
+			        WHERE a.emp_id = ae1.emp_id  
+			            AND to_char(ae1.atd_excp_date, 'yyyy-MM-DD') = to_char(a.atd_in_time, 'yyyy-MM-DD')
+			            AND ae1.atd_excp_id = #{atdExcpId}
+			    ) AS atd_in_time,
+			    ( SELECT to_char(a1.atd_out_time, 'HH:mi')
+			        FROM  attendances a1,  attendance_exceptions ae2 
+			        WHERE a1.emp_id = ae2.emp_id  
+			            AND to_char(ae2.atd_excp_date, 'yyyy-MM-DD') = to_char(a1.atd_in_time, 'yyyy-MM-DD')
+			            AND ae2.atd_excp_id = #{atdExcpId}
+			    ) AS atd_out_time,
+			</if>
+			    ae3.atd_excp_id,
+			    ae3.atd_excp_reason,
+			    ae3.atd_excp_category,
+			    ae3.atd_excp_in_time,
+			    ae3.atd_excp_out_time,
+			    ae3.atd_excp_process_state,
+			    to_char(ae3.atd_excp_date, 'yyyy-MM-DD') AS atd_excp_date,
+			    to_char(ae3.atd_excp_process_date, 'yyyy-MM-DD') AS atd_excp_process_date,
+			    ae3.atd_excp_approval_emp_id,
+			    ae3.atd_excp_approval_emp_name,
+			    ae3.atd_excp_opinion
+			FROM 
+			    attendance_exceptions ae3, employees e1
+			WHERE
+			    ae3.atd_excp_approval_emp_id = e1.emp_id
+			AND
+			    ae3.atd_excp_id = #{atdExcpId}
 	</select>
 
 

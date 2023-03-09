@@ -47,8 +47,10 @@
 							}
 						} else if(eventTitle == '결근' ) {
 							return { html : '<div class="h4 mt-2 mb-0 font-weight-bold" style="color:rgba(163, 164, 165, 0.9)">결근</div>' }
-						} else if(eventTitle == '휴가') {
+						} else if(eventTitle == '연차') {
 							return { html : '<div class="btn btn-md font-weight-bold px-5" style="background-color:rgba(163, 164, 165, 0.3); color:#5b5b5e;">휴가</div>' }
+						} else if(eventTitle == '오전반차' || eventTitle == '오후반차') {
+							return { html : '<div class="btn btn-md font-weight-bold px-3 py-1" style="background-color:rgba(163, 164, 165, 0.3); color:#5b5b5e;">'+ eventTitle +'</div>' }
 						} else if(eventTitle == '추가근무') {
 							return { html : '<div class="badge" style="background-color:#FDD36A; padding: 7px 5px; font-size:5%;">추가근무 ' + eventTime + '</div>' }
 						} else if($('.fc-holiday-ko')){

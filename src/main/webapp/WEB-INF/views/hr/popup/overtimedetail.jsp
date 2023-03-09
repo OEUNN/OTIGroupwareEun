@@ -59,7 +59,7 @@
 			                              </tr>
 			                              <tr class="custom-border-left custom-border-right">
 			                                 <td class="custom-border-right"><h4 class="font-weight-bold text-center m-0">결재자</h4></td>
-			                                 <td>${atdExcp.atdExcpApprovalEmp}</td>
+			                                 <td>${atdExcp.atdExcpApprovalEmpName}</td>
 			                                 <td></td>
 			                                 <td></td>
 			                                 <td class="custom-border-left custom-border-right"><h4 class="font-weight-bold text-center m-0">신청결과</h4></td>

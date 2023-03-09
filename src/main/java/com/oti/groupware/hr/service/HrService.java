@@ -6,6 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 
 import com.oti.groupware.common.Pager;
+import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.hr.dto.Attendance;
 import com.oti.groupware.hr.dto.AttendanceException;
 import com.oti.groupware.hr.dto.LeaveApplication;
@@ -18,6 +19,7 @@ public interface HrService {
 	public void outTime(String empId);
 	public void attendanceStateAll();
 	public HashMap<String, String> empFormInfoMap(String empId);
+	public Employee empReserveInfo(String empId);
 	public void writeAttendanceExceptionApplication(AttendanceException attendanceException);
 	public int attendanceExceptionRowsCount(String startDate, String endDate, String empId);
 	public List<AttendanceException> attendanceExceptionList(String startDate, String endDate, String empId, Pager pager);
@@ -31,7 +33,7 @@ public interface HrService {
 	public List<AttendanceException> attendanceExcptionApprovalList(String startDate, String endDate, String empId, Pager pager);
 	public int leaveApplicationApprovalRowsCount(String startDate, String endDate, String empId);
 	public List<AttendanceException> leaveApplicationApprovalList(String startDate, String endDate, String empId, Pager pager);
-	public AttendanceException attendanceExcptionApprovalDetail(int atdExcpId);
+	public AttendanceException attendanceExcptionApprovalDetail(int atdExcpId, String atdExcpCategory);
 	
 	public LeaveApplication leaveApplicationApprovalDetail(int levAppId);
 	public void leaveApplicationApprovalProcessState(LeaveApplication leaveApplication);

@@ -14,38 +14,6 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
 	<script src="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 	
-	<style>
-		/* 목록 작아지기 */
-/* 	    .activelist { */
-/* 	    	animation: smallList 0.8s ease-in-out; */
-/* 	    	left: -100px; */
-/* 	    } */
-/* 	    @keyframes smallList { */
-/* 	        from { left: 0; } */
-/* 	        to { left: -100px; } */
-/* 	    } */
-	    
-		/* 상세조회 키우기 */
-/* 	    .activedetail { */
-/*  	    	animation: bigdetail 1s ease-in-out; */
-/* 	    	top: 70px; */
-/* 	    	left: -100px; */
-/* 	    } */
-/* 	     @keyframes bigdetail { */
-/* 	        from { top: 0; left: -100px; } */
-/* 	        to { top: 70px; left: -100px; } */
-/* 	    } */
-	    
-		/* 목록 원래대로 */
-/* 	    .originlist { */
-/* 	    	animation: originList 0.8s ease-in-out; */
-/* 	    } */
-/* 	    @keyframes originList { */
-/* 	        from { left: -100px; } */
-/* 	        to { left: 0; } */
-/* 	    } */
-	</style>
-	
 	<script>
 	   	/* AJAX통신 - 근무신청결재내역 페이징 목록 */
    		function atdExcpPaging(i) {
@@ -84,26 +52,19 @@
    		}
 	   	
    		/* AJAX통신 -근무신청내역 상세보기*/
-   		function atdAppDetail(id) {
+   		function atdAppDetail(id, category) {
    			$.ajax({
                 type: "GET",
-                url: "../hr/atdexcpapprovaldetail?atdExcpId=" + id,
+                url: "../hr/atdexcpapprovaldetail?atdExcpId=" + id + "&atdExcpCategory=" + category,
                 error: function () {
                 	alert("통신실패!");
                 },
                 success: function (data) {
-                	//근무신청내역 목록 애니메이션
-//                 	$('#atd-excp-aprv-list').removeClass('originlist');
-//                     $("#atd-excp-aprv-list").css("transform", "scale(0.7)");
-//                     $('#atd-excp-aprv-list').addClass('activelist');
-//                     $("#atd-excp-aprv-list").css('animation-play-state', 'running');
                     //휴가신청내역 목록이 숨기기
                     $("#lev-app-aprv-list").hide();
 					//AJAX 통신에 의해 상세조회 내용 넣기
                     $("#atd-excp-aprv-detail").hide().fadeIn(500);
                     $('#atd-excp-aprv-detail').html(data);
-//                     $("#atd-excp-aprv-detail").css("transform", "scale(1.3)");
-//                     $('#atd-excp-aprv-detail').addClass('activedetail');
                 }
         	});
    		}
@@ -128,14 +89,6 @@
    		
    		/* 근무신청 자세히보기에서 X버튼 누르면 다시 목록 커짐 */
    		function backAtdList() {
-   			//목록 원래대로
-//    			$('#atd-excp-aprv-list').removeClass('activelist');
-//    		 	$("#atd-excp-aprv-list").hide().fadeIn(500);
-//    			$("#atd-excp-aprv-list").css("transform", "scale(1)");
-//    			$('#atd-excp-aprv-list').addClass('originlist');
-   			//상세조회 원래대로
-//    			$('#atd-excp-aprv-detail').removeClass('activedetail');
-//    			$('#atd-excp-aprv-detail').css("transform", "scale(1)");
    			$("#atd-excp-aprv-detail").hide().fadeOut(500);
    			//숨겨놓은 휴가신청내역 목록 보이기
             $("#lev-app-aprv-list").hide().fadeIn(700);
@@ -147,6 +100,25 @@
    			$("#lev-app-aprv-detail").hide();
    			//숨겨놓은 휴가신청내역 목록 보이기
             $("#atd-excp-aprv-list").hide().fadeIn(700);
+   		}
+   		
+   		//첫번째 반려버튼을 눌렀을 경우, 반려사유 작성란이 뜸
+   		function refuseBtn() {
+   			$("#refuse-reason").css("display", "block");
+   			$("#cancel-btn").css("display", "block");
+   			$("#first-refuse-btn").css("display", "none");
+   			$("#second-refuse-btn").css("display", "block");
+   			$("#approve-btn").css("display", "none");
+   		}	
+   		
+   		//취소버튼
+   		function cancel() {
+   			$('#textarea-reason').val('');
+   			$("#refuse-reason").css("display", "none");
+   			$("#cancel-btn").css("display", "none");
+   			$("#second-refuse-btn").css("display", "none");
+   			$("#first-refuse-btn").css("display", "block");
+   			$("#approve-btn").css("display", "block");
    		}
 	</script>
 	<!-- End plugin css,js for this page -->

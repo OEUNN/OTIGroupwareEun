@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.oti.groupware.common.Pager;
+import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.hr.dto.AttendanceException;
 import com.oti.groupware.hr.dto.LeaveApplication;
 
@@ -21,6 +22,7 @@ public interface LeaveApplicationDAO {
 	public int getLeaveApplicationApprovalRowsCount(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("empId") String empId);
 	public List<AttendanceException> getLeaveApplicationApprovalList(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("empId") String empId, @Param("pager") Pager pager);
 	public LeaveApplication getLeaveApplicationApprovalDetail(@Param("levAppId") int levAppId);
-	public void updateEmployeeReserve(@Param("empId") String empId, @Param("levAppCategory") String levAppCategory, @Param("levPeriod") double levPeriod);
+	public Employee getEmpReserveInfo(@Param("empId") String empId);
+	public void updateEmployeeReserve(@Param("empId") String empId, @Param("levAppCategory") String levAppCategory, @Param("levPeriod") double levPeriod, @Param("kind") String kind);
 	public void updateLeaveApplicationProcessState(LeaveApplication leaveApplication);
 }
