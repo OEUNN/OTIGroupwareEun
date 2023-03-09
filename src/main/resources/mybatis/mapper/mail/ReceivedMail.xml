@@ -12,6 +12,12 @@
 	    <result property="recdMailDelYN" column="recd_mail_del_yn"/>
 	    <result property="recdMailDelCompleteYN" column="recd_mail_del_complete_yn"/>
 	</resultMap>
+	
+	<select id="getMailTotalRow" parameterType="string" resultType="int">
+		select count(send_mail_id)
+		from received_mails
+		where emp_id_employees = #{empId} and recd_mail_del_yn = 'N'
+	</select>
 
 	<select id="getReceivedMailById" resultMap="receivedMailResultMap">
 		SELECT send_mail_id,
@@ -23,7 +29,10 @@
 		    recd_mail_del_yn,
 		    recd_mail_del_complete_yn
 		FROM received_mails
-		WHERE emp_id_employees = #{empId}
+		WHERE emp_id_employees = #{empId} and recd_mail_del_yn = 'N'
+		order by  recd_mail_date desc
+		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
+		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
 	</select>
     
     <insert id="insertReceivedMail" parameterType="map">

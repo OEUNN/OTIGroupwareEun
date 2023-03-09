@@ -13,9 +13,24 @@
 		<result property="sendMailDelYN" column="send_mail_del_yn"/>
 		<result property="sendMailDelCompleteYN" column="send_mail_del_complete_yn"/>
 	</resultMap>
+	
+	<select id="getEmpIdById" parameterType="int" resultType="string">
+		select emp_id
+		from send_mails
+		where send_mail_id =#{sendMailId}
+	</select>
+	
+	<select id="getTitleById" parameterType="int" resultType="string">
+		select send_mail_title
+		from send_mails
+		where send_mail_id=#{sendMailId}
+	</select>
 
 	<select id="getSendMailById" resultMap="sendMailMap" parameterType="int">
-		SELECT send_mail_id, emp_id, send_mail_title, send_mail_content, send_mail_importance_yn, send_mail_date, send_mail_temp_yn, send_mail_del_yn, send_mail_del_complete_yn 
+		SELECT send_mail_id, emp_id, send_mail_title, 
+			send_mail_content, send_mail_importance_yn, 
+			send_mail_date, send_mail_temp_yn, 
+			send_mail_del_yn, send_mail_del_complete_yn 
 		FROM send_mails
 		WHERE send_mail_id = #{sendMailId}
 	</select>

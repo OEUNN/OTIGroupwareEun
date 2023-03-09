@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.oti.groupware.common.Pager;
 import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.mail.dto.MailFile;
 import com.oti.groupware.mail.dto.ReceivedMail;
@@ -39,7 +40,6 @@ public class MailController {
 			String[] arr = receive.split(",");
 			mailService.writeMail(sendMail, arr);
 		}
-		log.info(sendMail);
 		List<MultipartFile> mFileList = sendMail.getFileList();
 		if(mFileList != null && !mFileList.isEmpty()) {
 			for(MultipartFile mFile : mFileList) {
@@ -69,9 +69,17 @@ public class MailController {
 	//받은메일
 	@RequestMapping(value = "/receivedmail", method = RequestMethod.GET)
 	public String receivedMail(HttpSession session, Model model) {
+		log.info("실행");
 		Employee employee = (Employee)session.getAttribute("employee");
-		List<ReceivedMail> receivedMail = mailService.getReceivedMail(employee.getEmpId());
+		int totalRows = mailService.mailRowsCount(employee.getEmpId());
+		//페이저 객체 생성
+		Pager pager = new Pager(10, 5, totalRows, 1);
+		log.info("1");
+		List<ReceivedMail> receivedMail = mailService.getReceivedMail(employee.getEmpId(), pager);
+		log.info("2");
 		model.addAttribute("receivedmail", receivedMail);
+		model.addAttribute("pager", pager);
+		log.info(receivedMail);
 		return "mail/receivedmail";
 	}
 	

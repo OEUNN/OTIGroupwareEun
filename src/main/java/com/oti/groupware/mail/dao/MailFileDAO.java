@@ -7,4 +7,5 @@ public interface MailFileDAO {
     public void updateMailFile(MailFile mailsFile);
     public void deleteMailFile(int mailFileId);
 	public void insertMailFile(MailFile mailFile);
+	public int getFileYN(int sendMailId);
 }

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -68,172 +69,43 @@
 													<th class="col-2">날짜</th>
 												</tr>
 											</thead>
-											<tbody>
-												<c:if test="!empty receivedMail">
-													<c:forEach items="${receivedMail.id}" var="rec">
+												<tbody>
+													<c:forEach items="${receivedmail}" var="recd">
+														<c:if test="${recd.recdMailReadReceiptYN == 'Y'}">
+															<tr class="text-muted">
+														</c:if>
+														<c:if test="${recd.recdMailReadReceiptYN == 'N'}">
+															<tr>
+														</c:if>
+															<td class="form-inline py-1">
+																<div class="form-check font-weight-bold text-info">
+																	<label class="form-check-label">
+																		<input type="checkbox" class="form-check-input" name="optradio">
+																	</label>
+																</div>
+																<button>
+																	<c:if test="${recd.recdMailImportanceYN == 'Y'}">
+																		<i class="h3 mdi mdi-star text-primary"></i>
+																	</c:if>
+																	<c:if test="${recd.recdMailImportanceYN == 'N'}">
+																		<i class="h3 mdi mdi-star-outline text-primary"></i>
+																	</c:if>
+																</button>
+															</td>
+															<td>
+																<c:if test="${recd.fileYN == Y}">
+																	<i class="h3 mdi mdi-paperclip text-primary"></i>
+																</c:if>
+															</td>
+															<td><i class="mdi mdi-arrow-left text-primary"></i>${recd.empId}</td>
+															<td>${recd.sendMailTitle}</td>
+															
+															<td>
+																<fmt:formatDate pattern="MM월 dd일   HH:mm:ss" value="${recd.recdMailDate}"/>
+															</td>
+														</tr>
 													</c:forEach>
-												</c:if>
-												<tr class="text-muted">
-													<td class="form-inline py-1">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
-															<i class="h3 mdi mdi-star-outline text-primary"></i>
-														</button>
-													</td>
-													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td><i class="mdi mdi-arrow-left text-primary"></i>신문영</td>
-													<td><u>요청부탁드립니다.</u></td>
-													<td>2023/02/21</td>
-												</tr>
-												<tr>
-													<td class="form-inline py-1">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
-															<i class="h3 mdi mdi-star-outline  text-primary"></i>
-														</button>
-													</td>
-													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td><i class="mdi mdi-arrow-left text-primary"></i>장영은</td>
-													<td>공공사업 1DIV 장영은 사원입니다.</td>
-													<td>2023/02/21</td>
-												</tr>
-												<tr>
-													<td class="form-inline py-1">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
-															<i class="h3 mdi mdi-star-outline  text-primary"></i>
-														</button>
-													</td>
-													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td><i class="mdi mdi-arrow-left text-primary"></i>한송민</td>
-													<td>화면설계서 입니다.</td>
-													<td>2023/02/21</td>
-												</tr>
-												<tr>
-													<td class="form-inline py-1">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
-															<i class="h3 mdi mdi-star text-primary"></i>
-														</button>
-													</td>
-													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td><i class="mdi mdi-arrow-left text-primary"></i>장영은</td>
-													<td>화면 설계서입니다. 확인부탁드립니다.</td>
-													<td>2023/02/21</td>
-												</tr>
-												<tr>
-													<td class="form-inline py-1">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
-															<i class="h3 mdi mdi-star text-primary"></i>
-														</button>
-													</td>
-													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td><i class="mdi mdi-arrow-left text-primary"></i>한송민</td>
-													<td>자료요쳥서입니다.</td>
-													<td>2023/02/21</td>
-												</tr>
-												<tr>
-													<td class="form-inline py-1">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
-															<i class="h3 mdi mdi-star-outline  text-primary"></i>
-														</button>
-													</td>
-													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td><i class="mdi mdi-arrow-left text-primary"></i>이유진</td>
-													<td>결제 요청서입니다.</td>
-													<td>2023/02/21</td>
-												</tr>
-												<tr>
-													<td class="form-inline py-1">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
-															<i class="h3 mdi mdi-star-outline  text-primary"></i>
-														</button>
-													</td>
-													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td><i class="mdi mdi-arrow-left text-primary"></i>안태환</td>
-													<td>이번주 들어온 문의내용 정리입니다.</td>
-													<td>2023/02/21</td>
-												</tr>
-												<tr>
-													<td class="form-inline py-1">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
-															<i class="h3 mdi mdi-star text-primary"></i>
-														</button>
-													</td>
-													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td><i class="mdi mdi-arrow-left text-primary"></i>이지호</td>
-													<td>SRM 화면 설계서입니다.</td>
-													<td>2023/02/21</td>
-												</tr>
-												<tr>
-													<td class="form-inline py-1">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
-															<i class="h3 mdi mdi-star-outline text-primary"></i>
-														</button>
-													</td>
-													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td><i class="mdi mdi-arrow-left text-primary"></i>장영은</td>
-													<td>청구결제서 요청합니다.</td>
-													<td>2023/02/21</td>
-												</tr>
-												<tr>
-													<td class="form-inline py-1">
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-														<button>
-															<i class="h3 mdi mdi-star-outline text-primary"></i>
-														</button>
-													</td>
-													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td><i class="mdi mdi-arrow-left text-primary"></i>장현</td>
-													<td>front 요청서입니다.</td>
-													<td>2023/02/21</td>
-												</tr>
-											</tbody>
+												</tbody>
 										</table>
 									</div>
 									<!-- 테이블 끝 -->
@@ -246,13 +118,31 @@
 									</div><!-- 하단 버튼 -->
 
 									<!-- 페이징 -->
-									<div class="row mt-3 d-flex justify-content-center">
-										<ul class="pagination  pb-0 mb-0">
-											<li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
-											<li class="page-item active" ><a class="page-link" href="#">1</a></li>
-											<li class="page-item"><a class="page-link" href="#">2</a></li>
-											<li class="page-item"><a class="page-link" href="#">3</a></li>
-											<li class="page-item"><a class="page-link" href="#">다음</a></li>
+									<div class="row mt-5 d-flex justify-content-center">
+										<ul class="pagination pb-0 mb-0">
+											<!-- 이전 -->
+											<c:if test="${pager.groupNo > 1}">
+												<li class="page-item disabled">
+													<a class="page-link" href="<c:url value=''/>">이전</a>
+												</li>
+											</c:if>
+											<c:forEach var="i" begin="${pager.startPageNo}"
+													end="${pager.endPageNo}" step="1">
+												<!-- 선택할 페이지 -->
+												<c:if test="${pager.pageNo != i}">
+													<li class="page-item"><a class="page-link"
+														href="<c:url value=''/>">${i}</a>
+													</li>
+												</c:if>
+												<!-- 현재페이지 -->
+												<c:if test="${pager.pageNo == i}">
+													<li class="page-item active"><a class="page-link">${i}</a></li>
+												</c:if>
+											</c:forEach>
+											<c:if test="${pager.groupNo < pager.totalGroupNo}">
+												<li class="page-item"><a class="page-link"
+													href="<c:url value=''/>">다음</a></li>
+											</c:if>
 										</ul>
 									</div>
 								</div>

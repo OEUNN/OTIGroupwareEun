@@ -10,6 +10,12 @@
         <result column="mail_file_type" property="mailFileType" />
         <result column="mail_file_length" property="mailFileLength" />
     </resultMap>
+    
+    <select id="getFileYN" parameterType="int" resultType="int">
+    	select count(mail_file_id)
+    	from mails_files
+    	where send_mail_id = #{sendMailId}
+    </select>
 
     <select id="getMailFileById" parameterType="int" resultMap="mailsFileResult">
         SELECT
