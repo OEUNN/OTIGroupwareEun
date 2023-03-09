@@ -21,6 +21,16 @@ public class Document {
     private String docReadYn;
     private String docTempYn;
     private int docAprvStep;
+    private int docMaxStep;
     
     private Employee employee;
+
+	@Override
+	public String toString() {
+		return "Document [docId=" + docId + ", empId=" + empId + ", docType=" + docType + ", docTitle=" + docTitle
+				+ ", docRetentionPeriod=" + docRetentionPeriod + ", docWriteDate=" + docWriteDate + ", docReportDate="
+				+ docReportDate + ", docCompleteDate=" + docCompleteDate + ", docState=" + docState + ", docReadYn="
+				+ docReadYn + ", docTempYn=" + docTempYn + ", docAprvStep=" + docAprvStep + ", docMaxStep=" + docMaxStep
+				+ ", employee=" + employee + "]";
+	}
 }

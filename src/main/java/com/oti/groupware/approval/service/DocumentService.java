@@ -7,10 +7,11 @@ import com.oti.groupware.approval.dto.DocumentContent;
 import com.oti.groupware.common.Pager;
 import com.oti.groupware.common.dto.Organization;
 
-public interface ApprovalService {
+public interface DocumentService {
 	public int saveDraft(String html, DocumentContent documentContent);
 	public Document readDocument(String docId);
-	int updateDocumentReadState(Document document);
+	public boolean processApprovalRequest(String state, String opinion, String docId, String empId);
+	
 	
 	public List<Document> getDraftDocumentList(int pageNo, Pager pager, String empId);
 	public List<Document> getCompletedDocumentList(int pageNo, String empId);

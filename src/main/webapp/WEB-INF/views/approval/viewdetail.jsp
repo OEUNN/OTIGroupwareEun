@@ -49,9 +49,7 @@
 			data: {
 				empId: empId,
 				docId: docId,
-				aprvLineState : "열람", 
-				aprvLineOpenYn : "Y",
-				docReadYn: "Y"
+				state : "열람", 
 			}
 		});
 	});
@@ -65,16 +63,8 @@
 			$("#opinion").append(receivedData.content);
 			
 			//form 양식에 추가하기
-			$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="employeeId" value="' + receivedData.empId + '">');
 			$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineOpinion" value="' + receivedData.opinion + '">');
 			$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineState" value="' + receivedData.approvalLineState + '">');
-			
-			//x에다가 클릭 시 삭제 이벤트 등록하기
-			var remover = '#' + receivedData.removeClass;
-			var removee = '.' + receivedData.removeClass;
-			$(remover).on('click', (event) => {
-				$(removee).remove();
-			});
 			
 			$("#decisionForm").submit();
 		});
@@ -100,14 +90,8 @@
 			
 		<!-- ***** content-start ***** -->
 		<input id="contextPath" type="hidden" value="${pageContext.request.contextPath}"/>
+		<input id="docId" type="hidden" value="${document.docId}">
 		<form id="decisionForm" action="<c:url value='/approval/viewdetail/${document.docId}'/>" method="post">
-			<input id="empId" type="hidden" name="empId" value="${sessionScope.employee.empId}"/>
-			<input id="docId" type="hidden" name="docId" value="${document.docId}"/>
-			<input id="docTitle" type="hidden" name="docTitle" value="${document.docTitle}"/>
-			<input id="docState" type="hidden" name="docState" value="${document.docState}"/>
-			<input id="docReadYn" type="hidden" name="docReadYn" value="${document.docReadYn}"/>
-			<input id="docAprvStep" type="hidden" name="docAprvStep" value="${document.docAprvStep}"/>
-			<input id="aprvLineOrder" type="hidden" name="aprvLineOrder" value="${reader.aprvLineOrder}"/>
 		</form>
 		<div class="main-panel">
 	        <div class="content-wrapper">

@@ -22,6 +22,7 @@ public class DocumentParser {
 		String documentId = body.getElementsByClass("documentId").text();
 		String documentRetentionPeriod = body.getElementsByClass("documentRetentionPeriod").text();
 		String documentTitle = body.getElementsByClass("documentTitle").text();
+		int documentMaxStep = body.getElementById("formApprovalState").childNodeSize();
 		
 		document = new Document();
 		document.setDocId(documentId);
@@ -32,6 +33,7 @@ public class DocumentParser {
 		document.setDocRetentionPeriod(documentRetentionPeriod);
 		document.setDocState("결재중");
 		document.setDocTempYn("N");
+		document.setDocMaxStep(documentMaxStep);
 	}
 	
 	public Document getParsedDocument() {

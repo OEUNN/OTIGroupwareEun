@@ -19,7 +19,7 @@
 	    window.open(url, name, option);
 	}
 	
-	$(document).ready(function(){
+	$(() => {
 		$(window).on("message", (event) => {
 			//팝업창에서 전송한 데이터 얻기(팝업창에서 postMessage() 사용해야 함)
 			let receivedData = event.originalEvent.data;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,7 +23,7 @@ import com.oti.groupware.approval.dto.Document;
 import com.oti.groupware.approval.dto.DocumentContent;
 import com.oti.groupware.approval.dto.DocumentFile;
 import com.oti.groupware.approval.service.ApprovalLineService;
-import com.oti.groupware.approval.service.ApprovalService;
+import com.oti.groupware.approval.service.DocumentService;
 import com.oti.groupware.common.Pager;
 import com.oti.groupware.common.dto.Organization;
 import com.oti.groupware.employee.dto.Employee;
@@ -47,22 +48,15 @@ public class ApprovalController {
 	Map<Integer, List<Organization>> organizationsMap;
 	
 	@Autowired
-	ApprovalService approvalService;
+	DocumentService documentService;
 	
 	@Autowired
 	ApprovalLineService approvalLineService;
-	
-	@RequestMapping(value = "/main")
-	public String main() {
-		log.info("정보 로그");
-		
-		return "approval/main";
-	}
 
 	//기안함
 	@RequestMapping(value = "/draftdocument", method=RequestMethod.GET)
 	public String getDraftDocumentList(HttpSession session, Model model) {
-		log.info("정보 로그");
+		log.info("실행");
 		
 		return getDraftDocumentList(1, session, model);
 	}
@@ -70,25 +64,32 @@ public class ApprovalController {
 	//기안함
 	@RequestMapping(value = "/draftdocument/{pageNo}", method=RequestMethod.GET)
 	public String getDraftDocumentList(@PathVariable int pageNo, HttpSession session, Model model) {
-		log.info("정보 로그");
+		log.info("페이지 번호: " + pageNo);
 		
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
 		pager = new Pager();
 		
-		documents = approvalService.getDraftDocumentList(pageNo, pager, empId);
+		documents = documentService.getDraftDocumentList(pageNo, pager, empId);
 		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
+		
 		
 		model.addAttribute("pager", pager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
 		
+		for (Document document : documents) {
+			log.info("문서 목록: " + document.getDocTitle());
+		}
+		for (List<ApprovalLine> approvalLines : approvalLinesList) {
+			log.info("결재자 목록: " + approvalLines);
+		}
 		return "approval/draftdocument";
 	}
 	
 	//임시저장함
 	@RequestMapping(value = "/tempdocument", method=RequestMethod.GET)
 	public String tempDocumentBox() {
-		log.info("정보 로그");
+		log.info("실행");
 		
 		return "approval/tempdocument";
 	}
@@ -96,7 +97,7 @@ public class ApprovalController {
 	//반려/회수함
 	@RequestMapping(value = "/returneddocument", method=RequestMethod.GET)
 	public String returnedDocumentBox() {
-		log.info("정보 로그");
+		log.info("실행");
 		
 		return "approval/returneddocument";
 	}
@@ -104,7 +105,7 @@ public class ApprovalController {
 	//결재대기함
 	@RequestMapping(value = "/pendeddocument", method=RequestMethod.GET)
 	public String getPendedDocumentList(HttpSession session, Model model) {
-		log.info("정보 로그");
+		log.info("실행");
 		
 		return getPendedDocumentList(1, session, model);
 	}
@@ -112,25 +113,31 @@ public class ApprovalController {
 	//결재대기함
 	@RequestMapping(value = "/pendeddocument/{pageNo}", method=RequestMethod.GET)
 	public String getPendedDocumentList(@PathVariable int pageNo, HttpSession session, Model model) {
-		log.info("정보 로그");
+		log.info("페이지 번호: " + pageNo);
 		
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
 		pager = new Pager();
 		
-		documents = approvalService.getpendedDocumentList(pageNo, pager, empId);
+		documents = documentService.getpendedDocumentList(pageNo, pager, empId);
 		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
 		
 		model.addAttribute("pager", pager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
 		
+		for (Document document : documents) {
+			log.info("문서 목록: " + document.getDocTitle());
+		}
+		for (List<ApprovalLine> approvalLines : approvalLinesList) {
+			log.info("결재자 목록: " + approvalLines);
+		}
 		return "approval/pendeddocument";
 	}
 	
 	//완결문서함
 	@RequestMapping(value = "/completeddocument", method=RequestMethod.GET)
 	public String completedDocumentBox() {
-		log.info("정보 로그");
+		log.info("실행");
 		
 		return "approval/completeddocument";
 	}
@@ -138,7 +145,7 @@ public class ApprovalController {
 	//결재 문서 작성 화면
 	@RequestMapping(value = "/approvalwrite", method=RequestMethod.GET)
 	public String getApprovalWrite(HttpSession session) {
-		log.info("정보 로그");
+		log.info("실행");
 		
 		return "approval/approvalwrite";
 	}
@@ -146,19 +153,20 @@ public class ApprovalController {
 	//결재 문서 작성 화면
 	@RequestMapping(value = "/approvalwrite", method=RequestMethod.POST)
 	public String postApprovalWrite(@RequestParam("document") String document, DocumentContent documentContent) {
-		log.info("정보 로그");
+		log.info("저장 하려는 HTML이 존재하는가:" + !(document.isEmpty()));
 		
-		int result = approvalService.saveDraft(document, documentContent);
+		int result = documentService.saveDraft(document, documentContent);
 		
+		log.info("저장 결과" + result);
 		return "redirect:approvalwrite";
 	}
 	
 	//주소록 화면 요청
 	@RequestMapping(value = "/organization", method=RequestMethod.GET)
 	public String organization(Model model) {
-		log.info("정보 로그");
+		log.info("실행");
 		
-		organizations = approvalService.getOrganization();
+		organizations = documentService.getOrganization();
 		organizationsMap = new HashMap<Integer , List<Organization>>();
 		
 		for (Organization organization : organizations) {
@@ -171,18 +179,24 @@ public class ApprovalController {
 			organizationsMap.put(depId, list);
 		}
 		
-		model.addAttribute("organizationsMapKeySet", organizationsMap.keySet());
+		Set<Integer> keySet = organizationsMap.keySet();
+		
+		model.addAttribute("organizationsMapKeySet", keySet);
 		model.addAttribute("organizationsMap", organizationsMap);
 		
+		for (Integer key : keySet) {
+			log.info("부서 Id: " + key);
+			log.info("부서 목록: " + organizationsMap.get(key));
+		}
 		return "approval/organization";
 	}
 	
 	//결재 문서 자세히 보기
 	@RequestMapping(value = "/viewdetail/{docId}", method=RequestMethod.GET)
 	public String getApprovalDetail(@PathVariable String docId, HttpSession session, Model model) {
-		log.info("정보 로그");
+		log.info("문서 번호: " + docId);
 		
-		document = approvalService.readDocument(docId);
+		document = documentService.readDocument(docId);
 		
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
 		approvalLines = approvalLineService.getApprovalLines(docId);
@@ -195,55 +209,71 @@ public class ApprovalController {
 		
 		model.addAttribute("document", document);
 		model.addAttribute("approvalLines", approvalLines);
+		
+		log.info("문서 정보: " + document);
+		for (ApprovalLine approvalLine : approvalLines) {
+			if (!empId.equals(approvalLine.getEmpId())) {
+				log.info("결재자 정보: " + approvalLine);
+			}
+			else {
+				log.info("현재 문서를 읽는 결재자 정보: " + approvalLine);
+			}
+		}
 		return "approval/viewdetail";
+	}
+
+	//결재 문서 내용 요청
+	@RequestMapping(value = "/viewdetail/{docId}/documentdetail", method=RequestMethod.GET)
+	public @ResponseBody Document getDocumentDetail(@PathVariable String docId) {
+		log.info("문서 번호: " + docId);
+		
+		document = documentService.readDocument(docId);
+		
+		log.info("보여줄 HTML이 비었는가: " + "".equals(document.getDocContent()));
+		return document;
 	}
 	
 	//결재 문서 승인 또는 반려 요청
 	@RequestMapping(value = "/viewdetail/{docId}", method=RequestMethod.POST)
-	public String postApprovalDetail(Document document, ApprovalLine approvalLine, @PathVariable("docId") String docId, HttpSession session, Model model) {
-		log.info("정보 로그");
+	public String postApprovalDetail(@RequestParam("aprvLineState") String state, @RequestParam("aprvLineOpinion") String opinion, @PathVariable("docId") String docId, HttpSession session, Model model) {
+		log.info("문서 번호: " + docId);
+		log.info("상태: " + state);
+		log.info("의견: " + opinion);
+
+		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
+		boolean result = documentService.processApprovalRequest(state, opinion, docId, empId);
 		
-		//approval 승인 또는 반려 판별해서 처리
-		System.out.println(approvalLine);
-		System.out.println(document);
-		approvalLineService.modifyApprovalLineDeterminedState(approvalLine, document);
-		document.setDocReadYn("N");
-		approvalService.updateDocumentReadState(document);
-		if (approvalLine.getAprvLineOpinion() != null && "".equals(approvalLine.getAprvLineOpinion())) {
-			approvalLineService.writeOpinion(approvalLine);
-		}
-		
+		log.info("요청 처리에 성공 했는가: " + result);
 		return "redirect:approval/viewdetail/" + docId;
 	}
 	
-	//결재 문서 내용 요청
-	@RequestMapping(value = "/viewdetail/{docId}/documentdetail", method=RequestMethod.GET)
-	public @ResponseBody Document getDocumentDetail(@PathVariable String docId) {
-		log.info("정보 로그");
-		
-		document = approvalService.readDocument(docId);
-		
-		return document;
-	}
 	
 	//결재문서 열람 상태 변경 요청
 	@RequestMapping(value = "/viewdetail/{docId}/open")
-	public void openDocument(Document document, ApprovalLine approvalLine) {
-		log.info("정보 로그");
-		approvalLineService.modifyApprovalLineOpenState(approvalLine);
-		approvalService.updateDocumentReadState(document);
+	public void openDocument(String state, @PathVariable("docId") String docId, HttpSession session) {
+		log.info("문서 번호: " + docId);
+		
+		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
+		boolean result = documentService.processApprovalRequest(state, null, docId, empId);
+		
+		log.info("요청 처리에 성공했는가: " + result);
 	}
 	
 	//반려 의견 작성 화면 요청
 	@RequestMapping(value = "/opinion/{approvalLineState}", method=RequestMethod.GET)
 	public String writeOpinion(@PathVariable("approvalLineState") String approvalLineState, Model model) {
-		log.info("정보 로그");
-		if (approvalLineState.equals("approve")) {
+		log.info("문서 상태: " + approvalLineState);
+		
+		if ("approve".equals(approvalLineState)) {
 			model.addAttribute("approvalLineState", "승인");
 		}
-		else if (approvalLineState.equals("return")){
+		else if ("return".equals(approvalLineState)){
 			model.addAttribute("approvalLineState", "반려");
 		}
+		else {
+			return "home";
+		}
+		
 		return "approval/opinion";
 	}
 	

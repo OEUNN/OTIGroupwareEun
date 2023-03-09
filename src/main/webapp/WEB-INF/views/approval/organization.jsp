@@ -30,7 +30,18 @@
 	}
 	</style>
 	<script>
+		console.log(opener);
+		let openerHTML = opener.$('#approvalLine');
 		var order = 1;
+		
+		$((openerHTML) => {
+			console.log($(openerHTML).find('#approvalLine'));
+			let elements = $(openerHTML).find('#approvalLine').find('.init-flag');
+			console.log(elements);
+			elements.forEach((element) => {
+				appendToList(element);
+			})
+		});
 		
 		function appendToList(elementId) {
 			if ($("#approvalLine div").length < 3) {
@@ -75,7 +86,7 @@
 			}
 		}
 		
-		function sendApprovalLine(tagId) {
+		function sendApprovalLine(tagId, openerHTML) {
 			$(tagId).each((index, element) => {
 				var empId = $(element).attr('id').substr(3);
 				var depName = $(element).attr('class').split(' ')[4];
@@ -91,13 +102,13 @@
 				
 				var sendData = {
 					content :	
-					'<div class="' + removeClass + ' d-flex align-items-stretch justify-content-center mb-0">' +
+					'<div class="' + removeClass + ' d-flex align-items-stretch justify-content-center mb-0 remove-flag">' +
 						'<h1 class="mdi mdi-menu-down mt-1 mb-0"></h1>' +
 					'</div>' +
-					'<div class="' + removeClass + ' card card-dark-blue grid-margin shadow-2 mb-0">' +
+					'<div class="' + removeClass + ' card card-dark-blue grid-margin shadow-2 mb-0 remove-flag">' +
 						'<div class="card-body">' +
 							'<div class="row">' +
-								'<div id=' + empId + ' class="empId col-10">' +
+								'<div id=' + empId + ' class="empId col-10 init-flag">' +
 									'<p class="text-white font-weight-bold">' +
 										empName +
 									'</p>' +
@@ -118,6 +129,7 @@
 					posName : posName,
 					approvalOrder : approvalOrder
 				}
+				$(openerHTML).find(".remove-flag").empty();
 				opener.postMessage(sendData);
 				window.close();
 			//$(tagId).forEach

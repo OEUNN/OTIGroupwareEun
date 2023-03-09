@@ -16,6 +16,7 @@
 	    <result property="docReadYn" column="doc_read_yn"/>
 	    <result property="docTempYn" column="doc_temp_yn"/>
 	    <result property="docAprvStep" column="doc_aprv_step"/>
+	    <result property="docMaxStep" column="doc_max_step"/>
 	    <association column="emp_name" property="employee" javaType="employee">
 	    	<result column="emp_name" property="empName"/>
 	    </association>
@@ -26,7 +27,7 @@
             doc_id, emp_id, doc_type, doc_title, doc_content,
             doc_retention_period, doc_write_date, doc_report_date,
             doc_complete_date, doc_state, doc_read_yn,
-            doc_temp_yn, doc_aprv_step
+            doc_temp_yn, doc_aprv_step, doc_max_step 
         FROM documents
         WHERE doc_id = #{docId}
     </select>
@@ -36,29 +37,34 @@
             doc_id, emp_id, doc_type, doc_title, doc_content,
             doc_retention_period, doc_write_date, doc_report_date,
             doc_complete_date, doc_state, doc_read_yn,
-            doc_temp_yn, doc_aprv_step
+            doc_temp_yn, doc_aprv_step, doc_max_step 
         )
         VALUES (
             #{docId}, #{empId}, #{docType}, #{docTitle}, #{docContent},
             #{docRetentionPeriod}, #{docWriteDate}, #{docReportDate},
             #{docCompleteDate}, #{docState}, #{docReadYn},
-            #{docTempYn}, #{docAprvStep}
+            #{docTempYn}, #{docAprvStep}, #{docMaxStep} 
         )
     </insert>
 
-    <update id="updateDocument" parameterType="document">
-        UPDATE documents SET
-            emp_id = #{empId}, doc_type = #{docType},
-            doc_title = #{docTitle}, doc_content = #{docContent},
-            doc_retention_period = #{docRetentionPeriod},
-            doc_write_date = #{docWriteDate},
-            doc_report_date = #{docReportDate},
-            doc_complete_date = #{docCompleteDate},
-            doc_state = #{docState},
-            doc_read_yn = #{docReadYn} ,
-            doc_temp_yn = #{docTempYn},
-            doc_aprv_step = #{docAprvStep}
-		WHERE doc_id = #{docId}
+	<update id="updateDocument" parameterType="Document">
+	    UPDATE documents
+	    <set>
+	        <if test="empId != null">emp_id = #{empId},</if>
+	        <if test="docType != null">doc_type = #{docType},</if>
+	        <if test="docTitle != null">doc_title = #{docTitle},</if>
+	        <if test="docContent != null">doc_content = #{docContent},</if>
+	        <if test="docRetentionPeriod != null">doc_retention_period = #{docRetentionPeriod},</if>
+	        <if test="docWriteDate != null">doc_write_date = #{docWriteDate},</if>
+	        <if test="docReportDate != null">doc_report_date = #{docReportDate},</if>
+	        <if test="docCompleteDate != null">doc_complete_date = #{docCompleteDate},</if>
+	        <if test="docState != null">doc_state = #{docState},</if>
+	        <if test="docReadYn != null">doc_read_yn = #{docReadYn},</if>
+	        <if test="docTempYn != null">doc_temp_yn = #{docTempYn},</if>
+	        <if test="docAprvStep != null">doc_aprv_step = #{docAprvStep},</if>
+	        <if test="docMaxStep != null">doc_max_step = #{docMaxStep}</if>
+	    </set>
+	    WHERE doc_id = #{docId}
 	</update>
 	
 	<delete id="deleteDocument" parameterType="string">
@@ -69,12 +75,12 @@
         INSERT INTO documents (
             doc_id, emp_id, doc_type, doc_title, doc_content,
             doc_retention_period, doc_write_date, doc_report_date, doc_state,
-            doc_read_yn, doc_temp_yn, doc_aprv_step
+            doc_read_yn, doc_temp_yn, doc_aprv_step, doc_max_step 
         )
         VALUES (
             #{docId}, #{empId}, #{docType}, #{docTitle}, #{docContent},
             #{docRetentionPeriod}, #{docWriteDate}, SYSDATE, #{docState},
-            default, #{docTempYn}, default
+            default, #{docTempYn}, default, #{docMaxStep}
         )
     </insert>
     
@@ -123,10 +129,5 @@
         WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
     ]]>
     </select>
-    
-    <update id="updateDocumentReadState" parameterType="document">
-    	UPDATE documents SET
-    		doc_read_yn = #{docReadYn}
-    	WHERE doc_id = #{docId}
-    </update>
+
 </mapper>
