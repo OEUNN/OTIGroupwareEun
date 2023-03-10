@@ -30,16 +30,16 @@
 	}
 	</style>
 	<script>
-		console.log(opener);
-		let openerHTML = opener.$('#approvalLine');
 		var order = 1;
 		
-		$((openerHTML) => {
-			console.log($(openerHTML).find('#approvalLine'));
-			let elements = $(openerHTML).find('#approvalLine').find('.init-flag');
-			console.log(elements);
-			elements.forEach((element) => {
-				appendToList(element);
+		$(() => {
+			let openerHTML = opener.$('#approvalLine');
+			openerHTML.find('.remove-flag').each((index, item) => {
+				if (index % 2 === 0) {
+					var Id = item.classList[0].substring(1);
+					console.log(Id);
+					appendToList(Id);
+				}
 			})
 		});
 		

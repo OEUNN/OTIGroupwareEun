@@ -86,20 +86,35 @@ public class ApprovalController {
 		return "approval/draftdocument";
 	}
 	
-	//임시저장함
-	@RequestMapping(value = "/tempdocument", method=RequestMethod.GET)
-	public String tempDocumentBox() {
-		log.info("실행");
-		
-		return "approval/tempdocument";
+	//완결문서함
+	@RequestMapping(value="/completeddocument", method=RequestMethod.GET)
+	public String getCompletedDocumentList(HttpSession session, Model model) {
+		return getCompletedDocumentList(1, session, model);
 	}
 	
-	//반려/회수함
-	@RequestMapping(value = "/returneddocument", method=RequestMethod.GET)
-	public String returnedDocumentBox() {
-		log.info("실행");
+	//완결문서함
+	@RequestMapping(value="/completeddocument/{pageNo}", method=RequestMethod.GET)
+	public String getCompletedDocumentList(@PathVariable int pageNo, HttpSession session, Model model) {
+		log.info("페이지 번호: " + pageNo);
 		
-		return "approval/returneddocument";
+		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
+		pager = new Pager();
+		
+		documents = documentService.getCompletedDocumentList(pageNo, pager, empId);
+		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
+		
+		
+		model.addAttribute("pager", pager);
+		model.addAttribute("documents", documents);
+		model.addAttribute("approvalLinesList", approvalLinesList);
+		
+		for (Document document : documents) {
+			log.info("문서 목록: " + document.getDocTitle());
+		}
+		for (List<ApprovalLine> approvalLines : approvalLinesList) {
+			log.info("결재자 목록: " + approvalLines);
+		}
+		return "approval/completeddocument";
 	}
 	
 	//결재대기함
@@ -134,12 +149,45 @@ public class ApprovalController {
 		return "approval/pendeddocument";
 	}
 	
-	//완결문서함
-	@RequestMapping(value = "/completeddocument", method=RequestMethod.GET)
-	public String completedDocumentBox() {
+	//반려/회수함
+	@RequestMapping(value = "/returneddocument", method=RequestMethod.GET)
+	public String returnedDocumentBox(HttpSession session, Model model) {
 		log.info("실행");
 		
-		return "approval/completeddocument";
+		return returnedDocumentBox(1, session, model);
+	}
+	
+	//반려/회수함
+	@RequestMapping(value = "/returneddocument/{pageNo}", method=RequestMethod.GET)
+	public String returnedDocumentBox(@PathVariable int pageNo, HttpSession session, Model model) {
+		log.info("페이지 번호: " + pageNo);
+		
+		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
+		pager = new Pager();
+		
+		documents = documentService.getReturnedDocumentList(pageNo, pager, empId);
+		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
+		
+		
+		model.addAttribute("pager", pager);
+		model.addAttribute("documents", documents);
+		model.addAttribute("approvalLinesList", approvalLinesList);
+		
+		for (Document document : documents) {
+			log.info("문서 목록: " + document.getDocTitle());
+		}
+		for (List<ApprovalLine> approvalLines : approvalLinesList) {
+			log.info("결재자 목록: " + approvalLines);
+		}
+		return "approval/returneddocument";
+	}
+	
+	//임시저장함
+	@RequestMapping(value = "/tempdocument", method=RequestMethod.GET)
+	public String tempDocumentBox() {
+		log.info("실행");
+		
+		return "approval/tempdocument";
 	}
 	
 	//결재 문서 작성 화면
@@ -152,13 +200,13 @@ public class ApprovalController {
 	
 	//결재 문서 작성 화면
 	@RequestMapping(value = "/approvalwrite", method=RequestMethod.POST)
-	public String postApprovalWrite(@RequestParam("document") String document, DocumentContent documentContent) {
+	public String postApprovalWrite(@RequestParam("document") String document, @RequestParam("docTempYn") String docTempYn, DocumentContent documentContent) {
 		log.info("저장 하려는 HTML이 존재하는가:" + !(document.isEmpty()));
 		
-		int result = documentService.saveDraft(document, documentContent);
+		int result = documentService.saveDraft(document, documentContent, docTempYn);
 		
 		log.info("저장 결과" + result);
-		return "redirect:approvalwrite";
+		return "redirect:/approval/draftdocument";
 	}
 	
 	//주소록 화면 요청
@@ -244,7 +292,7 @@ public class ApprovalController {
 		boolean result = documentService.processApprovalRequest(state, opinion, docId, empId);
 		
 		log.info("요청 처리에 성공 했는가: " + result);
-		return "redirect:approval/viewdetail/" + docId;
+		return "redirect:/approval/viewdetail/" + docId;
 	}
 	
 	
@@ -266,15 +314,18 @@ public class ApprovalController {
 		
 		if ("approve".equals(approvalLineState)) {
 			model.addAttribute("approvalLineState", "승인");
+			return "approval/opinion";
 		}
 		else if ("return".equals(approvalLineState)){
 			model.addAttribute("approvalLineState", "반려");
+			return "approval/opinion";
+		}
+		else if ("retrieve".equals(approvalLineState)){
+			model.addAttribute("approvalLineState", "회수");
+			return "approval/retrieve";
 		}
 		else {
 			return "home";
 		}
-		
-		return "approval/opinion";
 	}
-	
 }

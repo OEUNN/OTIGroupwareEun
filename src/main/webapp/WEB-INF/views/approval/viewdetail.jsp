@@ -25,6 +25,13 @@
 	    window.open(url, name, option);
 	}
 	
+	function retrievePopup(){
+	    let url = "../opinion/retrieve";
+	    let name = "opinion";
+	    let option = "width=800, height=400, top=100px, left=100px, menubars=no, status=no, titlebars=no"
+	    window.open(url, name, option);
+	}
+	
 	//결재문서 요청
 	$(document).ready(function(){
 		tinymce.activeEditor.mode.set("readonly");
@@ -59,11 +66,13 @@
 			//팝업창에서 전송한 데이터 얻기(팝업창에서 postMessage() 사용해야 함)
 			let receivedData = event.originalEvent.data;
 			
-			//의견란 추가하기
-			$("#opinion").append(receivedData.content);
-			
 			//form 양식에 추가하기
-			$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineOpinion" value="' + receivedData.opinion + '">');
+			if (receivedData.approvalLineState !== '회수') {
+				$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineOpinion" value="' + receivedData.opinion + '">');
+			}
+			else {
+				$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineOpinion" value="">');
+			}
 			$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineState" value="' + receivedData.approvalLineState + '">');
 			
 			$("#decisionForm").submit();
@@ -102,7 +111,7 @@
 		        				<div class="d-flex justify-content-between align-items-center mb-4">
 		        					<div class="card-title mb-0">문서 상세 보기</div>
 		        					<div class="d-flex">
-		        						<c:if test="${reader.aprvLineRole == '결재' && (reader.aprvLineState != '승인' || reader.aprvLineState != '반려')}">
+		        						<c:if test="${reader.aprvLineRole == '결재' && reader.aprvLineState != '승인' && reader.aprvLineState != '반려'}">
 										<button type="submit" onclick="approvePopup()" id="popup-btn" class="btn btn-md btn-success mx-2">
 											<span class="mdi mdi-calendar-clock align-middle"></span>
 											<span>승인</span>
@@ -112,10 +121,20 @@
 											<span>반려</span>
 										</button>
 		        						</c:if>
-										<c:if test="${reader.aprvLineRole == '기안' && document.docReadYn == 'N'}">
-										<button type="submit" form="decisionForm" id="popup-btn" class="btn btn-md btn-secondary mx-2">
+										<c:if test="${reader.aprvLineRole == '기안' && document.docState != '회수' && document.docAprvStep > -1 && document.docReadYn == 'N'}">
+										<button type="submit" onclick="retrievePopup()" id="popup-btn" class="btn btn-md btn-secondary mx-2">
 											<span class="mdi mdi-apple-keyboard-caps align-middle"></span>
 											<span>회수</span>
+										</button>
+										</c:if>
+										<c:if test="${reader.aprvLineRole == '기안' && (document.docState == '회수' || document.docTempYn == 'Y')}">
+										<button type="submit" onclick="" id="popup-btn" class="btn btn-md btn-warning mx-2">
+											<span class="mdi mdi-calendar-clock align-middle"></span>
+											<span>임시저장</span>
+										</button>
+										<button type="submit" onclick="" id="popup-btn" class="btn btn-md btn-primary mx-2">
+											<span class="mdi mdi-apple-keyboard-caps align-middle"></span>
+											<span>재상신하기</span>
 										</button>
 										</c:if>
 		        					</div>
@@ -133,7 +152,7 @@
 									<p class="card-title">결재선</p>
 								</div>
 								
-								<c:forEach items="${approvalLines}" var="approvalLine">
+								<c:forEach items="${approvalLines}" var="approvalLine" varStatus="i">
 								<div class="row m-1">
 									<c:choose>
 									<c:when test="${approvalLine.aprvLineState == '승인'}">
@@ -155,17 +174,16 @@
 							                    	<p class="card-title fs-3" style="font-weight:normal; color: white; background-color: transparent;">${approvalLine.employee.empName}</p>
 							                    	<p>${approvalLine.department.depName} ${approvalLine.position.posName}</p>
 							                    </div>
-							                    <div class="col-2">
-							                    	<i class="mdi mdi-close"></i>
-							                    </div>
 						                    </div>
 						                    <div class="row">
-						                    	<c:if test="${sessionScope.employee.empId != approvalLine.empId}">
+						                    	<!-- 결재상태 데이터가 문서를 읽고 있는 사용자의 것이 아니거나, 사용자가 현재 결재 순서가 아님 -->
+						                    	<c:if test="${reader.empId != approvalLine.empId || document.docAprvStep != approvalLine.aprvLineOrder}">
 						                    	<div class="col-12">
 						                    		<h3 style="text-align: center; font-weight:bold; color: white; margin-bottom: -3px;">${approvalLine.aprvLineState}</h3>
 						                    	</div>
 						                    	</c:if>
-						                    	<c:if test="${sessionScope.employee.empId == approvalLine.empId}">
+						                    	<!-- 결재상태 데이터가 문서를 읽고 있는 사용자의 것이고 사용자가 현재 결재를 해야 함-->
+						                    	<c:if test="${reader.empId == approvalLine.empId && document.docAprvStep == approvalLine.aprvLineOrder}">
 					            	        	<div class="col-6">
 						                    		<button class="btn btn-success w-100" style="text-align: center; font-weight:bold; margin-bottom: -3px;">승인</button>
 						                    	</div>
@@ -177,11 +195,13 @@
 					                    </div>
 									</div>
 								</div>
-								<div class="row m-1">
-		       						<div class="d-flex align-items-stretch justify-content-center mb-0 w-100">
-		          						<h1 class="mdi mdi-menu-down mt-1 mb-0 align-self-center"></h1>
-		      						</div>
-								</div>
+								<c:if test="${i.last != true}">
+									<div class="row m-1">
+			       						<div class="d-flex align-items-stretch justify-content-center mb-0 w-100">
+			          						<h1 class="mdi mdi-menu-down mt-1 mb-0 align-self-center"></h1>
+			      						</div>
+									</div>
+								</c:if>
 								</c:forEach>
 							</div>
 						</div>
@@ -190,11 +210,17 @@
 								<p class="card-title"><a onclick="popup()">의견란</a></p>
 									<ul class="icon-data-list">
 									<li>
+										<c:forEach items="${approvalLines}" var="approvalLine">
+										<c:if test="${approvalLine.aprvLineOpinion != null && approvalLine.aprvLineOpinion != '' && approvalLine.aprvLineRole != '기안'}">
 										<div class="d-flex">
 											<img src="images/faces/face2.jpg" alt="user">
-											<div id="opinion">
+											<div>
+												<p class="h4 font-weight-bold text-primary mb-1">${approvalLine.employee.empName} ${approvalLine.position.posName}</p>
+												<p class="mb-0">${approvalLine.aprvLineOpinion}</p>	
 											</div>
 										</div>
+										</c:if>
+										</c:forEach>
 									</li>
 								</ul>
 							</div>

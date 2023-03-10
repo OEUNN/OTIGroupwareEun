@@ -41,7 +41,7 @@ public class DocumentServiceImpl implements DocumentService {
 	 * -String getDocumentRetentionPeriodByDocumentType()
 	 */
 	@Autowired
-	DocumentContentProvider documentContentSupplier;
+	DocumentContentProvider documentContentProvider;
 	
 	/*
 	 * Request로 들어온 요청에 따라서 결재를 처리하기 위한 Processor
@@ -58,20 +58,21 @@ public class DocumentServiceImpl implements DocumentService {
 
 	@Override
 	@Transactional
-	public int saveDraft(String html, DocumentContent documentContent) {
+	public int saveDraft(String html, DocumentContent documentContent, String docTempYn) {
 		if (html != null) {
 			documentParser.ParseDraft(html, documentContent.getDrafterId());
 			document = documentParser.getParsedDocument();
 			
 			String documentType = document.getDocType();
-			String documentId = documentContentSupplier.getDocumentIdByDocumentType(documentType);
-			String documentRetentionPeriod = documentContentSupplier.getDocumentRetentionPeriodByDocumentType(documentType);
+			String documentId = documentContentProvider.getDocumentIdByDocumentType(documentType);
+			String documentRetentionPeriod = documentContentProvider.getDocumentRetentionPeriodByDocumentType(documentType);
 			document.setDocId(documentId);
 			document.setDocRetentionPeriod(documentRetentionPeriod);
-			
 			if (document.getDocWriteDate() == null) {
 				document.setDocWriteDate(Date.valueOf(LocalDate.now()));
 			}
+			document.setDocTempYn(docTempYn);
+			
 			documentDAO.insertDraft(document);
 			
 			approvalLine = new ApprovalLine();
@@ -80,6 +81,7 @@ public class DocumentServiceImpl implements DocumentService {
 			approvalLine.setAprvLineState("승인");
 			approvalLine.setAprvLineOrder(0);
 			approvalLine.setAprvLineRole("기안");
+			
 			approvalLineDAO.insertDraftApprovalLine(approvalLine);
 			
 			int approvalLineLength = documentContent.getApprovalId().length;			
@@ -131,6 +133,13 @@ public class DocumentServiceImpl implements DocumentService {
 			documentDAO.updateDocument(document);
 			approvalLineDAO.updateApprovalLine(approvalLine);
 			
+			if ("회수".equals(state)) {
+				approvalLines = approvalProcessor.getApprovalLines();
+				for (ApprovalLine approvalLine : approvalLines) {
+					approvalLineDAO.updateApprovalLine(approvalLine);
+				}
+			}
+			
 			return true;
 		}
 		else {
@@ -150,22 +159,7 @@ public class DocumentServiceImpl implements DocumentService {
 		pager = new Pager(10, 10, totalRows, pageNo);
 		return documentDAO.getDraftDocumentList(pager, empId);
 	}
-
-	@Override
-	public List<Document> getCompletedDocumentList(int pageNo, String empId) {
-		return null;
-	}
-
-	@Override
-	public List<Document> getTempDocumentList(int pageNo, String empId) {
-		return null;
-	}
-
-	@Override
-	public List<Document> getReturnedDocumentList(int pageNo, String empId) {
-		return null;
-	}
-
+	
 	@Override
 	@Transactional
 	public List<Document> getpendedDocumentList(int pageNo, Pager pager, String empId) {
@@ -173,7 +167,32 @@ public class DocumentServiceImpl implements DocumentService {
 		pager = new Pager(10, 10, totalRows, pageNo);
 		return documentDAO.getPendedDocumentList(pager, empId);
 	}
+	
+	@Override
+	@Transactional
+	public List<Document> getReturnedDocumentList(int pageNo, Pager pager, String empId) {
+		int totalRows = documentDAO.getReturnedDocumentCount(empId);
+		pager = new Pager(10, 10, totalRows, pageNo);
+		return documentDAO.getReturnedDocumentList(pager, empId);
+	}
 
+	@Override
+	@Transactional
+	public List<Document> getCompletedDocumentList(int pageNo, Pager pager, String empId) {
+		int totalRows = documentDAO.getCompletedDocumentCount(empId);
+		pager = new Pager(10, 10, totalRows, pageNo);
+		return documentDAO.getCompletedDocumentList(pager, empId);
+	}
+
+	@Override
+	@Transactional
+	public List<Document> getTempDocumentList(int pageNo, Pager pager, String empId) {
+		int totalRows = documentDAO.getTempDocumentCount(empId);
+		pager = new Pager(10, 10, totalRows, pageNo);
+		return documentDAO.getTempDocumentList(pager, empId);
+	}
+
+	
 	/*
 	 * 임시
 	 */

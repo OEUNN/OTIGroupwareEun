@@ -34,7 +34,7 @@ public class ApprovalProcessor {
 					document.setDocState(state);
 				}
 				
-				//모든 결재자들이 결재하여 완결된 경우, -1
+				//모든 결재자들이 결재하여 완결된 경우, 결재단계를 -1로 설정
 				if (documentApprovalStep == documentMaxStep) {
 					documentApprovalStep = -1;
 					document.setDocState("완결");
@@ -53,10 +53,12 @@ public class ApprovalProcessor {
 			//결재자의 반려 요청
 			else if ("반려".equals(state)) {
 				document.setDocState(state);
+				document.setDocAprvStep(-1);
 				document.setDocReadYn("N");
 				approvalLine.setAprvLineState(state);
 				approvalLine.setAprvLineOpinion(opinion);
 				approvalLine.setAprvLineOpenYn("N");
+				
 				return true;
 			}
 			
@@ -72,20 +74,18 @@ public class ApprovalProcessor {
 					else {
 						//결재문서의 결재자들의 상태를 초기화
 						for (ApprovalLine approvalLine : approvalLines) {
-							if (approvalLine.getAprvLineRole() != "기안") {
+							if (!"기안".equals(approvalLine.getAprvLineRole())) {
 								approvalLine.setAprvLineState("미결");
 								approvalLine.setAprvLineApprovalDate(null);
 								approvalLine.setAprvLineOpinion(null);
 							}
 						}
 						
-						//회수 시 자동으로 임시작성한 문서가 됨
 						document.setDocState(state);
 						document.setDocReadYn("N");
-						document.setDocTempYn("Y");
 						document.setDocAprvStep(1);
 						approvalLine.setAprvLineOpenYn("N");
-						return false;
+						return true;
 					}
 				}
 				else {
@@ -95,9 +95,12 @@ public class ApprovalProcessor {
 			
 			//결재자가 문서를 열람
 			else if ("열람".equals(state)) {
-				document.setDocReadYn("Y");
-				approvalLine.setAprvLineState("미결");
-				approvalLine.setAprvLineOpenYn("Y");
+				//현재 결재 순번인 사람이 열람 시
+				if (documentApprovalStep == approvalLineOrder) {
+					document.setDocReadYn("Y");
+					approvalLine.setAprvLineOpenYn("Y");
+				}
+				
 				return true;
 			}
 			

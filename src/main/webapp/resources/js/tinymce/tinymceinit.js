@@ -9,8 +9,7 @@ tinymce.init({
 	    'searchreplace insertdatetime pagebreak emoticons'
 	],
 	autosave_ask_before_unload: true,
-	autosave_restore_when_empty: true,
-	autosave_interval: '20s',
+	autosave_interval: '5s',
 	autosave_retention: '60m',
 	menubar: 'edit insert format',
 	menu: {
@@ -33,6 +32,7 @@ tinymce.init({
 	plugins: [
 		'noneditable'
 		],
+	noneditable_editable_class: "encryptedClassName",
 	menubar : '',
 	toolbar1: 'fullscreen print',
 	readonly: 1,

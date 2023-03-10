@@ -123,11 +123,79 @@
         		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
         		doc_complete_date, doc_state, doc_read_yn
         	FROM documents doc, approval_lines apl, employees emp
-        	WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order AND doc_temp_yn = 'N' AND emp.emp_id = doc.emp_id AND 
-        	rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
+        	WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order AND doc_temp_yn = 'N' AND 
+        	emp.emp_id = doc.emp_id AND rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
         )
         WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
     ]]>
     </select>
-
+    
+    <select id="getReturnedDocumentCount" resultType="int" parameterType="string">
+		SELECT count(*) 
+		FROM documents 
+		WHERE emp_id = ${empId} AND (doc_state = '회수' OR doc_state = '반려') AND doc_temp_yn = 'N'
+    </select>
+    
+	<select id="getReturnedDocumentList" resultMap="documentResultMap">
+    <![CDATA[
+        SELECT
+            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            doc_complete_date, doc_state, doc_read_yn
+        FROM (
+        	SELECT
+        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+        		doc_complete_date, doc_state, doc_read_yn
+        	FROM documents doc, approval_lines apl, employees emp
+        	WHERE doc.emp_id = ${empId} AND doc.doc_id = apl.doc_id AND (doc_state = '회수' OR doc_state = '반려') AND 
+        	emp.emp_id = doc.emp_id AND rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
+        )
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
+    ]]>
+	</select>
+	
+	<select id="getCompletedDocumentCount" resultType="int" parameterType="string">
+		SELECT count(*) 
+		FROM documents 
+		WHERE emp_id = ${empId} AND doc_state = '완결'
+	</select>
+	
+	<select id="getCompletedDocumentList" resultMap="documentResultMap">
+    <![CDATA[
+        SELECT
+            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            doc_complete_date, doc_state, doc_read_yn
+        FROM (
+        	SELECT
+        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+        		doc_complete_date, doc_state, doc_read_yn
+        	FROM documents doc, approval_lines apl, employees emp
+        	WHERE doc.emp_id = ${empId} AND doc.doc_id = apl.doc_id AND doc_state = '완결' AND 
+        	emp.emp_id = doc.emp_id AND rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
+        )
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
+    ]]>
+	</select>
+	
+	<select id="getTempDocumentCount" resultType="int" parameterType="string">
+		SELECT count(*) 
+		FROM documents 
+		WHERE emp_id = ${empId} AND doc_temp_yn = 'Y'
+	</select>
+	
+	<select id="getTempDocumentList" resultMap="documentResultMap">
+    <![CDATA[
+        SELECT
+            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            doc_complete_date, doc_state, doc_read_yn
+        FROM (
+        	SELECT
+        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+        		doc_complete_date, doc_state, doc_read_yn
+        	FROM documents doc, approval_lines apl, employees emp
+        	WHERE doc.emp_id = ${empId} AND doc_temp_yn = 'Y' AND 
+        	emp.emp_id = doc.emp_id AND rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
+        )
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
+    ]]>
+	</select>
 </mapper>

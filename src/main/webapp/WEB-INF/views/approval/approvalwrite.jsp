@@ -25,6 +25,7 @@
 			let receivedData = event.originalEvent.data;
 			
 			//결재선에 추가하기
+			$(".remove-flag").remove();
 			$("#approvalLine").append(receivedData.content);
 			
 			//x에다가 클릭 시 삭제 이벤트 등록하기
@@ -161,11 +162,11 @@
 											<div class="d-flex justify-content-between align-items-center mb-4">
 												<div class="card-title mb-0">문서 내용</div>
 												<div class="d-flex">
-													<button type="submit" form="approvalForm" id="popup-btn" class="btn btn-md btn-warning mx-2">
+													<button type="submit" form="approvalForm" name="docTempYn" value="Y" id="popup-btn" class="btn btn-md btn-warning mx-2">
 														<span class="mdi mdi-calendar-clock align-middle"></span>
 														<span>임시저장</span>
 													</button>
-													<button type="submit" form="approvalForm" id="popup-btn" class="btn btn-md btn-primary mx-2">
+													<button type="submit" form="approvalForm" name="docTempYn" value="N" id="popup-btn" class="btn btn-md btn-primary mx-2">
 														<span class="mdi mdi-apple-keyboard-caps align-middle"></span>
 														<span>상신하기</span>
 													</button>
