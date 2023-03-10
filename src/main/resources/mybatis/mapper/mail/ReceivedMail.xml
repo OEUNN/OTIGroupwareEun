@@ -55,6 +55,82 @@
             default, 
             default)
     </insert>
+    
+    <select id="mailSearchRowsCount"  parameterType="map" resultType="int">
+    	select count(send_mail_id)
+		from received_mails
+		where emp_id_employees = #{empId} and recd_mail_del_yn = 'N' 
+		<if test='search.equals("read")'>
+   			and recd_mail_read_receipt_yn = 'Y'
+		</if>
+		<if test='search.equals("notread")'>
+   			and recd_mail_read_receipt_yn = 'N'
+		</if>
+		<if test='search.equals("import")'>
+   			and recd_mail_importance_yn = 'Y'
+		</if>
+		<if test='search.equals("notimport")'>
+   			and recd_mail_importance_yn = 'N'
+		</if>
+    </select>
+    
+     <select id="getSearchReceivedMailById" resultMap="receivedMailResultMap">
+    	SELECT send_mail_id,
+		    emp_id_employees,
+		    recd_mail_importance_yn,
+		    recd_mail_date,
+		    recd_mail_read_receipt_yn,
+		    recd_mail_del_date,
+		    recd_mail_del_yn,
+		    recd_mail_del_complete_yn
+		from received_mails
+		where emp_id_employees = #{empId} and recd_mail_del_yn = 'N'
+		<if test='search.equals("read")'>
+   			and recd_mail_read_receipt_yn = 'Y'
+		</if>
+		<if test='search.equals("notread")'>
+   			and recd_mail_read_receipt_yn = 'N'
+		</if>
+		<if test='search.equals("import")'>
+   			and recd_mail_importance_yn = 'Y'
+		</if>
+		<if test='search.equals("notimport")'>
+   			and recd_mail_importance_yn = 'N'
+		</if>
+		order by  recd_mail_date desc
+		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
+		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
+    </select>
+    
+    <select id="getReceivedCount" parameterType="int" resultType="int">
+    	SELECT count(send_mail_id)
+		from received_mails
+		where send_mail_id = ${sendMailId}
+    </select>
+    
+    <select id="getrecivedId" parameterType="int" resultType="string">
+    	select emp_id_employees
+    	from received_mails
+    	where send_mail_id = ${sendMailId}
+    </select>
+    
+    <select id="receivedMamilGetImport" parameterType="map" resultType="string">
+    	select RECD_MAIL_IMPORTANCE_YN
+		from received_mails
+		where SEND_MAIL_ID= #{mailId} and EMP_ID_EMPLOYEES = #{empId}
+    </select>
+    
+    <update id="receivedMamilChangeImport" parameterType="map">
+    	update received_mails
+    	set RECD_MAIL_IMPORTANCE_YN =
+		<if test='star.equals("Y")'>
+			'N'
+		</if>
+		<if test='star.equals("N")'>
+			'Y'
+		</if>
+		where SEND_MAIL_ID= #{mailId} and EMP_ID_EMPLOYEES = #{empId}
+    </update>
 
     <update id="updateReceivedMail" parameterType="receivedMail">
         UPDATE received_mails

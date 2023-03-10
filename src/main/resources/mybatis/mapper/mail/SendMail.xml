@@ -91,6 +91,73 @@
             default
         )
     </insert>
+    
+    <select id="sendMailRowsCount" parameterType="string" resultType="int">
+		select count(send_mail_id)
+		from send_mails
+		where emp_id = #{empId} and send_mail_del_yn = 'N' and send_mail_temp_yn ='N'
+	</select>
+	
+	<select id="getSendMail" resultMap="sendMailMap">
+		select send_mail_id, emp_id, send_mail_title, 
+			send_mail_content, send_mail_importance_yn, 
+			send_mail_date, send_mail_temp_yn, 
+			send_mail_del_yn, send_mail_del_complete_yn 
+		from send_mails
+		where emp_id = #{empId} and send_mail_del_yn = 'N' and send_mail_temp_yn ='N'
+		order by  send_mail_date desc
+		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
+		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
+	</select>
+	
+	<select id="sendMamilGetImport" parameterType="int" resultType="string">
+		select SEND_MAIL_IMPORTANCE_YN
+		from send_mails
+		where SEND_MAIL_ID=#{mailId}
+	</select>
+	
+	<update id="sendMamilChangeImport" parameterType="map">
+		update send_mails
+		set send_mail_importance_yn =
+		<if test='star.equals("Y")'>
+			'N'
+		</if>
+		<if test='star.equals("N")'>
+			'Y'
+		</if>
+		where SEND_MAIL_ID=#{mailId}
+	</update>
+	
+	<select id="mailSearchRowsCount"  parameterType="map" resultType="int">
+    	select count(send_mail_id)
+		from send_mails
+		where emp_id = #{empId} and send_mail_del_yn = 'N' and send_mail_temp_yn ='N'
+		<if test='search.equals("import")'>
+   			and send_mail_importance_yn = 'Y'
+		</if>
+		<if test='search.equals("notimport")'>
+   			and send_mail_importance_yn = 'N'
+		</if>
+	</select>
+	
+	
+	<select id="getSearchSendMail" resultMap="sendMailMap">
+		select send_mail_id, emp_id, send_mail_title, 
+			send_mail_content, send_mail_importance_yn, 
+			send_mail_date, send_mail_temp_yn, 
+			send_mail_del_yn, send_mail_del_complete_yn 
+		from send_mails
+		where emp_id = #{empId} and send_mail_del_yn = 'N' and send_mail_temp_yn ='N'
+		<if test='search.equals("import")'>
+   			and send_mail_importance_yn = 'Y'
+		</if>
+		<if test='search.equals("notimport")'>
+   			and send_mail_importance_yn = 'N'
+		</if>
+		order by  send_mail_date desc
+		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
+		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
+	</select>
 	
     <update id="updateSendMail" parameterType="SendMail">
         UPDATE send_mails SET

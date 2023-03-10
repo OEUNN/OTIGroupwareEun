@@ -19,4 +19,7 @@ public class SendMail {
     private String sendMailDelYN;
     private String sendMailDelCompleteYN;
     private List<MultipartFile> fileList;
+    private int receivedCount;
+    private List<EmployeeInfo> empList;
+    private String fileYN; //파일 유무
 }

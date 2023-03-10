@@ -27,6 +27,7 @@ import com.oti.groupware.common.Pager;
 import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.employee.dto.EmployeeDetail;
 import com.oti.groupware.employee.service.EmployeeService;
+import com.oti.groupware.mail.dto.ReceivedMail;
 
 import lombok.extern.log4j.Log4j2;
 /**
@@ -155,6 +156,24 @@ public class EmployeeController {
 			model.addAttribute("empDetail", empDetail);
 		}
 		return "employee/selectemployee";
+	}
+	
+	// 받은메일
+	@RequestMapping(value = "/employeepager", method = RequestMethod.POST)
+	public String employeePager(int page, Model model) {
+		log.info("실행");
+		//전체 행수 갖고옴
+		int totalRows = employeeService.employeeRowsCount();
+		//페이저 객체 생성
+		Pager pager = new Pager(10, 5, totalRows, page);
+		List<Employee> empList = employeeService.getEmployees(pager);
+		if(empList != null) {
+			Employee emp = employeeService.ceoInformation();
+			model.addAttribute("empList", empList);
+			model.addAttribute("pager", pager);
+			model.addAttribute("emp", emp);
+		}
+		return "employee/selectemployeeinfo";
 	}
 	
 	@RequestMapping(value = "/selectemployee", method = RequestMethod.POST)

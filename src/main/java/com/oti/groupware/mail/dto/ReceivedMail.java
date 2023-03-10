@@ -16,6 +16,9 @@ public class ReceivedMail {
     private String recdMailDelYN; //휴지통에 넣었는지 여부
     private String recdMailDelCompleteYN; //완전삭제
     private String empId;
+    private String empName;
+    private String posName;
+    private String depName;
     private String sendMailTitle;
     private String fileYN; //파일 유무
 }
