@@ -1,6 +1,10 @@
 package com.oti.groupware.hr.service;
 
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 
@@ -81,8 +85,8 @@ public class HrServiceImpl implements HrService {
 					jsonObj.put("title", "결근");
 					jsonObj.put("start",  formatDate.format(atd.getAtdInTime()));
 					
-				} else if(atd.getAtdState().equals("연차")) { //연차인 경우
-					jsonObj.put("title", "연차");
+				} else if(atd.getAtdState().equals("연차") || atd.getAtdState().equals("대체휴무")) { //연차이거나 대체휴무인 경우
+					jsonObj.put("title", "휴가");
 					jsonObj.put("start",  formatDate.format(atd.getAtdInTime()));
 					
 				} else if(atd.getAtdState().equals("추가근무")) { //추가근무인 경우
@@ -98,22 +102,30 @@ public class HrServiceImpl implements HrService {
 				jsonArr.put(jsonObj);
 				
 			} else if(atd.getAtdState() != null && atd.getAtdState().contains("반차")) {
-				jsonObj.put("title", atd.getAtdState());
-				jsonObj.put("start",  formatDate.format(atd.getAtdInTime()));
-				jsonArr.put(jsonObj);
-				//출근이 있을 경우
-				if(atd.getAtdInTime() != null) { 
-					jsonObj = new JSONObject();
-					jsonObj.put("title", "출근");
-					jsonObj.put("start", formatDate.format(atd.getAtdInTime()));
+				//오전반차인 경우
+				if(atd.getAtdState().equals("오전반차")) {
+					jsonObj.put("title", atd.getAtdState());
+					jsonObj.put("start",  formatDate.format(atd.getAtdInTime()));
 					jsonArr.put(jsonObj);
-				}
-				//퇴근이 있을 경우
-				if(atd.getAtdOutTime() != null) { 
-					jsonObj = new JSONObject();
-					jsonObj.put("title", "퇴근");
-					jsonObj.put("start", formatDate.format(atd.getAtdOutTime()));
+					//퇴근 시간만 보내기
+					if(atd.getAtdOutTime() != null) {
+						jsonObj = new JSONObject();
+						jsonObj.put("title", "퇴근");
+						jsonObj.put("start", formatDate.format(atd.getAtdOutTime()));
+						jsonArr.put(jsonObj);
+					}
+				//오후반차인 경우
+				} else if(atd.getAtdState().equals("오후반차")) {
+					jsonObj.put("title", atd.getAtdState());
+					jsonObj.put("start",  formatDate.format(atd.getAtdOutTime()));
 					jsonArr.put(jsonObj);
+					//출근시간만 보내기
+					if(atd.getAtdInTime() != null) {
+						jsonObj = new JSONObject();
+						jsonObj.put("title", "출근");
+						jsonObj.put("start", formatDate.format(atd.getAtdInTime()));
+						jsonArr.put(jsonObj);
+					}
 				}
 				
 			//오늘 근무목록 or 과거에 지각/조퇴한경우
@@ -207,7 +219,7 @@ public class HrServiceImpl implements HrService {
 	
 	//근무예외신청서 상세내용을 가져옴
 	@Override
-	public AttendanceException attendanceExcptionDetail(int atdExcpId) {
+	public AttendanceException attendanceExceptionDetail(int atdExcpId) {
 		return attendanceExceptionDAO.getAttendanceExceptionDetail(atdExcpId);
 	}
 	
@@ -239,14 +251,6 @@ public class HrServiceImpl implements HrService {
 	//휴가신청서 등록하기
 	@Override
 	public void writeleaveApplication(LeaveApplication leaveApplication) {
-		//반차일 경우에는 카운팅되는 잔여일수가 다름
-		if(leaveApplication.getLevAppCategory().contains("반차")) { 
-   			leaveApplication.setLevPeriod(leaveApplication.getLevPeriod()*0.5);
-		}
-		//기존에 있던 잔여일수 차감(카운팅)
-		String kind = "신청";
-		leaveApplicationDAO.updateEmployeeReserve(leaveApplication.getEmpId(), leaveApplication.getLevAppCategory(), leaveApplication.getLevPeriod(), kind);
-		
 		//휴가신청테이블에 데이터 추가
 		leaveApplicationDAO.insertLeaveApplication(leaveApplication);
 	}
@@ -260,16 +264,43 @@ public class HrServiceImpl implements HrService {
 
 	//근무 신청 결재목록을 가져옴
 	@Override
-	public List<AttendanceException> attendanceExcptionApprovalList(String startDate, String endDate, String empId, Pager pager) {
+	public List<AttendanceException> attendanceExceptionApprovalList(String startDate, String endDate, String empId, Pager pager) {
 		return attendanceExceptionDAO.getAttendanceExceptionApprovalList(startDate, endDate, empId, pager);
 	}
 	
 	//(부서장) 근무신청 결재 상세조회
 	@Override
-	public AttendanceException attendanceExcptionApprovalDetail(int atdExcpId, String atdExcpCategory) {
-		return attendanceExceptionDAO.getAttendanceExcptionApprovalDetail(atdExcpId, atdExcpCategory);
+	public AttendanceException attendanceExceptionApprovalDetail(int atdExcpId, String atdExcpCategory) {
+		return attendanceExceptionDAO.getattendanceExceptionApprovalDetail(atdExcpId, atdExcpCategory);
 	}
+	
+	//근무 신청 결재의 결재상태를 수정(승인, 반려)
+	@Override
+	@Transactional
+	public int attendanceExceptionApprovalProcessState(AttendanceException atdExcp) {
+		 // DTO에서 시간값을 가져와 LocalTime 객체로 변환
+		LocalTime startTime = LocalTime.parse(atdExcp.getAtdExcpInTime());
+		LocalTime endTime = LocalTime.parse(atdExcp.getAtdExcpOutTime());
 
+		LocalDateTime startDateTime = LocalDateTime.of(LocalDate.now(), startTime);
+		LocalDateTime endDateTime = LocalDateTime.of(LocalDate.now(), endTime);
+		// 종료시간이 시작시간보다 이전인 경우 종료시간을 하루 뒤로 변경
+        if (endTime.isBefore(startTime)) {
+        	endDateTime = LocalDateTime.of(LocalDate.now().plusDays(1), endTime);
+        }
+        
+        // Duration 클래스를 사용하여 두 시간의 차이를 계산
+        Duration duration = Duration.between(startTime, endTime);
+
+        // 시간 차이를 시간 단위로 출력
+        long hours = duration.toHours();
+		
+        //Attendances 테이블의 추가근무 여부 컬럼과 추가근무 시간을 넣어줌
+        attendanceDAO.updateAttendanceOverTime(atdExcp.getEmpId());
+        
+		return attendanceExceptionDAO.updateAttendanceException(atdExcp.getAtdExcpProcessState());
+	}
+	
 	//휴가 신청 결재목록의 전체 행의 수를 가져옴
 	@Override
 	public int leaveApplicationApprovalRowsCount(String startDate, String endDate, String empId) {
@@ -291,18 +322,30 @@ public class HrServiceImpl implements HrService {
 	//휴가 신청 결재의 결재상태를 수정(승인, 반려)
 	@Override
 	@Transactional
-	public void leaveApplicationApprovalProcessState(LeaveApplication leaveApplication) {
+	public int leaveApplicationApprovalProcessState(LeaveApplication leaveApplication) {
 		//승인했을 경우에만 적용
 		if(leaveApplication.getLevAppProcessState().equals("승인")) {
-			//신청날짜에 해당하는 Attendances 데이터를 미리 만든 후, 근무상태를 변경
-			attendanceDAO.insertBeforehandAttendance(leaveApplication);
-		} else { //반려일 경우
-			//차감되었던 잔여일수를 원래대로 복귀
-			String kind = "결재";
-			leaveApplicationDAO.updateEmployeeReserve(leaveApplication.getEmpId(), leaveApplication.getLevAppCategory(), leaveApplication.getLevPeriod(), kind);
-		}
-		
-		leaveApplicationDAO.updateLeaveApplicationProcessState(leaveApplication);
+			//해당 직원의 잔여일수를 DB에서 가져온 후, 잔여일수 안에 휴가기간을 선택했는지 확인
+			Employee emp = leaveApplicationDAO.getEmpReserveInfo(leaveApplication.getEmpId());
+			if(leaveApplication.getLevAppCategory().equals("대체휴무") && (emp.getEmpSubstitueReserve() - leaveApplication.getLevPeriod() < 0 )) {
+				//대체휴무이면서, 잔여일수 안에 신청하지 않은 경우
+				return 0;
+			} else if(leaveApplication.getLevAppCategory().contains("차") && (emp.getEmpLeaveReserve() - leaveApplication.getLevPeriod() < 0 )) { //나머지(연차, 반차)
+				//연차 or 반차이면서, 잔여일수 안에 신청하지 않은 경우
+				return 0;
+			} else { //잔여 일수 안에 신청한 경우!
+				//반차일 경우에는 카운팅되는 잔여일수가 다름
+				if(leaveApplication.getLevAppCategory().contains("반차")) { 
+					leaveApplication.setLevPeriod(leaveApplication.getLevPeriod()*0.5);
+				}
+				//기존에 있던 잔여일수 차감(카운팅)
+				leaveApplicationDAO.updateEmployeeReserve(leaveApplication.getEmpId(), leaveApplication.getLevAppCategory(), leaveApplication.getLevPeriod());
+				//신청날짜에 해당하는 Attendances 데이터를 미리 만든 후, 근무상태를 변경
+				attendanceDAO.insertBeforehandAttendance(leaveApplication);
+			}
+		} 
+		//결재상태를 승인, 반려로 수정해줌
+		return leaveApplicationDAO.updateLeaveApplicationProcessState(leaveApplication);
 	}
 	
 	//잔여 일수 가져옴
@@ -310,6 +353,4 @@ public class HrServiceImpl implements HrService {
 	public Employee empReserveInfo(String empId) {
 		return leaveApplicationDAO.getEmpReserveInfo(empId);
 	}
-	
-	
 }

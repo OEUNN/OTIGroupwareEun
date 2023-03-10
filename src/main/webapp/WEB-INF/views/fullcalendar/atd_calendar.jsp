@@ -47,7 +47,7 @@
 							}
 						} else if(eventTitle == '결근' ) {
 							return { html : '<div class="h4 mt-2 mb-0 font-weight-bold" style="color:rgba(163, 164, 165, 0.9)">결근</div>' }
-						} else if(eventTitle == '연차') {
+						} else if(eventTitle == '휴가') {
 							return { html : '<div class="btn btn-md font-weight-bold px-5" style="background-color:rgba(163, 164, 165, 0.3); color:#5b5b5e;">휴가</div>' }
 						} else if(eventTitle == '오전반차' || eventTitle == '오후반차') {
 							return { html : '<div class="btn btn-md font-weight-bold px-3 py-1" style="background-color:rgba(163, 164, 165, 0.3); color:#5b5b5e;">'+ eventTitle +'</div>' }
@@ -84,6 +84,14 @@
 					} else { //나머지
 						$("#today-out-time").html(outTime.substring(3));
 					}
+				//오전반차인 경우
+				} else if(inTime.indexOf("오전반차") == 0) {
+					$("#today-in-time").html("<br>");
+					$("#today-out-time").html(outTime.substring(3));
+				//오후반차인 경우
+				} else if(outTime.indexOf("오후반차") == 0) {
+					$("#today-in-time").html(inTime.substring(3));
+					$("#today-out-time").html("<br>");
 				}
 			//출근만 있는 경우
 			} else if($(this).find(".fc-daygrid-event-harness").length == 1){

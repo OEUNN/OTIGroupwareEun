@@ -74,18 +74,19 @@
 					<tbody>
 						<c:if test="${!empty atdExcpList}">
 							<c:forEach var="atdExcp" items="${atdExcpList}">
-								<tr onclick="atdAppDetail('${atdExcp.atdExcpId}', '${atdExcp.atdExcpCategory}')">
+								<tr onclick="atdExcpDetail('${atdExcp.atdExcpId}', '${atdExcp.atdExcpCategory}')">
 									<td><small>${atdExcp.atdExcpCategory}</small></td>
 									<td><small>${atdExcp.atdExcpDate}</small></td>
 									<td>${atdExcp.atdExcpApprovalEmpName}</td>
-									<td>
-										<!-- 결재상태 --> <c:if
-											test="${atdExcp.atdExcpProcessState == '미처리'}">
-											<div
-												class="badge badge-secondary font-weight-bold text-white">${atdExcp.atdExcpProcessState}</div>
-										</c:if> <c:if test="${atdExcp.atdExcpProcessState == '승인'}">
+									<td id="atd-aprv-state${atdExcp.atdExcpId}" >
+										<!-- 결재상태 --> 
+										<c:if test="${atdExcp.atdExcpProcessState == '미처리'}">
+											<div class="badge badge-secondary font-weight-bold text-white">${atdExcp.atdExcpProcessState}</div>
+										</c:if> 
+										<c:if test="${atdExcp.atdExcpProcessState == '승인'}">
 											<div class="badge badge-success font-weight-bold">${atdExcp.atdExcpProcessState}</div>
-										</c:if> <c:if test="${atdExcp.atdExcpProcessState == '반려'}">
+										</c:if> 
+										<c:if test="${atdExcp.atdExcpProcessState == '반려'}">
 											<div class="badge badge-danger font-weight-bold">${atdExcp.atdExcpProcessState}</div>
 										</c:if>
 									</td>

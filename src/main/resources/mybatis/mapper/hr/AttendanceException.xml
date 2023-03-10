@@ -156,7 +156,7 @@
 	</select>
 	
 	<!-- 근무신청결재서(부서장) - 상세조회 -->
-	<select id="getAttendanceExcptionApprovalDetail" resultMap="attendanceExceptionResultMap">
+	<select id="getattendanceExceptionApprovalDetail" resultMap="attendanceExceptionResultMap">
 			SELECT 
 			    ( SELECT e.emp_name  
 			        FROM  employees e, attendance_exceptions ae  

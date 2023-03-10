@@ -72,7 +72,7 @@
 					<tbody>
 						<c:if test="${!empty levAppList}">
 							<c:forEach var="levApp" items="${levAppList}">
-								<tr onclick="leaveDetail('${levApp.levAppId}')">
+								<tr onclick="levAppDetail('${levApp.levAppId}')">
 									<td class="text-center"><small>${levApp.levAppCategory}</small></td>
 									<td><small><fmt:formatDate
 												value="${levApp.levAppDate}" pattern="yyyy-MM-dd" /></small></td>

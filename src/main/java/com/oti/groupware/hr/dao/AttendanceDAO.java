@@ -23,4 +23,5 @@ public interface AttendanceDAO {
 	public void updateAttendanceState(Attendance attendance);
 	public HashMap<String, String> getEmpNames(@Param("empId") String empId); //나중에 EmployeeDAO에 넣기!
 	public void insertBeforehandAttendance(LeaveApplication leaveApplication);
+	public void updateAttendanceOverTime(@Param("empId") String empId);
 }

@@ -23,18 +23,19 @@ public interface HrService {
 	public void writeAttendanceExceptionApplication(AttendanceException attendanceException);
 	public int attendanceExceptionRowsCount(String startDate, String endDate, String empId);
 	public List<AttendanceException> attendanceExceptionList(String startDate, String endDate, String empId, Pager pager);
-	public AttendanceException attendanceExcptionDetail(int atdExcpId);
+	public AttendanceException attendanceExceptionDetail(int atdExcpId);
 	public HashMap<String, Integer> attendanceExceptionStats(String empId);
 	public int leaveApplicationRowsCount(String startDate, String endDate, String empId);
 	public List<LeaveApplication> leaveApplicationList(String startDate, String endDate, String empId, Pager pager);
 	public LeaveApplication leaveApplicationDetail(int levAppId);
 	public void writeleaveApplication(LeaveApplication leaveApplication);
 	public int attendanceExceptionApprovalRowsCount(String startDate, String endDate, String empId);
-	public List<AttendanceException> attendanceExcptionApprovalList(String startDate, String endDate, String empId, Pager pager);
+	public List<AttendanceException> attendanceExceptionApprovalList(String startDate, String endDate, String empId, Pager pager);
 	public int leaveApplicationApprovalRowsCount(String startDate, String endDate, String empId);
 	public List<AttendanceException> leaveApplicationApprovalList(String startDate, String endDate, String empId, Pager pager);
-	public AttendanceException attendanceExcptionApprovalDetail(int atdExcpId, String atdExcpCategory);
+	public AttendanceException attendanceExceptionApprovalDetail(int atdExcpId, String atdExcpCategory);
 	
 	public LeaveApplication leaveApplicationApprovalDetail(int levAppId);
-	public void leaveApplicationApprovalProcessState(LeaveApplication leaveApplication);
+	public int leaveApplicationApprovalProcessState(LeaveApplication leaveApplication);
+	public int attendanceExceptionApprovalProcessState(AttendanceException atdExcp);
 }

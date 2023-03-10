@@ -27,7 +27,7 @@
 	<div class="card">
 		<div class="card-body">
 			<div class="d-flex justify-content-between align-items-baseline">
-				<div class="card-title">근무시간수정 신청서 </div>
+				<div class="card-title">추가근무 보고서</div>
 				<button type="button" onclick="backAtdList()" class="btn btn-sm"><h3 class="mdi mdi-window-close text-primary mt-1 mb-0"></h3></button>
 			</div>
 			<div class="table-responsive px-3 py-2">
@@ -127,19 +127,19 @@
 				</div>
 			</div>
 			<!-- 일반 임직원일 경우의 버튼 -->
-			<c:if
-				test="${sessionScope.employee.empId ne atdExcp.atdExcpApprovalEmpId}">
+			<c:if test="${sessionScope.employee.empId ne atdExcp.atdExcpApprovalEmpId}">
 				<div class="row px-5 mt-3 justify-content-end">
-					<button onclick="window.close()" type="button"
-						class="btn btn-inverse-primary mr-2">닫기</button>
+					<button onclick="window.close()" type="button" class="btn btn-inverse-primary mr-2">닫기</button>
 				</div>
 			</c:if>
 			<!-- 부서장일 경우의 버튼 - 미처리 결재인 경우 -->
 			<c:if test="${(sessionScope.employee.empId eq atdExcp.atdExcpApprovalEmpId) && (atdExcp.atdExcpProcessState eq '미처리') }">
 				<div class="row px-5 mt-3 justify-content-end">
-					<button id="approve-btn" onclick="updateTimeAprv('승인')" type="submit" class="btn btn-primary mr-2">승인</button>
+					<button id="approve-btn" onclick="levAppAprv('승인', '${atdExcp.atdExcpId}')" type="button" class="btn btn-primary mr-2">승인</button>
+					<button id="first-refuse-btn" onclick="refuseBtn()" type="button" class="btn btn-danger mr-2">반려</button>
+					<!-- 반려사유 작성 후 -->
 					<button id="cancel-btn" onclick="cancel()" type="button" class="btn btn-inverse-primary mr-2" style="display: none">취소</button>
-					<button onclick="updateTimeAprv('반려')" type="button" class="btn btn-danger mr-2">반려</button>
+					<button id="second-refuse-btn" onclick="levAppAprv('반려', '${atdExcp.atdExcpId}')" type="button" class="btn btn-danger mr-2" style="display: none">반려</button>
 				</div>
 			</c:if>
 			<!-- 변경내용:end -->

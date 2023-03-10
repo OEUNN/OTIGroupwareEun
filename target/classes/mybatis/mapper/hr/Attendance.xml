@@ -121,6 +121,17 @@
 		</if>
 	</update>
 	
+	<!-- 추가근무 -->
+	<update id="updateAttendanceOverTime">
+		UPDATE 
+				attendances
+			SET
+				atd_state = #{atdState}
+		  	WHERE
+			  	emp_id = #{empId} AND 
+	  			to_char(atd_in_time, 'yyyy-MM-DD') = to_char(sysdate, 'yyyy-MM-DD')
+	</update>
+	
 	<!-- 신청폼에서 결재자이름, 작성자이름 갖고오기 -->
 	<select id="getEmpNames" resultType="hashmap">
 		SELECT 
@@ -148,7 +159,7 @@
 	        CASE #{levAppCategory}
 	            WHEN '오전반차' THEN to_date(to_char(#{levAppStartDate}, 'YYYY-MM-DD') || ' 14:00:00', 'YYYY-MM-DD HH24:MI:SS') + LEVEL - 1
 	            WHEN '연차' THEN to_date(to_char(#{levAppStartDate}, 'YYYY-MM-DD') || ' 08:59:00', 'YYYY-MM-DD HH24:MI:SS') + LEVEL - 1
-	            WHEN '대체휴무일' THEN to_date(to_char(#{levAppStartDate}, 'YYYY-MM-DD') || ' 08:59:00', 'YYYY-MM-DD HH24:MI:SS') + LEVEL - 1
+	            WHEN '대체휴무' THEN to_date(to_char(#{levAppStartDate}, 'YYYY-MM-DD') || ' 08:59:00', 'YYYY-MM-DD HH24:MI:SS') + LEVEL - 1
 	            ELSE NULL
 	        END,
 	        CASE #{levAppCategory}

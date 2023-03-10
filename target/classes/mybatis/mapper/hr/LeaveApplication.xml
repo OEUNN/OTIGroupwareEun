@@ -173,7 +173,7 @@
     <!-- 잔여일수 가져오기 -->
     <!-- 나중에 EmployeeMapper에 옮기기 -->
 	<select id="getEmpReserveInfo" resultType="employee">
-		SELECT 
+		SELECT
 			emp_leave_reserve AS empLeaveReserve,
 			emp_substitue_reserve AS empSubstitueReserve
 		FROM 
@@ -181,25 +181,15 @@
 		WHERE emp_id = #{empId}
 	</select>
 	
-    <!-- 잔여일수 수정 -->
+    <!-- 잔여일수 차감 -->
     <!-- 나중에 EmployeeMapper에 옮기기 -->
     <update id="updateEmployeeReserve">
-    	<if test="kind == '신청'">
-	    	UPDATE 
-	    		employees
-	   		SET
-				<if test="levAppCategory == '연차' or levAppCategory == '오전반차' or levAppCategory == '오후반차'">emp_leave_reserve = emp_leave_reserve - #{levPeriod}</if>
-	   			<if test="levAppCategory == '대체휴무'">emp_substitue_reserve = emp_substitue_reserve - #{levPeriod}</if>
-			WHERE emp_id = #{empId}
-    	</if>
-    	<if test="kind == '결재'">
-	    	UPDATE 
-	    		employees
-	   		SET
-				<if test="levAppCategory == '연차' or levAppCategory == '오전반차' or levAppCategory == '오후반차'">emp_leave_reserve = emp_leave_reserve + #{levPeriod}</if>
-	   			<if test="levAppCategory == '대체휴무'">emp_substitue_reserve = emp_substitue_reserve + #{levPeriod}</if>
-			WHERE emp_id = #{empId}
-    	</if>
+    	UPDATE 
+    		employees
+   		SET
+			<if test="levAppCategory == '연차' or levAppCategory == '오전반차' or levAppCategory == '오후반차'">emp_leave_reserve = emp_leave_reserve - #{levPeriod}</if>
+   			<if test="levAppCategory == '대체휴무'">emp_substitue_reserve = emp_substitue_reserve - #{levPeriod}</if>
+		WHERE emp_id = #{empId}
     </update>
     
 	<!-- 휴가신청서의 결재상태를 수정 -->

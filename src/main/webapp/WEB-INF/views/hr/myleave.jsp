@@ -53,7 +53,7 @@
 		$("#reserve-leave").on("change", function() {
 		    //연차를 클릭했을 경우, 아래 셀렉박스가 선택가능해짐
 			if($(this).children("option:selected").attr("id") === 'leave-option') {
-		      $('#sub-rev').remove();
+// 		      $('#sub-rev').remove();
 		      $('#leave-category').prop('disabled', false);
 		    //대체휴무를 클릭했을 경우, 아래의 셀렉박스 초기화
 			} else {
@@ -232,7 +232,7 @@
 											<div class="row text-center font-weight-bold h3 mb-0">
 												<div class="col-md">0</div>
 												<div class="col-md">0</div>
-												<div id="lev-rev-period" class="col-md"><fmt:formatNumber value="${leaveReserve}" pattern="##.0"/></div>
+												<div id="lev-rev-period" class="col-md"><fmt:formatNumber value="${leaveReserve}" pattern="#0.0"/></div>
 												<div id="sub-rev-period" class="col-md mr-3">${substitueReserve}</div>
 											</div>
 										</div>
@@ -391,7 +391,7 @@
 														<!-- 잔여 대체휴무가 남아있는 경우 -->
 														<c:if test="${substitueReserve ne 0}">
 															<option value="대체휴무">대체휴무 잔여( ${substitueReserve}개 )</option>
-															<input id="sub-rev" type="hidden" name="levAppCategory" value="대체휴무"/>
+<!-- 															<input id="sub-rev" type="hidden" name="levAppCategory" value="대체휴무"/> -->
 														</c:if>
 														<!-- 잔여 대체휴무가 남아있지 않을 경우 -->
 														<c:if test="${substitueReserve eq 0}"><option style="color:#CED4DA;" disabled>대체휴무 잔여( 0개 )</option></c:if>

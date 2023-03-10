@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/clockpicker/jquery-clockpicker.css">
 <script src="${pageContext.request.contextPath}/resources/vendors/clockpicker/bootstrap-clockpicker.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendors/clockpicker/jquery-clockpicker.js"></script>
+<!-- sweetalert2@11 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
 	.custom-border-left {
@@ -22,50 +24,13 @@
 		z-index: 1;
 		top: 11px;
 		left: 35px;
-}
+	}
+	
+	.swal2-icon.swal2-error.swal2-icon-show {
+		margin: 30px 0;
+	}
 </style>
 
-<script>
-	//form 내용 제출 후, 이동
-	function levAppAprv(state, id) {
-		//"승인" 버튼을 눌렀을 경우
-		if(state == "승인") {
-			$.ajax({
-				type: 'GET',
-				url: '../hr/levappaprvstatecomplete',
-				data: {levAppProcessState: state, levAppId: id, levAppOpinion: null},
-				error: function() {
-					alert('결재를 실패하였습니다.');
-				},
-				success: function(data) {
-					$('#lev-app-aprv-detail').html(data);
-					$('#aprv-state' + id).html('<div class="badge badge-success font-weight-bold text-white">승인</div>');
-				}
-			});
-			
-		//"반려" 버튼을 눌렀을 경우
-		} else if(state == "반려") {
-			$("#refuse-reason").css("display", "block");
-			$("#cancel-btn").css("display", "block");
-			$("#approve-btn").css("display", "none");
-			
-			let opinion = $("#textarea-reason").val(); //반려사유 선택
-			
-			$.ajax({
-				 type : 'GET',
-				 url : "../hr/levappaprvstatecomplete",
-				 data : {levAppProcessState: state, levAppId: id, levAppOpinion: opinion},
-				 error : function() {
-					 alert('통신실패!');
-				 },
-				 success : function(data) {
-					 $('#lev-app-aprv-detail').html(data);
-					 $('#aprv-state' + id).html('<div class="badge badge-danger font-weight-bold text-white">반려</div>');
-				 }
-			 });
-		}
-	}
-</script>
 <!-- End plugin css,js for this page -->
 </head>
 

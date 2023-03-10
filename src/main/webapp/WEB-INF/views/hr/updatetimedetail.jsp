@@ -19,13 +19,7 @@
 </style>
 
 <script>
-	//취소버튼
-	function cancel() {
-		$('#textarea-reason').val('');
-		$("#refuse-reason").css("display", "none");
-		$("#cancel-btn").css("display", "none");
-		$("#approve-btn").css("display", "block");
-	}
+	
 </script>
 <!-- End plugin css,js for this page -->
 
@@ -170,11 +164,11 @@
 			<!-- 부서장일 경우의 버튼 - 미처리 결재인 경우 -->
 			<c:if test="${(sessionScope.employee.empId eq atdExcp.atdExcpApprovalEmpId) && (atdExcp.atdExcpProcessState eq '미처리') }">
 				<div class="row px-5 mt-3 justify-content-end">
-					<button id="approve-btn" onclick="levAppAprv('승인', '${atdExcp.atdExcpId}')" type="button" class="btn btn-primary mr-2">승인</button>
+					<button id="approve-btn" onclick="atdExcpAprv('승인', '${atdExcp.atdExcpId}', '${atdExcp.atdExcpCategory}')" type="button" class="btn btn-primary mr-2">승인</button>
 					<button id="first-refuse-btn" onclick="refuseBtn()" type="button" class="btn btn-danger mr-2">반려</button>
-					<!-- 반려사유 작성 후, -->
+					<!-- 반려사유 작성 후 -->
 					<button id="cancel-btn" onclick="cancel()" type="button" class="btn btn-inverse-primary mr-2" style="display: none">취소</button>
-					<button id="second-refuse-btn" onclick="levAppAprv('반려', '${atdExcp.atdExcpId}')" type="button" class="btn btn-danger mr-2" style="display: none">반려</button>
+					<button id="second-refuse-btn" onclick="atdExcpAprv('반려', '${atdExcp.atdExcpId}', '${atdExcp.atdExcpCategory}')" type="button" class="btn btn-danger mr-2" style="display: none">반려</button>
 				</div>
 			</c:if>
 			<!-- 변경내용:end -->
