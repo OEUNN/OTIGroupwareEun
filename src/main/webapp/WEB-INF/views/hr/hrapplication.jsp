@@ -14,6 +14,9 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
 	<script src="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 	
+	<!-- sweetalert2@11 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	
 	<script>
 	   	/* AJAX통신 - 근무신청결재내역 페이징 목록 */
    		function atdExcpPaging(i) {
@@ -176,17 +179,17 @@
    		
    		/* 근무신청서 자세히보기에서 X버튼 누르면 다시 목록 커짐 */
    		function backAtdList() {
-   			$("#atd-excp-aprv-detail").hide().fadeOut(500);
+   			$("#atd-excp-aprv-detail").hide().fadeOut(400);
    			//숨겨놓은 휴가신청내역 목록 보이기
-            $("#lev-app-aprv-list").hide().fadeIn(700);
+            $("#lev-app-aprv-list").hide().fadeIn(600);
    		}
 
    		/* 휴가신청서 자세히보기에서 X버튼 누르면 다시 목록 커짐 */
    		function backLevList() {
    			//상세조회 원래대로
-   			$("#lev-app-aprv-detail").hide();
+   			$("#lev-app-aprv-detail").hide().fadeOut(400);
    			//숨겨놓은 근무신청내역 목록 보이기
-            $("#atd-excp-aprv-list").hide().fadeIn(700);
+            $("#atd-excp-aprv-list").hide().fadeIn(600);
    		}
    		
    		//첫번째 반려버튼을 눌렀을 경우, 반려사유 작성란이 뜸

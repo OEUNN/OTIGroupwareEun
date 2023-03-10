@@ -7,8 +7,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/clockpicker/jquery-clockpicker.css">
 <script src="${pageContext.request.contextPath}/resources/vendors/clockpicker/bootstrap-clockpicker.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendors/clockpicker/jquery-clockpicker.js"></script>
-<!-- sweetalert2@11 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
 	.custom-border-left {
@@ -41,7 +39,7 @@
 				<div class="card-title">휴가 신청서 </div>
 				<button type="button" onclick="backLevList()" class="btn btn-sm"><h3 class="mdi mdi-window-close text-primary mt-1 mb-0"></h3></button>
 			</div>
-			<div class="table-responsive px-3 py-2">
+			<div class="table-responsive px-3 py-2 mt-4">
 				<!-- 고정 내용 -->
 				<table class="table">
 					<tbody>
@@ -100,8 +98,8 @@
 				<!-- 휴가 유형 -->
 				<div class="row">
 					<div class="col-md d-flex align-items-center px-5 py-2">
-						<h4 class="mx-4 mb-0 font-weight-bold">휴가유형</h4>
-						<h6 class="ml-2 mb-0 text-primary font-weight-bold">
+						<h4 class="mx-4 my-4 font-weight-bold">휴가유형</h4>
+						<h6 class="ml-2 my-4 text-primary font-weight-bold">
 							${levApp.levAppCategory}
 						</h6>
 					</div>
@@ -109,27 +107,29 @@
 				<!-- 기간(날짜) 선택 -->
 				<div class="row px-5 py-2">
 					<div class="col-md d-flex align-items-center pl-0">
-						<h4 class="mx-4 mb-0 font-weight-bold">휴가기간</h4>
-						<h6 class="ml-2 mb-0 text-primary font-weight-bold">
+						<h4 class="mx-4 mb-2 font-weight-bold">휴가기간</h4>
+						<h6 class="ml-2 mb-2 text-primary font-weight-bold">
 							<fmt:formatDate value="${levApp.levAppStartDate}" pattern="yyyy-MM-dd" />
 							~
 							<fmt:formatDate value="${levApp.levAppEndDate}" pattern="yyyy-MM-dd" />
 						</h6>
 						<!-- 휴가 날짜 -->
-						<small class="text-muted ml-2">
+						<small class="text-muted ml-3 mb-2">
 							( 총 ${levApp.levPeriod}일 )
 							<input id="lev-period" type="hidden" value="${levApp.levPeriod}" />
 						</small>
 					</div>
 				</div>
 				<!-- 휴가사유 -->
-				<div class="row px-5 mt-4 justify-content-start">
+				<div class="row px-5 mt-5 justify-content-start">
 					<h4 class="mx-4 mb-0 font-weight-bold ">사유</h4>
 				</div>
-				<div class="row px-5 mt-3 ml-1">
-					<h6 class="ml-1 mb-0 text-primary font-weight-bold">${levApp.levAppReason}</h6>
+				<div class="row px-5 my-2 mx-1">
+					<div class="col-md">
+						<h6 class="ml-3 my-2 text-primary">${levApp.levAppReason}</h6>
+					</div>
 				</div>
-				<div class="row justify-content-center mt-3">
+				<div class="row justify-content-center my-4">
 					<div style="border-bottom: 2px solid #4B49AC; width: 90%;"></div>
 				</div>
 				<!-- 반려사유 조회 -->
@@ -159,7 +159,7 @@
 			</c:if>
 			<!-- 부서장일 경우의 버튼 - 미처리 결재인 경우 -->
 			<c:if test="${(sessionScope.employee.empId eq levApp.levAppApprovalEmpId) && (levApp.levAppProcessState eq '미처리') }">
-				<div class="row px-5 mt-3 justify-content-end">
+				<div class="row px-5 justify-content-end">
 					<button id="approve-btn" onclick="levAppAprv('승인', '${levApp.levAppId}')" type="button" class="btn btn-primary mr-2">승인</button>
 					<button id="first-refuse-btn" onclick="refuseBtn()" type="button" class="btn btn-danger mr-2">반려</button>
 					<!-- 반려사유 작성 후, -->

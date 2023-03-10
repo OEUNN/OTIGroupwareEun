@@ -32,10 +32,11 @@ public interface HrService {
 	public int attendanceExceptionApprovalRowsCount(String startDate, String endDate, String empId);
 	public List<AttendanceException> attendanceExceptionApprovalList(String startDate, String endDate, String empId, Pager pager);
 	public int leaveApplicationApprovalRowsCount(String startDate, String endDate, String empId);
-	public List<AttendanceException> leaveApplicationApprovalList(String startDate, String endDate, String empId, Pager pager);
 	public AttendanceException attendanceExceptionApprovalDetail(int atdExcpId, String atdExcpCategory);
-	
+	public List<AttendanceException> leaveApplicationApprovalList(String startDate, String endDate, String empId, Pager pager);
 	public LeaveApplication leaveApplicationApprovalDetail(int levAppId);
 	public int leaveApplicationApprovalProcessState(LeaveApplication leaveApplication);
 	public int attendanceExceptionApprovalProcessState(AttendanceException atdExcp);
+	public HashMap<String, Integer> attendanceExceptionApprovalStats(String empId);
+	public HashMap<String, Integer> leaveApplicationApprovalStats(String empId);
 }

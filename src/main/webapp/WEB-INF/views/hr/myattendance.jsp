@@ -10,10 +10,41 @@
 	<!-- endinject css, js common file -->
 
 	<!-- Plugin css,js for this page -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
-	<script src="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+	<!-- Chart  -->
+	<script src="${pageContext.request.contextPath}/resources/vendors/chart.js/Chart.min.js"></script>
 	
 	<script>
+		//차트
+		$(function() {
+			const ctx = document.getElementById('myChart');
+			
+			//차트 데이터
+			const data = {
+					  labels: [
+					    'Red',
+					    'Blue',
+					    'Yellow'
+					  ],
+					  datasets: [{
+					    label: 'My First Dataset',
+					    data: [300, 50, 100],
+					    backgroundColor: [
+					      'rgb(255, 99, 132)',
+					      'rgb(54, 162, 235)',
+					      'rgb(255, 205, 86)'
+					    ],
+					    hoverOffset: 4
+					  }]
+				};
+			
+			//설정
+			const config = {
+					  type: 'doughnut',
+					  data: data,
+					};
+			
+		});
+		
 		//현재 시간
 		$(function() {
 			const clock1 = document.getElementById("now-date");
@@ -206,9 +237,13 @@
 			           		</div>
         				</div>
         			</div>
-        			<!-- 통계 -->
+        			<!-- 나의 근무 통계 -->
         			<div class="row">
         				<div class="col-md-12">
+							<!-- 차트!! -->
+	        				<div>
+							  <canvas id="myChart"></canvas>
+							</div>
 					    	<!-- 근무현황통계 -->
 					    	<div class="card">
 					        	<div class="card-body">

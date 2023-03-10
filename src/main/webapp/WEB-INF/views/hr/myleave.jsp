@@ -53,7 +53,6 @@
 		$("#reserve-leave").on("change", function() {
 		    //연차를 클릭했을 경우, 아래 셀렉박스가 선택가능해짐
 			if($(this).children("option:selected").attr("id") === 'leave-option') {
-// 		      $('#sub-rev').remove();
 		      $('#leave-category').prop('disabled', false);
 		    //대체휴무를 클릭했을 경우, 아래의 셀렉박스 초기화
 			} else {

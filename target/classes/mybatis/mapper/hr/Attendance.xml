@@ -8,6 +8,8 @@
 		<result column="atd_in_time" property="atdInTime"/>
 		<result column="atd_out_time" property="atdOutTime"/>
 		<result column="atd_state" property="atdState"/>
+		<result column="atd_overtime_yn" property="atdOverTimeYN"/>
+		<result column="atd_overtime_hours" property="atdOverTimeHours"/>
 	</resultMap>
 	
 	<!-- 오늘 근무현황 -->
@@ -120,16 +122,37 @@
 		  	    (atd_state is null OR atd_state = '')
 		</if>
 	</update>
+
+	<!-- 근무시간수정 -->
+	<update id="updateAttendanceUpdateTime" parameterType="attendanceException">
+		UPDATE
+			attendances
+		SET
+		<if test="atdExcpInTime != null">atd_in_time = to_date(to_char(atd_in_time, 'yyyy-MM-DD') || ' ' || #{atdExcpInTime}, 'yyyy-MM-dd HH24:MI')</if>
+		<if test="atdExcpOutTime != null">atd_out_time = to_date(to_char(atd_out_time, 'yyyy-MM-DD') || ' ' || #{atdExcpOutTime}', 'yyyy-MM-dd HH24:MI')</if>
+		<if test="atdExcpInTime != null and atdExcpOutTime != null">
+			atd_in_time = to_date(to_char(atd_in_time, 'yyyy-MM-DD') || ' ' || #{atdExcpInTime}, 'yyyy-MM-dd HH24:MI'),
+			atd_out_time = to_date(to_char(atd_out_time, 'yyyy-MM-DD') || ' ' || #{atdExcpOutTime}', 'yyyy-MM-dd HH24:MI')
+		</if>
+		WHERE
+		emp_id = #{empId} AND
+		to_char(atd_in_time, 'yyyy-MM-DD') = to_char(#{atdExcpDate}, 'yyyy-MM-DD')
+<!-- 		UPDATE -->
+<!-- 		    attendances -->
+<!-- 		SET  atd_in_time = to_date(to_char(atd_in_time, 'YYYY-MM-DD') || ' ' || #{atdExcpInTime}, 'YYYY-MM-dd HH24:MI') -->
+<!-- 		where emp_id='2302264' and to_char(atd_in_time, 'YYYY-MM-DD')=to_char(#{atdExcpDate}, 'YYYY-MM-DD') -->
+	</update>
 	
 	<!-- 추가근무 -->
 	<update id="updateAttendanceOverTime">
 		UPDATE 
-				attendances
-			SET
-				atd_state = #{atdState}
-		  	WHERE
-			  	emp_id = #{empId} AND 
-	  			to_char(atd_in_time, 'yyyy-MM-DD') = to_char(sysdate, 'yyyy-MM-DD')
+			attendances
+		SET
+			atd_overtime_yn = 'Y',
+			atd_overtime_hours = #{overTimeHours}
+	  	WHERE
+		  	emp_id = #{empId} AND 
+  			to_char(atd_in_time, 'yyyy-MM-DD') = to_char(sysdate, 'yyyy-MM-DD')
 	</update>
 	
 	<!-- 신청폼에서 결재자이름, 작성자이름 갖고오기 -->

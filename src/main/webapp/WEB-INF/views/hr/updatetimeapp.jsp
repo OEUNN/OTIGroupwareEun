@@ -31,7 +31,7 @@
 	$(function() {
 		$('.clockpicker').clockpicker();
 	});
-
+	
 	//출근, 퇴근 체크박스 클릭시 html 추가
 	function isCheck(data) {
 		if (data == 'in') {
@@ -88,6 +88,7 @@
 		return result;
 	}
 	
+	/* 폼 유효성 검사 - CSS 적용 */
 	$(function() {
 		$('input[name="atdExcpInTime').focusin(function(){
 		    $(this).css("border-color", "#4B49AC");
@@ -150,7 +151,7 @@
 	</table>
 </div>
 <!-- 변경내용(폼) -->
-<form action="<c:url value='/hr/atdapplicationform'/>" onsubmit="return validateForm();" method="post">
+<form id="myUpdateTimeAppForm" action="<c:url value='/hr/atdapplicationform'/>" onsubmit="return validateForm();" method="post">
 <div class="container-fluid">
 	<div class="row justify-content-around">
 		<div class="col-md"></div>
@@ -177,6 +178,7 @@
 		<div class="col-md d-flex align-items-center pr-0">
 			<div id="today-intime" style="display: none">
 				<c:if test="${!empty attendance.atdInTime}">
+					<!-- 원래출근시간 -->
 					<div class="h5 mb-0 ml-3"><fmt:formatDate value="${attendance.atdInTime}" pattern="HH:mm" /></div>
 				</c:if>
 				<c:if test="${empty attendance.atdInTime}">
@@ -208,6 +210,7 @@
 		<div class="col-md d-flex align-items-center pr-0">
 			<div id="today-outtime" style="display: none">
 				<c:if test="${!empty attendance.atdOutTime}">
+					<!-- 원래퇴근시간 -->
 					<div class="h5 mb-0 ml-3"><fmt:formatDate value="${attendance.atdOutTime}" pattern="HH:mm" /></div>
 				</c:if>
 				<c:if test="${empty attendance.atdOutTime}">

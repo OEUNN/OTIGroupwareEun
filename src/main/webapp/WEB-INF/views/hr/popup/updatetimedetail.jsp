@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -81,7 +82,7 @@
 			                                 <td></td>
 			                                 <td></td>
 			                                 <td class="custom-border-left custom-border-right"><h4 class="font-weight-bold text-center m-0">근무날짜</h4></td>
-			                                 <td>${atdExcp.atdExcpDate}</td>
+			                                 <td><fmt:formatDate value="${atdExcp.atdExcpDate}" pattern="yyyy-MM-dd" /></td>
 			                                 <td></td>
 			                              </tr>
 			                              <tr class="custom-border-left custom-border-right">
@@ -132,30 +133,30 @@
 			                       		<div style="border: 1px solid #a3a4a5; opacity: 0.5; width:90%;"></div>
 		                       		</div>
 		                       		<!-- 출근부분 -->
-		                       		<c:if test="${!empty atdExcp.atdExcpInTime}">
+		                       		<c:if test="${!empty atdExcp.atdOriginInTime}">
 			                       		<div class="row px-5 py-2 mt-2">
 			                       			<div class="col-md">
 												<h4 class="mx-4 mb-0 text-primary font-weight-bold">출근</h4>
 			                       			</div>
 			                       			<div class="col-md d-flex align-items-center pr-0">
-			                       				<div class="h5 mb-0 ml-3 text-muted">${atdExcp.atdInTime}</div>
+			                       				<div class="h5 mb-0 ml-3 text-muted">${atdExcp.atdOriginInTime}</div>
 			                       			</div>
 			                       			<div class="col-md d-flex align-items-center pl-0">
-			                       				<h6 class="ml-5 mb-0 text-primary font-weight-bold">${atdExcp.atdExcpInTime}</h6>
+			                       				<h6 class="ml-5 mb-0 text-primary font-weight-bold">${atdExcp.atdOriginInTime}</h6>
 			                       			</div>
 			                       		</div>
 		                       		</c:if>
 		                       		<!-- 퇴근부분 -->
-		                       		<c:if test="${!empty atdExcp.atdExcpOutTime}">
+		                       		<c:if test="${!empty atdExcp.atdOriginOutTime}">
 			                       		<div class="row px-5 py-2">
 			                       			<div class="col-md">
 			                       				<h4 class="mx-4 mb-0 text-primary font-weight-bold">퇴근</h4>
 			                       			</div>
 			                       			<div class="col-md d-flex align-items-center pr-0">
-			                       				<div class="h5 mb-0 ml-3 text-muted">${atdExcp.atdOutTime}</div>
+			                       				<div class="h5 mb-0 ml-3 text-muted">${atdExcp.atdOriginOutTime}</div>
 			                       			</div>
 			                       			<div class="col-md d-flex align-items-center pl-0">
-			                       				<h6 class="ml-5 mb-0 text-primary font-weight-bold">${atdExcp.atdExcpOutTime}</h6>
+			                       				<h6 class="ml-5 mb-0 text-primary font-weight-bold">${atdExcp.atdOriginOutTime}</h6>
 			                       			</div>
 			                       		</div>
 		                       		</c:if>

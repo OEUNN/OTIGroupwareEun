@@ -1,5 +1,6 @@
 package com.oti.groupware.hr.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -25,4 +26,5 @@ public interface LeaveApplicationDAO {
 	public Employee getEmpReserveInfo(@Param("empId") String empId);
 	public void updateEmployeeReserve(@Param("empId") String empId, @Param("levAppCategory") String levAppCategory, @Param("levPeriod") double levPeriod);
 	public int updateLeaveApplicationProcessState(LeaveApplication leaveApplication);
+	public HashMap<String, Integer> getLeaveApplicationApprovalStats(@Param("empId") String empId);
 }

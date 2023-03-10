@@ -1,5 +1,6 @@
 package com.oti.groupware.hr.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -7,10 +8,10 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -366,16 +367,18 @@ public class HRController {
 	/**
 	 * 부서장만 볼 수 있는 HR 결재내역 페이지
 	 * @author 한송민
-	 * @param 
-	 * @return hr 결재내역페이지
+	 * @return HR 신청내역 결재페이지
 	 */
 	@RequestMapping(value = "/hrapplication")
 	public String hrApproval(HttpSession session, Model model) {
 		log.info("정보 로그");
+		
 		//근무신청내역목록 가져오기
 		hrAtdExcpApprovalList(1, null, null, session, model);
+		
 		//휴가신청내역목록 가져오기
 		hrLevAppApprovalList(1, null, null, session, model);
+		
 		return "hr/hrapplication";
 	}
 
@@ -392,11 +395,15 @@ public class HRController {
 		Employee employee = (Employee) session.getAttribute("employee"); //세션에 저장된 로그인유저 정보 가져옴
 		String empId = employee.getEmpId();
 		
+		//근무신청내역 통계 가져오기
+		HashMap<String, Integer> atdExcpStats = hrService.attendanceExceptionApprovalStats(empId);
+		model.addAttribute("atdExcpStats", atdExcpStats);
+		
 		//전체 행수 갖고옴
 		int totalRows = hrService.attendanceExceptionApprovalRowsCount(startDate, endDate, empId);
 		
 		//페이저 객체 생성
-		Pager pager = new Pager(5, 5, totalRows, pageNo);
+		Pager pager = new Pager(7, 5, totalRows, pageNo);
 		
 		//페이징된 목록
 		List<AttendanceException> atdExcpList = hrService.attendanceExceptionApprovalList(startDate, endDate, empId, pager);
@@ -424,11 +431,15 @@ public class HRController {
 		Employee employee = (Employee) session.getAttribute("employee"); //세션에 저장된 로그인유저 정보 가져옴
 		String empId = employee.getEmpId();
 		
+		//휴가신청내역 통계 가져오기
+		HashMap<String, Integer> levAppStats = hrService.leaveApplicationApprovalStats(empId);
+		model.addAttribute("levAppStats", levAppStats);
+		
 		//전체 행수 갖고옴
 		int totalRows = hrService.leaveApplicationApprovalRowsCount(startDate, endDate, empId);
 		
 		//페이저 객체 생성
-		Pager pager = new Pager(5, 5, totalRows, pageNo);
+		Pager pager = new Pager(7, 5, totalRows, pageNo);
 		
 		//페이징된 목록
 		List<AttendanceException> levAppList = hrService.leaveApplicationApprovalList(startDate, endDate, empId, pager);
@@ -461,7 +472,8 @@ public class HRController {
 		int result = hrService.attendanceExceptionApprovalProcessState(atdExcp);
 		
 		if(result == 1) {
-			return "";
+			//로직이 성공하면, 변경된 근무수정신청 상세JSP를 리턴
+			return attendanceExceptionApprovalDetail(atdExcpId, atdExcpCategory, model);
 		}
 		return "0";
 	}
@@ -484,6 +496,7 @@ public class HRController {
 		int result = hrService.leaveApplicationApprovalProcessState(levApp);
 		
 		if(result == 1) {
+			//로직이 성공하면, 변경된 추가근무보고 상세JSP를 리턴
 			return LeaveApplicationApprovalDetail(levAppId, model);
 		} 
 		return "0";

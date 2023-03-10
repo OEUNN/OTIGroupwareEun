@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
 <!-- Plugin css,js for this page -->
@@ -31,7 +32,7 @@
 				<div class="card-title">근무시간수정 신청서 </div>
 				<button type="button" onclick="backAtdList()" class="btn btn-sm"><h3 class="mdi mdi-window-close text-primary mt-1 mb-0"></h3></button>
 			</div>
-			<div class="table-responsive px-3 py-2">
+			<div class="table-responsive px-3 py-2 mt-4">
 				<!-- 고정 내용 -->
 				<table class="table">
 					<tbody>
@@ -41,9 +42,9 @@
 							<td>${atdExcp.empName}</td>
 							<td></td>
 							<td></td>
-							<td class="custom-border-left custom-border-right"><h4
-									class="font-weight-bold text-center m-0">근무날짜</h4></td>
-							<td>${atdExcp.atdExcpDate}</td>
+							<td class="custom-border-left custom-border-right">
+								<h4 class="font-weight-bold text-center m-0">근무날짜</h4></td>
+							<td><fmt:formatDate value="${atdExcp.atdExcpDate}" pattern="yyyy-MM-dd" /></td>
 							<td></td>
 						</tr>
 						<tr class="custom-border-left custom-border-right">
@@ -91,7 +92,7 @@
 						<h4 class="font-weight-bold">수정 근무시간</h4>
 					</div>
 				</div>
-				<div class="row justify-content-center">
+				<div class="row justify-content-center mb-3">
 					<div style="border: 1px solid #a3a4a5; opacity: 0.5; width: 90%;"></div>
 				</div>
 				<!-- 출근부분 -->
@@ -101,7 +102,7 @@
 							<h4 class="mx-4 mb-0 text-primary font-weight-bold">출근</h4>
 						</div>
 						<div class="col-md d-flex align-items-center pr-0">
-							<div class="h5 mb-0 ml-3 text-muted">${atdExcp.atdInTime}</div>
+							<div class="h5 mb-0 ml-3 text-muted"><fmt:formatDate value="${atdExcp.atdOriginInTime}" pattern="HH:mm" /></div>
 						</div>
 						<div class="col-md d-flex align-items-center pl-0">
 							<h6 class="ml-5 mb-0 text-primary font-weight-bold">${atdExcp.atdExcpInTime}</h6>
@@ -115,7 +116,7 @@
 							<h4 class="mx-4 mb-0 text-primary font-weight-bold">퇴근</h4>
 						</div>
 						<div class="col-md d-flex align-items-center pr-0">
-							<div class="h5 mb-0 ml-3 text-muted">${atdExcp.atdOutTime}</div>
+							<div class="h5 mb-0 ml-3 text-muted"><fmt:formatDate value="${atdExcp.atdOriginOutTime}" pattern="HH:mm" /></div>
 						</div>
 						<div class="col-md d-flex align-items-center pl-0">
 							<h6 class="ml-5 mb-0 text-primary font-weight-bold">${atdExcp.atdExcpOutTime}</h6>
@@ -123,7 +124,7 @@
 					</div>
 				</c:if>
 				<!-- 사유 -->
-				<div class="row px-5 py-2  mt-5">
+				<div class="row px-5 py-2 mt-5">
 					<div class="col-md">
 						<h4 class="mx-4 mb-0 text-dark font-weight-bold">사유</h4>
 					</div>
@@ -133,7 +134,7 @@
 						<h6 class="ml-5 mb-5 text-primary">${atdExcp.atdExcpReason}</h6>
 					</div>
 				</div>
-				<div class="row justify-content-center mt-3">
+				<div class="row justify-content-center mt-3 mb-4">
 					<div style="border-bottom: 2px solid #4B49AC; width: 90%;"></div>
 				</div>
 				<!-- 반려사유 조회 -->
@@ -163,7 +164,7 @@
 			</c:if>
 			<!-- 부서장일 경우의 버튼 - 미처리 결재인 경우 -->
 			<c:if test="${(sessionScope.employee.empId eq atdExcp.atdExcpApprovalEmpId) && (atdExcp.atdExcpProcessState eq '미처리') }">
-				<div class="row px-5 mt-3 justify-content-end">
+				<div class="row px-5 mt-4 mb-3 justify-content-end">
 					<button id="approve-btn" onclick="atdExcpAprv('승인', '${atdExcp.atdExcpId}', '${atdExcp.atdExcpCategory}')" type="button" class="btn btn-primary mr-2">승인</button>
 					<button id="first-refuse-btn" onclick="refuseBtn()" type="button" class="btn btn-danger mr-2">반려</button>
 					<!-- 반려사유 작성 후 -->

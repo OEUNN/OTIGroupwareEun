@@ -152,7 +152,7 @@
 													<c:forEach var="atdExcp" items="${atdExcpList}">
 														<tr onclick="atdAppDetail('${atdExcp.atdExcpId}')">
 															<td><small>${atdExcp.atdExcpCategory}</small></td>
-															<td><small>${atdExcp.atdExcpDate}</small></td>
+															<td><small><fmt:formatDate value="${atdExcp.atdExcpDate}" pattern="yyyy-MM-dd" /></small></td>
 															<td>${atdExcp.atdExcpApprovalEmpName}</td>
 															<td>
 																<!-- 결재상태 -->
