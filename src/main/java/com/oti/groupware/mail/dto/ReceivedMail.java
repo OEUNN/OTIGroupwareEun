@@ -15,7 +15,7 @@ public class ReceivedMail {
     private Date recdMailDelDate; //휴지통에 넣은 시간
     private String recdMailDelYN; //휴지통에 넣었는지 여부
     private String recdMailDelCompleteYN; //완전삭제
-    private String empId;
+    private String empId; //보낸사람
     private String empName;
     private String posName;
     private String depName;

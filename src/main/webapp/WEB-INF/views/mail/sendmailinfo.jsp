@@ -12,6 +12,31 @@
 	.jsgrid .jsgrid-table td {
 	padding: 0.125rem 1.375rem;
 	}
+	.etooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.etooltip .etooltiptext {
+  visibility: hidden;
+  width: 250px;
+  background-color: #4849ac;
+  border-radius:6px;
+  color: white;
+  text-align: left;
+  padding: 5px;
+  
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 130%;
+  left: 120%;
+  margin-left:-60px;
+}
+
+.etooltip:hover .etooltiptext {
+  visibility: visible;
+}
 </style>
 <div class="card">
 	<div class="card-body">
@@ -29,7 +54,7 @@
 			<input type="hidden" id="searchBtn"/>
 		</div><!-- 검색 태그 -->
 		<!-- 테이블 -->
-		<div class="table-responsive">
+		<div class="table-responsive p-4">
 			<table class="table table-hover">
 				<thead>
 					<tr>
@@ -71,11 +96,33 @@
 								</td>
 								<td>
 									<i class="mdi mdi-arrow-right text-primary"></i>
-									<c:if test="${send.receivedCount == 1}">
-										${send.empName} ${send.posName}
-									</c:if>
-									<c:if test="${send.receivedCount != 1}">
-										${send.receivedCount}
+									<c:forEach items="${send.empList}" var="emp">
+										<c:if test="${send.receivedCount == 1}">
+											<span class="etooltip">${emp.empName} ${emp.posName}
+												<span class="etooltiptext">(${emp.depName}) ${emp.empName}${emp.posName}   
+													<c:if test="${emp.readYN=='Y'}">
+														&nbsp;&nbsp;&nbsp;&nbsp;읽음
+													</c:if>
+													<c:if test="${emp.readYN=='N'}">
+														&nbsp;&nbsp;&nbsp;&nbsp;안읽음
+													</c:if>
+												</span>
+											</span>
+										</c:if>
+									</c:forEach>
+									<c:if test="${send.receivedCount > 1}">
+										<span class="etooltip"> ${send.receivedCount}
+											<c:forEach items="${send.empList}" var="emp">
+												<span class="etooltiptext">(${emp.depName}) ${emp.empName}${emp.posName}
+													<c:if test="${emp.readYN=='Y'}">
+														&nbsp;&nbsp;&nbsp;&nbsp;읽음
+													</c:if>
+													<c:if test="${emp.readYN=='N'}">
+														&nbsp;&nbsp;&nbsp;&nbsp;안읽음
+													</c:if>
+											    </span>
+										    </c:forEach>
+										</span>
 									</c:if>
 								</td>
 								<td>${send.sendMailTitle}</td>

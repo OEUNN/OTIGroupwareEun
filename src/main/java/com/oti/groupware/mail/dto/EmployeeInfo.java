@@ -8,5 +8,5 @@ public class EmployeeInfo {
     private String empName;
     private String depName;
     private String posName;
-    
+    private String readYN;
 }

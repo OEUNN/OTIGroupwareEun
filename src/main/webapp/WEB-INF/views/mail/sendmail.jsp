@@ -38,7 +38,6 @@
 					dataType : 'html',
 					data : {page : No, search : search, mailId : star},
 					success : function(data){
-						console.log(data);
 						$('#msendail_container').html(data);
 					 }
 				});

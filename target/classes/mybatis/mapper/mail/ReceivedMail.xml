@@ -34,6 +34,18 @@
 		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
 		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
 	</select>
+	
+	<select id="getReceivedEmpId" parameterType="int" resultType="string">
+		select  emp_id_employees
+		from received_mails
+		where send_mail_id =#{sendMailId} 
+	</select>
+	
+	<select id="readYN" parameterType="map" resultType="string">
+		select recd_mail_read_receipt_yn
+		from received_mails
+		where send_mail_id =#{sendMailId} and emp_id_employees = #{empId}
+	</select>
     
     <insert id="insertReceivedMail" parameterType="map">
         INSERT INTO received_mails (
@@ -108,19 +120,13 @@
 		where send_mail_id = ${sendMailId}
     </select>
     
-    <select id="getrecivedId" parameterType="int" resultType="string">
-    	select emp_id_employees
-    	from received_mails
-    	where send_mail_id = ${sendMailId}
-    </select>
-    
-    <select id="receivedMamilGetImport" parameterType="map" resultType="string">
+    <select id="receivedMailGetImport" parameterType="map" resultType="string">
     	select RECD_MAIL_IMPORTANCE_YN
 		from received_mails
 		where SEND_MAIL_ID= #{mailId} and EMP_ID_EMPLOYEES = #{empId}
     </select>
     
-    <update id="receivedMamilChangeImport" parameterType="map">
+    <update id="receivedMailChangeImport" parameterType="map">
     	update received_mails
     	set RECD_MAIL_IMPORTANCE_YN =
 		<if test='star.equals("Y")'>
@@ -144,5 +150,24 @@
     <delete id="deleteReceivedMail">
         DELETE FROM received_mails WHERE send_mail_id = #{sendMailId} AND emp_id_employees = #{empIdEmployees}
     </delete>
+    
+    <select id="getMailInformation" parameterType="int" resultMap="receivedMailResultMap">
+    	SELECT send_mail_id,
+		    emp_id_employees,
+		    recd_mail_importance_yn,
+		    recd_mail_date,
+		    recd_mail_read_receipt_yn,
+		    recd_mail_del_date,
+		    recd_mail_del_yn,
+		    recd_mail_del_complete_yn
+		from received_mails
+		where send_mail_id = #{sendMailId}
+    </select>
+    
+     <update id="importReceivedMailChangeImport" parameterType="map">
+    	update received_mails
+    	set RECD_MAIL_IMPORTANCE_YN = 'N'
+		where SEND_MAIL_ID= #{mailId} and EMP_ID_EMPLOYEES = #{empId}
+    </update>
     
 </mapper>

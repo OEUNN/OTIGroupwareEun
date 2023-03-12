@@ -19,6 +19,7 @@
 		<result column="emp_file_name" property="empFileName"/>
 	</resultMap>
 	
+	
 	<select id="getEmployeeById" parameterType="map" resultMap="employeeResultMap">
 		SELECT emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
             emp_extension_number, emp_phone_number, emp_leave_reserve,
@@ -137,4 +138,19 @@
 		select emp_id, emp_name, emp_mail, pos_id, dep_id
 		from employees
 	</select>
+	
+	<select id="mailInfo" parameterType="string" resultType="employeeInfo">
+		select pos_name as posName, dep_name as depName, emp_name as empName
+		from positions p, departments d, employees e 
+		where p.pos_id = 
+		        (select pos_id
+		        from employees
+		        where emp_id=#{empId})
+		    and d.dep_id =
+		        (select dep_id
+		        from employees
+		        where emp_id=#{empId}) 
+		    and e.emp_id =#{empId}
+	</select>
+	
 </mapper>

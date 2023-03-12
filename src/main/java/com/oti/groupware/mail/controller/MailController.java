@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.oti.groupware.common.Pager;
 import com.oti.groupware.employee.dto.Employee;
-import com.oti.groupware.employee.service.EmployeeService;
 import com.oti.groupware.mail.dto.MailFile;
 import com.oti.groupware.mail.dto.ReceivedMail;
 import com.oti.groupware.mail.dto.SendMail;
@@ -94,9 +93,11 @@ public class MailController {
 		int totalRows = mailService.receivedMailSearchRowsCount(employee.getEmpId(), search);
 		// 페이저 객체 생성
 		Pager pager = new Pager(10, 5, totalRows, page);
-		List<ReceivedMail> receivedMail = mailService.getSearchReceivedMail(employee.getEmpId(), pager, search);
-		model.addAttribute("receivedmail", receivedMail);
-		model.addAttribute("pager", pager);
+		if(totalRows != 0) {
+			List<ReceivedMail> receivedMail = mailService.getSearchReceivedMail(employee.getEmpId(), pager, search);
+			model.addAttribute("receivedmail", receivedMail);
+			model.addAttribute("pager", pager);
+		}
 		return "mail/receivedmailinfo";
 	}
 	
@@ -121,21 +122,51 @@ public class MailController {
 	public String sendSearch(int page, String search, int mailId, HttpSession session, Model model) {
 		Employee employee = (Employee) session.getAttribute("employee");
 		if(mailId!=0) {
-			mailService.sendMamilChangeImport(mailId);
+			mailService.sendMailChangeImport(mailId);
 		}
 		int totalRows = mailService.sendMailSearchRowsCount(employee.getEmpId(), search);
 		// 페이저 객체 생성
 		Pager pager = new Pager(10, 5, totalRows, page);
-		List<SendMail> sendMail = mailService.getSearchSendMail(employee.getEmpId(), pager,search);
-		model.addAttribute("sendmail", sendMail);
-		model.addAttribute("pager", pager);
+		if(totalRows != 0) {
+			List<SendMail> sendMail = mailService.getSearchSendMail(employee.getEmpId(), pager,search);
+			model.addAttribute("sendmail", sendMail);
+			model.addAttribute("pager", pager);
+		}
 		return "mail/sendmailinfo";
 	}
 		
 	//중요메일
 	@RequestMapping(value = "/importmail", method = RequestMethod.GET)
-	public String importMail() {
+	public String importMail(HttpSession session, Model model) {
+		log.info("실행");
+		Employee employee = (Employee)session.getAttribute("employee");
+		int totalRows = mailService.importMailRowsCount(employee.getEmpId());
+		//페이저 객체 생성
+		Pager pager = new Pager(10, 5, totalRows, 1);
+		if(totalRows != 0) {
+			List<SendMail> sendMail = mailService.getImportMail(employee.getEmpId(), pager);
+			model.addAttribute("sendmail", sendMail);
+			model.addAttribute("pager", pager);
+		}
 		return "mail/importmail";
+	}
+	
+	//중요메일 필터
+	@RequestMapping(value = "/importsearch", method = RequestMethod.POST)
+	public String importSearch(int page, int mailId, HttpSession session, Model model) {
+		log.info(mailId);
+		Employee employee = (Employee) session.getAttribute("employee");
+		if (mailId != 0) {
+			mailService.importMailChangeImport(mailId, employee.getEmpId());
+		}
+		int totalRows = mailService.importMailRowsCount(employee.getEmpId());
+		Pager pager = new Pager(10, 5, totalRows, page);
+		if(totalRows != 0) {
+			List<SendMail> sendMail = mailService.getImportMail(employee.getEmpId(), pager);
+			model.addAttribute("sendmail", sendMail);
+			model.addAttribute("pager", pager);
+		}
+		return "mail/importmailinfo";
 	}
 
 	// 중요메일 팝업창
@@ -146,7 +177,17 @@ public class MailController {
 	
 	//임시 보관함
 	@RequestMapping(value = "/tempmail", method = RequestMethod.GET)
-	public String tempMail() {
+	public String tempMail(HttpSession session, Model model) {
+		log.info("실행");
+		Employee employee = (Employee)session.getAttribute("employee");
+		int totalRows = mailService.tempMailRowsCount(employee.getEmpId());
+		//페이저 객체 생성
+		Pager pager = new Pager(10, 5, totalRows, 1);
+		if(totalRows != 0) {
+			List<SendMail> sendMail = mailService.getTempMail(employee.getEmpId(), pager);
+			model.addAttribute("sendmail", sendMail);
+			model.addAttribute("pager", pager);
+		}
 		return "mail/tempmail";
 	}
 	
@@ -158,7 +199,17 @@ public class MailController {
 	
 	//휴지통
 	@RequestMapping(value = "/trashmail", method = RequestMethod.GET)
-	public String trashMail() {
+	public String trashMail(HttpSession session, Model model) {
+		log.info("실행");
+		Employee employee = (Employee)session.getAttribute("employee");
+		int totalRows = mailService.trashMailRowsCount(employee.getEmpId());
+		//페이저 객체 생성
+		Pager pager = new Pager(10, 5, totalRows, 1);
+		if(totalRows != 0) {
+			List<SendMail> sendMail = mailService.getTrashMail(employee.getEmpId(), pager);
+			model.addAttribute("sendmail", sendMail);
+			model.addAttribute("pager", pager);
+		}
 		return "mail/trashmail";
 	}
 	

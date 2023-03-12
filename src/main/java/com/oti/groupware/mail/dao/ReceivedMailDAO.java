@@ -17,8 +17,11 @@ public interface ReceivedMailDAO {
 	public int mailSearchRowsCount(@Param("empId")String empId, @Param("search")String search);
 	public List<ReceivedMail> getSearchReceivedMailById(@Param("empId")String empId,  @Param("pager")Pager pager, @Param("search")String search);
 	public int getReceivedCount(int sendMailId);
-	public List<String> getrecivedId(int sendMailId);
-	public String receivedMamilGetImport(@Param("mailId")int mailId, @Param("empId")String empId);
-	public void receivedMamilChangeImport(@Param("star")String star, @Param("mailId")int mailId, @Param("empId")String empId);
+	public String receivedMailGetImport(@Param("mailId")int mailId, @Param("empId")String empId);
+	public void receivedMailChangeImport(@Param("star")String star, @Param("mailId")int mailId, @Param("empId")String empId);
+	public List<String> getReceivedEmpId(int sendMailId);
+	public String readYN(@Param("sendMailId")int sendMailId, @Param("empId")String empId);
+	public List<ReceivedMail> getMailInformation(int sendMailId);
+	public void importReceivedMailChangeImport(@Param("mailId")int mailId, @Param("empId")String empId);
 	
 }

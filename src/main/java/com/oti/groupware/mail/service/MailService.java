@@ -20,11 +20,15 @@ public interface MailService {
 	List<ReceivedMail> getSearchReceivedMail(String empId, Pager pager, String search);
 	int sendMailRowsCount(String empId);
 	List<SendMail> getSendMail(String empId, Pager pager);
-	void sendMamilChangeImport(int mailId);
+	void sendMailChangeImport(int mailId);
 	int sendMailSearchRowsCount(String empId, String search);
 	List<SendMail> getSearchSendMail(String empId, Pager pager, String search);
+	int importMailRowsCount(String empId);
+	List<SendMail> getImportMail(String empId, Pager pager);
+	void importMailChangeImport(int mailId, String empId);
+	int tempMailRowsCount(String empId);
+	List<SendMail> getTempMail(String empId, Pager pager);
+	int trashMailRowsCount(String empId);
+	List<SendMail> getTrashMail(String empId, Pager pager);
 	
-	
-	
-
 }

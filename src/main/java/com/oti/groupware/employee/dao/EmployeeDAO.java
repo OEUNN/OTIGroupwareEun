@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.oti.groupware.common.Pager;
 import com.oti.groupware.employee.dto.Employee;
+import com.oti.groupware.mail.dto.EmployeeInfo;
 
 public interface EmployeeDAO {
     public Employee getEmployeeById(String empId);
@@ -27,5 +28,6 @@ public interface EmployeeDAO {
 	public List<Employee> getEmployees(@Param("pager") Pager pager);
 	public Employee getCeoInformation();
 	public List<Employee> getemp();
+	public EmployeeInfo mailInfo(String empId);
 	
 }

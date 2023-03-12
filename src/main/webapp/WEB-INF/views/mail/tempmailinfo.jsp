@@ -6,33 +6,42 @@
 <script src="${pageContext.request.contextPath}/resources/js/settings.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/todolist.js"></script>
 <style>
-	.table th, .jsgrid .jsgrid-table th, 
-	.table td, 
-	.jsgrid .jsgrid-table td { 
-  padding: 0.125rem 1.375rem; 
-	} 
+	.table th, .jsgrid .jsgrid-table th,
+	.table td,
+	.jsgrid .jsgrid-table td {
+	padding: 0.125rem 1.375rem;
+	}
+	.etooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.etooltip .etooltiptext {
+  visibility: hidden;
+  width: 250px;
+  background-color: #4849ac;
+  border-radius:6px;
+  color: white;
+  text-align: left;
+  padding: 5px;
+  
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 130%;
+  left: 120%;
+  margin-left:-60px;
+}
+
+.etooltip:hover .etooltiptext {
+  visibility: visible;
+}
 </style>
 <div class="card">
 	<div class="card-body">
-		<h4 class="card-title">받은 메일</h4>
+		<h4 class="card-title">보낸 메일</h4>
 		<!-- 검색 태그 -->
-		<div class="row mb-3 mt-5 mx-3">
-			<div class="form-inline" style="border-bottom:1px solid #e9ecef;">
-			<div class="px-3 py-1 ahover">
-					<button onclick="search(1)" style="color:grey;">읽은메일</button>
-				</div>
-				<div class="px-3 py-1 ahover">
-					<button onclick="search(2)" style="color:grey;">읽지않은메일</button>
-				</div>
-				<div class="px-3 py-1 ahover">
-					<button onclick="search(3)" style="color:grey;">중요메일</button>
-				</div>
-				<div class="px-3 py-1 ahover">
-					<button onclick="search(4)" style="color:grey;">중요표시안한메일</button>
-				</div>
-			</div>
-			<input type="hidden" id="searchBtn"/>
-		</div><!-- 검색 태그 -->
+		<div class="row mb-3 mt-5 mx-3"> </div><!-- 검색 태그 -->
 		<!-- 테이블 -->
 		<div class="table-responsive p-4">
 			<table class="table table-hover">
@@ -46,54 +55,72 @@
 							</div>
 						</th>
 						<th class="col-1 pb-3" style="font-size:15px;">첨부</th>
-						<th class="col-1 pb-3" style="font-size:15px;">발신인</th>
+						<th class="col-1 pb-3" style="font-size:15px;">수신인</th>
 						<th class="col-7 pb-3" style="font-size:15px;">제목</th>
 						<th class="col-2 pb-3" style="font-size:15px;">날짜</th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:if test="${!empty receivedmail}">
-						<c:forEach items="${receivedmail}" var="recd">
-							<c:if test="${recd.recdMailReadReceiptYN == 'Y'}">
-								<tr style="color:#a2a2a3;">
-							</c:if>
-							<c:if test="${recd.recdMailReadReceiptYN == 'N'}">
-								<tr>
-							</c:if>
+					<c:if test="${!empty sendmail}">
+						<c:forEach items="${sendmail}" var="send">
+							<tr>
 								<td class="form-inline pr-0 p1-2">
 									<div class="form-check font-weight-bold text-info">
 										<label class="form-check-label">
 											<input type="checkbox" class="form-check-input" name="optradio">
 										</label>
 									</div>
-									<c:if test="${recd.recdMailImportanceYN == 'Y'}">
-										<button onclick="star(${recd.sendMailId})"><i class="h3 mdi mdi-star text-primary"></i></button>
-									</c:if>
-									<c:if test="${recd.recdMailImportanceYN == 'N'}">
-										<button onclick="star(${recd.sendMailId})"><i class="h3 mdi mdi-star-outline text-primary"></i></button>
-									</c:if>
-									<input type="hidden" id="star"/>
 								</td>
 								<td>
-									<c:if test="${recd.fileYN == 'Y'}">
+									<c:if test="${send.fileYN == 'Y'}">
 										<i class="h3 mdi mdi-paperclip text-primary"></i>
 									</c:if>
 								</td>
-								<td><i class="mdi mdi-arrow-left text-primary"></i>${recd.empName} ${recd.posName} </td>
-								<td>${recd.sendMailTitle}</td>
+								<td>
+									<i class="mdi mdi-arrow-right text-primary"></i>
+									<c:forEach items="${send.empList}" var="emp">
+										<c:if test="${send.receivedCount == 1}">
+											<span class="etooltip">${emp.empName} ${emp.posName}
+												<span class="etooltiptext">(${emp.depName}) ${emp.empName}${emp.posName}   
+													<c:if test="${emp.readYN=='Y'}">
+														&nbsp;&nbsp;&nbsp;&nbsp;읽음
+													</c:if>
+													<c:if test="${emp.readYN=='N'}">
+														&nbsp;&nbsp;&nbsp;&nbsp;안읽음
+													</c:if>
+												</span>
+											</span>
+										</c:if>
+									</c:forEach>
+									<c:if test="${send.receivedCount > 1}">
+										<span class="etooltip"> ${send.receivedCount}
+											<c:forEach items="${send.empList}" var="emp">
+												<span class="etooltiptext">(${emp.depName}) ${emp.empName}${emp.posName}
+													<c:if test="${emp.readYN=='Y'}">
+														&nbsp;&nbsp;&nbsp;&nbsp;읽음
+													</c:if>
+													<c:if test="${emp.readYN=='N'}">
+														&nbsp;&nbsp;&nbsp;&nbsp;안읽음
+													</c:if>
+											    </span>
+										    </c:forEach>
+										</span>
+									</c:if>
+								</td>
+								<td>${send.sendMailTitle}</td>
 								
 								<td>
-									<fmt:formatDate pattern="MM월 dd일   HH:mm:ss" value="${recd.recdMailDate}"/>
+									<fmt:formatDate pattern="MM월 dd일   HH:mm:ss" value="${send.sendMailDate}"/>
 								</td>
 							</tr>
 						</c:forEach>
 					</c:if>
-					<c:if test="${empty receivedmail}">
+					<c:if test="${empty sendmail}">
 						<tr>
 							<td></td>
 							<td></td>
 							<td></td>
-							<td  class="p-5" style="font-size:20px;">받은 메일함이 비었습니다.</td>
+							<td  class="p-5" style="font-size:20px;">임시 보관함이 비었습니다.</td>
 							<td></td>
 						</tr>
 					</c:if>
@@ -110,7 +137,7 @@
 		</div><!-- 하단 버튼 -->
 
 		<!-- 페이징 -->
-		<c:if test="${!empty receivedmail}">
+		<c:if test="${!empty sendmail}">
 			<div class="row mt-5 d-flex justify-content-center">
 				<ul class="pagination pb-0 mb-0">
 					<!-- 이전 -->

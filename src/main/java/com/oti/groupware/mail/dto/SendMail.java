@@ -22,4 +22,5 @@ public class SendMail {
     private int receivedCount;
     private List<EmployeeInfo> empList;
     private String fileYN; //파일 유무
+    private String tbName;
 }
