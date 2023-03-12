@@ -4,6 +4,10 @@ let month = today.getMonth() + 1;
 let date = today.getDate();
 let now = year + '/' + month + '/' + date;
 
+function getContextPath() {
+   return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+}
+
 function initForm() {
 	$("iframe").contents().find("body").find("#formDrafterDepName").text($("#drafterDepName").val());
 	$("iframe").contents().find("body").find("#formDrafterPosName").text($("#drafterPosName").val());
@@ -11,11 +15,11 @@ function initForm() {
 	$("iframe").contents().find("body").find("#formReportDate").text(now);
 }
 
-function addChangeLabelTextColorEvent(list, cachedElement) {
+function addChangeLabelTextColorEvent(list, cachedElement, isEditorContentEmpty) {
 	if (list != null) {
 		
 		if (list[0].className === 'form-check-label') {
-			list.on('click', (e) => {
+			list.on('click', (e, isEditorContentEmpty) => {
 				if (cachedElement != null) {
 					if ($(e.target)[0].className === 'form-check-label') {
 						cachedElement.css("color", "black");
@@ -34,7 +38,7 @@ function addChangeLabelTextColorEvent(list, cachedElement) {
 		}
 		
 		else if (list[0].className === 'form-check-input') {
-			list.on('click', (e) => {
+			list.on('click', (e, isEditorContentEmpty) => {
 				if (cachedElement != null) {
 					cachedElement.css("color", "black");
 					cachedElement.css("font-weight", "400");
@@ -59,21 +63,22 @@ function addChangeLabelTextColorEvent(list, cachedElement) {
 	}
 }
 
-function addChangeStatusTextEvent(list) {
+function addChangeStatusTextEvent(list, isEditorContentEmpty) {
 	if (list != null) {
 		
 		if (list[0].className === 'form-check-label') {
-			list.on('click', (e) => {
+			list.on('click', (e, isEditorContentEmpty) => {
 				//label 클릭 이벤트 후에 input 태그에서 클릭 이벤트가 발생, input의 text(빈 문자열)을 가져옴
 				//위의 사태를 방지하고자 className으로 label인지 input인지 판별
 				if ($(e.target)[0].className === 'form-check-label') {
 					$("#status").text($(e.target).text());
 				}
+				
 			});
 		}
 		
 		else if (list[0].className === 'form-check-input') {
-			list.on('click', (e) => {
+			list.on('click', (e, isEditorContentEmpty) => {
 				$("#status").text($(e.target).parent().text());
 			});
 		}
@@ -89,22 +94,24 @@ function addChangeStatusTextEvent(list) {
 }
 
 function addAjaxEvent(list, isEditorContentEmpty) {
-	list.on('click', (e) => {
+	list.on('click', (e, isEditorContentEmpty) => {
+		$("iframe").contents().find("#tinymce").attr('contenteditable', true);
+		
 		documentType = $(e.target).val();
 		
 		if (tinymce.get("document").getContent() === '') {
 			$.ajax({
-				url: '../resources/html/' + documentType + 'form.html',
+				url: getContextPath() + '/resources/html/' + documentType + 'form.html',
 				success: function(data) {
 					tinymce.get("document").setContent(data);
 					initForm();
+					isEditorContentEmpty = false;
 				}
 			});
-			isEditorContentEmpty = true;
 		}
 		else {
 			alert('작성한 내용이 있습니다.');
-			isEditorContentEmpty = false;
+			isEditorContentEmpty = true;
 		}
 	});
 }
@@ -118,9 +125,9 @@ $(document).ready(function(){
 	
 	addAjaxEvent(inputList, isEditorContentEmpty);
 	
-	addChangeLabelTextColorEvent(labelList, cachedElement);
-	addChangeStatusTextEvent(labelList);
+	addChangeLabelTextColorEvent(labelList, cachedElement, isEditorContentEmpty);
+	addChangeStatusTextEvent(labelList, isEditorContentEmpty);
 
-	addChangeLabelTextColorEvent(inputList, cachedElement);
-	addChangeStatusTextEvent(inputList);
+	addChangeLabelTextColorEvent(inputList, cachedElement, isEditorContentEmpty);
+	addChangeStatusTextEvent(inputList, isEditorContentEmpty);
 });

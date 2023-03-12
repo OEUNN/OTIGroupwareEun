@@ -64,6 +64,10 @@
 		DELETE FROM approval_lines WHERE emp_id = #{empId} AND doc_id = #{docId}
 	</delete>
 	
+	<delete id="deleteApprovalLineByDocId" parameterType="string">
+		DELETE FROM approval_lines WHERE doc_id = #{docId}
+	</delete>
+	
 	<select id="getApprovalLinesBydocId" parameterType="string" resultMap="approvalLineResultMap">
 		SELECT emp.emp_id, doc_id, aprv_line_state, aprv_line_order, aprv_line_role, aprv_line_approval_date, aprv_line_open_yn, aprv_line_opinion, emp_name, pos_name, dep_name
 		FROM approval_lines, employees emp, positions pos, departments dep
@@ -95,12 +99,7 @@
 			WHERE doc_id = #{docId}
 		)
 	</update>
-	
-	<select id="">
-		SELECT 
-		
 
-	</select>
 	
 	<!-- 임시 -->	
 	<select id="getOrganization" resultMap="organizationResultMap">

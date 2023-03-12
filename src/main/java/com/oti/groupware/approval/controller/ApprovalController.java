@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -151,15 +152,15 @@ public class ApprovalController {
 	
 	//반려/회수함
 	@RequestMapping(value = "/returneddocument", method=RequestMethod.GET)
-	public String returnedDocumentBox(HttpSession session, Model model) {
+	public String getReturnedDocumentList(HttpSession session, Model model) {
 		log.info("실행");
 		
-		return returnedDocumentBox(1, session, model);
+		return getReturnedDocumentList(1, session, model);
 	}
 	
 	//반려/회수함
 	@RequestMapping(value = "/returneddocument/{pageNo}", method=RequestMethod.GET)
-	public String returnedDocumentBox(@PathVariable int pageNo, HttpSession session, Model model) {
+	public String getReturnedDocumentList(@PathVariable int pageNo, HttpSession session, Model model) {
 		log.info("페이지 번호: " + pageNo);
 		
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
@@ -184,8 +185,34 @@ public class ApprovalController {
 	
 	//임시저장함
 	@RequestMapping(value = "/tempdocument", method=RequestMethod.GET)
-	public String tempDocumentBox() {
+	public String getTempDocumentList(HttpSession session, Model model) {
 		log.info("실행");
+		
+		return getTempDocumentList(1, session, model);
+	}
+	
+	//임시저장함
+	@RequestMapping(value = "/tempdocument/{pageNo}", method=RequestMethod.GET)
+	public String getTempDocumentList(@PathVariable int pageNo, HttpSession session, Model model) {
+		log.info("실행");
+		
+		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
+		pager = new Pager();
+		
+		documents = documentService.getTempDocumentList(pageNo, pager, empId);
+		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
+		
+		
+		model.addAttribute("pager", pager);
+		model.addAttribute("documents", documents);
+		model.addAttribute("approvalLinesList", approvalLinesList);
+		
+		for (Document document : documents) {
+			log.info("문서 목록: " + document.getDocTitle());
+		}
+		for (List<ApprovalLine> approvalLines : approvalLinesList) {
+			log.info("결재자 목록: " + approvalLines);
+		}
 		
 		return "approval/tempdocument";
 	}
@@ -199,11 +226,25 @@ public class ApprovalController {
 	}
 	
 	//결재 문서 작성 화면
+	@RequestMapping(value = "/approvalwrite/{docId}", method=RequestMethod.GET)
+	public String getApprovalWrite(@PathVariable("docId") String docId, HttpSession session, Model model) {
+		log.info("문서번호: " + docId);
+		
+		document = documentService.readDocument(docId);
+		approvalLines = approvalLineService.getApprovalLines(docId);
+		
+		model.addAttribute("document", document);
+		model.addAttribute("approvalLines", approvalLines);
+
+		return "approval/approvalwrite";
+	}
+	
+	//결재 문서 작성 화면
 	@RequestMapping(value = "/approvalwrite", method=RequestMethod.POST)
-	public String postApprovalWrite(@RequestParam("document") String document, @RequestParam("docTempYn") String docTempYn, DocumentContent documentContent) {
+	public String postApprovalWrite(@RequestParam("document") String document, @RequestParam("docTempYn") String docTempYn, DocumentContent documentContent, @RequestParam("drafterId") String drafterId) {
 		log.info("저장 하려는 HTML이 존재하는가:" + !(document.isEmpty()));
 		
-		int result = documentService.saveDraft(document, documentContent, docTempYn);
+		int result = documentService.saveDocument(document, documentContent, docTempYn, drafterId);
 		
 		log.info("저장 결과" + result);
 		return "redirect:/approval/draftdocument";
@@ -327,5 +368,40 @@ public class ApprovalController {
 		else {
 			return "home";
 		}
+	}
+	
+	//기안함 검색
+	@RequestMapping(value = "/search", method=RequestMethod.GET)
+	public String searchDraftDocument(@RequestParam("state") String state, HttpSession session, Model model) {
+		log.info("실행 ");
+		
+		return searchDraftDocument(state, session, model, 1);
+	}
+	
+	//기안함 검색
+	@RequestMapping(value = "/search/{pageNo}", method=RequestMethod.GET)
+	public String searchDraftDocument(@RequestParam("state") String state, HttpSession session, Model model, @PathVariable("pageNo") int pageNo) {
+		log.info("검색 문서 상태: " + state);
+		
+		if ("승인".equals(state) ) {
+			state = "완결";
+		}
+		
+		if ("진행".equals(state)) {
+			state = "결재중";
+		}
+		
+		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
+		pager = new Pager();
+		
+		documents = documentService.getDraftDocumentListByState(pageNo, pager, empId, state);
+		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
+		
+		
+		model.addAttribute("pager", pager);
+		model.addAttribute("documents", documents);
+		model.addAttribute("approvalLinesList", approvalLinesList);
+
+		return "approval/draftdocument";
 	}
 }

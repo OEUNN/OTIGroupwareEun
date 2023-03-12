@@ -169,7 +169,7 @@
         		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
         		doc_complete_date, doc_state, doc_read_yn
         	FROM documents doc, approval_lines apl, employees emp
-        	WHERE doc.emp_id = ${empId} AND doc.doc_id = apl.doc_id AND doc_state = '완결' AND 
+        	WHERE doc.emp_id = ${empId} AND doc.doc_id = apl.doc_id AND doc_state = '완결' AND doc_temp_yn = 'N' AND 
         	emp.emp_id = doc.emp_id AND rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
         )
         WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
@@ -194,6 +194,29 @@
         	FROM documents doc, approval_lines apl, employees emp
         	WHERE doc.emp_id = ${empId} AND doc_temp_yn = 'Y' AND 
         	emp.emp_id = doc.emp_id AND rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
+        )
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
+    ]]>
+	</select>
+	
+	<select id="getDraftDocumentCountByState" resultType="int">
+		SELECT count(*) 
+		FROM documents 
+		WHERE emp_id = #{empId} AND doc_state = #{state} AND doc_temp_yn = 'Y'
+	</select>
+	
+	<select id="getDraftDocumentListByState" resultMap="documentResultMap">
+    <![CDATA[
+        SELECT
+            doc_id, emp_id, doc_type, doc_title, doc_report_date,
+            doc_complete_date, doc_state, doc_read_yn
+        FROM (
+        	SELECT
+        		rownum as rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
+        		doc_complete_date, doc_state, doc_read_yn
+        	FROM documents
+        	WHERE emp_id = #{empId} AND doc_state = #{state} AND doc_temp_yn = 'N' and 
+        	rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
         )
         WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
     ]]>

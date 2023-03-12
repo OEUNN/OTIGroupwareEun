@@ -67,11 +67,11 @@
 			<div class="collapse" id="charts">
 				<ul class="nav flex-column sub-menu">
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/approvalwrite'/>">기안 작성</a></li>
-					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/draftdocument'/>">내가 기안한 문서</a></li>
-					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/completeddocument'/>">완결 된 문서</a></li>
-					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/pendeddocument'/>">나의 결재를 기다리는 문서</a></li>
-					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/returneddocument'/>">반려/회수 된 문서</a></li>
-					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/tempdocument'/>">임시저장 한 문서</a></li>
+					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/draftdocument'/>">기안문서함</a></li>
+					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/completeddocument'/>">완결문서함</a></li>
+					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/pendeddocument'/>">결재 대기 중인 문서</a></li>
+					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/returneddocument'/>">반려/회수문서함</a></li>
+					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/tempdocument'/>">임시저장함</a></li>
 				</ul>
 			</div>
 		</li>

@@ -121,21 +121,19 @@
 											<span>반려</span>
 										</button>
 		        						</c:if>
-										<c:if test="${reader.aprvLineRole == '기안' && document.docState != '회수' && document.docAprvStep > -1 && document.docReadYn == 'N'}">
+										<c:if test="${reader.aprvLineRole == '기안' && document.docTempYn == 'N' && document.docState != '회수' && document.docAprvStep > -1 && document.docReadYn == 'N'}">
 										<button type="submit" onclick="retrievePopup()" id="popup-btn" class="btn btn-md btn-secondary mx-2">
 											<span class="mdi mdi-apple-keyboard-caps align-middle"></span>
 											<span>회수</span>
 										</button>
 										</c:if>
 										<c:if test="${reader.aprvLineRole == '기안' && (document.docState == '회수' || document.docTempYn == 'Y')}">
-										<button type="submit" onclick="" id="popup-btn" class="btn btn-md btn-warning mx-2">
-											<span class="mdi mdi-calendar-clock align-middle"></span>
-											<span>임시저장</span>
-										</button>
-										<button type="submit" onclick="" id="popup-btn" class="btn btn-md btn-primary mx-2">
+										<form action="<c:url value="/approval/approvalwrite/${document.docId}"></c:url>">
+										<button type="submit" id="popup-btn" class="btn btn-md btn-primary mx-2">
 											<span class="mdi mdi-apple-keyboard-caps align-middle"></span>
 											<span>재상신하기</span>
 										</button>
+										</form>
 										</c:if>
 		        					</div>
 		        				</div>
@@ -216,7 +214,7 @@
 											<img src="images/faces/face2.jpg" alt="user">
 											<div>
 												<p class="h4 font-weight-bold text-primary mb-1">${approvalLine.employee.empName} ${approvalLine.position.posName}</p>
-												<p class="mb-0">${approvalLine.aprvLineOpinion}</p>	
+												<p class="mb-4">${approvalLine.aprvLineOpinion}</p>	
 											</div>
 										</div>
 										</c:if>

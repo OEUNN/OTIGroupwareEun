@@ -235,6 +235,13 @@
 											<c:forEach items="${documents}" var="document" varStatus="status">
 											<c:set value="${approvalLinesList[status.index]}" var="approvalLines"/>
 											<tr>
+												<td class="py-0 pl-1">
+													<div class="form-check font-weight-bold text-info my-1">
+														<label class="form-check-label">
+															<input type="checkbox" class="form-check-input" name="optradio">
+														</label>
+													</div>
+												</td>
 												<td class="pl-0">${document.docId}</td>
 												<td>
 													<c:choose>

@@ -12,6 +12,7 @@ public interface ApprovalLineDAO {
 	public void insertApprovalLine(ApprovalLine approvalLine);
 	public void updateApprovalLine(ApprovalLine approvalLine);
 	public void deleteApprovalLine(@Param("empId") String empId, @Param("docId") String docId);
+	public void deleteApprovalLineByDocId(String docId);
     
 	public List<ApprovalLine> getApprovalLinesBydocId(String docId);
 	public void insertDraftApprovalLine(ApprovalLine approvalLine);

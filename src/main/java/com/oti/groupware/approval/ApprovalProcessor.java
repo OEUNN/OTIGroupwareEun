@@ -35,7 +35,7 @@ public class ApprovalProcessor {
 				}
 				
 				//모든 결재자들이 결재하여 완결된 경우, 결재단계를 -1로 설정
-				if (documentApprovalStep == documentMaxStep) {
+				if (documentApprovalStep > documentMaxStep) {
 					documentApprovalStep = -1;
 					document.setDocState("완결");
 					document.setDocCompleteDate(Date.valueOf(LocalDate.now()));

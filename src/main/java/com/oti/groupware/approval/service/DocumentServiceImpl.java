@@ -18,6 +18,8 @@ import com.oti.groupware.approval.dto.Document;
 import com.oti.groupware.approval.dto.DocumentContent;
 import com.oti.groupware.common.Pager;
 import com.oti.groupware.common.dto.Organization;
+import com.oti.groupware.employee.dao.EmployeeDAO;
+import com.oti.groupware.employee.dto.Employee;
 
 import oracle.jdbc.logging.annotations.DisableTrace;
 
@@ -55,26 +57,50 @@ public class DocumentServiceImpl implements DocumentService {
 	
 	@Autowired
 	ApprovalLineDAO approvalLineDAO;
-
+	
+	@Autowired
+	EmployeeDAO employeeDAO;
+	
+	@Override
+	public Document readDocument(String docId) {
+		document = documentDAO.getDocumentById(docId);
+		return document;
+	}
+	
 	@Override
 	@Transactional
-	public int saveDraft(String html, DocumentContent documentContent, String docTempYn) {
+	public int saveDocument(String html, DocumentContent documentContent, String docTempYn, String drafterId) {
 		if (html != null) {
-			documentParser.ParseDraft(html, documentContent.getDrafterId());
+			documentParser.parseDocument(html, documentContent.getDrafterId());
 			document = documentParser.getParsedDocument();
+			document.setDocTempYn(docTempYn);
 			
 			String documentType = document.getDocType();
-			String documentId = documentContentProvider.getDocumentIdByDocumentType(documentType);
+
 			String documentRetentionPeriod = documentContentProvider.getDocumentRetentionPeriodByDocumentType(documentType);
-			document.setDocId(documentId);
 			document.setDocRetentionPeriod(documentRetentionPeriod);
+			if (document.getDocReportDate() == null) {
+				document.setDocReportDate(Date.valueOf(LocalDate.now()));
+			}
 			if (document.getDocWriteDate() == null) {
 				document.setDocWriteDate(Date.valueOf(LocalDate.now()));
 			}
-			document.setDocTempYn(docTempYn);
 			
-			documentDAO.insertDraft(document);
+			Employee drafter = employeeDAO.getEmployeeById(drafterId);
 			
+			if ("공란".equals(document.getDocId())) {
+				String documentId = documentContentProvider.getDocumentIdByDocumentType(documentType);
+				document.setDocId(documentId);
+				//document.setDocContent(documentParser.setHTML(html, document, documentContent, drafter));
+				documentDAO.insertDraft(document);
+				
+			}
+			else {
+				//document.setDocContent(documentParser.setHTML(html, document, documentContent, drafter));
+				documentDAO.updateDocument(document);
+				approvalLineDAO.deleteApprovalLineByDocId(document.getDocId());
+			}
+
 			approvalLine = new ApprovalLine();
 			approvalLine.setEmpId(documentContent.getDrafterId());
 			approvalLine.setDocId(document.getDocId());
@@ -103,11 +129,6 @@ public class DocumentServiceImpl implements DocumentService {
 		return 0;
 	}
 
-	@Override
-	public Document readDocument(String docId) {
-		document = documentDAO.getDocumentById(docId);
-		return document;
-	}
 	
 	@Override
 	@Transactional
@@ -191,7 +212,14 @@ public class DocumentServiceImpl implements DocumentService {
 		pager = new Pager(10, 10, totalRows, pageNo);
 		return documentDAO.getTempDocumentList(pager, empId);
 	}
-
+	
+	@Override
+	@Transactional
+	public List<Document> getDraftDocumentListByState(int pageNo, Pager pager, String empId, String state) {
+		int totalRows = documentDAO.getDraftDocumentCountByState(empId, state);
+		pager = new Pager(10, 10, totalRows, pageNo);
+		return documentDAO.getDraftDocumentListByState(pager, empId, state);
+	}
 	
 	/*
 	 * 임시

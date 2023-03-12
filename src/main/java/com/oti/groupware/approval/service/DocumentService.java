@@ -8,8 +8,8 @@ import com.oti.groupware.common.Pager;
 import com.oti.groupware.common.dto.Organization;
 
 public interface DocumentService {
-	public int saveDraft(String html, DocumentContent documentContent, String docTempYn);
 	public Document readDocument(String docId);
+	int saveDocument(String html, DocumentContent documentContent, String docTempYn, String drafterId);
 	public boolean processApprovalRequest(String state, String opinion, String docId, String empId);
 	
 	
@@ -19,6 +19,8 @@ public interface DocumentService {
 
 	public List<Document> getTempDocumentList(int pageNo, Pager pager, String empId);
 	public List<Document> getCompletedDocumentList(int pageNo, Pager pager,String empId);
+	
+	List<Document> getDraftDocumentListByState(int pageNo, Pager pager, String empId, String state);
 	
 	public List<Organization> getOrganization();
 }

@@ -86,7 +86,7 @@
 			}
 		}
 		
-		function sendApprovalLine(tagId, openerHTML) {
+		function sendApprovalLine(tagId) {
 			$(tagId).each((index, element) => {
 				var empId = $(element).attr('id').substr(3);
 				var depName = $(element).attr('class').split(' ')[4];
@@ -127,13 +127,13 @@
 					empName : empName,
 					depName : depName,
 					posName : posName,
-					approvalOrder : approvalOrder
+					approvalOrder : approvalOrder,
+					index : index
 				}
-				$(openerHTML).find(".remove-flag").empty();
 				opener.postMessage(sendData);
-				window.close();
 			//$(tagId).forEach
 			});
+			window.close();
 		//function sendApprovalLine
 		}
 		

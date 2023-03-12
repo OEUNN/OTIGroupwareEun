@@ -32,4 +32,7 @@ public interface DocumentDAO {
 	
 	public int getTempDocumentCount(String empId);
 	public List<Document> getTempDocumentList(@Param("pager") Pager pager, @Param("empId") String empId);
+	
+	public int getDraftDocumentCountByState(@Param("empId") String empId, @Param("state") String state);
+	public List<Document> getDraftDocumentListByState(@Param("pager") Pager pager, @Param("empId") String empId, @Param("state") String state);
 }
