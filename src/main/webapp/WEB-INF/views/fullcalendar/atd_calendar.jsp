@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <!-- Plugin css,js for this page -->
-<script src='${pageContext.request.contextPath}/resources/vendors/fullcalendar/js/index.global.js'></script>
+<script src='${pageContext.request.contextPath}/resources/vendors/fullcalendar/js/core.js'></script>
 <script src='${pageContext.request.contextPath}/resources/vendors/fullcalendar/js/goggle.calendar.min.js'></script>
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
@@ -10,6 +10,11 @@
 				//달력 렌더링
 				var calendarEl = document.getElementById('calendar');
 				var calendar = new FullCalendar.Calendar(calendarEl, {
+					headerToolbar: {
+				        left: '',
+				        center: 'prev title next',
+				        right: 'today'
+				      },                
 					contentHeight : 700,
 					selectable : true,
 					businessHours : true,
@@ -25,7 +30,7 @@
 					      googleCalendarApiKey: 'AIzaSyAocA5FID3dzNX7LOO3N02rbI_4oEKjQPM',
 					      googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
 					      className: 'fc-holiday-ko', // 특별한 클래스 이름을 사용하여 구분
-				    	  color: '#89c989'
+				    	  color: 'transparent'
 					    }
 					],
 					eventContent: function(info) {
@@ -35,15 +40,15 @@
 						
 						if (eventTitle == '출근') {
 							if(eventTime.substring(0, 2) <= 8) {
-								return { html : '<div id="intime-badge" class="badge" style="background-color:#F3797E;">출근 ' + eventTime + '</div>' }
+								return { html : '<div id="intime-badge" class="badge badge-primary">출근 ' + eventTime + '</div>' }
 							} else { //지각인 경우
-								return { html : '<div class="badge badge-outline-danger">지각 ' + eventTime + '</div>' }
+								return { html : '<div class="badge badge-outline-primary">지각 ' + eventTime + '</div>' }
 							}
 						} else if (eventTitle == '퇴근') {
 							if(eventTime.substring(0, 2) <= 17) { //조퇴인 경우 
-								return { html : '<div class="badge badge-outline-primary">조퇴 ' + eventTime + '</div>' }
+								return { html : '<div class="badge badge-outline-danger">조퇴 ' + eventTime + '</div>' }
 							} else {
-								return { html : '<div class="badge badge-primary">퇴근 ' + eventTime + '</div>' }
+								return { html : '<div class="badge" style="background-color:#f37981;">퇴근 ' + eventTime + '</div>' }
 							}
 						} else if(eventTitle == '결근' ) {
 							return { html : '<div class="h4 mt-2 mb-0 font-weight-bold" style="color:rgba(163, 164, 165, 0.9)">결근</div>' }
@@ -52,15 +57,26 @@
 						} else if(eventTitle == '오전반차' || eventTitle == '오후반차') {
 							return { html : '<div class="btn btn-md font-weight-bold px-3 py-1" style="background-color:rgba(163, 164, 165, 0.3); color:#5b5b5e;">'+ eventTitle +'</div>' }
 						} else if(eventTitle == '추가근무') {
-							return { html : '<div class="badge" style="background-color:#FDD36A; padding: 7px 5px; font-size:5%;">추가근무 ' + eventTime + '</div>' }
+							return { html : '<div class="badge font-weight-bold" style="color:#805c46; background-color:rgb(255, 205, 86); padding: 7px 5px; font-size:5%;">추가근무 ' + eventTime + '</div>' }
 						} else if($('.fc-holiday-ko')){
-							return { html : eventTitle }
+							// 날짜 객체 생성
+							var date = new Date(info.event.start);
+							var holiday = date.getFullYear() + '년 ' + (date.getMonth()+1) + '월 ' + date.getDate() + '일';
+							// 공휴일에 해당하는 날짜 스타일 변환
+							$('a[aria-label="'+ holiday +'"]').css({
+							    'display': 'flex',
+								'color': 'red',
+							    'font-weight': 'bold'
+							});
+							// 공휴일 종류(타이틀) 태그 만들기
+							var newElmentTitle = '<div class="mr-1">' + eventTitle + '</div>';
+							var newElmentDate = '<div class="px-1" style="color: white; background-color:red; border-radius:5px;">' + date.getDate() + '일' + '</div>';
+							$('a[aria-label="'+ holiday +'"]').html(newElmentTitle + newElmentDate);
 						}
 					}
 				});
 				calendar.render();
 		});
-
 	});
 
 	/* 달력에서 일자를 누르면 상세보기 가능 */
@@ -120,7 +136,7 @@
 			
 		});
 	});
-
+	
 	/* 근무시간수정 팝업창 */
 	function upateTimePopup() {
 		var url = "popup/updatetimeapp";
@@ -143,10 +159,25 @@
 		min-width: 100%;
 	}
 	
-	/* 공휴일	 */
-/* 	.fc-holiday-ko { */
-/* 		display: none; */
-/* 	} */
+	/* 캘린더 툴바 - 일부(이전,제목,다음)  */
+	.fc-toolbar-chunk {
+		display: flex;
+		align-items: center;
+		font-size: 20px;
+		font-weight: bold;
+	}
+	
+	/* 캘린더(연월일) */
+	.fc-direction-ltr .fc-toolbar>*>:not(:first-child) {
+		margin-left: 50px;
+	}
+	
+	/* TODAT 버튼 active 일때, disabled 상태 */
+	.fc .fc-button-primary:disabled {
+		background-color: rgba(163, 164, 165, 0.3);
+		border-color: transparent;
+		color: #5b5b5e;
+	}
 	
 	.fc-daygrid-event {
 		border-radius: 3px;
@@ -160,7 +191,6 @@
 		z-index: 200;
 		top: -3px;
 	}
-	
 	
 	.fc-popover .fc-popover-body .fc-daygrid-event-harness .fc-holiday-ko {
 		display: none;

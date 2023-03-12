@@ -51,8 +51,21 @@ public class HrServiceImpl implements HrService {
 	
 	/** 나의 근무 통계 가져오기 **/
 	@Override
-	public HashMap<String, Integer> attendanceStats(String empId) {
-		return attendanceDAO.getAttendanceStats(empId);
+	public JSONArray attendanceStats(String empId) {
+		//월별 근무 통계 가져옴
+		HashMap<String, Integer> atdStats = attendanceDAO.getAttendanceStats(empId);
+		
+		//JSON 객체를 만든 후, JSON Array로 변환
+		JSONObject  jsonObj = new JSONObject();
+		JSONArray jsonArr = new JSONArray();
+		jsonObj.put("정상출근", atdStats.get("정상출근"));
+		jsonObj.put("지각", atdStats.get("지각"));
+		jsonObj.put("추가근무", atdStats.get("추가근무"));
+		jsonObj.put("조퇴", atdStats.get("조퇴"));
+		jsonObj.put("결근", atdStats.get("결근"));
+		jsonArr.put(jsonObj);
+		
+		return jsonArr;
 	}
 	
 	/** 나의근무 - 달력 - 출퇴근 기록 이벤트 가져오기 **/
@@ -357,8 +370,8 @@ public class HrServiceImpl implements HrService {
 				}
 				//기존에 있던 잔여일수 차감(카운팅)
 				leaveApplicationDAO.updateEmployeeReserve(leaveApplication.getEmpId(), leaveApplication.getLevAppCategory(), leaveApplication.getLevPeriod());
-				//신청날짜에 해당하는 Attendances 데이터를 미리 만든 후, 근무상태를 변경
-				attendanceDAO.insertBeforehandAttendance(leaveApplication);
+				//유형에 맞게 수정!
+				attendanceDAO.updateAttendanceLeaveState(leaveApplication);
 			}
 		} 
 		//결재상태를 승인, 반려로 수정해줌

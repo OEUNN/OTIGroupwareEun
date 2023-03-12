@@ -13,7 +13,7 @@ import com.oti.groupware.hr.dto.LeaveApplication;
 
 public interface HrService {
 	public Attendance attendanceToday(String empId);
-	public HashMap<String, Integer> attendanceStats(String empId);
+	public JSONArray attendanceStats(String empId);
 	public JSONArray attendanceCalendarList(String empId);
 	public void inTime(String empId);
 	public void outTime(String empId);

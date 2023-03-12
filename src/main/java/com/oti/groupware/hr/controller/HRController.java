@@ -55,24 +55,38 @@ public class HRController {
 		Attendance attendance = hrService.attendanceToday(empId); 
 		model.addAttribute("attendance", attendance);
 		
-		//근무통계 갖고옴
-		HashMap<String, Integer> stateCount = hrService.attendanceStats(empId); 
-		model.addAttribute("stateCount", stateCount);
-		
 		return "hr/myattendance";
 	}
 	
 	/**
-	 *  AJAX통신으로 달력의 출퇴근 목록을 갖고옴
+	 * 월별 근무통계를 가져옴(AJAX통신)
 	 * @author 한송민
-	 * @return 달력 출퇴근 목록
+	 * @return 근무 통계
 	 */
-	@GetMapping(value = "/calendar",  produces="application/json; charset=UTF-8")
+	@RequestMapping(value = "/attendancestats", method=RequestMethod.GET , produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public String attendanceCalendar(HttpSession session) {
+	public String attendanceStatus(HttpSession session) {
+		//세션에 저장된 직원ID 갖고옴
 		Employee employee = (Employee) session.getAttribute("employee");
 		String empId = employee.getEmpId();
 		
+		//근무통계 가져옴
+		JSONArray statusCount = hrService.attendanceStats(empId); 
+		return statusCount.toString();
+	}
+	
+	/**
+	 *  달력의 출퇴근 목록을 가져옴 (AJAX통신)
+	 * @author 한송민
+	 * @return 달력 출퇴근 목록
+	 */
+	@RequestMapping(value = "/calendar", method=RequestMethod.GET , produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public String attendanceCalendar(HttpSession session) {
+		//세션에 저장된 직원ID 갖고옴
+		Employee employee = (Employee) session.getAttribute("employee");
+		String empId = employee.getEmpId();
+		//달력에 넣을 근무내역 가져옴
 		JSONArray atdCalList = hrService.attendanceCalendarList(empId);
 		return atdCalList.toString();
 	}
