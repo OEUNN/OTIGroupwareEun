@@ -206,7 +206,7 @@ public class MailServiceImpl implements MailService {
 			if(list.getTbName().equals("received")) {
 				EmployeeInfo empInfo =employeeDao.mailInfo(send.getEmpId());
 				empInfo.setEmpName(send.getEmpId()); //나에게 메일을 보낸 사람
-				empInfo.setReadYN(receivedMailDao.readYN(list.getSendMailId(),empId));
+				empInfo.setReadYN(receivedMailDao.readYN(list.getSendMailId(),empId)); //내가 읽었는지 안읽었는지
 				emp.add(empInfo);
 			}else {
 				List<ReceivedMail> received = receivedMailDao.getMailInformation(list.getSendMailId());
@@ -214,7 +214,7 @@ public class MailServiceImpl implements MailService {
 //				log.info("메일 아이디에 따른 보낸사람에대한 정보 :" +received);
 				for(ReceivedMail rcd : received) {
 					EmployeeInfo empInfo =employeeDao.mailInfo(rcd.getEmpIdEmployees());
-					empInfo.setReadYN(receivedMailDao.readYN(list.getSendMailId(),rcd.getEmpIdEmployees()));
+					empInfo.setReadYN(receivedMailDao.readYN(list.getSendMailId(),rcd.getEmpIdEmployees())); //상대방이 읽었는지 안읽었는지
 					emp.add(empInfo);
 				}
 			}
