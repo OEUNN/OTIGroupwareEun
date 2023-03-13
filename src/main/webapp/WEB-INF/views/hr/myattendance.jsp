@@ -187,7 +187,7 @@
 					           		<div class="card-body px-4">
 					           			<div class="row">
 						           			<!-- 현재시간/근무상태 -->
-						           			<div class="col-md-5">
+						           			<div class="col-md-6 pl-1">
 							           			<!-- 현재시간 -->
 							               		<div class="row ml-1">
 													<div class="justify-content-start align-items-center">
@@ -219,7 +219,7 @@
 												</div>
 						           			</div>
 						           			<!-- 출퇴근버튼 -->
-						           			<div class="col-md-7 pr-0" style="border-left: 4px dashed rgba(163, 164, 165, 0.3);">
+						           			<div class="col-md-6 pr-0" style="border-left: 4px dashed rgba(163, 164, 165, 0.3);">
 						           				<div class="row">
 						           					<div class="card-title ml-3">
 						           						출근/퇴근
@@ -228,33 +228,33 @@
 						           				<div class="d-flex justify-content-around">
 							               		    <!-- 출근버튼 클릭 전 -->
 						                      	    <c:if test="${empty attendance.atdInTime}">
-								               			<button onclick="location.href='${pageContext.request.contextPath}/hr/intime?nowJsp=hr'" class="btn btn-lg btn-outline-primary px-5 py-3" style="font-weight: 700; font-size: 120%;">
+								               			<button onclick="location.href='${pageContext.request.contextPath}/hr/intime?nowJsp=hr'" class="btn btn-lg btn-outline-primary px-4 py-3" style="font-weight: 700; font-size: 120%;">
 							                           		<div class="h2 mdi mdi-alarm-check align-middle"></div>
 							                           		<div>출근</div>
 							                      	   </button>
-							                           <button class="btn btn-lg btn-outline-secondary px-5 py-3" style="font-weight: 700; font-size: 120%; pointer-events: none;">
+							                           <button class="btn btn-lg btn-outline-secondary px-4 py-3" style="font-weight: 700; font-size: 120%; pointer-events: none;">
 							                           		<div class="h2 mdi mdi-alarm-off align-middle"></div>
 							                           		<div>퇴근</div>
 							                       	   </button>
 						                      	   </c:if>
 						                      	   <!--  출근버튼 클릭 후 -->
 						                      	   <c:if test="${!empty attendance.atdInTime && empty attendance.atdOutTime}">
-								               			<button class="btn btn-lg btn-outline-secondary px-5 py-3" style="font-weight: 700; font-size: 120%; pointer-events: none;">
+								               			<button class="btn btn-lg btn-outline-secondary px-4 py-3" style="font-weight: 700; font-size: 120%; pointer-events: none;">
 							                           		<div class="h2 mdi mdi-alarm-check align-middle"></div>
 							                           		<div>출근</div>
 							                      	   </button>
-							                           <button onclick="location.href='${pageContext.request.contextPath}/hr/outtime?nowJsp=hr'" class="btn btn-lg btn-outline-danger px-5 py-3" style="font-weight: 700; font-size: 120%;">
+							                           <button onclick="location.href='${pageContext.request.contextPath}/hr/outtime?nowJsp=hr'" class="btn btn-lg btn-outline-danger px-4 py-3" style="font-weight: 700; font-size: 120%;">
 							                           		<div class="h2 mdi mdi-alarm-off align-middle"></div>
 							                           		<div>퇴근</div>
 							                       	   </button>
 						                      	   </c:if>
 						                      	   <!-- 퇴근버튼 클릭 후 -->
 						                      	   <c:if test="${!empty attendance.atdInTime && !empty attendance.atdOutTime}">
-								               			<button class="btn btn-lg btn-outline-secondary px-5 py-3" style="font-weight: 700; font-size: 120%; pointer-events: none;">
+								               			<button class="btn btn-lg btn-outline-secondary px-4 py-3" style="font-weight: 700; font-size: 120%; pointer-events: none;">
 							                           		<div class="h2 mdi mdi-alarm-check align-middle"></div>
 							                           		<div>출근</div>
 							                      	   </button>
-							                           <button class="btn btn-lg btn-outline-secondary px-5 py-3" style="font-weight: 700; font-size: 120%; pointer-events: none;">
+							                           <button class="btn btn-lg btn-outline-secondary px-4 py-3" style="font-weight: 700; font-size: 120%; pointer-events: none;">
 							                           		<div class="h2 mdi mdi-alarm-off align-middle"></div>
 							                           		<div>퇴근</div>
 							                       	   </button>
