@@ -93,6 +93,12 @@ public class MailServiceImpl implements MailService {
 		receivedMailDao.receivedMailChangeImport(star, mailId, empId);
 		
 	}
+	
+	//받은메일 휴지통 보내기
+	@Override
+	public void receivedMailSearchDelete(List<Integer> mailId, String empId) {
+		receivedMailDao.receivedMailSearchDelete(mailId, empId);
+	}
 
 	//받은메일 검색을 위한 rows
 	@Override
@@ -147,6 +153,13 @@ public class MailServiceImpl implements MailService {
 	public void sendMailChangeImport(int mailId) {
 		String star = sendMailDao.sendMailGetImport(mailId);
 		sendMailDao.sendMailChangeImport(star, mailId);
+	}
+	
+	//보낸 메일 체크된 리스트 휴지통 보내기
+	@Override
+	public void sendMailSearchDelete(List<Integer> mailId) {
+		log.info(mailId);
+		sendMailDao.sendMailSearchDelete(mailId);
 	}
 	
 	//보낸 메일함 검색필터를 위한 rows count
@@ -239,11 +252,36 @@ public class MailServiceImpl implements MailService {
 			sendMailDao.importMailChangeImport(mailId);
 		}
 	}
+	
+	//중요메일 휴지통 보내기
+	@Override
+	public void importMailSearchDelete(List<Integer> mailId,String empId) {
+		log.info("실행");
+		List<Integer> sendMail = new ArrayList<>();
+		List<Integer> receivedMail = new ArrayList<>();
+		for(Integer id : mailId) {
+			String tbName = sendMailDao.getWhereTable(id, empId);
+			if(tbName.equals("received")) {
+				receivedMail.add(id);
+			}else {
+				sendMail.add(id);
+			}
+		}
+		receivedMailDao.receivedMailSearchDelete(receivedMail, empId);
+		sendMailDao.sendMailSearchDelete(sendMail);
+	}
 
 	//임시보관함 get count
 	@Override
 	public int tempMailRowsCount(String empId) {
 		return sendMailDao.tempMailRowsCount(empId);
+	}
+	
+	//임시 보관함 삭제하기
+	@Override
+	public void tempMailDelete(List<Integer> list) {
+		sendMailDao.deleteTempMail(list);
+		
 	}
 
 	@Override
@@ -296,6 +334,39 @@ public class MailServiceImpl implements MailService {
 		}
 		return trashMail;
 	}
+
+	//휴지통 완전삭제 or 복구
+	@Override
+	public void trashMailDeleteRestore(List<Integer> mailId, String empId, String result) {
+		log.info("실행");
+		List<Integer> sendMail = new ArrayList<>();
+		List<Integer> receivedMail = new ArrayList<>();
+		for(Integer id : mailId) {
+			String tbName = sendMailDao.getWhereTable(id, empId);
+			if(tbName.equals("received")) {
+				receivedMail.add(id);
+			}else {
+				sendMail.add(id);
+			}
+		}
+		if(result.equals("delete")) {
+			receivedMailDao.updateTrashMail(mailId, empId);
+			sendMailDao.updateTrashMail(mailId);
+		}else if(result.equals("restore")){
+			receivedMailDao.updateReceivedRestore(mailId, empId);
+			sendMailDao.updateSendRestore(mailId);
+		}
+	}
+
+	//필터링에 따른 휴지통 불러오기
+	@Override
+	public List<SendMail> getSearchTrashMail(String empId, Pager pager, String search) {
+		log.info("실행");
+		
+		return null;
+	}
+
+
 
 
 }

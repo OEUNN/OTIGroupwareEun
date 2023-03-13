@@ -23,5 +23,9 @@ public interface ReceivedMailDAO {
 	public String readYN(@Param("sendMailId")int sendMailId, @Param("empId")String empId);
 	public List<ReceivedMail> getMailInformation(int sendMailId);
 	public void importReceivedMailChangeImport(@Param("mailId")int mailId, @Param("empId")String empId);
+	public void receivedMailSearchDelete(@Param("arr")List<Integer> mailId, @Param("empId")String empId);
+	public void updateTrashMail(@Param("arr")List<Integer> mailId, @Param("empId")String empId); //send테이블 완전 삭제
+	public void updateReceivedRestore(@Param("arr")List<Integer> mailId, @Param("empId")String empId);
+	
 	
 }

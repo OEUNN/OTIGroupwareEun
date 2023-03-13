@@ -60,8 +60,8 @@
 					<tr>
 						<th class=" form-inline col-1" style="border:none;">
 							<div class="form-check font-weight-bold text-info">
-								<label class="form-check-label">
-									<input type="checkbox" class="form-check-input" name="optradio">
+								<label class="form-check-label" >
+									<input type="checkbox" class="form-check-input" name='selectall' onclick="selectAll(this)"/>
 								</label>
 							</div>
 						</th>
@@ -78,7 +78,7 @@
 								<td class="form-inline pr-0 p1-1">
 									<div class="form-check font-weight-bold text-info">
 										<label class="form-check-label">
-											<input type="checkbox" class="form-check-input" name="optradio">
+											<input type="checkbox" class="form-check-input" name="optradio" onclick="checkSelectAll()" value="${send.sendMailId}">
 										</label>
 									</div>
 									<c:if test="${send.sendMailImportanceYN == 'Y'}">
@@ -150,7 +150,7 @@
 		<div class="row form-inline m-3">
 			<div class="col-md-11"></div>
 			<div class="col-md-1 col-12">
-				<button class="btn btn-danger btn-sm">선택삭제</button>
+				<button class="btn btn-danger btn-sm " onclick="pager(-2)">선택삭제</button>
 			</div>
 		</div><!-- 하단 버튼 -->
 

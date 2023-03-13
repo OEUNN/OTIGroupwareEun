@@ -15,9 +15,14 @@
             window.open(url, name, option);
         }
         function pager(No){
-			if(No == -1){
+        	var result;
+			if(No == -2){
+				result = 'delete';
+				No = $('#pageBtn').val();
+			}else if(No == -3){
 				No = $('#pageBtn').val();
 			}
+			//paging number 지정
 			var startRowNo = ${pager.startRowNo};
 			var endRowNo =  ${pager.endRowNo};
 			if(No <= startRowNo ){
@@ -25,26 +30,64 @@
 			}else if (No > endRowNo){
 				No = endRowNo;
 			}
-			$('#pageBtn').val(No);
+			
 			var star = $('#star').val();
+			var mailArray = [];
+			$('input[name="optradio"]:checked').each(function(i){//체크된 리스트 저장
+				mailArray.push($(this).val());
+	        });
+			
 			if(star == ''){
-				star = 0;
+				star = '0';
 			}
-			console.log(No);
-			console.log(star);
+			if(mailArray == ''){
+				mailArray[0]='0';
+			}
+			var data = {mailId : star, mailList : mailArray, page : No, result : result};
+			console.log(data);
 			jQuery.ajax({
 				type : 'post',
 				url : '../mail/importsearch',
 				dataType : 'html',
-				data : {page : No, mailId : star},
+				data : JSON.stringify(data),
+				contentType:"application/json;charset=UTF-8",
+				async: false,
 				success : function(data){
 					$('#import_container').html(data);
+					$('#pageBtn').val(No);
 				 }
 			});
 		}
 		function star(id){
 			$('#star').val(id);
-			onclick=pager(-1);
+			onclick=pager(-3);
+		}
+		function checkSelectAll()  {
+			  // 전체 체크박스
+			  const checkboxes 
+			    = document.querySelectorAll('input[name="optradio"]');
+			  // 선택된 체크박스
+			  const checked 
+			    = document.querySelectorAll('input[name="optradio"]:checked');
+			  // select all 체크박스
+			  const selectAll 
+			    = document.querySelector('input[name="selectall"]');
+			  
+			  if(checkboxes.length === checked.length)  {
+			    selectAll.checked = true;
+			  }else {
+			    selectAll.checked = false;
+			  }
+
+			}
+
+		function selectAll(selectAll)  {
+		  const checkboxes 
+		     = document.getElementsByName('optradio');
+		  
+		  checkboxes.forEach((checkbox) => {
+		    checkbox.checked = selectAll.checked
+		  })
 		}
 		</script>
 	</head>

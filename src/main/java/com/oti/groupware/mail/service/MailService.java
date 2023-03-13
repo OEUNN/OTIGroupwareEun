@@ -18,17 +18,23 @@ public interface MailService {
 	void receivedMamilChangeImport(int mailId, String empId);
 	int receivedMailSearchRowsCount(String empId, String search);
 	List<ReceivedMail> getSearchReceivedMail(String empId, Pager pager, String search);
-	int sendMailRowsCount(String empId);
-	List<SendMail> getSendMail(String empId, Pager pager);
-	void sendMailChangeImport(int mailId);
-	int sendMailSearchRowsCount(String empId, String search);
-	List<SendMail> getSearchSendMail(String empId, Pager pager, String search);
+	int sendMailRowsCount(String empId); //보낸메일함 get 총 row 
+	List<SendMail> getSendMail(String empId, Pager pager); //보낸메일함 get
+	void sendMailChangeImport(int mailId); //보낸 메일함 중요도 바꾸기
+	void sendMailSearchDelete(List<Integer> deleteMail); //보낸 메일함 선택 삭제
+	int sendMailSearchRowsCount(String empId, String search); //보낸 메일함 필터링 후 rows
+	List<SendMail> getSearchSendMail(String empId, Pager pager, String search); //보낸 메일함 필터링된 list
 	int importMailRowsCount(String empId);
+	void receivedMailSearchDelete(List<Integer> list, String empId);
 	List<SendMail> getImportMail(String empId, Pager pager);
 	void importMailChangeImport(int mailId, String empId);
+	void importMailSearchDelete(List<Integer> list, String empId); //중요메일 휴지통  보내기
 	int tempMailRowsCount(String empId);
 	List<SendMail> getTempMail(String empId, Pager pager);
 	int trashMailRowsCount(String empId);
 	List<SendMail> getTrashMail(String empId, Pager pager);
+	void tempMailDelete(List<Integer> list); //임시 보관함 완전 삭제
+	void trashMailDeleteRestore(List<Integer> list, String empId, String result);
+	List<SendMail> getSearchTrashMail(String empId, Pager pager, String search);
 	
 }

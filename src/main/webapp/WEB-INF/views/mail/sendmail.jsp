@@ -10,35 +10,52 @@
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mail.css"/>
 		<script>
 			function pager(No){
-				if(No == 0){
+				//선택삭제
+				var result;
+				if(No == -2){
+					result = 'delete';
+					No = $('#pageBtn').val();
+				}else if(No == -3){
 					No = $('#pageBtn').val();
 				}
+				//paging number 지정
 				var startRowNo = ${pager.startRowNo};
 				var endRowNo =  ${pager.endRowNo};
-				if(No < startRowNo ){
+				if(No < startRowNo){
 					No = 1;
 				}else if (No > endRowNo){
 					No = endRowNo;
 				}
-				$('#pageBtn').val(No);
-				var search = $('#searchBtn').val();
-				var star = $('#star').val();
+				var search = $('#searchBtn').val(); //필터링 단어
+				var star = $('#star').val(); //중요도 표시할 메일 id
+				var mailArray = [];
+				$('input[name="optradio"]:checked').each(function(i){//체크된 리스트 저장
+					mailArray.push($(this).val());
+                });
+				if(mailArray == ''){
+					mailArray[0]='0';
+				}
 				if(star == ''){
-					star = 0;
+					star = '0';
 				}
 				if(search == ''){
 					search = 'all';
 				}
-				console.log(search);
-				console.log(No);
-				console.log(star);
+				if(result == null){
+					result = 'stay';
+				}
+				 //현재 페이지를 계속 저장하기 위한 장치
+				var data = {search : search, mailId : star, mailList : mailArray, page : No, result : result};
+				console.log(data);
 				jQuery.ajax({
 					type : 'post',
 					url : '../mail/sendsearch',
 					dataType : 'html',
-					data : {page : No, search : search, mailId : star},
+					data : JSON.stringify(data),
+					 contentType:"application/json;charset=UTF-8",
 					success : function(data){
 						$('#msendail_container').html(data);
+						$('#pageBtn').val(No);
 					 }
 				});
 			}
@@ -54,7 +71,34 @@
 			}
 			function star(id){
 				$('#star').val(id);
-				onclick=pager(0);
+				onclick=pager(-3);
+			}
+			function checkSelectAll()  {
+				  // 전체 체크박스
+				  const checkboxes 
+				    = document.querySelectorAll('input[name="optradio"]');
+				  // 선택된 체크박스
+				  const checked 
+				    = document.querySelectorAll('input[name="optradio"]:checked');
+				  // select all 체크박스
+				  const selectAll 
+				    = document.querySelector('input[name="selectall"]');
+				  
+				  if(checkboxes.length === checked.length)  {
+				    selectAll.checked = true;
+				  }else {
+				    selectAll.checked = false;
+				  }
+
+				}
+
+			function selectAll(selectAll)  {
+			  const checkboxes 
+			     = document.getElementsByName('optradio');
+			  
+			  checkboxes.forEach((checkbox) => {
+			    checkbox.checked = selectAll.checked
+			  })
 			}
 		</script>
 	</head>

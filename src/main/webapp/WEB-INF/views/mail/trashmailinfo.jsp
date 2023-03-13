@@ -61,7 +61,7 @@
 						<th class=" form-inline col-1" style="border:none;">
 							<div class="form-check font-weight-bold text-info">
 								<label class="form-check-label">
-									<input type="checkbox" class="form-check-input" name="optradio">
+									<input type="checkbox" class="form-check-input"  name='selectall' onclick="selectAll(this)">
 								</label>
 							</div>
 						</th>
@@ -78,11 +78,9 @@
 								<td class="form-inline pr-0 p1-2">
 									<div class="form-check font-weight-bold text-info">
 										<label class="form-check-label">
-											<input type="checkbox" class="form-check-input" name="optradio">
+											<input type="checkbox" class="form-check-input" name="optradio" onclick="checkSelectAll()" value="${send.sendMailId}">
 										</label>
 									</div>
-									<button onclick="star(${send.sendMailId})"><i class="h3 mdi mdi-star text-primary"></i></button>
-									<input type="hidden" id="star"/>
 								</td>
 								<td>
 									<c:if test="${send.fileYN == 'Y'}">
@@ -150,10 +148,10 @@
 		<div class="row form-inline m-3">
 			<div class="col-md-10"></div>
 			<div class="col-md-1 col-12">
-				<button class="btn btn-warning btn-sm">선택복구</button>
+				<button class="btn btn-warning btn-sm" id="pager(-4)">선택복구</button>
 			</div>
 			<div class="col-md-1 col-12">
-				<button class="btn btn-danger btn-sm">선택삭제</button>
+				<button class="btn btn-danger btn-sm" onclick="popup()">선택삭제</button>
 			</div>
 		</div><!-- 하단 버튼 -->
 

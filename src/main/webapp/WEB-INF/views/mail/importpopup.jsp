@@ -11,8 +11,8 @@
 	
 	<!-- Plugin css,js for this page -->
 	<script>
-        function retry(){
-        	window.opener.top.location.href="<c:url value='/trashmail'/>";
+        function start(){
+        	opener.location.href = "javascript:pager(-2);";
             window.close();
         }
 	</script>
@@ -30,6 +30,14 @@
 		  -webkit-flex-direction: column;
 		  flex-direction: column;
 		}
+		.wrap{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .box{
+            text-align: center;
+        }
 	</style>
 	<!-- End plugin css,js for this page -->
 	</head>
@@ -42,14 +50,12 @@
 					<div class="col-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body row m-0">
-								<div class="container-fluid">
-									<div class="card-title mt-1 row d-flex justify-content-center">중요메일입니다.</div>
-									 <div class="card-title mt-1 row d-flex justify-content-center">휴지통 보내기 하시겠습니까?</div>
-									<div class="row mb-1" >
-										<div class="col"></div>
-										<button class="col-3 btn btn-primary btn-md mt-1 mx-3" onclick="retry()">확인</button>
-										<button class="col-3 btn btn-outline-primary btn-md mt-1 mx-3" onclick="window.close()">취소</button>
-										<div class="col"></div>
+								<div class="container-fluid wrap">
+								<div class="row card-title box">중요메일입니다.</div>
+								<div class="row card-title box" >휴지통 보내기 하시겠습니까?</div>
+									<div class="row box" >
+										<button class="btn btn-primary btn-md mr-2" onclick="start()">확인</button>
+										<button class="btn btn-inverse-primary btn-md" onclick="window.close()">취소</button>
 									</div>
 								</div>
 							</div>

@@ -137,6 +137,16 @@
 		</if>
 		where SEND_MAIL_ID= #{mailId} and EMP_ID_EMPLOYEES = #{empId}
     </update>
+    
+    <!-- 받은메일 휴지통 보내기 -->
+    <update id="receivedMailSearchDelete">
+    	update received_mails
+		set RECD_MAIL_DEL_YN = 'Y' , RECD_MAIL_IMPORTANCE_YN='N', RECD_MAIL_DEL_DATE=sysdate
+		where emp_id=#{empId} and 
+		<foreach collection="arr" item="mailId" separator="and">
+		 	SEND_MAIL_ID=#{mailId}
+		</foreach>
+    </update>
 
     <update id="updateReceivedMail" parameterType="receivedMail">
         UPDATE received_mails
@@ -169,5 +179,26 @@
     	set RECD_MAIL_IMPORTANCE_YN = 'N'
 		where SEND_MAIL_ID= #{mailId} and EMP_ID_EMPLOYEES = #{empId}
     </update>
+    
+    <update id="updateTrashMail">
+	    update received_mails
+		set RECD_MAIL_DEL_COMPLETE_YN= 'Y' , RECD_MAIL_DEL_YN ='Y'
+		where emp_id=#{empId} and 
+		<foreach collection="arr" item="mailId" separator="and">
+		 	SEND_MAIL_ID=#{mailId}
+		</foreach>
+    </update>
+    
+    <update id="updateReceivedRestore">
+    	 update received_mails
+		set  RECD_MAIL_DEL_YN ='N'
+		where emp_id=#{empId} and 
+		<foreach collection="arr" item="mailId" separator="and">
+		 	SEND_MAIL_ID=#{mailId}
+		</foreach>
+    </update>
+    
+    
+    
     
 </mapper>
