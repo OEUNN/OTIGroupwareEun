@@ -10,35 +10,41 @@
 
 		var calendar = new FullCalendar.Calendar(calendarEl, {
 			contentHeight : 200,
-			editable : true,
-			selectable : true,
+			editable : false,
+			selectable : false,
 			businessHours : true,
 			dayMaxEvents : true, // allow "more" link when too many events
 			eventSources: [
 				{
 				  //DB에 담긴 이벤트 데이터를 갖고옴
-				  url: '../groupware/hr/empleavecalendar',
+				  url: '../OTIGroupware/hr/empleavecalendar',
 				},
 			    {
 				  //구글 API를 이용하여 공휴일을 표시
 			      googleCalendarApiKey: 'AIzaSyAocA5FID3dzNX7LOO3N02rbI_4oEKjQPM',
 			      googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
-			      className: 'fc-holiday-ko', // 특별한 클래스 이름을 사용하여 구분
-			      textColor: 'black',
-		    	  backgroundColor: 'white'
+			      className: 'fc-holiday-ko' // 특별한 클래스 이름을 사용하여 구분
 			    }
 			],
+			eventClick: function(info){
+				   //클릭시 구글캘린더 url로 가는것을 막는다.
+				   info.jsEvent.stopPropagation();
+				   info.jsEvent.preventDefault();
+			},
 			eventContent: function(info) {
 				let eventTitle = info.event.title;
+				let empName = eventTitle.substring(0,3);
+				let posName = eventTitle.substring(3);
 				let eventMemo = info.event.extendedProps.memo;
 				
-				let nameDiv = '<span class="text-primary font-weight-bold">'+ eventTitle +'</span>';
+				let empNameDiv = '<span class="text-primary font-weight-bold">'+ empName +'</span>';
+				let posNameDiv = '<span class="text-muted" style="font-size:5px;">'+ posName +'</span>';
 				
 				if(eventMemo == '휴가') {
-					return { html : '<div class="btn btn-md font-weight-bold px-5 py-2" style="background-color:rgba(163, 164, 165, 0.3); color:#5b5b5e;">'+ nameDiv +' 휴가</div>' }
+					return { html : '<div class="btn btn-md font-weight-bold ml-2 px-4 pt-2 pb-1" style="background-color:rgba(163, 164, 165, 0.3); color:#5b5b5e;">'+ empNameDiv + posNameDiv +' - 휴가</div>' }
 				
 				} else if(eventMemo == '오전반차' || eventMemo == '오후반차') {
-					return { html : '<div class="btn btn-md font-weight-bold px-4 py-1" style="border:3px solid rgba(163, 164, 165, 0.3); color:#5b5b5e;">'+ nameDiv + ' ' + eventMemo +'</div>' }
+					return { html : '<div class="btn btn-md font-weight-bold ml-2 px-2 pt-2 pb-1" style="border:3px solid rgba(163, 164, 165, 0.3); color:#5b5b5e;">'+ empNameDiv + posNameDiv + ' - ' + eventMemo +'</div>' }
 				
 				} else if($('.fc-holiday-ko')){
 					// 날짜 객체 생성
@@ -56,7 +62,6 @@
 			}
 		
 		});
-
 		calendar.render();
 	});
 </script>
@@ -68,13 +73,19 @@
 		margin: 0px auto;
 	}
 	
+	/* 공휴일 이벤트 NONE */
+	.fc-holiday-ko {
+		display: none;
+	}
+	
 	.fc .fc-toolbar {
 		font-size: 12px;
 	}
 	
 	.fc .fc-toolbar.fc-header-toolbar {
-		margin-bottom: 20px;
-		margin-top: 20px;
+		margin-bottom: 10px;
+		margin-top: 15px;
+		padding: 0 10px;
 	}
 	
 	.fc .fc-button {

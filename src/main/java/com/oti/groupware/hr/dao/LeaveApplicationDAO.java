@@ -27,4 +27,5 @@ public interface LeaveApplicationDAO {
 	public void updateEmployeeReserve(LeaveApplication leaveApplication);
 	public int updateLeaveApplicationProcessState(LeaveApplication leaveApplication);
 	public HashMap<String, Integer> getLeaveApplicationApprovalStats(@Param("empId") String empId);
+	public HashMap<String, Integer> getLeaveApplicationStats(@Param("empId") String empId);
 }

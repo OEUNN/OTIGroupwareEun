@@ -16,7 +16,7 @@
 				        right: 'today'
 				      },                
 					contentHeight : 700,
-					selectable : true,
+					selectable : false,
 					businessHours : true,
 					locale : 'ko',
 					dayMaxEvents : true,
@@ -33,6 +33,11 @@
 				    	  color: 'transparent'
 					    }
 					],
+					eventClick: function(info){
+						   //클릭시 구글캘린더 url로 가는것을 막는다.
+						   info.jsEvent.stopPropagation();
+						   info.jsEvent.preventDefault();
+					},
 					eventContent: function(info) {
 						let eventTitle = info.event.title;
 						let eventTime = info.event.start.toTimeString().split(' ')[0];

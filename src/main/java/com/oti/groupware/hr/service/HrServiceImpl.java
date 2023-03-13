@@ -257,6 +257,11 @@ public class HrServiceImpl implements HrService {
 		attendanceExceptionDAO.insertAttendanceException(attendanceException);
 	}
 	
+	/** 나의 휴가내역 통계 **/
+	@Override
+	public HashMap<String, Integer> leaveApplicationStats(String empId) {
+		return leaveApplicationDAO.getLeaveApplicationStats(empId);
+	}
 	
 	/** 나의 휴가내역 목록의 전체 행의 수 가져오기 **/
 	@Override
@@ -441,24 +446,23 @@ public class HrServiceImpl implements HrService {
 		JSONArray jsonArr = new JSONArray();
 		
 		for(Attendance atd : empLeaveList) {
-			log.info("서비스로직의 Attendance: " + atd.toString());
 			JSONObject  jsonObj = new JSONObject();
 			
 			//연차, 대체휴무인 경우
 			if(atd.getAtdState().equals("연차") || atd.getAtdState().equals("대체휴무")) {
-				jsonObj.put("title", atd.getEmpName());
+				jsonObj.put("title", atd.getEmpName() + atd.getPosName());
 				jsonObj.put("start", formatDate.format(atd.getAtdInTime()));
 				jsonObj.put("memo", "휴가");
 			
 			//오전반차인 경우
 			} else if(atd.getAtdState().equals("오전반차")) {
-				jsonObj.put("title", atd.getEmpName());
+				jsonObj.put("title", atd.getEmpName() + atd.getPosName());
 				jsonObj.put("start", formatDate.format(atd.getAtdInTime()));
 				jsonObj.put("memo", atd.getAtdState());
 			
 			//오후반차인 경우
 			} else {
-				jsonObj.put("title", atd.getEmpName());
+				jsonObj.put("title", atd.getEmpName() + atd.getPosName());
 				jsonObj.put("start", formatDate.format(atd.getAtdOutTime()));
 				jsonObj.put("memo", atd.getAtdState());
 			}

@@ -276,14 +276,14 @@ public class HRController {
 			model.addAttribute("levAppList", levAppList);
 		}
 		
-		//근무신청서 통계
-//		HashMap<String, Integer> atdExcpStats = hrService.attendanceExceptionStats(empId);
-//		model.addAttribute("atdExcpStats", atdExcpStats);
+		//나의 휴가 통계
+		HashMap<String, Integer> levAppStats = hrService.leaveApplicationStats(empId);
+		model.addAttribute("levAppStats", levAppStats);
 		
 		//잔여연차와 대체휴무일수 가져오기
-		Employee emp = hrService.empReserveInfo(empId);
-		model.addAttribute("leaveReserve", emp.getEmpLeaveReserve());
-		model.addAttribute("substitueReserve", emp.getEmpSubstitueReserve());
+//		Employee emp = hrService.empReserveInfo(empId);
+//		model.addAttribute("leaveReserve", emp.getEmpLeaveReserve());
+//		model.addAttribute("substitueReserve", emp.getEmpSubstitueReserve());
 		
 		//작성폼에 필요한 정보를 가져옴
 		HashMap<String, String> empFormInfo = hrService.empFormInfoMap(empId, posName); //신청양식에 필요한 정보 갖고옴(나중에 employeeSerivce에 넣기)
@@ -343,7 +343,7 @@ public class HRController {
 	}
 	
 	/**
-	 * 
+	 * 부서원들의 휴가현황을 볼 수 있는 페이지로 이동
 	 * @return 부서 휴가페이지
 	 */
 	@RequestMapping(value = "/empleave")

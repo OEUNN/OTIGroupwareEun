@@ -41,4 +41,5 @@ public interface HrService {
 	public HashMap<String, Integer> leaveApplicationApprovalStats(String empId);
 	public void leaveApplicationCancel(int levAppId, String levAppProcessState);
 	public JSONArray empLeaveCalendarList(String depName);
+	public HashMap<String, Integer> leaveApplicationStats(String empId);
 }
