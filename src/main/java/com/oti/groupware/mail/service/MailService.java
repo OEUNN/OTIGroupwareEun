@@ -35,6 +35,5 @@ public interface MailService {
 	List<SendMail> getTrashMail(String empId, Pager pager);
 	void tempMailDelete(List<Integer> list); //임시 보관함 완전 삭제
 	void trashMailDeleteRestore(List<Integer> list, String empId, String result);
-	List<SendMail> getSearchTrashMail(String empId, Pager pager, String search);
-	
+	void deleteTrashMail();
 }

@@ -358,14 +358,11 @@ public class MailServiceImpl implements MailService {
 		}
 	}
 
-	//필터링에 따른 휴지통 불러오기
+	//30일 지난 휴지통 메일 삭제
 	@Override
-	public List<SendMail> getSearchTrashMail(String empId, Pager pager, String search) {
-		log.info("실행");
+	public void deleteTrashMail() {
 		
-		return null;
 	}
-
 
 
 

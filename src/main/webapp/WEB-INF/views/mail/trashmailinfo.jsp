@@ -43,15 +43,6 @@
 		<h4 class="card-title">휴지통</h4>
 		<!-- 검색 태그 -->
 		<div class="row mb-3 mt-5 mx-3">
-			<div class="form-inline" style="border-bottom:1px solid #e9ecef;">
-			<div class="px-3 py-1 ahover">
-					<button onclick="search(1)" style="color:grey;">읽은메일</button>
-				</div>
-				<div class="px-3 py-1 ahover">
-					<button onclick="search(2)" style="color:grey;">읽지않은메일</button>
-				</div>
-			</div>
-			<input type="hidden" id="searchBtn"/>
 		</div><!-- 검색 태그 -->
 		<!-- 테이블 -->
 		<div class="table-responsive p-4">

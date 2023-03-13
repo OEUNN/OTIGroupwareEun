@@ -42,13 +42,10 @@
 			if(mailArray == ''){
 				mailArray[0]='0';
 			}
-			if(search == ''){
-				search = 'all';
-			}
 			if(result == null){
 				result = 'stay';
 			}
-			var data = {search : search, mailList : mailArray, page : No, result : result};
+			var data = {mailList : mailArray, page : No, result : result};
 			jQuery.ajax({
 				type : 'post',
 				url : '../mail/trashsearch',

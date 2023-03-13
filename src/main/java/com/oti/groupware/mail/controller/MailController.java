@@ -1,8 +1,6 @@
 package com.oti.groupware.mail.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -284,7 +282,6 @@ public class MailController {
 	public String trashSearch(@RequestBody MailSearch mailSearch, HttpSession session, Model model) {
 		log.info("실행");
 		List<Integer> list = mailSearch.getMailList();
-		String search = mailSearch.getSearch();
 		int page = mailSearch.getPage();
 		String result = mailSearch.getResult();
 		Employee employee = (Employee) session.getAttribute("employee");
@@ -295,7 +292,7 @@ public class MailController {
 		// 페이저 객체 생성
 		Pager pager = new Pager(10, 5, totalRows, page);
 		if (totalRows != 0) {
-			List<SendMail> sendMail = mailService.getSearchTrashMail(employee.getEmpId(), pager, search);
+			List<SendMail> sendMail = mailService.getTrashMail(employee.getEmpId(), pager);
 			model.addAttribute("sendmail", sendMail);
 			model.addAttribute("pager", pager);
 		}

@@ -3,7 +3,6 @@ package com.oti.groupware.mail.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.security.access.method.P;
 
 import com.oti.groupware.common.Pager;
 import com.oti.groupware.mail.dto.SendMail;
