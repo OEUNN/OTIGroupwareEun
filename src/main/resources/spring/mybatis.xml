@@ -18,4 +18,5 @@
 	<mybatis-spring:scan base-package="com.oti.groupware.hr.dao"/>
 	<mybatis-spring:scan base-package="com.oti.groupware.employee.dao"/>
 	<mybatis-spring:scan base-package="com.oti.groupware.approval.dao"/>
+	<mybatis-spring:scan base-package="com.oti.groupware.mail.dao"/>
 </beans>

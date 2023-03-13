@@ -27,6 +27,7 @@ import com.oti.groupware.common.Pager;
 import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.employee.dto.EmployeeDetail;
 import com.oti.groupware.employee.service.EmployeeService;
+import com.oti.groupware.mail.dto.ReceivedMail;
 
 import lombok.extern.log4j.Log4j2;
 /**
@@ -157,6 +158,24 @@ public class EmployeeController {
 		return "employee/selectemployee";
 	}
 	
+	// 받은메일
+	@RequestMapping(value = "/employeepager", method = RequestMethod.POST)
+	public String employeePager(int page, Model model) {
+		log.info("실행");
+		//전체 행수 갖고옴
+		int totalRows = employeeService.employeeRowsCount();
+		//페이저 객체 생성
+		Pager pager = new Pager(10, 5, totalRows, page);
+		List<Employee> empList = employeeService.getEmployees(pager);
+		if(empList != null) {
+			Employee emp = employeeService.ceoInformation();
+			model.addAttribute("empList", empList);
+			model.addAttribute("pager", pager);
+			model.addAttribute("emp", emp);
+		}
+		return "employee/selectemployeeinfo";
+	}
+	
 	@RequestMapping(value = "/selectemployee", method = RequestMethod.POST)
 	public String selectEmployee(String empId, Model model) {
 		log.info("실행");
@@ -196,6 +215,7 @@ public class EmployeeController {
 	@RequestMapping(value = "/searchdepartment", method = RequestMethod.POST)
 	@ResponseBody
 	public List<Employee> searchDepartment(String depId) {
+		log.info("실행");
 		List<Employee>  depEmployee = new ArrayList<>();
 		depEmployee = employeeService.getDepartment(Integer.parseInt(depId));
 		return depEmployee;
@@ -220,7 +240,6 @@ public class EmployeeController {
 		return new ResponseEntity<byte[]>(employee.getEmpFileData(), headers, HttpStatus.OK);
 	}	
 	
-		
 	//접근권한 페이지
 	@RequestMapping(value="/error", method=RequestMethod.GET)
 	public String errorEmployee() {

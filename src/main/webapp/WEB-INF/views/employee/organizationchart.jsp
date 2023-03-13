@@ -13,14 +13,12 @@
 	<script>
       function department(No){
     	  var x = No;
-    	  var values = [];
 			jQuery.ajax({
 				type : 'post',
 				url : "../employee/searchdepartment",
 				data : {depId : x},
 				success : function(data){
 					$('#dep-'+x).empty();
-					console.log(data);
 					 $.each(data, function( index, value) {
 						var sql = ""
 						sql += '<button class="row my-1 ml-3 text-primary btn-color" onclick="popup(\''+value.empId+'\')">'
@@ -122,7 +120,7 @@
 											<span class="ml-2 font-weight-bold">공공사업1DIV</span>
 										</button>
 									</div>
-									<div id="DIV1" class="row m-1 collapse text-primary mt-3 ">
+									<div id="DIV1" class="row m-1 collapse text-primary mt-3 " data-target="#dep-1">
 										<div id="dep-1" class=" flex-column">
 										</div>
 									</div>

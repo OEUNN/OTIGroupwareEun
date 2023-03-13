@@ -1,4 +1,5 @@
 tinymce.init({
+	language: 'ko_KR',
 	selector: '#write',
 	width: '100%',
 	height: '200mm',

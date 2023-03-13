@@ -34,6 +34,7 @@
 		<typeAlias type="com.oti.groupware.mail.dto.SendMail" alias="sendMail"/>
 		<typeAlias type="com.oti.groupware.mail.dto.ReceivedMail" alias="receivedMail"/>
 		<typeAlias type="com.oti.groupware.mail.dto.MailFile" alias="mailFile"/>
+		<typeAlias type="com.oti.groupware.mail.dto.EmployeeInfo" alias="employeeInfo"/>
 		
 		<!-- Misc -->
 		<typeAlias type="com.oti.groupware.common.dto.Organization" alias="organization"/>

@@ -5,52 +5,56 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<!-- inject css, js common file -->
-		<%@ include file="/WEB-INF/views/common/head.jsp"%>
-	<!-- endinject css, js common file -->
-	
-	<!-- Plugin css,js for this page -->
-	<script>
+		<!-- inject css, js common file -->
+			<%@ include file="/WEB-INF/views/common/head.jsp"%>
+		<!-- endinject css, js common file -->
+		
+		<!-- Plugin css,js for this page -->
+		<script>
         function result(){
-        	window.opener.top.location.href="<c:url value='/sendmail'/>";
+        	opener.location.href = "javascript:fromStart();";
+//         	window.opener.top.location.href="<c:url value='/sendmail'/>";
             window.close();
         }
-	</script>
-	<style>
-		.container-fluid{
-			padding:0px;
-			margin:0px;
-		}
-		.main-panel-popup {
-		  transition: width 0.25s ease, margin 0.25s ease;
-		  width: 100%;
-		  min-height: 100vh;
-		  display: -webkit-flex;
-		  display: flex;
-		  -webkit-flex-direction: column;
-		  flex-direction: column;
-		}
-	</style>
+		</script>
+		<style>
+			.container-fluid{
+				padding:0px;
+				margin:0px;
+			}
+			.main-panel-popup {
+			  transition: width 0.25s ease, margin 0.25s ease;
+			  width: 100%;
+			  min-height: 100vh;
+			  display: -webkit-flex;
+			  display: flex;
+			  -webkit-flex-direction: column;
+			  flex-direction: column;
+			}
+			.wrap{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .box{
+            text-align: center;
+        }
+		</style>
 	<!-- End plugin css,js for this page -->
 	</head>
-
 	<body>
 		<div class="main-panel-popup">
 			<div class="content-wrapper">
 				<!-- Start information -->
 				<div class="row">
-					<div class="col-12 grid-margin stretch-card">
+					<div class="col-12 stretch-card">
 						<div class="card">
 							<div class="card-body row m-0">
-								<div class="container-fluid">
-									<div class="card-title mt-1 row d-flex justify-content-center">장영은님</div>
-									<div class="card-title mt-1 row d-flex justify-content-center">한송민님</div>
-									 <div class="card-title mt-1 row d-flex justify-content-center">께 매일보내기 하시겠습니까?</div>
-									<div class="row mb-1" >
-										<div class="col"></div>
-										<button class="col-3 btn btn-primary btn-md mt-1 mx-3" onclick="retry()">확인</button>
-										<button class="col-3 btn btn-outline-primary btn-md mt-1 mx-3" onclick="window.close()">취소</button>
-										<div class="col"></div>
+								<div class="container-fluid wrap">
+									<div class="card-title box">메일을 보내시겠습니까?</div>
+									<div class="row box">
+										<button class="btn btn-primary btn-md mx-2" onclick="result()">확인</button>
+										<button class="btn btn-inverse-primary btn-md" onclick="window.close()">닫기</button>
 									</div>
 								</div>
 							</div>
