@@ -220,12 +220,14 @@
 														</label>
 													</div>
 												</th>
-												<th class="pl-0 pb-2 border-bottom">순번</th>
-												<th class="border-bottom pb-2">제목</th>
+												<th class="pl-0 border-bottom pb-2">제목</th>
 												<th class="border-bottom pb-2">작성날짜</th>
 											</tr>
 										</thead>
 										<tbody>
+										
+											<c:forEach items="${documents}" var="document" varStatus="status">
+											<c:set value="${approvalLinesList[status.index]}" var="approvalLines"/>
 											<tr>
 												<td class="py-0 pl-1">
 													<div class="form-check font-weight-bold text-info my-1">
@@ -234,196 +236,35 @@
 														</label>
 													</div>
 												</td>
-												<td class="pl-0">10</td>
 												<td>
 													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">임시저장</span></p>
+														<p class="mb-0"><a href="<c:url value='/approval/viewdetail/${document.docId}'/>"><span class="font-weight-bold mr-2">${document.docTitle}</span></a></p>
 														<p class="mb-0">
-															<span class="font-weight-light text-muted mr-2">장그래</span>
+															<c:forEach items="${approvalLines}" var="approvalLine" varStatus="i">
+															<c:choose>
+															<c:when test="${approvalLine.aprvLineState == '승인'}">
+															<span class="font-weight-light text-success mr-2">
+															</c:when>
+															<c:when test="${approvalLine.aprvLineState == '반려'}">
+															<span class="font-weight-light text-danger mr-2">
+															</c:when>
+															<c:when test="${approvalLine.aprvLineState == '열람'}">
+															<span class="font-weight-light text-warning mr-2">
+															</c:when>
+															<c:when test="${approvalLine.aprvLineState == '미결'}">
+															<span class="font-weight-light text-muted mr-2">
+															</c:when>
+															</c:choose>
+															${approvalLine.employee.empName}</span>
+															<c:if test="${i.last != true}">
 															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-muted mr-2">오상식</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-muted mr-2">김부련</span>
+															</c:if>
+															</c:forEach>
 														</p>
 													</div>
 												</td>
-												<td>2023/02/19</td>
-											</tr>
-											<tr>
-												<td class="py-0 pl-1">
-													<div class="form-check font-weight-bold text-info my-1">
-														<label class="form-check-label">
-															<input type="checkbox" class="form-check-input" name="optradio">
-														</label>
-													</div>
-												</td>
-												<td class="pl-0">9</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">임시저장</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-muted mr-2">장그래</span>
-														</p>
-													</div>
-												</td>
-												<td>2023/02/18</td>
-											</tr>
-											<tr>
-												<td class="py-0 pl-1">
-													<div class="form-check font-weight-bold text-info my-1">
-														<label class="form-check-label">
-															<input type="checkbox" class="form-check-input" name="optradio">
-														</label>
-													</div>
-												</td>
-												<td class="pl-0">8</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">임시저장</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-muted mr-2">장그래</span>
-														</p>
-													</div>
-												</td>
-												<td>2023/02/17</td>
-											</tr>
-											<tr>
-												<td class="py-0 pl-1">
-													<div class="form-check font-weight-bold text-info my-1">
-														<label class="form-check-label">
-															<input type="checkbox" class="form-check-input" name="optradio">
-														</label>
-													</div>
-												</td>
-												<td class="pl-0">7</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">임시저장</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-muted mr-2">장그래</span>
-														</p>
-													</div>
-												</td>
-												<td>2023/02/16</td>
-											</tr>
-											<tr>
-												<td class="py-0 pl-1">
-													<div class="form-check font-weight-bold text-info my-1">
-														<label class="form-check-label">
-															<input type="checkbox" class="form-check-input" name="optradio">
-														</label>
-													</div>
-												</td>
-												<td class="pl-0">6</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">임시저장</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-muted mr-2">장그래</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-muted mr-2">오상식</span>
-														</p>
-													</div>
-												</td>
-												<td>2023/02/15</td>
-											</tr>
-											<tr>
-												<td class="py-0 pl-1">
-													<div class="form-check font-weight-bold text-info my-1">
-														<label class="form-check-label">
-															<input type="checkbox" class="form-check-input" name="optradio">
-														</label>
-													</div>
-												</td>
-												<td class="pl-0">5</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">임시저장</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-muted mr-2">장그래</span>
-														</p>
-													</div>
-												</td>
-												<td>2023/02/14</td>
-											</tr>
-											<tr>
-												<td class="py-0 pl-1">
-													<div class="form-check font-weight-bold text-info my-1">
-														<label class="form-check-label">
-															<input type="checkbox" class="form-check-input" name="optradio">
-														</label>
-													</div>
-												</td>
-												<td class="pl-0">4</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">임시저장</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-muted mr-2">장그래</span>
-														</p>
-													</div>
-												</td>
-												<td>2023/02/13</td>
-											</tr>
-											<tr>
-												<td class="py-0 pl-1">
-													<div class="form-check font-weight-bold text-info my-1">
-														<label class="form-check-label">
-															<input type="checkbox" class="form-check-input" name="optradio">
-														</label>
-													</div>
-												</td>
-												<td class="pl-0">3</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">임시저장</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-muted mr-2">장그래</span>
-														</p>
-													</div>
-												</td>
-												<td>2023/02/12</td>
-											</tr>
-											<tr>
-												<td class="py-0 pl-1">
-													<div class="form-check font-weight-bold text-info my-1">
-														<label class="form-check-label">
-															<input type="checkbox" class="form-check-input" name="optradio">
-														</label>
-													</div>
-												</td>
-												<td class="pl-0">2</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">임시저장</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-muted mr-2">장그래</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-muted mr-2">오상식</span>
-														</p>
-													</div>
-												</td>
-												<td>2023/02/11</td>
-											</tr>
-											<tr>
-												<td class="py-0 pl-1">
-													<div class="form-check font-weight-bold text-info my-1">
-														<label class="form-check-label">
-															<input type="checkbox" class="form-check-input" name="optradio">
-														</label>
-													</div>
-												</td>
-												<td class="pl-0">1</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">임시저장</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-muted mr-2">장그래</span>
-														</p>
-													</div>
-												</td>
-												<td>2023/02/10</td>
-											</tr>
+												<td><fmt:formatDate value="${document.docWriteDate}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+											</c:forEach>
 										</tbody>
 									</table>
 									<div class="mt-2">
@@ -431,11 +272,33 @@
 											<span class="btn btn-danger btn-sm">선택 삭제</span>
 										</div>
 										<ul class="pagination justify-content-center pb-0 mb-0">
-											<li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
-											<li class="page-item active" ><a class="page-link" href="#">1</a></li>
-											<li class="page-item"><a class="page-link" href="#">2</a></li>
-											<li class="page-item"><a class="page-link" href="#">3</a></li>
-											<li class="page-item"><a class="page-link" href="#">다음</a></li>
+										<c:if test="${pager.totalRows > 0}">
+											<!-- 처음 -->
+											<li class="page-item"><a class="page-link" href="<c:url value='/approval/draftdocument/1'/>">처음</a></li>
+											
+											<!-- 이전 -->
+											<c:if test = "${pager.groupNo > 1}">
+											<li class="page-item"><a class="page-link" href="<c:url value='/approval/draftdocument/${pager.startPageNo-1}'/>">이전</a></li>
+											</c:if>
+											
+											<!-- 페이지그룹 -->
+											<c:forEach var="i" begin="${pager.startPageNo}" end ="${pager.endPageNo}">
+											<c:if test="${pager.pageNo != i}">
+											<li class="page-item" ><a class="page-link" href="<c:url value='/approval/draftdocument/${i}'/>">${i}</a></li>
+											</c:if>
+											<c:if test="${pager.pageNo == i}">
+											<li class="page-item active" ><a class="page-link" href="<c:url value='/approval/draftdocument/${i}'/>">${i}</a></li>
+											</c:if>
+											</c:forEach>
+											
+											<!-- 다음 -->
+											<c:if test = "${pager.groupNo < pager.totalGroupNo }">
+											<li class="page-item"><a class="page-link" href="<c:url value='/approval/draftdocument/${pager.endPageNo+1}'/>">다음</a></li>
+											</c:if>
+											
+											<!-- 마지막 -->
+											<li class="page-item"><a class="page-link" href="<c:url value='/approval/draftdocument/${pager.totalPageNo}'/>">마지막</a></li>
+										</c:if>
 										</ul>
 									</div>
 								</div>

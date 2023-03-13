@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.hr.dao.hrDao">
+<mapper namespace="com.oti.groupware.mail.dao.MailFileDAO">
 
     <resultMap id="mailsFileResult" type="mailFile">
         <result column="mail_file_id" property="mailFileId" />
@@ -10,6 +10,12 @@
         <result column="mail_file_type" property="mailFileType" />
         <result column="mail_file_length" property="mailFileLength" />
     </resultMap>
+    
+    <select id="getFileYN" parameterType="int" resultType="int">
+    	select count(mail_file_id)
+    	from mails_files
+    	where send_mail_id = #{sendMailId}
+    </select>
 
     <select id="getMailFileById" parameterType="int" resultMap="mailsFileResult">
         SELECT
@@ -26,7 +32,7 @@
     </select>
 
     <insert id="insertMailFile" parameterType="mailFile">
-		INSERT INTO project3.mails_files (
+		INSERT INTO mails_files (
 		    mail_file_id,
 		    send_mail_id,
 		    mail_file_name,
@@ -34,7 +40,7 @@
 		    mail_file_type,
 		    mail_file_length
 		) VALUES (
-		    #{mailFileId},
+		    mailfile_seq.nextval,
 		    #{sendMailId},
 		    #{mailFileName},
 		    #{mailFileData},

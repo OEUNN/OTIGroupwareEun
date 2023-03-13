@@ -3,7 +3,7 @@
 <mapper namespace="com.oti.groupware.approval.dao.DocumentDAO">
 
 	<resultMap id="documentResultMap" type="document">
-	    <result property="docId" column="doc_id"/>
+	    <id property="docId" column="doc_id"/>
 	    <result property="empId" column="emp_id"/>
 	    <result property="docType" column="doc_type"/>
 	    <result property="docTitle" column="doc_title"/>
@@ -16,6 +16,10 @@
 	    <result property="docReadYn" column="doc_read_yn"/>
 	    <result property="docTempYn" column="doc_temp_yn"/>
 	    <result property="docAprvStep" column="doc_aprv_step"/>
+	    <result property="docMaxStep" column="doc_max_step"/>
+	    <association column="emp_name" property="employee" javaType="employee">
+	    	<result column="emp_name" property="empName"/>
+	    </association>
 	</resultMap>
 
     <select id="getDocumentById" parameterType="string" resultMap="documentResultMap">
@@ -23,7 +27,7 @@
             doc_id, emp_id, doc_type, doc_title, doc_content,
             doc_retention_period, doc_write_date, doc_report_date,
             doc_complete_date, doc_state, doc_read_yn,
-            doc_temp_yn, doc_aprv_step
+            doc_temp_yn, doc_aprv_step, doc_max_step 
         FROM documents
         WHERE doc_id = #{docId}
     </select>
@@ -33,29 +37,34 @@
             doc_id, emp_id, doc_type, doc_title, doc_content,
             doc_retention_period, doc_write_date, doc_report_date,
             doc_complete_date, doc_state, doc_read_yn,
-            doc_temp_yn, doc_aprv_step
+            doc_temp_yn, doc_aprv_step, doc_max_step 
         )
         VALUES (
             #{docId}, #{empId}, #{docType}, #{docTitle}, #{docContent},
             #{docRetentionPeriod}, #{docWriteDate}, #{docReportDate},
             #{docCompleteDate}, #{docState}, #{docReadYn},
-            #{docTempYn}, #{docAprvStep}
+            #{docTempYn}, #{docAprvStep}, #{docMaxStep} 
         )
     </insert>
 
-    <update id="updateDocument" parameterType="document">
-        UPDATE documents SET
-            emp_id = #{empId}, doc_type = #{docType},
-            doc_title = #{docTitle}, doc_content = #{docContent},
-            doc_retention_period = #{docRetentionPeriod},
-            doc_write_date = #{docWriteDate},
-            doc_report_date = #{docReportDate},
-            doc_complete_date = #{docCompleteDate},
-            doc_state = #{docState},
-            doc_read_yn = #{docReadYn} ,
-            doc_temp_yn = #{docTempYn},
-            doc_aprv_step = #{docAprvStep}
-		WHERE doc_id = #{docId}
+	<update id="updateDocument" parameterType="Document">
+	    UPDATE documents
+	    <set>
+	        <if test="empId != null">emp_id = #{empId},</if>
+	        <if test="docType != null">doc_type = #{docType},</if>
+	        <if test="docTitle != null">doc_title = #{docTitle},</if>
+	        <if test="docContent != null">doc_content = #{docContent},</if>
+	        <if test="docRetentionPeriod != null">doc_retention_period = #{docRetentionPeriod},</if>
+	        <if test="docWriteDate != null">doc_write_date = #{docWriteDate},</if>
+	        <if test="docReportDate != null">doc_report_date = #{docReportDate},</if>
+	        <if test="docCompleteDate != null">doc_complete_date = #{docCompleteDate},</if>
+	        <if test="docState != null">doc_state = #{docState},</if>
+	        <if test="docReadYn != null">doc_read_yn = #{docReadYn},</if>
+	        <if test="docTempYn != null">doc_temp_yn = #{docTempYn},</if>
+	        <if test="docAprvStep != null">doc_aprv_step = #{docAprvStep},</if>
+	        <if test="docMaxStep != null">doc_max_step = #{docMaxStep}</if>
+	    </set>
+	    WHERE doc_id = #{docId}
 	</update>
 	
 	<delete id="deleteDocument" parameterType="string">
@@ -66,21 +75,19 @@
         INSERT INTO documents (
             doc_id, emp_id, doc_type, doc_title, doc_content,
             doc_retention_period, doc_write_date, doc_report_date, doc_state,
-            doc_read_yn, doc_temp_yn, doc_aprv_step
+            doc_read_yn, doc_temp_yn, doc_aprv_step, doc_max_step 
         )
         VALUES (
             #{docId}, #{empId}, #{docType}, #{docTitle}, #{docContent},
             #{docRetentionPeriod}, #{docWriteDate}, SYSDATE, #{docState},
-            default, #{docTempYn}, default
+            default, #{docTempYn}, default, #{docMaxStep}
         )
     </insert>
     
     <select id="getDraftDocumentCount" resultType="int" parameterType="string">
-    <![CDATA[
         SELECT count(*) 
         FROM documents 
-        WHERE emp_id = #{empId}
-    ]]>
+        WHERE emp_id = #{empId} and doc_temp_yn = 'N'
     </select>
     
     <select id="getDraftDocumentList" resultMap="documentResultMap">
@@ -99,4 +106,119 @@
         WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
     ]]>
     </select>
+    
+    <select id="getPendedDocumentCount" resultType="int" parameterType="string">
+        SELECT count(*) 
+		FROM documents doc, approval_lines apl
+		WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order and doc_temp_yn = 'N'
+    </select>
+    
+    <select id="getPendedDocumentList" resultMap="documentResultMap">
+    <![CDATA[
+        SELECT
+            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            doc_complete_date, doc_state, doc_read_yn
+        FROM (
+        	SELECT
+        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+        		doc_complete_date, doc_state, doc_read_yn
+        	FROM documents doc, approval_lines apl, employees emp
+        	WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order AND doc_temp_yn = 'N' AND 
+        	emp.emp_id = doc.emp_id AND rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
+        )
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
+    ]]>
+    </select>
+    
+    <select id="getReturnedDocumentCount" resultType="int" parameterType="string">
+		SELECT count(*) 
+		FROM documents 
+		WHERE emp_id = ${empId} AND (doc_state = '회수' OR doc_state = '반려') AND doc_temp_yn = 'N'
+    </select>
+    
+	<select id="getReturnedDocumentList" resultMap="documentResultMap">
+    <![CDATA[
+        SELECT
+            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            doc_complete_date, doc_state, doc_read_yn
+        FROM (
+        	SELECT
+        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+        		doc_complete_date, doc_state, doc_read_yn
+        	FROM documents doc, approval_lines apl, employees emp
+        	WHERE doc.emp_id = ${empId} AND doc.doc_id = apl.doc_id AND (doc_state = '회수' OR doc_state = '반려') AND 
+        	emp.emp_id = doc.emp_id AND rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
+        )
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
+    ]]>
+	</select>
+	
+	<select id="getCompletedDocumentCount" resultType="int" parameterType="string">
+		SELECT count(*) 
+		FROM documents 
+		WHERE emp_id = ${empId} AND doc_state = '완결'
+	</select>
+	
+	<select id="getCompletedDocumentList" resultMap="documentResultMap">
+    <![CDATA[
+        SELECT
+            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            doc_complete_date, doc_state, doc_read_yn
+        FROM (
+        	SELECT
+        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+        		doc_complete_date, doc_state, doc_read_yn
+        	FROM documents doc, approval_lines apl, employees emp
+        	WHERE doc.emp_id = ${empId} AND doc.doc_id = apl.doc_id AND doc_state = '완결' AND doc_temp_yn = 'N' AND 
+        	emp.emp_id = doc.emp_id AND rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
+        )
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
+    ]]>
+	</select>
+	
+	<select id="getTempDocumentCount" resultType="int" parameterType="string">
+		SELECT count(*) 
+		FROM documents 
+		WHERE emp_id = ${empId} AND doc_temp_yn = 'Y'
+	</select>
+	
+	<select id="getTempDocumentList" resultMap="documentResultMap">
+    <![CDATA[
+        SELECT
+            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            doc_complete_date, doc_state, doc_read_yn
+        FROM (
+        	SELECT
+        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+        		doc_complete_date, doc_state, doc_read_yn
+        	FROM documents doc, approval_lines apl, employees emp
+        	WHERE doc.emp_id = ${empId} AND doc_temp_yn = 'Y' AND 
+        	emp.emp_id = doc.emp_id AND rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
+        )
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
+    ]]>
+	</select>
+	
+	<select id="getDraftDocumentCountByState" resultType="int">
+		SELECT count(*) 
+		FROM documents 
+		WHERE emp_id = #{empId} AND doc_state = #{state} AND doc_temp_yn = 'Y'
+	</select>
+	
+	<select id="getDraftDocumentListByState" resultMap="documentResultMap">
+    <![CDATA[
+        SELECT
+            doc_id, emp_id, doc_type, doc_title, doc_report_date,
+            doc_complete_date, doc_state, doc_read_yn
+        FROM (
+        	SELECT
+        		rownum as rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
+        		doc_complete_date, doc_state, doc_read_yn
+        	FROM documents
+        	WHERE emp_id = #{empId} AND doc_state = #{state} AND doc_temp_yn = 'N' and 
+        	rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
+        )
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
+    ]]>
+	</select>
 </mapper>

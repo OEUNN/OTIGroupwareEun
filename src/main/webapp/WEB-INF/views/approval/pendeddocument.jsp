@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 
@@ -24,6 +25,15 @@
 	.table td,
 	.jsgrid .jsgrid-table td {
 		padding: 0.525rem 1.375rem;
+	}
+	tr:hover {
+		background-color: #F3F3F3;
+	}
+	a {
+		color:black;
+	}
+	a:hover {
+		text-decoration: none;
 	}
 	</style>
 </head>
@@ -212,214 +222,101 @@
 									<table class="table">
 										<thead>
 											<tr>
-												<th class="pl-0  pb-2 border-bottom">문서 번호</th>
+												<th class="px-0 pl-0  pb-2 border-bottom">문서 번호</th>
+												<th class="px-0 border-bottom pb-2">결재상태</th>
 												<th class="border-bottom pb-2">제목</th>
 												<th class="border-bottom pb-2">기안자</th>
-												<th class="border-bottom pb-2">부서</th>
-												<th class="border-bottom pb-2">직급</th>
 												<th class="border-bottom pb-2">상신날짜</th>
 											</tr>
 										</thead>
 										<tbody>
+										
+											<c:forEach items="${documents}" var="document" varStatus="status">
+											<c:set value="${approvalLinesList[status.index]}" var="approvalLines"/>
 											<tr>
-												<td class="pl-0">03-333</td>
+												<td class="px-0">${document.docId}</td>
+												<td class="px-0">
+													<c:choose>
+													<c:when test="${document.docState == '결재중'}">
+													<div class="badge badge-warning font-weight-bold d-flex" style="width: fit-content;">
+													<i class="mdi mdi-file-document d-flex align-self-center mr-1"></i><span>진행</span></div>
+													</c:when>
+													<c:when test="${document.docState == '완결'}">
+													<div class="badge badge-success font-weight-bold d-flex" style="width: fit-content;">
+													<i class="mdi mdi-check-circle-outline d-flex align-self-center mr-1"></i><span>승인</span></div>
+													</c:when>
+													<c:when test="${document.docState == '반려'}">
+													<div class="badge badge-danger font-weight-bold d-flex" style="width: fit-content;">
+													<i class="mdi mdi-block-helper d-flex align-self-center mr-1"></i><span>반려</span></div>
+													</c:when>
+													<c:when test="${document.docState == '회수'}">
+													<div class="badge badge-secondary font-weight-bold d-flex" style="width: fit-content;">
+													<i class="mdi mdi-replay d-flex align-self-center mr-1"></i><span>회수</span></div>
+													</c:when>
+													</c:choose>
+												</td>
 												<td>
 													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
+														<p class="mb-0"><a href="<c:url value='/approval/viewdetail/${document.docId}'/>"><span class="font-weight-bold mr-2">${document.docTitle}</span></a></p>
 														<p class="mb-0">
-															<span class="font-weight-light text-success mr-2">장그래</span>
+															<c:forEach items="${approvalLines}" var="approvalLine" varStatus="i">
+															<c:choose>
+															<c:when test="${approvalLine.aprvLineState == '승인'}">
+															<span class="font-weight-light text-success mr-2">
+															</c:when>
+															<c:when test="${approvalLine.aprvLineState == '반려'}">
+															<span class="font-weight-light text-danger mr-2">
+															</c:when>
+															<c:when test="${approvalLine.aprvLineState == '열람'}">
+															<span class="font-weight-light text-warning mr-2">
+															</c:when>
+															<c:when test="${approvalLine.aprvLineState == '미결'}">
+															<span class="font-weight-light text-muted mr-2">
+															</c:when>
+															</c:choose>
+															${approvalLine.employee.empName}</span>
+															<c:if test="${i.last != true}">
 															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">오상식</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-muted mr-2">김부련</span>
+															</c:if>
+															</c:forEach>
 														</p>
 													</div>
 												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
-												<td>2023/02/19</td>
+												<td>${document.employee.empName}</td>
+												<td><fmt:formatDate value="${document.docReportDate}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
 											</tr>
-											<tr>
-												<td class="pl-0">01-111</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-success mr-2">장그래</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-success mr-2">오상식</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">김부련</span>
-														</p>
-													</div>
-												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
-												<td>2023/02/19</td>
-											</tr>
-											<tr>
-												<td class="pl-0">03-333</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-success mr-2">장그래</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">오상식</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-muted mr-2">김부련</span>
-														</p>
-													</div>
-												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
-												<td>2023/02/19</td>
-											</tr>
-											<tr>
-												<td class="pl-0">01-111</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-success mr-2">장그래</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-success mr-2">오상식</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">김부련</span>
-														</p>
-													</div>
-												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
-												<td>2023/02/19</td>
-											</tr>
-											<tr>
-												<td class="pl-0">03-333</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-success mr-2">장그래</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">오상식</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-muted mr-2">김부련</span>
-														</p>
-													</div>
-												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
-												<td>2023/02/19</td>
-											</tr>
-											<tr>
-												<td class="pl-0">01-111</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-success mr-2">장그래</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-success mr-2">오상식</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">김부련</span>
-														</p>
-													</div>
-												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
-												<td>2023/02/19</td>
-											</tr>
-											<tr>
-												<td class="pl-0">03-333</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-success mr-2">장그래</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">오상식</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-muted mr-2">김부련</span>
-														</p>
-													</div>
-												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
-												<td>2023/02/19</td>
-											</tr>
-											<tr>
-												<td class="pl-0">01-111</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-success mr-2">장그래</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-success mr-2">오상식</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">김부련</span>
-														</p>
-													</div>
-												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
-												<td>2023/02/19</td>
-											</tr>
-											<tr>
-												<td class="pl-0">03-333</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-success mr-2">장그래</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">오상식</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-muted mr-2">김부련</span>
-														</p>
-													</div>
-												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
-												<td>2023/02/19</td>
-											</tr>
-											<tr>
-												<td class="pl-0">01-111</td>
-												<td>
-													<div>
-														<p class="mb-0"><span class="font-weight-bold mr-2">결재 부탁드립니다</span></p>
-														<p class="mb-0">
-															<span class="font-weight-light text-success mr-2">장그래</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-success mr-2">오상식</span>
-															<span class="font-weight-light mr-2">>></span>
-															<span class="font-weight-light text-warning mr-2">김부련</span>
-														</p>
-													</div>
-												</td>
-												<td>장그래</td>
-												<td>공공사업1DIV</td>
-												<td>사원</td>
-												<td>2023/02/19</td>
-											</tr>
+											</c:forEach>
 										</tbody>
 									</table>
 									<div class="mt-5">
 										<ul class="pagination justify-content-center pb-0 mb-0">
-											<li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
-											<li class="page-item active" ><a class="page-link" href="#">1</a></li>
-											<li class="page-item"><a class="page-link" href="#">2</a></li>
-											<li class="page-item"><a class="page-link" href="#">3</a></li>
-											<li class="page-item"><a class="page-link" href="#">다음</a></li>
+										<c:if test="${pager.totalRows > 0}">
+											<!-- 처음 -->
+											<li class="page-item"><a class="page-link" href="<c:url value='/approval/draftdocument/1'/>">처음</a></li>
+											
+											<!-- 이전 -->
+											<c:if test = "${pager.groupNo > 1}">
+											<li class="page-item"><a class="page-link" href="<c:url value='/approval/draftdocument/${pager.startPageNo-1}'/>">이전</a></li>
+											</c:if>
+											
+											<!-- 페이지그룹 -->
+											<c:forEach var="i" begin="${pager.startPageNo}" end ="${pager.endPageNo}">
+											<c:if test="${pager.pageNo != i}">
+											<li class="page-item" ><a class="page-link" href="<c:url value='/approval/draftdocument/${i}'/>">${i}</a></li>
+											</c:if>
+											<c:if test="${pager.pageNo == i}">
+											<li class="page-item active" ><a class="page-link" href="<c:url value='/approval/draftdocument/${i}'/>">${i}</a></li>
+											</c:if>
+											</c:forEach>
+											
+											<!-- 다음 -->
+											<c:if test = "${pager.groupNo < pager.totalGroupNo }">
+											<li class="page-item"><a class="page-link" href="<c:url value='/approval/draftdocument/${pager.endPageNo+1}'/>">다음</a></li>
+											</c:if>
+											
+											<!-- 마지막 -->
+											<li class="page-item"><a class="page-link" href="<c:url value='/approval/draftdocument/${pager.totalPageNo}'/>">마지막</a></li>
+										</c:if>
 										</ul>
 									</div>
 								</div>
