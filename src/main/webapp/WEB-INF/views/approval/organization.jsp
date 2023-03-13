@@ -32,6 +32,17 @@
 	<script>
 		var order = 1;
 		
+		$(() => {
+			let openerHTML = opener.$('#approvalLine');
+			openerHTML.find('.remove-flag').each((index, item) => {
+				if (index % 2 === 0) {
+					var Id = item.classList[0].substring(1);
+					console.log(Id);
+					appendToList(Id);
+				}
+			})
+		});
+		
 		function appendToList(elementId) {
 			if ($("#approvalLine div").length < 3) {
 				delId = 'del' + elementId;
@@ -91,13 +102,13 @@
 				
 				var sendData = {
 					content :	
-					'<div class="' + removeClass + ' d-flex align-items-stretch justify-content-center mb-0">' +
+					'<div class="' + removeClass + ' d-flex align-items-stretch justify-content-center mb-0 remove-flag">' +
 						'<h1 class="mdi mdi-menu-down mt-1 mb-0"></h1>' +
 					'</div>' +
-					'<div class="' + removeClass + ' card card-dark-blue grid-margin shadow-2 mb-0">' +
+					'<div class="' + removeClass + ' card card-dark-blue grid-margin shadow-2 mb-0 remove-flag">' +
 						'<div class="card-body">' +
 							'<div class="row">' +
-								'<div id=' + empId + ' class="empId col-10">' +
+								'<div id=' + empId + ' class="empId col-10 init-flag">' +
 									'<p class="text-white font-weight-bold">' +
 										empName +
 									'</p>' +
@@ -116,12 +127,13 @@
 					empName : empName,
 					depName : depName,
 					posName : posName,
-					approvalOrder : approvalOrder
+					approvalOrder : approvalOrder,
+					index : index
 				}
 				opener.postMessage(sendData);
-				window.close();
 			//$(tagId).forEach
 			});
+			window.close();
 		//function sendApprovalLine
 		}
 		

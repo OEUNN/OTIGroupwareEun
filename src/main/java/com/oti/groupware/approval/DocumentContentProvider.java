@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DocumentContentSupplier {
+public class DocumentContentProvider {
 	private String documentId;
 	private String documentRetentionPeriod;
 	private String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
@@ -41,7 +41,7 @@ public class DocumentContentSupplier {
 		switch (documentType) {
 		
 		case "휴일근무품의서":
-			documentRetentionPeriod = "3년";
+			documentRetentionPeriod = "5년";
 			break;
 			
 		case "출장품의서":

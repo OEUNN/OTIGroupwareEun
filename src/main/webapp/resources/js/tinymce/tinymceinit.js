@@ -1,3 +1,7 @@
+function getContextPath() {
+   return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+}
+
 tinymce.init({
 	language: 'ko_KR',
 	selector: '#document',
@@ -9,8 +13,7 @@ tinymce.init({
 	    'searchreplace insertdatetime pagebreak emoticons'
 	],
 	autosave_ask_before_unload: true,
-	autosave_restore_when_empty: true,
-	autosave_interval: '20s',
+	autosave_interval: '5s',
 	autosave_retention: '60m',
 	menubar: 'edit insert format',
 	menu: {
@@ -20,8 +23,14 @@ tinymce.init({
 	},
 	toolbar1: 'newdocument restoredraft fullscreen print',
 	toolbar2: 'undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
-	content_css : '../resources/css/approvalform.css',
+	content_css : getContextPath() + '/resources/css/approvalform.css',
 	save_enablewhendirty: false,
+	init_instance_callback : function(editor)
+	{
+		editor.getBody().setAttribute('contenteditable',false);
+        editor.getBody().innerHTML = "<p>양식을 선택해주세요</p>";
+        callTempDocument();
+	},
 	object_resizing : false
 });
 
@@ -33,9 +42,10 @@ tinymce.init({
 	plugins: [
 		'noneditable'
 		],
+	noneditable_editable_class: "encryptedClassName",
 	menubar : '',
 	toolbar1: 'fullscreen print',
 	readonly: 1,
-	content_css : '../../resources/css/approvalform.css',
+	content_css : getContextPath() + '/resources/css/approvalform.css',
 	object_resizing : false
 });

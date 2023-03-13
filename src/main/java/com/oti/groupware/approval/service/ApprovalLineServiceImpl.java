@@ -34,4 +34,9 @@ public class ApprovalLineServiceImpl implements ApprovalLineService{
 		}
 		return approvalLineList;
 	}
+	
+	@Override
+	public int writeOpinion(ApprovalLine approvalLine) {
+		return approvalLineDAO.updateOpinion(approvalLine);
+	}
 }

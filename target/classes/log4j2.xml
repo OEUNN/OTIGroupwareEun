@@ -2,7 +2,7 @@
 <Configuration>
   <Appenders>
     <Console name="Out" target="SYSTEM_OUT">
-      <PatternLayout pattern="%-5level: %logger{36}.%M() - %msg%n"/>
+      <PatternLayout pattern="%-5level: %logger{1}.%M() - %msg%n"/>
     </Console>
   </Appenders>
   

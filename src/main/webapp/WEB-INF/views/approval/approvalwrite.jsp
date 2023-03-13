@@ -12,43 +12,95 @@
 	<script src="<c:url value="/resources/js/file-upload.js"></c:url>"></script>
 	<script src="<c:url value="/resources/js/custom/dropdown.js"></c:url>"></script>
 	<script type="text/javascript">
+	function getContextPath() {
+	   return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+	}
+	
 	function popup(){
-	    let url = "organization";
+	    let url = getContextPath() + "/approval/organization";
 	    let name = "organization";
 	    let option = "width=500, height=700, top=500px, left=500px, menubars=no, status=no, titlebars=no"
 	    window.open(url, name, option);
 	}
 	
-	$(document).ready(function(){
+	function isTitleExist() {
+		if ($("iframe").contents().find("body").find("#A4") === null) {
+			alert("내용이 없습니다");
+		}
+		else if ($("iframe").contents().find("body").find(".documentTitle").text() === null || $("iframe").contents().find("body").find(".documentTitle").text() === '') {
+			alert("제목은 필수 입니다.");
+		}
+		else {
+			$("#approvalForm").submit();
+		}
+	}
+	
+	function callTempDocument() {
+		if ($("#documentId").val() !== '' && $("#documentId").val() !== null) {
+			let docId = $("#documentId").val();
+			
+			$.ajax({
+				url: getContextPath() + '/approval/viewdetail/' + docId + '/documentdetail',
+				success: function(data) {
+					console.log(data);
+					tinymce.get("document").setContent(data.docContent);
+					initForm();
+					isEditorContentEmpty = false;
+				} 
+			});
+		}
+	}
+	
+	$(() => {
+		$(".mdi-close").each((index, element) => {
+			var id = $(element).attr("id");
+			var remover = '#' + id;
+			var removee = '.' + id;
+			
+			$(remover).on('click', (event) => {
+				$(removee).remove();
+				//iframe은 일반적인 $()로 접근할 수 없다
+				$("iframe").contents().find("body").find(removee).remove();
+			});
+		});
+	});
+
+	$(() => {
 		$(window).on("message", (event) => {
 			//팝업창에서 전송한 데이터 얻기(팝업창에서 postMessage() 사용해야 함)
 			let receivedData = event.originalEvent.data;
+			//id
+			var remover = '#' + receivedData.removeClass;
+			var removee = '.' + receivedData.removeClass;
 			
 			//결재선에 추가하기
+			if (receivedData.index === 0) {
+				$(".remove-flag").remove();
+				$("iframe").contents().find("body").find(removee).remove();
+			}
 			$("#approvalLine").append(receivedData.content);
 			
+			//x에다가 클릭 시 삭제 이벤트 등록하기
+			$(remover).on('click', (event) => {
+				$(removee).remove();
+				//iframe은 일반적인 $()로 접근할 수 없다
+				$("iframe").contents().find("body").find(removee).remove();
+			});
+
 			//form 양식에 추가하기
-			$("#approvalForm").append('<input type="hidden" name="approvalId" value="' + receivedData.empId + '">');
-			$("#approvalForm").append('<input type="hidden" name="approvalName" value="' + receivedData.empName + '">');
-			$("#approvalForm").append('<input type="hidden" name="depName" value="' + receivedData.depName + '">');
-			$("#approvalForm").append('<input type="hidden" name="posName" value="' + receivedData.posName + '">');
-			$("#approvalForm").append('<input type="hidden" name="approvalOrder" value="' + receivedData.approvalOrder + '">');
-			$("#approvalForm").append('<input type="hidden" name="approvalState" value="미결">');
-			$("#approvalForm").append('<input type="hidden" name="approvalDate" value="미정">');
+			$("#approvalForm").append('<input class="' + receivedData.removeClass + '" type="hidden" name="approvalId" value="' + receivedData.empId + '">');
+			$("#approvalForm").append('<input class="' + receivedData.removeClass + '" type="hidden" name="approvalName" value="' + receivedData.empName + '">');
+			$("#approvalForm").append('<input class="' + receivedData.removeClass + '" type="hidden" name="depName" value="' + receivedData.depName + '">');
+			$("#approvalForm").append('<input class="' + receivedData.removeClass + '" type="hidden" name="posName" value="' + receivedData.posName + '">');
+			$("#approvalForm").append('<input class="' + receivedData.removeClass + '" type="hidden" name="approvalOrder" value="' + receivedData.approvalOrder + '">');
+			$("#approvalForm").append('<input class="' + receivedData.removeClass + '" type="hidden" name="approvalState" value="미결">');
+			$("#approvalForm").append('<input class="' + receivedData.removeClass + '" type="hidden" name="approvalDate" value="미정">');
 			
-			//iframe은 일반적인 $()로 접근할 수 없다
+			//iframe 내부 초기화
 			$("iframe").contents().find("body").find("#formApprovalPosition").append('<td class="' + receivedData.removeClass + ' content-align-center text-content">' + receivedData.posName + '</td>');
 			$("iframe").contents().find("body").find("#formApprovalState").append('<td class="' + receivedData.removeClass + ' approvalLineState content-align-center text-content">미결</td>');
 			$("iframe").contents().find("body").find("#formApprovalName").append('<td class="' + receivedData.removeClass + ' content-align-center text-content">' + receivedData.empName + '</td>');
 			$("iframe").contents().find("body").find("#formApprovalDate").append('<td class="' + receivedData.removeClass + ' approvalDate content-align-center text-content">날짜 미정</td>');
-			
-			//x에다가 클릭 시 삭제 이벤트 등록하기
-			var remover = '#' + receivedData.removeClass;
-			var removee = '.' + receivedData.removeClass;
-			$(remover).on('click', (event) => {
-				$(removee).remove();
-				$("iframe").contents().find("body").find(removee).remove();
-			});
 		});
 	});
 	</script>
@@ -68,6 +120,7 @@
 	<input type="hidden" id="drafterName" value="${sessionScope.employee.empName}">
 	<input type="hidden" id="drafterDepName" value="${sessionScope.employee.depName}">
 	<input type="hidden" id="drafterPosName" value="${sessionScope.employee.posName}">
+	<input type="hidden" id="documentId" name="docId" value="${document.docId}">
 	<!-- partial:../../partials/_navbar.jsp -->
 	<%@ include file="/WEB-INF/views/common/_navbar.jsp" %>
 	
@@ -137,6 +190,24 @@
 									                    </div>
 								                    </div>
 			            						</div>
+			            						<c:forEach items="${approvalLines}" var="approvalLine">
+			            						<c:if test="${approvalLine.aprvLineRole != '기안'}">
+			            						<div class="r${approvalLine.empId} d-flex align-items-stretch justify-content-center mb-0 remove-flag">
+			            							<h1 class="mdi mdi-menu-down mt-1 mb-0"></h1>
+			            						</div>
+		            							<div class="r${approvalLine.empId} card card-dark-blue grid-margin shadow-2 mb-0 remove-flag">
+			            							<div class="card-body">
+				            							<div class="row">
+					            							<div id="${approvalLine.empId}" class="empId col-10 init-flag">
+						            							<p class="text-white font-weight-bold">${approvalLine.employee.empName}</p>
+						            							<p>${approvalLine.department.depName} ${approvalLine.position.posName}</p>
+					            							</div>
+					            							<div class="col-2"><i id="r${approvalLine.empId}" class="mdi mdi-close"></i></div>
+				            							</div>
+			            							</div>
+		            							</div>
+		        								</c:if>
+			            						</c:forEach>
 											</div>
 										</div>
 										
@@ -157,22 +228,33 @@
 	            					</div>
 	            					<div class="col-9 card grid-margin mb-3 d-flex justify-content-center flex-column" style="background-color: transparent; box-shadow: 0px 0px 0px white;">
 		        						<div class="card-body grid-margin">
+											<form id="approvalForm" action="<c:url value='/approval/approvalwrite'/>" method="post">
 											<div class="d-flex justify-content-between align-items-center mb-4">
 												<div class="card-title mb-0">문서 내용</div>
 												<div class="d-flex">
-													<button type="submit" form="approvalForm" id="popup-btn" class="btn btn-md btn-warning mx-2">
+													<button onclick="isTitleExist()" name="docTempYn" value="Y" id="popup-btn" class="btn btn-md btn-warning mx-2">
 														<span class="mdi mdi-calendar-clock align-middle"></span>
 														<span>임시저장</span>
 													</button>
-													<button type="submit" form="approvalForm" id="popup-btn" class="btn btn-md btn-primary mx-2">
+													<button onclick="isTitleExist()" name="docTempYn" value="N" id="popup-btn" class="btn btn-md btn-primary mx-2">
 														<span class="mdi mdi-apple-keyboard-caps align-middle"></span>
 														<span>상신하기</span>
 													</button>
 												</div>
 											</div>
-											<form id="approvalForm" action="<c:url value='/approval/approvalwrite'/>" method="post">
 		        								<textarea id="document" name="document" style="width: inherit;"></textarea>
 		        								<input type="hidden" name="drafterId" value="${sessionScope.employee.empId}">
+		        								<c:forEach items="${approvalLines}" var="approvalLine">
+		        								<c:if test="${approvalLine.aprvLineRole != '기안'}">
+													<input class="r${approvalLine.empId}" type="hidden" name="approvalId" value="${approvalLine.empId}">
+													<input class="r${approvalLine.empId}" type="hidden" name="approvalName" value="${approvalLine.employee.empName}">
+													<input class="r${approvalLine.empId}" type="hidden" name="depName" value="${approvalLine.department.depName}">
+													<input class="r${approvalLine.empId}" type="hidden" name="posName" value="${approvalLine.position.posName}">
+													<input class="r${approvalLine.empId}" type="hidden" name="approvalOrder" value="${approvalLine.aprvLineOrder}">
+													<input class="r${approvalLine.empId}" type="hidden" name="approvalState" value="미결">
+													<input class="r${approvalLine.empId}" type="hidden" name="approvalDate" value="미정">
+		        								</c:if>
+		        								</c:forEach>
 											</form>
 		        						</div>
 	            					</div>

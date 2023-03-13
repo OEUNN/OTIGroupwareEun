@@ -16,11 +16,23 @@ public interface DocumentDAO {
 	public void deleteDocument(String docId);
 	
 	public void insertDraft(Document draft);
+	public int updateDocumentReadState(Document document);
+	
 	public int getDraftDocumentCount(String empId);
 	public List<Document> getDraftDocumentList(@Param("pager") Pager pager, @Param("empId") String empId);
 	
-	public List<Document> getCompletedDocumentList(Pager pager, String empId);
-	public List<Document> getTempDocumentList(Pager pager, String empId);
-	public List<Document> getReturnedDocumentList(Pager pager, String empId);
-	public List<Document> getpendedDocumentList(Pager pager, String empId);
+	public int getPendedDocumentCount(String empId);
+	public List<Document> getPendedDocumentList(@Param("pager") Pager pager, @Param("empId") String empId);
+	
+	public int getReturnedDocumentCount(String empId);
+	public List<Document> getReturnedDocumentList(@Param("pager") Pager pager, @Param("empId") String empId);
+	
+	public int getCompletedDocumentCount(String empId);
+	public List<Document> getCompletedDocumentList(@Param("pager") Pager pager, @Param("empId") String empId);
+	
+	public int getTempDocumentCount(String empId);
+	public List<Document> getTempDocumentList(@Param("pager") Pager pager, @Param("empId") String empId);
+	
+	public int getDraftDocumentCountByState(@Param("empId") String empId, @Param("state") String state);
+	public List<Document> getDraftDocumentListByState(@Param("pager") Pager pager, @Param("empId") String empId, @Param("state") String state);
 }
