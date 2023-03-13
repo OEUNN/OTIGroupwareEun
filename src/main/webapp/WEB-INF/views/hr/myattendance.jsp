@@ -59,7 +59,11 @@
 		           	   },
 		           	   options: {
 		           		legend: {
-		           		    position: 'bottom'
+		           		    position: 'bottom',
+			           		labels: {
+			                     fontSize: 13,
+			                     boxWidth: 15, // 아이콘 크기 조절
+			                 }
 		           		 },
 		           	     animation: {
 		           	       animateRotate: true,
@@ -92,7 +96,10 @@
 		           	   options: {
 		           		indexAxis: 'y',
 		           		legend: {
-		           		    display: false // 범례를 숨김
+		           		    display: false, // 범례를 숨김
+			           		labels: {
+			                	fontSize: 10,
+			                }
 		           		 },
 		           	     animation: {
 		           	       animateRotate: true,
@@ -176,7 +183,7 @@
       
       <!-- partial -->
       <div class="main-panel">
-        <div class="content-wrapper">
+        <div class="content-wrapper pt-4">
         	<div class="row">
         		<div class="col-md-4">
 	        		<!-- 현재시간 / 근무상태 -->
@@ -227,7 +234,7 @@
 						           				</div>
 						           				<div class="d-flex justify-content-around">
 							               		    <!-- 출근버튼 클릭 전 -->
-						                      	    <c:if test="${empty attendance.atdInTime}">
+						                      	    <c:if test="${empty attendance.atdInTime && attendance.atdState ne '연차' && attendance.atdState ne '대체휴무'}">
 								               			<button onclick="location.href='${pageContext.request.contextPath}/hr/intime?nowJsp=hr'" class="btn btn-lg btn-outline-primary px-4 py-3" style="font-weight: 700; font-size: 120%;">
 							                           		<div class="h2 mdi mdi-alarm-check align-middle"></div>
 							                           		<div>출근</div>
@@ -238,7 +245,7 @@
 							                       	   </button>
 						                      	   </c:if>
 						                      	   <!--  출근버튼 클릭 후 -->
-						                      	   <c:if test="${!empty attendance.atdInTime && empty attendance.atdOutTime}">
+						                      	   <c:if test="${!empty attendance.atdInTime && empty attendance.atdOutTime && attendance.atdState ne '연차' && attendance.atdState ne '대체휴무'}">
 								               			<button class="btn btn-lg btn-outline-secondary px-4 py-3" style="font-weight: 700; font-size: 120%; pointer-events: none;">
 							                           		<div class="h2 mdi mdi-alarm-check align-middle"></div>
 							                           		<div>출근</div>
@@ -249,7 +256,7 @@
 							                       	   </button>
 						                      	   </c:if>
 						                      	   <!-- 퇴근버튼 클릭 후 -->
-						                      	   <c:if test="${!empty attendance.atdInTime && !empty attendance.atdOutTime}">
+						                      	   <c:if test="${(!empty attendance.atdInTime && !empty attendance.atdOutTime) || (attendance.atdState eq '연차' || attendance.atdState eq '대체휴무')}">
 								               			<button class="btn btn-lg btn-outline-secondary px-4 py-3" style="font-weight: 700; font-size: 120%; pointer-events: none;">
 							                           		<div class="h2 mdi mdi-alarm-check align-middle"></div>
 							                           		<div>출근</div>
@@ -277,10 +284,16 @@
 				           				<div class="card-title text-white pt-1" style="background-color: transparent;">출근</div>
 				           				<div id="today-in-date" class="font-weight-bold text-center mb-2" style="font-size: 50%;"></div>
 				           				<div id="today-in-time" class="font-weight-bold h2 text-center mb-0">
+				           					<!-- 결근인 경우 -->
 				           					<c:if test="${empty attendance.atdInTime}">
 					           					&nbsp;
 				           					</c:if>
-				           					<c:if test="${!empty attendance.atdInTime}">
+				           					<!-- 휴가인경우 -->
+				           					<c:if test="${!empty attendance.atdInTime && (attendance.atdState eq '연차' || attendance.atdState eq '대체휴무')}">
+					           					&nbsp;
+				           					</c:if>
+				           					<!-- 나머지 -->
+				           					<c:if test="${!empty attendance.atdInTime && attendance.atdState ne '연차' && attendance.atdState ne '대체휴무'}">
 					           					<fmt:formatDate pattern="HH:mm" value="${attendance.atdInTime}" />
 				           					</c:if>
 				           				</div>
@@ -298,10 +311,16 @@
 				           					<fmt:formatDate pattern="yyyy-MM-dd" value="${attendance.atdOutTime}" />
 				           				</div>
 				           				<div id="today-out-time" class="font-weight-bold h2 text-center mb-0">
+				           					<!-- 결근인 경우 -->
 				           					<c:if test="${empty attendance.atdOutTime}">
 					           					&nbsp;
 				           					</c:if>
-				           					<c:if test="${!empty attendance.atdOutTime}">
+				           					<!-- 휴가인경우 -->
+				           					<c:if test="${!empty attendance.atdOutTime && (attendance.atdState eq '연차' || attendance.atdState eq '대체휴무')}">
+					           					&nbsp;
+				           					</c:if>
+				           					<!-- 나머지 -->
+				           					<c:if test="${!empty attendance.atdOutTime && attendance.atdState ne '연차' && attendance.atdState ne '대체휴무'}">
 					           					<fmt:formatDate pattern="HH:mm" value="${attendance.atdOutTime}" />
 				           					</c:if>
 				           				</div>
@@ -326,7 +345,7 @@
 										<div class="col-md-6">
 											<canvas id="doughnutChart" width="600"></canvas>
 										</div>
-										<div class="col-md-6">
+										<div class="col-md-6 pl-0">
 											<canvas id="barChart"></canvas>
 										</div>
 									</div>

@@ -17,6 +17,7 @@
         <result column="lev_app_approval_emp_name" property="levAppApprovalEmpName"/>
         <result column="lev_app_approval_emp_id" property="levAppApprovalEmpId"/>
         <result column="lev_app_opinion" property="levAppOpinion"/>
+        <result column="lev_app_cancel" property="levAppCancel"/>
     </resultMap>
     
     <!-- 휴가신청서(일반 임직원) - 전체 행의 수 -->
@@ -58,6 +59,7 @@
 	<!-- 휴가신청서(일반 임직원) - 상세조회 -->
 	<select id="getLeaveApplicationDetail" resultMap="leaveApplicationResultMap">
 		SELECT 
+		    emp_id,
 		    lev_app_date,
 		    lev_app_reason,
 		    lev_app_category,
@@ -66,7 +68,8 @@
 		    lev_app_approval_emp_id,
 		    lev_app_approval_emp_name,
 		    lev_app_process_state,
-		    lev_app_opinion
+		    lev_app_opinion,
+		    lev_app_cancel
 		FROM 
 			leave_applications
 		WHERE
@@ -97,6 +100,7 @@
         	lev_app_process_state, 
         	lev_app_approval_emp_id,
         	lev_app_approval_emp_name
+        	<if test="levAppCancel == '휴가취소'">, lev_app_cancel</if>
        	)
         VALUES (
         	SEQ_LEV_APP_ID.NEXTVAL, 
@@ -109,6 +113,7 @@
         	'미처리', 
         	#{levAppApprovalEmpId},
         	#{levAppApprovalEmpName}
+        	<if test="levAppCancel == '휴가취소'">, '휴가취소'</if>
        	)
     </insert>
     
@@ -215,10 +220,11 @@
         WHERE 
         	lev_app_id = #{levAppId}
     </update>
-
+	
+	<!-- 미처리된 휴가 신청서를 삭제 -->
     <delete id="deleteLeaveApplication">
-        DELETE FROM project3.leave_applications
-        WHERE lev_app_id = #{levAppId} AND emp_id = #{empId}
+        DELETE FROM leave_applications
+        WHERE lev_app_id = #{levAppId}
     </delete>
     
 </mapper>
