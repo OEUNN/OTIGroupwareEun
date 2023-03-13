@@ -56,8 +56,8 @@
 							return { html : '<div class="btn btn-md font-weight-bold px-5" style="background-color:rgba(163, 164, 165, 0.3); color:#5b5b5e;">휴가</div>' }
 						} else if(eventTitle == '오전반차' || eventTitle == '오후반차') {
 							return { html : '<div class="btn btn-md font-weight-bold px-3 py-1" style="background-color:rgba(163, 164, 165, 0.3); color:#5b5b5e;">'+ eventTitle +'</div>' }
-						} else if(eventTitle == '추가근무') {
-							return { html : '<div class="badge font-weight-bold" style="color:#805c46; background-color:rgb(255, 205, 86); padding: 7px 5px; font-size:5%;">추가근무 ' + eventTime + '</div>' }
+						} else if(eventTitle.indexOf('추가근무') == 0) {
+							return { html : '<div class="badge font-weight-bold" style="color:#805c46; background-color:rgb(255, 205, 86); padding: 7px 5px; font-size:5%;">추가근무 ' + eventTitle.substring(4,6) + '시간</div>' }
 						} else if($('.fc-holiday-ko')){
 							// 날짜 객체 생성
 							var date = new Date(info.event.start);
@@ -92,14 +92,9 @@
 				let inTime = $(this).find(".fc-daygrid-event-harness")[0].innerText;
 				let outTime = $(this).find(".fc-daygrid-event-harness")[1].innerText;
 				
-				if ((inTime.indexOf("지각") == 0 || inTime.indexOf("출근") == 0) && (outTime.indexOf("퇴근") == 0 || outTime.indexOf("조퇴") == 0 || outTime.indexOf("추가근무") == 0)) {
+				if ((inTime.indexOf("지각") == 0 || inTime.indexOf("출근") == 0) && (outTime.indexOf("퇴근") == 0 || outTime.indexOf("조퇴") == 0)) {
 					$("#today-in-time").html(inTime.substring(3));
-					
-					if(outTime.indexOf("추가근무") == 0){
-						$("#today-out-time").html(outTime.substring(4));
-					} else { //나머지
-						$("#today-out-time").html(outTime.substring(3));
-					}
+					$("#today-out-time").html(outTime.substring(3));
 				//오전반차인 경우
 				} else if(inTime.indexOf("오전반차") == 0) {
 					$("#today-in-time").html("<br>");
@@ -122,12 +117,18 @@
 					$("#today-in-time").html("<br>");
 					$("#today-out-time").html("<br>");
 				}
-			//이벤트가 3개 이상인 경우(공휴일..)
+			//이벤트가 3개 이상인 경우(공휴일, 추가근무)
 			} else if($(this).find(".fc-daygrid-event-harness").length >= 3) {
-				let inTime = $(this).find(".fc-daygrid-event-harness")[1].innerText;
-				let outTime = $(this).find(".fc-daygrid-event-harness")[2].innerText;
-				$("#today-in-time").html(inTime.substring(3));
-				$("#today-out-time").html(outTime.substring(3));
+				let event1 = $(this).find(".fc-daygrid-event-harness")[0].innerText;
+				let event2 = $(this).find(".fc-daygrid-event-harness")[1].innerText;
+				let event3 = $(this).find(".fc-daygrid-event-harness")[2].innerText;
+				if(event1 == ''){ //공휴일인 경우
+					$("#today-in-time").html(event2.substring(3));
+					$("#today-out-time").html(event3.substring(3));
+				} else { //추가근무인 경우
+					$("#today-in-time").html(event1.substring(3));
+					$("#today-out-time").html(event2.substring(3));
+				}
 			//출퇴근 이력이 없는 경우
 			} else { 
 				$("#today-in-time").html("<br>");

@@ -20,4 +20,5 @@ public class LeaveApplication {
     private String levAppApprovalEmpName;
     private String levAppApprovalEmpId;
     private String levAppOpinion;
+    private String levAppCancel;
 }

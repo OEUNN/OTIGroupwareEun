@@ -39,13 +39,30 @@
 			todayHighlight : true
 		});
 	});
-
-	/* 근무신청내역 상세보기 팝업창 */
-	function atdAppDetail(id) {
-		var url = "popup/atdexcpapplicationdetail?atdExcpId=" + id;
-		var name = "";
-		var option = "width = 800, height = 630, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
-		window.open(url, name, option);
+	
+	/* AJAX통신 -근무신청내역 상세보기*/
+	function atdExcpDetail(id, category) {
+		$.ajax({
+           type: "GET",
+           url: "../hr/atdexcpapprovaldetail?atdExcpId=" + id + "&atdExcpCategory=" + category,
+           error: function () {
+           	alert("통신실패!");
+           },
+           success: function (data) {
+               //작성폼 숨기기
+               $("#atd-excp-write-form").hide();
+			//AJAX 통신에 의해 상세조회 내용 넣기
+               $("#atd-excp-detail").hide().fadeIn(500);
+               $('#atd-excp-detail').html(data);
+           }
+   		});
+	}
+	
+	/* 근무신청서 자세히보기에서 X버튼 누르면 다시 목록 커짐 */
+	function backAtdList() {
+		$("#atd-excp-detail").hide().fadeOut(400);
+		//숨겨놓은 휴가신청내역 목록 보이기
+       $("#atd-excp-write-form").hide().fadeIn(600);
 	}
 
 	//근무시간수정, 추가근무신청서 양식 변경
@@ -87,7 +104,7 @@
 			<div class="main-panel">
 				<div class="content-wrapper">
 					<div class="row">
-						<div class="col-md-5 grid-margin stretch-card">
+						<div class="col-md-6 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
 									<!-- 근무신청목록 -->
@@ -150,7 +167,7 @@
 											<tbody>
 												<c:if test="${!empty atdExcpList}">
 													<c:forEach var="atdExcp" items="${atdExcpList}">
-														<tr onclick="atdAppDetail('${atdExcp.atdExcpId}')">
+														<tr onclick="atdExcpDetail('${atdExcp.atdExcpId}', '${atdExcp.atdExcpCategory}')">
 															<td><small>${atdExcp.atdExcpCategory}</small></td>
 															<td><small><fmt:formatDate value="${atdExcp.atdExcpDate}" pattern="yyyy-MM-dd" /></small></td>
 															<td>${atdExcp.atdExcpApprovalEmpName}</td>
@@ -217,8 +234,10 @@
 								</div>
 							</div>
 						</div>
+						<!-- 상세보기 -->
+						<div id="atd-excp-detail" class="col-md-6" style="display:none"></div>
 						<!-- 근무신청폼 -->
-						<div class="col-md-7 grid-margin stretch-card">
+						<div id="atd-excp-write-form" class="col-md-6 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
 									<form>

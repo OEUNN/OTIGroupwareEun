@@ -208,28 +208,6 @@ public class HRController {
 	}
 	
 	/**
-	 * (일반 임직원) 자신의 근무관련 신청서 상세내용 조회
-	 * @author 한송민
-	 * @param atdExcpId(근무신청서ID)
-	 * @return 근무신청서(근무시간수정, 추가근무보고) 상세조회 팝업창
-	 */
-	@RequestMapping(value = "/popup/atdexcpapplicationdetail")
-	public String attendanceExceptionApplicationDetail(int atdExcpId, Model model) {
-		log.info("정보 로그");
-		
-		//신청서의 상세내용 가져오기
-		AttendanceException atdExcp = hrService.attendanceExceptionDetail(atdExcpId);
-		model.addAttribute("atdExcp", atdExcp);
-		
-		//유형에 따라 근무시간수정서 or 추가근무보고서 팝업을 리턴
-		if(atdExcp.getAtdExcpCategory().equals("근무시간수정")) { //근무시간수정신청서일 경우
-			return "hr/popup/updatetimedetail";
-		} else { //추가근무보고서일 경우
-			return "hr/popup/overtimedetail";
-		}
-	}
-
-	/**
 	 * (부서장) 부서원들의 근무결재관련 신청서 상세내용 조회 (AJAX)
 	 * @author 한송민
 	 * @param atdExcpId(근무신청서ID)
@@ -314,22 +292,20 @@ public class HRController {
 		
 		return "hr/myleave";
 	}
-
+	
 	/**
-	 * 휴가 신청서 상세내용 조회
+	 * 신청한 휴가를 취소
 	 * @author 한송민
-	 * @param atdExcpId(근무신청서ID)
-	 * @return 휴가신청 상세조회 팝업창
+	 * @param levAppId(휴가신청서 ID)
+	 * @return 휴가 취소
 	 */
-	@RequestMapping(value = "/popup/leavedetail")
-	public String leaveDetail(int levAppId, Model model) {
-		log.info("정보 로그");
-		//상세정보 가져오기
-		LeaveApplication levApp = hrService.leaveApplicationDetail(levAppId);
-		model.addAttribute("levApp", levApp);
-		
-		return "hr/popup/leavedetail";
+	@RequestMapping(value = "/levapplicationcancel")
+	public String leaveApplicationCancel(int levAppId, String levAppProcessState) {
+		//휴가 취소 신청서
+		hrService.leaveApplicationCancel(levAppId, levAppProcessState);
+		return "redirect:/hr/myleave";
 	}
+	
 	
 	/**
 	 * (부서장) 부서원들의 휴가 신청서 상세내용 조회 (AJAX)
@@ -338,7 +314,7 @@ public class HRController {
 	 * @return 휴가신청서 상세조회 팝업창
 	 */
 	@RequestMapping(value = "/levappaprvdetail")
-	public String LeaveApplicationApprovalDetail(@RequestParam int levAppId, Model model) {
+	public String leaveApplicationApprovalDetail(@RequestParam int levAppId, Model model) {
 		log.info("정보 로그");
 		//신청서의 상세내용 가져오기
 		LeaveApplication levApp = hrService.leaveApplicationApprovalDetail(levAppId);
@@ -511,8 +487,9 @@ public class HRController {
 		
 		if(result == 1) {
 			//로직이 성공하면, 변경된 추가근무보고 상세JSP를 리턴
-			return LeaveApplicationApprovalDetail(levAppId, model);
-		} 
+			return leaveApplicationApprovalDetail(levAppId, model);
+		}
 		return "0";
 	}
+
 }
