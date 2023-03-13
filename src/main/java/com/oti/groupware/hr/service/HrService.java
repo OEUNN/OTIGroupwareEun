@@ -39,4 +39,5 @@ public interface HrService {
 	public int attendanceExceptionApprovalProcessState(AttendanceException atdExcp);
 	public HashMap<String, Integer> attendanceExceptionApprovalStats(String empId);
 	public HashMap<String, Integer> leaveApplicationApprovalStats(String empId);
+	public void leaveApplicationCancel(int levAppId, String levAppProcessState);
 }

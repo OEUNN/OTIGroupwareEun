@@ -22,7 +22,7 @@
 		  atd_state 
 		FROM attendances 
 		WHERE emp_id = #{empId} AND 
-			  to_char(atd_in_time, 'yyyy-MM-DD') = to_char(sysdate, 'yyyy-MM-DD') 
+			  to_char(atd_in_time, 'yyyy-MM-DD') = to_char(sysdate, 'yyyy-MM-DD')
 	</select>
 	
 	<!-- 근무통계 -->
@@ -33,7 +33,7 @@
 		    count(CASE WHEN TO_CHAR(atd_in_time, 'HH24') >= 9 AND atd_state is null THEN 1 END) AS 지각,
 		    count(CASE WHEN TO_CHAR(atd_out_time, 'HH24') < 18 AND atd_out_time is not null THEN 1 END) AS 조퇴,
 		    count(CASE WHEN atd_state = '결근' THEN 1 END) AS 결근,
-		    count(CASE WHEN atd_state = '추가근무' THEN 1 END) AS 추가근무
+		    count(CASE WHEN atd_overtime_yn = 'Y' THEN 1 END) AS 추가근무
 		FROM 
 		    attendances
 		WHERE
@@ -47,7 +47,9 @@
 		    emp_id, 
 		    atd_in_time, 
 		    atd_out_time,
-		    atd_state
+		    atd_state,
+		    atd_overtime_yn,
+		    atd_overtime_hours
 		FROM 
 			attendances
 		WHERE

@@ -2,9 +2,11 @@ package com.oti.groupware.hr.service;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -83,7 +85,7 @@ public class HrServiceImpl implements HrService {
 		for(Attendance atd : atdList) {
 			JSONObject  jsonObj = new JSONObject();
 			//과거 근무목록
-			if(atd.getAtdState() != null && !atd.getAtdState().contains("반차")) {
+			if(atd.getAtdState() != null && atd.getAtdOverTimeYN().equals("N") && !atd.getAtdState().contains("반차")) {
 				if(atd.getAtdState().equals("정상출근")) { //정상출근한 경우
 					//출근
 					jsonObj.put("title", "출근");
@@ -102,19 +104,10 @@ public class HrServiceImpl implements HrService {
 					jsonObj.put("title", "휴가");
 					jsonObj.put("start",  formatDate.format(atd.getAtdInTime()));
 					
-				} else if(atd.getAtdState().equals("추가근무")) { //추가근무인 경우
-					//출근
-					jsonObj.put("title", "출근");
-					jsonObj.put("start", formatDate.format(atd.getAtdInTime()));
-					jsonArr.put(jsonObj);
-					//추가근무
-					jsonObj = new JSONObject();
-					jsonObj.put("title", "추가근무");
-					jsonObj.put("start", formatDate.format(atd.getAtdOutTime()));
-				}
+				} 
 				jsonArr.put(jsonObj);
 				
-			} else if(atd.getAtdState() != null && atd.getAtdState().contains("반차")) {
+			} else if(atd.getAtdState() != null && atd.getAtdOverTimeYN().equals("N") && atd.getAtdState().contains("반차")) {
 				//오전반차인 경우
 				if(atd.getAtdState().equals("오전반차")) {
 					jsonObj.put("title", atd.getAtdState());
@@ -142,17 +135,41 @@ public class HrServiceImpl implements HrService {
 				}
 				
 			//오늘 근무목록 or 과거에 지각/조퇴한경우
-			} else if(atd.getAtdState() == null && atd.getAtdInTime() != null) {
+			} else if(atd.getAtdState() == null && atd.getAtdOverTimeYN().equals("N") && atd.getAtdInTime() != null) {
 				//출근
 				jsonObj.put("title", "출근");
 				jsonObj.put("start", formatDate.format(atd.getAtdInTime()));
 				jsonArr.put(jsonObj);
+				//퇴근
 				if(atd.getAtdOutTime() != null) {
 					jsonObj = new JSONObject();
 					jsonObj.put("title", "퇴근");
 					jsonObj.put("start", formatDate.format(atd.getAtdOutTime()));
 					jsonArr.put(jsonObj);
 				}
+				
+			//추가근무
+			} else if(atd.getAtdOverTimeYN().equals("Y")) { //추가근무인 경우
+				//출근
+				jsonObj.put("title", "출근");
+				jsonObj.put("start", formatDate.format(atd.getAtdInTime()));
+				jsonArr.put(jsonObj);
+				//퇴근
+				jsonObj = new JSONObject();
+				jsonObj.put("title", "퇴근");
+				jsonObj.put("start", formatDate.format(atd.getAtdOutTime()));
+				jsonArr.put(jsonObj);
+				//추가근무
+				//달력에서 추가근무를 맨 아래로 놓기 위해, 이벤트 시간에 1시간 더해줌
+				Date outTime = atd.getAtdOutTime();
+				Instant instant = outTime.toInstant();
+				instant = instant.plus(Duration.ofHours(1));
+				Date outTimePlus1Hour = Date.from(instant);
+				//추가근무 이벤트
+				jsonObj = new JSONObject();
+				jsonObj.put("title", "추가근무" + atd.getAtdOverTimeHours());
+				jsonObj.put("start", formatDate.format(outTimePlus1Hour));
+				jsonArr.put(jsonObj);
 			}
 		}
 		return jsonArr;
@@ -262,9 +279,32 @@ public class HrServiceImpl implements HrService {
 	/** 나의 휴가신청폼 등록하기 **/
 	@Override
 	public void writeleaveApplication(LeaveApplication leaveApplication) {
-		//휴가신청테이블에 데이터 추가
+		//휴가 신청 테이블에 데이터 추가
 		leaveApplicationDAO.insertLeaveApplication(leaveApplication);
 	}
+	
+	/** 신청했던 휴가를 다시 취소하기 **/
+	@Override
+	public void leaveApplicationCancel(int levAppId, String levAppProcessState) {
+		//미처리 문서일 경우
+		if(levAppProcessState.equals("미처리") || levAppProcessState.equals("반려")) {
+			//휴가 신청서 삭제
+			leaveApplicationDAO.deleteLeaveApplication(levAppId);
+		
+		// 승인이 된 문서일 경우
+		} else if(levAppProcessState.equals("승인")) { 
+			//해당 휴가 신청서 내용을 가져옴
+			LeaveApplication leaveApplication = leaveApplicationDAO.getLeaveApplicationDetail(levAppId);
+			
+			//해당 신청서의 취소 여부 수정
+			leaveApplication.setLevAppCancel("휴가취소");
+			
+			//휴가 취소 신청서 등록
+			leaveApplicationDAO.insertLeaveApplication(leaveApplication);
+		}
+		
+	}
+	
 	
 	/** (부서장) 근무신청결재내역 통계 **/
 	@Override

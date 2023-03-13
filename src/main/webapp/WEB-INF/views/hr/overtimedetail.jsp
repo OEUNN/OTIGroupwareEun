@@ -134,7 +134,9 @@
 			<!-- 일반 임직원일 경우의 버튼 -->
 			<c:if test="${sessionScope.employee.empId ne atdExcp.atdExcpApprovalEmpId}">
 				<div class="row px-5 mt-3 justify-content-end">
-					<button onclick="window.close()" type="button" class="btn btn-inverse-primary mr-2">닫기</button>
+					<br>
+					<br>
+<!-- 					<button onclick="window.close()" type="button" class="btn btn-inverse-primary mr-2">닫기</button> -->
 				</div>
 			</c:if>
 			<!-- 부서장일 경우의 버튼 - 미처리 결재인 경우 -->

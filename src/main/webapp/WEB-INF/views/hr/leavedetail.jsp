@@ -141,20 +141,22 @@
 						<h6 class="ml-1 mb-0 text-danger">${levApp.levAppOpinion}</h6>
 					</div>
 				</c:if>
-				<!-- 반려사유 c:if 사용하기 -->
-				<div id="refuse-reason" class="row px-5 mt-4 justify-content-center" style="display: none;">
+				<!-- 반려사유 작성 -->
+				<div id="refuse-reason" class="row px-5 mt-4 justify-content-center"
+					style="display: none;">
 					<div class="form-group">
 						<label class="ml-1" for="reason"><div class="h5 m-0 font-weight-bold text-danger">반려사유</div></label>
-						<textarea class="form-control" id="textarea-reason" rows="5" cols="68"></textarea>
+						<textarea class="form-control" id="textarea-reason" rows="5"
+							cols="68"></textarea>
 					</div>
 				</div>
 			</div>
-			<!-- 일반 임직원일 경우의 버튼 -->
+			<!-- 일반 임직원일 경우의 버튼(휴가취소 가능) -->
 			<c:if
-				test="${sessionScope.employee.empId ne levApp.levAppApprovalEmpId}">
+				test="${sessionScope.employee.empId ne levApp.levAppApprovalEmpId && levApp.levAppCancel ne '휴가취소'}">
 				<div class="row px-5 mt-3 justify-content-end">
-					<button onclick="window.close()" type="button"
-						class="btn btn-inverse-primary mr-2">닫기</button>
+					<a class="btn btn-danger mr-2" href="${pageContext.request.contextPath}/hr/levapplicationcancel?levAppId=${levApp.levAppId}&levAppProcessState=${levApp.levAppProcessState}">휴가취소</a>
+<!-- 					<button onclick="cancelLevApp('')" type="button" class="btn btn-danger mr-2">휴가취소</button> -->
 				</div>
 			</c:if>
 			<!-- 부서장일 경우의 버튼 - 미처리 결재인 경우 -->
