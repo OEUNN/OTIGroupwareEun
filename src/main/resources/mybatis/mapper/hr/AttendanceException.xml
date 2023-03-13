@@ -16,8 +16,8 @@
 		<result column="atd_excp_approval_emp_id" property="atdExcpApprovalEmpId"/>
 		<result column="atd_excp_opinion" property="atdExcpOpinion"/>
 		<result column="emp_name" property="empName"/>
-		<result column="atd_in_time" property="atdInTime"/>
-		<result column="atd_out_time" property="atdOutTime"/>
+		<result column="atd_origin_in_time" property="atdOriginInTime"/>
+		<result column="atd_origin_out_time" property="atdOriginOutTime"/>
 	</resultMap>
 
 	<!-- 근무신청서(일반 임직원) - 전체 행의 수 -->
@@ -39,7 +39,7 @@
 		SELECT 
 		    atd_excp_id,
 		    atd_excp_category,
-		    to_char(atd_excp_date, 'yyyy-MM-DD') AS atd_excp_date,
+		    atd_excp_date,
 		    atd_excp_approval_emp_name,
 		    atd_excp_process_date,
 		    atd_excp_process_state
@@ -55,32 +55,33 @@
 		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
 	</select>
 
-	<!-- 상세조회 -->
+	<!-- 근무신청서(일반 임직원) - 상세조회 -->
 	<select id="getAttendanceExceptionDetail" resultMap="attendanceExceptionResultMap">
 		SELECT 
 		    e.emp_name AS emp_name,
-            to_char(a.atd_in_time, 'HH:mm') AS atd_in_time,
-            to_char(a.atd_out_time, 'HH:mm') AS atd_out_time,
+            ae.atd_origin_in_time,
+            ae.atd_excp_out_time,
 		    ae.atd_excp_reason,
 		    ae.atd_excp_category,
 		    ae.atd_excp_in_time,
 		    ae.atd_excp_out_time,
 		    ae.atd_excp_process_state,
-		    to_char(ae.atd_excp_date, 'yyyy-MM-DD') AS atd_excp_date,
+		    ae.atd_excp_date,
 		    to_char(ae.atd_excp_process_date, 'yyyy-MM-DD') AS atd_excp_process_date,
+		    ae.atd_excp_approval_emp_id,
 		    ae.atd_excp_approval_emp_name,
 		    ae.atd_excp_opinion
 		FROM 
-			attendance_exceptions ae,  employees e, attendances a
+			attendance_exceptions ae,  employees e
 		WHERE
-            ae.emp_id = e.emp_id AND a.emp_id = e.emp_id
+            ae.emp_id = e.emp_id
         AND
             ae.atd_excp_id = #{atdExcpId}
         AND
-            to_char(ae.atd_excp_date, 'yyyy-MM-DD') = to_char(a.atd_in_time, 'yyyy-MM-DD')
+            to_char(ae.atd_excp_date, 'yyyy-MM-DD') = to_char(ae.atd_origin_in_time, 'yyyy-MM-DD')
 	</select>
 	
-	<!-- 근무신청서 통계 -->
+	<!-- 근무신청서(일반 임직원) 통계 -->
 	<select id="getAttendanceExceptionStats" resultType="hashmap">
 		SELECT
 		    count(CASE WHEN atd_excp_category = '근무시간수정' THEN 1 END) AS 근무시간수정,
@@ -91,7 +92,7 @@
 		    emp_id = #{empId}
 	</select>
 	
-	<!-- 근무신청서 등록 -->
+	<!-- 근무신청서(일반 임직원) 등록 -->
 	<insert id="insertAttendanceException" parameterType="attendanceException">
     	INSERT INTO attendance_exceptions (
 	        atd_excp_id,
@@ -102,7 +103,10 @@
 	        atd_excp_out_time,
 	        atd_excp_process_state,
 	        atd_excp_date,
-	        atd_excp_approval_emp_name
+	        atd_excp_approval_emp_id,
+	        atd_excp_approval_emp_name,
+	        atd_origin_in_time,
+	        atd_origin_out_time
 	    )
 	    VALUES (
 	        SEQ_ATD_EXCP_ID.NEXTVAL,
@@ -113,12 +117,27 @@
 	        #{atdExcpOutTime},
 	        '미처리',
 	        SYSDATE,
-	        #{atdExcpApprovalEmpName}
+	        #{atdExcpApprovalEmpId},
+	        #{atdExcpApprovalEmpName},
+	        #{atdOriginInTime, jdbcType=DATE},
+	        #{atdOriginOutTime, jdbcType=DATE}
 	    )
 	</insert>
 	
+	<!-- 근무신청결재서(부서장) 통계 -->
+	<select id="getAttendanceExceptionApprovalStats" resultType="hashmap">
+		SELECT
+		    count(CASE WHEN atd_excp_process_state = '미처리' THEN 1 END) AS 미처리,
+		    count(CASE WHEN atd_excp_process_state = '승인' THEN 1 END) AS 승인,
+		    count(CASE WHEN atd_excp_process_state = '반려' THEN 1 END) AS 반려
+		FROM 
+		    attendance_exceptions
+		WHERE
+		    atd_excp_approval_emp_id = #{empId}
+	</select>
+	
 	<!-- 근무신청결재서(부서장) - 전체 행의 수 -->
-	<select id="getAttendanceExcptionApprovalRowsCount" resultType="int">
+	<select id="getAttendanceExceptionApprovalRowsCount" resultType="int">
 	    SELECT 
 	      count(*)
 	    FROM 
@@ -136,7 +155,7 @@
 		SELECT 
 		    atd_excp_id,
 		    atd_excp_category,
-		    to_char(atd_excp_date, 'yyyy-MM-DD') AS atd_excp_date,
+		    atd_excp_date,
 		    atd_excp_approval_emp_name,
 		    atd_excp_process_date,
 		    atd_excp_process_state
@@ -151,6 +170,49 @@
 		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
 		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
 	</select>
+	
+	<!-- 근무신청결재서(부서장) - 상세조회 -->
+	<select id="getattendanceExceptionApprovalDetail" resultMap="attendanceExceptionResultMap">
+			SELECT 
+			    ( SELECT e.emp_name  
+			        FROM  employees e, attendance_exceptions ae  
+			        WHERE e.emp_id = ae.emp_id 
+			            AND ae.atd_excp_id = #{atdExcpId}) AS emp_name,
+			<if test="atdExcpCategory == '근무시간수정'">
+			    ae3.atd_origin_in_time,
+	        	ae3.atd_origin_out_time,
+			</if>
+			    ae3.emp_id,
+			    ae3.atd_excp_id,
+			    ae3.atd_excp_reason,
+			    ae3.atd_excp_category,
+			    ae3.atd_excp_in_time,
+			    ae3.atd_excp_out_time,
+			    ae3.atd_excp_process_state,
+			    ae3.atd_excp_date,
+			    to_char(ae3.atd_excp_process_date, 'yyyy-MM-DD') AS atd_excp_process_date,
+			    ae3.atd_excp_approval_emp_id,
+			    ae3.atd_excp_approval_emp_name,
+			    ae3.atd_excp_opinion
+			FROM 
+			    attendance_exceptions ae3, employees e1
+			WHERE
+			    ae3.atd_excp_approval_emp_id = e1.emp_id
+			AND
+			    ae3.atd_excp_id = #{atdExcpId}
+	</select>
+	
+	<!-- 근무신청 결재상태를 수정 -->
+	<update id="updateAttendanceExceptionProcessState">
+		UPDATE 
+        	attendance_exceptions
+        SET 
+        	atd_excp_process_state = #{atdExcpProcessState},
+        	atd_excp_process_date = SYSDATE, 
+        	atd_excp_opinion = #{atdExcpOpinion, jdbcType=VARCHAR}
+        WHERE 
+        	atd_excp_id = #{atdExcpId}
+	</update>
 	
 
 	<update id="updateAttendanceException" parameterType="attendanceException">

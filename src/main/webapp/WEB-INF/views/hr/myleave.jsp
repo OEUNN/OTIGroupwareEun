@@ -48,13 +48,45 @@
 		window.open(url, name, option);
 	}
 	
-	//셀렉박스 - 잔여연차를 선택했을 경우
+	//첫번째 셀렉박스 - 잔여연차를 선택했을 경우
 	$(function() {
 		$("#reserve-leave").on("change", function() {
-		    if($(this).val() === 'leave-option') {
+		    //연차를 클릭했을 경우, 아래 셀렉박스가 선택가능해짐
+			if($(this).children("option:selected").attr("id") === 'leave-option') {
 		      $('#leave-category').prop('disabled', false);
-		    } else {
+		    //대체휴무를 클릭했을 경우, 아래의 셀렉박스 초기화
+			} else {
 		      $('#leave-category').prop('disabled', true);
+		      $("#default-option").prop("selected", true);
+	    	  $('#datepicker-application').css("width", "70%");
+	    	  $('#levAppDate-middle').html("~");
+	    	  $('#levAppEndDate-icon').show();
+	    	  $('#levAppEndDate').show();
+	    	  // 삭제했던 숨겨진 input 태그 추가
+	    	  const newInput = $('<input>')
+	    	      .attr('id', 'sub-rev')
+	    	      .attr('type', 'hidden')
+	    	      .attr('name', 'levAppCategory')
+	    	      .val('대체휴무');
+	    	  // form 요소에 새로운 input 태그 추가
+	    	  $('#levAppForm').append(newInput);
+		    }
+	 	});
+ 	});
+	
+	//두번째 셀렉박스 - 오전반차나 오후반차를 선택했을 경우, datepicker 변경
+	$(function() {
+		$("#leave-category").on("change", function() {
+		    if($(this).val() === '오전반차' || $(this).val() === '오후반차') {
+		    	$('#datepicker-application').css("width", "41%");
+		    	$('#levAppDate-middle').html("");
+		    	$('#levAppEndDate-icon').hide();
+		    	$('#levAppEndDate').hide();
+		    } else { //연차 선택했을 경우
+		    	$('#datepicker-application').css("width", "70%");
+		    	$('#levAppDate-middle').html("~");
+		    	$('#levAppEndDate-icon').show();
+		    	$('#levAppEndDate').show();
 		    }
 	 	});
  	});
@@ -62,6 +94,7 @@
 	//폼 유효성검사
 	function validateForm() {
 		var result = true;
+		
 		//휴가선택을 select하지 않았을 경우
 		if($('#reserve-leave').val() == '--선택--') {
 			$('#reserve-leave').css('outline-color', 'red');
@@ -69,7 +102,7 @@
 		}
 
 		//휴가유형을 select하지 않았을 경우
-		if($('#reserve-leave').val() == 'leave-option' && $('#leave-category').val() == '--선택--') {
+		if($('#reserve-leave').children("option:selected").attr("id") == 'leave-option' && $('#leave-category').val() == '--선택--') {
 			$('#leave-category').css('outline-color', 'red');
 			result = false;
 		}
@@ -80,6 +113,31 @@
 			result = false;
 		}
 		
+		//휴가기간을 선택했지만, 잔여일수에 맞지 않게 휴가기간을 선택했을 경우
+		if($('input[name="levAppStartDate"]').val() != '' && $('input[name="levAppEndDate"]').val() != '') {
+			//기간 차이 구하기
+			var start = new Date($('input[name="levAppStartDate"]').val());
+			var end = new Date($('input[name="levAppEndDate"]').val());
+			var diffTime = Math.abs(end - start);
+			var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))+1; 
+			
+			$('input[name="levPeriod"]').val(diffDays); //휴가기간 input태그에 등록
+			
+			//연차 vs 대체휴무
+			var reserveCount = $('#lev-rev-period').text(); //default: 잔여연차
+			if($('#reserve-leave').val() == '대체휴무') {  //대체휴무일때 기간 잔여대체휴무로 변경
+				reserveCount = $('#sub-rev-period').text();
+			}
+			
+			//"잔여일수-선택기간"이 음수이면 신청불가해야함
+			if(reserveCount-diffDays < 0) {
+				$('#datepicker-application').css('border-color', 'red');
+				$('#add-comment').html("잔여일수에 맞게 기간을 설정해주세요😥");
+				result = false;
+			}
+		}
+		
+		
 		//사유를 작성하지 않았을 경우
 		if($('#levAppReason').val() == ''){
 			$("textarea.form-control").css('border-color', 'red');
@@ -89,9 +147,11 @@
 		return result;
 	}
 	
+	/* 유효성검사에 따른 INPUT,SELECT박스 CSS 변화 */
 	$(function() {
 		$("#datepicker-application").focusin(function(){
 		    $(this).css("border-color", "#4B49AC");
+			$('#add-comment').html("");
 		  });
 		
 		$("textarea.form-control").focusin(function(){
@@ -171,8 +231,8 @@
 											<div class="row text-center font-weight-bold h3 mb-0">
 												<div class="col-md">0</div>
 												<div class="col-md">0</div>
-												<div class="col-md">${sessionScope.employee.empLeaveReserve}</div>
-												<div class="col-md mr-3">${sessionScope.employee.empSubstitueReserve}</div>
+												<div id="lev-rev-period" class="col-md"><fmt:formatNumber value="${leaveReserve}" pattern="#0.0"/></div>
+												<div id="sub-rev-period" class="col-md mr-3">${substitueReserve}</div>
 											</div>
 										</div>
 									</div>
@@ -310,7 +370,7 @@
 										</table>
 									</div>
 									<!-- 변경내용-->
-									<form action="<c:url value='/hr/levapplicationform'/>" onsubmit="return validateForm();" method="post">
+									<form id="levAppForm" action="<c:url value='/hr/levapplicationform'/>" onsubmit="return validateForm();" method="post">
 									<div class="container-fluid">
 										<div class="row justify-content-center">
 											<div style="border: 1px solid #a3a4a5; opacity: 0.5; width: 90%;"></div>
@@ -324,11 +384,14 @@
 													<select id="reserve-leave" class="leave-select form-control mx-2" style="font-weight: bold; width: 40%">
 														<option class="text-secondary" selected>--선택--</option>
 														<!-- 잔여 연차가 남아있는 경우 -->
-														<c:if test="${leaveReserve ne 0}"><option value="leave-option">연차 잔여 ( ${leaveReserve}개 )</option></c:if>
+														<c:if test="${leaveReserve ne 0}"><option id="leave-option">연차 잔여 ( ${leaveReserve}개 )</option></c:if>
 														<!-- 잔여 연차가 남아있지 않을 경우 -->
 														<c:if test="${leaveReserve eq 0}"><option style="color:#CED4DA;" disabled>연차 잔여 ( 0개 )</option></c:if>
 														<!-- 잔여 대체휴무가 남아있는 경우 -->
-														<c:if test="${substitueReserve ne 0}"><option>대체휴무 잔여( ${substitueReserve}개 )</option></c:if>
+														<c:if test="${substitueReserve ne 0}">
+															<option value="대체휴무">대체휴무 잔여( ${substitueReserve}개 )</option>
+<!-- 															<input id="sub-rev" type="hidden" name="levAppCategory" value="대체휴무"/> -->
+														</c:if>
 														<!-- 잔여 대체휴무가 남아있지 않을 경우 -->
 														<c:if test="${substitueReserve eq 0}"><option style="color:#CED4DA;" disabled>대체휴무 잔여( 0개 )</option></c:if>
 													</select>
@@ -348,7 +411,7 @@
 												<h4 class="mx-4 mb-0 font-weight-bold">휴가유형</h4>
 												<select id="leave-category" name="levAppCategory" class="leave-select form-control mx-2" style="font-weight: bold; width: 40%" disabled>
 													<!-- 연차 -->
-													<option class="text-secondary" selected>--선택--</option>
+													<option id="default-option" class="text-secondary" selected>--선택--</option>
 													<option value="연차">연차</option>
 													<option value="오전반차">오전반차</option>
 													<option value="오후반차">오후반차</option>
@@ -359,20 +422,24 @@
 										<div class="row px-5 py-2">
 											<div class="col-md d-flex align-items-center pl-0">
 												<h4 class="mx-4 mb-0 font-weight-bold">휴가기간</h4>
-												<!-- datepicker start -->
+												<!-- datepicker-application: start -->
 												<div id="datepicker-application" class="mx-2 input-daterange input-group text-primary" style="border: 2px solid #4B49AC; border-radius: 10px; width: 70%;">
 													<!-- 휴가시작날짜:start -->
 													<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top: 15px; left: 15px;"></span>
-													<input type="text" class="input-sm form-control font-weight-bold" name="levAppStartDate" style="border: 0px; text-align: center;">
+													<input id="levAppStartDate" type="text" class="input-sm form-control font-weight-bold" name="levAppStartDate" style="border: 0px; text-align: center;">
 													<!-- 휴가시작날짜:end -->	
-													<span class="input-group-addon font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
+													<span id="levAppDate-middle" class="input-group-addon font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
 													<!-- 휴가종료날짜:start -->
-													<span class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top: 15px; left: 15px;"></span>
-													<input type="text" class="input-sm form-control font-weight-bold" name="levAppEndDate" style="border: 0px; border-radius: 10px; text-align: center;">
+													<span id="levAppEndDate-icon" class="mdi mdi-calendar-clock" style="position: relative; z-index: 1; top: 15px; left: 15px;"></span>
+													<input id="levAppEndDate" type="text" class="input-sm form-control font-weight-bold" name="levAppEndDate" style="border: 0px; border-radius: 10px; text-align: center;">
 													<!-- 휴가종료날짜:end -->
 												</div>
-												<!-- datepicker end -->
+												<!-- datepicker-application: end -->
 											</div>
+										</div>
+										<!-- 기간 유효성 검사 실패했을 경우 -->
+										<div class="row p-0" style="margin-left: 150px;">
+											<small class="col-md text-danger" id="add-comment"></small>
 										</div>
 										<!-- 휴가사유 -->
 										<div class="row px-5 mt-4 justify-content-center">
@@ -386,7 +453,9 @@
 										</div>
 										<!-- hidden input -->
 										<input type="hidden" name="empId" value="${sessionScope.employee.empId}">
-										<input type="hidden" name="levAppApprovalEmp" value="${empFormInfo['결재자']}">
+										<input type="hidden" name="levAppApprovalEmpId" value="${empFormInfo['결재자ID']}">
+										<input type="hidden" name="levAppApprovalEmpName" value="${empFormInfo['결재자']}">
+										<input type="hidden" name="levPeriod" />
 									</div>
 									<!-- 버튼 -->
 									<div class="row px-5 mt-3 justify-content-end">

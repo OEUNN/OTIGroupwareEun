@@ -41,19 +41,19 @@
 					</button>
 				</div>
 			</div>
-			<!-- 휴가결재 통계 -->
+			<!-- 휴가결재통계 -->
 			<div class="card card-dark-blue mb-4">
 				<div class="card-body">
-					<div class="row">
-						<div class="col-md text-center">
-							미처리<span class="pl-2 h3 font-weight-bold">0</span>
-						</div>
-						<div class="col-md text-center">
-							승인<span class="pl-2 h3 font-weight-bold">1</span>
-						</div>
-						<div class="col-md text-center">
-							반려<span class="pl-2 h3 font-weight-bold">2</span>
-						</div>
+					<div class="row text-center"
+						style="font-size: 13px; font-weight: bold;">
+						<div class="col-md px-0">미처리</div>
+						<div class="col-md px-0">승인</div>
+						<div class="col-md px-0">반려</div>
+					</div>
+					<div class="row text-center font-weight-bold h3 mb-0">
+						<div class="col-md">${levAppStats['미처리']}</div>
+						<div class="col-md">${levAppStats['승인']}</div>
+						<div class="col-md">${levAppStats['반려']}</div>
 					</div>
 				</div>
 			</div>
@@ -72,24 +72,24 @@
 					<tbody>
 						<c:if test="${!empty levAppList}">
 							<c:forEach var="levApp" items="${levAppList}">
-								<tr onclick="leaveDetail('${levApp.levAppId}')">
+								<tr onclick="levAppDetail('${levApp.levAppId}')">
 									<td class="text-center"><small>${levApp.levAppCategory}</small></td>
-									<td><small><fmt:formatDate
-												value="${levApp.levAppDate}" pattern="yyyy-MM-dd" /></small></td>
-									<td><small> <fmt:formatDate
-												value="${levApp.levAppStartDate}" pattern="yyyy-MM-dd" /> ~
-											<fmt:formatDate value="${levApp.levAppEndDate}"
-												pattern="yyyy-MM-dd" />
+									<td><small><fmt:formatDate value="${levApp.levAppDate}" pattern="yyyy-MM-dd" /></small></td>
+									<td><small> 
+										<fmt:formatDate value="${levApp.levAppStartDate}" pattern="yyyy-MM-dd" />
+										 ~
+										<fmt:formatDate value="${levApp.levAppEndDate}" pattern="yyyy-MM-dd" />
 									</small></td>
-									<td class="px-2 py-1 text-center">${levApp.levAppApprovalEmpName}</td>
-									<td class="px-2 py-1 text-center">
-										<!-- 결재상태 --> <c:if
-											test="${levApp.levAppProcessState == '미처리'}">
-											<div
-												class="badge badge-secondary font-weight-bold text-white">${levApp.levAppProcessState}</div>
-										</c:if> <c:if test="${levApp.levAppProcessState == '승인'}">
+									<td>${levApp.levAppApprovalEmpName}</td>
+									<td id="aprv-state${levApp.levAppId}">
+										<!-- 결재상태 --> 
+										<c:if test="${levApp.levAppProcessState == '미처리'}">
+											<div class="badge badge-secondary font-weight-bold text-white">${levApp.levAppProcessState}</div>
+										</c:if> 
+										<c:if test="${levApp.levAppProcessState == '승인'}">
 											<div class="badge badge-success font-weight-bold">${levApp.levAppProcessState}</div>
-										</c:if> <c:if test="${levApp.levAppProcessState == '반려'}">
+										</c:if> 
+										<c:if test="${levApp.levAppProcessState == '반려'}">
 											<div class="badge badge-danger font-weight-bold">${levApp.levAppProcessState}</div>
 										</c:if>
 									</td>
@@ -118,14 +118,14 @@
 						<!-- 이전 -->
 						<c:if test="${levPager.groupNo > 1}">
 							<li class="page-item disabled">
-								<a onclick="levAppPaging'${levPager.startPageNo-5}')" class="page-link">이전</a></li>
+								<a onclick="levAppPaging('${levPager.startPageNo-5}')" class="page-link">이전</a></li>
 						</c:if>
 						<!-- 1,2,3, ... -->
 						<c:forEach var="i" begin="${levPager.startPageNo}" end="${levPager.endPageNo}" step="1">
 							<!-- 선택할 페이지 -->
 							<c:if test="${levPager.pageNo != i}">
 								<li class="page-item">
-									<a onclick="levAppPaging'${i}')" class="page-link">${i}</a>
+									<a onclick="levAppPaging('${i}')" class="page-link">${i}</a>
 								</li>
 							</c:if>
 							<!-- 현재페이지 -->
@@ -136,7 +136,7 @@
 						<!-- 다음 -->
 						<c:if test="${levPager.groupNo < levPager.totalGroupNo}">
 							<li class="page-item">
-								<a onclick="levAppPaging'${levPager.startPageNo+5}')" class="page-link">다음</a>
+								<a onclick="levAppPaging('${levPager.startPageNo+5}')" class="page-link">다음</a>
 							</li>
 						</c:if>
 					</ul>

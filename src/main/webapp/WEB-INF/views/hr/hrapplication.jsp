@@ -13,41 +13,11 @@
 	<!-- datePicker -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
 	<script src="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-	<!-- page-transitions -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/page-transitions-master/css/default.css" />
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/page-transitions-master/css/multilevelmenu.css" />
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/page-transitions-master/css/component.css" />
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/page-transitions-master/css/animations.css" />
-	<script src="${pageContext.request.contextPath}/resources/vendors/page-transitions-master/js/modernizr.custom.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendors/page-transitions-master/js/jquery.dlmenu.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendors/page-transitions-master/js/pagetransitions.js"></script>
+	
+	<!-- sweetalert2@11 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	
 	<script>
-	   	/* 근무신청 결재내역 상세보기 팝업창 */
-		function atdApproval(data) {
-         	if(data =='근무시간수정') {
-         		//근무시간수정신청서 팝업창
-	        	var url = "popup/updatetimeaprv";
-	         	var name = "";
-	         	var option = "width = 800, height = 600, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
-	         	window.open(url, name, option);
-         	} else {
-         		//추가근무보고서 팝업창
-	        	var url = "popup/overtimeaprv";
-	         	var name = "";
-	         	var option = "width = 800, height = 570, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
-	         	window.open(url, name, option);
-         	}
-		}
-
-	   	/* 휴가신청 결재내역 상세보기 팝업창 */
-		function leaveApproval() {
-        	var url = "popup/leaveaprv";
-         	var name = "";
-         	var option = "width = 800, height = 570, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
-         	window.open(url, name, option);
-		}
-	   	
 	   	/* AJAX통신 - 근무신청결재내역 페이징 목록 */
    		function atdExcpPaging(i) {
        		let atdExcpAprvForm = $("#atd-excp-aprv-form").serialize();
@@ -85,24 +55,160 @@
    		}
 	   	
    		/* AJAX통신 -근무신청내역 상세보기*/
-   		function atdAppDetail(id) {
+   		function atdExcpDetail(id, category) {
    			$.ajax({
                 type: "GET",
-                url: "../hr/popup/atdapplicationdetail?atdExcpId=" + id,
+                url: "../hr/atdexcpapprovaldetail?atdExcpId=" + id + "&atdExcpCategory=" + category,
                 error: function () {
                 	alert("통신실패!");
                 },
                 success: function (data) {
-                    $('#lev-app-aprv-list').html(data);
+                    //휴가신청내역 목록이 숨기기
+                    $("#lev-app-aprv-list").hide();
+					//AJAX 통신에 의해 상세조회 내용 넣기
+                    $("#atd-excp-aprv-detail").hide().fadeIn(500);
+                    $('#atd-excp-aprv-detail').html(data);
                 }
         	});
-   			
-   			/*
-   			var url = "popup/atdapplicationdetail?atdExcpId=" + id;
-   			var name = "";
-   			var option = "width = 800, height = 630, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
-   			window.open(url, name, option);
-   			*/
+   		}
+
+   		/* AJAX통신 - 휴가신청내역 상세보기*/
+   		function levAppDetail(id) {
+   			$.ajax({
+                type: "GET",
+                url: "../hr/levappaprvdetail?levAppId=" + id,
+                error: function () {
+                	alert("통신실패!");
+                },
+                success: function (data) {
+                    //근무신청내역 목록이 숨기기
+                    $("#atd-excp-aprv-list").hide();
+					//AJAX 통신에 의해 상세조회 내용 넣기
+                    $("#lev-app-aprv-detail").hide().fadeIn(500);
+                    $('#lev-app-aprv-detail').html(data);
+                }
+        	});
+   		}
+   		
+   		/* AJAX통신 - 근무신청 결재 처리(승인,반려) */
+   		function atdExcpAprv(state, id, category) {
+   		//"승인" 버튼을 눌렀을 경우
+   			if(state == "승인") {
+   				$.ajax({
+   					type: 'GET',
+   					url: '../hr/atdexcpaprvstatecomplete',
+   					data: {atdExcpProcessState: state, atdExcpId: id, atdExcpOpinion: state, atdExcpCategory: category},
+   					error: function() {
+   						Swal.fire({
+   						  icon: 'error',
+   						  title: '결재처리를 실패하였습니다😥',
+   						})
+   					},
+   					success: function(data) {
+   						$('#atd-excp-aprv-detail').html(data);
+   						$('#atd-aprv-state' + id).html('<div class="badge badge-success font-weight-bold text-white">승인</div>');
+   					}
+   				});
+   				
+   			//"반려" 버튼을 눌렀을 경우
+   			} else if(state == "반려") {
+   				$("#refuse-reason").css("display", "block");
+   				$("#cancel-btn").css("display", "block");
+   				$("#approve-btn").css("display", "none");
+   				
+   				let opinion = $("#textarea-reason").val(); //반려사유 선택
+   				
+   				$.ajax({
+   					 type : 'GET',
+   					 url : "../hr/atdexcpaprvstatecomplete",
+   					 data : {atdExcpProcessState: state, atdExcpId: id, atdExcpOpinion: opinion, atdExcpCategory: category},
+   					 error : function() {
+   						 alert('통신실패!');
+   					 },
+   					 success : function(data) {
+   						 $('#atd-excp-aprv-detail').html(data);
+   						 $('#atd-aprv-state' + id).html('<div class="badge badge-danger font-weight-bold text-white">반려</div>');
+   					 }
+   				 });
+   			}
+   		}
+   		
+   		/* AJAX통신 - 휴가신청 결재 처리(승인,반려) */
+   		function levAppAprv(state, id) {
+   			//"승인" 버튼을 눌렀을 경우
+   			if(state == "승인") {
+   				$.ajax({
+   					type: 'GET',
+   					url: '../hr/levappaprvstatecomplete',
+   					data: {levAppProcessState: state, levAppId: id, levAppOpinion: state},
+   					error: function() {
+   						Swal.fire({
+   						  icon: 'error',
+   						  title: '승인이 불가합니다😥',
+   						  text: '신청자의 잔여일수를 확인해주세요!'
+   						})
+   					},
+   					success: function(data) {
+   						$('#lev-app-aprv-detail').html(data);
+   						$('#aprv-state' + id).html('<div class="badge badge-success font-weight-bold text-white">승인</div>');
+   					}
+   				});
+   				
+   			//"반려" 버튼을 눌렀을 경우
+   			} else if(state == "반려") {
+   				$("#refuse-reason").css("display", "block");
+   				$("#cancel-btn").css("display", "block");
+   				$("#approve-btn").css("display", "none");
+   				
+   				let opinion = $("#textarea-reason").val(); //반려사유 선택
+   				
+   				$.ajax({
+   					 type : 'GET',
+   					 url : "../hr/levappaprvstatecomplete",
+   					 data : {levAppProcessState: state, levAppId: id, levAppOpinion: opinion},
+   					 error : function() {
+   						 alert('통신실패!');
+   					 },
+   					 success : function(data) {
+   						 $('#lev-app-aprv-detail').html(data);
+   						 $('#aprv-state' + id).html('<div class="badge badge-danger font-weight-bold text-white">반려</div>');
+   					 }
+   				 });
+   			}
+   		}
+   		
+   		/* 근무신청서 자세히보기에서 X버튼 누르면 다시 목록 커짐 */
+   		function backAtdList() {
+   			$("#atd-excp-aprv-detail").hide().fadeOut(400);
+   			//숨겨놓은 휴가신청내역 목록 보이기
+            $("#lev-app-aprv-list").hide().fadeIn(600);
+   		}
+
+   		/* 휴가신청서 자세히보기에서 X버튼 누르면 다시 목록 커짐 */
+   		function backLevList() {
+   			//상세조회 원래대로
+   			$("#lev-app-aprv-detail").hide().fadeOut(400);
+   			//숨겨놓은 근무신청내역 목록 보이기
+            $("#atd-excp-aprv-list").hide().fadeIn(600);
+   		}
+   		
+   		//첫번째 반려버튼을 눌렀을 경우, 반려사유 작성란이 뜸
+   		function refuseBtn() {
+   			$("#refuse-reason").css("display", "block");
+   			$("#cancel-btn").css("display", "block");
+   			$("#first-refuse-btn").css("display", "none");
+   			$("#second-refuse-btn").css("display", "block");
+   			$("#approve-btn").css("display", "none");
+   		}	
+   		
+   		//취소버튼
+   		function cancel() {
+   			$('#textarea-reason').val('');
+   			$("#refuse-reason").css("display", "none");
+   			$("#cancel-btn").css("display", "none");
+   			$("#second-refuse-btn").css("display", "none");
+   			$("#first-refuse-btn").css("display", "block");
+   			$("#approve-btn").css("display", "block");
    		}
 	</script>
 	<!-- End plugin css,js for this page -->
@@ -121,11 +227,15 @@
       <div class="main-panel">
         <div class="content-wrapper">
         	<div class="row">
-        		<!-- 근무신청결재내역 -->
+        		<!-- 근무신청결재내역 - 목록 -->
         		<div id="atd-excp-aprv-list" class="col-md">
 	        		<%@ include file="/WEB-INF/views/hr/atdexcpaprvlist.jsp" %>
         		</div>
-        		<!-- 휴가신청결재내역 -->
+        		<!-- 근무신청결재내역 - 상세조회 -->
+        		<div id="atd-excp-aprv-detail" class="col-md" style="display: none;"></div>
+        		<!-- 휴가신청결재내역 - 상세조회 -->
+        		<div id="lev-app-aprv-detail" class="col-md" style="display: none;"></div>
+        		<!-- 휴가신청결재내역 - 목록 -->
         		<div id="lev-app-aprv-list" class="col-md">
 	        		<%@ include file="/WEB-INF/views/hr/levappaprvlist.jsp" %>
         		</div>
@@ -133,7 +243,7 @@
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.jsp -->
-         <%@ include file="/WEB-INF/views/common/_footer.jsp" %>
+        <%@ include file="/WEB-INF/views/common/_footer.jsp" %>
         <!-- partial -->
       </div>
       <!-- main-panel ends -->

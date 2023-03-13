@@ -1,5 +1,6 @@
 package com.oti.groupware.hr.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,24 +55,38 @@ public class HRController {
 		Attendance attendance = hrService.attendanceToday(empId); 
 		model.addAttribute("attendance", attendance);
 		
-		//근무통계 갖고옴
-		HashMap<String, Integer> stateCount = hrService.attendanceStats(empId); 
-		model.addAttribute("stateCount", stateCount);
-		
 		return "hr/myattendance";
 	}
 	
 	/**
-	 *  AJAX통신으로 달력의 출퇴근 목록을 갖고옴
+	 * 월별 근무통계를 가져옴(AJAX통신)
 	 * @author 한송민
-	 * @return 달력 출퇴근 목록
+	 * @return 근무 통계
 	 */
-	@GetMapping(value = "/calendar",  produces="application/json; charset=UTF-8")
+	@RequestMapping(value = "/attendancestats", method=RequestMethod.GET , produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public String attendanceCalendar(HttpSession session) {
+	public String attendanceStatus(HttpSession session) {
+		//세션에 저장된 직원ID 갖고옴
 		Employee employee = (Employee) session.getAttribute("employee");
 		String empId = employee.getEmpId();
 		
+		//근무통계 가져옴
+		JSONArray statusCount = hrService.attendanceStats(empId); 
+		return statusCount.toString();
+	}
+	
+	/**
+	 *  달력의 출퇴근 목록을 가져옴 (AJAX통신)
+	 * @author 한송민
+	 * @return 달력 출퇴근 목록
+	 */
+	@RequestMapping(value = "/calendar", method=RequestMethod.GET , produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public String attendanceCalendar(HttpSession session) {
+		//세션에 저장된 직원ID 갖고옴
+		Employee employee = (Employee) session.getAttribute("employee");
+		String empId = employee.getEmpId();
+		//달력에 넣을 근무내역 가져옴
 		JSONArray atdCalList = hrService.attendanceCalendarList(empId);
 		return atdCalList.toString();
 	}
@@ -192,39 +208,17 @@ public class HRController {
 	}
 	
 	/**
-	 * 근무관련 신청서 상세내용 조회
+	 * (일반 임직원) 자신의 근무관련 신청서 상세내용 조회
 	 * @author 한송민
 	 * @param atdExcpId(근무신청서ID)
 	 * @return 근무신청서(근무시간수정, 추가근무보고) 상세조회 팝업창
 	 */
-//	@RequestMapping(value = "/popup/atdapplicationdetail")
-//	public String attendanceApplicationDetail(int atdExcpId, Model model) {
-//		log.info("정보 로그");
-//		
-//		//신청서의 상세내용 가져오기
-//		AttendanceException atdExcp = hrService.attendanceExcptionDetail(atdExcpId);
-//		model.addAttribute("atdExcp", atdExcp);
-//		
-//		//유형에 따라 근무시간수정서 or 추가근무보고서 팝업을 리턴
-//		if(atdExcp.getAtdExcpCategory().equals("근무시간수정")) { //근무시간수정신청서일 경우
-//			return "hr/popup/updatetimedetail";
-//		} else { //추가근무보고서일 경우
-//			return "hr/popup/overtimedetail";
-//		}
-//	}
-
-	/**
-	 * 근무관련 신청서 상세내용 조회 (AJAX)
-	 * @author 한송민
-	 * @param atdExcpId(근무신청서ID)
-	 * @return 근무신청서(근무시간수정, 추가근무보고) 상세조회 팝업창
-	 */
-	@RequestMapping(value = "/popup/atdapplicationdetail")
-	public String attendanceApplicationDetail(@RequestParam int atdExcpId, Model model) {
+	@RequestMapping(value = "/popup/atdexcpapplicationdetail")
+	public String attendanceExceptionApplicationDetail(int atdExcpId, Model model) {
 		log.info("정보 로그");
+		
 		//신청서의 상세내용 가져오기
-		AttendanceException atdExcp = hrService.attendanceExcptionDetail(atdExcpId);
-		log.info("daskjl" + atdExcp);
+		AttendanceException atdExcp = hrService.attendanceExceptionDetail(atdExcpId);
 		model.addAttribute("atdExcp", atdExcp);
 		
 		//유형에 따라 근무시간수정서 or 추가근무보고서 팝업을 리턴
@@ -234,11 +228,33 @@ public class HRController {
 			return "hr/popup/overtimedetail";
 		}
 	}
+
+	/**
+	 * (부서장) 부서원들의 근무결재관련 신청서 상세내용 조회 (AJAX)
+	 * @author 한송민
+	 * @param atdExcpId(근무신청서ID)
+	 * @return 근무신청서(근무시간수정, 추가근무보고) 상세조회 팝업창
+	 */
+	@RequestMapping(value = "/atdexcpapprovaldetail")
+	public String attendanceExceptionApprovalDetail(@RequestParam int atdExcpId, @RequestParam String atdExcpCategory, Model model) {
+		log.info("정보 로그");
+		
+		//신청서의 상세내용 가져오기
+		AttendanceException atdExcp = hrService.attendanceExceptionApprovalDetail(atdExcpId, atdExcpCategory);
+		model.addAttribute("atdExcp", atdExcp);
+		
+		//유형에 따라 근무시간수정서 or 추가근무보고서 팝업을 리턴
+		if(atdExcp.getAtdExcpCategory().equals("근무시간수정")) { //근무시간수정신청서일 경우
+			return "hr/updatetimedetail";
+		} else { //추가근무보고서일 경우
+			return "hr/overtimedetail";
+		}
+	}
 	
 	/**
 	 * 근무신청 관련 작성폼에 작성한 내용을 등록
 	 * @author 한송민
-	 * @param AttendanceExcption
+	 * @param attendanceException
 	 * @return redirect:/나의 근무신청 페이지
 	 */
 	@RequestMapping(value = "/atdapplicationform", method=RequestMethod.POST)
@@ -287,11 +303,10 @@ public class HRController {
 //		HashMap<String, Integer> atdExcpStats = hrService.attendanceExceptionStats(empId);
 //		model.addAttribute("atdExcpStats", atdExcpStats);
 		
-		//잔여연차와 대체휴무일수(세션에서 가져오기)
-		int leaveReserve = employee.getEmpLeaveReserve();
-		int substitueReserve = employee.getEmpSubstitueReserve();
-		model.addAttribute("leaveReserve", leaveReserve);
-		model.addAttribute("substitueReserve", substitueReserve);
+		//잔여연차와 대체휴무일수 가져오기
+		Employee emp = hrService.empReserveInfo(empId);
+		model.addAttribute("leaveReserve", emp.getEmpLeaveReserve());
+		model.addAttribute("substitueReserve", emp.getEmpSubstitueReserve());
 		
 		//작성폼에 필요한 정보를 가져옴
 		HashMap<String, String> empFormInfo = hrService.empFormInfoMap(empId); //신청양식에 필요한 정보 갖고옴(나중에 employeeSerivce에 넣기)
@@ -317,15 +332,38 @@ public class HRController {
 	}
 	
 	/**
+	 * (부서장) 부서원들의 휴가 신청서 상세내용 조회 (AJAX)
+	 * @author 한송민
+	 * @param levAppId(휴가신청서ID)
+	 * @return 휴가신청서 상세조회 팝업창
+	 */
+	@RequestMapping(value = "/levappaprvdetail")
+	public String LeaveApplicationApprovalDetail(@RequestParam int levAppId, Model model) {
+		log.info("정보 로그");
+		//신청서의 상세내용 가져오기
+		LeaveApplication levApp = hrService.leaveApplicationApprovalDetail(levAppId);
+		model.addAttribute("levApp", levApp);
+		
+		return "hr/leavedetail";
+	}
+	
+	/**
 	 * 휴가신청폼에 작성한 내용을 등록
 	 * @author 한송민
 	 * @param LeaveApplication
 	 * @return redirect:/나의 휴가 페이지
 	 */
 	@RequestMapping(value = "/levapplicationform", method=RequestMethod.POST)
-	public String myLeaveApplication(LeaveApplication leaveApplication) {
+	public String myLeaveApplication(LeaveApplication leaveApplication, HttpSession session) {
 		log.info("정보 로그");
+		
+		//세션에 저장된 직원ID 저장
+		Employee employee = (Employee) session.getAttribute("employee"); 
+		leaveApplication.setEmpId(employee.getEmpId());
+		
+		//휴가신청서 등록
 		hrService.writeleaveApplication(leaveApplication);
+		
 		return "redirect:/hr/myleave";
 	}
 	
@@ -343,16 +381,18 @@ public class HRController {
 	/**
 	 * 부서장만 볼 수 있는 HR 결재내역 페이지
 	 * @author 한송민
-	 * @param 
-	 * @return hr 결재내역페이지
+	 * @return HR 신청내역 결재페이지
 	 */
 	@RequestMapping(value = "/hrapplication")
 	public String hrApproval(HttpSession session, Model model) {
 		log.info("정보 로그");
+		
 		//근무신청내역목록 가져오기
 		hrAtdExcpApprovalList(1, null, null, session, model);
+		
 		//휴가신청내역목록 가져오기
 		hrLevAppApprovalList(1, null, null, session, model);
+		
 		return "hr/hrapplication";
 	}
 
@@ -369,14 +409,18 @@ public class HRController {
 		Employee employee = (Employee) session.getAttribute("employee"); //세션에 저장된 로그인유저 정보 가져옴
 		String empId = employee.getEmpId();
 		
+		//근무신청내역 통계 가져오기
+		HashMap<String, Integer> atdExcpStats = hrService.attendanceExceptionApprovalStats(empId);
+		model.addAttribute("atdExcpStats", atdExcpStats);
+		
 		//전체 행수 갖고옴
 		int totalRows = hrService.attendanceExceptionApprovalRowsCount(startDate, endDate, empId);
 		
 		//페이저 객체 생성
-		Pager pager = new Pager(5, 5, totalRows, pageNo);
+		Pager pager = new Pager(7, 5, totalRows, pageNo);
 		
 		//페이징된 목록
-		List<AttendanceException> atdExcpList = hrService.attendanceExcptionApprovalList(startDate, endDate, empId, pager);
+		List<AttendanceException> atdExcpList = hrService.attendanceExceptionApprovalList(startDate, endDate, empId, pager);
 		
 		if(!atdExcpList.isEmpty()) {
 			model.addAttribute("startDate", startDate);
@@ -401,11 +445,15 @@ public class HRController {
 		Employee employee = (Employee) session.getAttribute("employee"); //세션에 저장된 로그인유저 정보 가져옴
 		String empId = employee.getEmpId();
 		
+		//휴가신청내역 통계 가져오기
+		HashMap<String, Integer> levAppStats = hrService.leaveApplicationApprovalStats(empId);
+		model.addAttribute("levAppStats", levAppStats);
+		
 		//전체 행수 갖고옴
 		int totalRows = hrService.leaveApplicationApprovalRowsCount(startDate, endDate, empId);
 		
 		//페이저 객체 생성
-		Pager pager = new Pager(5, 5, totalRows, pageNo);
+		Pager pager = new Pager(7, 5, totalRows, pageNo);
 		
 		//페이징된 목록
 		List<AttendanceException> levAppList = hrService.leaveApplicationApprovalList(startDate, endDate, empId, pager);
@@ -421,34 +469,50 @@ public class HRController {
 	}
 	
 	/**
-	 * 
-	 * @return 근무시간수정신청서 결재 팝업창
+	 * 근무신청 결재처리 승인/반려 완료 (AJAX)
+	 * @author 한송민
+	 * @param
+	 * @return 근무신청결재 상세조회
 	 */
-	@RequestMapping(value = "/popup/updatetimeaprv")
-	public String updateTimeApproval() {
+	@RequestMapping(value = "/atdexcpaprvstatecomplete")
+	public String hrAtdExcpApprovalProcessStateComplete(@RequestParam String atdExcpProcessState, @RequestParam int atdExcpId, @RequestParam String atdExcpOpinion, @RequestParam String atdExcpCategory, Model model) {
 		log.info("정보 로그");
-		return "hr/popup/updatetimeaprv";
+		
+		//신청서의 상세내용 가져오기
+		AttendanceException atdExcp = hrService.attendanceExceptionApprovalDetail(atdExcpId, atdExcpCategory);
+		atdExcp.setAtdExcpProcessState(atdExcpProcessState); //승인, 반려 넣기
+		
+		//신청 내역 결재 로직
+		int result = hrService.attendanceExceptionApprovalProcessState(atdExcp);
+		
+		if(result == 1) {
+			//로직이 성공하면, 변경된 근무수정신청 상세JSP를 리턴
+			return attendanceExceptionApprovalDetail(atdExcpId, atdExcpCategory, model);
+		}
+		return "0";
 	}
 
 	/**
-	 * 
-	 * @return 추가근무보고서 결재 팝업창
+	 * 휴가신청 결재처리 승인/반려 완료 (AJAX)
+	 * @author 한송민
+	 * @param
+	 * @return 휴가신청결재 상세조회
 	 */
-	@RequestMapping(value = "/popup/overtimeaprv")
-	public String overTimeApproval() {
+	@RequestMapping(value = "/levappaprvstatecomplete")
+	public String hrLevApplicationApprovalProcessComplete(@RequestParam String levAppProcessState, @RequestParam int levAppId, @RequestParam String levAppOpinion, Model model) {
 		log.info("정보 로그");
-		return "hr/popup/overtimeaprv";
+		
+		//해당 leaveApplication 정보 가져오기
+		LeaveApplication levApp = hrService.leaveApplicationApprovalDetail(levAppId);
+		levApp.setLevAppProcessState(levAppProcessState); //승인, 반려 넣기
+		
+		//신청 내역 결재 로직
+		int result = hrService.leaveApplicationApprovalProcessState(levApp);
+		
+		if(result == 1) {
+			//로직이 성공하면, 변경된 추가근무보고 상세JSP를 리턴
+			return LeaveApplicationApprovalDetail(levAppId, model);
+		} 
+		return "0";
 	}
-	
-	/**
-	 * 
-	 * @return 추가근무보고서 결재 팝업창
-	 */
-	@RequestMapping(value = "/popup/leaveaprv")
-	public String leaveApproval() {
-		log.info("정보 로그");
-		return "hr/popup/leaveaprv";
-	}
-	
-
 }

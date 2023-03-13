@@ -8,6 +8,8 @@
 		<result column="atd_in_time" property="atdInTime"/>
 		<result column="atd_out_time" property="atdOutTime"/>
 		<result column="atd_state" property="atdState"/>
+		<result column="atd_overtime_yn" property="atdOverTimeYN"/>
+		<result column="atd_overtime_hours" property="atdOverTimeHours"/>
 	</resultMap>
 	
 	<!-- 오늘 근무현황 -->
@@ -120,11 +122,40 @@
 		  	    (atd_state is null OR atd_state = '')
 		</if>
 	</update>
+
+	<!-- 근무시간수정 -->
+	<update id="updateAttendanceUpdateTime" parameterType="attendanceException">
+		UPDATE
+			attendances
+		SET
+		<if test="atdExcpInTime != null">atd_in_time = to_date(to_char(atd_in_time, 'yyyy-MM-DD') || ' ' || #{atdExcpInTime}, 'yyyy-MM-dd HH24:MI')</if>
+		<if test="atdExcpOutTime != null">atd_out_time = to_date(to_char(atd_out_time, 'yyyy-MM-DD') || ' ' || #{atdExcpOutTime}', 'yyyy-MM-dd HH24:MI')</if>
+		<if test="atdExcpInTime != null and atdExcpOutTime != null">
+			atd_in_time = to_date(to_char(atd_in_time, 'yyyy-MM-DD') || ' ' || #{atdExcpInTime}, 'yyyy-MM-dd HH24:MI'),
+			atd_out_time = to_date(to_char(atd_out_time, 'yyyy-MM-DD') || ' ' || #{atdExcpOutTime}', 'yyyy-MM-dd HH24:MI')
+		</if>
+		WHERE
+		emp_id = #{empId} AND
+		to_char(atd_in_time, 'yyyy-MM-DD') = to_char(#{atdExcpDate}, 'yyyy-MM-DD')
+	</update>
+	
+	<!-- 추가근무 -->
+	<update id="updateAttendanceOverTime">
+		UPDATE 
+			attendances
+		SET
+			atd_overtime_yn = 'Y',
+			atd_overtime_hours = #{overTimeHours}
+	  	WHERE
+		  	emp_id = #{empId} AND 
+  			to_char(atd_in_time, 'yyyy-MM-DD') = to_char(sysdate, 'yyyy-MM-DD')
+	</update>
 	
 	<!-- 신청폼에서 결재자이름, 작성자이름 갖고오기 -->
 	<select id="getEmpNames" resultType="hashmap">
 		SELECT 
 			e.emp_name AS 작성자, 
+			d.emp_id AS 결재자ID,
 			(SELECT emp_name FROM employees WHERE emp_id = d.emp_id) AS 결재자
 		FROM 
 			employees e, departments d 
@@ -132,5 +163,45 @@
 			e.dep_id = d.dep_id 
 			AND e.emp_id = #{empId}
 	</select>
-	
+
+	<!-- 출퇴근 기록이 있을 경우엔 - Update, 출퇴근 기록이 없을 때는 INSERT -->
+	<update id="updateAttendanceLeaveState" parameterType="leaveApplication">
+	  <![CDATA[
+	    MERGE INTO attendances
+	    USING (
+	      SELECT DISTINCT TRUNC(to_date(to_char(#{levAppStartDate}, 'YYYY-MM-DD')) + LEVEL - 1) as atd_date, #{levAppCategory} as atd_state 
+	      FROM dual 
+	      CONNECT BY LEVEL <= TRUNC(to_date(to_char(#{levAppEndDate}, 'YYYY-MM-DD'))) - TRUNC(to_date(to_char(#{levAppStartDate}, 'YYYY-MM-DD'))) + 1
+	    ) new_attendance
+	    ON (TRUNC(Attendances.atd_in_time) = new_attendance.atd_date AND Attendances.emp_id = #{empId})
+	    WHEN MATCHED THEN
+	      UPDATE SET 
+	        Attendances.atd_state = new_attendance.atd_state,
+	        Attendances.atd_out_time = 
+	            CASE 
+	                WHEN new_attendance.atd_state = '오후반차'
+	                    THEN to_date(to_char(new_attendance.atd_date, 'YYYY-MM-DD') || ' 18:00:00', 'YYYY-MM-DD HH24:MI:SS')
+	                ELSE Attendances.atd_out_time
+	            END
+	    WHEN NOT MATCHED THEN
+	      INSERT (atd_id, emp_id, atd_in_time, atd_out_time, atd_state)
+	      VALUES (
+	        seq_atd_id.nextval, 
+	        #{empId}, 
+	        CASE 
+	            WHEN new_attendance.atd_state = '대체휴무' OR new_attendance.atd_state = '연차' 
+	                THEN to_date(to_char(new_attendance.atd_date, 'YYYY-MM-DD') || ' 08:59:59', 'YYYY-MM-DD HH24:MI:SS')
+	            WHEN new_attendance.atd_state = '오전반차'
+	                THEN to_date(to_char(new_attendance.atd_date, 'YYYY-MM-DD') || ' 14:00:00', 'YYYY-MM-DD HH24:MI:SS')
+	            ELSE NULL
+	        END,
+	        CASE 
+	            WHEN new_attendance.atd_state = '오후반차'
+	                THEN to_date(to_char(new_attendance.atd_date, 'YYYY-MM-DD') || ' 18:00:00', 'YYYY-MM-DD HH24:MI:SS')
+	            ELSE NULL
+	        END,
+	        new_attendance.atd_state
+	      )
+	  ]]>
+	</update>
 </mapper>
