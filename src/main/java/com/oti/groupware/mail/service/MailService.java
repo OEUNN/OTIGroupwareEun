@@ -35,5 +35,5 @@ public interface MailService {
 	List<SendMail> getTrashMail(String empId, Pager pager);
 	void tempMailDelete(List<Integer> list); //임시 보관함 완전 삭제
 	void trashMailDeleteRestore(List<Integer> list, String empId, String result);
-	void deleteTrashMail();
+	void deleteTrashMail(); //30일이 지난 휴지통 메일 삭제
 }
