@@ -12,7 +12,7 @@
 	<script src="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 	<script>
 	$(function(){
-		$('#datepicker').datepicker({
+		$('.datepicker').datepicker({
 		});	
 	});
 	
@@ -38,6 +38,9 @@
 	}
 	a:hover {
 		text-decoration: none;
+	}
+	.datepicker:hover {
+		background-color: white;
 	}
 	</style>
 </head>
@@ -168,15 +171,37 @@
 												<th class="px-0 border-bottom pb-2">결재상태
 												<i class="mdi mdi-menu-down" data-toggle="dropdown"></i>
 											    <div class="dropdown-menu">
-												<a class="dropdown-item" onclick="searchItems('승인')">승인</a>
-												<a class="dropdown-item" onclick="searchItems('진행')">진행</a>
-												<a class="dropdown-item" onclick="searchItems('반려')">반려</a>
-												<a class="dropdown-item" onclick="searchItems('회수')">회수</a>
+													<a class="dropdown-item" onclick="searchItems('승인')">승인</a>
+													<a class="dropdown-item" onclick="searchItems('진행')">진행</a>
+													<a class="dropdown-item" onclick="searchItems('반려')">반려</a>
+													<a class="dropdown-item" onclick="searchItems('회수')">회수</a>
 											    </div>
 												</th>
 												<th class="border-bottom pb-2">제목</th>
-												<th class="border-bottom pb-2">상신날짜</th>
-												<th class="border-bottom pb-2">종료날짜</th>
+												<th class="border-bottom pb-2">상신날짜
+												<i class="mdi mdi-menu-down" data-toggle="dropdown"></i>
+												<div class="dropdown-menu">
+					        						<div class="datepicker dropdown-item input-daterange input-group">
+														<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+													    <input type="text" class="input-sm form-control text-info font-weight-bold" name="start" style="border:0px; text-align: right;"/>
+													    <span class="input-group-addon text-primary font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
+														<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+													    <input type="text" class="input-sm form-control text-info font-weight-bold" name="end" style="border:0px; text-align: right;"/>
+													</div>
+												</div>
+												</th>
+												<th class="border-bottom pb-2">종료날짜
+												<i class="mdi mdi-menu-down" data-toggle="dropdown"></i>
+												<div class="dropdown-menu">
+					        						<div class="datepicker dropdown-item input-daterange input-group">
+														<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+													    <input type="text" class="input-sm form-control text-info font-weight-bold" name="start" style="border:0px; text-align: right;"/>
+													    <span class="input-group-addon text-primary font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
+														<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
+													    <input type="text" class="input-sm form-control text-info font-weight-bold" name="end" style="border:0px; text-align: right;"/>
+													</div>
+												</div>
+												</th>
 											</tr>
 										</thead>
 										<tbody>
