@@ -10,7 +10,7 @@
 	.table th, .jsgrid .jsgrid-table th,
 	.table td,
 	.jsgrid .jsgrid-table td {
-	padding: 0.125rem 1.375rem;
+		padding: 0.125rem 2.375rem;
 	}
 	.etooltip {
   position: relative;
@@ -75,7 +75,7 @@
 					<c:if test="${!empty sendmail}">
 						<c:forEach items="${sendmail}" var="send">
 							<tr>
-								<td class="form-inline pr-0 p1-2">
+								<td class="form-inline pr-0 p1-1">
 									<div class="form-check font-weight-bold text-info">
 										<label class="form-check-label">
 											<input type="checkbox" class="form-check-input" name="optradio">

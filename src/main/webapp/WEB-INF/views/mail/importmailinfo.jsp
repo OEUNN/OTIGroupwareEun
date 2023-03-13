@@ -10,7 +10,7 @@
 	.table th, .jsgrid .jsgrid-table th,
 	.table td,
 	.jsgrid .jsgrid-table td {
-	padding: 0.125rem 1.375rem;
+	padding: 0.125rem 2.375rem;
 	}
 	.etooltip {
   position: relative;

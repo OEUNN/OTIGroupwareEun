@@ -10,7 +10,7 @@
 	.table th, .jsgrid .jsgrid-table th,
 	.table td,
 	.jsgrid .jsgrid-table td {
-	padding: 0.125rem 1.375rem;
+		padding: 0.125rem 2.375rem;
 	}
 	.etooltip {
   position: relative;
@@ -40,7 +40,7 @@
 </style>
 <div class="card">
 	<div class="card-body">
-		<h4 class="card-title">중요 메일</h4>
+		<h4 class="card-title">휴지통</h4>
 		<!-- 검색 태그 -->
 		<div class="row mb-3 mt-5 mx-3">
 			<div class="form-inline" style="border-bottom:1px solid #e9ecef;">
