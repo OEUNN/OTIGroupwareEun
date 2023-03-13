@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oti.groupware.mail.dao.ReceivedMail">
+<mapper namespace="com.oti.groupware.mail.dao.ReceivedMailDAO">
 
 	<resultMap id="receivedMailResultMap" type="receivedMail">
 	    <result property="sendMailId" column="send_mail_id"/>
@@ -11,10 +11,15 @@
 	    <result property="recdMailDelDate" column="recd_mail_del_date"/>
 	    <result property="recdMailDelYN" column="recd_mail_del_yn"/>
 	    <result property="recdMailDelCompleteYN" column="recd_mail_del_complete_yn"/>
-	    <result property="recdSR" column="recd_sr"/>
 	</resultMap>
+	
+	<select id="getMailTotalRow" parameterType="string" resultType="int">
+		select count(send_mail_id)
+		from received_mails
+		where emp_id_employees = #{empId} and recd_mail_del_yn = 'N'
+	</select>
 
-	<select id="getReceivedMail" resultMap="receivedMailResultMap">
+	<select id="getReceivedMailById" resultMap="receivedMailResultMap">
 		SELECT send_mail_id,
 		    emp_id_employees,
 		    recd_mail_importance_yn,
@@ -22,20 +27,116 @@
 		    recd_mail_read_receipt_yn,
 		    recd_mail_del_date,
 		    recd_mail_del_yn,
-		    recd_mail_del_complete_yn,
-		    recd_sr,
+		    recd_mail_del_complete_yn
 		FROM received_mails
-		WHERE send_mail_id = #{sendMailId} AND emp_id_employees = #{empIdEmployees}
+		WHERE emp_id_employees = #{empId} and recd_mail_del_yn = 'N'
+		order by  recd_mail_date desc
+		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
+		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
+	</select>
+	
+	<select id="getReceivedEmpId" parameterType="int" resultType="string">
+		select  emp_id_employees
+		from received_mails
+		where send_mail_id =#{sendMailId} 
+	</select>
+	
+	<select id="readYN" parameterType="map" resultType="string">
+		select recd_mail_read_receipt_yn
+		from received_mails
+		where send_mail_id =#{sendMailId} and emp_id_employees = #{empId}
 	</select>
     
-    <insert id="insertReceivedMail" parameterType="receivedMail">
-        INSERT INTO received_mails (send_mail_id, emp_id_employees, recd_mail_importance_yn,
-            recd_mail_date, recd_mail_read_receipt_yn, recd_mail_del_date, recd_mail_del_yn,
-            recd_mail_del_complete_yn, recd_sr)
-        VALUES (#{sendMailId}, #{empIdEmployees}, #{recdMailImportanceYn}, #{recdMailDate},
-            #{recdMailReadReceiptYn}, #{recdMailDelDate}, #{recdMailDelYn}, #{recdMailDelCompleteYn},
-            #{recdSr})
+    <insert id="insertReceivedMail" parameterType="map">
+        INSERT INTO received_mails (
+        	send_mail_id, 
+        	emp_id_employees, 
+        	recd_mail_importance_yn,
+            recd_mail_date, 
+            recd_mail_read_receipt_yn, 
+            recd_mail_del_date, 
+            recd_mail_del_yn,
+            recd_mail_del_complete_yn)
+        VALUES (
+        	#{sendMailId}, 
+        	#{empId}, 
+        	default, 
+        	default,
+            default, 
+            default, 
+            default, 
+            default)
     </insert>
+    
+    <select id="mailSearchRowsCount"  parameterType="map" resultType="int">
+    	select count(send_mail_id)
+		from received_mails
+		where emp_id_employees = #{empId} and recd_mail_del_yn = 'N' 
+		<if test='search.equals("read")'>
+   			and recd_mail_read_receipt_yn = 'Y'
+		</if>
+		<if test='search.equals("notread")'>
+   			and recd_mail_read_receipt_yn = 'N'
+		</if>
+		<if test='search.equals("import")'>
+   			and recd_mail_importance_yn = 'Y'
+		</if>
+		<if test='search.equals("notimport")'>
+   			and recd_mail_importance_yn = 'N'
+		</if>
+    </select>
+    
+     <select id="getSearchReceivedMailById" resultMap="receivedMailResultMap">
+    	SELECT send_mail_id,
+		    emp_id_employees,
+		    recd_mail_importance_yn,
+		    recd_mail_date,
+		    recd_mail_read_receipt_yn,
+		    recd_mail_del_date,
+		    recd_mail_del_yn,
+		    recd_mail_del_complete_yn
+		from received_mails
+		where emp_id_employees = #{empId} and recd_mail_del_yn = 'N'
+		<if test='search.equals("read")'>
+   			and recd_mail_read_receipt_yn = 'Y'
+		</if>
+		<if test='search.equals("notread")'>
+   			and recd_mail_read_receipt_yn = 'N'
+		</if>
+		<if test='search.equals("import")'>
+   			and recd_mail_importance_yn = 'Y'
+		</if>
+		<if test='search.equals("notimport")'>
+   			and recd_mail_importance_yn = 'N'
+		</if>
+		order by  recd_mail_date desc
+		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
+		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
+    </select>
+    
+    <select id="getReceivedCount" parameterType="int" resultType="int">
+    	SELECT count(send_mail_id)
+		from received_mails
+		where send_mail_id = ${sendMailId}
+    </select>
+    
+    <select id="receivedMailGetImport" parameterType="map" resultType="string">
+    	select RECD_MAIL_IMPORTANCE_YN
+		from received_mails
+		where SEND_MAIL_ID= #{mailId} and EMP_ID_EMPLOYEES = #{empId}
+    </select>
+    
+    <update id="receivedMailChangeImport" parameterType="map">
+    	update received_mails
+    	set RECD_MAIL_IMPORTANCE_YN =
+		<if test='star.equals("Y")'>
+			'N'
+		</if>
+		<if test='star.equals("N")'>
+			'Y'
+		</if>
+		where SEND_MAIL_ID= #{mailId} and EMP_ID_EMPLOYEES = #{empId}
+    </update>
 
     <update id="updateReceivedMail" parameterType="receivedMail">
         UPDATE received_mails
@@ -49,5 +150,24 @@
     <delete id="deleteReceivedMail">
         DELETE FROM received_mails WHERE send_mail_id = #{sendMailId} AND emp_id_employees = #{empIdEmployees}
     </delete>
+    
+    <select id="getMailInformation" parameterType="int" resultMap="receivedMailResultMap">
+    	SELECT send_mail_id,
+		    emp_id_employees,
+		    recd_mail_importance_yn,
+		    recd_mail_date,
+		    recd_mail_read_receipt_yn,
+		    recd_mail_del_date,
+		    recd_mail_del_yn,
+		    recd_mail_del_complete_yn
+		from received_mails
+		where send_mail_id = #{sendMailId}
+    </select>
+    
+     <update id="importReceivedMailChangeImport" parameterType="map">
+    	update received_mails
+    	set RECD_MAIL_IMPORTANCE_YN = 'N'
+		where SEND_MAIL_ID= #{mailId} and EMP_ID_EMPLOYEES = #{empId}
+    </update>
     
 </mapper>

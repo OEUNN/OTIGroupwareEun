@@ -79,7 +79,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public Employee getEmployee(String empId) {
-		Employee employee = employeeDao.getEmployeeById(empId);;
+		Employee employee = employeeDao.getEmployeeById(empId);
 		String depName = departmentDao.getDepartmentById(employee.getDepId());
 		String posName = positionDao.getPositionById(employee.getPosId());
 		employee.setDepName(depName);

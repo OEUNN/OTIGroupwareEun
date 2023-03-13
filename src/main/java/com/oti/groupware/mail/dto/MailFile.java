@@ -9,5 +9,5 @@ public class MailFile {
     private String mailFileName;
     private byte[] mailFileData;
     private String mailFileType;
-    private int mailFileLength;
+    private long mailFileLength;
 }
