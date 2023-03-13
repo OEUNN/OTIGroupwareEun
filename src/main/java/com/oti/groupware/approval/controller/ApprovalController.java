@@ -8,11 +8,9 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +21,7 @@ import com.oti.groupware.approval.dto.ApprovalLine;
 import com.oti.groupware.approval.dto.Document;
 import com.oti.groupware.approval.dto.DocumentContent;
 import com.oti.groupware.approval.dto.DocumentFile;
+import com.oti.groupware.approval.dto.SearchQuery;
 import com.oti.groupware.approval.service.ApprovalLineService;
 import com.oti.groupware.approval.service.DocumentService;
 import com.oti.groupware.common.Pager;
@@ -370,31 +369,17 @@ public class ApprovalController {
 		}
 	}
 	
-	//기안함 검색
-	@RequestMapping(value = "/search", method=RequestMethod.GET)
-	public String searchDraftDocument(@RequestParam("state") String state, HttpSession session, Model model) {
-		log.info("실행 ");
-		
-		return searchDraftDocument(state, session, model, 1);
-	}
+
 	
 	//기안함 검색
-	@RequestMapping(value = "/search/{pageNo}", method=RequestMethod.GET)
-	public String searchDraftDocument(@RequestParam("state") String state, HttpSession session, Model model, @PathVariable("pageNo") int pageNo) {
-		log.info("검색 문서 상태: " + state);
-		
-		if ("승인".equals(state) ) {
-			state = "완결";
-		}
-		
-		if ("진행".equals(state)) {
-			state = "결재중";
-		}
+	@RequestMapping(value = "/draftdocument/search", method=RequestMethod.GET)
+	public String searchDraftDocument(SearchQuery searchQuery, HttpSession session, Model model) {
+		log.info("검색 문서 상태: " + searchQuery);
 		
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
 		pager = new Pager();
 		
-		documents = documentService.getDraftDocumentListByState(pageNo, pager, empId, state);
+		documents = documentService.getDraftDocumentListByQuery(searchQuery, pager, empId);
 		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
 		
 		
@@ -403,5 +388,23 @@ public class ApprovalController {
 		model.addAttribute("approvalLinesList", approvalLinesList);
 
 		return "approval/draftdocument";
+	}
+	
+	//결재대기함 검색
+	@RequestMapping(value = "/pendeddocument/search", method=RequestMethod.GET)
+	public String searchPendedDocument(SearchQuery searchQuery, HttpSession session, Model model) {
+		log.info("검색 문서 상태: " + searchQuery);
+		
+		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
+		pager = new Pager();
+		
+		documents = documentService.getPendedDocumentListByQuery(searchQuery, pager, empId);
+		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
+		
+		model.addAttribute("pager", pager);
+		model.addAttribute("documents", documents);
+		model.addAttribute("approvalLinesList", approvalLinesList);
+		
+		return "approval/pendeddocument";
 	}
 }

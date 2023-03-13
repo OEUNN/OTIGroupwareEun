@@ -185,28 +185,42 @@
 	<select id="getTempDocumentList" resultMap="documentResultMap">
     <![CDATA[
         SELECT
-            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
-            doc_complete_date, doc_state, doc_read_yn
+		    doc_id, emp_id, doc_type, doc_title, doc_report_date,
+		    doc_write_date, doc_state, doc_read_yn
         FROM (
         	SELECT
-        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
-        		doc_complete_date, doc_state, doc_read_yn
-        	FROM documents doc, approval_lines apl, employees emp
-        	WHERE doc.emp_id = ${empId} AND doc_temp_yn = 'Y' AND 
-        	emp.emp_id = doc.emp_id AND rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
+		        rownum as rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
+		        doc_write_date, doc_state, doc_read_yn
+        	FROM documents
+        	WHERE emp_id = ${empId} AND doc_temp_yn = 'Y' AND 
+        	rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
         )
         WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
     ]]>
 	</select>
 	
-	<select id="getDraftDocumentCountByState" resultType="int">
-		SELECT count(*) 
-		FROM documents 
-		WHERE emp_id = #{empId} AND doc_state = #{state} AND doc_temp_yn = 'Y'
+	
+	
+	
+	
+	<select id="getDraftDocumentCountByQuery" resultType="int">
+        SELECT count(*) 
+        FROM documents 
+		<where>
+			emp_id = #{empId} and doc_temp_yn = 'N'
+			<if test="searchQuery.docId != null">
+			AND doc_id = #{searchQuery.docId}
+			</if>
+			<if test="searchQuery.docTitle != null">
+			AND doc_title LIKE #{searchQuery.docTitle}
+			</if>
+			<if test="searchQuery.docState != null">
+			AND doc_state = #{searchQuery.docState}
+			</if>
+		</where>
 	</select>
 	
-	<select id="getDraftDocumentListByState" resultMap="documentResultMap">
-    <![CDATA[
+	<select id="getDraftDocumentListByQuery" resultMap="documentResultMap">
         SELECT
             doc_id, emp_id, doc_type, doc_title, doc_report_date,
             doc_complete_date, doc_state, doc_read_yn
@@ -215,10 +229,62 @@
         		rownum as rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
         		doc_complete_date, doc_state, doc_read_yn
         	FROM documents
-        	WHERE emp_id = #{empId} AND doc_state = #{state} AND doc_temp_yn = 'N' and 
-        	rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
+	 		<where>
+ 	 			emp_id = #{empId} and doc_temp_yn = 'N' and rownum <![CDATA[<]]>= #{pager.rowsPerPage} * #{pager.pageNo} 
+				<if test="searchQuery.docId != null">
+				AND doc_id = #{searchQuery.docId}
+				</if>
+				<if test="searchQuery.docTitle != null">
+				AND doc_title LIKE #{searchQuery.docTitle}
+				</if>
+				<if test="searchQuery.docState != null">
+				AND doc_state = #{searchQuery.docState}
+				</if>
+			</where>
         )
         WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
-    ]]>
+	</select>
+	
+	<select id="getPendedDocumentCountByQuery" resultType="int">
+        SELECT count(*) 
+		FROM documents doc, approval_lines apl
+		<where>
+			apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order and doc_temp_yn = 'N' 
+			<if test="docId != null">
+			AND doc.doc_id = #{searchQuery.docId}
+			</if>
+			<if test="docTitle != null">
+			AND doc.doc_title LIKE #{searchQuery.docTitle}
+			</if>
+			<if test="docState != null">
+			AND doc.doc_state = #{searchQuery.docState}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getPendedDocumentListByQuery" resultMap="documentResultMap">
+		SELECT count(*) 
+			FROM documents doc, approval_lines apl
+			WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order and doc_temp_yn = 'N'
+        FROM (
+        	SELECT
+        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+        		doc_complete_date, doc_state, doc_read_yn
+        	FROM documents doc, approval_lines apl, employees emp
+   	 		<where> 
+   	 			apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order AND doc_temp_yn = 'N' AND
+   	 			emp.emp_id = doc.emp_id AND rownum <![CDATA[<]]>= #{pager.rowsPerPage} * #{pager.pageNo}
+				<if test="docId != null">
+				AND doc.doc_id = #{searchQuery.docId}
+				</if>
+				<if test="docTitle != null">
+				AND doc.doc_title LIKE #{searchQuery.docTitle}
+				</if>
+				<if test="docState != null">
+				AND doc.doc_state = #{searchQuery.docState}
+				</if>
+			</where>
+        )
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
 	</select>
 </mapper>

@@ -1,7 +1,9 @@
 package com.oti.groupware.approval.service;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +18,11 @@ import com.oti.groupware.approval.dao.DocumentDAO;
 import com.oti.groupware.approval.dto.ApprovalLine;
 import com.oti.groupware.approval.dto.Document;
 import com.oti.groupware.approval.dto.DocumentContent;
+import com.oti.groupware.approval.dto.SearchQuery;
 import com.oti.groupware.common.Pager;
 import com.oti.groupware.common.dto.Organization;
 import com.oti.groupware.employee.dao.EmployeeDAO;
-import com.oti.groupware.employee.dto.Employee;
-
-import oracle.jdbc.logging.annotations.DisableTrace;
+import com.oti.groupware.mail.dto.EmployeeInfo;
 
 @Service
 public class DocumentServiceImpl implements DocumentService {
@@ -80,23 +81,24 @@ public class DocumentServiceImpl implements DocumentService {
 			String documentRetentionPeriod = documentContentProvider.getDocumentRetentionPeriodByDocumentType(documentType);
 			document.setDocRetentionPeriod(documentRetentionPeriod);
 			if (document.getDocReportDate() == null) {
-				document.setDocReportDate(Date.valueOf(LocalDate.now()));
+				document.setDocReportDate(Timestamp.valueOf(LocalDateTime.now()));
 			}
 			if (document.getDocWriteDate() == null) {
-				document.setDocWriteDate(Date.valueOf(LocalDate.now()));
+				document.setDocWriteDate(Timestamp.valueOf(LocalDateTime.now()));
 			}
 			
-			Employee drafter = employeeDAO.getEmployeeById(drafterId);
+			EmployeeInfo drafter = employeeDAO.mailInfo(drafterId);
 			
+			//첫 임시저장 또는 상신
 			if ("공란".equals(document.getDocId())) {
 				String documentId = documentContentProvider.getDocumentIdByDocumentType(documentType);
 				document.setDocId(documentId);
-				//document.setDocContent(documentParser.setHTML(html, document, documentContent, drafter));
+				document.setDocContent(documentParser.setHTML(html, document, documentContent, drafter));
 				documentDAO.insertDraft(document);
-				
 			}
+			//재상신
 			else {
-				//document.setDocContent(documentParser.setHTML(html, document, documentContent, drafter));
+				document.setDocContent(documentParser.setHTML(html, document, documentContent, drafter));
 				documentDAO.updateDocument(document);
 				approvalLineDAO.deleteApprovalLineByDocId(document.getDocId());
 			}
@@ -110,18 +112,22 @@ public class DocumentServiceImpl implements DocumentService {
 			
 			approvalLineDAO.insertDraftApprovalLine(approvalLine);
 			
-			int approvalLineLength = documentContent.getApprovalId().length;			
-			for (int i = 0; i < approvalLineLength; i++) {
-				approvalLine = new ApprovalLine();
-				approvalLine.setEmpId(documentContent.getApprovalId()[i]);
-				approvalLine.setDocId(document.getDocId());
-				approvalLine.setAprvLineState(documentContent.getApprovalState()[i]);
-				approvalLine.setAprvLineOrder(documentContent.getApprovalOrder()[i]);
-				approvalLine.setAprvLineRole("결재");
-				
-				//동적 Query로 최적화가 가능
-				approvalLineDAO.insertDraftApprovalLine(approvalLine);
+			//임시저장 시 결재선이 없을 수 있음
+			if (documentContent.getApprovalId() != null) {
+				int approvalLineLength = documentContent.getApprovalId().length;			
+				for (int i = 0; i < approvalLineLength; i++) {
+					approvalLine = new ApprovalLine();
+					approvalLine.setEmpId(documentContent.getApprovalId()[i]);
+					approvalLine.setDocId(document.getDocId());
+					approvalLine.setAprvLineState(documentContent.getApprovalState()[i]);
+					approvalLine.setAprvLineOrder(documentContent.getApprovalOrder()[i]);
+					approvalLine.setAprvLineRole("결재");
+					
+					//동적 Query로 최적화가 가능
+					approvalLineDAO.insertDraftApprovalLine(approvalLine);
+				}
 			}
+
 		}
 		else {
 			System.out.println("html is null");
@@ -213,12 +219,49 @@ public class DocumentServiceImpl implements DocumentService {
 		return documentDAO.getTempDocumentList(pager, empId);
 	}
 	
+	
+	/*
+	 * 검색
+	 */
+	
 	@Override
 	@Transactional
-	public List<Document> getDraftDocumentListByState(int pageNo, Pager pager, String empId, String state) {
-		int totalRows = documentDAO.getDraftDocumentCountByState(empId, state);
-		pager = new Pager(10, 10, totalRows, pageNo);
-		return documentDAO.getDraftDocumentListByState(pager, empId, state);
+	public List<Document> getDraftDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId) {
+		int totalRows = documentDAO.getDraftDocumentCountByQuery(empId, searchQuery);
+		
+		if ("진행".equals(searchQuery.getDocState())) {
+			searchQuery.setDocState("결재중");
+		}
+		else if ("승인".equals(searchQuery.getDocState())) {
+			searchQuery.setDocState("완결");
+		}
+		
+		if (searchQuery.getPageNo() <= 0) {
+			searchQuery.setPageNo(1);
+		}
+		
+		pager = new Pager(10, 10, totalRows, searchQuery.getPageNo());
+		return documentDAO.getDraftDocumentListByQuery(pager, empId, searchQuery);
+	}
+	
+	@Override
+	@Transactional
+	public List<Document> getPendedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId) {
+		int totalRows = documentDAO.getPendedDocumentCountByQuery(empId, searchQuery);
+		
+		if ("진행".equals(searchQuery.getDocState())) {
+			searchQuery.setDocState("결재중");
+		}
+		else if ("승인".equals(searchQuery.getDocState())) {
+			searchQuery.setDocState("완결");
+		}
+		
+		if (searchQuery.getPageNo() <= 0) {
+			searchQuery.setPageNo(1);
+		}
+		
+		pager = new Pager(10, 10, totalRows, searchQuery.getPageNo());
+		return documentDAO.getPendedDocumentListByQuery(pager, empId, searchQuery);
 	}
 	
 	/*

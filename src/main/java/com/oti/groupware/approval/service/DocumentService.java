@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.oti.groupware.approval.dto.Document;
 import com.oti.groupware.approval.dto.DocumentContent;
+import com.oti.groupware.approval.dto.SearchQuery;
 import com.oti.groupware.common.Pager;
 import com.oti.groupware.common.dto.Organization;
 
@@ -20,7 +21,8 @@ public interface DocumentService {
 	public List<Document> getTempDocumentList(int pageNo, Pager pager, String empId);
 	public List<Document> getCompletedDocumentList(int pageNo, Pager pager,String empId);
 	
-	List<Document> getDraftDocumentListByState(int pageNo, Pager pager, String empId, String state);
-	
 	public List<Organization> getOrganization();
+
+	List<Document> getDraftDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId);
+	List<Document> getPendedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId);
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.oti.groupware.approval.dto.Document;
 import com.oti.groupware.approval.dto.DocumentContent;
-import com.oti.groupware.employee.dto.Employee;
+import com.oti.groupware.mail.dto.EmployeeInfo;
 
 @Component
 public class DocumentParser {
@@ -39,7 +39,7 @@ public class DocumentParser {
 		document.setDocMaxStep(documentMaxStep);
 	}
 	
-	public String setHTML(String html, Document document, DocumentContent documentContent, Employee drafter) {
+	public String setHTML(String html, Document document, DocumentContent documentContent, EmployeeInfo drafter) {
 		approvalDocument = Jsoup.parse(html, "UTF-8");
 		Element body = approvalDocument.body();
 		

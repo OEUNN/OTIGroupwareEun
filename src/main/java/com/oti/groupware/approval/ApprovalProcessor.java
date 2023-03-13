@@ -1,7 +1,7 @@
 package com.oti.groupware.approval;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -38,7 +38,7 @@ public class ApprovalProcessor {
 				if (documentApprovalStep > documentMaxStep) {
 					documentApprovalStep = -1;
 					document.setDocState("완결");
-					document.setDocCompleteDate(Date.valueOf(LocalDate.now()));
+					document.setDocCompleteDate(Timestamp.valueOf(LocalDateTime.now()));
 				}
 				
 				document.setDocReadYn("N");

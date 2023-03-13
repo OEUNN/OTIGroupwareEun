@@ -17,7 +17,7 @@
 	});
 	
 	function searchItems(value) {
-		$("#searchBar").append('<div id="' + value + '" class="badge badge-warning font-weight-bold"><input type="hidden" name="state" value="' + value + '"></input>' + value + '<span class="mx-1"><i class="mdi mdi-close"></i></span></div>');
+		$("#searchBar").append('<div id="' + value + '" class="badge badge-warning font-weight-bold"><input type="hidden" name="docState" value="' + value + '"></input>' + value + '<span class="mx-1"><i class="mdi mdi-close"></i></span></div>');
 	}
 	</script>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
@@ -68,7 +68,7 @@
             		<div class="col-md-12">
 						<div class="card grid-margin">
 							<div class="card-body">
-							<p class="card-title mb-0">기안함</p>
+							<p class="card-title mb-0">기안문서함</p>
 		        			<div class="card gird-margin shadow-2 my-3" style="background-color: #e7e7ff;">
 			        			<div class="card-body">
 		        					<div class="row py-0" style="padding: 1.25rem;">
@@ -107,7 +107,7 @@
 		        						</div>
 		        						<div class="col-6">
 		        							<div class="d-flex">
-		        								<form class="d-flex" action="<c:url value="/approval/search"></c:url>">
+		        								<form class="d-flex" action="<c:url value="/approval/draftdocument/search"></c:url>">
 		        								<div class="input-group w-75" style="border-radius: 18px; background-color: white;">
 													<div class="input-group-prepend hover-cursor mx-3" id="navbar-search-icon">
 														<span class="input-group-text" id="search" style="background: transparent; border: 0; color: #000; padding: 0;">

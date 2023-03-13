@@ -23,7 +23,7 @@
 	    window.open(url, name, option);
 	}
 	
-	function isTitleExist() {
+	function isTitleExist(docTempYn) {
 		if ($("iframe").contents().find("body").find("#A4") === null) {
 			alert("내용이 없습니다");
 		}
@@ -31,6 +31,7 @@
 			alert("제목은 필수 입니다.");
 		}
 		else {
+			$("#approvalForm").append('<input type="hidden" name="docTempYn" value="' + docTempYn + '"></input>');
 			$("#approvalForm").submit();
 		}
 	}
@@ -232,11 +233,11 @@
 											<div class="d-flex justify-content-between align-items-center mb-4">
 												<div class="card-title mb-0">문서 내용</div>
 												<div class="d-flex">
-													<button onclick="isTitleExist()" name="docTempYn" value="Y" id="popup-btn" class="btn btn-md btn-warning mx-2">
+													<button onclick="isTitleExist('Y')" type="button" id="popup-btn" class="btn btn-md btn-warning mx-2">
 														<span class="mdi mdi-calendar-clock align-middle"></span>
 														<span>임시저장</span>
 													</button>
-													<button onclick="isTitleExist()" name="docTempYn" value="N" id="popup-btn" class="btn btn-md btn-primary mx-2">
+													<button onclick="isTitleExist('N')" type="button" name="docTempYn" value="N" id="popup-btn" class="btn btn-md btn-primary mx-2">
 														<span class="mdi mdi-apple-keyboard-caps align-middle"></span>
 														<span>상신하기</span>
 													</button>

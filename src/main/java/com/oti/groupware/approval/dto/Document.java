@@ -1,6 +1,6 @@
 package com.oti.groupware.approval.dto;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 import com.oti.groupware.employee.dto.Employee;
 
@@ -14,9 +14,9 @@ public class Document {
     private String docTitle;
     private String docContent;
     private String docRetentionPeriod;
-    private Date docWriteDate;
-    private Date docReportDate;
-    private Date docCompleteDate;
+    private Timestamp docWriteDate;
+    private Timestamp docReportDate;
+    private Timestamp docCompleteDate;
     private String docState;
     private String docReadYn;
     private String docTempYn;
