@@ -18,7 +18,7 @@ public interface HrService {
 	public void inTime(String empId);
 	public void outTime(String empId);
 	public void attendanceStateAll();
-	public HashMap<String, String> empFormInfoMap(String empId);
+	public HashMap<String, String> empFormInfoMap(String empId, String posName);
 	public Employee empReserveInfo(String empId);
 	public void writeAttendanceExceptionApplication(AttendanceException attendanceException);
 	public int attendanceExceptionRowsCount(String startDate, String endDate, String empId);
@@ -40,4 +40,5 @@ public interface HrService {
 	public HashMap<String, Integer> attendanceExceptionApprovalStats(String empId);
 	public HashMap<String, Integer> leaveApplicationApprovalStats(String empId);
 	public void leaveApplicationCancel(int levAppId, String levAppProcessState);
+	public JSONArray empLeaveCalendarList(String depName);
 }

@@ -2,73 +2,63 @@
 	pageEncoding="UTF-8"%>
 
 <!-- Plugin css,js for this page -->
-<script src='${pageContext.request.contextPath}/resources/vendors/fullcalendar/js/index.global.js'></script>
+<script src='${pageContext.request.contextPath}/resources/vendors/fullcalendar/js/core.js'></script>
+<script src='${pageContext.request.contextPath}/resources/vendors/fullcalendar/js/goggle.calendar.min.js'></script>
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		var calendarEl = document.getElementById('calendar');
-		
+
 		var calendar = new FullCalendar.Calendar(calendarEl, {
-			height : 300,
+			contentHeight : 200,
 			editable : true,
-// 			locale : 'ko',
 			selectable : true,
 			businessHours : true,
 			dayMaxEvents : true, // allow "more" link when too many events
-			events : [ {
-				title : 'All Day Event',
-				start : '2023-01-02'
-			}, {
-				title : 'Long Event',
-				start : '2023-01-06',
-				end : '2023-01-10'
-			}, {
-				groupId : 999,
-				title : 'Repeating Event',
-				start : '2023-01-09T16:00:00'
-			}, {
-				groupId : 999,
-				title : 'Repeating Event',
-				start : '2023-01-16T16:00:00'
-			}, {
-				title : 'Conference',
-				start : '2023-01-11',
-				end : '2023-01-13'
-			}, {
-				title : 'Meeting',
-				start : '2023-01-12T10:30:00',
-				end : '2023-01-12T12:30:00'
-			}, {
-				title : 'Lunch',
-				start : '2023-01-12T12:00:00'
-			}, {
-				title : 'Meeting',
-				start : '2023-01-12T14:30:00'
-			}, {
-				title : 'Happy Hour',
-				start : '2023-01-12T17:30:00'
-			}, {
-				title : 'Dinner',
-				start : '2023-01-12T20:00:00'
-			}, {
-				title : 'Birthday Party',
-				start : '2023-01-13T07:00:00'
-			}, {
-				title : 'Click for Google',
-				url : 'http://google.com/',
-				start : '2023-01-28'
-			} ]
+			eventSources: [
+				{
+				  //DB에 담긴 이벤트 데이터를 갖고옴
+				  url: '../groupware/hr/empleavecalendar',
+				},
+			    {
+				  //구글 API를 이용하여 공휴일을 표시
+			      googleCalendarApiKey: 'AIzaSyAocA5FID3dzNX7LOO3N02rbI_4oEKjQPM',
+			      googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+			      className: 'fc-holiday-ko', // 특별한 클래스 이름을 사용하여 구분
+			      textColor: 'black',
+		    	  backgroundColor: 'white'
+			    }
+			],
+			eventContent: function(info) {
+				let eventTitle = info.event.title;
+				let eventMemo = info.event.extendedProps.memo;
+				
+				let nameDiv = '<span class="text-primary font-weight-bold">'+ eventTitle +'</span>';
+				
+				if(eventMemo == '휴가') {
+					return { html : '<div class="btn btn-md font-weight-bold px-5 py-2" style="background-color:rgba(163, 164, 165, 0.3); color:#5b5b5e;">'+ nameDiv +' 휴가</div>' }
+				
+				} else if(eventMemo == '오전반차' || eventMemo == '오후반차') {
+					return { html : '<div class="btn btn-md font-weight-bold px-4 py-1" style="border:3px solid rgba(163, 164, 165, 0.3); color:#5b5b5e;">'+ nameDiv + ' ' + eventMemo +'</div>' }
+				
+				} else if($('.fc-holiday-ko')){
+					// 날짜 객체 생성
+					var date = new Date(info.event.start);
+					var holiday = date.getFullYear() + '년 ' + (date.getMonth()+1) + '월 ' + date.getDate() + '일';
+					// 공휴일에 해당하는 날짜 스타일 변환
+					$('a[aria-label="'+ holiday +'"]').css({
+						'color': 'red',
+					    'font-weight': 'bold'
+					});
+					// 공휴일 종류(타이틀) 태그 만들기
+					var newElmentDate = '<div style="color: red; border-radius:10px;">' + date.getDate() + '일' + '</div>';
+					$('a[aria-label="'+ holiday +'"]').html(newElmentDate);
+				}
+			}
+		
 		});
+
 		calendar.render();
-
-		/* 한국어로 바꿨을 때 생기는 "일"을 지워줌! */
-// 		$(".fc-daygrid-day-number").each(function(){
-// 			var day = $(this).text();
-// 			day = day.replace("일","");
-// 			$(this).text(day);
-// 		});
 	});
-
-	
 </script>
 
 <style>
@@ -115,6 +105,7 @@
 
 	.fc-col-header-cell-cushion {
 		color: #4B49AC;
+		font-size: 13px;
 	}
 
 	.fc-daygrid-day-number {
@@ -137,6 +128,11 @@
 		color: black;
 	}
 	
+	/* 더보기 버튼 */
+	.fc .fc-daygrid-more-link {
+		fon-size: 2px;
+	}
+	
 	/* 일요일 날짜 빨간색 */
 	.fc-day-sun a {
 	  color: red;
@@ -151,7 +147,7 @@
 	
 	/* 오늘 날짜 */
 	.fc .fc-daygrid-day.fc-day-today {
-		background-color: rgba(255, 71, 71, 0.2);
+		background-color: rgba(255, 193, 0, 0.3);
 		border-radius: 10px;
 	}
 	

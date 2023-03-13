@@ -395,27 +395,76 @@ public class HrServiceImpl implements HrService {
 	public int leaveApplicationApprovalProcessState(LeaveApplication leaveApplication) {
 		//승인했을 경우에만 적용
 		if(leaveApplication.getLevAppProcessState().equals("승인")) {
-			//해당 직원의 잔여일수를 DB에서 가져온 후, 잔여일수 안에 휴가기간을 선택했는지 확인
-			Employee emp = leaveApplicationDAO.getEmpReserveInfo(leaveApplication.getEmpId());
-			if(leaveApplication.getLevAppCategory().equals("대체휴무") && (emp.getEmpSubstitueReserve() - leaveApplication.getLevPeriod() < 0 )) {
-				//대체휴무이면서, 잔여일수 안에 신청하지 않은 경우
-				return 0;
-			} else if(leaveApplication.getLevAppCategory().contains("차") && (emp.getEmpLeaveReserve() - leaveApplication.getLevPeriod() < 0 )) { //나머지(연차, 반차)
-				//연차 or 반차이면서, 잔여일수 안에 신청하지 않은 경우
-				return 0;
-			} else { //잔여 일수 안에 신청한 경우!
-				//반차일 경우에는 카운팅되는 잔여일수가 다름
-				if(leaveApplication.getLevAppCategory().contains("반차")) { 
-					leaveApplication.setLevPeriod(leaveApplication.getLevPeriod()*0.5);
+			//휴가 신청인 경우
+			if(!leaveApplication.getLevAppCancel().equals("휴가취소")) {
+				//해당 직원의 잔여일수를 DB에서 가져온 후, 잔여일수 안에 휴가기간을 선택했는지 확인
+				Employee emp = leaveApplicationDAO.getEmpReserveInfo(leaveApplication.getEmpId());
+				if(leaveApplication.getLevAppCategory().equals("대체휴무") && (emp.getEmpSubstitueReserve() - leaveApplication.getLevPeriod() < 0 )) {
+					//대체휴무이면서, 잔여일수 안에 신청하지 않은 경우
+					return 0;
+				} else if(leaveApplication.getLevAppCategory().contains("차") && (emp.getEmpLeaveReserve() - leaveApplication.getLevPeriod() < 0 )) { //나머지(연차, 반차)
+					//연차 or 반차이면서, 잔여일수 안에 신청하지 않은 경우
+					return 0;
 				}
-				//기존에 있던 잔여일수 차감(카운팅)
-				leaveApplicationDAO.updateEmployeeReserve(leaveApplication.getEmpId(), leaveApplication.getLevAppCategory(), leaveApplication.getLevPeriod());
-				//유형에 맞게 수정!
+			} 
+			//잔여 일수 안에 신청한 경우!
+			//반차일 경우에는 카운팅되는 잔여일수가 다름
+			if(leaveApplication.getLevAppCategory().contains("반차")) { 
+				leaveApplication.setLevPeriod(leaveApplication.getLevPeriod()*0.5);
+			}
+			
+			//기존에 있던 잔여일수 차감 및 증감(카운팅)
+			//신청-차감, 취소-증감
+			leaveApplicationDAO.updateEmployeeReserve(leaveApplication);
+			
+			if(!leaveApplication.getLevAppCancel().equals("휴가취소")) { //휴가 신청인 경우
+				//유형에 맞게 수정/등록
 				attendanceDAO.updateAttendanceLeaveState(leaveApplication);
+			} else { //휴가 취소인 경우
+				attendanceDAO.deleteAttendance(leaveApplication);
 			}
 		} 
 		//결재상태를 승인, 반려로 수정해줌
 		return leaveApplicationDAO.updateLeaveApplicationProcessState(leaveApplication);
+	}
+	
+	/** 동일 부서 직원들의 휴가 목록(캘린더) **/
+	@Override
+	public JSONArray empLeaveCalendarList(String depName) {
+		//같은 부서사람들의 휴가 목록을 가져옴
+		List<Attendance> empLeaveList = attendanceDAO.getEmployeeLeaveList(depName);
+		
+		//날짜와 시간 포맷 변경
+		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		
+		//캘린더에 넣을 출퇴근 JSON을 JSON 배열에 넣기
+		JSONArray jsonArr = new JSONArray();
+		
+		for(Attendance atd : empLeaveList) {
+			log.info("서비스로직의 Attendance: " + atd.toString());
+			JSONObject  jsonObj = new JSONObject();
+			
+			//연차, 대체휴무인 경우
+			if(atd.getAtdState().equals("연차") || atd.getAtdState().equals("대체휴무")) {
+				jsonObj.put("title", atd.getEmpName());
+				jsonObj.put("start", formatDate.format(atd.getAtdInTime()));
+				jsonObj.put("memo", "휴가");
+			
+			//오전반차인 경우
+			} else if(atd.getAtdState().equals("오전반차")) {
+				jsonObj.put("title", atd.getEmpName());
+				jsonObj.put("start", formatDate.format(atd.getAtdInTime()));
+				jsonObj.put("memo", atd.getAtdState());
+			
+			//오후반차인 경우
+			} else {
+				jsonObj.put("title", atd.getEmpName());
+				jsonObj.put("start", formatDate.format(atd.getAtdOutTime()));
+				jsonObj.put("memo", atd.getAtdState());
+			}
+			jsonArr.put(jsonObj);
+		}
+		return jsonArr;
 	}
 	
 	/** 잔여 일수 가져오기 가져오기(Employee) **/
@@ -426,9 +475,9 @@ public class HrServiceImpl implements HrService {
 	
 	/** 신청폼에 필요한 정보 가져오기(Employee) **/
 	@Override
-	public HashMap<String, String> empFormInfoMap(String empId) {
+	public HashMap<String, String> empFormInfoMap(String empId, String posName) {
 		//작성자, 결재자 이름 갖고오기
-		return attendanceDAO.getEmpNames(empId);
+		return attendanceDAO.getEmpNames(empId, posName);
 	}
 	
 }

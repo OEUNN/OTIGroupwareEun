@@ -115,20 +115,19 @@
 			<tr class="custom-border-left custom-border-right">
 				<td class="custom-border-right"><h4
 						class="font-weight-bold text-center m-0">작성자</h4></td>
-				<td>${empFormInfo['작성자']}</td>
+				<td>${sessionScope.employee.empName}</td>
 				<td></td>
 				<td></td>
 				<td class="custom-border-left custom-border-right"><h4
 						class="font-weight-bold text-center m-0">근무날짜</h4></td>
-				<td>
+				<td class="py-1 pl-0">
 					<!-- 추가근무날짜 선택 --> 
 					<!-- datepicker start -->
-					<div id="datepicker-overtimeapp" class="input-daterange input-group">
+					<div id="datepicker-overtimeapp" class="input-daterange input-group mr-3" style="width: 130%;">
 						<span class="h3 mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top: 12px; left: 30px;"></span>
 						<input id="atdExcpDate" type="text" name="atdExcpDate" class="form-control font-weight-bold text-center" name="start" style="border: 2px solid #4B49AC; border-radius: 10px;" />
 					</div> <!-- datepicker end -->
 				</td>
-				<td></td>
 			</tr>
 			<tr class="custom-border-left custom-border-right">
 				<td class="custom-border-right">

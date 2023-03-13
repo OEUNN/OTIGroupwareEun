@@ -16,6 +16,13 @@
 			opacity: 0.4;
 		}
 	</style>
+	
+	<script>
+		//근무상태 변경가능한 셀렉박스
+		function select(item) {
+	    	$("#selectbox-btn-name").html(item);
+	    }
+	</script>
    <!-- End plugin css,js for this page -->
 </head>
 
@@ -67,13 +74,13 @@
 	                  </div>
 	                  <div class="row px-1 pt-3">
 		                  <div class="col-sm px-0">
-		                       <button onclick="location.href='${pageContext.request.contextPath}/mailwrite'" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
+		                       <button onclick="location.href='<c:url value='/mail/mailwrite'/>'" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
 		                          <span class="h3 mdi mdi-lead-pencil m-0"></span>
 		                          <span class="ml-1">메일<br>쓰기</span>
 		                       </button>
 		                  </div>
 		                  <div class="col-sm px-0">
-		                       <button onclick="location.href='${pageContext.request.contextPath}/approval/aprvwrite'" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
+		                       <button onclick="location.href='<c:url value='/approval/approvalwrite'/>'" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
 		                          <span class="h3 mdi mdi-file-document m-0"></span>
 		                          <span class="ml-1">결재<br>신청</span>
 		                       </button>
@@ -81,13 +88,13 @@
 	                  </div>
 	                  <div class="row pt-4 px-1">
 		                  <div class="col-sm px-0">
-		                       <button onclick="location.href='${pageContext.request.contextPath}/hr/leave'" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
+		                       <button onclick="location.href='<c:url value='/hr/myleave'/>'" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto px-3">
 		                          <span class="h3 mdi mdi-wallet-travel m-0"></span>
 		                          <span class="ml-1">휴가<br>신청</span>
 		                       </button>
 		                  </div>
 		                  <div class="col-sm px-0">
-		                       <button onclick="location.href='${pageContext.request.contextPath}/mypage'" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto pl-2 pr-3">
+		                       <button onclick="location.href='<c:url value='/employee/mypage'/>'" class="btn btn-md btn-inverse-primary d-flex align-items-center mx-auto pl-2 pr-3">
 		                          <span class="h3 mdi mdi-emoticon m-0"></span>
 		                          <span class="ml-1" style="font-size:12px;">프로필<br>수정</span>
 		                       </button>
@@ -132,58 +139,165 @@
 				                	</div>
 				                	<!-- 근무상태 -->
 				                	<div class="col-md-7 d-flex align-items-end ml-4">
-			                           <button class="btn btn-lg btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" 
-			                                 aria-haspopup="true" aria-expanded="true" style="width: 87%; font-size: 130%; font-weight: bold;">
-			                           	    근무중
-			                           </button>
-			                           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 85%;">
-			                             <h6 class="dropdown-header">근무중</h6>
-			                             <a class="dropdown-item" href="#">출장</a>
-			                             <a class="dropdown-item" href="#">외근</a>
-			                             <div class="dropdown-divider"></div>
-			                             <a class="dropdown-item" href="#">기타</a>
-			                           </div>
+				                		<div id="select-btn">
+					               			<!-- 출근버튼 클릭전 or 퇴근버튼 클릭 후 -->
+					               			<c:if test="${empty attendance.atdInTime || (!empty attendance.atdInTime && !empty attendance.atdOutTime)}">
+					                  			<button class="btn btn-lg btn-outline-light" type="button" style="width: 300%; height:90%; font-size: 130%; font-weight: bold; border: 1px solid #A3A4A5;">
+					                         		<span class="mdi mdi-sleep" ></span>
+					                        	</button>
+					               			</c:if>
+					               			<!-- 출근버튼 클릭후 -->
+					               			<c:if test="${!empty attendance.atdInTime && empty attendance.atdOutTime}">
+					                  			<button class="btn btn-lg btn-outline-light dropdown-toggle px-4" type="button" id="dropdownMenuButton1" data-toggle="dropdown" 
+					                  					aria-haspopup="true" aria-expanded="true" style="width: 300%; height:90%; font-size: 130%; font-weight: bold; border: 1px solid #A3A4A5;">
+					                         		<span id="selectbox-btn-name">근무중</span>
+					                        	</button>
+					                        	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width:95%;">
+						                          <a class="dropdown-item" onclick="select('근무중')">근무중</a>
+						                          <a class="dropdown-item" onclick="select('출장')">출장</a>
+						                          <a class="dropdown-item" onclick="select('외근')">외근</a>
+						                        </div>
+					               			</c:if>
+				                  		</div>
 				                	</div>
 				                </div>
 		                        <!-- 출퇴근 버튼 -->
 		                        <div class="row mt-4 pt-4">
+		                        	<!-- 출근 -->
 		                        	<div class="col-md">
-			                           <div class="card card-dark-blue">
-						                  <div class="card-body">
-						                  	<div class="row">
-						                  	  <div class="col-md d-flex align-items-center">
-						                           <button class="btn btn-md btn-light text-primary px-3">
+			                  	  	  	 <!-- 출근버튼 클릭 전 -->
+			                      	     <c:if test="${empty attendance.atdInTime && attendance.atdState ne '연차' && attendance.atdState ne '대체휴무'}">
+						                  	<div class="card card-dark-blue">
+							                  <div class="card-body">
+							                  	<div class="row">
+							                  	  <div class="col-md d-flex align-items-center">
+						                          	<button onclick="location.href='${pageContext.request.contextPath}/hr/intime?nowJsp=home'" class="btn btn-md btn-light text-primary px-3">
 						                           		<h3 class="d-flex align-items-center font-weight-bold mb-0 pt-1">
 							                           		<div class="mdi mdi-alarm-check"></div>
 							                           		<div class="ml-2">출근</div>
 						                           		</h3>
-						                      	   </button>
-						                  	  </div>
-						                  	  <div class="col-md d-flex align-items-center">
-				                               	   <h2 class="mb-0">08:15</h2>
-						                  	  </div>
+						                      	  	</button>
+							                  	  </div>
+							                  	  <div class="col-md d-flex align-items-center">
+				                               	  	<h2 class="mb-0">&nbsp;&nbsp;</h2>
+							                  	  </div>
+							                  	</div>
+							                  </div>
 						                  	</div>
-					                      </div>
-					                   </div>
-		                        	</div>
-		                        	<div class="col-md">
-			                           <div class="card card-light-danger">
-						                  <div class="card-body">
-						                    <div class="row">
-						                  	   <div class="col-md d-flex align-items-center">
-						                           <button class="btn btn-md btn-light text-danger px-3" style="pointer-events: none;">
+			                      	     </c:if>
+			                      	     <!--  출근버튼 클릭 후 -->
+			                      	   	 <c:if test="${!empty attendance.atdInTime && empty attendance.atdOutTime && attendance.atdState ne '연차' && attendance.atdState ne '대체휴무'}">
+			                      	   	 	<div class="card bg-secondary">
+							                  <div class="card-body">
+				                      	   	 	<div class="row">
+							                  	  <div class="col-md d-flex align-items-center">
+						                          	<button class="btn btn-md btn-light text-secondary px-3" style="pointer-events: none;">
 						                           		<h3 class="d-flex align-items-center font-weight-bold mb-0 pt-1">
-							                           		<div class="mdi mdi-alarm-off"></div>
-							                           		<div class="ml-2">퇴근</div>
+							                           		<div class="mdi mdi-alarm-check"></div>
+							                           		<div class="ml-2">출근</div>
 						                           		</h3>
-						                      	   </button>
-						                  	   </div>
-						                  	   <div class="col-md d-flex align-items-center">
-			                               	   		<h2 class="mb-0">18:15</h2>
-						                  	   </div>
-					                  	    </div>
-					                      </div>
-					                   </div>
+						                      	  	</button>
+							                  	  </div>
+							                  	  <div class="col-md d-flex align-items-center">
+				                               	  	<h2 class="mb-0 text-light"><fmt:formatDate pattern="HH:mm" value="${attendance.atdInTime}" /></h2>
+							                  	  </div>
+							                  	</div>
+							                  </div>
+			                      	   	 	</div>
+			                      	   	 </c:if>
+			                      	   	 <!-- 퇴근버튼 클릭 후 -->
+			                      	     <c:if test="${!empty attendance.atdInTime && !empty attendance.atdOutTime}">
+			                      	     	<div class="card bg-secondary">
+							                  <div class="card-body">
+				                      	     	<div class="row">
+							                  	  <div class="col-md d-flex align-items-center">
+						                          	<button class="btn btn-md btn-light text-secondary px-3" style="pointer-events: none;">
+						                           		<h3 class="d-flex align-items-center font-weight-bold mb-0 pt-1">
+							                           		<div class="mdi mdi-alarm-check"></div>
+							                           		<div class="ml-2">출근</div>
+						                           		</h3>
+						                      	  	</button>
+							                  	  </div>
+							                  	  <div class="col-md d-flex align-items-center">
+						                      	     <c:if test="${attendance.atdState ne '연차' && attendance.atdState ne '대체휴무'}">
+					                               	  	<h2 class="mb-0 text-light"><fmt:formatDate pattern="HH:mm" value="${attendance.atdInTime}" /></h2>
+						                      	     </c:if>
+						                      	     <c:if test="${attendance.atdState eq '연차' || attendance.atdState eq '대체휴무'}">
+					                               	  	<h2 class="mb-0 text-light">휴가<span class="h3 ml-2">中</span></h2>
+						                      	     </c:if>
+							                  	  </div>
+							                  	</div>
+							                  </div>
+			                      	     	</div>
+			                      	     </c:if>
+		                        	</div>
+		                        	<!-- 퇴근 -->
+		                        	<div class="col-md">
+					                  	<!-- 출근버튼 클릭 전 -->
+					                  	<c:if test="${empty attendance.atdInTime && attendance.atdState ne '연차' && attendance.atdState ne '대체휴무'}">
+						                    <div class="card bg-secondary">
+							                  <div class="card-body">
+							                    <div class="row">
+							                  	   <div class="col-md d-flex align-items-center">
+							                           <button class="btn btn-md btn-light text-secondary px-3" style="pointer-events: none;">
+							                           		<h3 class="d-flex align-items-center font-weight-bold mb-0 pt-1">
+								                           		<div class="mdi mdi-alarm-off"></div>
+								                           		<div class="ml-2">퇴근</div>
+							                           		</h3>
+							                      	   </button>
+							                  	   </div>
+							                  	   <div class="col-md d-flex align-items-center">
+				                               	   		<h2 class="mb-0 text-light">&nbsp;&nbsp;</h2>
+							                  	   </div>
+						                  	    </div>
+							                  </div>
+						                    </div>
+				                  	    </c:if>
+				                  	    <!--  출근버튼 클릭 후 -->
+			                      	   	<c:if test="${!empty attendance.atdInTime && empty attendance.atdOutTime && attendance.atdState ne '연차' && attendance.atdState ne '대체휴무'}">
+			                      	   		<div class="card card-light-danger">
+							                  <div class="card-body">
+				                      	   		<div class="row">
+							                  	   <div class="col-md d-flex align-items-center">
+							                           <button onclick="location.href='${pageContext.request.contextPath}/hr/outtime?nowJsp=home'" class="btn btn-md btn-light text-danger px-3">
+							                           		<h3 class="d-flex align-items-center font-weight-bold mb-0 pt-1">
+								                           		<div class="mdi mdi-alarm-off"></div>
+								                           		<div class="ml-2">퇴근</div>
+							                           		</h3>
+							                      	   </button>
+							                  	   </div>
+							                  	   <div class="col-md d-flex align-items-center">
+				                               	   		<h2 class="mb-0 text-light">&nbsp;&nbsp;</h2>
+							                  	   </div>
+						                  	    </div>
+							                  </div>
+			                      	   		</div>
+			                      	   	</c:if>
+				                  	    <!-- 퇴근버튼 클릭 후 -->
+			                      	    <c:if test="${!empty attendance.atdInTime && !empty attendance.atdOutTime}">
+			                      	    	<div class="card bg-secondary">
+							                  <div class="card-body">
+				                      	    	<div class="row">
+							                  	   <div class="col-md d-flex align-items-center">
+							                           <button class="btn btn-md btn-light text-secondary px-3" style="pointer-events: none;">
+							                           		<h3 class="d-flex align-items-center font-weight-bold mb-0 pt-1">
+								                           		<div class="mdi mdi-alarm-off"></div>
+								                           		<div class="ml-2">퇴근</div>
+							                           		</h3>
+							                      	   </button>
+							                  	   </div>
+							                  	   <div class="col-md d-flex align-items-center">
+				                               	   		<c:if test="${attendance.atdState ne '연차' && attendance.atdState ne '대체휴무'}">
+					                               	  	<h2 class="mb-0 text-light"><fmt:formatDate pattern="HH:mm" value="${attendance.atdOutTime}" /></h2>
+						                      	     </c:if>
+						                      	     <c:if test="${attendance.atdState eq '연차' || attendance.atdState eq '대체휴무'}">
+					                               	  	<h2 class="mb-0 text-light">휴가<span class="h3 ml-2">中</span></h2>
+						                      	     </c:if>
+							                  	   </div>
+						                  	    </div>
+							                  </div>
+			                      	    	</div>
+			                      	    </c:if>
 		                        	</div>
 		                        </div>
 		                  	</div>
