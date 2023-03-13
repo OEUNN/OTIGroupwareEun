@@ -9,9 +9,10 @@ import org.springframework.stereotype.Component;
 public class DocumentContentProvider {
 	private String documentId;
 	private String documentRetentionPeriod;
-	private String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+	private String today;
 	
 	public String getDocumentIdByDocumentType(String documentType) {
+		today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
 		switch (documentType) {
 		
 		case "휴일근무품의서":

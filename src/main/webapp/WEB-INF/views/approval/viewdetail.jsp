@@ -174,14 +174,14 @@
 							                    </div>
 						                    </div>
 						                    <div class="row">
-						                    	<!-- 사용자가 현재 결재 순서가 아님 -->
+						                    	<!-- 현재 읽는 사용자가 문서상의 결재 순서가 아님 -->
 						                    	<c:if test="${document.docAprvStep != approvalLine.aprvLineOrder}">
 						                    	<div class="col-12">
 						                    		<h3 style="text-align: center; font-weight:bold; color: white; margin-bottom: -3px;">${approvalLine.aprvLineState}</h3>
 						                    	</div>
 						                    	</c:if>
-						                    	<!-- 사용자가 현재 결재 순서임-->
-						                    	<c:if test="${document.docAprvStep == approvalLine.aprvLineOrder && document.docAprvStep > 0}">
+						                    	<!-- 현재 읽는 사용자가 문서상의 결재 순서임-->
+						                    	<c:if test="${reader.aprvLineOrder == approvalLine.aprvLineOrder && document.docAprvStep == approvalLine.aprvLineOrder && document.docAprvStep > 0}">
 					            	        	<div class="col-6">
 						                    		<button class="btn btn-success w-100" style="text-align: center; font-weight:bold; margin-bottom: -3px;">승인</button>
 						                    	</div>

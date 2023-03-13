@@ -5,6 +5,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
+import com.oti.groupware.approval.dto.ApprovalLine;
 import com.oti.groupware.approval.dto.Document;
 import com.oti.groupware.approval.dto.DocumentContent;
 import com.oti.groupware.mail.dto.EmployeeInfo;
@@ -69,6 +70,20 @@ public class DocumentParser {
 		body.getElementById("formDrafterName").text(drafter.getEmpName());
 		
 		body.getElementsByClass("documentTitle").get(0).text(document.getDocTitle());
+		
+		return approvalDocument.toString();
+	}
+	
+	public String processHTML(String html, ApprovalLine approvalLine) {
+		approvalDocument = Jsoup.parse(html, "UTF-8");
+		Element body = approvalDocument.body();
+		
+		String className = "r" + approvalLine.getEmpId();
+		String state = approvalLine.getAprvLineState();
+		String date = approvalLine.getAprvLineApprovalDate().toString();
+		
+		body.getElementById("formApprovalState").getElementsByClass(className).get(0).text(state);
+		body.getElementById("formApprovalDate").getElementsByClass(className).get(0).text(date);
 		
 		return approvalDocument.toString();
 	}

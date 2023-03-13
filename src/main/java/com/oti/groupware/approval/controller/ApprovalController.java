@@ -329,7 +329,7 @@ public class ApprovalController {
 		log.info("의견: " + opinion);
 
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
-		boolean result = documentService.processApprovalRequest(state, opinion, docId, empId);
+		boolean result = documentService.handleApprovalRequest(state, opinion, docId, empId);
 		
 		log.info("요청 처리에 성공 했는가: " + result);
 		return "redirect:/approval/viewdetail/" + docId;
@@ -342,7 +342,7 @@ public class ApprovalController {
 		log.info("문서 번호: " + docId);
 		
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
-		boolean result = documentService.processApprovalRequest(state, null, docId, empId);
+		boolean result = documentService.handleApprovalRequest(state, null, docId, empId);
 		
 		log.info("요청 처리에 성공했는가: " + result);
 	}
@@ -369,30 +369,36 @@ public class ApprovalController {
 		}
 	}
 	
-
 	
 	//기안함 검색
 	@RequestMapping(value = "/draftdocument/search", method=RequestMethod.GET)
-	public String searchDraftDocument(SearchQuery searchQuery, HttpSession session, Model model) {
-		log.info("검색 문서 상태: " + searchQuery);
+	public String getDraftDocumentListByQuery(SearchQuery searchQuery, HttpSession session, Model model) {
+		log.info("검색 질의: " + searchQuery);
 		
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
 		pager = new Pager();
 		
+		model.addAttribute("searchQuery", searchQuery);
 		documents = documentService.getDraftDocumentListByQuery(searchQuery, pager, empId);
 		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
-		
 		
 		model.addAttribute("pager", pager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
-
+		
+		for (Document document : documents) {
+			log.info("문서 목록: " + document.getDocTitle());
+		}
+		for (List<ApprovalLine> approvalLines : approvalLinesList) {
+			log.info("결재자 목록: " + approvalLines);
+		}
 		return "approval/draftdocument";
 	}
-	
+
+
 	//결재대기함 검색
 	@RequestMapping(value = "/pendeddocument/search", method=RequestMethod.GET)
-	public String searchPendedDocument(SearchQuery searchQuery, HttpSession session, Model model) {
+	public String searchPendedDocument(@RequestParam("searchQuery") SearchQuery searchQuery, HttpSession session, Model model) {
 		log.info("검색 문서 상태: " + searchQuery);
 		
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();

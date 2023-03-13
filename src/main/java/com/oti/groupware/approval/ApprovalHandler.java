@@ -13,7 +13,7 @@ import com.oti.groupware.approval.dto.Document;
  * 결재 문서를 승인 또는 반려 하는 경우, ApprovalLine과 Document의 상태를 변경하는 책임을 가지는 클래스
  */
 @Component
-public class ApprovalProcessor {
+public class ApprovalHandler {
 	private Document document;
 	private ApprovalLine approvalLine;
 	private List<ApprovalLine> approvalLines;
@@ -46,6 +46,7 @@ public class ApprovalProcessor {
 				approvalLine.setAprvLineState(state);
 				approvalLine.setAprvLineOpinion(opinion);
 				approvalLine.setAprvLineOpenYn("N");
+				approvalLine.setAprvLineApprovalDate(Timestamp.valueOf(LocalDateTime.now()));
 				
 				return true;
 			}
@@ -58,6 +59,7 @@ public class ApprovalProcessor {
 				approvalLine.setAprvLineState(state);
 				approvalLine.setAprvLineOpinion(opinion);
 				approvalLine.setAprvLineOpenYn("N");
+				approvalLine.setAprvLineApprovalDate(Timestamp.valueOf(LocalDateTime.now()));
 				
 				return true;
 			}

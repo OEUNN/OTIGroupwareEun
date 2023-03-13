@@ -1,16 +1,16 @@
 package com.oti.groupware.approval.service;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.oti.groupware.approval.ApprovalProcessor;
+import com.oti.groupware.approval.ApprovalHandler;
 import com.oti.groupware.approval.DocumentContentProvider;
 import com.oti.groupware.approval.DocumentParser;
 import com.oti.groupware.approval.dao.ApprovalLineDAO;
@@ -47,11 +47,11 @@ public class DocumentServiceImpl implements DocumentService {
 	DocumentContentProvider documentContentProvider;
 	
 	/*
-	 * Request로 들어온 요청에 따라서 결재를 처리하기 위한 Processor
+	 * Request로 들어온 요청에 따라서 결재를 처리하기 위한 Handler
 	 * int process() (0: 처리하지 못함, 1: 처리)
 	 */
 	@Autowired
-	ApprovalProcessor approvalProcessor;
+	ApprovalHandler approvalHandler;
 
 	@Autowired
 	DocumentDAO documentDAO;
@@ -138,30 +138,34 @@ public class DocumentServiceImpl implements DocumentService {
 	
 	@Override
 	@Transactional
-	public boolean processApprovalRequest(String state, String opinion, String docId, String empId) {
+	public boolean handleApprovalRequest(String state, String opinion, String docId, String empId) {
 		document = documentDAO.getDocumentById(docId);
 		approvalLine = approvalLineDAO.getApprovalLineById(empId, docId);
+		
+		//회수하면 기안자를 제외한 모든 결재자의 상태를 초기화 해야함
 		if ("회수".equals(state)) {
 			approvalLines = approvalLineDAO.getApprovalLinesBydocId(docId);
-			approvalProcessor.setApprovalLines(approvalLines);
+			approvalHandler.setApprovalLines(approvalLines);
 		}
 		
-		approvalProcessor.setDocument(document);
-		approvalProcessor.setApprovalLine(approvalLine);
+		approvalHandler.setDocument(document);
+		approvalHandler.setApprovalLine(approvalLine);
 		
 		int documentMaxStep = document.getDocMaxStep();
 		
-		boolean isProcessed = approvalProcessor.process(state, opinion, documentMaxStep);
+		boolean isProcessed = approvalHandler.process(state, opinion, documentMaxStep);
 		
 		if (isProcessed) {
-			document = approvalProcessor.getDocument();
-			approvalLine = approvalProcessor.getApprovalLine();
+			document = approvalHandler.getDocument();
+			approvalLine = approvalHandler.getApprovalLine();
+			
+			document.setDocContent(documentParser.processHTML(document.getDocContent(), approvalLine)); 
 			
 			documentDAO.updateDocument(document);
 			approvalLineDAO.updateApprovalLine(approvalLine);
 			
 			if ("회수".equals(state)) {
-				approvalLines = approvalProcessor.getApprovalLines();
+				approvalLines = approvalHandler.getApprovalLines();
 				for (ApprovalLine approvalLine : approvalLines) {
 					approvalLineDAO.updateApprovalLine(approvalLine);
 				}
@@ -227,8 +231,6 @@ public class DocumentServiceImpl implements DocumentService {
 	@Override
 	@Transactional
 	public List<Document> getDraftDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId) {
-		int totalRows = documentDAO.getDraftDocumentCountByQuery(empId, searchQuery);
-		
 		if ("진행".equals(searchQuery.getDocState())) {
 			searchQuery.setDocState("결재중");
 		}
@@ -239,6 +241,25 @@ public class DocumentServiceImpl implements DocumentService {
 		if (searchQuery.getPageNo() <= 0) {
 			searchQuery.setPageNo(1);
 		}
+
+		if (searchQuery.getDocReportStartDate() != null && !("".equals(searchQuery.getDocReportStartDate()))) {
+			searchQuery.setDocReportStartDate(searchQuery.getDocReportStartDate() + " " + LocalTime.MIN.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+			System.out.println(searchQuery.getDocReportStartDate());
+		}
+		if (searchQuery.getDocReportEndDate() != null && !("".equals(searchQuery.getDocReportEndDate()))) {
+			searchQuery.setDocReportEndDate(searchQuery.getDocReportEndDate() + " " + LocalTime.MAX.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+			System.out.println(searchQuery.getDocReportEndDate());
+		}
+		if (searchQuery.getDocCompleteStartDate() != null && !("".equals(searchQuery.getDocCompleteStartDate()))) {
+			searchQuery.setDocCompleteStartDate(searchQuery.getDocCompleteStartDate() + " " + LocalTime.MIN.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+			System.out.println(searchQuery.getDocCompleteStartDate());
+		}
+		if (searchQuery.getDocCompleteEndDate() != null && !("".equals(searchQuery.getDocCompleteEndDate()))) {
+			searchQuery.setDocCompleteEndDate(searchQuery.getDocCompleteEndDate() + " " + LocalTime.MAX.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+			System.out.println(searchQuery.getDocCompleteEndDate());
+		}
+
+		int totalRows = documentDAO.getDraftDocumentCountByQuery(empId, searchQuery);
 		
 		pager = new Pager(10, 10, totalRows, searchQuery.getPageNo());
 		return documentDAO.getDraftDocumentListByQuery(pager, empId, searchQuery);

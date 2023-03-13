@@ -11,7 +11,7 @@ import com.oti.groupware.common.dto.Organization;
 public interface DocumentService {
 	public Document readDocument(String docId);
 	int saveDocument(String html, DocumentContent documentContent, String docTempYn, String drafterId);
-	public boolean processApprovalRequest(String state, String opinion, String docId, String empId);
+	public boolean handleApprovalRequest(String state, String opinion, String docId, String empId);
 	
 	
 	public List<Document> getDraftDocumentList(int pageNo, Pager pager, String empId);

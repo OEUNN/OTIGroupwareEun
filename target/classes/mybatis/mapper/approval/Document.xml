@@ -217,6 +217,12 @@
 			<if test="searchQuery.docState != null">
 			AND doc_state = #{searchQuery.docState}
 			</if>
+		    <if test="searchQuery.docReportStartDate != null and searchQuery.docReportEndDate != null">
+	        AND doc_report_date BETWEEN TO_DATE((#{searchQuery.docReportStartDate}), 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE((#{searchQuery.docReportEndDate}), 'YYYY-MM-DD HH24:MI:SS')
+		    </if>
+		    <if test="searchQuery.docCompleteStartDate != null and searchQuery.docCompleteEndDate != null">
+	        AND doc_complete_date BETWEEN TO_DATE((#{searchQuery.docCompleteStartDate}), 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE((#{searchQuery.docCompleteEndDate}), 'YYYY-MM-DD HH24:MI:SS')
+		    </if>
 		</where>
 	</select>
 	
@@ -240,6 +246,12 @@
 				<if test="searchQuery.docState != null">
 				AND doc_state = #{searchQuery.docState}
 				</if>
+			    <if test="searchQuery.docReportStartDate != null and searchQuery.docReportEndDate != null">
+		        AND doc_report_date BETWEEN TO_DATE((#{searchQuery.docReportStartDate}), 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE((#{searchQuery.docReportEndDate}), 'YYYY-MM-DD HH24:MI:SS')
+			    </if>
+			    <if test="searchQuery.docCompleteStartDate != null and searchQuery.docCompleteEndDate != null">
+		        AND doc_complete_date BETWEEN TO_DATE((#{searchQuery.docCompleteStartDate}), 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE((#{searchQuery.docCompleteEndDate}), 'YYYY-MM-DD HH24:MI:SS')
+			    </if>
 			</where>
         )
         WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
