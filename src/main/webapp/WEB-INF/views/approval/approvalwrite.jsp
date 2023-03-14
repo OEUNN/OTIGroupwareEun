@@ -11,6 +11,7 @@
 	<script src="<c:url value="/resources/vendors/tinymce/themes/silver/theme.min.js"></c:url>"></script>
 	<script src="<c:url value="/resources/js/file-upload.js"></c:url>"></script>
 	<script src="<c:url value="/resources/js/custom/dropdown.js"></c:url>"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script type="text/javascript">
 	function getContextPath() {
 	   return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
@@ -25,10 +26,16 @@
 	
 	function isTitleExist(docTempYn) {
 		if ($("iframe").contents().find("body").find("#A4") === null) {
-			alert("내용이 없습니다");
+			Swal.fire({
+				title: "내용이 없습니다.",
+				width: 400
+			});
 		}
 		else if ($("iframe").contents().find("body").find(".documentTitle").text() === null || $("iframe").contents().find("body").find(".documentTitle").text() === '') {
-			alert("제목은 필수 입니다.");
+			Swal.fire({
+				title: "제목은 필수입니다.",
+				width: 400
+			});
 		}
 		else {
 			$("#approvalForm").append('<input type="hidden" name="docTempYn" value="' + docTempYn + '"></input>');
@@ -38,12 +45,11 @@
 	
 	function callTempDocument() {
 		if ($("#documentId").val() !== '' && $("#documentId").val() !== null) {
+			$(".remove-flag").remove();
 			let docId = $("#documentId").val();
-			
 			$.ajax({
 				url: getContextPath() + '/approval/viewdetail/' + docId + '/documentdetail',
 				success: function(data) {
-					console.log(data);
 					tinymce.get("document").setContent(data.docContent);
 					initForm();
 					isEditorContentEmpty = false;

@@ -29,6 +29,7 @@
 	  flex-direction: column;
 	}
 	</style>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
 		var order = 1;
 		
@@ -37,7 +38,6 @@
 			openerHTML.find('.remove-flag').each((index, item) => {
 				if (index % 2 === 0) {
 					var Id = item.classList[0].substring(1);
-					console.log(Id);
 					appendToList(Id);
 				}
 			})
@@ -45,8 +45,6 @@
 		
 		function appendToList(elementId) {
 			var readerId = $("#readerId").val();
-			console.log(readerId);
-			console.log(elementId);
 			if (elementId !== readerId) {
 				if ($("#approvalLine div").length < 3) {
 					delId = 'del' + elementId;
@@ -60,7 +58,7 @@
 						clonedElement.addClass('mdi-minus');
 						let jQueryElement = clonedElement.html();
 						
-						jQueryElement = '<div id="' + delId + '" class="'+order+' highlight row m-1 ' + $(elementId).attr('class').split(' ')[3] + '" onclick="removeFromList('+originalId+')">' + jQueryElement + '</div>'
+						jQueryElement = '<div id="' + delId + '" class="'+order+' highlight row m-1 ' + $(elementId).attr('class').split(' ')[3] + '" onclick="removeFromList('+ "'" + originalId + "'" +')">' + jQueryElement + '</div>'
 						$("#approvalLine").append(jQueryElement);
 						
 						order += 1;
@@ -83,7 +81,6 @@
 		//따라서 8진수를 10진수로 다시 바꾼 수를 넘겨주게 된다.
 		function removeFromList(Id) {
 			var delId = '#del' + Id;
-			
 			if ($(delId).length === 0) {
 				delId = '#del' + '0' + Id.toString(8);
 			}
@@ -179,7 +176,12 @@
 										<div class="highlight row m-1" data-toggle="collapse" data-target="#DIV${key}"><span class="mdi mdi-folder-account d-flex align-self-center mx-1"></span>${organizationsMap[key][0].depName}</div>
 										<div id="DIV${key}" class="row m-1 collapse">	
 											<c:forEach items="${organizationsMap[key]}" var="org">
-											<div id="${org.empId}" class="highlight row m-1 ${org.depName}" onclick='appendToList("${org.empId}")'><span class="mdi mdi-account-star d-flex align-self-center mx-1"></span>${org.empName} ${org.posName} <span class="ml-2">[${org.empMail}]</span></div>
+											<c:if test="${org.empId != sessionScope.employee.empId}">
+											<div id="${org.empId}" class="highlight row m-1 ${org.depName}" onclick='appendToList("${org.empId}")'><span class="mdi mdi-account d-flex align-self-center mx-1"></span>${org.empName} ${org.posName} <span class="ml-2">[${org.empMail}]</span></div>
+											</c:if>
+											<c:if test="${org.empId == sessionScope.employee.empId}">
+											<div id="${org.empId}" class="highlight row m-1 ${org.depName}" onclick='Swal.fire("자기 자신을 결재선에 추가할 수 없습니다.")'><span class="mdi mdi-account d-flex align-self-center mx-1"></span>${org.empName} ${org.posName} <span class="ml-2">[${org.empMail}]</span></div>
+											</c:if>
 											</c:forEach>
 										</div>
 										</c:if>

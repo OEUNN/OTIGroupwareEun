@@ -265,16 +265,13 @@ public class ApprovalController {
 		
 		for (Organization organization : organizations) {
 			int depId = organization.getDepId();
-			
 			List<Organization> list = organizationsMap.getOrDefault(depId, new ArrayList<Organization>());
 			
 			list.add(organization);
-			
 			organizationsMap.put(depId, list);
 		}
 		
 		Set<Integer> keySet = organizationsMap.keySet();
-		
 		model.addAttribute("organizationsMapKeySet", keySet);
 		model.addAttribute("organizationsMap", organizationsMap);
 		

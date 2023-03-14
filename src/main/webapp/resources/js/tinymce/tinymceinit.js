@@ -31,6 +31,10 @@ tinymce.init({
         editor.getBody().innerHTML = "<p>양식을 선택해주세요</p>";
         callTempDocument();
 	},
+	setup: function(editor) {
+		editor.getBody().setAttribute('contenteditable',false);
+        editor.getBody().innerHTML = "<p>양식을 선택해주세요</p>";
+	},
 	object_resizing : false
 });
 
