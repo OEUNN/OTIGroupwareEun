@@ -20,6 +20,7 @@ public class ApprovalHandler {
 	
 	//return 1 => process를 수행함
 	//return 0 => process를 수행하지 못함
+	//요청에 따라 document, approvalline 필드를 초기화
 	public boolean process(String state, String opinion, int documentMaxStep) {
 		if (document != null && approvalLine != null) {
 			int documentApprovalStep = document.getDocAprvStep();

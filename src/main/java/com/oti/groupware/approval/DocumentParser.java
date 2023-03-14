@@ -40,6 +40,7 @@ public class DocumentParser {
 		document.setDocMaxStep(documentMaxStep);
 	}
 	
+	//문서 기안 시 작성 내용을 문서에 반영
 	public String setHTML(String html, Document document, DocumentContent documentContent, EmployeeInfo drafter) {
 		approvalDocument = Jsoup.parse(html, "UTF-8");
 		Element body = approvalDocument.body();
@@ -74,13 +75,20 @@ public class DocumentParser {
 		return approvalDocument.toString();
 	}
 	
+	//approvalLine에 들어있는 값을 문서에 반영
 	public String processHTML(String html, ApprovalLine approvalLine) {
 		approvalDocument = Jsoup.parse(html, "UTF-8");
 		Element body = approvalDocument.body();
 		
 		String className = "r" + approvalLine.getEmpId();
 		String state = approvalLine.getAprvLineState();
-		String date = approvalLine.getAprvLineApprovalDate().toString();
+		String date;
+		if (approvalLine.getAprvLineApprovalDate() != null) {
+			date = approvalLine.getAprvLineApprovalDate().toString();
+		}
+		else {
+			date = "미정";
+		}
 		
 		body.getElementById("formApprovalState").getElementsByClass(className).get(0).text(state);
 		body.getElementById("formApprovalDate").getElementsByClass(className).get(0).text(date);

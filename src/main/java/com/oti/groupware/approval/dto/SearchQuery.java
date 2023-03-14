@@ -4,12 +4,15 @@ import lombok.Data;
 
 @Data
 public class SearchQuery {
+	int pageNo;
 	String docId;
 	String docTitle;
 	String docState;
+	String empName;
 	String docReportStartDate;
 	String docReportEndDate;
 	String docCompleteStartDate;
 	String docCompleteEndDate;
-	int pageNo;
+	String docWriteStartDate;
+	String docWriteEndDate;
 }

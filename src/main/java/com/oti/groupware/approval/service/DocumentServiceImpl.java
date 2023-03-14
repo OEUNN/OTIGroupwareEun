@@ -2,8 +2,6 @@ package com.oti.groupware.approval.service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +22,8 @@ import com.oti.groupware.common.dto.Organization;
 import com.oti.groupware.employee.dao.EmployeeDAO;
 import com.oti.groupware.mail.dto.EmployeeInfo;
 
+import lombok.extern.log4j.Log4j2;
+@Log4j2
 @Service
 public class DocumentServiceImpl implements DocumentService {
 	Document document;
@@ -134,7 +134,6 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 		return 0;
 	}
-
 	
 	@Override
 	@Transactional
@@ -146,10 +145,13 @@ public class DocumentServiceImpl implements DocumentService {
 		if ("회수".equals(state)) {
 			approvalLines = approvalLineDAO.getApprovalLinesBydocId(docId);
 			approvalHandler.setApprovalLines(approvalLines);
+			log.info(approvalLines);
 		}
 		
 		approvalHandler.setDocument(document);
+		log.info(document);
 		approvalHandler.setApprovalLine(approvalLine);
+		log.info(approvalLine);
 		
 		int documentMaxStep = document.getDocMaxStep();
 		
@@ -158,8 +160,13 @@ public class DocumentServiceImpl implements DocumentService {
 		if (isProcessed) {
 			document = approvalHandler.getDocument();
 			approvalLine = approvalHandler.getApprovalLine();
+			approvalLines = approvalHandler.getApprovalLines();
 			
-			document.setDocContent(documentParser.processHTML(document.getDocContent(), approvalLine)); 
+			for(ApprovalLine approvalLinesElement : approvalLines) {
+				if (!"기안".equals(approvalLinesElement.getAprvLineRole())) {
+					document.setDocContent(documentParser.processHTML(document.getDocContent(), approvalLinesElement)); 
+				}
+			}
 			
 			documentDAO.updateDocument(document);
 			approvalLineDAO.updateApprovalLine(approvalLine);
@@ -178,7 +185,16 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 	}
 
-	
+	@Override
+	@Transactional
+	public int deleteDocument(List<String> docIds) {
+		int result = 0;
+		for (String docId : docIds) {
+			result += documentDAO.deleteDocument(docId);
+		}
+		return result;
+	}
+
 	
 	
 	
@@ -193,7 +209,7 @@ public class DocumentServiceImpl implements DocumentService {
 	
 	@Override
 	@Transactional
-	public List<Document> getpendedDocumentList(int pageNo, Pager pager, String empId) {
+	public List<Document> getPendedDocumentList(int pageNo, Pager pager, String empId) {
 		int totalRows = documentDAO.getPendedDocumentCount(empId);
 		pager = new Pager(10, 10, totalRows, pageNo);
 		return documentDAO.getPendedDocumentList(pager, empId);
@@ -231,58 +247,42 @@ public class DocumentServiceImpl implements DocumentService {
 	@Override
 	@Transactional
 	public List<Document> getDraftDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId) {
-		if ("진행".equals(searchQuery.getDocState())) {
-			searchQuery.setDocState("결재중");
-		}
-		else if ("승인".equals(searchQuery.getDocState())) {
-			searchQuery.setDocState("완결");
-		}
-		
-		if (searchQuery.getPageNo() <= 0) {
-			searchQuery.setPageNo(1);
-		}
-
-		if (searchQuery.getDocReportStartDate() != null && !("".equals(searchQuery.getDocReportStartDate()))) {
-			searchQuery.setDocReportStartDate(searchQuery.getDocReportStartDate() + " " + LocalTime.MIN.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-			System.out.println(searchQuery.getDocReportStartDate());
-		}
-		if (searchQuery.getDocReportEndDate() != null && !("".equals(searchQuery.getDocReportEndDate()))) {
-			searchQuery.setDocReportEndDate(searchQuery.getDocReportEndDate() + " " + LocalTime.MAX.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-			System.out.println(searchQuery.getDocReportEndDate());
-		}
-		if (searchQuery.getDocCompleteStartDate() != null && !("".equals(searchQuery.getDocCompleteStartDate()))) {
-			searchQuery.setDocCompleteStartDate(searchQuery.getDocCompleteStartDate() + " " + LocalTime.MIN.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-			System.out.println(searchQuery.getDocCompleteStartDate());
-		}
-		if (searchQuery.getDocCompleteEndDate() != null && !("".equals(searchQuery.getDocCompleteEndDate()))) {
-			searchQuery.setDocCompleteEndDate(searchQuery.getDocCompleteEndDate() + " " + LocalTime.MAX.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-			System.out.println(searchQuery.getDocCompleteEndDate());
-		}
-
 		int totalRows = documentDAO.getDraftDocumentCountByQuery(empId, searchQuery);
-		
-		pager = new Pager(10, 10, totalRows, searchQuery.getPageNo());
+		int pageNo = searchQuery.getPageNo();
+		pager = new Pager(10, 10, totalRows, pageNo);
 		return documentDAO.getDraftDocumentListByQuery(pager, empId, searchQuery);
 	}
 	
 	@Override
 	@Transactional
+	public List<Document> getCompletedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId) {
+		int totalRows = documentDAO.getCompletedDocumentCountByQuery(empId, searchQuery);
+		pager = new Pager(10, 10, totalRows, searchQuery.getPageNo());
+		return documentDAO.getCompletedDocumentListByQuery(pager, empId, searchQuery);
+	}
+
+	@Override
+	@Transactional
 	public List<Document> getPendedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId) {
 		int totalRows = documentDAO.getPendedDocumentCountByQuery(empId, searchQuery);
-		
-		if ("진행".equals(searchQuery.getDocState())) {
-			searchQuery.setDocState("결재중");
-		}
-		else if ("승인".equals(searchQuery.getDocState())) {
-			searchQuery.setDocState("완결");
-		}
-		
-		if (searchQuery.getPageNo() <= 0) {
-			searchQuery.setPageNo(1);
-		}
-		
 		pager = new Pager(10, 10, totalRows, searchQuery.getPageNo());
 		return documentDAO.getPendedDocumentListByQuery(pager, empId, searchQuery);
+	}
+
+	@Override
+	@Transactional
+	public List<Document> getReturnedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId) {
+		int totalRows = documentDAO.getReturnedDocumentCountByQuery(empId, searchQuery);
+		pager = new Pager(10, 10, totalRows, searchQuery.getPageNo());
+		return documentDAO.getReturnedDocumentListByQuery(pager, empId, searchQuery);
+	}
+
+	@Override
+	@Transactional
+	public List<Document> getTempDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId) {
+		int totalRows = documentDAO.getTempDocumentCountByQuery(empId, searchQuery);
+		pager = new Pager(10, 10, totalRows, searchQuery.getPageNo());
+		return documentDAO.getTempDocumentListByQuery(pager, empId, searchQuery);
 	}
 	
 	/*

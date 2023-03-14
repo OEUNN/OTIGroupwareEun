@@ -14,7 +14,7 @@ public interface DocumentDAO {
 	public Document getDocumentById(String docId);
 	public void insertDocument(Document document);
 	public void updateDocument(Document document);
-	public void deleteDocument(String docId);
+	public int deleteDocument(String docId);
 	
 	public void insertDraft(Document draft);
 	public int updateDocumentReadState(Document document);
@@ -38,9 +38,18 @@ public interface DocumentDAO {
 	
 	
 	
+	public int getDraftDocumentCountByQuery(@Param("empId") String empId, @Param("searchQuery") SearchQuery searchQuery);
+	public List<Document> getDraftDocumentListByQuery(@Param("pager") Pager pager, @Param("empId") String empId, @Param("searchQuery") SearchQuery searchQuery);
+	
+	public int getCompletedDocumentCountByQuery(@Param("empId") String empId, @Param("searchQuery") SearchQuery searchQuery);
+	public List<Document> getCompletedDocumentListByQuery(@Param("pager") Pager pager, @Param("empId") String empId, @Param("searchQuery") SearchQuery searchQuery);
+
 	public int getPendedDocumentCountByQuery(@Param("empId") String empId, @Param("searchQuery") SearchQuery searchQuery);
 	public List<Document> getPendedDocumentListByQuery(@Param("pager") Pager pager, @Param("empId") String empId, @Param("searchQuery") SearchQuery searchQuery);
 	
-	public int getDraftDocumentCountByQuery(@Param("empId") String empId, @Param("searchQuery") SearchQuery searchQuery);
-	public List<Document> getDraftDocumentListByQuery(@Param("pager") Pager pager, @Param("empId") String empId, @Param("searchQuery") SearchQuery searchQuery);
+	public int getReturnedDocumentCountByQuery(@Param("empId") String empId, @Param("searchQuery") SearchQuery searchQuery);
+	public List<Document> getReturnedDocumentListByQuery(@Param("pager") Pager pager, @Param("empId") String empId, @Param("searchQuery") SearchQuery searchQuery);
+	
+	public int getTempDocumentCountByQuery(@Param("empId") String empId, @Param("searchQuery") SearchQuery searchQuery);
+	public List<Document> getTempDocumentListByQuery(@Param("pager") Pager pager, @Param("empId") String empId, @Param("searchQuery") SearchQuery searchQuery);
 }

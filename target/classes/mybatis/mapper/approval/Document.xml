@@ -68,7 +68,7 @@
 	</update>
 	
 	<delete id="deleteDocument" parameterType="string">
-		DELETE FROM documents WHERE doc_id = #{docId}
+		DELETE FROM documents WHERE doc_id = #{docId} AND (doc_read_yn = 'N' OR doc_state = '완결') 
 	</delete>
 	    
     <insert id="insertDraft" parameterType="document">
@@ -202,6 +202,8 @@
 	
 	
 	
+	<!-- 검색SQL -->
+	
 	
 	<select id="getDraftDocumentCountByQuery" resultType="int">
         SELECT count(*) 
@@ -209,10 +211,10 @@
 		<where>
 			emp_id = #{empId} and doc_temp_yn = 'N'
 			<if test="searchQuery.docId != null">
-			AND doc_id = #{searchQuery.docId}
+			AND doc_id LIKE '%'||#{searchQuery.docId}||'%' 
 			</if>
 			<if test="searchQuery.docTitle != null">
-			AND doc_title LIKE #{searchQuery.docTitle}
+			AND doc_title LIKE '%'||#{searchQuery.docTitle}||'%' 
 			</if>
 			<if test="searchQuery.docState != null">
 			AND doc_state = #{searchQuery.docState}
@@ -236,12 +238,12 @@
         		doc_complete_date, doc_state, doc_read_yn
         	FROM documents
 	 		<where>
- 	 			emp_id = #{empId} and doc_temp_yn = 'N' and rownum <![CDATA[<]]>= #{pager.rowsPerPage} * #{pager.pageNo} 
+ 	 			emp_id = #{empId} and doc_temp_yn = 'N' and rownum <![CDATA[<]]>= (#{pager.rowsPerPage} * #{pager.pageNo}) 
 				<if test="searchQuery.docId != null">
-				AND doc_id = #{searchQuery.docId}
+				AND doc_id LIKE '%'||#{searchQuery.docId}||'%' 
 				</if>
 				<if test="searchQuery.docTitle != null">
-				AND doc_title LIKE #{searchQuery.docTitle}
+				AND doc_title LIKE '%'||#{searchQuery.docTitle}||'%' 
 				</if>
 				<if test="searchQuery.docState != null">
 				AND doc_state = #{searchQuery.docState}
@@ -257,27 +259,82 @@
         WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
 	</select>
 	
+	<select id="getCompletedDocumentCountByQuery" resultType="int">
+		SELECT count(*) 
+		FROM documents 
+		<where>
+			emp_id = ${empId} AND doc_state = '완결'
+			<if test="searchQuery.docId != null">
+			AND doc_id LIKE '%'||#{searchQuery.docId}||'%' 
+			</if>
+			<if test="searchQuery.docTitle != null">
+			AND doc_title LIKE '%'||#{searchQuery.docTitle}||'%' 
+			</if>
+		    <if test="searchQuery.docReportStartDate != null and searchQuery.docReportEndDate != null">
+	        AND doc_report_date BETWEEN TO_DATE((#{searchQuery.docReportStartDate}), 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE((#{searchQuery.docReportEndDate}), 'YYYY-MM-DD HH24:MI:SS')
+		    </if>
+		    <if test="searchQuery.docCompleteStartDate != null and searchQuery.docCompleteEndDate != null">
+	        AND doc_complete_date BETWEEN TO_DATE((#{searchQuery.docCompleteStartDate}), 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE((#{searchQuery.docCompleteEndDate}), 'YYYY-MM-DD HH24:MI:SS')
+		    </if>
+		</where>
+	</select>
+	
+	<select id="getCompletedDocumentListByQuery" resultMap="documentResultMap">
+        SELECT
+            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            doc_complete_date, doc_state, doc_read_yn
+        FROM (
+        	SELECT
+        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+        		doc_complete_date, doc_state, doc_read_yn
+        	FROM documents doc, approval_lines apl, employees emp
+        	<where>
+	        	doc.emp_id = ${empId} AND doc.doc_id = apl.doc_id AND doc_state = '완결' AND doc_temp_yn = 'N' AND 
+	        	emp.emp_id = doc.emp_id AND rownum <![CDATA[<]]>= #{pager.rowsPerPage} * #{pager.pageNo}
+				<if test="searchQuery.docId != null">
+				AND doc.doc_id LIKE '%'||#{searchQuery.docId}||'%' 
+				</if>
+				<if test="searchQuery.docTitle != null">
+				AND doc_title LIKE '%'||#{searchQuery.docTitle}||'%' 
+				</if>
+			    <if test="searchQuery.docReportStartDate != null and searchQuery.docReportEndDate != null">
+		        AND doc_report_date BETWEEN TO_DATE((#{searchQuery.docReportStartDate}), 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE((#{searchQuery.docReportEndDate}), 'YYYY-MM-DD HH24:MI:SS')
+			    </if>
+			    <if test="searchQuery.docCompleteStartDate != null and searchQuery.docCompleteEndDate != null">
+		        AND doc_complete_date BETWEEN TO_DATE((#{searchQuery.docCompleteStartDate}), 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE((#{searchQuery.docCompleteEndDate}), 'YYYY-MM-DD HH24:MI:SS')
+			    </if>
+        	</where>
+        )
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
+	</select>
+	
 	<select id="getPendedDocumentCountByQuery" resultType="int">
         SELECT count(*) 
-		FROM documents doc, approval_lines apl
+		FROM documents doc, approval_lines apl, Employees emp
 		<where>
-			apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order and doc_temp_yn = 'N' 
-			<if test="docId != null">
-			AND doc.doc_id = #{searchQuery.docId}
+			apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order AND emp.emp_id = apl.emp_id AND doc_temp_yn = 'N' 
+			<if test="searchQuery.docId != null">
+			AND doc.doc_id LIKE '%'||#{searchQuery.docId}||'%' 
 			</if>
-			<if test="docTitle != null">
-			AND doc.doc_title LIKE #{searchQuery.docTitle}
+			<if test="searchQuery.docTitle != null">
+			AND doc_title LIKE '%'||#{searchQuery.docTitle}||'%' 
 			</if>
-			<if test="docState != null">
-			AND doc.doc_state = #{searchQuery.docState}
+			<if test="searchQuery.docState != null">
+			AND doc_state = #{searchQuery.docState}
 			</if>
+			<if test="searchQuery.empName != null">
+			AND emp.emp_name = #{searchQuery.empName}
+			</if>
+		    <if test="searchQuery.docReportStartDate != null and searchQuery.docReportEndDate != null">
+	        AND doc_report_date BETWEEN TO_DATE((#{searchQuery.docReportStartDate}), 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE((#{searchQuery.docReportEndDate}), 'YYYY-MM-DD HH24:MI:SS')
+		    </if>
 		</where>
 	</select>
 	
 	<select id="getPendedDocumentListByQuery" resultMap="documentResultMap">
-		SELECT count(*) 
-			FROM documents doc, approval_lines apl
-			WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order and doc_temp_yn = 'N'
+		SELECT 
+            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            doc_complete_date, doc_state, doc_read_yn 
         FROM (
         	SELECT
         		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
@@ -286,17 +343,110 @@
    	 		<where> 
    	 			apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order AND doc_temp_yn = 'N' AND
    	 			emp.emp_id = doc.emp_id AND rownum <![CDATA[<]]>= #{pager.rowsPerPage} * #{pager.pageNo}
-				<if test="docId != null">
+				<if test="searchQuery.docId != null">
 				AND doc.doc_id = #{searchQuery.docId}
 				</if>
-				<if test="docTitle != null">
-				AND doc.doc_title LIKE #{searchQuery.docTitle}
+				<if test="searchQuery.docTitle != null">
+				AND doc_title LIKE '%'||#{searchQuery.docTitle}||'%' 
 				</if>
-				<if test="docState != null">
-				AND doc.doc_state = #{searchQuery.docState}
+				<if test="searchQuery.docState != null">
+				AND doc_state = #{searchQuery.docState}
 				</if>
+				<if test="searchQuery.empName != null">
+				AND emp.emp_name = #{searchQuery.empName}
+				</if>
+			    <if test="searchQuery.docReportStartDate != null and searchQuery.docReportEndDate != null">
+		        AND doc_report_date BETWEEN TO_DATE((#{searchQuery.docReportStartDate}), 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE((#{searchQuery.docReportEndDate}), 'YYYY-MM-DD HH24:MI:SS')
+			    </if>
 			</where>
         )
         WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
 	</select>
+	
+	<select id="getReturnedDocumentCountByQuery" resultType="int">
+		SELECT count(*) 
+		FROM documents 
+		<where>
+			emp_id = ${empId} AND (doc_state = '회수' OR doc_state = '반려') AND doc_temp_yn = 'N'
+			<if test="searchQuery.docId != null">
+			AND doc_id LIKE '%'||#{searchQuery.docId}||'%' 
+			</if>
+			<if test="searchQuery.docTitle != null">
+			AND doc_title LIKE '%'||#{searchQuery.docTitle}||'%' 
+			</if>
+			<if test="searchQuery.docState != null">
+			AND doc_state = #{searchQuery.docState}
+			</if>
+		    <if test="searchQuery.docReportStartDate != null and searchQuery.docReportEndDate != null">
+	        AND doc_report_date BETWEEN TO_DATE((#{searchQuery.docReportStartDate}), 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE((#{searchQuery.docReportEndDate}), 'YYYY-MM-DD HH24:MI:SS')
+		    </if>
+		</where>
+	</select>
+	
+	<select id="getReturnedDocumentListByQuery" resultMap="documentResultMap">
+        SELECT
+            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            doc_complete_date, doc_state, doc_read_yn
+        FROM (
+        	SELECT
+        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+        		doc_complete_date, doc_state, doc_read_yn
+        	FROM documents doc, approval_lines apl, employees emp
+        	<where>
+	        	doc.emp_id = ${empId} AND doc.doc_id = apl.doc_id AND (doc_state = '회수' OR doc_state = '반려') AND 
+	        	emp.emp_id = doc.emp_id AND rownum <![CDATA[<]]>= #{pager.rowsPerPage} * #{pager.pageNo}
+   				<if test="searchQuery.docId != null">
+				AND doc.doc_id LIKE '%'||#{searchQuery.docId}||'%' 
+				</if>
+				<if test="searchQuery.docTitle != null">
+				AND doc_title LIKE '%'||#{searchQuery.docTitle}||'%' 
+				</if>
+				<if test="searchQuery.docState != null">
+				AND doc_state = #{searchQuery.docState}
+				</if>
+			    <if test="searchQuery.docReportStartDate != null and searchQuery.docReportEndDate != null">
+		        AND doc_report_date BETWEEN TO_DATE((#{searchQuery.docReportStartDate}), 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE((#{searchQuery.docReportEndDate}), 'YYYY-MM-DD HH24:MI:SS')
+			    </if>
+        	</where>
+        )
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
+	</select>
+	
+	<select id="getTempDocumentCountByQuery" resultType="int">
+		SELECT count(*) 
+		FROM documents 
+		<where>
+			emp_id = ${empId} AND doc_temp_yn = 'Y'
+			<if test="searchQuery.docTitle != null">
+			AND doc_title LIKE #{searchQuery.docTitle}
+			</if>
+		    <if test="searchQuery.docWriteStartDate != null and searchQuery.docWriteEndDate != null">
+	        AND doc_write_date BETWEEN TO_DATE((#{searchQuery.docWriteStartDate}), 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE((#{searchQuery.docWriteEndDate}), 'YYYY-MM-DD HH24:MI:SS')
+		    </if>
+		</where>
+	</select>
+	
+	<select id="getTempDocumentListByQuery" resultMap="documentResultMap">
+        SELECT
+		    doc_id, emp_id, doc_type, doc_title, doc_report_date,
+		    doc_write_date, doc_state, doc_read_yn
+        FROM (
+        	SELECT
+		        rownum as rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
+		        doc_write_date, doc_state, doc_read_yn
+        	FROM documents
+        	<where>
+				emp_id = ${empId} AND doc_temp_yn = 'Y' AND 
+	        	rownum <![CDATA[<]]>= #{pager.rowsPerPage} * #{pager.pageNo}
+   				<if test="searchQuery.docTitle != null">
+				AND doc_title LIKE '%'||#{searchQuery.docTitle}||'%' 
+				</if>
+			    <if test="searchQuery.docWriteStartDate != null and searchQuery.docWriteEndDate != null">
+		        AND doc_write_date BETWEEN TO_DATE((#{searchQuery.docWriteStartDate}), 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE((#{searchQuery.docWriteEndDate}), 'YYYY-MM-DD HH24:MI:SS')
+			    </if>
+        	</where>
+        )
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
+	</select>
+	
 </mapper>
