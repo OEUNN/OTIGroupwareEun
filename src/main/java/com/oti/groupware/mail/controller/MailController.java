@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -296,7 +297,7 @@ public class MailController {
 			model.addAttribute("sendmail", sendMail);
 			model.addAttribute("pager", pager);
 		}
-		return "mail/tempmailinfo";
+		return "mail/trashmailinfo";
 	}
 
 	// 휴지통 팝업창
@@ -307,8 +308,12 @@ public class MailController {
 
 
 	// 메일자세히보기
-	@RequestMapping(value = "/detailmail", method = RequestMethod.GET)
-	public String detailMail() {
+	@RequestMapping(value = "/detailmail/{category}/{mailid}", method = RequestMethod.GET)
+	public String detailMail(Model model, HttpSession sessio,@PathVariable String category ,@PathVariable int mailid ) {
+		log.info("실행");
+		SendMail sendMail = mailService.getDetailSendMail(mailid);
+		
+		model.addAttribute("category", category);
 		return "mail/detailmail";
 	}
 

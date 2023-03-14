@@ -131,11 +131,12 @@
 		where SEND_MAIL_ID=#{mailId}
 	</update>
 	
+	<!-- 받은메일 휴지통 보내기 -->
 	<update id="sendMailSearchDelete">
 		update send_mails
 		set SEND_MAIL_DEL_YN = 'Y', SEND_MAIL_IMPORTANCE_YN='N', SEND_MAIL_DEL_DATE = SYSDATE
 		where 
-		<foreach collection="arr" item="mailId" separator="and">
+		<foreach collection="arr" item="mailId" separator="or">
 		 	SEND_MAIL_ID=#{mailId}
 		</foreach>
 	</update>
@@ -247,7 +248,7 @@
 	<delete id="deleteTempMail">
 		delete from send_mails
 		where 
-		<foreach collection="arr" item="mailId" separator="and">
+		<foreach collection="arr" item="mailId" separator="or">
 		 	SEND_MAIL_ID=#{mailId}
 		</foreach>
 	</delete>
@@ -289,7 +290,7 @@
 		update send_mails
 		set SEND_MAIL_DEL_COMPLETE_YN ='Y' ,SEND_MAIL_DEL_YN ='Y'
 		where 
-		<foreach collection="arr" item="mailId" separator="and">
+		<foreach collection="arr" item="mailId" separator="or">
 		 	SEND_MAIL_ID=#{mailId}
 		</foreach>
 	</update>
@@ -299,7 +300,7 @@
 		update send_mails
 		set SEND_MAIL_DEL_YN ='N'
 		where 
-		<foreach collection="arr" item="mailId" separator="and">
+		<foreach collection="arr" item="mailId" separator="or">
 		 	SEND_MAIL_ID=#{mailId}
 		</foreach>
 	</update>
@@ -320,7 +321,7 @@
 		update send_mails
 		set SEND_MAIL_DEL_COMPLETE_YN ='Y'
 		where 
-		<foreach collection="arr" item="mailId" separator="and">
+		<foreach collection="arr" item="mailId" separator="or">
 		 	SEND_MAIL_ID=#{mailId} 
 		</foreach>
 	</update>

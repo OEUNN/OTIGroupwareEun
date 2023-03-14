@@ -36,5 +36,6 @@ public interface MailService {
 	void tempMailDelete(List<Integer> list); //임시 보관함 완전 삭제
 	void trashMailDeleteRestore(List<Integer> list, String empId, String result);
 	void deleteTrashMail(); //30일이 지난 휴지통 메일 삭제
-	void completeDelete();
+	void completeDelete();//한달에한번 삭제가 되었는지 확인
+	SendMail getDetailSendMail(int mailid); //메일 디테일을 확인하기 위해
 }

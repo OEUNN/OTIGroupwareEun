@@ -46,6 +46,7 @@
 				result = 'stay';
 			}
 			var data = {mailList : mailArray, page : No, result : result};
+			console.log(data);
 			jQuery.ajax({
 				type : 'post',
 				url : '../mail/trashsearch',
