@@ -26,6 +26,19 @@
 		WHERE emp_id = #{empId} AND 
 			  to_char(atd_in_time, 'yyyy-MM-DD') = to_char(sysdate, 'yyyy-MM-DD')
 	</select>
+
+	<!-- 어제 근무현황 -->
+	<select id="getAttendanceYesterday" resultMap="attendanceResultMap">
+		SELECT 
+		  atd_id, 
+		  emp_id, 
+		  atd_in_time, 
+		  atd_out_time, 
+		  atd_state 
+		FROM attendances 
+		WHERE emp_id = #{empId} AND 
+			  to_char(atd_in_time, 'yyyy-MM-DD') = to_char(sysdate-1, 'yyyy-MM-DD')
+	</select>
 	
 	<!-- 근무통계 -->
 	<select id="getAttendanceStats" resultType="hashmap">
@@ -115,32 +128,34 @@
 		  atd_out_time, 
 		  atd_state 
 		FROM attendances 
-		WHERE emp_id = #{empId} AND 
-			  (atd_state is null OR atd_state = '')
+		WHERE (atd_state is null OR atd_state = '')
 	</select>
 	
-	<!-- 오늘 근무상태 변경(스케줄러) -->
+	<!-- 어제의 근무상태 등록(스케줄러) - 출근행이 없는 경우 -->
+	<insert id="insertAttendanceState">
+		INSERT INTO attendances (
+		  atd_id,
+		  emp_id,
+		  atd_in_time,
+		  atd_state
+		) VALUES (
+		  seq_atd_id.nextval,
+		  #{empId},
+		  sysdate-1,
+		  '결근'
+		)
+	</insert>
+	
+	<!-- 어제의 근무상태 변경(스케줄러) - 출근행이 있는 경우 -->
 	<update id="updateAttendanceState" parameterType="attendance">
-		<if test="atdState == '정상출근'">
-			UPDATE 
-				attendances
-			SET
-				atd_state = #{atdState}
-		  	WHERE
-			  	emp_id = #{empId} AND 
-	  			to_char(atd_in_time, 'yyyy-MM-DD') = to_char(sysdate, 'yyyy-MM-DD')
-		</if>
-		<if test="atdState == '결근'">
-			UPDATE 
-				attendances
-			SET
-				atd_state = #{atdState},
-				atd_in_time = sysdate
-		  	WHERE 
-		  		emp_id = #{empId} AND 
-		  	    (atd_in_time is null OR atd_in_time = '') AND
-		  	    (atd_state is null OR atd_state = '')
-		</if>
+		UPDATE 
+			attendances
+		SET
+			atd_state = #{atdState}
+	  	WHERE
+		  	emp_id = #{empId} 
+		  AND 
+  			to_char(atd_in_time, 'yyyy-MM-DD') = to_char(sysdate-1, 'yyyy-MM-DD')
 	</update>
 
 	<!-- 근무시간수정 -->
@@ -200,7 +215,7 @@
 		</if>
 	</select>
 
-	<!-- 출퇴근 기록이 있을 경우엔 - Update, 출퇴근 기록이 없을 때는 INSERT -->
+	<!-- 휴가신청(승인) => 출퇴근 기록이 있을 경우엔 - Update, 출퇴근 기록이 없을 때는 INSERT -->
 	<update id="updateAttendanceLeaveState" parameterType="leaveApplication">
 	  <![CDATA[
 	    MERGE INTO attendances

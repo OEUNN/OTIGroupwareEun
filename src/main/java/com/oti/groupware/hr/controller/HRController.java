@@ -157,7 +157,7 @@ public class HRController {
 		int totalRows = hrService.attendanceExceptionRowsCount(startDate, endDate, empId);
 		
 		//페이저 객체 생성
-		Pager pager = new Pager(5, 5, totalRows, pageNo);
+		Pager pager = new Pager(7, 5, totalRows, pageNo);
 		
 		//페이징된 목록
 		List<AttendanceException> atdExcpList = hrService.attendanceExceptionList(startDate, endDate, empId, pager);
@@ -203,6 +203,17 @@ public class HRController {
 		} else { //추가근무신청양식을 요청한 경우
 			return "hr/overtimeapp";
 		}
+	}
+	
+	/**
+	 * 미처리된 근무관련 신청서를 삭제
+	 * @param atdExcpId
+	 * @return "나의 근무" url로 리다이렉트
+	 */
+	@RequestMapping(value = "/overtimecancel")
+	public String attendanceExceptionCancel(int atdExcpId) {
+		hrService.attendanceExceptionCancel(atdExcpId);
+		return "redirect:/hr/myatdexception";
 	}
 	
 	/**
@@ -264,7 +275,7 @@ public class HRController {
 		int totalRows = hrService.leaveApplicationRowsCount(startDate, endDate, empId);
 		
 		//페이저 객체 생성
-		Pager pager = new Pager(5, 5, totalRows, pageNo);
+		Pager pager = new Pager(8, 5, totalRows, pageNo);
 		
 		//페이징된 목록
 		List<LeaveApplication> levAppList = hrService.leaveApplicationList(startDate, endDate, empId, pager);

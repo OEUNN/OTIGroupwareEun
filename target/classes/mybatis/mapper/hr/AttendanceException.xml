@@ -124,6 +124,12 @@
 	    )
 	</insert>
 	
+	<!-- 근무신청서(일반 임직원) 등록 -->
+	<delete id="deleteAttendanceException">
+		DELETE FROM attendance_exceptions
+		WHERE atd_excp_id = #{atdExcpId}
+	</delete>
+	
 	<!-- 근무신청결재서(부서장) 통계 -->
 	<select id="getAttendanceExceptionApprovalStats" resultType="hashmap">
 		SELECT
@@ -228,9 +234,4 @@
 		WHERE atd_excp_id = #{atdExcpId} AND emp_id = #{empId}
 	</update>
 
-	<delete id="deleteAttendanceException">
-		DELETE FROM project3.attendance_exceptions
-		WHERE atd_excp_id = #{atdExcpId} AND emp_id = #{empId}
-	</delete>
-	
 </mapper>

@@ -6,12 +6,15 @@ import org.springframework.stereotype.Component;
 
 import com.oti.groupware.hr.service.HrService;
 
+import lombok.extern.log4j.Log4j2;
+
 /**
- * 
+ * 근태 스케줄러
  * @author 한송민
  *
  */
 @Component
+@Log4j2
 public class AttendanceScheduler {
 	@Autowired
 	private HrService hrService;
@@ -21,6 +24,7 @@ public class AttendanceScheduler {
 	 */
 	@Scheduled(cron = "0 0 6 * * ?")
 	public void updateAttendanceStatus() {
-		 hrService.attendanceStateAll();
+		log.info("근태-스케줄러 실행!"); 
+		hrService.attendanceStateAll();
 	}
 }

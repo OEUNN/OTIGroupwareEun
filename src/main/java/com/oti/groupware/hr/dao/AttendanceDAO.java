@@ -14,12 +14,13 @@ import com.oti.groupware.hr.dto.LeaveApplication;
 @Mapper
 public interface AttendanceDAO {
 	public Attendance getAttendanceToday(@Param("empId") String empId);
+	public Attendance getAttendanceYesterday(@Param("empId") String empId);
 	public List<Attendance> getAttendanceList(@Param("empId")String empId);
 	public HashMap<String, Integer> getAttendanceStats(@Param("empId") String empId);
 	public void insertAttendance(@Param("empId") String empId);
 	public void updateAttendance(@Param("empId") String empId);
 	public List<Employee> getEmployeeList(); //나중에 EmployeeDAO에 넣기!
-	public List<Attendance> getAttendanceNullList(@Param("empId") String empId);
+	public List<Attendance> getAttendanceNullList();
 	public void updateAttendanceState(Attendance attendance);
 	public HashMap<String, String> getEmpNames(@Param("empId") String empId, @Param("posName") String posName); //나중에 EmployeeDAO에 넣기!
 	public void updateAttendanceOverTime(@Param("empId") String empId, @Param("overTimeHours") double overTimeHours);
@@ -27,4 +28,5 @@ public interface AttendanceDAO {
 	public void updateAttendanceLeaveState(LeaveApplication leaveApplication);
 	public void deleteAttendance(LeaveApplication leaveApplication);
 	public List<Attendance> getEmployeeLeaveList(@Param("depName") String depName);
+	public void insertAttendanceState(@Param("empId") String empId);
 }

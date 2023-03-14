@@ -109,7 +109,7 @@
 </script>
 <!-- End plugin css,js for this page -->
 
-<div class="table-responsive px-3 py-2">
+<div class="table-responsive px-3 py-2 mt-5">
 	<!-- 고정 내용 -->
 	<table class="table">
 		<tbody>
