@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -18,6 +17,7 @@ import com.oti.groupware.employee.dao.EmployeeDetailDAO;
 import com.oti.groupware.employee.dao.PositionDAO;
 import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.employee.dto.EmployeeDetail;
+import com.oti.groupware.mail.dto.EmployeeInfo;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -41,8 +41,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public String login(Employee employee) {
-		log.info("login result service");
-		Employee dbEmployee = getEmployee(employee.getEmpId());
+		Employee dbEmployee = employeeDao.getEmployeeById(employee.getEmpId());
 		if (dbEmployee == null) {
 			return "WRONE_ID";
 		} else {
@@ -56,19 +55,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 				}
 				return "WRONG_PASSWPRD";
 			}
+			updateLoginSuccessCnt(employee);
+			employee.setEmpId(dbEmployee.getEmpId());
+			employee.setEmpPassword(null);
+			employee.setEmpMail(dbEmployee.getEmpMail());
+			employee.setEmpName(dbEmployee.getEmpName());
+			employee.setEmpLeaveReserve(dbEmployee.getEmpLeaveReserve());
+			employee.setEmpSubstitueReserve(dbEmployee.getEmpSubstitueReserve());
+			employee.setEmpFileData(dbEmployee.getEmpFileData());
+			employee.setEmpFileType(dbEmployee.getEmpFileType());
+			employee.setEmpFileName(dbEmployee.getEmpFileName());
+			employee.setPosName(getPositionName(dbEmployee.getPosId()));
+			employee.setDepName(getDepartmentName(dbEmployee.getDepId()));
 		}
-		updateLoginSuccessCnt(employee);
-		employee.setEmpId(dbEmployee.getEmpId());
-		employee.setEmpPassword(null);
-		employee.setEmpMail(dbEmployee.getEmpMail());
-		employee.setEmpName(dbEmployee.getEmpName());
-		employee.setEmpLeaveReserve(dbEmployee.getEmpLeaveReserve());
-		employee.setEmpSubstitueReserve(dbEmployee.getEmpSubstitueReserve());
-		employee.setEmpFileData(dbEmployee.getEmpFileData());
-		employee.setEmpFileType(dbEmployee.getEmpFileType());
-		employee.setEmpFileName(dbEmployee.getEmpFileName());
-		employee.setPosName(getPositionName(dbEmployee.getPosId()));
-		employee.setDepName(getDepartmentName(dbEmployee.getDepId()));
 		return "SUCCESS";
 	}
 
@@ -80,10 +79,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Employee getEmployee(String empId) {
 		Employee employee = employeeDao.getEmployeeById(empId);
-		String depName = departmentDao.getDepartmentById(employee.getDepId());
-		String posName = positionDao.getPositionById(employee.getPosId());
-		employee.setDepName(depName);
-		employee.setPosName(posName);
+		EmployeeInfo employeeInfo = employeeDao.mailInfo(empId);
+		employee.setDepName(employeeInfo.getDepName());
+		employee.setPosName(employeeInfo.getPosName());
 		return employee;
 	}
 
@@ -230,9 +228,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<Employee> getDepartment(int depId) {
 		List<Employee> list = employeeDao.getDepartment(depId);
 		for(Employee employeeList : list) {
-			int posId = employeeDao.getPositionIdById(employeeList.getEmpId());
-			String posName = getPositionName(posId);
-			employeeList.setPosName(posName);
+			EmployeeInfo empInfo = employeeDao.mailInfo(employeeList.getEmpId());
+			employeeList.setDepName(empInfo.getDepName());
+			employeeList.setPosName(empInfo.getPosName());
 		}
 		return list;
 	}
