@@ -80,6 +80,7 @@
 										<label class="form-check-label">
 											<input type="checkbox" class="form-check-input" name="optradio" onclick="checkSelectAll()" value="${send.sendMailId}">
 										</label>
+										<input type="hidden" id="import" value="${send.sendMailImportanceYN}"/>
 									</div>
 									<c:if test="${send.sendMailImportanceYN == 'Y'}">
 										<button onclick="star(${send.sendMailId})"><i class="h3 mdi mdi-star text-primary"></i></button>
@@ -150,7 +151,7 @@
 		<div class="row form-inline m-3">
 			<div class="col-md-11"></div>
 			<div class="col-md-1 col-12">
-				<button class="btn btn-danger btn-sm " onclick="pager(-2)">선택삭제</button>
+				<button class="btn btn-danger btn-sm " onclick="pager(-5)">선택삭제</button>
 			</div>
 		</div><!-- 하단 버튼 -->
 

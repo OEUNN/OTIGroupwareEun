@@ -361,7 +361,36 @@ public class MailServiceImpl implements MailService {
 	//30일 지난 휴지통 메일 삭제
 	@Override
 	public void deleteTrashMail() {
-		
+		List<SendMail> trashMail = sendMailDao.getDeleteTrashMail();
+		List<Integer> sendMail = new ArrayList<>();
+		List<ReceivedMail> receivedMail = new ArrayList<>();
+ 		for(SendMail list : trashMail) {
+			if(list.getTbName().equals("send")) {
+				sendMail.add(list.getSendMailId());
+			}else {
+				ReceivedMail received = new ReceivedMail();
+				received.setSendMailId(list.getSendMailId());
+				received.setEmpIdEmployees(list.getEmpId());
+				receivedMail.add(received);
+			}
+		}
+		sendMailDao.updateCompleteSendMail(sendMail);
+		receivedMailDao.updateCompleteReceivedMail(receivedMail); //
+	}
+
+	//매월 1일에 해당 메일이 모두 완전 삭제되었을때 해당 메일의 데이터를 삭제한다.
+	@Override
+	public void completeDelete() {
+		List<Integer> trashMail = sendMailDao.getCompleteMail();
+		for(Integer mailId : trashMail) {
+			int allCount = receivedMailDao.getAllReceivedMail(mailId);
+			int completeCount = receivedMailDao.getCompleteReceivedMail(mailId);
+			if(allCount == completeCount) {
+				mailFileDao.deleteMailFile(mailId);
+				receivedMailDao.deleteReceivedMail(mailId);
+				sendMailDao.deleteSendMail(mailId);
+			}
+		}
 	}
 
 

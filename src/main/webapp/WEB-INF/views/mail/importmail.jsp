@@ -42,7 +42,7 @@
 			}
 			if(mailArray == ''){
 				mailArray[0]='0';
-			}
+			}.
 			var data = {mailId : star, mailList : mailArray, page : No, result : result};
 			console.log(data);
 			jQuery.ajax({

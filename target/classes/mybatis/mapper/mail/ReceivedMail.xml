@@ -157,10 +157,6 @@
         WHERE send_mail_id = #{sendMailId} AND emp_id_employees = #{empIdEmployees}
     </update>
 
-    <delete id="deleteReceivedMail">
-        DELETE FROM received_mails WHERE send_mail_id = #{sendMailId} AND emp_id_employees = #{empIdEmployees}
-    </delete>
-    
     <select id="getMailInformation" parameterType="int" resultMap="receivedMailResultMap">
     	SELECT send_mail_id,
 		    emp_id_employees,
@@ -198,7 +194,29 @@
 		</foreach>
     </update>
     
+    <update id="updateCompleteReceivedMail">
+    	update received_mails
+		set recd_MAIL_DEL_COMPLETE_YN ='Y'
+		where 
+		<foreach collection="arr" item="received" separator="and">
+		 	emp_id_employees = #{received.sendMailId} and send_mail_id = #{received.EmpIdEmployees}
+		</foreach>
+    </update>
     
+    <select id="getAllReceivedMail" parameterType="int" resultType="int">
+    	select count(send_mail_id)
+    	from received_mails
+    	where send_mail_id =#{mailId}
+    </select>
     
+    <select id="getCompleteReceivedMail" parameterType="int" resultType="int">
+    	select count(send_mail_id)
+    	from received_mails
+    	where send_mail_id=#{mailId} and RECD_MAIL_DEL_COMPLETE_YN = 'Y'
+    </select>
+    
+    <delete id="deleteReceivedMail">
+        DELETE FROM received_mails WHERE send_mail_id = #{mailId}
+    </delete>
     
 </mapper>

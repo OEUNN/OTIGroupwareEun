@@ -304,5 +304,35 @@
 		</foreach>
 	</update>
 	
+	<select id="getDeleteTrashMail" resultMap="sendMailMap">
+		<![CDATA[
+		select SEND_MAIL_ID, emp_id, 'send' as tbName 
+        from send_mails
+        where 30  <= (TRUNC(SYSDATE) - TRUNC(SEND_MAIL_DEL_DATE)) and send_MAIL_DEL_YN ='Y' and SEND_MAIL_DEL_COMPLETE_YN ='N'
+        union all
+        select send_mail_id, emp_id_employees, 'received' as tbName 
+        from received_mails
+        where 30  <= (TRUNC(SYSDATE) - TRUNC(RECD_MAIL_DEL_DATE)) and RECD_MAIL_DEL_YN ='Y' and RECD_MAIL_DEL_COMPLETE_YN ='N'
+        ]]>
+	</select>
+	
+	<update id="updateCompleteSendMail">
+		update send_mails
+		set SEND_MAIL_DEL_COMPLETE_YN ='Y'
+		where 
+		<foreach collection="arr" item="mailId" separator="and">
+		 	SEND_MAIL_ID=#{mailId} 
+		</foreach>
+	</update>
+	
+	<select id="getCompleteMail" resultType="int">
+		select SEND_MAIL_ID
+		from send_mails
+		where SEND_MAIL_DEL_COMPLETE_YN ='Y'
+	</select>
+	
+	<delete id="deleteSendMail" parameterType="int">
+		DELETE FROM send_mails WHERE send_mail_id = #{mailId}
+	</delete>
 	
 </mapper>

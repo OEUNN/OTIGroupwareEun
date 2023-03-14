@@ -11,53 +11,75 @@
 		<script>
 			function pager(No){
 				//선택삭제
+				var next = true;
 				var result;
+				var mailArray = [];
+				var importance =[];
 				if(No == -2){
+					$('input[name="optradio"]:checked').each(function(i){//체크된 리스트 저장
+						mailArray.push($(this).val());
+	                });
 					result = 'delete';
 					No = $('#pageBtn').val();
 				}else if(No == -3){
 					No = $('#pageBtn').val();
+				}else if(No == -5){
+					$('input[name="optradio"]:checked').each(function(i){//체크된 리스트 저장
+						mailArray.push($(this).val());
+						importance.push($(this).parent().parent().find('#import').val());
+	                });
+					result = 'delete';
+					No = $('#pageBtn').val();
+					for(var i=0 ; i< importance.length ; i++){
+						if(importance[i] == 'Y'){
+							next = false;
+							break;
+						}
+					}
 				}
-				//paging number 지정
-				var startRowNo = ${pager.startRowNo};
-				var endRowNo =  ${pager.endRowNo};
-				if(No < startRowNo){
-					No = 1;
-				}else if (No > endRowNo){
-					No = endRowNo;
+				if(next){
+					//paging number 지정
+					var startRowNo = ${pager.startRowNo};
+					var endRowNo =  ${pager.endRowNo};
+					if(No < startRowNo){
+						No = 1;
+					}else if (No > endRowNo){
+						No = endRowNo;
+					}
+					var search = $('#searchBtn').val(); //필터링 단어
+					var star = $('#star').val(); //중요도 표시할 메일 id
+					if(mailArray == ''){
+						mailArray[0]='0';
+					}
+					if(star == ''){
+						star = '0';
+					}
+					if(search == ''){
+						search = 'all';
+					}
+					if(result == null){
+						result = 'stay';
+					}
+					 //현재 페이지를 계속 저장하기 위한 장치
+					var data = {search : search, mailId : star, mailList : mailArray, page : No, result : result};
+					console.log(data);
+					jQuery.ajax({
+						type : 'post',
+						url : '../mail/sendsearch',
+						dataType : 'html',
+						data : JSON.stringify(data),
+						 contentType:"application/json;charset=UTF-8",
+						success : function(data){
+							$('#msendail_container').html(data);
+							$('#pageBtn').val(No);
+						 }
+					});
+				}else{
+					var url = "importpopup";
+		            var name = "import popup";
+		            var option = "width = 500, height = 250, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
+		            window.open(url, name, option);
 				}
-				var search = $('#searchBtn').val(); //필터링 단어
-				var star = $('#star').val(); //중요도 표시할 메일 id
-				var mailArray = [];
-				$('input[name="optradio"]:checked').each(function(i){//체크된 리스트 저장
-					mailArray.push($(this).val());
-                });
-				if(mailArray == ''){
-					mailArray[0]='0';
-				}
-				if(star == ''){
-					star = '0';
-				}
-				if(search == ''){
-					search = 'all';
-				}
-				if(result == null){
-					result = 'stay';
-				}
-				 //현재 페이지를 계속 저장하기 위한 장치
-				var data = {search : search, mailId : star, mailList : mailArray, page : No, result : result};
-				console.log(data);
-				jQuery.ajax({
-					type : 'post',
-					url : '../mail/sendsearch',
-					dataType : 'html',
-					data : JSON.stringify(data),
-					 contentType:"application/json;charset=UTF-8",
-					success : function(data){
-						$('#msendail_container').html(data);
-						$('#pageBtn').val(No);
-					 }
-				});
 			}
 			function search(str){
 				var search = null;
