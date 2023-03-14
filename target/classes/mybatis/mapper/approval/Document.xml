@@ -68,7 +68,7 @@
 	</update>
 	
 	<delete id="deleteDocument" parameterType="string">
-		DELETE FROM documents WHERE doc_id = #{docId} AND (doc_read_yn = 'N' OR doc_state = '완결') 
+		DELETE FROM documents WHERE doc_id = #{docId} AND (doc_temp_yn = 'Y' OR doc_state = '회수') 
 	</delete>
 	    
     <insert id="insertDraft" parameterType="document">

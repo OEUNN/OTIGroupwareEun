@@ -22,6 +22,17 @@
         WHERE doc_file_id = #{docFileId}
     </select>
 
+    <select id="getDocumentFilesById" parameterType="string" resultMap="documentFileResultMap">
+        SELECT doc_file_id,
+            doc_id,
+            doc_file_name,
+            doc_file_data,
+            doc_file_type,
+            doc_file_length
+        FROM documents_files
+        WHERE doc_id = #{docId}
+    </select>
+
     <insert id="insertDocumentFile" parameterType="documentFile">
         INSERT INTO documents_files (
             doc_file_id,
@@ -31,7 +42,7 @@
             doc_file_type,
             doc_file_length
         ) VALUES (
-            #{docFileId},
+            SEQ_DOC_FILE_ID.nextval,
             #{docId},
             #{docFileName},
             #{docFileData},
@@ -42,16 +53,16 @@
 
     <update id="updateDocumentFile" parameterType="documentFile">
         UPDATE documents_files SET
-            doc_id = #{docId},
+       		doc_file_id = #{docFileId},
             doc_file_name = #{docFileName},
             doc_file_data = #{docFileData},
             doc_file_type = #{docFileType},
             doc_file_length = #{docFileLength}
-        WHERE doc_file_id = #{docFileId}
+        WHERE doc_id = #{docId}
     </update>
 
-    <delete id="deleteDocumentFile" parameterType="int">
-        DELETE FROM documents_files WHERE doc_file_id = #{docFileId}
+    <delete id="deleteDocumentFile" parameterType="string">
+        DELETE FROM documents_files WHERE doc_id = #{docId}
     </delete>
 
 </mapper>
