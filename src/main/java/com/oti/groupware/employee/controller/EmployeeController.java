@@ -27,7 +27,6 @@ import com.oti.groupware.common.Pager;
 import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.employee.dto.EmployeeDetail;
 import com.oti.groupware.employee.service.EmployeeService;
-import com.oti.groupware.mail.dto.ReceivedMail;
 
 import lombok.extern.log4j.Log4j2;
 /**
@@ -43,6 +42,12 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 	
+	//file 용량  제한 팝업
+	@RequestMapping(value = "/filepopup", method = RequestMethod.GET)
+	public String filePopup() {
+		return "employee/filepopup";
+	}
+			
 	//휴대전화 유효성 체크
 	@RequestMapping(value="/phonecheck", method = RequestMethod.POST)
 	@ResponseBody

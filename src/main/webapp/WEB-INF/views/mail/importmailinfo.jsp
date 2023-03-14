@@ -120,7 +120,7 @@
 										</c:if>
 									</c:if>
 								</td>
-								<td>${send.sendMailTitle}</td>
+								<td onclick="location.href='<c:url value="/mail/detailmail/import/${send.sendMailId}"/>'">${send.sendMailTitle}</td>
 								
 								<td>
 									<fmt:formatDate pattern="MM월 dd일   HH:mm:ss" value="${send.sendMailDate}"/>

@@ -123,6 +123,21 @@
 			  })
 			}
 			
+			function submitForm(){
+				var search = $('#searchBar').val();
+				jQuery.ajax({
+					type : 'post',
+					url : '../mail/titlesearch',
+					dataType : 'html',
+					data : {search:search, category:'send'},
+					 contentType:"application/json;charset=UTF-8",
+					success : function(data){
+						$('#msendail_container').html(data);
+						$('#pageBtn').val(No);
+					 }
+				});
+			}
+			
 		</script>
 	</head>
 

@@ -9,4 +9,5 @@ public class EmployeeInfo {
     private String depName;
     private String posName;
     private String readYN;
+    private String mailId;
 }

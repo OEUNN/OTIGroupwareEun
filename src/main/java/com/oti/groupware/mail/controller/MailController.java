@@ -1,14 +1,23 @@
 package com.oti.groupware.mail.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -76,6 +85,12 @@ public class MailController {
 			}
 		}
 		return "mail/sendmail";
+	}
+	
+	// 메일file 용량 제한 팝업
+	@RequestMapping(value = "/mailfilepopup", method = RequestMethod.GET)
+	public String mailFilePopup() {
+		return "mail/mailfilepopup";
 	}
 
 	// 메일 write 보내기 팝업
@@ -169,6 +184,21 @@ public class MailController {
 		}
 		return "mail/sendmailinfo";
 	}
+	
+//	@RequestMapping(value = "/titlesearch", method = RequestMethod.POST)
+//	public String sendSearch(String search, String category, HttpSession session, Model model) {
+//		log.info("실행");
+//		Employee employee = (Employee) session.getAttribute("employee");
+//		int totalRows = mailService.sendMailSearchRowsCount(employee.getEmpId(), search);
+//		// 페이저 객체 생성
+//		Pager pager = new Pager(10, 5, totalRows, 1);
+//		if (totalRows != 0) {
+//			List<SendMail> sendMail = mailService.getSearchSendMail(employee.getEmpId(), pager, search);
+//			model.addAttribute("sendmail", sendMail);
+//			model.addAttribute("pager", pager);
+//		}
+//		return "mail/sendmailinfo";
+//	}
 
 	// 중요메일
 	@RequestMapping(value = "/importmail", method = RequestMethod.GET)
@@ -312,9 +342,52 @@ public class MailController {
 	public String detailMail(Model model, HttpSession sessio,@PathVariable String category ,@PathVariable int mailid ) {
 		log.info("실행");
 		SendMail sendMail = mailService.getDetailSendMail(mailid);
-		
+		if(sendMail.getFileYN().equals("Y")) {
+			List<MailFile> mailFile = mailService.getMailFile(mailid);
+			model.addAttribute("mailFile", mailFile);
+		}
+		model.addAttribute("sendMail", sendMail);
 		model.addAttribute("category", category);
+		if(category.equals("temp")) {
+			return "mail/writemail";
+		}
 		return "mail/detailmail";
 	}
+	
+	@GetMapping("/filedownload/{mfile}")
+	public void filedownload(@RequestHeader("User-Agent")String userAgent,@PathVariable int mfile, HttpServletResponse response) throws Exception {
+		MailFile mailFile = mailService.getMailFileById(mfile);
+		if(mailFile != null) {
+			String originalName = mailFile.getMailFileName();
+			String savedName =  mailFile.getMailFileName();
+			String contentType = mailFile.getMailFileType();
+			
+			//originalName이 한글이 포함되어 있을 경우, 브라우저 별로 한글을 인코딩하는 방법
+			if(userAgent.contains("Trident")||userAgent.contains("MSIE")) {
+				//Trident : IE 11
+				//MSIE : IE 10 이하
+				originalName = URLEncoder.encode(originalName, "UTF-8");
+			}else {
+				//Edge, Chrome, Safari
+				originalName = new String(originalName.getBytes("UTF-8"), "ISO-8859-1");
+			}
+			
+			//응답 해더 설정
+			response.setHeader("Content-Disposition","attachment; filename=\""+ originalName +"\"");
+			response.setContentType(contentType);
+			
+			//응답 바디에 파일 데이터 실기
+			String filePath = "C:/Temp/uploadfiles/"+savedName;
+			File file = new File(filePath);
+			if(file.exists()) {
+				InputStream is = new FileInputStream(file);
+				OutputStream os = response.getOutputStream();
+				FileCopyUtils.copy(is, os);
+				os.flush();
+				os.close();
+				is.close();
+			}
+		}
+	}	
 
 }

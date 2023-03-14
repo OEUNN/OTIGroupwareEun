@@ -18,7 +18,20 @@
 			}
 		</style>
 		<script>
-
+		$("input[name=empFileDataMulti]").off().on("change", function(){
+			if (this.files && this.files[0]) {
+				var maxSize = 5 * 1024 * 1024;
+				var fileSize = this.files[0].size;
+				if(fileSize > maxSize){
+					var url = "mailfilepopup";
+					var name = "mailfile popup";
+					var option = "width = 500, height = 200, top = 300, left = 500, location = no, resizable=no, scrollbars=no "
+					window.open(url, name, option);
+					$(this).val('');
+					return false;
+				}
+			}
+		});
 		function check(){
 			var result = true;
 			//empId

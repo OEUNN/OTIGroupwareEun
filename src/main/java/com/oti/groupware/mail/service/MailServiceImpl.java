@@ -413,6 +413,18 @@ public class MailServiceImpl implements MailService {
 		return send;
 	}
 
+	//해당 메일의 파일 얻기
+	@Override
+	public List<MailFile> getMailFile(int mailid) {
+		return mailFileDao.getMailFile(mailid);
+	}
+
+	//파일 한개 얻어오기
+	@Override
+	public MailFile getMailFileById(int mfile) {
+		return mailFileDao.getMailFileById(mfile);
+	}
+
 
 
 }

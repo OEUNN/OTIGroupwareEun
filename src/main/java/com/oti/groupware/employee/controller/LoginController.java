@@ -1,8 +1,5 @@
 package com.oti.groupware.employee.controller;
 
-import java.nio.charset.Charset;
-
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -57,42 +53,6 @@ public class LoginController {
 			return "login/login";
 		}
 	}
-	
-//	@GetMapping("/filedownload")
-//	public void filedownload(@RequestHeader("User-Agent")String userAgent, HttpServletResponse response, HttpSession session) throws Exception {
-//		Employee employee = (Employee)session.getAttribute("employee");
-//		if(employee != null) {
-//			String originalName = employee.getEmpId();
-//			String savedName = employee.getEmpFileName();
-//			String contentType = employee.getEmpFileType();
-//			
-//			//originalName이 한글이 포함되어 있을 경우, 브라우저 별로 한글을 인코딩하는 방법
-//			if(userAgent.contains("Trident")||userAgent.contains("MSIE")) {
-//				//Trident : IE 11
-//				//MSIE : IE 10 이하
-//				originalName = URLEncoder.encode(originalName, "UTF-8");
-//			}else {
-//				//Edge, Chrome, Safari
-//				originalName = new String(originalName.getBytes("UTF-8"), "ISO-8859-1");
-//			}
-//			
-//			//응답 해더 설정
-//			response.setHeader("Content-Disposition","attachment; filename=\""+ originalName +"\"");
-//			response.setContentType(contentType);
-//			
-//			//응답 바디에 파일 데이터 실기
-//			String filePath = "C:/Temp/uploadfiles/"+savedName;
-//			File file = new File(filePath);
-//			if(file.exists()) {
-//				InputStream is = new FileInputStream(file);
-//				OutputStream os = response.getOutputStream();
-//				FileCopyUtils.copy(is, os);
-//				os.flush();
-//				os.close();
-//				is.close();
-//			}
-//		}
-//	}	
 	
 	@GetMapping("/filedownload")
 	public ResponseEntity<byte[]> filedownload(HttpSession session) throws Exception {

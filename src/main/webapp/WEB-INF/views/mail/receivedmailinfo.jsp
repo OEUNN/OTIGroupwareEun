@@ -81,7 +81,7 @@
 									</c:if>
 								</td>
 								<td><i class="mdi mdi-arrow-left text-primary"></i>${recd.empName} ${recd.posName} </td>
-								<td>${recd.sendMailTitle}</td>
+								<td onclick="location.href='<c:url value="/mail/detailmail/received/${recd.sendMailId}"/>'">${recd.sendMailTitle}</td>
 								
 								<td>
 									<fmt:formatDate pattern="MM월 dd일   HH:mm:ss" value="${recd.recdMailDate}"/>

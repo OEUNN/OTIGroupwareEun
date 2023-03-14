@@ -92,6 +92,20 @@
 		}
 		return result;
 	}
+	$("input[name=fileList]").off().on("change", function(){
+		if (this.files && this.files[0]) {
+			var maxSize = 5 * 1024 * 1024;
+			var fileSize = this.files[0].size;
+			if(fileSize > maxSize){
+				var url = "mailfilepopup";
+				var name = "mailfile popup";
+				var option = "width = 500, height = 200, top = 300, left = 500, location = no, resizable=no, scrollbars=no "
+				window.open(url, name, option);
+				$(this).val('');
+				return false;
+			}
+		}
+	});
 	$(document).ready(function(){
 		$(window).on("message", (event) => {
 			//팝업창에서 전송한 데이터 얻기(팝업창에서 postMessage() 사용해야 함)
@@ -184,6 +198,13 @@
 													</div>
 													<div class="col" style="border-bottom: 1px solid #ced4da;">
 														<div id="receivedId" class="from-control from-inline" style="border: none; width: 100%;">
+															<c:if test="${!empty sendMail.empList }">
+															<c:forEach items="${sendMail.empList}" var="emp">
+																<button class="empBtn mr-2">
+																	<span>${emp.empName}(${emp.mailId}) </span>
+																</button>
+															</c:forEach>
+														</c:if>
 														</div>
 													</div>
 													<div class="col-sm-2">
@@ -205,7 +226,12 @@
 														</div>
 													</div>
 													<div class="col-sm-9" id="title" style="border-bottom: 1px solid #ced4da;">
-														<input type="text" id="sendMailTitle" name="sendMailTitle" class="from-control" style="border: none;width:100%;">
+														<c:if test="${!empty sendMail}">
+															<input type="text" id="sendMailTitle" name="sendMailTitle" class="from-control" style="border: none;width:100%;" value="${sendMail.sendMailTitle}">
+														</c:if>
+														<c:if test="${empty sendMail}">
+															<input type="text" id="sendMailTitle" name="sendMailTitle" class="from-control" style="border: none;width:100%;">
+														</c:if>
 													</div>
 												</div>
 											</div>
@@ -235,7 +261,13 @@
 										<div class="row">
 											<div class="col-md-12">
 												<div class="form-group row">
-													<textarea id="write" name="write"></textarea>
+													<c:if test="${!empty sendMail}">
+														<textarea id="write" name="write">${sendMail.sendMailContent }</textarea>
+													</c:if>
+													<c:if test="${empty sendMail}">
+														<textarea id="write" name="write"></textarea>
+													</c:if>
+													
 												</div>
 											</div>
 										</div>
