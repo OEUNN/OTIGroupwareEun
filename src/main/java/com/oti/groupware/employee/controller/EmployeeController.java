@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -212,13 +213,17 @@ public class EmployeeController {
 		return "employee/organizationchart";
 	}
 	
-	@RequestMapping(value = "/searchdepartment", method = RequestMethod.POST)
-	@ResponseBody
-	public List<Employee> searchDepartment(String depId) {
+	// 조직도에서 각 부서에 해당하는 임직원 정보 목록 조각
+	@RequestMapping(value = "/searchdepartment", method = RequestMethod.GET)
+	public String searchDepartment(@RequestParam int depId, Model model) {
 		log.info("실행");
-		List<Employee>  depEmployee = new ArrayList<>();
-		depEmployee = employeeService.getDepartment(Integer.parseInt(depId));
-		return depEmployee;
+		
+		//임직원 이름, 부서이름 등의 정보가 담긴 목록을 가져옴
+		List<Employee>  orgEmpList = employeeService.getOrganizationEmpList(depId);
+		model.addAttribute("orgEmpList", orgEmpList);
+		model.addAttribute("depId", depId);
+		
+		return "employee/organizationemplist";
 	}
 	
 	//직원정보 디테일 popup

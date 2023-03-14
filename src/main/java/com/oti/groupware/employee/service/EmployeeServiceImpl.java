@@ -236,6 +236,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		return list;
 	}
+	
+	/* 새로 추가 - 조직도에 필요한 목록 추출 */
+	public List<Employee> getOrganizationEmpList(int depId) {
+		return employeeDao.getOrganizationEmpList(depId);
+	}
 
 	@Override
 	public void resetPassword(String empId) {

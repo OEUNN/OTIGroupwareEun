@@ -287,14 +287,14 @@ public class HRController {
 			model.addAttribute("levAppList", levAppList);
 		}
 		
-		//나의 휴가 통계
+		//휴가 사용일수
 		HashMap<String, Integer> levAppStats = hrService.leaveApplicationStats(empId);
 		model.addAttribute("levAppStats", levAppStats);
 		
 		//잔여연차와 대체휴무일수 가져오기
-//		Employee emp = hrService.empReserveInfo(empId);
-//		model.addAttribute("leaveReserve", emp.getEmpLeaveReserve());
-//		model.addAttribute("substitueReserve", emp.getEmpSubstitueReserve());
+		Employee emp = hrService.empReserveInfo(empId);
+		model.addAttribute("leaveReserve", emp.getEmpLeaveReserve());
+		model.addAttribute("substitueReserve", emp.getEmpSubstitueReserve());
 		
 		//작성폼에 필요한 정보를 가져옴
 		HashMap<String, String> empFormInfo = hrService.empFormInfoMap(empId, posName); //신청양식에 필요한 정보 갖고옴(나중에 employeeSerivce에 넣기)

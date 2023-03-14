@@ -5,6 +5,7 @@
 	<resultMap id="employeeResultMap" type="employee">
 		<result column="emp_id" property="empId"/>
 		<result column="pos_id" property="posId"/>
+		<result column="pos_name" property="posName"/>
 		<result column="dep_id" property="depId"/>
 		<result column="emp_mail" property="empMail"/>
 		<result column="emp_name" property="empName"/>
@@ -88,6 +89,23 @@
     	from employees
     	where dep_id = #{depId}
     	ORDER BY pos_id desc 
+    </select>
+
+	<!-- 새로 추가 -->
+	<!-- 조직도에서 각 부서별 임직원 목록을 가져옴 -->
+    <select id="getOrganizationEmpList" resultMap="employeeResultMap">
+    	SELECT 
+		    e.emp_id, 
+		    e.emp_name, 
+		    e.emp_mail,
+		    p.pos_name
+		FROM 
+			employees e, positions p
+		WHERE 
+			e.pos_id = p.pos_id
+		  	AND e.dep_id = #{depId}
+		ORDER BY 
+			e.pos_id DESC
     </select>
 
 	<select id="getEmployeeByName" parameterType="string" resultMap="employeeResultMap">

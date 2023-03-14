@@ -22,6 +22,7 @@ public interface EmployeeDAO {
 	public void updateImg(Employee employee);
 	public void updatePassword(@Param("empId")String empId, @Param("password")String password);
 	public List<Employee> getDepartment(int depId);
+	public List<Employee> getOrganizationEmpList(@Param("depId") int depId); // 새로 추가
 	public Employee getEmployeeByName(String empName);
 	public int getPositionIdById(String empId);
 	public int employeeRowsCount();

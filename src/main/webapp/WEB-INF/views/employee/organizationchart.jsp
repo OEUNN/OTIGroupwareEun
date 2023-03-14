@@ -12,23 +12,19 @@
 	<!-- Plugin css,js for this page  -->
 	<script>
       function department(No){
-    	  var x = No;
-			jQuery.ajax({
-				type : 'post',
-				url : "../employee/searchdepartment",
-				data : {depId : x},
-				success : function(data){
-					$('#dep-'+x).empty();
-					 $.each(data, function( index, value) {
-						var sql = ""
-						sql += '<button class="row my-1 ml-3 text-primary btn-color" onclick="popup(\''+value.empId+'\')">'
-						sql += '<i class="h3 my-auto  mdi mdi-account"></i> '
-						sql += '<span id="empName" class="ml-4 font-weight-bold" >' + value.empName+' '+value.posName+ '</span>'
-						sql += '</button>'
-						$('#dep-'+x).append(sql);
-					 });
-				}
-			});
+			if($('#dep-'+ No).text() == ''){
+				$.ajax({
+					type : 'GET',
+					url : "../employee/searchdepartment",
+					data : {depId : No},
+					success : function(data){
+						$('#collapse-div-' + No).html(data);
+						setTimeout(function() {
+							$("#DIV" + No).collapse("show");
+							}, 100); // 0.1초(100ms) 지연
+					}
+				});
+			}
       }
       
       //직원 정보 popup창
@@ -58,6 +54,18 @@
 			border : none;
 			background-color: transparent;
 		}
+		
+		.og-card-title {
+			color: #4B49AC;
+		    font-family: 'LeferiPoint-BlackObliqueA';
+		    background-color: #e7e7ff;
+		    border-radius: 15px;
+		    padding: 15px 20px 9px 20px;
+		    box-shadow: 3px 3px 6px #cdd1e1;
+		    text-transform: capitalize;
+		    font-size: 2.125rem;
+		    font-weight: 700;
+		}
 	</style>
 	<!-- End plugin css,js for this page -->
 </head>
@@ -72,117 +80,120 @@
 			<!-- partial -->
 			<div class="main-panel">
 				<div class="content-wrapper">
-					<div class="row">
-						<div class="col-md-12 grid-margin">
-							<div class="row  d-flex justify-content-between align-items-start">
-								<h3 class="font-weight-bold">조직도</h3>
-							</div>
+					<div class="row" style="height: 80px;">
+						<div class="col-md-2 pl-0 grid-margin d-flex justify-content-center">
+							<h3 class="mb-0 og-card-title d-flex align-content-center">
+								<span class="pt-2 mr-2">조직도</span>
+								<span class="mdi mdi-account-multiple h2 pt-1 mb-0"></span>
+							</h3>
 						</div>
 					</div>
 					<!-- top human -->
 					<div class="row d-flex justify-content-center">
-						<div class="col-lg-3 grid-margin stretch-card ">
-							<div class="card">
-								<div class="card-body">
+						<div class="col-lg-2">
+							<div class="card" style="border-radius: 50%;">
+								<div class="card-body" style="border-radius: 50%; padding: 50px; background-color: #4B49AC;">
 									<div class="d-flex justify-content-center">
-										<button id="ceo" class="d-flex align-items-center m-1 btn-color text-primary" onclick="popup()">
-											<i class="h3 my-auto mdi mdi-worker"></i> 
-											<span class="ml-2 font-weight-bold">대표이사</span>
+										<button id="ceo" class="d-flex align-items-center m-1 btn-color text-light" onclick="popup()">
+											<i class="h1 my-auto mdi mdi-human-greeting"></i> 
+											<div class="ml-2 font-weight-bold" style="font-size: 23px;">대표이사</div>
 										</button>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div><!-- End detail information -->
+					<!-- Align-Middle Line -->
+					<div class="row d-flex justify-content-center">
+						<div style="border: 3px dashed gray; height:55px;"></div>
+					</div>
 					<!-- Start detail information -->
 					<div class="row d-flex justify-content-center">
-						<div class="col-lg-3 grid-margin stretch-card ">
-							<div class="card">
-								<div class="card-body">
+						<div class="col-lg-2 stretch-card">
+							<div class="card" style="border-radius: 30px; background-color: #e7e7ff;">
+								<div class="card-body" style="border-radius: 30px; padding: 20px 10px;">
 									<div class=" d-flex justify-content-center">
 										<button class="d-flex align-items-center m-1 btn-color text-primary" onclick="popup()">
-											<i class="h3 my-auto mdi mdi-account"></i> 
-											<span class="ml-2 font-weight-bold">이사</span>
+											<i class="h2 pt-1 my-auto mdi mdi-account"></i> 
+											<span class="ml-2 font-weight-bold" style="font-size: 23px;">이사</span>
 										</button>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div><!-- end top human -->
-					<!-- 1팀 -->
-					<div class="form-inlie d-flex align-items-start">
-						<div class="col-3 grid-margin stretch-card">
+					<!-- Horizontal & Vertical-Center Line -->
+					<div class="row d-flex justify-content-center">
+						<div class="col-2 d-flex justify-content-center" style="height:55px; border-bottom: 4px solid gray;"></div>
+						<div class="col-3 d-flex justify-content-center" style="border-bottom: 4px solid gray;"></div>
+						<div class="col-3 d-flex justify-content-center" style="border-bottom: 4px solid gray; border-left: 4px solid gray;"> </div>
+						<div class="col-2"></div>
+					</div>
+					<!-- Vertical-Center Line & 경영지원부 -->
+					<div class="row d-flex justify-content-center" style="height:100px">
+						<div class="col-3" style="height:100px; border-left: 4px solid gray;"></div>
+						<div class="col-3" style="height:100px; border-left: 4px solid gray; border-right: 4px solid gray;"></div>
+						<div class="col-2"></div>
+						<div class="col-2 pl-0" style="position: relative; top: -50px;">
 							<div class="card">
 								<div class="card-body">
-									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV1">
-										<button class="dep d-flex align-items-center m-1 text-primary" onclick="department(1)">
-											<i class="h3 my-auto mdi mdi-menu-down"></i> 
-											<span class="ml-2 font-weight-bold">공공사업1DIV</span>
+									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV4">
+										<button class="dep d-flex align-items-center text-primary" onclick="department(4)">
+											<i class="h2 my-auto mdi mdi-menu-down"></i> 
+											<span class="h3 mb-0 ml-3 font-weight-bold">경영지원</span>
 										</button>
 									</div>
-									<div id="DIV1" class="row m-1 collapse text-primary mt-3 " data-target="#dep-1">
-										<div id="dep-1" class=" flex-column">
-										</div>
+									<div id="collapse-div-4"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 1팀 -->
+					<div class="form-inlie d-flex align-items-start">
+						<div class="col-3 grid-margin">
+							<div class="card" style="width: 80%;">
+								<div class="card-body">
+									<!-- AJAX 통신 부분 -->
+									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV1">
+										<button class="dep d-flex align-items-center text-primary" onclick="department(1)">
+											<i class="h2 my-auto mdi mdi-menu-down"></i> 
+											<span class="h3 mb-0 ml-2 font-weight-bold">공공사업1DIV</span>
+										</button>
 									</div>
+									<div id="collapse-div-1"></div>
 								</div>
 							</div>
 						</div>
 						<!-- 2팀 -->
-						<div class="col-3 grid-margin stretch-card">
-							<div class="card">
+						<div class="col-3 grid-margin">
+							<div class="card" style="width: 80%;">
 								<div class="card-body">
 									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV2">
-										<button class="dep d-flex align-items-center m-1 text-primary" onclick="department(2)">
-											<i class="h3 my-auto mdi mdi-menu-down"></i> 
-											<span class="ml-2 font-weight-bold" >공공사업2DIV</span>
+										<button class="dep d-flex align-items-center text-primary" onclick="department(2)">
+											<i class="h2 my-auto mdi mdi-menu-down"></i> 
+											<span class="h3 mb-0 ml-2 font-weight-bold" >공공사업2DIV</span>
 										</button>
 									</div>
-									<div id="DIV2" class="row m-1 collapse text-primary mt-3">
-										<div id="dep-2" class="flex-column">
-										</div>
-									</div>
+									<div id="collapse-div-2"></div>
 								</div>
 							</div>
 						</div>
 						<!-- 3팀 -->
-						<div class="col-3 grid-margin stretch-card">
-							<div class="card">
+						<div class="col-3 grid-margin">
+							<div class="card" style="width: 80%;">
 								<div class="card-body">
 									<div class="text-primary m-1 row" data-toggle="collapse"  data-target="#DIV3">
-										<button class="dep d-flex align-items-center m-1 text-primary" onclick="department(3)">
-											<i class="h3 my-auto mdi mdi-menu-down"></i> 
-											<span class="ml-2 font-weight-bold">공공사업3DIV</span>
+										<button class="dep d-flex align-items-center text-primary" onclick="department(3)">
+											<i class="h2 my-auto mdi mdi-menu-down"></i> 
+											<span class="h3 mb-0 ml-2 font-weight-bold">공공사업3DIV</span>
 										</button>
 									</div>
-									<div id="DIV3" class="row m-1 collapse text-primary mt-3">
-										<div id="dep-3" class="flex-column">
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- 4팀 -->
-						<div class="col-3 grid-margin stretch-card">
-							<div class="card">
-								<div class="card-body">
-									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV4">
-										<button class="dep d-flex align-items-center m-1 text-primary" onclick="department(4)">
-											<i class="h3 my-auto mdi mdi-menu-down"></i> 
-											<span class="ml-2 font-weight-bold">경영지원</span>
-										</button>
-									</div>
-									<div id="DIV4" class="hide row m-1 collapse text-primary mt-3">
-										<div id="dep-4" class="flex-column">
-										</div>
-									</div>
+									<div id="collapse-div-3"></div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<!-- partial:partials/_footer.jsp -->
-				<%@ include file="/WEB-INF/views/common/_footer.jsp"%>
-				<!-- partial -->
 			</div>
 			<!-- main-panel ends -->
 		</div>
