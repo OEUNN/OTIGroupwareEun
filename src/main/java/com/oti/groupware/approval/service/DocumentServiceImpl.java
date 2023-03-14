@@ -89,16 +89,16 @@ public class DocumentServiceImpl implements DocumentService {
 			
 			EmployeeInfo drafter = employeeDAO.mailInfo(drafterId);
 			
-			//첫 임시저장 또는 상신
+			//첫 상신 또는 첫 임시저장
 			if ("공란".equals(document.getDocId())) {
 				String documentId = documentContentProvider.getDocumentIdByDocumentType(documentType);
 				document.setDocId(documentId);
-				document.setDocContent(documentParser.setHTML(html, document, documentContent, drafter));
+				document.setDocContent(documentParser.initializetHTML(html, document, documentContent, drafter));
 				documentDAO.insertDraft(document);
 			}
 			//재상신
 			else {
-				document.setDocContent(documentParser.setHTML(html, document, documentContent, drafter));
+				document.setDocContent(documentParser.initializetHTML(html, document, documentContent, drafter));
 				documentDAO.updateDocument(document);
 				approvalLineDAO.deleteApprovalLineByDocId(document.getDocId());
 			}
@@ -164,7 +164,7 @@ public class DocumentServiceImpl implements DocumentService {
 			
 			for(ApprovalLine approvalLinesElement : approvalLines) {
 				if (!"기안".equals(approvalLinesElement.getAprvLineRole())) {
-					document.setDocContent(documentParser.processHTML(document.getDocContent(), approvalLinesElement)); 
+					document.setDocContent(documentParser.setHTML(document.getDocContent(), approvalLinesElement)); 
 				}
 			}
 			
@@ -194,8 +194,6 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 		return result;
 	}
-
-	
 	
 	
 	//목록 조회 메소드들
@@ -240,10 +238,7 @@ public class DocumentServiceImpl implements DocumentService {
 	}
 	
 	
-	/*
-	 * 검색
-	 */
-	
+	//검색
 	@Override
 	@Transactional
 	public List<Document> getDraftDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId) {
@@ -285,9 +280,7 @@ public class DocumentServiceImpl implements DocumentService {
 		return documentDAO.getTempDocumentListByQuery(pager, empId, searchQuery);
 	}
 	
-	/*
-	 * 임시
-	 */
+	//임시
 	@Override
 	public List<Organization> getOrganization() {
 		employees = approvalLineDAO.getOrganization();
