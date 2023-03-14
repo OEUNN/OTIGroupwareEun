@@ -17,7 +17,7 @@
 			eventSources: [
 				{
 				  //DB에 담긴 이벤트 데이터를 갖고옴
-				  url: '../OTIGroupware/hr/empleavecalendar',
+				  url: '../groupware/hr/empleavecalendar',
 				},
 			    {
 				  //구글 API를 이용하여 공휴일을 표시
