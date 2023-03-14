@@ -5,9 +5,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
+import com.oti.groupware.approval.dto.ApprovalLine;
 import com.oti.groupware.approval.dto.Document;
 import com.oti.groupware.approval.dto.DocumentContent;
-import com.oti.groupware.employee.dto.Employee;
+import com.oti.groupware.mail.dto.EmployeeInfo;
 
 @Component
 public class DocumentParser {
@@ -39,7 +40,8 @@ public class DocumentParser {
 		document.setDocMaxStep(documentMaxStep);
 	}
 	
-	public String setHTML(String html, Document document, DocumentContent documentContent, Employee drafter) {
+	//문서 기안 시 작성 내용을 문서에 반영
+	public String setHTML(String html, Document document, DocumentContent documentContent, EmployeeInfo drafter) {
 		approvalDocument = Jsoup.parse(html, "UTF-8");
 		Element body = approvalDocument.body();
 		
@@ -69,6 +71,27 @@ public class DocumentParser {
 		body.getElementById("formDrafterName").text(drafter.getEmpName());
 		
 		body.getElementsByClass("documentTitle").get(0).text(document.getDocTitle());
+		
+		return approvalDocument.toString();
+	}
+	
+	//approvalLine에 들어있는 값을 문서에 반영
+	public String processHTML(String html, ApprovalLine approvalLine) {
+		approvalDocument = Jsoup.parse(html, "UTF-8");
+		Element body = approvalDocument.body();
+		
+		String className = "r" + approvalLine.getEmpId();
+		String state = approvalLine.getAprvLineState();
+		String date;
+		if (approvalLine.getAprvLineApprovalDate() != null) {
+			date = approvalLine.getAprvLineApprovalDate().toString();
+		}
+		else {
+			date = "미정";
+		}
+		
+		body.getElementById("formApprovalState").getElementsByClass(className).get(0).text(state);
+		body.getElementById("formApprovalDate").getElementsByClass(className).get(0).text(date);
 		
 		return approvalDocument.toString();
 	}

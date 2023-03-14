@@ -8,21 +8,23 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.oti.groupware.approval.QueryHandler;
 import com.oti.groupware.approval.dto.ApprovalLine;
 import com.oti.groupware.approval.dto.Document;
 import com.oti.groupware.approval.dto.DocumentContent;
 import com.oti.groupware.approval.dto.DocumentFile;
+import com.oti.groupware.approval.dto.SearchQuery;
 import com.oti.groupware.approval.service.ApprovalLineService;
 import com.oti.groupware.approval.service.DocumentService;
 import com.oti.groupware.common.Pager;
@@ -53,6 +55,9 @@ public class ApprovalController {
 	
 	@Autowired
 	ApprovalLineService approvalLineService;
+	
+	@Autowired
+	QueryHandler queryHandler;
 
 	//기안함
 	@RequestMapping(value = "/draftdocument", method=RequestMethod.GET)
@@ -134,7 +139,7 @@ public class ApprovalController {
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
 		pager = new Pager();
 		
-		documents = documentService.getpendedDocumentList(pageNo, pager, empId);
+		documents = documentService.getPendedDocumentList(pageNo, pager, empId);
 		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
 		
 		model.addAttribute("pager", pager);
@@ -330,7 +335,7 @@ public class ApprovalController {
 		log.info("의견: " + opinion);
 
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
-		boolean result = documentService.processApprovalRequest(state, opinion, docId, empId);
+		boolean result = documentService.handleApprovalRequest(state, opinion, docId, empId);
 		
 		log.info("요청 처리에 성공 했는가: " + result);
 		return "redirect:/approval/viewdetail/" + docId;
@@ -343,7 +348,7 @@ public class ApprovalController {
 		log.info("문서 번호: " + docId);
 		
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
-		boolean result = documentService.processApprovalRequest(state, null, docId, empId);
+		boolean result = documentService.handleApprovalRequest(state, null, docId, empId);
 		
 		log.info("요청 처리에 성공했는가: " + result);
 	}
@@ -370,38 +375,278 @@ public class ApprovalController {
 		}
 	}
 	
-	//기안함 검색
-	@RequestMapping(value = "/search", method=RequestMethod.GET)
-	public String searchDraftDocument(@RequestParam("state") String state, HttpSession session, Model model) {
-		log.info("실행 ");
-		
-		return searchDraftDocument(state, session, model, 1);
-	}
-	
-	//기안함 검색
-	@RequestMapping(value = "/search/{pageNo}", method=RequestMethod.GET)
-	public String searchDraftDocument(@RequestParam("state") String state, HttpSession session, Model model, @PathVariable("pageNo") int pageNo) {
-		log.info("검색 문서 상태: " + state);
-		
-		if ("승인".equals(state) ) {
-			state = "완결";
+	//selectbox 삭제 및 회수
+	@RequestMapping(value = "/selected", method=RequestMethod.POST)
+	public String processSelected(String docType, String type, @RequestParam("docId") List<String> docId, HttpSession session, RedirectAttributes redirectAttributes) {
+		log.info("문서 목록: " + docId);
+		String result;
+		if ("delete".equals(type) && type != null) {
+			
+			int resultCount = documentService.deleteDocument(docId);
+			
+			if (resultCount == 0) {
+				result = "changed";
+			}
+			else {
+				result = "unchanged";
+			}
+			
+			redirectAttributes.addFlashAttribute("result", result);
+			redirectAttributes.addFlashAttribute("resultCount", resultCount);
+			redirectAttributes.addFlashAttribute("type", type);
+			
+			return "redirect:/approval/" + docType + "document";
 		}
 		
-		if ("진행".equals(state)) {
-			state = "결재중";
+		else if("retrieve".equals(type) && type != null) {
+			String empId = ((Employee)session.getAttribute("employee")).getEmpId();
+			int resultCount = 0;
+			
+			for(String docIdElement : docId) {
+				if (documentService.handleApprovalRequest("회수", null, docIdElement, empId)) {
+					resultCount++;
+				}
+			}
+			
+			if (resultCount == 0) {
+				result = "changed";
+			}
+			else {
+				result = "unchanged";
+			}
+			
+			redirectAttributes.addFlashAttribute("result", result);
+			redirectAttributes.addFlashAttribute("resultCount", resultCount);
+			redirectAttributes.addFlashAttribute("type", type);
+			
+			return "redirect:/approval/" + docType + "document";
+		}
+		
+		else {
+			return "home";
+		}
+	}
+	
+	
+	//기안함 검색
+	@RequestMapping(value = "/draftdocument/search", method=RequestMethod.GET)
+	public String getDraftDocumentListByQuery(@ModelAttribute SearchQuery searchQuery, @RequestParam("searchBar") String searchBar, HttpSession session, Model model) {
+		log.info("검색 질의: " + searchQuery);
+		
+		if ("진행".equals(searchQuery.getDocState())) {
+			searchQuery.setDocState("결재중");
+		}
+		else if ("승인".equals(searchQuery.getDocState())) {
+			searchQuery.setDocState("완결");
+		}
+		
+		if (searchQuery.getDocTitle() == null || searchQuery.getDocTitle().isEmpty()) {
+			if (searchBar != null && !searchBar.isEmpty()) {
+				searchQuery.setDocTitle(searchBar);
+			}	
+		}
+		
+		if (searchQuery.getPageNo() <= 0) {
+			searchQuery.setPageNo(1);
 		}
 		
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
 		pager = new Pager();
 		
-		documents = documentService.getDraftDocumentListByState(pageNo, pager, empId, state);
+		queryHandler.appendTimeToReportDate(searchQuery);
+		queryHandler.appendTimeToCompleteDate(searchQuery);
+		
+		documents = documentService.getDraftDocumentListByQuery(searchQuery, pager, empId);
 		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
 		
+		queryHandler.deleteTimeFromReportDate(searchQuery);
+		queryHandler.deleteTimeFromCompleteDate(searchQuery);
 		
+		model.addAttribute("searchQuery", searchQuery);
 		model.addAttribute("pager", pager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
-
+		
+		for (Document document : documents) {
+			log.info("문서 목록: " + document.getDocTitle());
+		}
+		for (List<ApprovalLine> approvalLines : approvalLinesList) {
+			log.info("결재자 목록: " + approvalLines);
+		}
 		return "approval/draftdocument";
+	}
+	
+	//완결함 검색
+	@RequestMapping(value = "/completeddocument/search", method=RequestMethod.GET)
+	public String getCompletedDocumentListByQuery(@ModelAttribute SearchQuery searchQuery, @RequestParam("searchBar") String searchBar, HttpSession session, Model model) {
+		log.info("검색 질의: " + searchQuery);
+		
+		if (searchQuery.getDocTitle() == null || searchQuery.getDocTitle().isEmpty()) {
+			if (searchBar != null && !searchBar.isEmpty()) {
+				searchQuery.setDocTitle(searchBar);
+			}	
+		}
+		
+		if (searchQuery.getPageNo() <= 0) {
+			searchQuery.setPageNo(1);
+		}
+		
+		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
+		pager = new Pager();
+		
+		queryHandler.appendTimeToReportDate(searchQuery);
+		queryHandler.appendTimeToCompleteDate(searchQuery);
+		
+		documents = documentService.getCompletedDocumentListByQuery(searchQuery, pager, empId);
+		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
+		
+		queryHandler.deleteTimeFromReportDate(searchQuery);
+		queryHandler.deleteTimeFromCompleteDate(searchQuery);
+		
+		model.addAttribute("searchQuery", searchQuery);
+		model.addAttribute("pager", pager);
+		model.addAttribute("documents", documents);
+		model.addAttribute("approvalLinesList", approvalLinesList);
+		
+		for (Document document : documents) {
+			log.info("문서 목록: " + document.getDocTitle());
+		}
+		for (List<ApprovalLine> approvalLines : approvalLinesList) {
+			log.info("결재자 목록: " + approvalLines);
+		}
+		return "approval/completeddocument";
+	}
+	
+	//결재대기함 검색
+	@RequestMapping(value = "/pendeddocument/search", method=RequestMethod.GET)
+	public String getPendedDocumentListByQuery(@ModelAttribute SearchQuery searchQuery, @RequestParam("searchBar") String searchBar, HttpSession session, Model model) {
+		log.info("검색 질의: " + searchQuery);
+		
+		if ("진행".equals(searchQuery.getDocState())) {
+			searchQuery.setDocState("결재중");
+		}
+		else if ("승인".equals(searchQuery.getDocState())) {
+			searchQuery.setDocState("완결");
+		}
+		
+		if (searchQuery.getDocTitle() == null || searchQuery.getDocTitle().isEmpty()) {
+			if (searchBar != null && !searchBar.isEmpty()) {
+				searchQuery.setDocTitle(searchBar);
+			}	
+		}
+		
+		if (searchQuery.getPageNo() <= 0) {
+			searchQuery.setPageNo(1);
+		}
+		
+		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
+		pager = new Pager();
+		
+		queryHandler.appendTimeToReportDate(searchQuery);
+		queryHandler.appendTimeToCompleteDate(searchQuery);
+		
+		documents = documentService.getPendedDocumentListByQuery(searchQuery, pager, empId);
+		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
+		
+		queryHandler.deleteTimeFromReportDate(searchQuery);
+		queryHandler.deleteTimeFromCompleteDate(searchQuery);
+		
+		model.addAttribute("searchQuery", searchQuery);
+		model.addAttribute("pager", pager);
+		model.addAttribute("documents", documents);
+		model.addAttribute("approvalLinesList", approvalLinesList);
+		
+		for (Document document : documents) {
+			log.info("문서 목록: " + document.getDocTitle());
+		}
+		for (List<ApprovalLine> approvalLines : approvalLinesList) {
+			log.info("결재자 목록: " + approvalLines);
+		}
+		return "approval/pendeddocument";
+	}
+	
+	//반려 및 회수함 검색
+	@RequestMapping(value = "/returneddocument/search", method=RequestMethod.GET)
+	public String getReturnedDocumentListByQuery(@ModelAttribute SearchQuery searchQuery, @RequestParam("searchBar") String searchBar, HttpSession session, Model model) {
+		log.info("검색 질의: " + searchQuery);
+		
+		if ("진행".equals(searchQuery.getDocState())) {
+			searchQuery.setDocState("결재중");
+		}
+		else if ("승인".equals(searchQuery.getDocState())) {
+			searchQuery.setDocState("완결");
+		}
+		
+		if (searchQuery.getDocTitle() == null || searchQuery.getDocTitle().isEmpty()) {
+			if (searchBar != null && !searchBar.isEmpty()) {
+				searchQuery.setDocTitle(searchBar);
+			}	
+		}
+		
+		if (searchQuery.getPageNo() <= 0) {
+			searchQuery.setPageNo(1);
+		}
+		
+		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
+		pager = new Pager();
+		
+		queryHandler.appendTimeToReportDate(searchQuery);
+		
+		documents = documentService.getReturnedDocumentListByQuery(searchQuery, pager, empId);
+		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
+		
+		queryHandler.deleteTimeFromReportDate(searchQuery);
+		
+		model.addAttribute("searchQuery", searchQuery);
+		model.addAttribute("pager", pager);
+		model.addAttribute("documents", documents);
+		model.addAttribute("approvalLinesList", approvalLinesList);
+		
+		for (Document document : documents) {
+			log.info("문서 목록: " + document.getDocTitle());
+		}
+		for (List<ApprovalLine> approvalLines : approvalLinesList) {
+			log.info("결재자 목록: " + approvalLines);
+		}
+		return "approval/returneddocument";
+	}
+	
+	//임시저장함 검색
+	@RequestMapping(value = "/tempdocument/search", method=RequestMethod.GET)
+	public String getTempDocumentListByQuery(@ModelAttribute SearchQuery searchQuery, @RequestParam("searchBar") String searchBar, HttpSession session, Model model) {
+		log.info("검색 질의: " + searchQuery);
+		
+		if (searchQuery.getDocTitle() == null || searchQuery.getDocTitle().isEmpty()) {
+			if (searchBar != null && !searchBar.isEmpty()) {
+				searchQuery.setDocTitle(searchBar);
+			}	
+		}
+		
+		if (searchQuery.getPageNo() <= 0) {
+			searchQuery.setPageNo(1);
+		}
+		
+		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
+		pager = new Pager();
+		
+		queryHandler.appendTimeToWriteDate(searchQuery);
+		
+		documents = documentService.getTempDocumentListByQuery(searchQuery, pager, empId);
+		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
+		
+		queryHandler.deleteTimeFromWriteDate(searchQuery);
+		
+		model.addAttribute("searchQuery", searchQuery);
+		model.addAttribute("pager", pager);
+		model.addAttribute("documents", documents);
+		model.addAttribute("approvalLinesList", approvalLinesList);
+		
+		for (Document document : documents) {
+			log.info("문서 목록: " + document.getDocTitle());
+		}
+		for (List<ApprovalLine> approvalLines : approvalLinesList) {
+			log.info("결재자 목록: " + approvalLines);
+		}
+		return "approval/tempdocument";
 	}
 }

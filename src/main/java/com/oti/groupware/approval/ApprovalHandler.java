@@ -1,7 +1,7 @@
 package com.oti.groupware.approval;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -13,13 +13,14 @@ import com.oti.groupware.approval.dto.Document;
  * 결재 문서를 승인 또는 반려 하는 경우, ApprovalLine과 Document의 상태를 변경하는 책임을 가지는 클래스
  */
 @Component
-public class ApprovalProcessor {
+public class ApprovalHandler {
 	private Document document;
 	private ApprovalLine approvalLine;
 	private List<ApprovalLine> approvalLines;
 	
 	//return 1 => process를 수행함
 	//return 0 => process를 수행하지 못함
+	//요청에 따라 document, approvalline 필드를 초기화
 	public boolean process(String state, String opinion, int documentMaxStep) {
 		if (document != null && approvalLine != null) {
 			int documentApprovalStep = document.getDocAprvStep();
@@ -38,7 +39,7 @@ public class ApprovalProcessor {
 				if (documentApprovalStep > documentMaxStep) {
 					documentApprovalStep = -1;
 					document.setDocState("완결");
-					document.setDocCompleteDate(Date.valueOf(LocalDate.now()));
+					document.setDocCompleteDate(Timestamp.valueOf(LocalDateTime.now()));
 				}
 				
 				document.setDocReadYn("N");
@@ -46,6 +47,7 @@ public class ApprovalProcessor {
 				approvalLine.setAprvLineState(state);
 				approvalLine.setAprvLineOpinion(opinion);
 				approvalLine.setAprvLineOpenYn("N");
+				approvalLine.setAprvLineApprovalDate(Timestamp.valueOf(LocalDateTime.now()));
 				
 				return true;
 			}
@@ -58,6 +60,7 @@ public class ApprovalProcessor {
 				approvalLine.setAprvLineState(state);
 				approvalLine.setAprvLineOpinion(opinion);
 				approvalLine.setAprvLineOpenYn("N");
+				approvalLine.setAprvLineApprovalDate(Timestamp.valueOf(LocalDateTime.now()));
 				
 				return true;
 			}
