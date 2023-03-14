@@ -51,7 +51,7 @@
 						</thead>
 						<tbody>
 							<c:forEach var="employeeList" items="${empList}">
-								<tr onclick="information(${employeeList.empId})">
+								<tr onclick="information('${employeeList.empId}')">
 									<td>${employeeList.empName}</td>
 									<td>${employeeList.empId}</td>
 									<td>${employeeList.depName}</td>

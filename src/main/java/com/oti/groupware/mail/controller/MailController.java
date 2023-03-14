@@ -75,7 +75,7 @@ public class MailController {
 				}
 			}
 		}
-		return "mail/sendmail";
+		return "redirect:/mail/sendmail";
 	}
 
 	// 메일 write 보내기 팝업

@@ -9,7 +9,7 @@
 	<%@ include file="/WEB-INF/views/common/head.jsp"%>
 	<!-- endinject css, js common file -->
 	
-	<!-- Plugin css,js for this page  -->
+	<!-- Plugin css,js for this  page  -->
 	<script>
       function department(No){
     	  var x = No;
@@ -85,9 +85,9 @@
 							<div class="card">
 								<div class="card-body">
 									<div class="d-flex justify-content-center">
-										<button id="ceo" class="d-flex align-items-center m-1 btn-color text-primary" onclick="popup()">
+										<button id="ceo" class="d-flex align-items-center m-1 btn-color text-primary" onclick="popup('0912011')">
 											<i class="h3 my-auto mdi mdi-worker"></i> 
-											<span class="ml-2 font-weight-bold">대표이사</span>
+											<span class="ml-2 font-weight-bold" onclick="popup('0912011')">대표이사</span>
 										</button>
 									</div>
 								</div>
@@ -100,7 +100,7 @@
 							<div class="card">
 								<div class="card-body">
 									<div class=" d-flex justify-content-center">
-										<button class="d-flex align-items-center m-1 btn-color text-primary" onclick="popup()">
+										<button class="d-flex align-items-center m-1 btn-color text-primary" onclick="popup('0912012')">
 											<i class="h3 my-auto mdi mdi-account"></i> 
 											<span class="ml-2 font-weight-bold">이사</span>
 										</button>
