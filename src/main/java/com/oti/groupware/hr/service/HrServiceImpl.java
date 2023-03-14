@@ -374,7 +374,6 @@ public class HrServiceImpl implements HrService {
 		
 		} else { //근무시간수정 신청서일 경우
 			//기존날짜의 출,퇴근 시간을 수정
-			log.info("날짜 확인!" + attendanceException.getAtdExcpDate());
 			attendanceDAO.updateAttendanceUpdateTime(attendanceException);
 		}
         
