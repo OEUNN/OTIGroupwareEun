@@ -57,9 +57,6 @@
 	</select>
 	
     <insert id="insertEmployee" parameterType="employee">
-    	<selectKey keyProperty="empId" resultType="int" order="AFTER">
-	    	select emp_id from employees
-	  	</selectKey>
         INSERT INTO employees (
             emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
             emp_extension_number, emp_phone_number, emp_leave_reserve,

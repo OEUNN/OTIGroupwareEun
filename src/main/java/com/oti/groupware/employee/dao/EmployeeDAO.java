@@ -16,7 +16,7 @@ public interface EmployeeDAO {
 	public List<String> getPhoneNumber();
 	public List<String> getMailId();
 	public List<String> getEmpId(@Param("completeId") String completeId);
-	public int insertEmployee(Employee employee);
+	public void insertEmployee(Employee employee);
 	public int updateEmployee(Employee employee);
     public int deleteEmployee(String empId);
 	public void updateImg(Employee employee);
