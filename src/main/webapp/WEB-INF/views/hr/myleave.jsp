@@ -248,9 +248,9 @@
 											</div>
 											<div class="row text-center font-weight-bold h3 mb-0">
 												<div class="col-md">0</div>
-												<div class="col-md">0</div>
-												<div id="lev-rev-period" class="col-md"><fmt:formatNumber value="${leaveReserve}" pattern="#0.0"/></div>
-												<div id="sub-rev-period" class="col-md mr-3">${substitueReserve}</div>
+												<div class="col-md">${levAppStats['휴가사용']}</div>
+												<div id="lev-rev-period" class="col-md"><fmt:formatNumber value="$${levAppStats['잔여연차']}" pattern="#0.0"/></div>
+												<div id="sub-rev-period" class="col-md mr-3">${levAppStats['잔여대체휴무']}</div>
 											</div>
 										</div>
 									</div>
@@ -270,7 +270,10 @@
 												<c:if test="${!empty levAppList}">
 													<c:forEach var="levApp" items="${levAppList}">
 														<tr onclick="levAppDetail('${levApp.levAppId}')">
-															<td class="text-center"><small>${levApp.levAppCategory}</small></td>
+															<td class="text-center">
+																<c:if test="${levApp.levAppCancel ne '휴가취소'}"><small>${levApp.levAppCategory}</small></c:if>
+																<c:if test="${levApp.levAppCancel eq '휴가취소'}"><small class="text-danger">${levApp.levAppCategory}취소</small></c:if>
+															</td>
 															<td><small><fmt:formatDate value="${levApp.levAppDate}" pattern="yyyy-MM-dd" /></small></td>
 															<td><small>
 																<fmt:formatDate value="${levApp.levAppStartDate}" pattern="yyyy-MM-dd" />
@@ -356,7 +359,7 @@
 												<tr class="custom-border-left custom-border-right">
 													<td class="custom-border-right"><h4
 															class="font-weight-bold text-center m-0">작성자</h4></td>
-													<td>${empFormInfo['작성자']}</td>
+													<td>${sessionScope.employee.empName}</td>
 													<td></td>
 													<td></td>
 													<td class="custom-border-left custom-border-right"><h4
