@@ -9,45 +9,52 @@
 	<%@ include file="/WEB-INF/views/common/head.jsp" %>
 	
 	<!-- Custom js for this page-->
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/documentlist.css"/>
 	<script src="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/custom/search.js"></script>
 	<script>
 	$(function(){
 		$('.datepicker').datepicker({
 		});	
 	});
 	
-	function searchItems(value) {
-		$("#searchBar").append('<div id="' + value + '" class="badge badge-warning font-weight-bold"><input type="hidden" name="state" value="' + value + '"></input>' + value + '<span class="mx-1"><i class="mdi mdi-close"></i></span></div>');
-	}
+	$(() => {
+		const checkAll = $('#checkAll');
+		const checklist = $('.checklist');
+		
+		checkAll.change(function() {
+		  checklist.prop('checked', checkAll.prop('checked'));
+		});
+		
+		checklist.change(function() {
+		  const allChecked = checklist.filter(':checked').length === checklist.length;
+		  checkAll.prop('checked', allChecked);
+		});
+	});
+	
+	$(() => {
+		if ($("#resultCount").length !== 0) {
+			let resultCount = $("#resultCount").val();
+			
+			if ($("#type").val() === 'delete') {
+				alert(resultCount + "개가 삭제되었습니다.");
+			}
+			
+			else if($("#type").val() === 'retrieve') {
+				alert(resultCount + "개가 회수되었습니다.");
+			}
+		}
+	});
 	</script>
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
-	<style type="text/css">
-	.collapse, .collapsing {
-		box-shadow: 0px 0px 0px white !important;
-	}
-	.table th, .jsgrid .jsgrid-table th,
-	.table td,
-	.jsgrid .jsgrid-table td {
-		padding: 0.525rem 1.375rem;
-	}
-	tr:hover {
-		background-color: #F3F3F3;
-	}
-	a {
-		color:black;
-	}
-	a:hover {
-		text-decoration: none;
-	}
-	.datepicker:hover {
-		background-color: white;
-	}
-	</style>
 </head>
 
 <body >
 <div class="container-scroller">
-
+	<c:if test="${result != null && result == 'changed'}">
+	<input id="resultCount" type="hidden" value="${resultCount}"/>
+	<input id="type" type="hidden" value="${type}"/>
+	</c:if>
 	<!-- partial:../../partials/_navbar.jsp -->
 	<%@ include file="/WEB-INF/views/common/_navbar.jsp" %>
 	
@@ -68,46 +75,12 @@
             		<div class="col-md-12">
 						<div class="card grid-margin">
 							<div class="card-body">
-							<p class="card-title mb-0">기안함</p>
-		        			<div class="card gird-margin shadow-2 my-3" style="background-color: #e7e7ff;">
-			        			<div class="card-body">
-		        					<div class="row py-0" style="padding: 1.25rem;">
-		        						<div class="col-2">
-			        						<div class="card" style="border-radius:8px;">
-												<div class="card-header bg-white d-flex" style="border-radius:8px; border-bottom: 0px;">
-													<a class="font-weight-bold text-decoration-none" data-target="#searchparameter" data-toggle="collapse" style="color: #4747A1;">검색조건</a>
-												</div>
-			        							<div id="searchparameter" class="card-body collapse" style="border-radius:8px; padding: 0; padding-left: 1.25rem; padding-right: 1.25rem;">
-				        							<div class="form-check font-weight-bold text-info">
-														<div class="d-flex">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio" checked/>
-															</label>
-															<div class="badge badge-warning font-weight-bold">제목</div>
-														</div>
-													</div>
-													<div class="form-check">
-														<div class="d-flex">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio" checked/>
-															</label>
-															<div class="badge badge-warning font-weight-bold">기안자</div>
-														</div>
-													</div>
-													<div class="form-check disabled">
-														<div class="d-flex">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio" checked/>
-															</label>
-															<div class="badge badge-warning font-weight-bold">결재자</div>
-														</div>
-													</div>
-			        							</div>
-			        						</div>
-		        						</div>
-		        						<div class="col-6">
+								<p class="card-title mb-0">기안문서함</p>
+			        			<div class="card gird-margin shadow-2 my-3" style="background-color: #e7e7ff;">
+				        			<div class="card-body">
+			        					<div class="row py-0" style="padding: 1.25rem;">
 		        							<div class="d-flex">
-		        								<form class="d-flex" action="<c:url value="/approval/search"></c:url>">
+		        								<form id="searchForm" class="d-flex" action="<c:url value="/approval/draftdocument/search"></c:url>" method="get">
 		        								<div class="input-group w-75" style="border-radius: 18px; background-color: white;">
 													<div class="input-group-prepend hover-cursor mx-3" id="navbar-search-icon">
 														<span class="input-group-text" id="search" style="background: transparent; border: 0; color: #000; padding: 0;">
@@ -115,47 +88,50 @@
 														</span>
 													</div>
 													<div id="searchBar" class="align-self-center">
+														<c:if test="${searchQuery.docId != null}">
+														<div id="문서번호" class="badge badge-warning font-weight-bold">
+															<input type="hidden" name="docId" value="${searchQuery.docId}"></input>
+															문서번호: ${searchQuery.docId}<span class="mx-1"><i class="mdi mdi-close" onclick="removeItem(문서번호)"></i></span>
+														</div>
+														</c:if>
+														<c:if test="${searchQuery.docState != null}">
+														<div id="결재상태" class="badge badge-warning font-weight-bold docState">
+															<input type="hidden" name="docState" value="${searchQuery.docState}"></input>
+															결재상태: ${searchQuery.docState}<span class="mx-1"><i class="mdi mdi-close" onclick="removeItem(결재상태)"></i></span>
+														</div>
+														</c:if>
+														<c:if test="${searchQuery.docTitle != null}">
+														<div id="제목" class="badge badge-warning font-weight-bold">
+															<input type="hidden" name="docTitle" value="${searchQuery.docTitle}"></input>
+															제목: ${searchQuery.docTitle}<span class="mx-1"><i class="mdi mdi-close" onclick="removeItem(제목)"></i></span>
+														</div>
+														</c:if>
+														<c:if test="${searchQuery.docReportStartDate != null && searchQuery.docReportEndDate != null}">
+														<div id="상신날짜" class="badge badge-warning font-weight-bold">
+															<input type="hidden" name="docReportStartDate" value="${searchQuery.docReportStartDate}"></input>
+															<input type="hidden" name="docReportEndDate" value="${searchQuery.docReportEndDate}"></input>
+															상신날짜: ${searchQuery.docReportStartDate} ~ ${searchQuery.docReportEndDate}
+															<span class="mx-1"><i class="mdi mdi-close" onclick="removeItem(상신날짜)"></i></span>
+														</div>
+														</c:if>
+														<c:if test="${searchQuery.docCompleteStartDate != null && searchQuery.docCompleteEndDate != null}">
+														<div id="완결날짜" class="badge badge-warning font-weight-bold">
+															<input type="hidden" name="docReportStartDate" value="${searchQuery.docCompleteStartDate}"></input>
+															<input type="hidden" name="docReportEndDate" value="${searchQuery.docCompleteEndDate}"></input>
+															완결날짜: ${searchQuery.docCompleteStartDate} ~ ${searchQuery.docCompleteEndDate}
+															 <span class="mx-1"><i class="mdi mdi-close" onclick="removeItem(완결날짜)"></i></span>
+														</div>
+														</c:if>
 													</div>
-													<input type="text" class="form-control mx-4" id="navbar-search-input" placeholder="검색할 내용 입력" aria-label="search" aria-describedby="search" style="margin-left: .7rem; font-size: 1.25rem; color: #6C7383; border: 0; color: #000; padding: 0;">
+													<input type="text" class="form-control mx-4" id="navbar-search-input" name="searchBar" placeholder="검색할 내용 입력" aria-label="search" aria-describedby="search" style="margin-left: .7rem; font-size: 1.25rem; color: #6C7383; border: 0; color: #000; padding: 0;">
+													<input type="hidden" name="pageNo" value="${pager.pageNo}">
 												</div>
-												<button type="submit" class="font-weight-bold btn btn-md btn-warning ml-2">검색</button>
+												<button onclick="submitForm()" class="font-weight-bold btn btn-md btn-warning ml-2">검색</button>
 			        							</form>
 		        							</div>
-		        						</div>
-		        						<div class="col-2">
-			        						<div class="card" style="border-radius:8px;">
-												<div class="card-header bg-white d-flex" style="border-radius:8px; border-bottom: 0px;">
-													<a class="font-weight-bold text-decoration-none" data-target="#filter_by_date" data-toggle="collapse" style="color: #4747A1;">기준날짜</a>
-													<div class="flex-grow-1" style="text-align: end; color: black;">상신</div>
-												</div>
-			        							<div id="filter_by_date" class="card-body collapse" style="border-radius:8px; padding: 0; padding-left: 1.25rem; padding-right: 1.25rem;">
-				        							<div class="form-check font-weight-bold" style="color: black;">
-														<label class="form-check-label">
-															<input type="radio" class="form-check-input" name="optradio" checked>상신
-														</label>
-													</div>
-													<div class="form-check disabled">
-														<label class="form-check-label text-muted">
-															<input type="radio" class="form-check-input" name="optradio">종료
-														</label>
-													</div>
-			        							</div>
-			        						</div>
-		        						</div>
-		        						<div class="col-2">
-		        							<div class="card" style="border-radius:8px;">
-				        						<div class="input-daterange input-group" id="datepicker">
-													<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
-												    <input type="text" class="input-sm form-control text-info font-weight-bold" name="start" style="border:0px; text-align: right;"/>
-												    <span class="input-group-addon text-primary font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
-													<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
-												    <input type="text" class="input-sm form-control text-info font-weight-bold" name="end" style="border:0px; text-align: right;"/>
-												</div>
-											</div>
-		        						</div>
-		        					</div>
-		        				</div>
-		        			</div>
+			        					</div>
+			        				</div>
+			        			</div>
 								<div class="table-responsive">
 									<table class="table">
 										<thead>
@@ -163,42 +139,44 @@
 												<th class="py-0 pl-1">
 													<div class="form-check font-weight-bold text-info my-1">
 														<label class="form-check-label">
-															<input type="checkbox" class="form-check-input" name="optradio">
+															<input id="checkAll" type="checkbox" class="form-check-input">
 														</label>
 													</div>
 												</th>
-												<th class="px-0 pb-2 border-bottom">문서 번호</th>
+												<th class="px-0 pb-2 border-bottom">문서번호<i class="icon-search" onclick="searchDocId('문서번호')"></i>
+											    </th>
 												<th class="px-0 border-bottom pb-2">결재상태
 												<i class="mdi mdi-menu-down" data-toggle="dropdown"></i>
-											    <div class="dropdown-menu">
-													<a class="dropdown-item" onclick="searchItems('승인')">승인</a>
-													<a class="dropdown-item" onclick="searchItems('진행')">진행</a>
-													<a class="dropdown-item" onclick="searchItems('반려')">반려</a>
-													<a class="dropdown-item" onclick="searchItems('회수')">회수</a>
+											    <div class="dropdown-menu mt-3" style="width: auto;">
+													<a class="dropdown-item" onclick="searchState('승인')">승인</a>
+													<a class="dropdown-item" onclick="searchState('진행')">진행</a>
+													<a class="dropdown-item" onclick="searchState('반려')">반려</a>
+													<a class="dropdown-item" onclick="searchState('회수')">회수</a>
 											    </div>
 												</th>
-												<th class="border-bottom pb-2">제목</th>
+												<th class="border-bottom pb-2">제목<i class="icon-search" onclick="searchDocTitle('제목')"></i>
+												</th>
 												<th class="border-bottom pb-2">상신날짜
 												<i class="mdi mdi-menu-down" data-toggle="dropdown"></i>
 												<div class="dropdown-menu">
 					        						<div class="datepicker dropdown-item input-daterange input-group">
 														<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
-													    <input type="text" class="input-sm form-control text-info font-weight-bold" name="start" style="border:0px; text-align: right;"/>
+													    <input id="startReportDate" type="text" class="input-sm form-control font-weight-bold" name="start" onchange="searchReportDate('상신날짜')" style="border:0px; text-align: right;"/>
 													    <span class="input-group-addon text-primary font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
 														<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
-													    <input type="text" class="input-sm form-control text-info font-weight-bold" name="end" style="border:0px; text-align: right;"/>
+													    <input id="endReportDate" type="text" class="input-sm form-control font-weight-bold" name="end" onchange="searchReportDate('상신날짜')" style="border:0px; text-align: right;"/>
 													</div>
 												</div>
 												</th>
-												<th class="border-bottom pb-2">종료날짜
+												<th class="border-bottom pb-2">완결날짜
 												<i class="mdi mdi-menu-down" data-toggle="dropdown"></i>
 												<div class="dropdown-menu">
 					        						<div class="datepicker dropdown-item input-daterange input-group">
 														<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
-													    <input type="text" class="input-sm form-control text-info font-weight-bold" name="start" style="border:0px; text-align: right;"/>
+													    <input id="startCompleteDate" type="text" class="input-sm form-control font-weight-bold" name="start" onchange="searchCompleteDate('완결날짜')" style="border:0px; text-align: right;"/>
 													    <span class="input-group-addon text-primary font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
 														<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
-													    <input type="text" class="input-sm form-control text-info font-weight-bold" name="end" style="border:0px; text-align: right;"/>
+													    <input id="endCompleteDate" type="text" class="input-sm form-control font-weight-bold" name="end" onchange="searchCompleteDate('완결날짜')" style="border:0px; text-align: right;"/>
 													</div>
 												</div>
 												</th>
@@ -211,14 +189,14 @@
 												<td class="py-0 pl-1">
 													<div class="form-check font-weight-bold text-info my-1">
 														<label class="form-check-label">
-															<input type="checkbox" class="form-check-input" name="optradio">
+															<input type="checkbox" class="checklist form-check-input" name="docId" form="checkedBox" value="${document.docId}">
 														</label>
 													</div>
 												</td>
 												<td class="px-0">${document.docId}</td>
 												<td class="px-0">
 													<c:choose>
-													<c:when test="${document.docState == '결재중'}">
+													<c:when test="${document.docState == '결재중' || document.docState == '승인'}">
 													<div class="badge badge-warning font-weight-bold d-flex" style="width: fit-content;">
 													<i class="mdi mdi-file-document d-flex align-self-center mr-1"></i><span>진행</span></div>
 													</c:when>
@@ -276,8 +254,11 @@
 									</table>
 									<div class="mt-2">
 										<div class="d-flex justify-content-end">
-											<span class="btn btn-secondary btn-sm mx-1">선택 회수</span>
-											<span class="btn btn-danger btn-sm mx-1">선택 삭제</span>
+											<form id="checkedBox" action="<c:url value='/approval/selected'></c:url>" method="post">
+											<input type="hidden" name="docType" value="draft">
+											</form>
+											<button class="btn btn-danger btn-sm mx-1" type="submit" form="checkedBox" name="type" value="delete">선택 삭제</button>
+											<button class="btn btn-secondary btn-sm mx-1" type="submit" form="checkedBox" name="type" value="retrieve">선택 회수</button>
 										</div>	
 										<ul class="pagination justify-content-center pb-0 mb-0">
 										<c:if test="${pager.totalRows > 0}">

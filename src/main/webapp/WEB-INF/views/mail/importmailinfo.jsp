@@ -51,7 +51,7 @@
 						<th class=" form-inline col-1" style="border:none;">
 							<div class="form-check font-weight-bold text-info">
 								<label class="form-check-label">
-									<input type="checkbox" class="form-check-input" name="optradio">
+									<input type="checkbox" class="form-check-input" name='selectall' onclick="selectAll(this)">
 								</label>
 							</div>
 						</th>
@@ -68,7 +68,7 @@
 								<td class="form-inline pr-0 p1-2">
 									<div class="form-check font-weight-bold text-info">
 										<label class="form-check-label">
-											<input type="checkbox" class="form-check-input" name="optradio">
+											<input type="checkbox" class="form-check-input" name="optradio" onclick="checkSelectAll()" value="${send.sendMailId}">
 										</label>
 									</div>
 									<button onclick="star(${send.sendMailId})"><i class="h3 mdi mdi-star text-primary"></i></button>
@@ -86,33 +86,38 @@
 									<c:if test="${send.tbName =='received' }">
 										<i class="mdi mdi-arrow-left text-primary"></i>
 									</c:if>
-									<c:forEach items="${send.empList}" var="emp">
-										<c:if test="${send.receivedCount == 1}">
-											<span class="etooltip">${emp.empName} ${emp.posName}
-												<span class="etooltiptext">(${emp.depName}) ${emp.empName}${emp.posName}   
-													<c:if test="${emp.readYN=='Y'}">
-														&nbsp;&nbsp;&nbsp;&nbsp;읽음
-													</c:if>
-													<c:if test="${emp.readYN=='N'}">
-														&nbsp;&nbsp;&nbsp;&nbsp;안읽음
-													</c:if>
+									<c:if test="${send.tbName =='received' }">
+										<span>(${send.depName}) ${send.empName}${send.posName} </span>
+									</c:if>
+									<c:if test="${send.tbName =='send' }">
+										<c:forEach items="${send.empList}" var="emp">
+											<c:if test="${send.receivedCount == 1}">
+												<span class="etooltip">${emp.empName} ${emp.posName}
+													<span class="etooltiptext">(${emp.depName}) ${emp.empName}${emp.posName}   
+														<c:if test="${emp.readYN=='Y'}">
+															&nbsp;&nbsp;&nbsp;&nbsp;읽음
+														</c:if>
+														<c:if test="${emp.readYN=='N'}">
+															&nbsp;&nbsp;&nbsp;&nbsp;안읽음
+														</c:if>
+													</span>
 												</span>
+											</c:if>
+										</c:forEach>
+										<c:if test="${send.receivedCount > 1}">
+											<span class="etooltip"> ${send.receivedCount}
+												<c:forEach items="${send.empList}" var="emp">
+													<span class="etooltiptext">(${emp.depName}) ${emp.empName}${emp.posName}
+														<c:if test="${emp.readYN=='Y'}">
+															&nbsp;&nbsp;&nbsp;&nbsp;읽음
+														</c:if>
+														<c:if test="${emp.readYN=='N'}">
+															&nbsp;&nbsp;&nbsp;&nbsp;안읽음
+														</c:if>
+												    </span>
+											    </c:forEach>
 											</span>
 										</c:if>
-									</c:forEach>
-									<c:if test="${send.receivedCount > 1}">
-										<span class="etooltip"> ${send.receivedCount}
-											<c:forEach items="${send.empList}" var="emp">
-												<span class="etooltiptext">(${emp.depName}) ${emp.empName}${emp.posName}
-													<c:if test="${emp.readYN=='Y'}">
-														&nbsp;&nbsp;&nbsp;&nbsp;읽음
-													</c:if>
-													<c:if test="${emp.readYN=='N'}">
-														&nbsp;&nbsp;&nbsp;&nbsp;안읽음
-													</c:if>
-											    </span>
-										    </c:forEach>
-										</span>
 									</c:if>
 								</td>
 								<td>${send.sendMailTitle}</td>
@@ -140,7 +145,7 @@
 		<div class="row form-inline m-3">
 			<div class="col-md-11"></div>
 			<div class="col-md-1 col-12">
-				<button class="btn btn-danger btn-sm">선택삭제</button>
+				<button class="btn btn-danger btn-sm" onclick="popup()">선택삭제</button>
 			</div>
 		</div><!-- 하단 버튼 -->
 

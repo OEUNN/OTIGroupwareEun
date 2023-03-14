@@ -44,30 +44,39 @@
 		});
 		
 		function appendToList(elementId) {
-			if ($("#approvalLine div").length < 3) {
-				delId = 'del' + elementId;
-				if ($("#approvalLine").has("div[id=" + delId + "]").length === 0) {
-					
-					originalId = elementId;
-					elementId = '#' + elementId;
-					
-					clonedElement = $(elementId).clone();
-					clonedElement.removeClass('mdi-account-star');
-					clonedElement.addClass('mdi-minus');
-					let jQueryElement = clonedElement.html();
-					
-					jQueryElement = '<div id="' + delId + '" class="'+order+' highlight row m-1 ' + $(elementId).attr('class').split(' ')[3] + '" onclick="removeFromList('+originalId+')">' + jQueryElement + '</div>'
-					$("#approvalLine").append(jQueryElement);
-					
-					order += 1;
+			var readerId = $("#readerId").val();
+			console.log(readerId);
+			console.log(elementId);
+			if (elementId !== readerId) {
+				if ($("#approvalLine div").length < 3) {
+					delId = 'del' + elementId;
+					if ($("#approvalLine").has("div[id=" + delId + "]").length === 0) {
+						
+						originalId = elementId;
+						elementId = '#' + elementId;
+						
+						clonedElement = $(elementId).clone();
+						clonedElement.removeClass('mdi-account-star');
+						clonedElement.addClass('mdi-minus');
+						let jQueryElement = clonedElement.html();
+						
+						jQueryElement = '<div id="' + delId + '" class="'+order+' highlight row m-1 ' + $(elementId).attr('class').split(' ')[3] + '" onclick="removeFromList('+originalId+')">' + jQueryElement + '</div>'
+						$("#approvalLine").append(jQueryElement);
+						
+						order += 1;
+					}
+					else {
+						alert("결재선에 같은 사람을 두번 이상 지정할 수 없습니다.");
+					}
 				}
 				else {
-					alert("결재선에 같은 사람을 두번 이상 지정할 수 없습니다.");
+					alert("결재선은 최대 3명까지만 지정이 가능합니다.");
 				}
 			}
 			else {
-				alert("결재선은 최대 3명까지만 지정이 가능합니다.");
+				alert("자기 자신을 결재선에 지정할 수 없습니다.");
 			}
+			
 		}
 		
 		//In Javascript, 숫자로만 이루어진 문자열이 0으로 시작하면 8진수로 인식한다.
@@ -144,6 +153,7 @@
 </head>
 
 <body>
+	<input id="readerId" type="hidden" value="${sessionScope.employee.empId}"/>
 	<div class="main-panel-popup">
 		<div class="content-wrapper">
 			<!-- Start information -->

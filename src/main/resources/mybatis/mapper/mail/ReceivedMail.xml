@@ -137,6 +137,16 @@
 		</if>
 		where SEND_MAIL_ID= #{mailId} and EMP_ID_EMPLOYEES = #{empId}
     </update>
+    
+    <!-- 받은메일 휴지통 보내기 -->
+    <update id="receivedMailSearchDelete">
+    	update received_mails
+		set RECD_MAIL_DEL_YN = 'Y' , RECD_MAIL_IMPORTANCE_YN='N', RECD_MAIL_DEL_DATE=sysdate
+		where emp_id=#{empId} and 
+		<foreach collection="arr" item="mailId" separator="or">
+		 	SEND_MAIL_ID=#{mailId}
+		</foreach>
+    </update>
 
     <update id="updateReceivedMail" parameterType="receivedMail">
         UPDATE received_mails
@@ -147,10 +157,6 @@
         WHERE send_mail_id = #{sendMailId} AND emp_id_employees = #{empIdEmployees}
     </update>
 
-    <delete id="deleteReceivedMail">
-        DELETE FROM received_mails WHERE send_mail_id = #{sendMailId} AND emp_id_employees = #{empIdEmployees}
-    </delete>
-    
     <select id="getMailInformation" parameterType="int" resultMap="receivedMailResultMap">
     	SELECT send_mail_id,
 		    emp_id_employees,
@@ -169,5 +175,48 @@
     	set RECD_MAIL_IMPORTANCE_YN = 'N'
 		where SEND_MAIL_ID= #{mailId} and EMP_ID_EMPLOYEES = #{empId}
     </update>
+    
+    <update id="updateTrashMail">
+	    update received_mails
+		set RECD_MAIL_DEL_COMPLETE_YN= 'Y' , RECD_MAIL_DEL_YN ='Y'
+		where EMP_ID_EMPLOYEES=#{empId} and 
+		<foreach collection="arr" item="mailId" separator="or">
+		 	SEND_MAIL_ID=#{mailId}
+		</foreach>
+    </update>
+    
+    <update id="updateReceivedRestore">
+    	 update received_mails
+		set  RECD_MAIL_DEL_YN ='N'
+		where EMP_ID_EMPLOYEES=#{empId} and 
+		<foreach collection="arr" item="mailId" separator="or">
+		 	SEND_MAIL_ID=#{mailId}
+		</foreach>
+    </update>
+    
+    <update id="updateCompleteReceivedMail">
+    	update received_mails
+		set recd_MAIL_DEL_COMPLETE_YN ='Y'
+		where 
+		<foreach collection="receivedMail" item="receivedMail" separator="or">
+		 	emp_id_employees = #{receivedMail.sendMailId} and send_mail_id = #{receivedMail.EmpIdEmployees}
+		</foreach>
+    </update>
+    
+    <select id="getAllReceivedMail" parameterType="int" resultType="int">
+    	select count(send_mail_id)
+    	from received_mails
+    	where send_mail_id =#{mailId}
+    </select>
+    
+    <select id="getCompleteReceivedMail" parameterType="int" resultType="int">
+    	select count(send_mail_id)
+    	from received_mails
+    	where send_mail_id=#{mailId} and RECD_MAIL_DEL_COMPLETE_YN = 'Y'
+    </select>
+    
+    <delete id="deleteReceivedMail">
+        DELETE FROM received_mails WHERE send_mail_id = #{mailId}
+    </delete>
     
 </mapper>
