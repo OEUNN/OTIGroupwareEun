@@ -116,7 +116,7 @@
 			<tr class="custom-border-left custom-border-right">
 				<td class="custom-border-right"><h4
 						class="font-weight-bold text-center m-0">작성자</h4></td>
-				<td>${empFormInfo['작성자']}</td>
+				<td>${sessionScope.employee.empName}</td>
 				<td></td>
 				<td></td>
 				<td class="custom-border-left custom-border-right"><h4

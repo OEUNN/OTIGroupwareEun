@@ -1,6 +1,5 @@
 package com.oti.groupware.hr.controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,10 +7,8 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -190,10 +187,11 @@ public class HRController {
 		log.info("정보 로그");
 		
 		Employee employee = (Employee) session.getAttribute("employee");
-		String empId = employee.getEmpId();
+		String empId = employee.getEmpId(); //사번
+		String posName = employee.getPosName(); //직급이름
 		
 		//작성자, 결재자 이름 가져오기
-		HashMap<String, String> empFormInfo = hrService.empFormInfoMap(empId); //신청양식에 필요한 정보 갖고옴(나중에 employeeSerivce에 넣기)
+		HashMap<String, String> empFormInfo = hrService.empFormInfoMap(empId, posName); //신청양식에 필요한 정보 갖고옴(나중에 employeeSerivce에 넣기)
 		model.addAttribute("empFormInfo", empFormInfo);
 		
 		//오늘의 출퇴근 기록 가져오기
@@ -254,7 +252,8 @@ public class HRController {
 		log.info("정보 로그");
 		
 		Employee employee = (Employee) session.getAttribute("employee"); //세션에 저장된 로그인유저 정보 가져옴
-		String empId = employee.getEmpId();
+		String empId = employee.getEmpId(); //사번
+		String posName = employee.getPosName(); //직급이름
 		
 		//pageNo에 값이 매핑이 안될 경우, 1을 넣어줌
 		if(pageNo == null) {
@@ -277,17 +276,17 @@ public class HRController {
 			model.addAttribute("levAppList", levAppList);
 		}
 		
-		//근무신청서 통계
-//		HashMap<String, Integer> atdExcpStats = hrService.attendanceExceptionStats(empId);
-//		model.addAttribute("atdExcpStats", atdExcpStats);
+		//나의 휴가 통계
+		HashMap<String, Integer> levAppStats = hrService.leaveApplicationStats(empId);
+		model.addAttribute("levAppStats", levAppStats);
 		
 		//잔여연차와 대체휴무일수 가져오기
-		Employee emp = hrService.empReserveInfo(empId);
-		model.addAttribute("leaveReserve", emp.getEmpLeaveReserve());
-		model.addAttribute("substitueReserve", emp.getEmpSubstitueReserve());
+//		Employee emp = hrService.empReserveInfo(empId);
+//		model.addAttribute("leaveReserve", emp.getEmpLeaveReserve());
+//		model.addAttribute("substitueReserve", emp.getEmpSubstitueReserve());
 		
 		//작성폼에 필요한 정보를 가져옴
-		HashMap<String, String> empFormInfo = hrService.empFormInfoMap(empId); //신청양식에 필요한 정보 갖고옴(나중에 employeeSerivce에 넣기)
+		HashMap<String, String> empFormInfo = hrService.empFormInfoMap(empId, posName); //신청양식에 필요한 정보 갖고옴(나중에 employeeSerivce에 넣기)
 		model.addAttribute("empFormInfo", empFormInfo);
 		
 		return "hr/myleave";
@@ -343,9 +342,8 @@ public class HRController {
 		return "redirect:/hr/myleave";
 	}
 	
-	
 	/**
-	 * 
+	 * 부서원들의 휴가현황을 볼 수 있는 페이지로 이동
 	 * @return 부서 휴가페이지
 	 */
 	@RequestMapping(value = "/empleave")
@@ -353,6 +351,23 @@ public class HRController {
 		log.info("정보 로그");
 		return "hr/empleave";
 	}
+	
+	/**
+	 * 달력에 넣을 부서원들의 휴가 목록을 가져온다 (AJAX통신)
+	 * @author 한송민
+	 * @return 달력 출퇴근 목록
+	 */
+	@RequestMapping(value = "/empleavecalendar", method=RequestMethod.GET , produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public String empLeaveCalendar(HttpSession session) {
+		//세션에 저장된 직원ID 갖고옴
+		Employee employee = (Employee) session.getAttribute("employee");
+		String depName = employee.getDepName(); //부서이름
+		//달력에 넣을 근무내역 가져옴
+		JSONArray empCalList = hrService.empLeaveCalendarList(depName);
+		return empCalList.toString();
+	}
+	
 	
 	/**
 	 * 부서장만 볼 수 있는 HR 결재내역 페이지

@@ -16,7 +16,7 @@
 				        right: 'today'
 				      },                
 					contentHeight : 700,
-					selectable : true,
+					selectable : false,
 					businessHours : true,
 					locale : 'ko',
 					dayMaxEvents : true,
@@ -33,6 +33,11 @@
 				    	  color: 'transparent'
 					    }
 					],
+					eventClick: function(info){
+						   //클릭시 구글캘린더 url로 가는것을 막는다.
+						   info.jsEvent.stopPropagation();
+						   info.jsEvent.preventDefault();
+					},
 					eventContent: function(info) {
 						let eventTitle = info.event.title;
 						let eventTime = info.event.start.toTimeString().split(' ')[0];
@@ -137,22 +142,6 @@
 			
 		});
 	});
-	
-	/* 근무시간수정 팝업창 */
-	function upateTimePopup() {
-		var url = "popup/updatetimeapp";
-		var name = "";
-		var option = "width = 800, height = 750, top = 100, left = 400, location = no, resizable=no, scrollbars=no  "
-		window.open(url, name, option);
-	}
-
-	/* 추가근무신청 팝업창 */
-	function overTimePopup() {
-		var url = "popup/overtimeapp";
-		var name = "";
-		var option = "width = 800, height = 740, top = 100, left = 400, location = no, resizable=no, scrollbars=no  "
-		window.open(url, name, option);
-	}
 </script>
 
 <style>
@@ -173,7 +162,7 @@
 		margin-left: 50px;
 	}
 	
-	/* TODAT 버튼 active 일때, disabled 상태 */
+	/* TODAY 버튼 active 일때, disabled 상태 */
 	.fc .fc-button-primary:disabled {
 		background-color: rgba(163, 164, 165, 0.3);
 		border-color: transparent;

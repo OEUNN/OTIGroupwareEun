@@ -43,15 +43,6 @@
 		<h4 class="card-title">휴지통</h4>
 		<!-- 검색 태그 -->
 		<div class="row mb-3 mt-5 mx-3">
-			<div class="form-inline" style="border-bottom:1px solid #e9ecef;">
-			<div class="px-3 py-1 ahover">
-					<button onclick="search(1)" style="color:grey;">읽은메일</button>
-				</div>
-				<div class="px-3 py-1 ahover">
-					<button onclick="search(2)" style="color:grey;">읽지않은메일</button>
-				</div>
-			</div>
-			<input type="hidden" id="searchBtn"/>
 		</div><!-- 검색 태그 -->
 		<!-- 테이블 -->
 		<div class="table-responsive p-4">
@@ -61,7 +52,7 @@
 						<th class=" form-inline col-1" style="border:none;">
 							<div class="form-check font-weight-bold text-info">
 								<label class="form-check-label">
-									<input type="checkbox" class="form-check-input" name="optradio">
+									<input type="checkbox" class="form-check-input"  name='selectall' onclick="selectAll(this)">
 								</label>
 							</div>
 						</th>
@@ -78,11 +69,9 @@
 								<td class="form-inline pr-0 p1-2">
 									<div class="form-check font-weight-bold text-info">
 										<label class="form-check-label">
-											<input type="checkbox" class="form-check-input" name="optradio">
+											<input type="checkbox" class="form-check-input" name="optradio" onclick="checkSelectAll()" value="${send.sendMailId}">
 										</label>
 									</div>
-									<button onclick="star(${send.sendMailId})"><i class="h3 mdi mdi-star text-primary"></i></button>
-									<input type="hidden" id="star"/>
 								</td>
 								<td>
 									<c:if test="${send.fileYN == 'Y'}">
@@ -96,34 +85,41 @@
 									<c:if test="${send.tbName =='received' }">
 										<i class="mdi mdi-arrow-left text-primary"></i>
 									</c:if>
-									<c:forEach items="${send.empList}" var="emp">
-										<c:if test="${send.receivedCount == 1}">
-											<span class="etooltip">${emp.empName} ${emp.posName}
-												<span class="etooltiptext">(${emp.depName}) ${emp.empName}${emp.posName}   
-													<c:if test="${emp.readYN=='Y'}">
-														&nbsp;&nbsp;&nbsp;&nbsp;읽음
-													</c:if>
-													<c:if test="${emp.readYN=='N'}">
-														&nbsp;&nbsp;&nbsp;&nbsp;안읽음
-													</c:if>
+									
+									<c:if test="${send.tbName =='received' }">
+										<span>(${send.depName}) ${send.empName}${send.posName} </span>
+									</c:if>
+									<c:if test="${send.tbName =='send' }">
+										<c:forEach items="${send.empList}" var="emp">
+											<c:if test="${send.receivedCount == 1}">
+												<span class="etooltip">${emp.empName} ${emp.posName}
+													<span class="etooltiptext">(${emp.depName}) ${emp.empName}${emp.posName}   
+														<c:if test="${emp.readYN=='Y'}">
+															&nbsp;&nbsp;&nbsp;&nbsp;읽음
+														</c:if>
+														<c:if test="${emp.readYN=='N'}">
+															&nbsp;&nbsp;&nbsp;&nbsp;안읽음
+														</c:if>
+													</span>
 												</span>
+											</c:if>
+										</c:forEach>
+										<c:if test="${send.receivedCount > 1}">
+											<span class="etooltip"> ${send.receivedCount}
+												<c:forEach items="${send.empList}" var="emp">
+													<span class="etooltiptext">(${emp.depName}) ${emp.empName}${emp.posName}
+														<c:if test="${emp.readYN=='Y'}">
+															&nbsp;&nbsp;&nbsp;&nbsp;읽음
+														</c:if>
+														<c:if test="${emp.readYN=='N'}">
+															&nbsp;&nbsp;&nbsp;&nbsp;안읽음
+														</c:if>
+												    </span>
+											    </c:forEach>
 											</span>
 										</c:if>
-									</c:forEach>
-									<c:if test="${send.receivedCount > 1}">
-										<span class="etooltip"> ${send.receivedCount}
-											<c:forEach items="${send.empList}" var="emp">
-												<span class="etooltiptext">(${emp.depName}) ${emp.empName}${emp.posName}
-													<c:if test="${emp.readYN=='Y'}">
-														&nbsp;&nbsp;&nbsp;&nbsp;읽음
-													</c:if>
-													<c:if test="${emp.readYN=='N'}">
-														&nbsp;&nbsp;&nbsp;&nbsp;안읽음
-													</c:if>
-											    </span>
-										    </c:forEach>
-										</span>
 									</c:if>
+									
 								</td>
 								<td>${send.sendMailTitle}</td>
 								
@@ -150,10 +146,10 @@
 		<div class="row form-inline m-3">
 			<div class="col-md-10"></div>
 			<div class="col-md-1 col-12">
-				<button class="btn btn-warning btn-sm">선택복구</button>
+				<button class="btn btn-warning btn-sm" onclick="pager(-4)">선택복구</button>
 			</div>
 			<div class="col-md-1 col-12">
-				<button class="btn btn-danger btn-sm">선택삭제</button>
+				<button class="btn btn-danger btn-sm" onclick="popup()">선택삭제</button>
 			</div>
 		</div><!-- 하단 버튼 -->
 

@@ -23,4 +23,7 @@ public class SendMail {
     private List<EmployeeInfo> empList;
     private String fileYN; //파일 유무
     private String tbName;
+    private String posName;
+    private String depName;
+    private String empName;
 }
