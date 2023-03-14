@@ -17,6 +17,7 @@
         <result column="lev_app_approval_emp_name" property="levAppApprovalEmpName"/>
         <result column="lev_app_approval_emp_id" property="levAppApprovalEmpId"/>
         <result column="lev_app_opinion" property="levAppOpinion"/>
+        <result column="lev_app_cancel" property="levAppCancel"/>
     </resultMap>
     
     <!-- 휴가신청서(일반 임직원) - 전체 행의 수 -->
@@ -42,7 +43,8 @@
 		    lev_app_start_date,
 		    lev_app_end_date,
 		    lev_app_approval_emp_name,
-		    lev_app_process_state
+		    lev_app_process_state,
+		    lev_app_cancel
 		FROM leave_applications
 		<where>
 	      emp_id = #{empId}
@@ -58,6 +60,7 @@
 	<!-- 휴가신청서(일반 임직원) - 상세조회 -->
 	<select id="getLeaveApplicationDetail" resultMap="leaveApplicationResultMap">
 		SELECT 
+		    emp_id,
 		    lev_app_date,
 		    lev_app_reason,
 		    lev_app_category,
@@ -66,7 +69,8 @@
 		    lev_app_approval_emp_id,
 		    lev_app_approval_emp_name,
 		    lev_app_process_state,
-		    lev_app_opinion
+		    lev_app_opinion,
+		    lev_app_cancel
 		FROM 
 			leave_applications
 		WHERE
@@ -74,15 +78,21 @@
 	</select>
 	
 	<!-- 휴가신청 통계 -->
-<!-- 	<select id="getLeaveApplicationApprovalStats" resultType="hashmap"> -->
-<!-- 		SELECT -->
-<!-- 		    count(CASE WHEN atd_excp_category = '근무시간수정' THEN 1 END) AS 근무시간수정, -->
-<!-- 		    count(CASE WHEN atd_excp_category = '추가근무' THEN 1 END) AS 추가근무보고 -->
-<!-- 		FROM  -->
-<!-- 		    attendance_exceptions -->
-<!-- 		WHERE -->
-<!-- 		    emp_id = #{empId} -->
-<!-- 	</select> -->
+	<select id="getLeaveApplicationStats" resultType="hashmap">
+		SELECT DISTINCT
+		    (
+		        SELECT COUNT(CASE WHEN lev_app_process_state = '승인' THEN 1 END)
+		        FROM leave_applications
+		        where emp_id = #{empId}
+		    ) AS 휴가사용,
+		    e.emp_leave_reserve AS 잔여연차,
+		    e.emp_substitue_reserve AS 잔여대체휴무
+		FROM 
+		   employees e, leave_applications la
+		WHERE 
+		    e.emp_id = #{empId}
+		    AND TO_CHAR(la.lev_app_date, 'YYYY') = TO_CHAR(SYSDATE, 'YYYY');
+	</select>
 	
 	<!-- 휴가신청서 등록 -->
     <insert id="insertLeaveApplication" parameterType="leaveApplication">
@@ -97,6 +107,7 @@
         	lev_app_process_state, 
         	lev_app_approval_emp_id,
         	lev_app_approval_emp_name
+        	<if test="levAppCancel == '휴가취소'">, lev_app_cancel</if>
        	)
         VALUES (
         	SEQ_LEV_APP_ID.NEXTVAL, 
@@ -109,6 +120,7 @@
         	'미처리', 
         	#{levAppApprovalEmpId},
         	#{levAppApprovalEmpName}
+        	<if test="levAppCancel == '휴가취소'">, '휴가취소'</if>
        	)
     </insert>
     
@@ -147,7 +159,8 @@
 		    lev_app_start_date,
 		    lev_app_end_date,
 		    lev_app_approval_emp_name,
-		    lev_app_process_state
+		    lev_app_process_state,
+		    lev_app_cancel
 		FROM leave_applications
 		<where>
 	      lev_app_approval_emp_id = #{empId}
@@ -175,7 +188,8 @@
 		    lev_app_approval_emp_id,
 		    lev_app_approval_emp_name,
 		    lev_app_process_state,
-		    lev_app_opinion
+		    lev_app_opinion,
+		    lev_app_cancel
 		FROM 
 			leave_applications
 		WHERE
@@ -193,15 +207,25 @@
 		WHERE emp_id = #{empId}
 	</select>
 	
-    <!-- 잔여일수 차감 -->
+    <!-- 잔여일수 차감/증감 -->
     <!-- 나중에 EmployeeMapper에 옮기기 -->
-    <update id="updateEmployeeReserve">
-    	UPDATE 
-    		employees
-   		SET
-			<if test="levAppCategory == '연차' or levAppCategory == '오전반차' or levAppCategory == '오후반차'">emp_leave_reserve = emp_leave_reserve - #{levPeriod}</if>
-   			<if test="levAppCategory == '대체휴무'">emp_substitue_reserve = emp_substitue_reserve - #{levPeriod}</if>
-		WHERE emp_id = #{empId}
+    <update id="updateEmployeeReserve" parameterType="leaveApplication">
+    	<if test="levAppCancel != '휴가취소'">
+	    	UPDATE 
+	    		employees
+	   		SET
+				<if test="levAppCategory == '연차' or levAppCategory == '오전반차' or levAppCategory == '오후반차'">emp_leave_reserve = emp_leave_reserve - #{levPeriod}</if>
+	   			<if test="levAppCategory == '대체휴무'">emp_substitue_reserve = emp_substitue_reserve - #{levPeriod}</if>
+			WHERE emp_id = #{empId}
+    	</if>
+    	<if test="levAppCancel == '휴가취소'">
+	    	UPDATE 
+	    		employees
+	   		SET
+				<if test="levAppCategory == '연차' or levAppCategory == '오전반차' or levAppCategory == '오후반차'">emp_leave_reserve = emp_leave_reserve + #{levPeriod}</if>
+	   			<if test="levAppCategory == '대체휴무'">emp_substitue_reserve = emp_substitue_reserve + #{levPeriod}</if>
+			WHERE emp_id = #{empId}
+    	</if>
     </update>
     
 	<!-- 휴가신청서의 결재상태를 수정 -->
@@ -215,10 +239,11 @@
         WHERE 
         	lev_app_id = #{levAppId}
     </update>
-
+	
+	<!-- 미처리된 휴가 신청서를 삭제 -->
     <delete id="deleteLeaveApplication">
-        DELETE FROM project3.leave_applications
-        WHERE lev_app_id = #{levAppId} AND emp_id = #{empId}
+        DELETE FROM leave_applications
+        WHERE lev_app_id = #{levAppId}
     </delete>
     
 </mapper>

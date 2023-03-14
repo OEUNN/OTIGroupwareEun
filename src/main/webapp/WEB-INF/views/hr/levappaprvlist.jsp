@@ -73,7 +73,10 @@
 						<c:if test="${!empty levAppList}">
 							<c:forEach var="levApp" items="${levAppList}">
 								<tr onclick="levAppDetail('${levApp.levAppId}')">
-									<td class="text-center"><small>${levApp.levAppCategory}</small></td>
+									<td class="text-center">
+										<c:if test="${levApp.levAppCancel ne '휴가취소'}"><small>${levApp.levAppCategory}</small></c:if>
+										<c:if test="${levApp.levAppCancel eq '휴가취소'}"><small class="text-danger">${levApp.levAppCategory}취소</small></c:if>
+									</td>
 									<td><small><fmt:formatDate value="${levApp.levAppDate}" pattern="yyyy-MM-dd" /></small></td>
 									<td><small> 
 										<fmt:formatDate value="${levApp.levAppStartDate}" pattern="yyyy-MM-dd" />

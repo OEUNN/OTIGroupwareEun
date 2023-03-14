@@ -5,6 +5,8 @@
 	<resultMap id="attendanceResultMap" type="attendance">
 		<result column="atd_id" property="atdId"/>
 		<result column="emp_id" property="empId"/>
+		<result column="emp_name" property="empName"/>
+		<result column="pos_name" property="posName"/>
 		<result column="atd_in_time" property="atdInTime"/>
 		<result column="atd_out_time" property="atdOutTime"/>
 		<result column="atd_state" property="atdState"/>
@@ -22,7 +24,7 @@
 		  atd_state 
 		FROM attendances 
 		WHERE emp_id = #{empId} AND 
-			  to_char(atd_in_time, 'yyyy-MM-DD') = to_char(sysdate, 'yyyy-MM-DD') 
+			  to_char(atd_in_time, 'yyyy-MM-DD') = to_char(sysdate, 'yyyy-MM-DD')
 	</select>
 	
 	<!-- 근무통계 -->
@@ -33,7 +35,7 @@
 		    count(CASE WHEN TO_CHAR(atd_in_time, 'HH24') >= 9 AND atd_state is null THEN 1 END) AS 지각,
 		    count(CASE WHEN TO_CHAR(atd_out_time, 'HH24') < 18 AND atd_out_time is not null THEN 1 END) AS 조퇴,
 		    count(CASE WHEN atd_state = '결근' THEN 1 END) AS 결근,
-		    count(CASE WHEN atd_state = '추가근무' THEN 1 END) AS 추가근무
+		    count(CASE WHEN atd_overtime_yn = 'Y' THEN 1 END) AS 추가근무
 		FROM 
 		    attendances
 		WHERE
@@ -41,17 +43,35 @@
 		]]>
 	</select>
 	
-	<!-- 근무현황목록 -->
+	<!-- 근무현황목록 (달력) -->
 	<select id="getAttendanceList" resultMap="attendanceResultMap">
 		SELECT
 		    emp_id, 
 		    atd_in_time, 
 		    atd_out_time,
-		    atd_state
+		    atd_state,
+		    atd_overtime_yn,
+		    atd_overtime_hours
 		FROM 
 			attendances
 		WHERE
 			emp_id = #{empId}
+	</select>
+
+	<!-- 동일 부서 사람들의 휴가 목록 (달력) -->
+	<select id="getEmployeeLeaveList" resultMap="attendanceResultMap">
+		SELECT 
+		    a.emp_id,
+		    e.emp_name,
+            p.pos_name,
+		    a.atd_in_time,
+		    a.atd_out_time,
+		    a.atd_state
+		FROM
+		    attendances a, employees e, departments d, positions p
+		WHERE a.emp_id = e.emp_id AND e.dep_id = d.dep_id AND e.pos_id = p.pos_id
+		    AND d.dep_name = #{depName}
+		    AND a.atd_state in('연차', '대체휴무', '오전반차', '오후반차')
 	</select>
 	
 	<!-- 출근시간 등록 -->
@@ -153,15 +173,31 @@
 	
 	<!-- 신청폼에서 결재자이름, 작성자이름 갖고오기 -->
 	<select id="getEmpNames" resultType="hashmap">
-		SELECT 
-			e.emp_name AS 작성자, 
-			d.emp_id AS 결재자ID,
-			(SELECT emp_name FROM employees WHERE emp_id = d.emp_id) AS 결재자
-		FROM 
-			employees e, departments d 
-		WHERE 
-			e.dep_id = d.dep_id 
-			AND e.emp_id = #{empId}
+		<if test="posName != '부장' and posName != '이사' and posName != '대표이사'">
+			SELECT 
+				e.emp_name AS 작성자, 
+				d.emp_id AS 결재자ID,
+				(SELECT emp_name FROM employees WHERE emp_id = d.emp_id) AS 결재자
+			FROM 
+				employees e, departments d 
+			WHERE
+				e.dep_id = d.dep_id 
+				AND e.emp_id = #{empId}
+		</if>
+		<if test="posName == '부장'">
+			SELECT
+				emp_name AS 결재자,
+				emp_id AS 결재자ID
+			FROM employees
+			WHERE pos_id = 6
+		</if>
+		<if test="posName == '이사' or posName == '대표이사'">
+			SELECT 
+				emp_name AS 결재자,
+				emp_id AS 결재자ID
+			FROM employees
+			WHERE pos_id = 7
+		</if>
 	</select>
 
 	<!-- 출퇴근 기록이 있을 경우엔 - Update, 출퇴근 기록이 없을 때는 INSERT -->
@@ -204,4 +240,11 @@
 	      )
 	  ]]>
 	</update>
+	
+	<!-- 휴가 취소인 경우 -->
+	<delete id="deleteAttendance" parameterType="leaveApplication">
+		 DELETE FROM attendances 
+  		 WHERE (#{levAppCategory} IN ('연차', '오전반차', '대체휴무') AND to_char(atd_in_time, 'YYYY-MM-DD') BETWEEN to_char(#{levAppStartDate}, 'YYYY-MM-DD') AND to_char(#{levAppEndDate}, 'YYYY-MM-DD'))
+    		OR (#{levAppCategory} = '오후반차' AND to_char(atd_out_time, 'YYYY-MM-DD') BETWEEN to_char(#{levAppStartDate}, 'YYYY-MM-DD') AND to_char(#{levAppEndDate}, 'YYYY-MM-DD'))
+	</delete>
 </mapper>

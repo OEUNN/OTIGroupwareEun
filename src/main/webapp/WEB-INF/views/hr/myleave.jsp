@@ -40,12 +40,30 @@
 		});
 	});
 
-	/* 휴가신청내역 상세보기 팝업창 */
-	function leaveDetail(id) {
-		var url = "popup/leavedetail?levAppId=" + id;
-		var name = "";
-		var option = "width = 800, height = 650, top = 200, left = 400, location = no, resizable=no, scrollbars=no  "
-		window.open(url, name, option);
+	/* AJAX통신 - 휴가신청내역 상세보기*/
+	function levAppDetail(id) {
+		$.ajax({
+           type: "GET",
+           url: "../hr/levappaprvdetail?levAppId=" + id,
+           error: function () {
+           	alert("통신실패!");
+           },
+           success: function (data) {
+               //작성폼 숨기기
+               $("#leave-app-write-form").hide();
+			   //AJAX 통신에 의해 상세조회 내용 넣기
+               $("#leave-app-detail").hide().fadeIn(500);
+               $('#leave-app-detail').html(data);
+           }
+   		});
+	}
+	
+	/* 휴가신청서 자세히보기에서 X버튼 누르면 다시 목록 커짐 */
+	function backLevList() {
+		//상세조회 원래대로
+		$("#leave-app-detail").hide().fadeOut(400);
+		//숨겨놓은 근무신청내역 목록 보이기
+       $("#leave-app-write-form").hide().fadeIn(600);
 	}
 	
 	//첫번째 셀렉박스 - 잔여연차를 선택했을 경우
@@ -230,9 +248,9 @@
 											</div>
 											<div class="row text-center font-weight-bold h3 mb-0">
 												<div class="col-md">0</div>
-												<div class="col-md">0</div>
-												<div id="lev-rev-period" class="col-md"><fmt:formatNumber value="${leaveReserve}" pattern="#0.0"/></div>
-												<div id="sub-rev-period" class="col-md mr-3">${substitueReserve}</div>
+												<div class="col-md">${levAppStats['휴가사용']}</div>
+												<div id="lev-rev-period" class="col-md"><fmt:formatNumber value="$${levAppStats['잔여연차']}" pattern="#0.0"/></div>
+												<div id="sub-rev-period" class="col-md mr-3">${levAppStats['잔여대체휴무']}</div>
 											</div>
 										</div>
 									</div>
@@ -251,8 +269,11 @@
 											<tbody>
 												<c:if test="${!empty levAppList}">
 													<c:forEach var="levApp" items="${levAppList}">
-														<tr onclick="leaveDetail('${levApp.levAppId}')">
-															<td class="text-center"><small>${levApp.levAppCategory}</small></td>
+														<tr onclick="levAppDetail('${levApp.levAppId}')">
+															<td class="text-center">
+																<c:if test="${levApp.levAppCancel ne '휴가취소'}"><small>${levApp.levAppCategory}</small></c:if>
+																<c:if test="${levApp.levAppCancel eq '휴가취소'}"><small class="text-danger">${levApp.levAppCategory}취소</small></c:if>
+															</td>
 															<td><small><fmt:formatDate value="${levApp.levAppDate}" pattern="yyyy-MM-dd" /></small></td>
 															<td><small>
 																<fmt:formatDate value="${levApp.levAppStartDate}" pattern="yyyy-MM-dd" />
@@ -323,8 +344,11 @@
 								</div>
 							</div>
 						</div>
+						<!-- 상세보기 -->
+						<div id="leave-app-detail" class="col-md-6" style="display: none;">
+						</div>
 						<!-- 휴가신청폼 -->
-						<div class="col-md-6 grid-margin stretch-card">
+						<div id="leave-app-write-form" class="col-md-6 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
 									<p class="card-title">휴가신청</p>
@@ -335,7 +359,7 @@
 												<tr class="custom-border-left custom-border-right">
 													<td class="custom-border-right"><h4
 															class="font-weight-bold text-center m-0">작성자</h4></td>
-													<td>${empFormInfo['작성자']}</td>
+													<td>${sessionScope.employee.empName}</td>
 													<td></td>
 													<td></td>
 													<td class="custom-border-left custom-border-right"><h4
