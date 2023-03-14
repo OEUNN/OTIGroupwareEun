@@ -143,7 +143,7 @@
     	update received_mails
 		set RECD_MAIL_DEL_YN = 'Y' , RECD_MAIL_IMPORTANCE_YN='N', RECD_MAIL_DEL_DATE=sysdate
 		where emp_id=#{empId} and 
-		<foreach collection="arr" item="mailId" separator="and">
+		<foreach collection="arr" item="mailId" separator="or">
 		 	SEND_MAIL_ID=#{mailId}
 		</foreach>
     </update>
@@ -179,8 +179,8 @@
     <update id="updateTrashMail">
 	    update received_mails
 		set RECD_MAIL_DEL_COMPLETE_YN= 'Y' , RECD_MAIL_DEL_YN ='Y'
-		where emp_id=#{empId} and 
-		<foreach collection="arr" item="mailId" separator="and">
+		where EMP_ID_EMPLOYEES=#{empId} and 
+		<foreach collection="arr" item="mailId" separator="or">
 		 	SEND_MAIL_ID=#{mailId}
 		</foreach>
     </update>
@@ -188,8 +188,8 @@
     <update id="updateReceivedRestore">
     	 update received_mails
 		set  RECD_MAIL_DEL_YN ='N'
-		where emp_id=#{empId} and 
-		<foreach collection="arr" item="mailId" separator="and">
+		where EMP_ID_EMPLOYEES=#{empId} and 
+		<foreach collection="arr" item="mailId" separator="or">
 		 	SEND_MAIL_ID=#{mailId}
 		</foreach>
     </update>
@@ -198,8 +198,8 @@
     	update received_mails
 		set recd_MAIL_DEL_COMPLETE_YN ='Y'
 		where 
-		<foreach collection="arr" item="received" separator="and">
-		 	emp_id_employees = #{received.sendMailId} and send_mail_id = #{received.EmpIdEmployees}
+		<foreach collection="receivedMail" item="receivedMail" separator="or">
+		 	emp_id_employees = #{receivedMail.sendMailId} and send_mail_id = #{receivedMail.EmpIdEmployees}
 		</foreach>
     </update>
     

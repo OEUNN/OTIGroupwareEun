@@ -26,7 +26,7 @@ public interface ReceivedMailDAO {
 	public void receivedMailSearchDelete(@Param("arr")List<Integer> mailId, @Param("empId")String empId);
 	public void updateTrashMail(@Param("arr")List<Integer> mailId, @Param("empId")String empId); //send테이블 완전 삭제
 	public void updateReceivedRestore(@Param("arr")List<Integer> mailId, @Param("empId")String empId); //받은메일에 대한 복귀
-	public void updateCompleteReceivedMail(@Param("arr")List<ReceivedMail> receivedMail); //휴지통에 들어온지 30일이 지난 메일의 complete를 update해준다.
+	public void updateCompleteReceivedMail(@Param("receivedMail")List<ReceivedMail> receivedMail); //휴지통에 들어온지 30일이 지난 메일의 complete를 update해준다.
 	public int getAllReceivedMail(Integer mailId);
 	public int getCompleteReceivedMail(Integer mailId);
 	public void deleteReceivedMail(@Param("mailId") int mailId);

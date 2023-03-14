@@ -86,33 +86,38 @@
 									<c:if test="${send.tbName =='received' }">
 										<i class="mdi mdi-arrow-left text-primary"></i>
 									</c:if>
-									<c:forEach items="${send.empList}" var="emp">
-										<c:if test="${send.receivedCount == 1}">
-											<span class="etooltip">${emp.empName} ${emp.posName}
-												<span class="etooltiptext">(${emp.depName}) ${emp.empName}${emp.posName}   
-													<c:if test="${emp.readYN=='Y'}">
-														&nbsp;&nbsp;&nbsp;&nbsp;읽음
-													</c:if>
-													<c:if test="${emp.readYN=='N'}">
-														&nbsp;&nbsp;&nbsp;&nbsp;안읽음
-													</c:if>
+									<c:if test="${send.tbName =='received' }">
+										<span>(${send.depName}) ${send.empName}${send.posName} </span>
+									</c:if>
+									<c:if test="${send.tbName =='send' }">
+										<c:forEach items="${send.empList}" var="emp">
+											<c:if test="${send.receivedCount == 1}">
+												<span class="etooltip">${emp.empName} ${emp.posName}
+													<span class="etooltiptext">(${emp.depName}) ${emp.empName}${emp.posName}   
+														<c:if test="${emp.readYN=='Y'}">
+															&nbsp;&nbsp;&nbsp;&nbsp;읽음
+														</c:if>
+														<c:if test="${emp.readYN=='N'}">
+															&nbsp;&nbsp;&nbsp;&nbsp;안읽음
+														</c:if>
+													</span>
 												</span>
+											</c:if>
+										</c:forEach>
+										<c:if test="${send.receivedCount > 1}">
+											<span class="etooltip"> ${send.receivedCount}
+												<c:forEach items="${send.empList}" var="emp">
+													<span class="etooltiptext">(${emp.depName}) ${emp.empName}${emp.posName}
+														<c:if test="${emp.readYN=='Y'}">
+															&nbsp;&nbsp;&nbsp;&nbsp;읽음
+														</c:if>
+														<c:if test="${emp.readYN=='N'}">
+															&nbsp;&nbsp;&nbsp;&nbsp;안읽음
+														</c:if>
+												    </span>
+											    </c:forEach>
 											</span>
 										</c:if>
-									</c:forEach>
-									<c:if test="${send.receivedCount > 1}">
-										<span class="etooltip"> ${send.receivedCount}
-											<c:forEach items="${send.empList}" var="emp">
-												<span class="etooltiptext">(${emp.depName}) ${emp.empName}${emp.posName}
-													<c:if test="${emp.readYN=='Y'}">
-														&nbsp;&nbsp;&nbsp;&nbsp;읽음
-													</c:if>
-													<c:if test="${emp.readYN=='N'}">
-														&nbsp;&nbsp;&nbsp;&nbsp;안읽음
-													</c:if>
-											    </span>
-										    </c:forEach>
-										</span>
 									</c:if>
 								</td>
 								<td>${send.sendMailTitle}</td>

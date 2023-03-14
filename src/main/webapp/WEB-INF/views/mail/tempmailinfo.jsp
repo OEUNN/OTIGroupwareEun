@@ -39,7 +39,7 @@
 </style>
 <div class="card">
 	<div class="card-body">
-		<h4 class="card-title">보낸 메일</h4>
+		<h4 class="card-title">임시 보관함</h4>
 		<!-- 검색 태그 -->
 		<div class="row mb-3 mt-5 mx-3"> </div><!-- 검색 태그 -->
 		<!-- 테이블 -->

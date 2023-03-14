@@ -32,7 +32,7 @@ public interface SendMailDAO {
 	public void sendMailSearchDelete(@Param("arr")List<Integer> mailId); //send메일 휴지통 보내기
 	public void deleteTempMail(@Param("arr")List<Integer> mailId); //임시보관함 삭제하기
 	public void updateTrashMail(@Param("arr")List<Integer> mailId); //휴지통에서 메일 복구하기 - received
-	public void updateSendRestore(List<Integer> mailId); //휴지통에서 메일 복구하기 -send
+	public void updateSendRestore(@Param("arr")List<Integer> mailId); //휴지통에서 메일 복구하기 -send
 	public List<SendMail> getDeleteTrashMail(); //휴지통에 들어간지 30일이 지난 메일 가져오기 -send, received
 	public void updateCompleteSendMail(@Param("arr")List<Integer> sendMail); //휴지통에 들어간지 30일이 지난 메일을 완전 삭제로 바꿔준다.
 	public List<Integer> getCompleteMail(); //완전삭제된 sendMail을 받아온다.

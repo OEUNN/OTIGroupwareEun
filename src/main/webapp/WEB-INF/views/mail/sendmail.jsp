@@ -122,6 +122,7 @@
 			    checkbox.checked = selectAll.checked
 			  })
 			}
+			
 		</script>
 	</head>
 

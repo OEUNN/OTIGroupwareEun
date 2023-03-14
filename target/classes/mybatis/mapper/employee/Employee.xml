@@ -140,7 +140,7 @@
 	</select>
 	
 	<select id="mailInfo" parameterType="string" resultType="employeeInfo">
-		select pos_name as posName, dep_name as depName, emp_name as empName
+		select pos_name as posName, dep_name as depName, emp_name as empName, e.emp_id as empId
 		from positions p, departments d, employees e 
 		where p.pos_id = 
 		        (select pos_id
