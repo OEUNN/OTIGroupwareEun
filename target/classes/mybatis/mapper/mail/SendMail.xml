@@ -111,12 +111,14 @@
 		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
 	</select>
 	
+	<!-- 보낸메일함 중요도 바꾸기 위해 현재의 import를 받아오기 -->
 	<select id="sendMailGetImport" parameterType="int" resultType="string">
 		select SEND_MAIL_IMPORTANCE_YN
 		from send_mails
 		where SEND_MAIL_ID=#{mailId}
 	</select>
 	
+	<!-- 보낸메일함 중요도 바꾸기 -->
 	<update id="sendMailChangeImport" parameterType="map">
 		update send_mails
 		set send_mail_importance_yn =
@@ -127,6 +129,15 @@
 			'Y'
 		</if>
 		where SEND_MAIL_ID=#{mailId}
+	</update>
+	
+	<update id="sendMailSearchDelete">
+		update send_mails
+		set SEND_MAIL_DEL_YN = 'Y', SEND_MAIL_IMPORTANCE_YN='N', SEND_MAIL_DEL_DATE = SYSDATE
+		where 
+		<foreach collection="arr" item="mailId" separator="and">
+		 	SEND_MAIL_ID=#{mailId}
+		</foreach>
 	</update>
 	
 	<select id="mailSearchRowsCount"  parameterType="map" resultType="int">
@@ -233,6 +244,14 @@
 		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
 	</select>
 	
+	<delete id="deleteTempMail">
+		delete from send_mails
+		where 
+		<foreach collection="arr" item="mailId" separator="and">
+		 	SEND_MAIL_ID=#{mailId}
+		</foreach>
+	</delete>
+	
 	<select id="getTrashRowCount" parameterType="string" resultType="int">
 		select count(send_mail_id)
 	    from(select send_mail_id
@@ -248,6 +267,7 @@
 			    order by recd_mail_date desc))
 	</select>
 	
+	<!-- 휴지통 얻어오기 -->
 	<select id="getTrashMail" parameterType="map" resultMap ="sendMailMap">
 		select send_mail_id, 'send' as tbName
 	    from(select send_mail_id
@@ -260,9 +280,59 @@
 		    from received_mails
 		    where recd_mail_del_yn = 'Y' and RECD_MAIL_DEL_COMPLETE_YN ='N' and emp_id_employees=#{empId}
 		    order by recd_mail_date desc)
-		order by  send_mail_date desc
 		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
 		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
 	</select>
-
+	
+	<!-- 휴지통 완전삭제 -->
+	<update id="updateTrashMail">
+		update send_mails
+		set SEND_MAIL_DEL_COMPLETE_YN ='Y' ,SEND_MAIL_DEL_YN ='Y'
+		where 
+		<foreach collection="arr" item="mailId" separator="and">
+		 	SEND_MAIL_ID=#{mailId}
+		</foreach>
+	</update>
+	
+	<!-- 휴지통 복귀 -->
+	<update id="updateSendRestore">
+		update send_mails
+		set SEND_MAIL_DEL_YN ='N'
+		where 
+		<foreach collection="arr" item="mailId" separator="and">
+		 	SEND_MAIL_ID=#{mailId}
+		</foreach>
+	</update>
+	
+	<select id="getDeleteTrashMail" resultMap="sendMailMap">
+		<![CDATA[
+		select SEND_MAIL_ID, emp_id, 'send' as tbName 
+        from send_mails
+        where 30  <= (TRUNC(SYSDATE) - TRUNC(SEND_MAIL_DEL_DATE)) and send_MAIL_DEL_YN ='Y' and SEND_MAIL_DEL_COMPLETE_YN ='N'
+        union all
+        select send_mail_id, emp_id_employees, 'received' as tbName 
+        from received_mails
+        where 30  <= (TRUNC(SYSDATE) - TRUNC(RECD_MAIL_DEL_DATE)) and RECD_MAIL_DEL_YN ='Y' and RECD_MAIL_DEL_COMPLETE_YN ='N'
+        ]]>
+	</select>
+	
+	<update id="updateCompleteSendMail">
+		update send_mails
+		set SEND_MAIL_DEL_COMPLETE_YN ='Y'
+		where 
+		<foreach collection="arr" item="mailId" separator="and">
+		 	SEND_MAIL_ID=#{mailId} 
+		</foreach>
+	</update>
+	
+	<select id="getCompleteMail" resultType="int">
+		select SEND_MAIL_ID
+		from send_mails
+		where SEND_MAIL_DEL_COMPLETE_YN ='Y'
+	</select>
+	
+	<delete id="deleteSendMail" parameterType="int">
+		DELETE FROM send_mails WHERE send_mail_id = #{mailId}
+	</delete>
+	
 </mapper>

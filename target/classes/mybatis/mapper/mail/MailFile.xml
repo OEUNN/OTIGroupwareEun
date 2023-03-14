@@ -61,7 +61,7 @@
     </update>
 
     <delete id="deleteMailFile" parameterType="int">
-        DELETE FROM project3.mails_files WHERE mail_file_id = #{mailFileId}
+        DELETE FROM mails_files WHERE mail_file_id = #{mailFileId}
     </delete>
 
 </mapper>

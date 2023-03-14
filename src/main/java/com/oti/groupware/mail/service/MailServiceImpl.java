@@ -93,6 +93,12 @@ public class MailServiceImpl implements MailService {
 		receivedMailDao.receivedMailChangeImport(star, mailId, empId);
 		
 	}
+	
+	//받은메일 휴지통 보내기
+	@Override
+	public void receivedMailSearchDelete(List<Integer> mailId, String empId) {
+		receivedMailDao.receivedMailSearchDelete(mailId, empId);
+	}
 
 	//받은메일 검색을 위한 rows
 	@Override
@@ -149,6 +155,13 @@ public class MailServiceImpl implements MailService {
 		sendMailDao.sendMailChangeImport(star, mailId);
 	}
 	
+	//보낸 메일 체크된 리스트 휴지통 보내기
+	@Override
+	public void sendMailSearchDelete(List<Integer> mailId) {
+		log.info(mailId);
+		sendMailDao.sendMailSearchDelete(mailId);
+	}
+	
 	//보낸 메일함 검색필터를 위한 rows count
 	@Override
 	public int sendMailSearchRowsCount(String empId, String search) {
@@ -192,7 +205,7 @@ public class MailServiceImpl implements MailService {
 	}
 
 	@Override
-	public List<SendMail> getImportMail(String empId, Pager pager) {
+	public List<SendMail> getImportMail(String empId, Pager pager ) {
 		log.info("실행");
 		List<SendMail> sendMail = sendMailDao.getImportMail(empId, pager);
 //		log.info("union 메일  :"+sendMail);
@@ -239,11 +252,36 @@ public class MailServiceImpl implements MailService {
 			sendMailDao.importMailChangeImport(mailId);
 		}
 	}
+	
+	//중요메일 휴지통 보내기
+	@Override
+	public void importMailSearchDelete(List<Integer> mailId,String empId) {
+		log.info("실행");
+		List<Integer> sendMail = new ArrayList<>();
+		List<Integer> receivedMail = new ArrayList<>();
+		for(Integer id : mailId) {
+			String tbName = sendMailDao.getWhereTable(id, empId);
+			if(tbName.equals("received")) {
+				receivedMail.add(id);
+			}else {
+				sendMail.add(id);
+			}
+		}
+		receivedMailDao.receivedMailSearchDelete(receivedMail, empId);
+		sendMailDao.sendMailSearchDelete(sendMail);
+	}
 
 	//임시보관함 get count
 	@Override
 	public int tempMailRowsCount(String empId) {
 		return sendMailDao.tempMailRowsCount(empId);
+	}
+	
+	//임시 보관함 삭제하기
+	@Override
+	public void tempMailDelete(List<Integer> list) {
+		sendMailDao.deleteTempMail(list);
+		
 	}
 
 	@Override
@@ -296,6 +334,65 @@ public class MailServiceImpl implements MailService {
 		}
 		return trashMail;
 	}
+
+	//휴지통 완전삭제 or 복구
+	@Override
+	public void trashMailDeleteRestore(List<Integer> mailId, String empId, String result) {
+		log.info("실행");
+		List<Integer> sendMail = new ArrayList<>();
+		List<Integer> receivedMail = new ArrayList<>();
+		for(Integer id : mailId) {
+			String tbName = sendMailDao.getWhereTable(id, empId);
+			if(tbName.equals("received")) {
+				receivedMail.add(id);
+			}else {
+				sendMail.add(id);
+			}
+		}
+		if(result.equals("delete")) {
+			receivedMailDao.updateTrashMail(mailId, empId);
+			sendMailDao.updateTrashMail(mailId);
+		}else if(result.equals("restore")){
+			receivedMailDao.updateReceivedRestore(mailId, empId);
+			sendMailDao.updateSendRestore(mailId);
+		}
+	}
+
+	//30일 지난 휴지통 메일 삭제
+	@Override
+	public void deleteTrashMail() {
+		List<SendMail> trashMail = sendMailDao.getDeleteTrashMail();
+		List<Integer> sendMail = new ArrayList<>();
+		List<ReceivedMail> receivedMail = new ArrayList<>();
+ 		for(SendMail list : trashMail) {
+			if(list.getTbName().equals("send")) {
+				sendMail.add(list.getSendMailId());
+			}else {
+				ReceivedMail received = new ReceivedMail();
+				received.setSendMailId(list.getSendMailId());
+				received.setEmpIdEmployees(list.getEmpId());
+				receivedMail.add(received);
+			}
+		}
+		sendMailDao.updateCompleteSendMail(sendMail);
+		receivedMailDao.updateCompleteReceivedMail(receivedMail); //
+	}
+
+	//매월 1일에 해당 메일이 모두 완전 삭제되었을때 해당 메일의 데이터를 삭제한다.
+	@Override
+	public void completeDelete() {
+		List<Integer> trashMail = sendMailDao.getCompleteMail();
+		for(Integer mailId : trashMail) {
+			int allCount = receivedMailDao.getAllReceivedMail(mailId);
+			int completeCount = receivedMailDao.getCompleteReceivedMail(mailId);
+			if(allCount == completeCount) {
+				mailFileDao.deleteMailFile(mailId);
+				receivedMailDao.deleteReceivedMail(mailId);
+				sendMailDao.deleteSendMail(mailId);
+			}
+		}
+	}
+
 
 
 }
