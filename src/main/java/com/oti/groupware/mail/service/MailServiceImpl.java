@@ -205,7 +205,7 @@ public class MailServiceImpl implements MailService {
 	}
 
 	@Override
-	public List<SendMail> getImportMail(String empId, Pager pager) {
+	public List<SendMail> getImportMail(String empId, Pager pager ) {
 		log.info("실행");
 		List<SendMail> sendMail = sendMailDao.getImportMail(empId, pager);
 //		log.info("union 메일  :"+sendMail);
