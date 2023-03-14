@@ -28,7 +28,7 @@ function popup(){
 
 <div class="row">
 	<div class="col-3">
-<%-- 		<img src="<c:url value='/employee/file/${emp.empId}'/>" style="width:200px; height:240px;border-radius:20px;"/> --%>
+		<img src="<c:url value='/employee/file/${emp.empId}'/>" style="width:200px; height:240px;border-radius:20px;"/>
 	</div> <!-- End image card -->
 	<!-- start information -->
 	<div class="col-9">

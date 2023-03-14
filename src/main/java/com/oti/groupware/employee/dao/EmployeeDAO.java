@@ -23,7 +23,6 @@ public interface EmployeeDAO {
 	public void updatePassword(@Param("empId")String empId, @Param("password")String password);
 	public List<Employee> getDepartment(int depId);
 	public Employee getEmployeeByName(String empName);
-	public int getPositionIdById(String empId);
 	public int employeeRowsCount();
 	public List<Employee> getEmployees(@Param("pager") Pager pager);
 	public Employee getCeoInformation();
