@@ -1,5 +1,7 @@
 package com.oti.groupware.approval.controller;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +11,10 @@ import java.util.Set;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.oti.groupware.approval.QueryHandler;
@@ -78,8 +85,9 @@ public class ApprovalController {
 		documents = documentService.getDraftDocumentList(pageNo, pager, empId);
 		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
 		
+		Pager returnPager = new Pager(pager.getRowsPerPage(), pager.getPagesPerGroup(), pager.getTotalRows(), pageNo);
 		
-		model.addAttribute("pager", pager);
+		model.addAttribute("pager", returnPager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
 		
@@ -109,8 +117,9 @@ public class ApprovalController {
 		documents = documentService.getCompletedDocumentList(pageNo, pager, empId);
 		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
 		
+		Pager returnPager = new Pager(pager.getRowsPerPage(), pager.getPagesPerGroup(), pager.getTotalRows(), pageNo);
 		
-		model.addAttribute("pager", pager);
+		model.addAttribute("pager", returnPager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
 		
@@ -142,7 +151,9 @@ public class ApprovalController {
 		documents = documentService.getPendedDocumentList(pageNo, pager, empId);
 		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
 		
-		model.addAttribute("pager", pager);
+		Pager returnPager = new Pager(pager.getRowsPerPage(), pager.getPagesPerGroup(), pager.getTotalRows(), pageNo);
+		
+		model.addAttribute("pager", returnPager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
 		
@@ -175,7 +186,9 @@ public class ApprovalController {
 		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
 		
 		
-		model.addAttribute("pager", pager);
+		Pager returnPager = new Pager(pager.getRowsPerPage(), pager.getPagesPerGroup(), pager.getTotalRows(), pageNo);
+		
+		model.addAttribute("pager", returnPager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
 		
@@ -208,7 +221,9 @@ public class ApprovalController {
 		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
 		
 		
-		model.addAttribute("pager", pager);
+		Pager returnPager = new Pager(pager.getRowsPerPage(), pager.getPagesPerGroup(), pager.getTotalRows(), pageNo);
+		
+		model.addAttribute("pager", returnPager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
 		
@@ -244,12 +259,12 @@ public class ApprovalController {
 		return "approval/approvalwrite";
 	}
 	
-	//결재 문서 작성 화면
+	//결재 문서 저장
 	@RequestMapping(value = "/approvalwrite", method=RequestMethod.POST)
-	public String postApprovalWrite(@RequestParam("document") String document, @RequestParam("docTempYn") String docTempYn, DocumentContent documentContent, @RequestParam("drafterId") String drafterId) {
+	public String postApprovalWrite(@RequestParam("document") String document, @RequestParam("docTempYn") String docTempYn, DocumentContent documentContent, @RequestParam("files") MultipartFile[] multipartFiles,  @RequestParam("drafterId") String drafterId) throws IOException {
 		log.info("저장 하려는 HTML이 존재하는가:" + !(document.isEmpty()));
 		
-		int result = documentService.saveDocument(document, documentContent, docTempYn, drafterId);
+		int result = documentService.saveDocument(document, documentContent, docTempYn, drafterId, multipartFiles);
 		
 		log.info("저장 결과" + result);
 		return "redirect:/approval/draftdocument";
@@ -311,6 +326,17 @@ public class ApprovalController {
 			}
 		}
 		return "approval/viewdetail";
+	}
+	
+	@RequestMapping(value ="/filedownload/{docFileId}", method=RequestMethod.GET)
+	public ResponseEntity<byte[]> getDocumentFile(@PathVariable int docFileId) {
+		DocumentFile documentFile = documentService.downloadDocumentFile(docFileId);
+		HttpHeaders headers = new HttpHeaders();
+		String[] mtypes = documentFile.getDocFileType().split("/");
+		headers.setContentType(new MediaType(mtypes[0], mtypes[1]));
+		headers.setContentLength(documentFile.getDocFileLength());
+		headers.setContentDispositionFormData("attachment", documentFile.getDocFileName());
+		return new ResponseEntity<byte[]>(documentFile.getDocFileData(), headers, HttpStatus.OK);
 	}
 
 	//결재 문서 내용 요청
@@ -459,8 +485,10 @@ public class ApprovalController {
 		queryHandler.deleteTimeFromReportDate(searchQuery);
 		queryHandler.deleteTimeFromCompleteDate(searchQuery);
 		
+		Pager returnPager = new Pager(pager.getRowsPerPage(), pager.getPagesPerGroup(), pager.getTotalRows(), searchQuery.getPageNo());
+		
+		model.addAttribute("pager", returnPager);
 		model.addAttribute("searchQuery", searchQuery);
-		model.addAttribute("pager", pager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
 		
@@ -500,8 +528,10 @@ public class ApprovalController {
 		queryHandler.deleteTimeFromReportDate(searchQuery);
 		queryHandler.deleteTimeFromCompleteDate(searchQuery);
 		
+		Pager returnPager = new Pager(pager.getRowsPerPage(), pager.getPagesPerGroup(), pager.getTotalRows(), searchQuery.getPageNo());
+		
+		model.addAttribute("pager", returnPager);
 		model.addAttribute("searchQuery", searchQuery);
-		model.addAttribute("pager", pager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
 		
@@ -548,8 +578,10 @@ public class ApprovalController {
 		queryHandler.deleteTimeFromReportDate(searchQuery);
 		queryHandler.deleteTimeFromCompleteDate(searchQuery);
 		
+		Pager returnPager = new Pager(pager.getRowsPerPage(), pager.getPagesPerGroup(), pager.getTotalRows(), searchQuery.getPageNo());
+		
+		model.addAttribute("pager", returnPager);
 		model.addAttribute("searchQuery", searchQuery);
-		model.addAttribute("pager", pager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
 		
@@ -594,8 +626,10 @@ public class ApprovalController {
 		
 		queryHandler.deleteTimeFromReportDate(searchQuery);
 		
+		Pager returnPager = new Pager(pager.getRowsPerPage(), pager.getPagesPerGroup(), pager.getTotalRows(), searchQuery.getPageNo());
+		
+		model.addAttribute("pager", returnPager);
 		model.addAttribute("searchQuery", searchQuery);
-		model.addAttribute("pager", pager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
 		
@@ -633,8 +667,10 @@ public class ApprovalController {
 		
 		queryHandler.deleteTimeFromWriteDate(searchQuery);
 		
+		Pager returnPager = new Pager(pager.getRowsPerPage(), pager.getPagesPerGroup(), pager.getTotalRows(), searchQuery.getPageNo());
+		
+		model.addAttribute("pager", returnPager);
 		model.addAttribute("searchQuery", searchQuery);
-		model.addAttribute("pager", pager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
 		
