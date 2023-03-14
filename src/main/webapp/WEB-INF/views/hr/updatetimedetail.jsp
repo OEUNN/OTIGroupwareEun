@@ -157,11 +157,9 @@
 				</div>
 			</div>
 			<!-- 일반 임직원일 경우의 버튼 -->
-			<c:if test="${sessionScope.employee.empId ne atdExcp.atdExcpApprovalEmpId}">
+			<c:if test="${(sessionScope.employee.empId ne atdExcp.atdExcpApprovalEmpId) && (atdExcp.atdExcpProcessState eq '미처리')}">
 				<div class="row px-5 mt-3 justify-content-end">
-					<br>
-					<br>
-<!-- 					<button onclick="window.close()" type="button" class="btn btn-inverse-primary mr-2">닫기</button> -->
+					<a class="btn btn-danger mr-2" href="${pageContext.request.contextPath}/hr/overtimecancel?atdExcpId=${atdExcp.atdExcpId}">신청취소</a>
 				</div>
 			</c:if>
 			<!-- 부서장일 경우의 버튼 - 미처리 결재인 경우 -->

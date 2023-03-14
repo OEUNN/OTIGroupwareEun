@@ -168,10 +168,10 @@
 												<c:if test="${!empty atdExcpList}">
 													<c:forEach var="atdExcp" items="${atdExcpList}">
 														<tr onclick="atdExcpDetail('${atdExcp.atdExcpId}', '${atdExcp.atdExcpCategory}')">
-															<td><small>${atdExcp.atdExcpCategory}</small></td>
-															<td><small><fmt:formatDate value="${atdExcp.atdExcpDate}" pattern="yyyy-MM-dd" /></small></td>
-															<td>${atdExcp.atdExcpApprovalEmpName}</td>
-															<td>
+															<td class="py-3"><small>${atdExcp.atdExcpCategory}</small></td>
+															<td class="py-3"><small><fmt:formatDate value="${atdExcp.atdExcpDate}" pattern="yyyy-MM-dd" /></small></td>
+															<td class="py-3">${atdExcp.atdExcpApprovalEmpName}</td>
+															<td class="py-3">
 																<!-- 결재상태 -->
 																<c:if test="${atdExcp.atdExcpProcessState == '미처리'}">
 																	<div class="badge badge-secondary font-weight-bold text-white">${atdExcp.atdExcpProcessState}</div>
@@ -257,7 +257,7 @@
 										</div>
 										<!-- AJAX 작성폼이 바뀌는 부분 -->
 										<div id="change-form">
-											<div class="table-responsive px-3 py-2">
+											<div class="table-responsive px-3 py-2 mt-5">
 												<!-- 고정 내용 -->
 												<table class="table">
 													<tbody>

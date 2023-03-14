@@ -247,9 +247,9 @@
 												<div class="col-md px-0">잔여 대체휴무</div>
 											</div>
 											<div class="row text-center font-weight-bold h3 mb-0">
-												<div class="col-md">0</div>
-												<div class="col-md">${levAppStats['휴가사용']}</div>
-												<div id="lev-rev-period" class="col-md"><fmt:formatNumber value="$${levAppStats['잔여연차']}" pattern="#0.0"/></div>
+												<div class="col-md"><fmt:formatNumber value="${levAppStats['사용휴가'] + levAppStats['잔여연차'] + levAppStats['잔여대체휴무']}" pattern="#0.0"/></div>
+												<div class="col-md"><fmt:formatNumber value="${levAppStats['사용휴가']}" pattern="#0.0"/></div>
+												<div id="lev-rev-period" class="col-md"><fmt:formatNumber value="${levAppStats['잔여연차']}" pattern="#0.0"/></div>
 												<div id="sub-rev-period" class="col-md mr-3">${levAppStats['잔여대체휴무']}</div>
 											</div>
 										</div>

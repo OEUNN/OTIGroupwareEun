@@ -17,11 +17,11 @@ public interface AttendanceExceptionDAO {
     public void insertAttendanceException(AttendanceException attendanceException);
 	public HashMap<String, Integer> getAttendanceExceptionStats(@Param("empId") String empId);
 	public void updateAttendanceException(AttendanceException attendanceException);
-	public void deleteAttendanceException(@Param("atdExcpId") int atdExcpId, @Param("empId") String empId);
 
 	public int getAttendanceExceptionApprovalRowsCount(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("empId") String empId);
 	public List<AttendanceException> getAttendanceExceptionApprovalList(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("empId") String empId, @Param("pager") Pager pager);
 	public AttendanceException getattendanceExceptionApprovalDetail(@Param("atdExcpId") int atdExcpId, @Param("atdExcpCategory") String atdExcpCategory);
 	public int updateAttendanceExceptionProcessState(AttendanceException attendanceException);
 	public HashMap<String, Integer> getAttendanceExceptionApprovalStats(@Param("empId") String empId);
+	public void deleteAttendanceException(@Param("atdExcpId") int atdExcpId);
 }

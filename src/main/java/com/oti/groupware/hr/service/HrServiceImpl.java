@@ -194,28 +194,34 @@ public class HrServiceImpl implements HrService {
 		List<Employee> empList = attendanceDAO.getEmployeeList();
 		
 		for(Employee emp : empList) {
-			//근무상태가 null인 근무목록을 갖고온다(스케줄러에 의해 null인 경우는 당일(오늘)인 경우 밖에 없다)
-			List<Attendance> atdNullList = attendanceDAO.getAttendanceNullList(emp.getEmpId());
+			String empId = emp.getEmpId(); //사번
 			
-			if( atdNullList != null) {
-				for(Attendance attendance : atdNullList) {
-					//오늘 출퇴근했을 경우
-					if(attendance.getAtdInTime() != null && attendance.getAtdOutTime() != null) {  
-						//시간포맷 변환
-						SimpleDateFormat formatTime = new SimpleDateFormat("HH");
-						int inTimeHour = Integer.parseInt(formatTime.format(attendance.getAtdInTime())); //출석 시간
-						int outTimeHour = Integer.parseInt( formatTime.format(attendance.getAtdOutTime())); //퇴근시간
-						
-						if(inTimeHour<9 && outTimeHour>=18) { //지각과 조퇴가 아닌경우
-							attendance.setAtdState("정상출근");
-							attendanceDAO.updateAttendanceState(attendance);
-						}
-						
-					//오늘 출근하지 않았을 경우	
-					} else if(attendance.getAtdInTime() == null) {
-						attendance.setAtdState("결근");
+			// 1. 어제 근무현황 확인
+			Attendance attendance = attendanceDAO.getAttendanceYesterday(empId);
+			
+			// 2. 어제의 출근행 여부 판단
+			if(attendance == null) { // 2-1. 오늘의 출,퇴근 행(현황)이 없을 경우
+				// 어제에 해당하는 행을 만든 후, 근무상태를 "결근"으로 만듬
+				attendanceDAO.insertAttendanceState(empId);
+				
+			} else { // 2-2. 어제의 출,퇴근 행(현황)이 있을 경우
+				// 3-1. 출근시간, 퇴근시간이 있는 경우
+				if(attendance.getAtdInTime() != null && attendance.getAtdOutTime() != null) {
+					//시간포맷 변환
+					SimpleDateFormat formatTime = new SimpleDateFormat("HH");
+					int inTimeHour = Integer.parseInt(formatTime.format(attendance.getAtdInTime())); //출근 시간
+					int outTimeHour = Integer.parseInt( formatTime.format(attendance.getAtdOutTime())); //퇴근시간
+					
+					if(inTimeHour<9 && outTimeHour>=18) { //지각과 조퇴가 아닌경우 = 정상출근
+						attendance.setAtdState("정상출근");
 						attendanceDAO.updateAttendanceState(attendance);
 					}
+				
+				// 3-2. 출근시간은 있지만, 퇴근시간이 없는경우
+				} else if(attendance.getAtdInTime() != null && attendance.getAtdOutTime() == null) {
+					log.info("퇴근안찍은 사람!");
+					attendance.setAtdState("결근");
+					attendanceDAO.updateAttendanceState(attendance);
 				}
 			}
 		}
@@ -255,6 +261,12 @@ public class HrServiceImpl implements HrService {
 		//퇴근시간 있을 경우에만 퇴근시간 넣기
 		if(atd.getAtdOutTime() != null) { attendanceException.setAtdOriginOutTime(atd.getAtdOutTime()); }
 		attendanceExceptionDAO.insertAttendanceException(attendanceException);
+	}
+	
+	/** 미처리된 근무신청서 삭제 **/
+	@Override
+	public void attendanceExceptionCancel(int atdExcpId) {
+		attendanceExceptionDAO.deleteAttendanceException(atdExcpId);
 	}
 	
 	/** 나의 휴가내역 통계 **/

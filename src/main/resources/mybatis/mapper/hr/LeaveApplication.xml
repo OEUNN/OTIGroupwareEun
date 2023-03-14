@@ -80,18 +80,20 @@
 	<!-- 휴가신청 통계 -->
 	<select id="getLeaveApplicationStats" resultType="hashmap">
 		SELECT DISTINCT
-		    (
-		        SELECT COUNT(CASE WHEN lev_app_process_state = '승인' THEN 1 END)
-		        FROM leave_applications
-		        where emp_id = #{empId}
-		    ) AS 휴가사용,
-		    e.emp_leave_reserve AS 잔여연차,
-		    e.emp_substitue_reserve AS 잔여대체휴무
+		   (
+		    SELECT 
+		    ROUND(sum(CASE WHEN lev_app_category IN ('연차', '대체휴무') THEN 1 
+		                    WHEN lev_app_category IN ('오전반차', '오후반차') THEN 0.5 END), 2) AS 사용휴가
+		    FROM leave_applications
+		    WHERE emp_id = #{empId}
+		        AND lev_app_process_state = '승인' AND lev_app_cancel is null
+		   ) AS 사용휴가,
+		   e.emp_leave_reserve AS 잔여연차,
+		   e.emp_substitue_reserve AS 잔여대체휴무
 		FROM 
-		   employees e, leave_applications la
+		   leave_applications la, employees e
 		WHERE 
-		    e.emp_id = #{empId}
-		    AND TO_CHAR(la.lev_app_date, 'YYYY') = TO_CHAR(SYSDATE, 'YYYY');
+		   e.emp_id = #{empId}
 	</select>
 	
 	<!-- 휴가신청서 등록 -->

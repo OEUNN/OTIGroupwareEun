@@ -108,7 +108,7 @@
 <!-- End plugin css,js for this page -->
 
 <form action="<c:url value='/hr/atdapplicationform'/>" onsubmit="return validateForm();" method="post">
-<div class="table-responsive px-3 py-2">
+<div class="table-responsive px-3 py-2 mt-5">
 	<!-- 고정 내용 -->
 	<table class="table">
 		<tbody>
@@ -162,7 +162,7 @@
 	<div class="row justify-content-center">
 		<div style="border: 1px solid #a3a4a5; opacity: 0.5; width: 90%;"></div>
 	</div>
-	<div class="row justify-content-center px-5 py-2">
+	<div class="row justify-content-center px-5 py-2 mt-3">
 		<div class="col-md-5 d-flex align-items-center">
 			<!-- clockpicker-시작시간:start -->
 			<div id="intime-clockpicker">
@@ -185,7 +185,7 @@
 			<!-- clockpicker-종료시간:end -->
 		</div>
 	</div>
-	<div class="row px-5 mt-4 justify-content-center">
+	<div class="row px-5 mt-5 justify-content-center">
 		<div class="form-group">
 			<label class="ml-1" for="atdExcpReason"><div class="h5 m-0 font-weight-bold text-primary">사유</div></label>
 			<textarea class="form-control" id="reason" rows="5" cols="150" name="atdExcpReason"></textarea>
