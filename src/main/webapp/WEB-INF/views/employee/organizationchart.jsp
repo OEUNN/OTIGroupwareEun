@@ -9,7 +9,7 @@
 	<%@ include file="/WEB-INF/views/common/head.jsp"%>
 	<!-- endinject css, js common file -->
 	
-	<!-- Plugin css,js for this page  -->
+	<!-- Plugin css,js for this  page  -->
 	<script>
       function department(No){
     	  var x = No;
