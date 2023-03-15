@@ -30,6 +30,9 @@
 				<div class="px-3 py-1 ahover">
 					<button onclick="search(4)" style="color:grey;">중요표시안한메일</button>
 				</div>
+				<div class="px-3 py-1 ahover">
+					<button onclick="search(5)" style="color:grey;">RESET</button>
+				</div>
 			</div>
 			<input type="hidden" id="searchBtn"/>
 		</div><!-- 검색 태그 -->

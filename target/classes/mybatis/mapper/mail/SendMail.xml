@@ -336,4 +336,10 @@
 		DELETE FROM send_mails WHERE send_mail_id = #{mailId}
 	</delete>
 	
+	<select id="getTempCount" parameterType="string" resultType="int">
+	 	 select count(SEND_MAIL_ID)
+		 from send_mails 
+		 where emp_id=#{empId} and SEND_MAIL_TEMP_YN = 'Y'
+	</select>
+	
 </mapper>

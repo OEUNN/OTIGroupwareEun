@@ -2,6 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<style>
+	.table th, .jsgrid .jsgrid-table th,
+	.table td,
+	.jsgrid .jsgrid-table td {
+		padding: 0.825rem 2.375rem;
+	}
+</style>
 
 <div class="card">
 	<div class="card-body">
@@ -39,7 +46,7 @@
 		</form><!-- End search box -->
 		
 		<div class="row mt-3">
-			<div class="table-responsive p-2">
+			<div class="table-responsive">
 				<c:if test="${!empty empList}">
 					<table class="table table-hover">
 						<thead>
