@@ -201,30 +201,30 @@
 										<ul class="pagination justify-content-center pb-0 mb-0">
 										<c:if test="${pager.totalRows > 0}">
 											<!-- 처음 -->
-											<li class="page-item"><a class="page-link" href="<c:url value='/approval/pendeddocument/1'/>">처음</a></li>
+											<li class="page-item" onclick="submitFormWithPageNo(1)"><a class="page-link">처음</a></li>
 											
 											<!-- 이전 -->
 											<c:if test = "${pager.groupNo > 1}">
-											<li class="page-item"><a class="page-link" href="<c:url value='/approval/pendeddocument/${pager.startPageNo-1}'/>">이전</a></li>
+											<li class="page-item" onclick="submitFormWithPageNo(${pager.startPageNo - 1})"><a class="page-link">이전</a></li>
 											</c:if>
 											
 											<!-- 페이지그룹 -->
-											<c:forEach var="i" begin="${pager.startPageNo}" end ="${pager.endPageNo}">
+											<c:forEach var="i" begin="${pager.startPageNo}" end="${pager.endPageNo}">
 											<c:if test="${pager.pageNo != i}">
-											<li class="page-item" ><a class="page-link" href="<c:url value='/approval/pendeddocument/${i}'/>">${i}</a></li>
+											<li class="page-item" onclick="submitFormWithPageNo(${i})"><a class="page-link">${i}</a></li>
 											</c:if>
 											<c:if test="${pager.pageNo == i}">
-											<li class="page-item active" ><a class="page-link" href="<c:url value='/approval/pendeddocument/${i}'/>">${i}</a></li>
+											<li class="page-item active" onclick="submitFormWithPageNo(${i})"><a class="page-link">${i}</a></li>
 											</c:if>
 											</c:forEach>
 											
 											<!-- 다음 -->
 											<c:if test = "${pager.groupNo < pager.totalGroupNo }">
-											<li class="page-item"><a class="page-link" href="<c:url value='/approval/pendeddocument/${pager.endPageNo+1}'/>">다음</a></li>
+											<li class="page-item" onclick="submitFormWithPageNo(${pager.endPageNo + 1})"><a class="page-link">다음</a></li>
 											</c:if>
 											
 											<!-- 마지막 -->
-											<li class="page-item"><a class="page-link" href="<c:url value='/approval/pendeddocument/${pager.totalPageNo}'/>">마지막</a></li>
+											<li class="page-item" onclick="submitFormWithPageNo(${pager.totalPageNo})"><a class="page-link">마지막</a></li>
 										</c:if>
 										</ul>
 									</div>
