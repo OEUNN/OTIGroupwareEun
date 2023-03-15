@@ -221,7 +221,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 			password = pe.encode(password);
 		}
-		employeeDao.updatePassword(empId, password);
+		employeeDao.updatePassword(empId, password,"N");
 	}
 
 	@Override
@@ -244,7 +244,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void resetPassword(String empId) {
 		PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		String password  = pe.encode("12345");
-		employeeDao.updatePassword(empId, password);
+		employeeDao.updatePassword(empId, password,"Y");
 	}
 
 	@Override

@@ -144,6 +144,12 @@ public class EmployeeController {
 			employeeService.updatePassword(empId, password);
 		}
 	}
+	
+	// 마이페이지 비밀번호 바꾸기
+	@RequestMapping(value = "/passwordpopup", method = RequestMethod.GET)
+	public String passwordPopup() {
+		return "employee/passwordpopup";
+	}
 
 	//임직원 조회
 	@Authorization("ROLE_HR")
@@ -203,7 +209,7 @@ public class EmployeeController {
 		return "employee/resetpasswordpopup";
 	}
 		
-	// 비밀번호 초기화popup
+	// 비밀번호 초기화
 	@Authorization("ROLE_HR")
 	@RequestMapping(value = "/reset", method = RequestMethod.POST)
 	@ResponseBody

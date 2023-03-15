@@ -62,13 +62,13 @@
             emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
             emp_extension_number, emp_phone_number, emp_leave_reserve,
             emp_substitue_reserve, emp_login_failures_cnt, emp_file_data,
-            emp_file_type,emp_file_name
+            emp_file_type,emp_file_name, INITIAL_PASSWORD_YN
         ) VALUES (
             #{empId}, #{posId}, #{depId}, #{empMail}, #{empName},
             #{empPassword}, #{empExtensionNumber}, #{empPhoneNumber},
             #{empLeaveReserve}, default,
             default, #{empFileData},
-            #{empFileType}, #{empFileName}
+            #{empFileType}, #{empFileName}, 'Y'
         )
     </insert>
     
@@ -80,7 +80,7 @@
     
     <update id="updatePassword" parameterType="map">
     	update employees
-    	set emp_password = #{password}
+    	set emp_password = #{password} and INITIAL_PASSWORD_YN = #{result}
     	where emp_id = #{empId}
     </update>
     
@@ -126,7 +126,7 @@
 		SELECT 
 		    emp_id, emp_name, dep_id, pos_id
 		FROM employees
-		ORDER BY pos_id DESC
+		ORDER BY emp_name
 		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
 		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
 	</select>
@@ -140,7 +140,7 @@
             emp_extension_number, emp_phone_number, emp_leave_reserve,
             emp_substitue_reserve, emp_login_failures_cnt, emp_file_data, emp_file_type, emp_file_name
 		FROM employees e, employees_detail d
-		ORDER BY pos_id desc)
+		ORDER BY emp_name)
 		WHERE ROWNUM= 1
 	</select>
 	
