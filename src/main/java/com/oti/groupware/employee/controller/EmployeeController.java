@@ -225,7 +225,7 @@ public class EmployeeController {
 	public String searchDepartment(@RequestParam int depId, Model model) {
 		log.info("실행");
 		
-		//임직원 이름, 부서이름 등의 정보가 담긴 목록을 가져옴
+		//임직원 이름,부서이름 등의 정보가 담긴 목록을 가져옴
 		List<Employee>  orgEmpList = employeeService.getOrganizationEmpList(depId);
 		model.addAttribute("orgEmpList", orgEmpList);
 		model.addAttribute("depId", depId);
