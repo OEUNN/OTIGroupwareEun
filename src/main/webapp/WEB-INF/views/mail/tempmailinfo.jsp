@@ -41,7 +41,7 @@
 	<div class="card-body">
 		<h4 class="card-title">임시 보관함</h4>
 		<!-- 검색 태그 -->
-		<div class="row mb-3 mt-5 mx-3"> </div><!-- 검색 태그 -->
+		<div class="row mb-3 mt-5 mx-3"> </div><!-- 검색 태그  -->
 		<!-- 테이블 -->
 		<div class="table-responsive p-4">
 			<table class="table table-hover">

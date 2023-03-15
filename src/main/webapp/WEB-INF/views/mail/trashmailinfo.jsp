@@ -17,7 +17,7 @@
   display: inline-block;
 }
 
-.etooltip .etooltiptext {
+	.etooltip .etooltiptext {
   visibility: hidden;
   width: 250px;
   background-color: #4849ac;

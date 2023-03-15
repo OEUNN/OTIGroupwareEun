@@ -4,7 +4,7 @@
 <html lang="en">
 
 	<head>
-	<!-- CSS 관련 파일 -->
+	<!-- CSS 관련 파일  -->
 		<%@ include file="/WEB-INF/views/common/head.jsp" %>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mail.css"/>
 		<script>

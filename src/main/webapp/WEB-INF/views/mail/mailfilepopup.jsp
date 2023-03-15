@@ -11,28 +11,29 @@
 		
 		<!-- Plugin css,js for this page -->
 		<style>
-			.container-fluid{
-				padding:0px;
-				margin:0px;
-			}
-			.main-panel-popup {
-			  transition: width 0.25s ease, margin 0.25s ease;
-			  width: 100%;
-			  min-height: 100vh;
-			  display: -webkit-flex;
-			  display: flex;
-			  -webkit-flex-direction: column;
-			  flex-direction: column;
-			}
-			.wrap{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .box{
-            text-align: center;
-        }
-		</style>
+		.container-fluid {
+			padding: 0px;
+			margin: 0px;
+		}
+		
+		.main-panel-popup {
+			transition: width 0.25s ease, margin 0.25s ease;
+			width: 100%;
+			min-height: 100vh;
+			display: -webkit-flex;
+			display: flex;
+			-webkit-flex-direction: column;
+			flex-direction: column;
+		}
+		.wrap {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		.box {
+			text-align: center;
+		}
+</style>
 	<!-- End plugin css,js for this page -->
 	</head>
 	<body>

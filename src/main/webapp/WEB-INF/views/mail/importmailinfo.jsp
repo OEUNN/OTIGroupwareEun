@@ -14,7 +14,7 @@
 	}
 	.etooltip {
   position: relative;
-  display: inline-block;
+  display:inline-block;
 }
 
 .etooltip .etooltiptext {

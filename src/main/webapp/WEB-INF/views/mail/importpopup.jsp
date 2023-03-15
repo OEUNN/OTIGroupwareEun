@@ -12,7 +12,7 @@
 	<!-- Plugin css,js for this page -->
 	<script>
         function start(){
-        	opener.location.href = "javascript:pager(-2);";
+        	opener.location.href ="javascript:pager(-2);";
             window.close();
         }
 	</script>
