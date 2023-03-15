@@ -256,10 +256,13 @@ public class HrServiceImpl implements HrService {
 	public void writeAttendanceExceptionApplication(AttendanceException attendanceException) {
 		//오늘의 출퇴근 기록 가져오기
 		Attendance atd = attendanceDAO.getAttendanceToday(attendanceException.getEmpId());
-		//출근시간 저장
-		attendanceException.setAtdOriginInTime(atd.getAtdInTime());
-		//퇴근시간 있을 경우에만 퇴근시간 넣기
-		if(atd.getAtdOutTime() != null) { attendanceException.setAtdOriginOutTime(atd.getAtdOutTime()); }
+		if(atd != null) { //근무시간수정 신청서일 경우
+			//출근시간 저장
+			attendanceException.setAtdOriginInTime(atd.getAtdInTime());
+			//퇴근시간 있을 경우에만 퇴근시간 넣기
+			if(atd.getAtdOutTime() != null) { attendanceException.setAtdOriginOutTime(atd.getAtdOutTime()); }
+		}
+		//공통
 		attendanceExceptionDAO.insertAttendanceException(attendanceException);
 	}
 	

@@ -9,9 +9,13 @@
 		var calendarEl = document.getElementById('calendar');
 
 		var calendar = new FullCalendar.Calendar(calendarEl, {
-			contentHeight : 650,
+			headerToolbar: {
+		        left: '',
+		        center: 'title',
+		        right: 'today prev,next'
+		      }, 
+			contentHeight : 800,
 			editable : false,
-			selectable : false,
 			businessHours : true,
 			dayMaxEvents : true, // allow "more" link when too many events
 			eventSources: [
@@ -74,6 +78,12 @@
 	#calendar {
 		width: 100%;
 		min-width: 100%;
+		position: relative;
+		top: -50px;
+	}
+	
+	.fc .fc-toolbar.fc-header-toolbar {
+		margin-bottom: 10px;
 	}
 	
 	/* 공휴일 NONE */
