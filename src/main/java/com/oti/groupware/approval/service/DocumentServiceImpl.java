@@ -171,7 +171,6 @@ public class DocumentServiceImpl implements DocumentService {
 					approvalLine.setAprvLineOrder(documentContent.getApprovalOrder()[i]);
 					approvalLine.setAprvLineRole("결재");
 					
-					//동적 Query로 최적화 해보기
 					approvalLineDAO.insertDraftApprovalLine(approvalLine);
 				}
 			}

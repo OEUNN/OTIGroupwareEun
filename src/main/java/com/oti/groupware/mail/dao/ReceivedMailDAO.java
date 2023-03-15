@@ -30,6 +30,9 @@ public interface ReceivedMailDAO {
 	public int getAllReceivedMail(Integer mailId);
 	public int getCompleteReceivedMail(Integer mailId);
 	public void deleteReceivedMail(@Param("mailId") int mailId);
+	public int getReceivedMailCount(String empId);
+	public int getNotReadCount(String empId);
+	public int getImportCount(String empId);
 	
 	
 }

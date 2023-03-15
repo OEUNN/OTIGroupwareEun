@@ -148,7 +148,6 @@
 												<th class="px-0 border-bottom pb-2">결재상태
 												<i class="mdi mdi-menu-down" data-toggle="dropdown"></i>
 											    <div class="dropdown-menu mt-3" style="width: auto;">
-													<a class="dropdown-item" onclick="searchState('승인')">승인</a>
 													<a class="dropdown-item" onclick="searchState('진행')">진행</a>
 													<a class="dropdown-item" onclick="searchState('반려')">반려</a>
 													<a class="dropdown-item" onclick="searchState('회수')">회수</a>

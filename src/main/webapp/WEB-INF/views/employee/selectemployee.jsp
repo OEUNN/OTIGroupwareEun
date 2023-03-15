@@ -61,10 +61,10 @@
 			<div class="main-panel">
 				<div class="content-wrapper">
 					<div class="row">
-						<div class="col-4 grid-margin stretch-card flex-column" id="select_container">
+						<div class="col-4 grid-margin stretch-card" id="select_container">
 							<%@ include file="/WEB-INF/views/employee/selectemployeeinfo.jsp"%>
 						</div>
-						<div class="col-lg-8 grid-margin stretch-card flex-column">
+						<div class="col-lg-8 grid-margin stretch-card">
 							<div class="card">
 								<form class="card-body" id="emp_container">
 									<%@ include file="/WEB-INF/views/employee/detailemployee.jsp"%>

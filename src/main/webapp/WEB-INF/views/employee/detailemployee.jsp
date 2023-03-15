@@ -10,6 +10,13 @@ function popup(){
     window.open(url, name, option);
 }
 </script>
+<style>
+	.table th, .jsgrid .jsgrid-table th,
+	.table td,
+	.jsgrid .jsgrid-table td {
+		padding: 0.825rem 2.375rem;
+	}
+</style>
 <div class="row">
 	<div class="col-md-12 grid-margin">
 		<div class="d-flex justify-content-between align-items-center">
@@ -35,7 +42,7 @@ function popup(){
 		<div class="form-sample">
 			<div class="row" style="height:70%;">
 				<div class="col-md-6">
-					<div class="form-group row align-items-center">
+					<div class=" row align-items-center">
 						<div class="col-sm-6 text-primary">
 							<div class="d-flex align-items-center m-1">
 								<i class="h3 my-auto mdi mdi-account"></i> 
@@ -48,7 +55,7 @@ function popup(){
 					</div>
 				</div>
 				<div class="col-md-6">
-					<div class="form-group row align-items-center">
+					<div class=" row align-items-center">
 						<div class="col-sm-6 text-primary">
 							<div class="d-flex align-items-center m-1">
 								<span class="h3 my-auto mdi mdi-clipboard-account"></span> 
@@ -64,7 +71,7 @@ function popup(){
 			</div>
 			<div class="row" style="height:70%;">
 				<div class="col-md-6">
-					<div class="form-group row align-items-center">
+					<div class=" row align-items-center">
 						<div class="col-sm-6 text-primary">
 							<div class="d-flex align-items-center m-1">
 								<i class="h3 my-auto mdi mdi-cake"></i> 
@@ -77,7 +84,7 @@ function popup(){
 					</div>
 				</div>
 				<div class="col-md-6">
-					<div class="form-group row align-items-center">
+					<div class=" row align-items-center">
 						<div class="col-sm-6 text-primary">
 							<div class="d-flex align-items-center m-1">
 								<i class="h3 my-auto mdi mdi-clipboard-check"></i> 
@@ -92,7 +99,7 @@ function popup(){
 			</div>
 			<div class="row" style="height:70%;">
 				<div class="col-md-6">
-					<div class="form-group row align-items-center">
+					<div class=" row align-items-center">
 						<div class="col-sm-6 text-primary">
 							<div class="d-flex align-items-center m-1">
 								<i class="h3 my-auto mdi mdi-human-male-female"></i> 
@@ -105,7 +112,7 @@ function popup(){
 					</div>
 				</div>
 				<div class="col-md-6">
-					<div class="form-group row align-items-center">
+					<div class=" row align-items-center">
 						<div class="col-sm-6 text-primary">
 							<div class="d-flex align-items-center m-1">
 								<i class="h3 my-auto mdi mdi-email"></i> 
@@ -120,7 +127,7 @@ function popup(){
 			</div>
 			<div class="row" style="height:70%;">
 				<div class="col-md-6">
-					<div class="form-group row align-items-center">
+					<div class=" row align-items-center">
 						<div class="col-sm-6 text-primary">
 							<div class="d-flex align-items-center m-1">
 								<i class="h3 my-auto mdi mdi-heart"></i> 
@@ -133,7 +140,7 @@ function popup(){
 					</div>
 				</div>
 				<div class="col-md-6">
-					<div class="form-group row align-items-center">
+					<div class=" row align-items-center">
 						<div class="col-sm-6 text-primary">
 							<div class="d-flex align-items-center m-1">
 								<i class="h3 my-auto mdi mdi-incognito"></i> 
@@ -141,14 +148,19 @@ function popup(){
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div>${empDetail.empDetailEmploymentState}</div>
+							<c:if test="${empDetail.empDetailEmploymentState == 'work'}">
+								<div>재직중</div>
+							</c:if>
+							<c:if test="${empDetail.empDetailEmploymentState == 'fire'}">
+								<div>퇴사</div>
+							</c:if>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="row" style="height:70%;">
 				<div class="col-md-6">
-					<div class="form-group row align-items-center">
+					<div class=" row align-items-center">
 						<div class="col-sm-6 text-primary">
 							<div class="d-flex align-items-center m-1">
 								<i class="h3 my-auto mdi mdi-pocket"></i> 
@@ -161,7 +173,7 @@ function popup(){
 					</div>
 				</div>
 				<div class="col-md-6">
-					<div class="form-group row align-items-center">
+					<div class=" row align-items-center">
 						<div class="col-sm-6 text-primary">
 							<div class="d-flex align-items-center m-1">
 								<i class="h3 my-auto mdi mdi-flower"></i> 
@@ -176,7 +188,7 @@ function popup(){
 			</div>
 			<div class="row" style="height:70%;">
 				<div class="col-md-6">
-					<div class="form-group row align-items-center">
+					<div class=" row align-items-center">
 						<div class="col-sm-6 text-primary">
 							<div class="d-flex align-items-center m-1">
 								<i class="h3 my-auto mdi mdi-book-open-page-variant"></i> 
@@ -189,7 +201,7 @@ function popup(){
 					</div>
 				</div>
 				<div class="col-md-6">
-					<div class="form-group row align-items-center">
+					<div class=" row align-items-center">
 						<div class="col-sm-6 text-primary">
 							<div class="d-flex align-items-center m-1">
 								<i class="h3 my-auto mdi mdi-cellphone"></i> 
@@ -204,7 +216,7 @@ function popup(){
 			</div>
 			<div class="row" style="height:70%;">
 				<div class="col-md-6">
-					<div class="form-group row align-items-center">
+					<div class=" row align-items-center">
 						<div class="col-sm-6 text-primary">
 							<div class="d-flex align-items-center m-1">
 								<i class="h3 my-auto mdi mdi-school"></i> 
@@ -217,7 +229,7 @@ function popup(){
 					</div>
 				</div>
 				<div class="col-md-6 m-0">
-					<div class="form-group row align-items-center">
+					<div class=" row align-items-center">
 						<div class="col-sm-6 text-primary">
 							<div class="d-flex align-items-center m-1">
 								<i class="h3 my-auto mdi mdi-phone-classic"></i> 
@@ -230,9 +242,9 @@ function popup(){
 					</div>
 				</div>
 			</div>
-			<div class="row" style="height:70%;">
-				<div class="col-12">
-					<div class="form-group row align-items-center">
+			<div class="row mt-2" style="height:70%;">
+				<div class="col-12 ">
+					<div class=" row align-items-center">
 						<div class="col-sm-3 text-primary">
 							<div class="d-flex align-items-center m-1">
 								<span class="ml-2 font-weight-bold">비밀번호 초기화</span>

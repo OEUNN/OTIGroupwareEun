@@ -15,6 +15,7 @@ import com.oti.groupware.mail.dao.MailFileDAO;
 import com.oti.groupware.mail.dao.ReceivedMailDAO;
 import com.oti.groupware.mail.dao.SendMailDAO;
 import com.oti.groupware.mail.dto.EmployeeInfo;
+import com.oti.groupware.mail.dto.MailCount;
 import com.oti.groupware.mail.dto.MailFile;
 import com.oti.groupware.mail.dto.ReceivedMail;
 import com.oti.groupware.mail.dto.SendMail;
@@ -413,6 +414,16 @@ public class MailServiceImpl implements MailService {
 		return send;
 	}
 
-
+	//메인 메일 통계
+	@Override
+	public MailCount mailHomeCount(String empId) {
+		MailCount mailCount = new MailCount();
+		mailCount.setTempCount(sendMailDao.getTempCount(empId));
+		mailCount.setReceivedCount(receivedMailDao.getReceivedMailCount(empId));
+		mailCount.setNotReadCount(receivedMailDao.getNotReadCount(empId));
+		mailCount.setImportCount(receivedMailDao.getImportCount(empId));
+		return mailCount;
+	}
+	
 
 }

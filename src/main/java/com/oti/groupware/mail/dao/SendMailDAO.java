@@ -37,5 +37,6 @@ public interface SendMailDAO {
 	public void updateCompleteSendMail(@Param("arr")List<Integer> sendMail); //휴지통에 들어간지 30일이 지난 메일을 완전 삭제로 바꿔준다.
 	public List<Integer> getCompleteMail(); //완전삭제된 sendMail을 받아온다.
 	public void deleteSendMail(int sendMailId); //완전 삭제되었을때 sendmail을 삭제해준다.
+	public int getTempCount(String empId); //임시저장 갯수
 	
 }
