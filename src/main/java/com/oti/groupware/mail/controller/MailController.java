@@ -84,7 +84,7 @@ public class MailController {
 				}
 			}
 		}
-		return "mail/sendmail";
+		return "redirect:/mail/sendmail";
 	}
 	
 	// 메일file 용량 제한 팝업

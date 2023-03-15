@@ -41,7 +41,7 @@ public class DocumentParser {
 	}
 	
 	//문서 기안 시 작성 내용을 문서에 반영
-	public String setHTML(String html, Document document, DocumentContent documentContent, EmployeeInfo drafter) {
+	public String initializetHTML(String html, Document document, DocumentContent documentContent, EmployeeInfo drafter) {
 		approvalDocument = Jsoup.parse(html, "UTF-8");
 		Element body = approvalDocument.body();
 		
@@ -76,7 +76,7 @@ public class DocumentParser {
 	}
 	
 	//approvalLine에 들어있는 값을 문서에 반영
-	public String processHTML(String html, ApprovalLine approvalLine) {
+	public String setHTML(String html, ApprovalLine approvalLine) {
 		approvalDocument = Jsoup.parse(html, "UTF-8");
 		Element body = approvalDocument.body();
 		

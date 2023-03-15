@@ -11,10 +11,61 @@
 	<script src="<c:url value="/resources/vendors/tinymce/themes/silver/theme.min.js"></c:url>"></script>
 	<script src="<c:url value="/resources/js/file-upload.js"></c:url>"></script>
 	<script src="<c:url value="/resources/js/custom/dropdown.js"></c:url>"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script type="text/javascript">
 	function getContextPath() {
 	   return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
 	}
+	
+
+	$(() => {
+		const fileInput = $("#fileUploader");
+		const MAX_FILE_SIZE = 1024 * 1024 * 50; // 50MB in bytes
+
+		let lastUploadedFiles = []; //가장 마지막으로 올린 파일
+
+		fileInput.on("change", (event) => {
+		
+			//input태그의 파일목록
+			const files = event.target.files;
+			let discardFiles = [];
+			
+			for (let i = 0; i < files.length; i++) {
+				const file = files[i];
+				const fileSize = file.size;
+				
+				//파일 크기가 제한보다 크면 제거하고 아니면 유지
+				if (fileSize > MAX_FILE_SIZE) {
+					alert("파일 사이즈는 50MB 보다 작아야 합니다.");
+					discardFiles.push(file);
+				} else {
+					lastUploadedFiles.push(file);
+				  
+					const listItem = $('<div class="d-flex justify-content-between font-weight-bold text-primary my-3"></div>');
+					const deleteButton = $('<i class="mdi mdi-minus"></i>').on("click", function() {
+						const index = lastUploadedFiles.indexOf(file);
+						if (index > -1) {
+							//원본배열을 제거하고 잘려진 배열을 반환 (index 위치에서 1개 제거)
+							lastUploadedFiles.splice(index, 1);
+						}
+						listItem.remove();
+					});
+					
+					listItem.append(document.createTextNode(file.name));
+					listItem.append(deleteButton);
+					$("#fileList").append(listItem);
+				}
+			}
+			
+			if (discardFiles.length > 0) {
+				//discarfiles에 들어있는 file과 겹치는 file을 필터링
+				const remainingFiles = Array.from(fileInput.files).filter((file) => !discardFiles.includes(file));
+				fileInput.files = new DataTransfer().files.add(...remainingFiles);
+			}
+			
+		});
+	});
+
 	
 	function popup(){
 	    let url = getContextPath() + "/approval/organization";
@@ -25,10 +76,16 @@
 	
 	function isTitleExist(docTempYn) {
 		if ($("iframe").contents().find("body").find("#A4") === null) {
-			alert("내용이 없습니다");
+			Swal.fire({
+				title: "내용이 없습니다.",
+				width: 400
+			});
 		}
 		else if ($("iframe").contents().find("body").find(".documentTitle").text() === null || $("iframe").contents().find("body").find(".documentTitle").text() === '') {
-			alert("제목은 필수 입니다.");
+			Swal.fire({
+				title: "제목은 필수입니다.",
+				width: 400
+			});
 		}
 		else {
 			$("#approvalForm").append('<input type="hidden" name="docTempYn" value="' + docTempYn + '"></input>');
@@ -38,12 +95,11 @@
 	
 	function callTempDocument() {
 		if ($("#documentId").val() !== '' && $("#documentId").val() !== null) {
+			$(".remove-flag").remove();
 			let docId = $("#documentId").val();
-			
 			$.ajax({
 				url: getContextPath() + '/approval/viewdetail/' + docId + '/documentdetail',
 				success: function(data) {
-					console.log(data);
 					tinymce.get("document").setContent(data.docContent);
 					initForm();
 					isEditorContentEmpty = false;
@@ -216,12 +272,18 @@
 											<div class="d-flex justify-content-between">												
 												<p class="card-title"><label for="upload">첨부파일</label></p>
 											</div>
-											 <div class="form-group bg-white">
-												<input type="file" id="upload" class="file-upload-default" multiple>
+											<div id="fileList">
+											<c:if test="${document.documentFiles != null}">
+											<c:forEach items="${document.documentFiles}" var="documentFiles">
+											<div class="d-flex justify-content-between font-weight-bold text-primary my-3"></div>${documentFiles.docFileName}.${documentFiles.docFileType}<i class="mdi mdi-minus"></i>
+											</c:forEach>
+											</c:if>
+											</div>
+										 	<div class="form-group bg-white">
+												<input type="file" id="fileUploader" class="file-upload-default" form="approvalForm" name="files" multiple>
 												<div class="input-group col-xs-12">
-													<input type="text" class="form-control file-upload-info" style="border-radius: 0;" disabled placeholder="업로드 할 파일">
-													<span class="input-group-append">
-														<button class="file-upload-browse btn btn-primary" style="border-radius: 0;" type="button">파일 첨부</button>
+													<span class="input-group-append w-100">
+														<button class="file-upload-browse btn btn-primary" style="border-radius: 0; width: inherit;" type="button">파일 첨부</button>
 													</span>
 												</div>
 											</div>
@@ -229,7 +291,7 @@
 	            					</div>
 	            					<div class="col-9 card grid-margin mb-3 d-flex justify-content-center flex-column" style="background-color: transparent; box-shadow: 0px 0px 0px white;">
 		        						<div class="card-body grid-margin">
-											<form id="approvalForm" action="<c:url value='/approval/approvalwrite'/>" method="post">
+											<form id="approvalForm" action="<c:url value='/approval/approvalwrite'/>" method="post" enctype="multipart/form-data">
 											<div class="d-flex justify-content-between align-items-center mb-4">
 												<div class="card-title mb-0">문서 내용</div>
 												<div class="d-flex">

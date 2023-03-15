@@ -9,5 +9,5 @@ public class DocumentFile {
     private String docFileName;
     private byte[] docFileData;
     private String docFileType;
-    private int docFileLength;
+    private long docFileLength;
 }

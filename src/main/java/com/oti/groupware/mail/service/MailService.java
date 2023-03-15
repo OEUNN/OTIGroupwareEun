@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.oti.groupware.common.Pager;
 import com.oti.groupware.employee.dto.Employee;
+import com.oti.groupware.mail.dto.MailCount;
 import com.oti.groupware.mail.dto.MailFile;
 import com.oti.groupware.mail.dto.ReceivedMail;
 import com.oti.groupware.mail.dto.SendMail;
@@ -40,4 +41,5 @@ public interface MailService {
 	SendMail getDetailSendMail(int mailid); //메일 디테일을 확인하기 위해
 	List<MailFile> getMailFile(int mailid);
 	MailFile getMailFileById(int mfile);
+	MailCount mailHomeCount(String empId); //메인 홈 통계
 }

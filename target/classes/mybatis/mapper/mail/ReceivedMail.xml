@@ -219,4 +219,21 @@
         DELETE FROM received_mails WHERE send_mail_id = #{mailId}
     </delete>
     
+    <select id="getReceivedMailCount" parameterType="string" resultType="int">
+    	 select count(SEND_MAIL_ID)
+		 from received_mails
+		 where EMP_ID_EMPLOYEES = #{empId}  and RECD_MAIL_DEL_YN='N'
+    </select>
+    
+    <select id="getNotReadCount" parameterType="string" resultType="int">
+    	 select count(SEND_MAIL_ID)
+		 from received_mails
+		 where EMP_ID_EMPLOYEES = #{empId}  and RECD_MAIL_DEL_YN='N' and RECD_MAIL_READ_RECEIPT_YN='Y'
+    </select>
+    
+    <select id="getImportCount" parameterType="string" resultType="int">
+    	 select count(SEND_MAIL_ID)
+		 from received_mails
+		 where EMP_ID_EMPLOYEES = #{empId}  and RECD_MAIL_DEL_YN='N' and RECD_MAIL_IMPORTANCE_YN='Y'
+    </select>
 </mapper>

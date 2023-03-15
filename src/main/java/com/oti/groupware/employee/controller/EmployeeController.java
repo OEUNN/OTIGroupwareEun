@@ -2,7 +2,6 @@ package com.oti.groupware.employee.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,6 +27,7 @@ import com.oti.groupware.common.Pager;
 import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.employee.dto.EmployeeDetail;
 import com.oti.groupware.employee.service.EmployeeService;
+import com.oti.groupware.interceptor.Authorization;
 
 import lombok.extern.log4j.Log4j2;
 /**
@@ -72,9 +73,9 @@ public class EmployeeController {
 	 * @param employmentDateStr - 입사일에 대한 String
 	 * @return 성공시 redirect를 통해 인사관리의 메인인 select 페이지로 이동한다.
 	 */
+	@Authorization("ROLE_HR")
 	@PostMapping(value = "/insertemployee")
 	public String insertEmployee(Employee employee, EmployeeDetail employeeDetail) throws IOException{
-		log.info("실행");
 		//파일 데이터
 		MultipartFile employeeFile = employee.getEmpFileDataMulti();
 		if(!employeeFile.isEmpty()) {
@@ -94,6 +95,7 @@ public class EmployeeController {
 	
 	
 	// 임직원 등록
+	@Authorization("ROLE_HR")
 	@GetMapping(value = "/insertemployee")
 	public String insertEmployee() {
 		return "employee/insertemployee";
@@ -144,6 +146,7 @@ public class EmployeeController {
 	}
 
 	//임직원 조회
+	@Authorization("ROLE_HR")
 	@RequestMapping(value = "/selectemployee", method = RequestMethod.GET)
 	public String selectEmployee(Model model) {
 		log.info("실행");
@@ -163,7 +166,8 @@ public class EmployeeController {
 		return "employee/selectemployee";
 	}
 	
-	// 받은메일
+	//임직원조회 디테일
+	@Authorization("ROLE_HR")
 	@RequestMapping(value = "/employeepager", method = RequestMethod.POST)
 	public String employeePager(int page, Model model) {
 		log.info("실행");
@@ -181,6 +185,7 @@ public class EmployeeController {
 		return "employee/selectemployeeinfo";
 	}
 	
+	@Authorization("ROLE_HR")
 	@RequestMapping(value = "/selectemployee", method = RequestMethod.POST)
 	public String selectEmployee(String empId, Model model) {
 		log.info("실행");
@@ -192,12 +197,14 @@ public class EmployeeController {
 	}
 	
 	// 비밀번호 초기화popup
+	@Authorization("ROLE_HR")
 	@RequestMapping(value = "/resetpasswordpopup", method = RequestMethod.GET)
 	public String resetPasswordPopup() {
 		return "employee/resetpasswordpopup";
 	}
 		
 	// 비밀번호 초기화popup
+	@Authorization("ROLE_HR")
 	@RequestMapping(value = "/reset", method = RequestMethod.POST)
 	@ResponseBody
 	public void resetPasswordPopup(String empId) {
@@ -205,6 +212,7 @@ public class EmployeeController {
 	}
 	
 	// 임직원
+	@Authorization("ROLE_HR")
 	@RequestMapping(value = "/updateemployee/{empId}", method = RequestMethod.GET)
 	public String updateEmployee(@PathVariable String empId) {
 		return "employee/updateemployee";
@@ -217,13 +225,17 @@ public class EmployeeController {
 		return "employee/organizationchart";
 	}
 	
-	@RequestMapping(value = "/searchdepartment", method = RequestMethod.POST)
-	@ResponseBody
-	public List<Employee> searchDepartment(String depId) {
+	// 조직도에서 각 부서에 해당하는 임직원 정보 목록 조각
+	@RequestMapping(value = "/searchdepartment", method = RequestMethod.GET)
+	public String searchDepartment(@RequestParam int depId, Model model) {
 		log.info("실행");
-		List<Employee>  depEmployee = new ArrayList<>();
-		depEmployee = employeeService.getDepartment(Integer.parseInt(depId));
-		return depEmployee;
+		
+		//임직원 이름,부서이름 등의 정보가 담긴 목록을 가져옴
+		List<Employee>  orgEmpList = employeeService.getOrganizationEmpList(depId);
+		model.addAttribute("orgEmpList", orgEmpList);
+		model.addAttribute("depId", depId);
+		
+		return "employee/organizationemplist";
 	}
 	
 	//직원정보 디테일 popup

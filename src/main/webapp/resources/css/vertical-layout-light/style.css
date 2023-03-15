@@ -28533,7 +28533,9 @@ div.tagsinput span.tag a {
 /* Sidebar */
 .sidebar {
   min-height: calc(100vh - 60px);
-  background: #fff;
+/*   background: #fff; */
+  background-image: linear-gradient(135deg, #f5f7fa 0%, #e7e7ff 100%);
+  box-shadow: 3px 3px 6px #cdd1e1;
   font-family: 'LeferiPoint-WhiteObliqueA';
 /*   font-family: "Nunito", sans-serif; */
   font-weight: 700;

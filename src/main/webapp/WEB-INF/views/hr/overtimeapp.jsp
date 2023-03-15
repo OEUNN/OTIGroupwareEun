@@ -195,7 +195,7 @@
 		<div style="border-bottom: 2px solid #4B49AC; width: 90%;"></div>
 	</div>
 	<!-- hidden input -->
-	<input type="hidden" name="empId" value="${attendance.empId}">
+	<input type="hidden" name="empId" value="${sessionScope.employee.empId}">
 	<input type="hidden" name="atdExcpApprovalEmpName" value="${empFormInfo['결재자']}">
 	<input type="hidden" name="atdExcpApprovalEmpId" value="${empFormInfo['결재자ID']}">
 	<input type="hidden" name="atdExcpCategory" value="추가근무">

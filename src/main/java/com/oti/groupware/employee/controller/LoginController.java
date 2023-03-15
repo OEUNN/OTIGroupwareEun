@@ -42,7 +42,6 @@ public class LoginController {
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(Employee employee, Model model, HttpSession session) {
 		String loginResult = employeeService.login(employee);
-		log.info(loginResult);
 		if(loginResult.equals("SUCCESS")) {
 			session.setAttribute("employee", employee);
 			model.addAttribute("result", loginResult);

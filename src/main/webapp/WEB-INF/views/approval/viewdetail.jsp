@@ -79,6 +79,11 @@
 		});
 	});
 	</script>
+	<style>
+	a:hover {
+		text-decoration: none;
+	}
+	</style>
 </head>
 
 <body >
@@ -116,7 +121,7 @@
 											<span class="mdi mdi-calendar-clock align-middle"></span>
 											<span>승인</span>
 										</button>
-										<button type="submit" onclick="returnPopup()" id="popup-btn" class="btn btn-md btn-warning mx-2">
+										<button type="submit" onclick="returnPopup()" id="popup-btn" class="btn btn-md btn-danger mx-2">
 											<span class="mdi mdi-apple-keyboard-caps align-middle"></span>
 											<span>반려</span>
 										</button>
@@ -183,10 +188,10 @@
 						                    	<!-- 현재 읽는 사용자가 문서상의 결재 순서임-->
 						                    	<c:if test="${reader.aprvLineOrder == approvalLine.aprvLineOrder && document.docAprvStep == approvalLine.aprvLineOrder && document.docAprvStep > 0}">
 					            	        	<div class="col-6">
-						                    		<button class="btn btn-success w-100" style="text-align: center; font-weight:bold; margin-bottom: -3px;">승인</button>
+						                    		<button class="btn btn-success w-100" onclick="approvePopup()" style="text-align: center; font-weight:bold; margin-bottom: -3px;">승인</button>
 						                    	</div>
 						                    	<div class="col-6 d-flex justify-content-center">
-						                    		<button class="btn btn-danger w-100" style="text-align: center; font-weight:bold; margin-bottom: -3px;">반려</button>
+						                    		<button class="btn btn-danger w-100" onclick="returnPopup()" style="text-align: center; font-weight:bold; margin-bottom: -3px;">반려</button>
 						                    	</div>
 						                    	</c:if>
 						                    </div>
@@ -203,6 +208,20 @@
 								</c:forEach>
 							</div>
 						</div>
+						<div class="card grid-margin">
+							<div class="card-body">
+								<p class="card-title"><a onclick="popup()">첨부파일</a></p>
+									<ul class="icon-data-list">
+									<li>
+										<c:if test="${document.documentFiles != null}">
+										<c:forEach items="${document.documentFiles}" var="documentFiles">
+										<div class="d-flex justify-content-between my-3"><a class="font-weight-bold text-primary" href="<c:url value="/approval/filedownload/${documentFiles.docFileId}"></c:url>">${documentFiles.docFileName}</a></div>
+										</c:forEach>
+										</c:if>
+									</li>
+								</ul>
+							</div>
+						</div>
 						<div class="card">
 							<div class="card-body">
 								<p class="card-title"><a onclick="popup()">의견란</a></p>
@@ -211,7 +230,7 @@
 										<c:forEach items="${approvalLines}" var="approvalLine">
 										<c:if test="${approvalLine.aprvLineOpinion != null && approvalLine.aprvLineOpinion != '' && approvalLine.aprvLineRole != '기안'}">
 										<div class="d-flex">
-											<img src="images/faces/face2.jpg" alt="user">
+											<img src="<c:url value='/employee/file/${approvalLine.empId}'/>" alt="profile"/>
 											<div>
 												<p class="h4 font-weight-bold text-primary mb-1">${approvalLine.employee.empName} ${approvalLine.position.posName}</p>
 												<p class="mb-4">${approvalLine.aprvLineOpinion}</p>	

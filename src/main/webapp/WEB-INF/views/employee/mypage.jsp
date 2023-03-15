@@ -70,6 +70,18 @@
 		</script>
 		<style>
 			#multi { display:none; } 
+		
+			.og-card-title {
+				color: #4B49AC;
+			    font-family: 'LeferiPoint-BlackObliqueA';
+			    background-color: #e7e7ff;
+			    border-radius: 15px;
+			    padding: 15px 20px 9px 20px;
+			    box-shadow: 3px 3px 6px #cdd1e1;
+			    text-transform: capitalize;
+			    font-size: 2.125rem;
+			    font-weight: 700;
+			}
 		</style>
 	<!-- End plugin css,js for this page -->
 	</head>
@@ -85,10 +97,11 @@
 			<div class="main-panel">
 				<div class="content-wrapper">
 					<div class="row">
-						<div class="col-md-12 grid-margin">
-							<div class="row">
-								<h3 class="font-weight-bold">개인정보 조회</h3>
-							</div>
+						<div class="col-md-2 pl-0 grid-margin d-flex justify-content-center">
+							<h5 class="mb-0 og-card-title d-flex align-content-center">
+								<span class="pt-2 mr-2 mb-0 h4">마이페이지</span>
+								<span class="mdi mdi-account-card-details h3 pt-1 mb-0"></span>
+							</h5>
 						</div>
 					</div>
 					<div class="row">

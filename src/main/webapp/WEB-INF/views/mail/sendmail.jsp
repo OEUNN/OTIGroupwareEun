@@ -87,6 +87,8 @@
 					search = 'import';
 				}else if(str == 2){
 					search = 'notimport';
+				}else{
+					search = 'all';
 				}
 				$('#searchBtn').val(search);
 				onclick=pager(1);

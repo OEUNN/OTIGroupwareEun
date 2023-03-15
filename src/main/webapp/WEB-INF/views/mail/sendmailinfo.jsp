@@ -50,6 +50,9 @@
 				<div class="px-3 py-1 ahover">
 					<button onclick="search(2)" style="color:grey;">중요표시안한메일</button>
 				</div>
+				<div class="px-3 py-1 ahover">
+					<button onclick="search(3)" style="color:grey;">RESET</button>
+				</div>
 			</div>
 			<input type="hidden" id="searchBtn"/>
 			<div class="ml-5" style="width:50%;">

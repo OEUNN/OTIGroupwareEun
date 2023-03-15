@@ -16,7 +16,6 @@
 				        right: 'today'
 				      },                
 					contentHeight : 700,
-					selectable : false,
 					businessHours : true,
 					locale : 'ko',
 					dayMaxEvents : true,
@@ -58,7 +57,7 @@
 						} else if(eventTitle == '결근' ) {
 							return { html : '<div class="h4 mt-2 mb-0 font-weight-bold" style="color:rgba(163, 164, 165, 0.9)">결근</div>' }
 						} else if(eventTitle == '휴가') {
-							return { html : '<div class="btn btn-md font-weight-bold px-5" style="background-color:rgba(163, 164, 165, 0.3); color:#5b5b5e;">휴가</div>' }
+							return { html : '<div class="btn btn-md font-weight-bold" style="background-color:rgba(163, 164, 165, 0.3); color:#5b5b5e; padding: 15px 45px;">휴가</div>' }
 						} else if(eventTitle == '오전반차' || eventTitle == '오후반차') {
 							return { html : '<div class="btn btn-md font-weight-bold px-3 py-1" style="background-color:rgba(163, 164, 165, 0.3); color:#5b5b5e;">'+ eventTitle +'</div>' }
 						} else if(eventTitle.indexOf('추가근무') == 0) {

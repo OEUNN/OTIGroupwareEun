@@ -1,5 +1,6 @@
 package com.oti.groupware.approval.service;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -7,15 +8,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.oti.groupware.approval.ApprovalHandler;
 import com.oti.groupware.approval.DocumentContentProvider;
 import com.oti.groupware.approval.DocumentParser;
 import com.oti.groupware.approval.dao.ApprovalLineDAO;
 import com.oti.groupware.approval.dao.DocumentDAO;
+import com.oti.groupware.approval.dao.DocumentFileDAO;
 import com.oti.groupware.approval.dto.ApprovalLine;
 import com.oti.groupware.approval.dto.Document;
 import com.oti.groupware.approval.dto.DocumentContent;
+import com.oti.groupware.approval.dto.DocumentFile;
 import com.oti.groupware.approval.dto.SearchQuery;
 import com.oti.groupware.common.Pager;
 import com.oti.groupware.common.dto.Organization;
@@ -30,6 +34,7 @@ public class DocumentServiceImpl implements DocumentService {
 	ApprovalLine approvalLine;
 	List<ApprovalLine> approvalLines;
 	List<Organization> employees;
+	DocumentFile documentFile;
 	
 	/*
 	 * Request로 들어온 HTML을 Parse
@@ -62,15 +67,25 @@ public class DocumentServiceImpl implements DocumentService {
 	@Autowired
 	EmployeeDAO employeeDAO;
 	
+	@Autowired
+	DocumentFileDAO documentFileDAO;
+	
 	@Override
+	@Transactional
 	public Document readDocument(String docId) {
 		document = documentDAO.getDocumentById(docId);
+		document.setDocumentFiles(documentFileDAO.getDocumentFilesById(docId));
 		return document;
 	}
 	
 	@Override
+	public DocumentFile downloadDocumentFile(int docFileId) {
+		return documentFileDAO.getDocumentFileById(docFileId);
+	}
+	
+	@Override
 	@Transactional
-	public int saveDocument(String html, DocumentContent documentContent, String docTempYn, String drafterId) {
+	public int saveDocument(String html, DocumentContent documentContent, String docTempYn, String drafterId, MultipartFile[] multipartFiles) throws IOException {
 		if (html != null) {
 			documentParser.parseDocument(html, documentContent.getDrafterId());
 			document = documentParser.getParsedDocument();
@@ -89,18 +104,51 @@ public class DocumentServiceImpl implements DocumentService {
 			
 			EmployeeInfo drafter = employeeDAO.mailInfo(drafterId);
 			
-			//첫 임시저장 또는 상신
+			//첫 상신 또는 첫 임시저장
 			if ("공란".equals(document.getDocId())) {
+				
 				String documentId = documentContentProvider.getDocumentIdByDocumentType(documentType);
 				document.setDocId(documentId);
-				document.setDocContent(documentParser.setHTML(html, document, documentContent, drafter));
+				document.setDocContent(documentParser.initializetHTML(html, document, documentContent, drafter));
 				documentDAO.insertDraft(document);
+				
+				String docId = document.getDocId();
+				
+				if (multipartFiles != null && multipartFiles.length > 0) {
+					for (MultipartFile multipartFile : multipartFiles) {
+						if (!("".equals(multipartFile.getOriginalFilename())) && multipartFile.getOriginalFilename() != null) {
+							documentFile = new DocumentFile();
+							documentFile.setDocId(docId);
+							documentFile.setDocFileData(multipartFile.getBytes());
+							documentFile.setDocFileLength(multipartFile.getSize());
+							documentFile.setDocFileName(multipartFile.getOriginalFilename());
+							documentFile.setDocFileType(multipartFile.getContentType());
+							documentFileDAO.insertDocumentFile(documentFile);
+						}
+					}
+				}
 			}
-			//재상신
 			else {
-				document.setDocContent(documentParser.setHTML(html, document, documentContent, drafter));
+				document.setDocContent(documentParser.initializetHTML(html, document, documentContent, drafter));
 				documentDAO.updateDocument(document);
 				approvalLineDAO.deleteApprovalLineByDocId(document.getDocId());
+				documentFileDAO.deleteDocumentFile(document.getDocId());
+				
+				String docId = document.getDocId();
+				
+				if (multipartFiles != null && multipartFiles.length > 0) {
+					for (MultipartFile multipartFile : multipartFiles) {
+						if (!("".equals(multipartFile.getOriginalFilename())) && multipartFile.getOriginalFilename() != null) {
+							documentFile = new DocumentFile();
+							documentFile.setDocId(docId);
+							documentFile.setDocFileData(multipartFile.getBytes());
+							documentFile.setDocFileLength(multipartFile.getSize());
+							documentFile.setDocFileName(multipartFile.getOriginalFilename());
+							documentFile.setDocFileType(multipartFile.getContentType());
+							documentFileDAO.updateDocumentFile(documentFile);
+						}
+					}
+				}
 			}
 
 			approvalLine = new ApprovalLine();
@@ -123,11 +171,10 @@ public class DocumentServiceImpl implements DocumentService {
 					approvalLine.setAprvLineOrder(documentContent.getApprovalOrder()[i]);
 					approvalLine.setAprvLineRole("결재");
 					
-					//동적 Query로 최적화가 가능
 					approvalLineDAO.insertDraftApprovalLine(approvalLine);
 				}
 			}
-
+			
 		}
 		else {
 			System.out.println("html is null");
@@ -149,9 +196,7 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 		
 		approvalHandler.setDocument(document);
-		log.info(document);
 		approvalHandler.setApprovalLine(approvalLine);
-		log.info(approvalLine);
 		
 		int documentMaxStep = document.getDocMaxStep();
 		
@@ -160,11 +205,14 @@ public class DocumentServiceImpl implements DocumentService {
 		if (isProcessed) {
 			document = approvalHandler.getDocument();
 			approvalLine = approvalHandler.getApprovalLine();
-			approvalLines = approvalHandler.getApprovalLines();
 			
-			for(ApprovalLine approvalLinesElement : approvalLines) {
-				if (!"기안".equals(approvalLinesElement.getAprvLineRole())) {
-					document.setDocContent(documentParser.processHTML(document.getDocContent(), approvalLinesElement)); 
+			if ("회수".equals(state)) {
+				approvalLines = approvalHandler.getApprovalLines();
+				
+				for(ApprovalLine approvalLinesElement : approvalLines) {
+					if (!"기안".equals(approvalLinesElement.getAprvLineRole())) {
+						document.setDocContent(documentParser.setHTML(document.getDocContent(), approvalLinesElement)); 
+					}
 				}
 			}
 			
@@ -194,8 +242,6 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 		return result;
 	}
-
-	
 	
 	
 	//목록 조회 메소드들
@@ -203,7 +249,10 @@ public class DocumentServiceImpl implements DocumentService {
 	@Transactional
 	public List<Document> getDraftDocumentList(int pageNo, Pager pager, String empId) {
 		int totalRows = documentDAO.getDraftDocumentCount(empId);
-		pager = new Pager(10, 10, totalRows, pageNo);
+		pager.setRowsPerPage(10);
+		pager.setPagesPerGroup(10);
+		pager.setTotalRows(totalRows);
+		pager.setPageNo(pageNo);
 		return documentDAO.getDraftDocumentList(pager, empId);
 	}
 	
@@ -211,7 +260,10 @@ public class DocumentServiceImpl implements DocumentService {
 	@Transactional
 	public List<Document> getPendedDocumentList(int pageNo, Pager pager, String empId) {
 		int totalRows = documentDAO.getPendedDocumentCount(empId);
-		pager = new Pager(10, 10, totalRows, pageNo);
+		pager.setRowsPerPage(10);
+		pager.setPagesPerGroup(10);
+		pager.setTotalRows(totalRows);
+		pager.setPageNo(pageNo);
 		return documentDAO.getPendedDocumentList(pager, empId);
 	}
 	
@@ -219,7 +271,10 @@ public class DocumentServiceImpl implements DocumentService {
 	@Transactional
 	public List<Document> getReturnedDocumentList(int pageNo, Pager pager, String empId) {
 		int totalRows = documentDAO.getReturnedDocumentCount(empId);
-		pager = new Pager(10, 10, totalRows, pageNo);
+		pager.setRowsPerPage(10);
+		pager.setPagesPerGroup(10);
+		pager.setTotalRows(totalRows);
+		pager.setPageNo(pageNo);
 		return documentDAO.getReturnedDocumentList(pager, empId);
 	}
 
@@ -227,7 +282,10 @@ public class DocumentServiceImpl implements DocumentService {
 	@Transactional
 	public List<Document> getCompletedDocumentList(int pageNo, Pager pager, String empId) {
 		int totalRows = documentDAO.getCompletedDocumentCount(empId);
-		pager = new Pager(10, 10, totalRows, pageNo);
+		pager.setRowsPerPage(10);
+		pager.setPagesPerGroup(10);
+		pager.setTotalRows(totalRows);
+		pager.setPageNo(pageNo);
 		return documentDAO.getCompletedDocumentList(pager, empId);
 	}
 
@@ -235,21 +293,24 @@ public class DocumentServiceImpl implements DocumentService {
 	@Transactional
 	public List<Document> getTempDocumentList(int pageNo, Pager pager, String empId) {
 		int totalRows = documentDAO.getTempDocumentCount(empId);
-		pager = new Pager(10, 10, totalRows, pageNo);
+		pager.setRowsPerPage(10);
+		pager.setPagesPerGroup(10);
+		pager.setTotalRows(totalRows);
+		pager.setPageNo(pageNo);
 		return documentDAO.getTempDocumentList(pager, empId);
 	}
 	
 	
-	/*
-	 * 검색
-	 */
-	
+	//검색
 	@Override
 	@Transactional
 	public List<Document> getDraftDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId) {
 		int totalRows = documentDAO.getDraftDocumentCountByQuery(empId, searchQuery);
 		int pageNo = searchQuery.getPageNo();
-		pager = new Pager(10, 10, totalRows, pageNo);
+		pager.setRowsPerPage(10);
+		pager.setPagesPerGroup(10);
+		pager.setTotalRows(totalRows);
+		pager.setPageNo(pageNo);
 		return documentDAO.getDraftDocumentListByQuery(pager, empId, searchQuery);
 	}
 	
@@ -257,7 +318,11 @@ public class DocumentServiceImpl implements DocumentService {
 	@Transactional
 	public List<Document> getCompletedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId) {
 		int totalRows = documentDAO.getCompletedDocumentCountByQuery(empId, searchQuery);
-		pager = new Pager(10, 10, totalRows, searchQuery.getPageNo());
+		int pageNo = searchQuery.getPageNo();
+		pager.setRowsPerPage(10);
+		pager.setPagesPerGroup(10);
+		pager.setTotalRows(totalRows);
+		pager.setPageNo(pageNo);
 		return documentDAO.getCompletedDocumentListByQuery(pager, empId, searchQuery);
 	}
 
@@ -265,7 +330,11 @@ public class DocumentServiceImpl implements DocumentService {
 	@Transactional
 	public List<Document> getPendedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId) {
 		int totalRows = documentDAO.getPendedDocumentCountByQuery(empId, searchQuery);
-		pager = new Pager(10, 10, totalRows, searchQuery.getPageNo());
+		int pageNo = searchQuery.getPageNo();
+		pager.setRowsPerPage(10);
+		pager.setPagesPerGroup(10);
+		pager.setTotalRows(totalRows);
+		pager.setPageNo(pageNo);
 		return documentDAO.getPendedDocumentListByQuery(pager, empId, searchQuery);
 	}
 
@@ -273,7 +342,11 @@ public class DocumentServiceImpl implements DocumentService {
 	@Transactional
 	public List<Document> getReturnedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId) {
 		int totalRows = documentDAO.getReturnedDocumentCountByQuery(empId, searchQuery);
-		pager = new Pager(10, 10, totalRows, searchQuery.getPageNo());
+		int pageNo = searchQuery.getPageNo();
+		pager.setRowsPerPage(10);
+		pager.setPagesPerGroup(10);
+		pager.setTotalRows(totalRows);
+		pager.setPageNo(pageNo);
 		return documentDAO.getReturnedDocumentListByQuery(pager, empId, searchQuery);
 	}
 
@@ -281,13 +354,15 @@ public class DocumentServiceImpl implements DocumentService {
 	@Transactional
 	public List<Document> getTempDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId) {
 		int totalRows = documentDAO.getTempDocumentCountByQuery(empId, searchQuery);
-		pager = new Pager(10, 10, totalRows, searchQuery.getPageNo());
+		int pageNo = searchQuery.getPageNo();
+		pager.setRowsPerPage(10);
+		pager.setPagesPerGroup(10);
+		pager.setTotalRows(totalRows);
+		pager.setPageNo(pageNo);
 		return documentDAO.getTempDocumentListByQuery(pager, empId, searchQuery);
 	}
 	
-	/*
-	 * 임시
-	 */
+	//임시
 	@Override
 	public List<Organization> getOrganization() {
 		employees = approvalLineDAO.getOrganization();
