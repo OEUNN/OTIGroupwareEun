@@ -474,16 +474,16 @@ a:hover {
 												<table class="table table-hover">
 													<thead>
 														<tr>
-															<th class="px-0" style="width: 20%">문서번호</th>
-															<th class="px-0" style="width: 15%">결재상태</th>
-															<th class="px-0" style="width: 40%">제목</th>
+<!-- 															<th class="px-0" style="width: 20%">문서번호</th> -->
+															<th class="px-0" style="width: 25%">결재상태</th>
+															<th class="px-0" style="width: 50%">제목</th>
 															<th class="px-0" style="width: 25%">완결날짜</th>
 														</tr>
 													</thead>
 													<tbody>
 														<c:forEach items="${documents}" var="document" varStatus="status">
 														<tr>
-															<td class="pl-1" style="font-size: 14px;">${document.docId}</td>
+<%-- 															<td class="pl-1" style="font-size: 14px;">${document.docId}</td> --%>
 															<c:choose>
 															<c:when test="${document.docState == '결재중' || document.docState == '승인'}">
 															<td class="pl-1" style="font-size: 13px;">

@@ -77,23 +77,15 @@
             lev_app_id = #{levAppId}
 	</select>
 	
-	<!-- 휴가신청 통계 -->
+	<!-- 휴가신청 통계 - 사용일 수 가져오기 -->
 	<select id="getLeaveApplicationStats" resultType="hashmap">
-		SELECT DISTINCT
-		   (
-		    SELECT 
-		    ROUND(sum(CASE WHEN lev_app_category IN ('연차', '대체휴무') THEN 1 
-		                    WHEN lev_app_category IN ('오전반차', '오후반차') THEN 0.5 END), 2) AS 사용휴가
-		    FROM leave_applications
-		    WHERE emp_id = #{empId}
-		        AND lev_app_process_state = '승인' AND lev_app_cancel is null
-		   ) AS 사용휴가,
-		   e.emp_leave_reserve AS 잔여연차,
-		   e.emp_substitue_reserve AS 잔여대체휴무
-		FROM 
-		   leave_applications la, employees e
-		WHERE 
-		   e.emp_id = #{empId}
+		SELECT 
+		    ROUND(sum(CASE WHEN lev_app_category IN ('연차', '대체휴무') THEN 1 * (TO_DATE(TO_CHAR(LEV_APP_END_DATE), 'YYYY-MM-DD') - TO_DATE(TO_CHAR(LEV_APP_START_DATE), 'YYYY-MM-DD') + 1)
+		                WHEN lev_app_category IN ('오전반차', '오후반차') THEN 0.5
+		              END), 2) AS 사용휴가
+		FROM leave_applications
+		WHERE emp_id = #{empId}
+		    AND lev_app_process_state = '승인' AND lev_app_cancel is null
 	</select>
 	
 	<!-- 휴가신청서 등록 -->

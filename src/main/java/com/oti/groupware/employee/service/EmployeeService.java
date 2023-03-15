@@ -20,6 +20,7 @@ public interface EmployeeService {
 	public void updateImg(Employee employee);
 	public void updatePassword(String empId, String password);
 	public List<Employee> getDepartment(int depId);
+	public List<Employee> getOrganizationEmpList(int depId); //새로 추가
 	public void resetPassword(String empId);
 	public int employeeRowsCount();
 	public List<Employee> getEmployees(Pager pager);

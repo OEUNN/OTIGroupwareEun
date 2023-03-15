@@ -374,7 +374,6 @@ public class HrServiceImpl implements HrService {
 		
 		} else { //근무시간수정 신청서일 경우
 			//기존날짜의 출,퇴근 시간을 수정
-			log.info("날짜 확인!" + attendanceException.getAtdExcpDate());
 			attendanceDAO.updateAttendanceUpdateTime(attendanceException);
 		}
         
@@ -412,8 +411,9 @@ public class HrServiceImpl implements HrService {
 	public int leaveApplicationApprovalProcessState(LeaveApplication leaveApplication) {
 		//승인했을 경우에만 적용
 		if(leaveApplication.getLevAppProcessState().equals("승인")) {
+			
 			//휴가 신청인 경우
-			if(!leaveApplication.getLevAppCancel().equals("휴가취소")) {
+			if(leaveApplication.getLevAppCancel() == null) {
 				//해당 직원의 잔여일수를 DB에서 가져온 후, 잔여일수 안에 휴가기간을 선택했는지 확인
 				Employee emp = leaveApplicationDAO.getEmpReserveInfo(leaveApplication.getEmpId());
 				if(leaveApplication.getLevAppCategory().equals("대체휴무") && (emp.getEmpSubstitueReserve() - leaveApplication.getLevPeriod() < 0 )) {
@@ -424,6 +424,7 @@ public class HrServiceImpl implements HrService {
 					return 0;
 				}
 			} 
+			
 			//잔여 일수 안에 신청한 경우!
 			//반차일 경우에는 카운팅되는 잔여일수가 다름
 			if(leaveApplication.getLevAppCategory().contains("반차")) { 
@@ -434,13 +435,14 @@ public class HrServiceImpl implements HrService {
 			//신청-차감, 취소-증감
 			leaveApplicationDAO.updateEmployeeReserve(leaveApplication);
 			
-			if(!leaveApplication.getLevAppCancel().equals("휴가취소")) { //휴가 신청인 경우
+			if(leaveApplication.getLevAppCancel() == null) { //휴가 신청인 경우
 				//유형에 맞게 수정/등록
 				attendanceDAO.updateAttendanceLeaveState(leaveApplication);
 			} else { //휴가 취소인 경우
 				attendanceDAO.deleteAttendance(leaveApplication);
 			}
 		} 
+		
 		//결재상태를 승인, 반려로 수정해줌
 		return leaveApplicationDAO.updateLeaveApplicationProcessState(leaveApplication);
 	}
