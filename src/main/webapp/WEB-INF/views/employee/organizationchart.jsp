@@ -82,10 +82,10 @@
 				<div class="content-wrapper">
 					<div class="row" style="height: 80px;">
 						<div class="col-md-2 pl-0 grid-margin d-flex justify-content-center">
-							<h3 class="mb-0 og-card-title d-flex align-content-center">
-								<span class="pt-2 mr-2">조직도</span>
-								<span class="mdi mdi-account-multiple h2 pt-1 mb-0"></span>
-							</h3>
+							<h5 class="mb-0 og-card-title d-flex align-content-center">
+								<span class="pt-2 mr-2 mb-0 h4">조직도</span>
+								<span class="mdi mdi-account-multiple h3 pt-1 mb-0"></span>
+							</h5>
 						</div>
 					</div>
 					<!-- top human -->
@@ -96,7 +96,7 @@
 									<div class="d-flex justify-content-center">
 										<button id="ceo" class="d-flex align-items-center m-1 btn-color text-light" onclick="popup()">
 											<i class="h1 my-auto mdi mdi-human-greeting"></i> 
-											<div class="ml-2 font-weight-bold" style="font-size: 23px;">대표이사</div>
+											<div class="ml-2 font-weight-bold" style="font-size: 18px;">대표이사</div>
 										</button>
 									</div>
 								</div>
@@ -115,7 +115,7 @@
 									<div class=" d-flex justify-content-center">
 										<button class="d-flex align-items-center m-1 btn-color text-primary" onclick="popup()">
 											<i class="h2 pt-1 my-auto mdi mdi-account"></i> 
-											<span class="ml-2 font-weight-bold" style="font-size: 23px;">이사</span>
+											<span class="ml-2 font-weight-bold" style="font-size: 18px;">이사</span>
 										</button>
 									</div>
 								</div>
@@ -124,15 +124,15 @@
 					</div><!-- end top human -->
 					<!-- Horizontal & Vertical-Center Line -->
 					<div class="row d-flex justify-content-center">
-						<div class="col-2 d-flex justify-content-center" style="height:55px; border-bottom: 4px solid gray;"></div>
-						<div class="col-3 d-flex justify-content-center" style="border-bottom: 4px solid gray;"></div>
-						<div class="col-3 d-flex justify-content-center" style="border-bottom: 4px solid gray; border-left: 4px solid gray;"> </div>
+						<div class="col-2 d-flex justify-content-center" style="height:55px; border-bottom: 3px solid gray;"></div>
+						<div class="col-3 d-flex justify-content-center" style="border-bottom: 3px solid gray;"></div>
+						<div class="col-3 d-flex justify-content-center" style="border-bottom: 3px solid gray; border-left: 4px solid gray;"> </div>
 						<div class="col-2"></div>
 					</div>
 					<!-- Vertical-Center Line & 경영지원부 -->
 					<div class="row d-flex justify-content-center" style="height:100px">
-						<div class="col-3" style="height:100px; border-left: 4px solid gray;"></div>
-						<div class="col-3" style="height:100px; border-left: 4px solid gray; border-right: 4px solid gray;"></div>
+						<div class="col-3" style="height:100px; border-left: 3px solid gray;"></div>
+						<div class="col-3" style="height:100px; border-left: 3px solid gray; border-right: 3px solid gray;"></div>
 						<div class="col-2"></div>
 						<div class="col-2 pl-0" style="position: relative; top: -50px;">
 							<div class="card">
@@ -140,7 +140,7 @@
 									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV4">
 										<button class="dep d-flex align-items-center text-primary" onclick="department(4)">
 											<i class="h2 my-auto mdi mdi-menu-down"></i> 
-											<span class="h3 mb-0 ml-3 font-weight-bold">경영지원</span>
+											<span class="h4 mb-0 ml-3 font-weight-bold">경영지원</span>
 										</button>
 									</div>
 									<div id="collapse-div-4"></div>
@@ -157,7 +157,7 @@
 									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV1">
 										<button class="dep d-flex align-items-center text-primary" onclick="department(1)">
 											<i class="h2 my-auto mdi mdi-menu-down"></i> 
-											<span class="h3 mb-0 ml-2 font-weight-bold">공공사업1DIV</span>
+											<span class="h4 mb-0 ml-2 font-weight-bold">공공사업1DIV</span>
 										</button>
 									</div>
 									<div id="collapse-div-1"></div>
@@ -171,7 +171,7 @@
 									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV2">
 										<button class="dep d-flex align-items-center text-primary" onclick="department(2)">
 											<i class="h2 my-auto mdi mdi-menu-down"></i> 
-											<span class="h3 mb-0 ml-2 font-weight-bold" >공공사업2DIV</span>
+											<span class="h4 mb-0 ml-2 font-weight-bold" >공공사업2DIV</span>
 										</button>
 									</div>
 									<div id="collapse-div-2"></div>
@@ -185,7 +185,7 @@
 									<div class="text-primary m-1 row" data-toggle="collapse"  data-target="#DIV3">
 										<button class="dep d-flex align-items-center text-primary" onclick="department(3)">
 											<i class="h2 my-auto mdi mdi-menu-down"></i> 
-											<span class="h3 mb-0 ml-2 font-weight-bold">공공사업3DIV</span>
+											<span class="h4 mb-0 ml-2 font-weight-bold">공공사업3DIV</span>
 										</button>
 									</div>
 									<div id="collapse-div-3"></div>
