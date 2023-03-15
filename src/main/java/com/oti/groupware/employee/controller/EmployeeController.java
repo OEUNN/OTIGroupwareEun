@@ -28,7 +28,6 @@ import com.oti.groupware.common.Pager;
 import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.employee.dto.EmployeeDetail;
 import com.oti.groupware.employee.service.EmployeeService;
-import com.oti.groupware.mail.dto.ReceivedMail;
 
 import lombok.extern.log4j.Log4j2;
 /**
@@ -70,7 +69,6 @@ public class EmployeeController {
 	 */
 	@PostMapping(value = "/insertemployee")
 	public String insertEmployee(Employee employee, EmployeeDetail employeeDetail) throws IOException{
-		log.info("실행");
 		//파일 데이터
 		MultipartFile employeeFile = employee.getEmpFileDataMulti();
 		if(!employeeFile.isEmpty()) {
@@ -159,7 +157,7 @@ public class EmployeeController {
 		return "employee/selectemployee";
 	}
 	
-	// 받은메일
+	//임직원조회 디테일
 	@RequestMapping(value = "/employeepager", method = RequestMethod.POST)
 	public String employeePager(int page, Model model) {
 		log.info("실행");

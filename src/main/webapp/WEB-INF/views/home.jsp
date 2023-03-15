@@ -15,6 +15,12 @@
 	border-bottom: 3px solid #4B49AC;
 	opacity: 0.4;
 }
+a {
+	color:black;
+}
+a:hover {
+	text-decoration: none;
+}
 </style>
 
 <script>
@@ -468,37 +474,51 @@
 												<table class="table table-hover">
 													<thead>
 														<tr>
-															<th class="px-0" style="width: 20%">문서번호</th>
-															<th class="px-0" style="width: 15%">결재자</th>
-															<th class="px-0" style="width: 50%">결재종류</th>
-															<th class="px-0" style="width: 15%">결재상태</th>
+<!-- 															<th class="px-0" style="width: 20%">문서번호</th> -->
+															<th class="px-0" style="width: 25%">결재상태</th>
+															<th class="px-0" style="width: 50%">제목</th>
+															<th class="px-0" style="width: 25%">완결날짜</th>
 														</tr>
 													</thead>
 													<tbody>
+														<c:forEach items="${documents}" var="document" varStatus="status">
 														<tr>
-															<td class="pl-1" style="font-size: 14px;">01-202355</td>
-															<td class="pl-1" style="font-size: 14px;">장그래</td>
-															<td class="pl-1" width="150"
-																style="font-size: 13px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
-																출장 신청서</td>
-															<td class="pl-1" style="font-size: 13px;">미처리</td>
+<%-- 															<td class="pl-1" style="font-size: 14px;">${document.docId}</td> --%>
+															<c:choose>
+															<c:when test="${document.docState == '결재중' || document.docState == '승인'}">
+															<td class="pl-1" style="font-size: 13px;">
+															<div class="badge badge-warning font-weight-bold d-flex" style="width: fit-content;">
+															<i class="mdi mdi-file-document d-flex align-self-center mr-1"></i><span>진행</span></div>
+															</td>
+															</c:when>
+															<c:when test="${document.docState == '완결'}">
+															<td class="pl-1" style="font-size: 13px;">
+															<div class="badge badge-success font-weight-bold d-flex" style="width: fit-content;">
+															<i class="mdi mdi-file-document d-flex align-self-center mr-1"></i><span>승인</span></div>
+															</td>
+															</c:when>
+															<c:when test="${document.docState == '반려'}">
+															<td class="pl-1" style="font-size: 13px;">
+															<div class="badge badge-danger font-weight-bold d-flex" style="width: fit-content;">
+															<i class="mdi mdi-file-document d-flex align-self-center mr-1"></i><span>반려</span></div>
+															</td>
+															</c:when>
+															<c:when test="${document.docState == '회수'}">
+															<td class="pl-1" style="font-size: 13px;">
+															<div class="badge badge-secondary font-weight-bold d-flex" style="width: fit-content;">
+															<i class="mdi mdi-file-document d-flex align-self-center mr-1"></i><span>회수</span></div>
+															</td>
+															</c:when>
+															</c:choose>
+															<td class="pl-1" style="font-size: 14px;"><a href="<c:url value='/approval/viewdetail/${document.docId}'/>">${document.docTitle}</a></td>
+															<c:if test="${document.docCompleteDate != null}">
+															<td><fmt:formatDate value="${document.docCompleteDate}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+															</c:if>
+															<c:if test="${document.docCompleteDate == null}">
+															<td>N/A</td>
+															</c:if>
 														</tr>
-														<tr>
-															<td class="pl-1" style="font-size: 14px;">01-202355</td>
-															<td class="pl-1" style="font-size: 14px;">장그래</td>
-															<td class="pl-1" width="150"
-																style="font-size: 13px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
-																출장 신청서</td>
-															<td class="pl-1" style="font-size: 13px;">미처리</td>
-														</tr>
-														<tr>
-															<td class="pl-1" style="font-size: 14px;">01-202355</td>
-															<td class="pl-1" style="font-size: 14px;">장그래</td>
-															<td class="pl-1" width="150"
-																style="font-size: 13px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
-																출장 신청서</td>
-															<td class="pl-1" style="font-size: 13px;">미처리</td>
-														</tr>
+														</c:forEach>
 													</tbody>
 												</table>
 											</div>

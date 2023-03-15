@@ -116,11 +116,6 @@
         WHERE emp_name = #{empName}
 	</select>
 	
-	<select id="getPositionIdById" parameterType="string" resultType="int">
-		select pos_id
-		from employees
-		where emp_id = #{empId}
-	</select>
 	
 	<select id="employeeRowsCount" resultType="int">
 		select count(emp_id)
@@ -129,7 +124,7 @@
 	
 	<select id="getEmployees" resultMap="employeeResultMap">
 		SELECT 
-		    emp_id, emp_name, dep_id
+		    emp_id, emp_name, dep_id, pos_id
 		FROM employees
 		ORDER BY pos_id DESC
 		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS

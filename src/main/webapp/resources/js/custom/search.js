@@ -95,3 +95,13 @@ function submitForm() {
 		$('input[name="docTitle"]').val(value);
 	}
 }
+
+function submitFormWithPageNo(pageNo) {
+	let value = $("#navbar-search-input").val();
+	if (value !== null && value !== '') {
+		value = value.trim();
+		$('input[name="docTitle"]').val(value);
+	}
+	$('input[name="pageNo"]').val(pageNo);
+	$("#searchForm").submit();
+}

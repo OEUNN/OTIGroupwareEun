@@ -9,7 +9,7 @@
 	<%@ include file="/WEB-INF/views/common/head.jsp"%>
 	<!-- endinject css, js common file -->
 	
-	<!-- Plugin css,js for this page  -->
+	<!-- Plugin css,js for this  page  -->
 	<script>
       function department(No){
 			if($('#dep-'+ No).text() == ''){
@@ -94,7 +94,7 @@
 							<div class="card" style="border-radius: 50%;">
 								<div class="card-body" style="border-radius: 50%; padding: 50px; background-color: #4B49AC;">
 									<div class="d-flex justify-content-center">
-										<button id="ceo" class="d-flex align-items-center m-1 btn-color text-light" onclick="popup()">
+										<button id="ceo" class="d-flex align-items-center m-1 btn-color text-light" onclick="popup('0912011')">
 											<i class="h1 my-auto mdi mdi-human-greeting"></i> 
 											<div class="ml-2 font-weight-bold" style="font-size: 18px;">대표이사</div>
 										</button>
@@ -113,7 +113,7 @@
 							<div class="card" style="border-radius: 30px; background-color: #e7e7ff;">
 								<div class="card-body" style="border-radius: 30px; padding: 20px 10px;">
 									<div class=" d-flex justify-content-center">
-										<button class="d-flex align-items-center m-1 btn-color text-primary" onclick="popup()">
+										<button class="d-flex align-items-center m-1 btn-color text-primary" onclick="popup('0912012')">
 											<i class="h2 pt-1 my-auto mdi mdi-account"></i> 
 											<span class="ml-2 font-weight-bold" style="font-size: 18px;">이사</span>
 										</button>

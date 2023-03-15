@@ -575,10 +575,11 @@
 															<div class="dropdown-menu" aria-labelledby="position" style="width:100%;">
 																<h6 class="dropdown-item" id="select3-1" onclick="select3(1)">사원</h6>
 																<h6 class="dropdown-item" id="select3-2" onclick="select3(2)">대리</h6> 
-																<h6 class="dropdown-item" id="select3-3" onclick="select3(3)">차장</h6>
-																<h6 class="dropdown-item" id="select3-4" onclick="select3(4)">부장</h6>
-																<h6 class="dropdown-item" id="select3-5" onclick="select3(5)">이사</h6>
-																<h6 class="dropdown-item" id="select3-6" onclick="select3(6)">대표이사</h6>
+																<h6 class="dropdown-item" id="select3-3" onclick="select3(3)">과장</h6>
+																<h6 class="dropdown-item" id="select3-4" onclick="select3(4)">차장</h6>
+																<h6 class="dropdown-item" id="select3-5" onclick="select3(5)">부장</h6>
+																<h6 class="dropdown-item" id="select3-6" onclick="select3(6)">이사</h6>
+																<h6 class="dropdown-item" id="select3-7" onclick="select3(7)">대표이사</h6>
 															</div>
 															<script>
 														        function select3(No){

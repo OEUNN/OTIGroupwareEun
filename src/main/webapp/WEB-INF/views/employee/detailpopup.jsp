@@ -37,8 +37,8 @@
 							<div class="card">
 								<div class="card-body row m-0">
 									<!-- image card -->
-									<div class="col-5 d-flex justify-content-center" >
-										<img src="<c:url value='/employee/file/${emp.empId}'/>" style="width:180px; height:270px;border-radius:20px;"/>
+									<div class="col-5 d-flex" >
+										<img src="<c:url value='/employee/file/${emp.empId}'/>" style="width:200px; height:270px;border-radius:20px;"/>
 									</div> <!-- End image card -->
 									<!-- start information -->
 									<div class="col-7">
