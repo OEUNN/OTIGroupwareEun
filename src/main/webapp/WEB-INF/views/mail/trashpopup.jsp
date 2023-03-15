@@ -41,6 +41,7 @@
 	</style>
 	<!-- End plugin css,js for this page -->
 	</head>
+
 	<body>
 		<div class="main-panel-popup">
 			<div class="content-wrapper">

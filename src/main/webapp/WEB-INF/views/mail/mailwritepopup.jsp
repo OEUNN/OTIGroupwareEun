@@ -13,6 +13,7 @@
 		<script>
         function result(){
         	opener.location.href = "javascript:fromStart();";
+//         	window.opener.top.location.href="<c:url value='/sendmail'/>";
             window.close();
         }
 		</script>

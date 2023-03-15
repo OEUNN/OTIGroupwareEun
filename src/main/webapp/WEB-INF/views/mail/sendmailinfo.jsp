@@ -26,7 +26,7 @@
   text-align: left;
   padding: 5px;
   
-  /* Position the tooltip*/
+  /* Position the tooltip */
   position: absolute;
   z-index: 1;
   top: 130%;

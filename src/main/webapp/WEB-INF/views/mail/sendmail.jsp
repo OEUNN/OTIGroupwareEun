@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mail.css"/>
 		<script>
 			function pager(No){
-				//선택삭제 
+				//선택삭제
 				var next = true;
 				var result;
 				var mailArray = [];

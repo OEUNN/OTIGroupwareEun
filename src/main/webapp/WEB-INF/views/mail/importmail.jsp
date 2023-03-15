@@ -22,7 +22,7 @@
 			}else if(No == -3){
 				No = $('#pageBtn').val();
 			}
-			//paging number지정
+			//paging number 지정
 			var startRowNo = ${pager.startRowNo};
 			var endRowNo =  ${pager.endRowNo};
 			if(No <= startRowNo ){

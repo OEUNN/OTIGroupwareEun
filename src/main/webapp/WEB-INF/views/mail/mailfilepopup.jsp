@@ -30,6 +30,7 @@
 			flex-direction: column;
 			align-items: center;
 		}
+		
 		.box {
 			text-align: center;
 		}

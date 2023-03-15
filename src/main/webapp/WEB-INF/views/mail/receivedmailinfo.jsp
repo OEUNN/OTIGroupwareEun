@@ -33,7 +33,7 @@
 			</div>
 			<input type="hidden" id="searchBtn"/>
 		</div><!-- 검색 태그 -->
-		<!-- 테이블  -->
+		<!-- 테이블 -->
 		<div class="table-responsive p-4">
 			<table class="table table-hover">
 				<thead>

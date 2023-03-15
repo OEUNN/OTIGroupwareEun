@@ -15,6 +15,7 @@
 	.collapse, .collapsing {
 		box-shadow: 0px 0px 0px white !important;
 	}
+	
 	.filebox {
 		display: inline-block;
 		margin-right: 10px;

@@ -155,7 +155,7 @@
 								
 								
 							</div>
-						</div><!-- end 받은메일 -->
+						</div><!-- end 받은 메일 -->
 					</div>
 				</div>
 				<!-- content-wrapper ends -->

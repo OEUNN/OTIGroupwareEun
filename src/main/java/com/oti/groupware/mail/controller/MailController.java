@@ -185,20 +185,20 @@ public class MailController {
 		return "mail/sendmailinfo";
 	}
 	
-	@RequestMapping(value = "/titlesearch", method = RequestMethod.POST)
-	public String sendSearch(String search, String category, HttpSession session, Model model) {
-		log.info("실행");
-		Employee employee = (Employee) session.getAttribute("employee");
-		int totalRows = mailService.sendMailSearchRowsCount(employee.getEmpId(), search);
-		// 페이저 객체 생성
-		Pager pager = new Pager(10, 5, totalRows, 1);
-		if (totalRows != 0) {
-			List<SendMail> sendMail = mailService.getSearchSendMail(employee.getEmpId(), pager, search);
-			model.addAttribute("sendmail", sendMail);
-			model.addAttribute("pager", pager);
-		}
-		return "mail/sendmailinfo";
-	}
+//	@RequestMapping(value = "/titlesearch", method = RequestMethod.POST)
+//	public String sendSearch(String search, String category, HttpSession session, Model model) {
+//		log.info("실행");
+//		Employee employee = (Employee) session.getAttribute("employee");
+//		int totalRows = mailService.sendMailSearchRowsCount(employee.getEmpId(), search);
+//		// 페이저 객체 생성
+//		Pager pager = new Pager(10, 5, totalRows, 1);
+//		if (totalRows != 0) {
+//			List<SendMail> sendMail = mailService.getSearchSendMail(employee.getEmpId(), pager, search);
+//			model.addAttribute("sendmail", sendMail);
+//			model.addAttribute("pager", pager);
+//		}
+//		return "mail/sendmailinfo";
+//	}
 
 	// 중요메일
 	@RequestMapping(value = "/importmail", method = RequestMethod.GET)
