@@ -18,12 +18,39 @@
 		$('.datepicker').datepicker({
 		});	
 	});
+	
+	$(() => {
+		const checkAll = $('#checkAll');
+		const checklist = $('.checklist');
+		
+		checkAll.change(function() {
+		  checklist.prop('checked', checkAll.prop('checked'));
+		});
+		
+		checklist.change(function() {
+		  const allChecked = checklist.filter(':checked').length === checklist.length;
+		  checkAll.prop('checked', allChecked);
+		});
+	});
+	
+	$(() => {
+		if ($("#resultCount").length !== 0) {
+			let resultCount = $("#resultCount").val();
+			
+			if ($("#type").val() === 'delete') {
+				alert(resultCount + "개가 삭제되었습니다.");
+			}
+		}
+	});
 	</script>
 </head>
 
 <body >
 <div class="container-scroller">
-
+	<c:if test="${result != null && result == 'changed'}">
+	<input id="resultCount" type="hidden" value="${resultCount}"/>
+	<input id="type" type="hidden" value="${type}"/>
+	</c:if>
 	<!-- partial:../../partials/_navbar.jsp -->
 	<%@ include file="/WEB-INF/views/common/_navbar.jsp" %>
 	
@@ -88,7 +115,7 @@
 												<th class="py-0 pl-1">
 													<div class="form-check font-weight-bold text-info my-1">
 														<label class="form-check-label">
-															<input type="checkbox" class="form-check-input" name="optradio">
+															<input id="checkAll" type="checkbox" class="form-check-input">
 														</label>
 													</div>
 												</th>
@@ -115,7 +142,7 @@
 												<td class="py-0 pl-1">
 													<div class="form-check font-weight-bold text-info my-1">
 														<label class="form-check-label">
-															<input type="checkbox" class="form-check-input" name="optradio">
+															<input type="checkbox" class="checklist form-check-input" name="docId" form="checkedBox" value="${document.docId}">
 														</label>
 													</div>
 												</td>
@@ -152,35 +179,38 @@
 									</table>
 									<div class="mt-2">
 										<div class="d-flex justify-content-end">
-											<span class="btn btn-danger btn-sm">선택 삭제</span>
+											<form id="checkedBox" action="<c:url value='/approval/selected'></c:url>" method="post">
+											<input type="hidden" name="docType" value="draft">
+											</form>
+											<button class="btn btn-danger btn-sm mx-1" type="submit" form="checkedBox" name="type" value="delete">선택 삭제</button>
 										</div>
 										<ul class="pagination justify-content-center pb-0 mb-0">
 										<c:if test="${pager.totalRows > 0}">
 											<!-- 처음 -->
-											<li class="page-item"><a class="page-link" href="<c:url value='/approval/tempdocument/1'/>">처음</a></li>
+											<li class="page-item" onclick="submitFormWithPageNo(1)"><a class="page-link">처음</a></li>
 											
 											<!-- 이전 -->
 											<c:if test = "${pager.groupNo > 1}">
-											<li class="page-item"><a class="page-link" href="<c:url value='/approval/tempdocument/${pager.startPageNo-1}'/>">이전</a></li>
+											<li class="page-item" onclick="submitFormWithPageNo(${pager.startPageNo - 1})"><a class="page-link">이전</a></li>
 											</c:if>
 											
 											<!-- 페이지그룹 -->
-											<c:forEach var="i" begin="${pager.startPageNo}" end ="${pager.endPageNo}">
+											<c:forEach var="i" begin="${pager.startPageNo}" end="${pager.endPageNo}">
 											<c:if test="${pager.pageNo != i}">
-											<li class="page-item" ><a class="page-link" href="<c:url value='/approval/tempdocument/${i}'/>">${i}</a></li>
+											<li class="page-item" onclick="submitFormWithPageNo(${i})"><a class="page-link">${i}</a></li>
 											</c:if>
 											<c:if test="${pager.pageNo == i}">
-											<li class="page-item active" ><a class="page-link" href="<c:url value='/approval/tempdocument/${i}'/>">${i}</a></li>
+											<li class="page-item active" onclick="submitFormWithPageNo(${i})"><a class="page-link">${i}</a></li>
 											</c:if>
 											</c:forEach>
 											
 											<!-- 다음 -->
 											<c:if test = "${pager.groupNo < pager.totalGroupNo }">
-											<li class="page-item"><a class="page-link" href="<c:url value='/approval/tempdocument/${pager.endPageNo+1}'/>">다음</a></li>
+											<li class="page-item" onclick="submitFormWithPageNo(${pager.endPageNo + 1})"><a class="page-link">다음</a></li>
 											</c:if>
 											
 											<!-- 마지막 -->
-											<li class="page-item"><a class="page-link" href="<c:url value='/approval/tempdocument/${pager.totalPageNo}'/>">마지막</a></li>
+											<li class="page-item" onclick="submitFormWithPageNo(${pager.totalPageNo})"><a class="page-link">마지막</a></li>
 										</c:if>
 										</ul>
 									</div>
