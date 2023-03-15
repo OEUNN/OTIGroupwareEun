@@ -16,7 +16,6 @@
 				        right: 'today'
 				      },                
 					contentHeight : 700,
-					selectable : false,
 					businessHours : true,
 					locale : 'ko',
 					dayMaxEvents : true,
