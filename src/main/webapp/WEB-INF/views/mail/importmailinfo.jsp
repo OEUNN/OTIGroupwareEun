@@ -42,7 +42,21 @@
 	<div class="card-body">
 		<h4 class="card-title">중요 메일</h4>
 		<!-- 검색 태그 -->
-		<div class="row mb-3 mt-5 mx-3"> </div><!-- 검색 태그 -->
+		<div class="row mb-1 mt-5 mx-5 d-flex justify-content-end"> 
+			<div >
+				<div id="searchForm" class="d-flex" >
+     				<div style="border-radius:18px; border:1px solid #e9ecef;display: flex;">
+						<div class="input-group-prepend hover-cursor mx-3">
+							<span class="input-group-text" id="search" style="background: transparent; border: 0; color: #000; padding: 0;">
+								<i class="icon-search" style="font-size: 1.25rem; color: #6C7383;"></i>
+							</span>
+						</div>
+						<input type="text" id="searchBar" class="align-self-center" style="border:none;width:100%;">
+					</div>
+					<button onclick="submitForm()" class="font-weight-bold btn btn-md btn-warning ml-2">검색</button>
+				</div>
+       		</div>
+		</div><!-- 검색 태그 -->
 		<!-- 테이블 -->
 		<div class="table-responsive p-4">
 			<table class="table table-hover">
@@ -71,20 +85,20 @@
 											<input type="checkbox" class="form-check-input" name="optradio" onclick="checkSelectAll()" value="${send.sendMailId}">
 										</label>
 									</div>
-									<button onclick="star(${send.sendMailId})"><i class="h3 mdi mdi-star text-primary"></i></button>
+									<button onclick="star(${send.sendMailId})"><i class="h3 mdi mdi-star text-warning"></i></button>
 									<input type="hidden" id="star"/>
 								</td>
 								<td>
 									<c:if test="${send.fileYN == 'Y'}">
-										<i class="h3 mdi mdi-paperclip text-primary"></i>
+										<i class="h3 mdi mdi-paperclip text-info"></i>
 									</c:if>
 								</td>
 								<td>
 									<c:if test="${send.tbName =='send' }">
-										<i class="mdi mdi-arrow-right text-primary"></i>
+										<i class="mdi mdi-arrow-right-bold text-success"></i>
 									</c:if>
 									<c:if test="${send.tbName =='received' }">
-										<i class="mdi mdi-arrow-left text-primary"></i>
+										<i class="mdi mdi-arrow-left-bold text-danger"></i>
 									</c:if>
 									<c:if test="${send.tbName =='received' }">
 										<span>(${send.depName}) ${send.empName}${send.posName} </span>

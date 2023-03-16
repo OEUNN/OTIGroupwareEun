@@ -34,7 +34,6 @@
 		}else if (No > endRowNo){
 			No = endRowNo;
 		}
-		console.log(No);
 		jQuery.ajax({
 			type : 'post',
 			url : '../employee/employeepager',
@@ -42,23 +41,34 @@
 			data : {page : No},
 			success : function(data){
 				$('#select_container').html(data);
+				$('#pageBtn').val(No);
 			 }
 		});
 	}
 	function start(){
-		if($('#result').val() == 'sucess'){
+		console.log($('#result').val());
+		if($('#result').val() == 'success'){
 			swal({
 				  title: "비밀먼호 초기화 성공.",
-				  icon: "sucess",
+				  icon: "success",
 				  button: "닫기",
 			});
 		}
+		$('#result').val('No');
+	}
+	function popup(No){
+		$('#id').val(No);
+		var empId = $('#id').val();
+	    var url = 'resetpasswordpopup/'+empId;
+	    var name = "delete password popup";
+	    var option = "width = 500, height =230, top = 300, left = 500, location = no, resizable=no, scrollbars=no "
+	   	window.open(url, name, option);
 	}
 	</script>
 	<!-- Plugin css,js for this page -->
 	<!-- End plugin css,js for this page -->
 	</head>
-<body onload="start()">
+<body>
 	<input type="hidden" id="result"/>
 	<div class="container-scroller">
 		<!-- Navbar -->

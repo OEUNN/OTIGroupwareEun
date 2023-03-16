@@ -142,7 +142,7 @@
     <update id="receivedMailSearchDelete">
     	update received_mails
 		set RECD_MAIL_DEL_YN = 'Y' , RECD_MAIL_IMPORTANCE_YN='N', RECD_MAIL_DEL_DATE=sysdate
-		where emp_id=#{empId} and 
+		where emp_id_employees=#{empId} and 
 		<foreach collection="arr" item="mailId" separator="or">
 		 	SEND_MAIL_ID=#{mailId}
 		</foreach>

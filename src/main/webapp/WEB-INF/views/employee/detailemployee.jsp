@@ -1,16 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<script>
-function popup(No){
-	$('#id').val(No);
-	var empId = $('#id').val();
-    var url = 'resetpasswordpopup/'+empId;
-    var name = "delete password popup";
-    var option = "width = 500, height =230, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
-    window.open(url, name, option);
-}
-</script>
+
 <style>
 	.table th, .jsgrid .jsgrid-table th,
 	.table td,

@@ -9,10 +9,34 @@
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mail.css" />
 		<script>
         function popup(){
-            var url = "temppopup";
-            var name = "temp popup";
-            var option = "width = 500, height = 300, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
-            window.open(url, name, option);
+        	swal({
+			  title: "메일 삭제",
+			  text: "임시보관함의 메일은 바로 삭제되어 복구할 수 없습니다.",
+			  icon: "warning",
+			  buttons: {
+			    cancel: {
+			      text: "취소",
+			      value: null,
+			      visible: true,
+			      className: "",
+			      closeModal: true,
+			    },
+			    confirm: {
+			      text: "확인",
+			      value: true,
+			      visible: true,
+			      className: "",
+			      closeModal: true
+			    }
+			  },
+			})
+			.then((value) => {
+			  if (value) {
+			    onclick=pager(-2);
+			  } else {
+			     close();
+			  }
+			});
         }
         function pager(No){
         	var result;

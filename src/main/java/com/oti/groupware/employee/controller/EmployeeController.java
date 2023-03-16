@@ -184,7 +184,7 @@ public class EmployeeController {
 	@Authorization("ROLE_HR")
 	@RequestMapping(value = "/reset", method = RequestMethod.POST)
 	@ResponseBody
-	public void resetPasswor(String empId) {
+	public void resetPasswor(String empId, int page) {
 		employeeService.resetPassword(empId);
 	}
 

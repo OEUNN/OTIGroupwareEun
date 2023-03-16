@@ -12,17 +12,25 @@
 	<!-- Plugin css,js for this page -->
 	<script>
         function start(x){
-        	console.log(x);
+        	var pageBtn = $('#pageBtn').val()
+        	if(pageBtn == ''){
+        		pageBtn = 1;
+        	}
         	jQuery.ajax({
         		type : 'post',
         		url : "../reset",
-        		data : {empId : x},
+        		data : {empId : x, page : pageBtn},
         		success : function(data){
-        			opener.document.getElementById('result').value = 'sucess';
+        			opener.document.getElementById('result').value = 'success';
+        			opener.location.href = "javascript:start();";
         		 	window.close();
         		}
         	});
         }
+        $(document).ready(function(){
+        	var parent_val = opener.$("#pageBtn").val(); 
+        	$("#pageBtn").val(parent_val);
+        })
 	</script>
 	<style>
 		.container-fluid{
@@ -62,6 +70,7 @@
 									<input type="hidden" id="i" />
 									<div class="row card-title box">비밀번호 초기화</div>
 									<div class="row card-title box">하시겠습니까?</div>
+									<input type="hidden" id="pageBtn"/>
 									<div class="row box">
 										<button class="btn btn-primary btn-md mr-2" onclick="start('${empId}')">확인</button>
 										<button class="btn btn-inverse-primary btn-md ml-2" onclick="window.close()">닫기</button>

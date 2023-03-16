@@ -92,7 +92,7 @@
 														</div>
 													</div>
 													<div class="col-sm-5 form-inline">
-														<i class="h3 my-auto mdi mdi-arrow-right-bold text-primary"></i> 
+														<i class="h3 my-auto mdi mdi-arrow-right-bold text-success"></i> 
 														<div class="from-control" style="border:none;">
 														<div class="empBtn mr-2">
 															<span>(${sendMail.depName}) ${sendMail.empName} ${sendMail.posName }</span>
@@ -113,7 +113,7 @@
 														</div>
 													</div>
 													<div class="col-sm">
-														<i class="h3 my-auto mdi mdi-arrow-left-bold text-primary"></i> 
+														<i class="h3 my-auto mdi mdi-arrow-left-bold text-danger"></i> 
 														<c:if test="${!empty sendMail.empList }">
 															<c:forEach items="${sendMail.empList}" var="emp">
 																<div class="empBtn mr-2">
