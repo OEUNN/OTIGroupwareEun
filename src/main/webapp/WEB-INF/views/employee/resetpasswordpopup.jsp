@@ -11,24 +11,17 @@
 	
 	<!-- Plugin css,js for this page -->
 	<script>
-		function open(){
-			// 부모창에서 id가 parent_val인 요소(태그)의 값 가져오기
-			var parent_val = opener.$("#id").val(); 
-			// 자식창(팝업창)에서 id가 child_val인 요소(태그)의 값에 부모창에서 가져온 값 넣기
-			$('#i').val(parent_val);
-		}
-        function start(){
-        	var x = $('#i').val();
+        function start(x){
         	console.log(x);
-   			jQuery.ajax({
-   				type : 'post',
-   				url : "../employee/reset",
-   				data : {empId : x},
-   				success : function(data){
-   					console.log("완료");
-   				 	window.close();
-   				}
-   			});
+        	jQuery.ajax({
+        		type : 'post',
+        		url : "../reset",
+        		data : {empId : x},
+        		success : function(data){
+        			opener.document.getElementById('result').value = 'sucess';
+        		 	window.close();
+        		}
+        	});
         }
 	</script>
 	<style>
@@ -57,7 +50,7 @@
 	<!-- End plugin css,js for this page -->
 	</head>
 
-	<body onload="open()">
+	<body>
 		<div class="main-panel-popup">
 			<div class="content-wrapper">
 				<!-- Start information -->
@@ -70,7 +63,7 @@
 									<div class="row card-title box">비밀번호 초기화</div>
 									<div class="row card-title box">하시겠습니까?</div>
 									<div class="row box">
-										<button class="btn btn-primary btn-md mr-2" onclick="start()">확인</button>
+										<button class="btn btn-primary btn-md mr-2" onclick="start('${empId}')">확인</button>
 										<button class="btn btn-inverse-primary btn-md ml-2" onclick="window.close()">닫기</button>
 									</div>
 								</div>

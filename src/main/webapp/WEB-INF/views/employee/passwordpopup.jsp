@@ -42,7 +42,7 @@
 	<!-- End plugin css,js for this page -->
 	</head>
 
-	<body onload="open()">
+	<body>
 		<div class="main-panel-popup">
 			<div class="content-wrapper">
 				<!-- Start information -->

@@ -38,7 +38,7 @@ public interface MailService {
 	void trashMailDeleteRestore(List<Integer> list, String empId, String result);
 	void deleteTrashMail(); //30일이 지난 휴지통 메일 삭제
 	void completeDelete();//한달에한번 삭제가 되었는지 확인
-	SendMail getDetailSendMail(int mailid); //메일 디테일을 확인하기 위해
+	SendMail getDetailSendMail(int mailid, String category); //메일 디테일을 확인하기 위해
 	List<MailFile> getMailFile(int mailid);
 	MailFile getMailFileById(int mfile);
 	MailCount mailHomeCount(String empId); //메인 홈 통계

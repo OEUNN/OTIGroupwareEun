@@ -45,12 +45,21 @@
 			 }
 		});
 	}
+	function start(){
+		if($('#result').val() == 'sucess'){
+			swal({
+				  title: "비밀먼호 초기화 성공.",
+				  icon: "sucess",
+				  button: "닫기",
+			});
+		}
+	}
 	</script>
 	<!-- Plugin css,js for this page -->
 	<!-- End plugin css,js for this page -->
 	</head>
-
-<body>
+<body onload="start()">
+	<input type="hidden" id="result"/>
 	<div class="container-scroller">
 		<!-- Navbar -->
 		<%@ include file="/WEB-INF/views/common/_navbar.jsp"%>

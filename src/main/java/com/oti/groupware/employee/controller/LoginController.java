@@ -39,6 +39,13 @@ public class LoginController {
 		return "login/login";
 	}
 	
+	/**
+	 * login 요청
+	 * @param employee - 아이디, 비밀번호 받기
+	 * @param model - employee(나의정보), result(로그인 결과)
+	 * @param session - 로그인 성공시 나의 정보를 session에 저장
+	 * @return JSP
+	 */
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(Employee employee, Model model, HttpSession session) {
 		String loginResult = employeeService.login(employee);
@@ -53,6 +60,12 @@ public class LoginController {
 		}
 	}
 	
+	/**
+	 * 상단바의 나의 이미지
+	 * @param session - 로그인 되어 있는 정보
+	 * @return
+	 * @throws Exception
+	 */
 	@GetMapping("/filedownload")
 	public ResponseEntity<byte[]> filedownload(HttpSession session) throws Exception {
 		Employee employee = (Employee)session.getAttribute("employee");
@@ -63,21 +76,38 @@ public class LoginController {
 		return new ResponseEntity<byte[]>(employee.getEmpFileData(), headers, HttpStatus.OK);
 	}	
 	
+	/**
+	 * 로그인시 아이디 없을 때 팝업 창
+	 * @return JSP
+	 */
 	@RequestMapping(value = "/failidpopup", method = RequestMethod.GET)
 	public String failIdPopup() {
 		return "login/failidpopup";
 	}
 	
+	/**
+	 * 로그인시 비밀번호가 1~4번 틀렸을 때 팝업창
+	 * @return JSP
+	 */
 	@RequestMapping(value = "/failpwpopup", method = RequestMethod.GET)
 	public String failPwPopup() {
 		return "login/failpwpopup";
 	}
 	
+	/**
+	 * 로그인시 비밀번호 5번 틀렸을 때 팝업창
+	 * @return JSP
+	 */
 	@RequestMapping(value = "/fivefailpwpopup", method = RequestMethod.GET)
 	public String fiveFailPwPopup() {
 		return "login/fivefailpwpopup";
 	}
 	
+	/**
+	 * 로그아웃
+	 * @param session - 로그인 되어 있는 정보
+	 * @return JSP
+	 */
 	@RequestMapping(value ="/logout", method=RequestMethod.GET)
 	public String logout(HttpSession session) {
 		session.removeAttribute("employee");

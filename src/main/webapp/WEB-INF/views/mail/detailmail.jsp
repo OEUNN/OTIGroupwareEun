@@ -20,12 +20,27 @@
 			padding-left:10px;
 			padding-top:2px;
 			padding-bottom:2px;
+			display: inline-block;
+  			width: max-content
 		}
 		</style>
 		<script>
 		//tiny
 		$(document).ready(function(){
-			tinymce.activeEditor.mode.set("readonly");
+			tinymce.init({
+				language: 'ko_KR',
+				selector: '#read_write',
+				width: '100%',
+				height: '200mm',
+				theme: 'silver',
+				toolbar1: 'fullscreen print',
+				content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+				plugins: [
+					'noneditable'
+				],
+				menubar : '',
+				readonly: 1
+			});
 		});
 		</script>
 	</head>
@@ -79,9 +94,9 @@
 													<div class="col-sm-5 form-inline">
 														<i class="h3 my-auto mdi mdi-arrow-right-bold text-primary"></i> 
 														<div class="from-control" style="border:none;">
-														<button class="empBtn mr-2">
+														<div class="empBtn mr-2">
 															<span>(${sendMail.depName}) ${sendMail.empName} ${sendMail.posName }</span>
-														</button>
+														</div>
 														
 														</div>
 													</div>
@@ -101,9 +116,9 @@
 														<i class="h3 my-auto mdi mdi-arrow-left-bold text-primary"></i> 
 														<c:if test="${!empty sendMail.empList }">
 															<c:forEach items="${sendMail.empList}" var="emp">
-																<button class="empBtn mr-2">
-																	<span>(${emp.depName}) ${emp.empName}${emp.posName}</span>
-																</button>
+																<div class="empBtn mr-2">
+																	<span style="width:auto;">(${emp.depName}) ${emp.empName}${emp.posName}</span>
+																</div>
 															</c:forEach>
 														</c:if>
 													</div>
@@ -114,7 +129,7 @@
 										<div class="row">
 											<div class="col-md-12">
 												<div class="py-2 px-5">
-													<fmt:formatDate pattern="MM월 dd일   HH:mm:ss" value="${sendMail.sendMailDate}"/>
+													<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${sendMail.sendMailDate}"/>
 												</div>
 											</div>
 										</div>
@@ -144,7 +159,7 @@
 										<div class="row">
 											<div class="col-md-12">
 												<div class="form-group row px-5 py-2">
-													<textarea id="write" name="write">
+													<textarea id="read_write" name="write">
 														${sendMail.sendMailContent}
 													</textarea>
 												</div>

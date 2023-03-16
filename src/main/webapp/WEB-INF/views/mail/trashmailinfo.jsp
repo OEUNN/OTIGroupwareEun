@@ -124,7 +124,7 @@
 								<td onclick="location.href='<c:url value="/mail/detailmail/trash/${send.sendMailId}"/>'">${send.sendMailTitle}</td>
 								
 								<td>
-									<fmt:formatDate pattern="MM월 dd일   HH:mm:ss" value="${send.sendMailDate}"/>
+									<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${send.sendMailDate}"/>
 								</td>
 							</tr>
 						</c:forEach>

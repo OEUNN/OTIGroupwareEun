@@ -20,7 +20,8 @@ public interface EmployeeDAO {
 	public int updateEmployee(Employee employee);
     public int deleteEmployee(String empId);
 	public void updateImg(Employee employee);
-	public void updatePassword(@Param("empId")String empId, @Param("password")String password ,@Param("result")String result);
+	public void mypageUpdatePassword(@Param("empId")String empId, @Param("password")String password);
+	public void updatePassword(@Param("empId")String empId, @Param("password")String password);
 	public List<Employee> getDepartment(int depId);
 	public List<Employee> getOrganizationEmpList(@Param("depId") int depId); // 새로 추가
 	public Employee getEmployeeByName(String empName);

@@ -41,21 +41,37 @@ public class MailController {
 	@Autowired
 	private MailService mailService;
 	
-	// 메일쓰기
+	/**
+	 * 메일 쓰기
+	 * @return JSP
+	 */
 	@RequestMapping(value = "/mailwrite", method = RequestMethod.GET)
 	public String writeMail() {
 		log.info("실행");
 		return "mail/mailwrite";
 	}
 
-	// 주소록 팝업창
+	/**
+	 * 주소록 팝업창
+	 * @param model - emp(모든 직원의 정보)
+	 * @return JSP
+	 */
 	@RequestMapping(value = "/addresspopup", method = RequestMethod.GET)
 	public String addressPopup(Model model) {
 		List<Employee> employee = mailService.getEmployee();
 		model.addAttribute("emp", employee);
 		return "mail/addresspopup";
 	}
-	// write
+	
+	/**
+	 * 메일 쓰기
+	 * @param write - 에디터에 쓴 내용
+	 * @param sendMail - 보낸 메일 데이터(수신인, 제목, 내용 등등)
+	 * @param receive
+	 * @param resultString - 임시보관인지 보내기 인지
+	 * @return JSP
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/sendmail", method = RequestMethod.POST)
 	public String sendMail(@RequestParam("write") String write, SendMail sendMail, String receive,
 			@RequestParam("resultString") String resultString) throws Exception {
@@ -87,25 +103,27 @@ public class MailController {
 		return "redirect:/mail/sendmail";
 	}
 	
-	// 메일file 용량 제한 팝업
-	@RequestMapping(value = "/mailfilepopup", method = RequestMethod.GET)
-	public String mailFilePopup() {
-		return "mail/mailfilepopup";
-	}
 
-	// 메일 write 보내기 팝업
+	/**
+	 * 메일 write 보내기 팝업
+	 * @return JSP
+	 */
 	@RequestMapping(value = "/mailwritepopup", method = RequestMethod.GET)
 	public String mailWritePopup() {
 		return "mail/mailwritepopup";
 	}
 
-	// 받은메일
+	/**
+	 * 받은 메일
+	 * @param session - 로그인 되어 있는 정보
+	 * @param model - receivedMail(받은 메일 정보), pager
+	 * @return JSP
+	 */
 	@RequestMapping(value = "/receivedmail", method = RequestMethod.GET)
 	public String receivedMail(HttpSession session, Model model) {
 		log.info("실행");
 		Employee employee = (Employee) session.getAttribute("employee");
 		int totalRows = mailService.mailRowsCount(employee.getEmpId());
-		// 페이저 객체 생성
 		Pager pager = new Pager(10, 5, totalRows, 1);
 		if (totalRows != 0) {
 			List<ReceivedMail> receivedMail = mailService.getReceivedMail(employee.getEmpId(), pager);
@@ -115,7 +133,13 @@ public class MailController {
 		return "mail/receivedmail";
 	}
 
-	// 받은메일 필터
+	/**
+	 * 받은 메일 필터
+	 * @param mailSearch - 필터에 대한 정보
+	 * @param session - 로그인 되어 있는 정보 
+	 * @param model - receivedMail(받은 메일 정보), pager
+	 * @return JSP 조각
+	 */
 	@RequestMapping(value = "/receivedsearch", method = RequestMethod.POST)
 	public String receivedSearch(@RequestBody MailSearch mailSearch, HttpSession session, Model model) {
 		log.info("실행");
@@ -132,7 +156,6 @@ public class MailController {
 			mailService.receivedMailSearchDelete(list, employee.getEmpId());
 		}
 		int totalRows = mailService.receivedMailSearchRowsCount(employee.getEmpId(), search);
-		// 페이저 객체 생성
 		Pager pager = new Pager(10, 5, totalRows, page);
 		if (totalRows != 0) {
 			List<ReceivedMail> receivedMail = mailService.getSearchReceivedMail(employee.getEmpId(), pager, search);
@@ -142,7 +165,12 @@ public class MailController {
 		return "mail/receivedmailinfo";
 	}
 
-	// 보낸 메일
+	/**
+	 * 보낸 메일
+	 * @param session - 로그인 되어 있는 정보
+	 * @param model - sendMail(받은 메일 정보), pager
+	 * @return JSP
+	 */
 	@RequestMapping(value = "/sendmail", method = RequestMethod.GET)
 	public String sendMail(HttpSession session, Model model) {
 		log.info("실행");
@@ -158,7 +186,13 @@ public class MailController {
 		return "mail/sendmail";
 	}
 
-	// 보낸메일 필터
+	/**
+	 * 보낸 메일 필터
+	 * @param mailSearch - 필터에 대한 정보
+	 * @param session - 로그인 되어 있는 정보
+	 * @param model - sendMail(받은 메일 정보), pager
+	 * @return
+	 */
 	@RequestMapping(value = "/sendsearch", method = RequestMethod.POST)
 	public String sendSearch(@RequestBody MailSearch mailSearch, HttpSession session, Model model) {
 		log.info("실행");
@@ -184,29 +218,19 @@ public class MailController {
 		}
 		return "mail/sendmailinfo";
 	}
-	
-//	@RequestMapping(value = "/titlesearch", method = RequestMethod.POST)
-//	public String sendSearch(String search, String category, HttpSession session, Model model) {
-//		log.info("실행");
-//		Employee employee = (Employee) session.getAttribute("employee");
-//		int totalRows = mailService.sendMailSearchRowsCount(employee.getEmpId(), search);
-//		// 페이저 객체 생성
-//		Pager pager = new Pager(10, 5, totalRows, 1);
-//		if (totalRows != 0) {
-//			List<SendMail> sendMail = mailService.getSearchSendMail(employee.getEmpId(), pager, search);
-//			model.addAttribute("sendmail", sendMail);
-//			model.addAttribute("pager", pager);
-//		}
-//		return "mail/sendmailinfo";
-//	}
 
+	/**
+	 * 중요 메일
+	 * @param session - 로그인 되어 있는 정보
+	 * @param model - sendMail(보낸 메일, 받은 메일 정보), pager
+	 * @return JSP
+	 */
 	// 중요메일
 	@RequestMapping(value = "/importmail", method = RequestMethod.GET)
 	public String importMail(HttpSession session, Model model) {
 		log.info("실행");
 		Employee employee = (Employee) session.getAttribute("employee");
 		int totalRows = mailService.importMailRowsCount(employee.getEmpId());
-		// 페이저 객체 생성
 		Pager pager = new Pager(10, 5, totalRows, 1);
 		if (totalRows != 0) {
 			List<SendMail> sendMail = mailService.getImportMail(employee.getEmpId(), pager);
@@ -216,7 +240,13 @@ public class MailController {
 		return "mail/importmail";
 	}
 
-	// 중요메일 필터
+	/**
+	 * 중요 메일 필터
+	 * @param mailSearch - 필터에 대한 정보
+	 * @param session - 로그인 되어 있는 정보
+	 * @param model - sendMail(보낸 메일, 받은 메일 정보), pager
+	 * @return JSP 좍
+	 */
 	@RequestMapping(value = "/importsearch", method = RequestMethod.POST)
 	public String importSearch(@RequestBody MailSearch mailSearch, HttpSession session, Model model) {
 		log.info("실행");
@@ -242,19 +272,17 @@ public class MailController {
 		return "mail/importmailinfo";
 	}
 
-	// 중요메일 팝업창
-	@RequestMapping(value = "/importpopup", method = RequestMethod.GET)
-	public String importPopup() {
-		return "mail/importpopup";
-	}
-
-	// 임시 보관함
+	/**
+	 * 임시 보관함
+	 * @param session - 로그인 되어 있는 정보
+	 * @param model - sendMail(보낸 메일, 받은 메일 정보), pager
+	 * @return JSP
+	 */
 	@RequestMapping(value = "/tempmail", method = RequestMethod.GET)
 	public String tempMail(HttpSession session, Model model) {
 		log.info("실행");
 		Employee employee = (Employee) session.getAttribute("employee");
 		int totalRows = mailService.tempMailRowsCount(employee.getEmpId());
-		// 페이저 객체 생성
 		Pager pager = new Pager(10, 5, totalRows, 1);
 		if (totalRows != 0) {
 			List<SendMail> sendMail = mailService.getTempMail(employee.getEmpId(), pager);
@@ -264,7 +292,13 @@ public class MailController {
 		return "mail/tempmail";
 	}
 	
-	//임시 보관함 필터
+	/**
+	 * 임시 보관함 필터
+	 * @param mailSearch - 필터에 대한 정보
+	 * @param session - 로그인 되어 있는 정보
+	 * @param model - sendMail(보낸 메일, 받은 메일 정보), pager
+	 * @return
+	 */
 	@RequestMapping(value = "/tempsearch", method = RequestMethod.POST)
 	public String tempSearch(@RequestBody MailSearch mailSearch, HttpSession session, Model model) {
 		log.info("실행");
@@ -276,7 +310,6 @@ public class MailController {
 			mailService.tempMailDelete(list);
 		}
 		int totalRows = mailService.tempMailRowsCount(employee.getEmpId());
-		
 		Pager pager = new Pager(10, 5, totalRows, page);
 		if (totalRows != 0) {
 			List<SendMail> sendMail = mailService.getTempMail(employee.getEmpId(), pager);
@@ -286,19 +319,17 @@ public class MailController {
 		return "mail/tempmailinfo";
 	}
 
-	// 임시 보관함 팝업
-	@RequestMapping(value = "/temppopup", method = RequestMethod.GET)
-	public String tempPopup() {
-		return "mail/temppopup";
-	}
-
-	// 휴지통
+	/**
+	 * 휴지통
+	 * @param session - 로그인 되어 있는 정보
+	 * @param model - sendMail(보낸 메일, 받은 메일 정보), pager
+	 * @return JSP
+	 */
 	@RequestMapping(value = "/trashmail", method = RequestMethod.GET)
 	public String trashMail(HttpSession session, Model model) {
 		log.info("실행");
 		Employee employee = (Employee) session.getAttribute("employee");
 		int totalRows = mailService.trashMailRowsCount(employee.getEmpId());
-		// 페이저 객체 생성
 		Pager pager = new Pager(10, 5, totalRows, 1);
 		if (totalRows != 0) {
 			List<SendMail> sendMail = mailService.getTrashMail(employee.getEmpId(), pager);
@@ -308,7 +339,13 @@ public class MailController {
 		return "mail/trashmail";
 	}
 	
-	//휴지통 필터
+	/**
+	 * 휴지통 필터
+	 * @param mailSearch - 필터에 대한 정보
+	 * @param session - 로그인 되어 있는 정보
+	 * @param model - sendMail(보낸 메일, 받은 메일 정보), pager
+	 * @return
+	 */
 	@RequestMapping(value = "/trashsearch", method = RequestMethod.POST)
 	public String trashSearch(@RequestBody MailSearch mailSearch, HttpSession session, Model model) {
 		log.info("실행");
@@ -320,7 +357,6 @@ public class MailController {
 			mailService.trashMailDeleteRestore(list, employee.getEmpId(), result);
 		}
 		int totalRows = mailService.trashMailRowsCount(employee.getEmpId());
-		// 페이저 객체 생성
 		Pager pager = new Pager(10, 5, totalRows, page);
 		if (totalRows != 0) {
 			List<SendMail> sendMail = mailService.getTrashMail(employee.getEmpId(), pager);
@@ -330,18 +366,35 @@ public class MailController {
 		return "mail/trashmailinfo";
 	}
 
-	// 휴지통 팝업창
-	@RequestMapping(value = "/trashpopup", method = RequestMethod.GET)
-	public String trashpopup() {
-		return "mail/trashpopup";
-	}
+	//제목 검색
+//	@RequestMapping(value = "/titlesearch", method = RequestMethod.POST)
+//	public String sendSearch(String search, String category, HttpSession session, Model model) {
+//		log.info("실행");
+//		Employee employee = (Employee) session.getAttribute("employee");
+//		int totalRows = mailService.sendMailSearchRowsCount(employee.getEmpId(), search);
+//		// 페이저 객체 생성
+//		Pager pager = new Pager(10, 5, totalRows, 1);
+//		if (totalRows != 0) {
+//			List<SendMail> sendMail = mailService.getSearchSendMail(employee.getEmpId(), pager, search);
+//			model.addAttribute("sendmail", sendMail);
+//			model.addAttribute("pager", pager);
+//		}
+//		return "mail/sendmailinfo";
+//	}
 
-
-	// 메일자세히보기
+	/**
+	 * 메일 자세히 보기
+	 * @param sessio - 로그인 되어 있는 정보
+	 * @param category - 받은메일, 보낸메일, 임시보관함, 중요메일, 휴지통 어디서 보기를 했는지
+	 * @param mailid - 해당 메일 ID
+	 * @param model - sendMail(보낸사람, 받은 사람에 대한 정보), category
+	 * @return 임시보관함일때/그냥 자세히 보기일때
+	 */
 	@RequestMapping(value = "/detailmail/{category}/{mailid}", method = RequestMethod.GET)
 	public String detailMail(Model model, HttpSession sessio,@PathVariable String category ,@PathVariable int mailid ) {
 		log.info("실행");
-		SendMail sendMail = mailService.getDetailSendMail(mailid);
+		//읽음으로 바꿔줘야함
+		SendMail sendMail = mailService.getDetailSendMail(mailid, category);
 		if(sendMail.getFileYN().equals("Y")) {
 			List<MailFile> mailFile = mailService.getMailFile(mailid);
 			model.addAttribute("mailFile", mailFile);
@@ -354,6 +407,13 @@ public class MailController {
 		return "mail/detailmail";
 	}
 	
+	/**
+	 * 메일 자세히 보기에서 파일 다운로드
+	 * @param userAgent
+	 * @param mfile
+	 * @param response
+	 * @throws Exception
+	 */
 	@GetMapping("/filedownload/{mfile}")
 	public void filedownload(@RequestHeader("User-Agent")String userAgent,@PathVariable int mfile, HttpServletResponse response) throws Exception {
 		MailFile mailFile = mailService.getMailFileById(mfile);
@@ -362,21 +422,13 @@ public class MailController {
 			String savedName =  mailFile.getMailFileName();
 			String contentType = mailFile.getMailFileType();
 			
-			//originalName이 한글이 포함되어 있을 경우, 브라우저 별로 한글을 인코딩하는 방법
 			if(userAgent.contains("Trident")||userAgent.contains("MSIE")) {
-				//Trident : IE 11
-				//MSIE : IE 10 이하
 				originalName = URLEncoder.encode(originalName, "UTF-8");
 			}else {
-				//Edge, Chrome, Safari
 				originalName = new String(originalName.getBytes("UTF-8"), "ISO-8859-1");
 			}
-			
-			//응답 해더 설정
 			response.setHeader("Content-Disposition","attachment; filename=\""+ originalName +"\"");
 			response.setContentType(contentType);
-			
-			//응답 바디에 파일 데이터 실기
 			String filePath = "C:/Temp/uploadfiles/"+savedName;
 			File file = new File(filePath);
 			if(file.exists()) {

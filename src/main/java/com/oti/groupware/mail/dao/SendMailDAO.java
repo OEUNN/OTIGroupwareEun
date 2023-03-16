@@ -23,7 +23,7 @@ public interface SendMailDAO {
 	public int getImportRowCount(@Param("empId")String empId);
 	public List<SendMail> getImportMail(@Param("empId")String empId, @Param("pager")Pager pager);
 	public SendMail getMailInformation(int sendMailId);
-	public String getWhereTable(@Param("mailId")int mailId, @Param("empId")String empId);
+	public List<String> getWhereTable(@Param("mailId")int mailId, @Param("empId")String empId);
 	public void importMailChangeImport(int mailId);
 	public int tempMailRowsCount(String empId);
 	public List<SendMail> getTempMail(@Param("empId")String empId, @Param("pager")Pager pager);

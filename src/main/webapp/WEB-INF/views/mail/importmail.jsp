@@ -36,13 +36,18 @@
 			$('input[name="optradio"]:checked').each(function(i){//체크된 리스트 저장
 				mailArray.push($(this).val());
 	        });
-			
+			if(No == ''){
+				No='1';
+			}
 			if(star == ''){
 				star = '0';
 			}
 			if(mailArray == ''){
 				mailArray[0]='0';
-			}.
+			}
+			if(result == null){
+				result = 'stay';
+			}
 			var data = {mailId : star, mailList : mailArray, page : No, result : result};
 			console.log(data);
 			jQuery.ajax({

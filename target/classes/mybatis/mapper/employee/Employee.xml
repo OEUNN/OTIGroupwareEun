@@ -18,13 +18,14 @@
 		<result column="emp_file_data" property="empFileData"/>
 		<result column="emp_file_type" property="empFileType"/>
 		<result column="emp_file_name" property="empFileName"/>
+		<result column="INITIAL_PASSWORD_YN" property="initialPasswordYN"/>
 	</resultMap>
 	
 	
 	<select id="getEmployeeById" parameterType="map" resultMap="employeeResultMap">
 		SELECT emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
             emp_extension_number, emp_phone_number, emp_leave_reserve,
-            emp_substitue_reserve, emp_login_failures_cnt, emp_file_data, emp_file_type, emp_file_name
+            emp_substitue_reserve, emp_login_failures_cnt, emp_file_data, emp_file_type, emp_file_name, INITIAL_PASSWORD_YN
         FROM employees
         WHERE emp_id = #{empId}
 	</select>
@@ -78,9 +79,15 @@
     	where emp_id = #{empId}
     </update>
     
+    <update id="mypageUpdatePassword" parameterType="map">
+    	update employees
+    	set emp_password = #{password} ,INITIAL_PASSWORD_YN = 'N'
+    	where emp_id = #{empId}
+    </update>
+    
     <update id="updatePassword" parameterType="map">
     	update employees
-    	set emp_password = #{password} and INITIAL_PASSWORD_YN = #{result}
+    	set emp_password = #{password} ,INITIAL_PASSWORD_YN = 'Y'
     	where emp_id = #{empId}
     </update>
     

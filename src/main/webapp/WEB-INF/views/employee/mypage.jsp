@@ -63,18 +63,28 @@
 				var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
 
 				if(pw.length < 8 || pw.length > 20){
-					$('#passwordSmall').attr('value',"8자리 ~ 20자리 이내로 입력해주세요.");
+					swal({
+						  text: "8자리 ~ 20자리 이내로 입력해주세요.",
+						  icon: "error",
+						  button: "닫기",
+					});
 					result = false;
 				 }else if(pw.search(/\s/) != -1){
-					 $('#passwordSmall').attr('value',"비밀번호는 공백 없이 입력해주세요.");
+					 swal({
+						  text: "비밀번호는 공백 없이 입력해주세요.",
+						  icon: "error",
+						  button: "닫기",
+					});
 				  	result = false;
 				 }else if(num < 0 || eng < 0 || spe < 0 ){
-					 $('#passwordSmall').attr('value',"영문,숫자, 특수문자를 혼합하여 입력해주세요.");
+					 swal({
+						  text: "영문,숫자, 특수문자를 혼합하여 입력해주세요.",
+						  icon: "error",
+						  button: "닫기",
+					});
 				  	result = false;
-				 }else {
-					 result = false;
 				 }
-				if(result){
+				if(result == true){
 					var url = 'passwordpopup';
 				    var name = "password update popup";
 				    var option = "width = 500, height =230, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
@@ -342,7 +352,6 @@
 														</div>
 														<div class="col-sm-7">
 															<input type="password" class="form-control" id="password" name="password" placeholder="수정하고싶은 비밀번호를 입력하세요."/>
-															<small id="passwordSmall"></small>
 														</div>
 														<div class="col-sm-2">
 															<button onclick="popup()" class="btn btn-md btn-inverse-primary btn-icon-text d-flex align-items-center m-1">
