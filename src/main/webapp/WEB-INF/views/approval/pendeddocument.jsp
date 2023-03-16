@@ -146,7 +146,7 @@
 												<td class="px-0">${document.docId}</td>
 												<td class="px-0">
 													<c:choose>
-													<c:when test="${document.docState == '결재중'}">
+													<c:when test="${document.docState == '결재중' || document.docState == '승인'}">
 													<div class="badge badge-warning font-weight-bold d-flex" style="width: fit-content;">
 													<i class="mdi mdi-file-document d-flex align-self-center mr-1"></i><span>진행</span></div>
 													</c:when>
