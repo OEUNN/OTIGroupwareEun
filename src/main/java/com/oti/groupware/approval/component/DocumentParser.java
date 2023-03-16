@@ -40,7 +40,7 @@ public class DocumentParser {
 		document.setDocMaxStep(documentMaxStep);
 	}
 	
-	//문서 기안 시 작성 내용을 문서에 반영
+	//문서 작성 내용을 문서에 반영
 	public String initializetHTML(String html, Document document, DocumentContent documentContent, EmployeeInfo drafter) {
 		approvalDocument = Jsoup.parse(html, "UTF-8");
 		Element body = approvalDocument.body();

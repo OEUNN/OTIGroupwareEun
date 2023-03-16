@@ -16,8 +16,12 @@ public interface DocumentService {
 	public Document readDocument(String docId);
 	DocumentFile downloadDocumentFile(int docFileId);
 	public int saveDocument(String html, DocumentContent documentContent, String docTempYn, String drafterId, MultipartFile[] multipartFiles) throws IOException;
-	public boolean handleApprovalRequest(String state, String opinion, String docId, String empId);
+	public int updateDocument(String html, DocumentContent documentContent, String docTempYn, String drafterId, MultipartFile[] multipartFiles) throws IOException;
 	public int deleteDocument(List<String> docIds);
+	public boolean handleApproveRequest(String state, String opinion, String docId, String empId);
+	public boolean handleReturnRequest(String state, String opinion, String docId, String empId);
+	public boolean handleRetrieveRequest(String state, String docId, String empId);
+	public boolean handleOpenRequest(String state, String docId, String empId);
 	
 	public List<Document> getDraftDocumentList(int pageNo, Pager pager, String empId);
 	public List<Document> getCompletedDocumentList(int pageNo, Pager pager,String empId);

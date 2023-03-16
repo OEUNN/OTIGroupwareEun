@@ -357,9 +357,23 @@ public class ApprovalController {
 		log.info("문서 번호: " + docId);
 		log.info("상태: " + state);
 		log.info("의견: " + opinion);
-
+		
+		boolean result = false;
+		
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
-		boolean result = documentService.handleApprovalRequest(state, opinion, docId, empId);
+		
+		if ("승인".equals(state)) {
+			result = documentService.handleApproveRequest(state, opinion, docId, empId);
+		}
+		else if ("반려".equals(state)) {
+			result = documentService.handleReturnRequest(state, opinion, docId, empId);
+		}
+		else if ("회수".equals(state)) {
+			result = documentService.handleRetrieveRequest(state, docId, empId);
+		}
+		else {
+			return "home";
+		}
 		
 		log.info("요청 처리에 성공 했는가: " + result);
 		return "redirect:/approval/viewdetail/" + docId;
@@ -372,7 +386,8 @@ public class ApprovalController {
 		log.info("문서 번호: " + docId);
 		
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
-		boolean result = documentService.handleApprovalRequest(state, null, docId, empId);
+		
+		boolean result = documentService.handleOpenRequest(state, docId, empId);
 		
 		log.info("요청 처리에 성공했는가: " + result);
 	}
@@ -427,7 +442,7 @@ public class ApprovalController {
 			int resultCount = 0;
 			
 			for(String docIdElement : docId) {
-				if (documentService.handleApprovalRequest("회수", null, docIdElement, empId)) {
+				if (documentService.handleRetrieveRequest("회수", docIdElement, empId)) {
 					resultCount++;
 				}
 			}

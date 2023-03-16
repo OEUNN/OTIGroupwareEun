@@ -93,6 +93,7 @@
 		}
 		
 		function sendApprovalLine(tagId) {
+			let lastIndex = $(tagId).length - 1;
 			$(tagId).each((index, element) => {
 				var empId = $(element).attr('id').substr(3);
 				var depName = $(element).attr('class').split(' ')[4];
@@ -134,6 +135,7 @@
 					depName : depName,
 					posName : posName,
 					approvalOrder : approvalOrder,
+					lastIndex : lastIndex,
 					index : index
 				}
 				opener.postMessage(sendData);
