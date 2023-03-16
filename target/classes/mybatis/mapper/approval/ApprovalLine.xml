@@ -99,7 +99,6 @@
 			WHERE doc_id = #{docId}
 		)
 	</update>
-
 	
 	<!-- 임시 -->	
 	<select id="getOrganization" resultMap="organizationResultMap">

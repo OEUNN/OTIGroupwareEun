@@ -1,15 +1,21 @@
 package com.oti.groupware.approval.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.CharsetEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64.Encoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
+import javax.sound.sampled.AudioFormat.Encoding;
 
+import org.apache.commons.lang3.CharSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -259,14 +265,23 @@ public class ApprovalController {
 		return "approval/approvalwrite";
 	}
 	
-	//결재 문서 저장
-	@RequestMapping(value = "/approvalwrite", method=RequestMethod.POST)
+	//결재 문서 상신
+	@RequestMapping(value = "/writedraft", method=RequestMethod.POST)
 	public String postApprovalWrite(@RequestParam("document") String document, @RequestParam("docTempYn") String docTempYn, DocumentContent documentContent, @RequestParam("files") MultipartFile[] multipartFiles,  @RequestParam("drafterId") String drafterId) throws IOException {
 		log.info("저장 하려는 HTML이 존재하는가:" + !(document.isEmpty()));
 		
-		int result = documentService.saveDocument(document, documentContent, docTempYn, drafterId, multipartFiles);
+		documentService.saveDraftDocument(document, documentContent, docTempYn, multipartFiles);
 		
-		log.info("저장 결과" + result);
+		return "redirect:/approval/draftdocument";
+	}
+	
+	//결재 문서 임시저장
+	@RequestMapping(value = "/writetemp", method=RequestMethod.POST)
+	public String postApprovalWriteTemp(@RequestParam("document") String document, @RequestParam("docTempYn") String docTempYn, DocumentContent documentContent, @RequestParam("files") MultipartFile[] multipartFiles,  @RequestParam("drafterId") String drafterId) throws IOException {
+		log.info("저장 하려는 HTML이 존재하는가:" + !(document.isEmpty()));
+		
+		documentService.saveTempDocument(document, documentContent, docTempYn, multipartFiles);
+		
 		return "redirect:/approval/draftdocument";
 	}
 	
@@ -330,13 +345,13 @@ public class ApprovalController {
 	
 	//첨부파일 다운로드
 	@RequestMapping(value ="/filedownload/{docFileId}", method=RequestMethod.GET)
-	public ResponseEntity<byte[]> getDocumentFile(@PathVariable int docFileId) {
+	public ResponseEntity<byte[]> getDocumentFile(@PathVariable int docFileId) throws UnsupportedEncodingException {
 		DocumentFile documentFile = documentService.downloadDocumentFile(docFileId);
 		HttpHeaders headers = new HttpHeaders();
 		String[] mtypes = documentFile.getDocFileType().split("/");
 		headers.setContentType(new MediaType(mtypes[0], mtypes[1]));
 		headers.setContentLength(documentFile.getDocFileLength());
-		headers.setContentDispositionFormData("attachment", documentFile.getDocFileName());
+		headers.setContentDispositionFormData("attachment", URLEncoder.encode(documentFile.getDocFileName(), "UTF-8"));
 		return new ResponseEntity<byte[]>(documentFile.getDocFileData(), headers, HttpStatus.OK);
 	}
 
