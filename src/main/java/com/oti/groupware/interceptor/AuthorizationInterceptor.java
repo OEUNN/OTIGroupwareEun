@@ -32,7 +32,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor{
 					if(employee.getDepName().equals("경영지원부")) {
 						return true;
 					}else {
-						response.sendRedirect(request.getContextPath() + "/home");
+						response.sendRedirect(request.getContextPath() + "/employee/error");
 						return false;
 					}
 				}

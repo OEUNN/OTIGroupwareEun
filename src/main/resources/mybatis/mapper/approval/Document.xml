@@ -127,7 +127,7 @@
             doc_complete_date, doc_state, doc_read_yn
         FROM (
         	SELECT
-        		rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+        		rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
         		doc_complete_date, doc_state, doc_read_yn
         	FROM  (
 	        	SELECT
@@ -157,7 +157,7 @@
             doc_complete_date, doc_state, doc_read_yn
         FROM (
         	SELECT
-        		rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+        		rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
         		doc_complete_date, doc_state, doc_read_yn
         	FROM (
 	        	SELECT
@@ -187,7 +187,7 @@
             doc_complete_date, doc_state, doc_read_yn
         FROM (
         	SELECT
-        		rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+        		rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
         		doc_complete_date, doc_state, doc_read_yn
         	FROM (
 	        	SELECT
@@ -328,7 +328,7 @@
             doc_complete_date, doc_state, doc_read_yn
         FROM (
         	SELECT
-        		rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+        		rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
         		doc_complete_date, doc_state, doc_read_yn
         	FROM (
 	        	SELECT
@@ -388,7 +388,7 @@
             doc_complete_date, doc_state, doc_read_yn
         FROM (
         	SELECT
-        		rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+        		rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
         		doc_complete_date, doc_state, doc_read_yn
         	FROM  (
 	        	SELECT
@@ -448,7 +448,7 @@
             doc_complete_date, doc_state, doc_read_yn
         FROM (
         	SELECT
-        		rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+        		rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
         		doc_complete_date, doc_state, doc_read_yn
         	FROM (
 	        	SELECT
