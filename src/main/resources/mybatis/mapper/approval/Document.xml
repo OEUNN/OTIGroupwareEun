@@ -71,7 +71,7 @@
 		DELETE FROM documents WHERE doc_id = #{docId} AND (doc_temp_yn = 'Y' OR doc_state = '회수') 
 	</delete>
 	    
-    <insert id="insertDraft" parameterType="document">
+    <insert id="insertDraftDocument" parameterType="document">
         INSERT INTO documents (
             doc_id, emp_id, doc_type, doc_title, doc_content,
             doc_retention_period, doc_write_date, doc_report_date, doc_state,
@@ -81,6 +81,17 @@
             #{docId}, #{empId}, #{docType}, #{docTitle}, #{docContent},
             #{docRetentionPeriod}, #{docWriteDate}, SYSDATE, #{docState},
             default, #{docTempYn}, default, #{docMaxStep}
+        )
+    </insert>
+    
+    <insert id="insertTempDocument" parameterType="document">
+        INSERT INTO documents (
+            doc_id, emp_id, doc_type, doc_title, doc_content,
+            doc_retention_period, doc_write_date, doc_temp_yn 
+        )
+        VALUES (
+            #{docId}, #{empId}, #{docType}, #{docTitle}, #{docContent}, 
+            #{docRetentionPeriod}, #{docWriteDate}, 'Y' 
         )
     </insert>
     

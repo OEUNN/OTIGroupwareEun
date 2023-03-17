@@ -66,14 +66,14 @@
 			//팝업창에서 전송한 데이터 얻기(팝업창에서 postMessage() 사용해야 함)
 			let receivedData = event.originalEvent.data;
 			
-			//form 양식에 추가하기
-			if (receivedData.approvalLineState !== '회수') {
+			//form 양식에 상태랑 의견 데이터 추가하기
+			$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineState" value="' + receivedData.approvalLineState + '">');
+			if (receivedData.approvalLineState !== '회수' || receivedData.opinion !== false) {
 				$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineOpinion" value="' + receivedData.opinion + '">');
 			}
 			else {
 				$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineOpinion" value="">');
 			}
-			$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineState" value="' + receivedData.approvalLineState + '">');
 			
 			$("#decisionForm").submit();
 		});
@@ -132,7 +132,7 @@
 											<span>회수</span>
 										</button>
 										</c:if>
-										<c:if test="${reader.aprvLineRole == '기안' && (document.docState == '회수' || document.docTempYn == 'Y')}">
+										<c:if test="${reader.aprvLineRole == '기안' && (document.docState == '반려' || document.docState == '회수' || document.docTempYn == 'Y')}">
 										<form action="<c:url value="/approval/approvalwrite/${document.docId}"></c:url>">
 										<button type="submit" id="popup-btn" class="btn btn-md btn-primary mx-2">
 											<span class="mdi mdi-apple-keyboard-caps align-middle"></span>

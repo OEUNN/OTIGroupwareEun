@@ -170,4 +170,18 @@
 		    and e.emp_id =#{empId}
 	</select>
 	
+	<select id="selectEmployeeInfo" parameterType="string" resultType="employeeInfo">
+		select pos_name as posName, dep_name as depName, emp_name as empName, e.emp_id as empId
+		from positions p, departments d, employees e 
+		where p.pos_id = 
+		        (select pos_id
+		        from employees
+		        where emp_id=#{empId})
+		    and d.dep_id =
+		        (select dep_id
+		        from employees
+		        where emp_id=#{empId}) 
+		    and e.emp_id =#{empId}
+	</select>
+	
 </mapper>

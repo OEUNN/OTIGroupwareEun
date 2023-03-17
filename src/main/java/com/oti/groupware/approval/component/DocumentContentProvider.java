@@ -1,4 +1,4 @@
-package com.oti.groupware.approval;
+package com.oti.groupware.approval.component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -11,8 +11,9 @@ public class DocumentContentProvider {
 	private String documentRetentionPeriod;
 	private String today;
 	
-	public String getDocumentIdByDocumentType(String documentType) {
+	public String getDocumentIdByDocumentType(String documentType, String docTempYn) {
 		today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+
 		switch (documentType) {
 		
 		case "휴일근무품의서":
@@ -33,6 +34,10 @@ public class DocumentContentProvider {
 
 		default:
 			break;
+		}
+		
+		if ("Y".equals(docTempYn)) {
+			documentId = "T" + documentId;
 		}
 		
 		return documentId; 

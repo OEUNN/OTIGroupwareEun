@@ -1,4 +1,4 @@
-package com.oti.groupware.approval;
+package com.oti.groupware.approval.component;
 
 import org.springframework.stereotype.Component;
 

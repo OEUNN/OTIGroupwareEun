@@ -75,7 +75,7 @@
 		ORDER BY aprv_line_order
 	</select>
     
-    <insert id="insertDraftApprovalLine" parameterType="approvalLine">
+    <insert id="defaultInsertApprovalLine" parameterType="approvalLine">
 		INSERT INTO approval_lines
 		(emp_id, doc_id, aprv_line_state, aprv_line_order, aprv_line_role, aprv_line_approval_date)
 		VALUES
@@ -99,7 +99,6 @@
 			WHERE doc_id = #{docId}
 		)
 	</update>
-
 	
 	<!-- 임시 -->	
 	<select id="getOrganization" resultMap="organizationResultMap">
