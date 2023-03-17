@@ -79,13 +79,16 @@ public class MailController {
 		log.info(write);
 		log.info(sendMail);
 		log.info(resultString);
-		log.info(receive);
 		sendMail.setSendMailContent(write);
-		if (resultString.equals("temp")) {
-			mailService.writeTempMail(sendMail);
-		} else {
-			String[] arr = receive.split(",");
-			mailService.writeMail(sendMail, arr);
+		if(receive != null) {
+			if (resultString.equals("temp")) {
+				mailService.writeTempMail(sendMail);
+			}else {
+				String[] arr = receive.split(",");
+				mailService.writeMail(sendMail, arr);
+			}
+		}else {
+			
 		}
 		List<MultipartFile> mFileList = sendMail.getFileList();
 		if (mFileList != null && !mFileList.isEmpty()) {
