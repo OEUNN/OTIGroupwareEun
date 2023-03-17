@@ -54,29 +54,43 @@
 		var option = "width = 500, height = 780, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
 		window.open(url, name, option);
 	}
+	$(document).ready(function(){
+		$(window).on("message", (event) => {
+			//팝업창에서 전송한 데이터 얻기(팝업창에서 postMessage() 사용해야 함)
+			let receivedData = event.originalEvent.data;
+			$("#receivedId").append('<input type="hidden" id="receive" name="receive" value="' + receivedData.empId + '">');
+			$("#receivedId").append('<input type="hidden" id="receiveMail" name="receiveMail" value="' + receivedData.empMail + '">');
+			$("#receivedId").append('<input type="hidden" id="receiveName" name="receiveName" value="' + receivedData.empName + '">');
+			$("#receivedId").append('<input type="hidden" id="receiveDepName" name="receiveDepName" value="' + receivedData.depName + '">');
+			$("#receivedId").append('<input type="hidden" id="receivePosName" name="receivePosName" value="' + receivedData.posName + '">');
+			$("#receivedId").val(receivedData.empId);
+			$("#receivedId").append(receivedData.content);
+			//form 양식에 추가하기
+		});
+	});
 	
-	function check(No) {
+	function sendBtn() {
 		var result = true;
 		//empId
 		let empId = ${sessionScope.employee.empId};
 		$('#empId').val(empId);
 		
 		//id
-		var id = document.getElementById("receivedId");
 		if ($('#receive').val() == '') {
-			id.setAttribute("style", "border-bottom:1px solid red;");
+			$('#receivedResult').html('수신인을 선택해 주세요.');
+			$('#receivedResult').attr('style','color:red');
 			result = false;
 		} else {
-			id.setAttribute("style", "border-bottom: 1px solid #ced4da;");
+			$('#receivedResult').html('');
 		}
 		
 		//sendMailTitle
-		var title = document.getElementById("title");
 		if ($('#sendMailTitle').val() == '') {
-			title.setAttribute("style", "border-bottom:1px solid red;");
+			$('#titleResult').html('제목을 입력해주세요.');
+			$('#titleResult').attr('style','color:red');
 			result = false;
 		} else {
-			title.setAttribute("style", "border-bottom: 1px solid #ced4da;");
+			$('#titleResult').html('');
 		}
 		
 		if(result){
@@ -87,49 +101,64 @@
 				window.open(url, name, option);
 			}
 		}
-		if($('#resultString').val()==''){
-			$('#resultString').val('temp');
-		}
-		return result;
-	}
-	$("input[name=fileList]").off().on("change", function(){
-		if (this.files && this.files[0]) {
-			var maxSize = 5 * 1024 * 1024;
-			var fileSize = this.files[0].size;
-			if(fileSize > maxSize){
-				var url = "mailfilepopup";
-				var name = "mailfile popup";
-				var option = "width = 500, height = 200, top = 300, left = 500, location = no, resizable=no, scrollbars=no "
-				window.open(url, name, option);
-				$(this).val('');
-				return false;
+		$('#resultString').val('send');
+		if(result){
+			if(No == 2){
+				$("#empWrite").submit();
 			}
 		}
-	});
-	$(document).ready(function(){
-		$(window).on("message", (event) => {
-			//팝업창에서 전송한 데이터 얻기(팝업창에서 postMessage() 사용해야 함)
-			let receivedData = event.originalEvent.data;
-			$("#receivedId").append('<input type="hidden" id="receive" name="receive" value="' + receivedData.empId + '">');
-			$("#receivedId").append('<input type="hidden" id="receiveMail" name="receiveMail" value="' + receivedData.empMail + '">');
-			$("#receivedId").append('<input type="hidden" id="receiveName" name="receiveName" value="' + receivedData.empName + '">');
-			$("#receivedId").append('<input type="hidden" id="receiveDepName" name="receiveDepName" value="' + receivedData.depName + '">');
-			$("#receivedId").append('<input type="hidden" id="receivePosName" name="receivePosName" value="' + receivedData.posName + '">');
-			
-			$("#receivedId").val(receivedData.empId);
-			$("#receivedId").append(receivedData.content);
-			//form 양식에 추가하기
-			});
-		});
-	
-	function remove(){
-		$("#receivedId").empty();
 	}
-	function fromStart(){
-		$('#resultString').val('pop');
-	    $("#empWrite").submit();
+	
+	function tempBtn() {
+		var result = true;
+		//empId
+		let empId = ${sessionScope.employee.empId};
+		$('#empId').val(empId);
+		
+		//sendMailTitle
+		if ($('#sendMailTitle').val() == '') {
+			$('#titleResult').html('제목을 입력해주세요.');
+			$('#titleResult').attr('style','color:red');
+			result = false;
+		} else {
+			$('#titleResult').html('');
+		}
+		
+		$('#resultString').val('temp');
+		if(result){
+			$("#empWrite").submit();
+		}
 	}
 
+	
+	/** 이미지 파일 유효성 검사 **/
+	(function($) {
+		  'use strict';
+		  $(function() {
+		    $('.file-upload-default').on('change', function() {
+		    	var imgFile = $("#empFileDataMulti").val();
+		    	var fileForm = /(.*?)|.(jpg|jpeg|png|gif|bmplpdf)$/;
+		    	var maxSize = 5 * 1024 * 1024; // 5MB in bytes
+		    	var fileSize;
+		    	if(imgFile != '' && imgFile != null){
+		    		fileSize = document.getElementById("empFileDataMulti").files[0].size;
+		    		if(!imgFile.match(fileForm)){
+		    			$('#fileResult').attr('style','color:red');
+		    			$('#fileResult').html('이미지 파일만 업로드 가능합니다.');
+		    			$('#fileInput').val('false');
+		    		}else if(fileSize = maxSize){
+		    			$('#fileResult').attr('style','color:red');
+		    			$('#fileResult').html('파일사이즈가 5MB가 넘습니다.');
+		    			$('#fileInput').val('false');
+		    		}
+		    	}else{
+		    		$('#fileInput').val('true');
+		    	}
+		    });
+		  });
+	})(jQuery);
+	
+	
 </script>
 
 </head>
@@ -149,17 +178,17 @@
 					<div class="row">
 						<div class="col-12 grid-margin stretch-card">
 							<div class="card">
-								<form action="<c:url value='/mail/sendmail'/>" method="post" id="empWrite" onsubmit="return check()"class="card-body" enctype="multipart/form-data">
+								<form action="<c:url value='/mail/sendmail'/>" method="post" id="empWrite" class="card-body" enctype="multipart/form-data">
 									<!-- main title and submit button -->
 									<div class="d-flex justify-content-between align-items-center mb-4">
 										<div class="card-title mb-0">메일 쓰기</div>
 										<div class="d-flex">
 											<input type="hidden" id="resultString" name="resultString"/>
-											<button type="submit" form="empWrite" id="popup-btn" class="btn btn-md btn-warning mx-2">
+											<button type="button" onclick="tempBtn()" id="popup-btn" class="btn btn-md btn-warning mx-2">
 												<span class="mdi mdi-calendar-clock align-middle"></span> 
 												<span>임시저장</span>
 											</button>
-											<button type="button" onclick="check(1)" id="popup-btn" class="btn btn-md btn-primary mx-2">
+											<button type="button" onclick="sendBtn(1)" id="popup-btn" class="btn btn-md btn-primary mx-2">
 												<span class="mdi mdi-telegram align-middle"></span> 
 												<span>보내기</span>
 											</button>
@@ -175,8 +204,8 @@
 												<div class="form-group row align-items-center">
 													<div class="col-sm-1 text-primary">
 														<div class="d-flex align-items-center m-1">
-															<span class=" font-weight-bold">발신인</span> 
-															<i class="h3 my-auto mdi mdi-arrow-right"></i>
+															<span class=" font-weight-bold">발신인</span>
+															<i class="h3 my-auto mdi mdi-arrow-right-bold text-success"></i> 
 														</div>
 													</div>
 													<div class="col-sm-5" style="border-bottom: 1px solid #ced4da;">
@@ -192,20 +221,18 @@
 												<div class="form-group row align-items-center">
 													<div class="col-sm-1 text-primary">
 														<div class="d-flex align-items-center m-1">
-															<i class="h3 my-auto mdi mdi-arrow-left"></i> 
 															<span class="font-weight-bold">수신인</span>
+															<i class="h3 my-auto mdi mdi-arrow-left-bold text-danger"></i> 
 														</div>
 													</div>
-													<div class="col" style="border-bottom: 1px solid #ced4da;">
-														<div id="receivedId" class="from-control from-inline" style="border: none; width: 100%;">
-															<c:if test="${!empty sendMail.empList }">
+													<div class="col-sm-9 form-inline" id="receivedId" style="border-bottom: 1px solid #ced4da;">
+														<c:if test="${!empty sendMail.empList }">
 															<c:forEach items="${sendMail.empList}" var="emp">
 																<button class="empBtn mr-2">
 																	<span>${emp.empName}(${emp.mailId}) </span>
 																</button>
 															</c:forEach>
 														</c:if>
-														</div>
 													</div>
 													<div class="col-sm-2">
 														<button type="button" class="btn btn-md btn-inverse-primary mx-2" onclick="address()" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
@@ -214,16 +241,15 @@
 														</button>
 													</div>
 												</div>
+												<small id="receivedResult">&nbsp;</small>
 											</div>
 										</div>
 										<!-- title -->
 										<div class="row">
 											<div class="col-md-12">
 												<div class="form-group row align-items-center">
-													<div class="col-sm-1 text-primary">
-														<div class="d-flex align-items-center m-1">
-															<span class="font-weight-bold">제목</span>
-														</div>
+													<div class="col-sm-1 text-primary d-flex justify-content-end ">
+														<span class="font-weight-bold">제목</span>
 													</div>
 													<div class="col-sm-9" id="title" style="border-bottom: 1px solid #ced4da;">
 														<c:if test="${!empty sendMail}">
@@ -233,6 +259,7 @@
 															<input type="text" id="sendMailTitle" name="sendMailTitle" class="from-control" style="border: none;width:100%;">
 														</c:if>
 													</div>
+													<small id="titleResult">&nbsp;</small>
 												</div>
 											</div>
 										</div>

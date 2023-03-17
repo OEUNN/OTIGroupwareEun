@@ -76,6 +76,10 @@ public class MailController {
 	public String sendMail(@RequestParam("write") String write, SendMail sendMail, String receive,
 			@RequestParam("resultString") String resultString) throws Exception {
 		log.info("실행");
+		log.info(write);
+		log.info(sendMail);
+		log.info(resultString);
+		log.info(receive);
 		sendMail.setSendMailContent(write);
 		if (resultString.equals("temp")) {
 			mailService.writeTempMail(sendMail);
@@ -93,12 +97,14 @@ public class MailController {
 					mailFile.setMailFileType(mFile.getContentType());
 					mailFile.setMailFileLength(mFile.getSize());
 					mailFile.setMailFileData(mFile.getBytes());
-
 					mailService.writeFile(mailFile);
 				} else {
 					break;
 				}
 			}
+		}
+		if (resultString.equals("temp")) {
+			return "redirect:/mail/tempmail";
 		}
 		return "redirect:/mail/sendmail";
 	}

@@ -10,282 +10,19 @@
 		<!-- endinject css, js common file -->
 		
 		<!-- Plugin css,js for this page -->
-		<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/themes/silver/theme.min.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/file-upload.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/custom/insertemployee.js"></script>
 		<style>
 			.dropdown-toggle::after{
 				content:none;
 			}
+			.form-group{
+				margin-bottom:0.4rem;
+			}
+			small, .small{
+				font-size:60%;
+			}
 		</style>
-		<script>
-		$("input[name=empFileDataMulti]").off().on("change", function(){
-			if (this.files && this.files[0]) {
-				var maxSize = 5 * 1024 * 1024;
-				var fileSize = this.files[0].size;
-				if(fileSize > maxSize){
-					var url = "mailfilepopup";
-					var name = "mailfile popup";
-					var option = "width = 500, height = 200, top = 300, left = 500, location = no, resizable=no, scrollbars=no "
-					window.open(url, name, option);
-					$(this).val('');
-					return false;
-				}
-			}
-		});
-		function check(){
-			var result = true;
-			//empId
-			let empId = $('#empDetailEmploymentDate').val();
-			$('#empId').val(empId);
-
-			//empName
-			var empName = document.getElementById("empName");
-			if ($('#empName').val() == '') {
-				empName.setAttribute("style", "border:1px solid red;");
-				result = false;
-			} else {
-				empName.setAttribute("style", "border:1px solid none;");
-			}
-			
-			//empDetailBirthday
-			var empDetailBirthday = document.getElementById("empDetailBirthday");
-			if ($('#empDetailBirthday').val() == '') {
-				empDetailBirthday.setAttribute("style", "border:1px solid red;");
-				result = false;
-			} else {
-				empDetailBirthday.setAttribute("style", "border:1px solid none;");
-			}
-
-			//empDetailGender
-			var empDetailGender = document.getElementById("empDetailGender");
-			if ($('#empDetailGender').val() == '') {
-				empDetailGender.setAttribute("style", "border:1px solid red;");
-				result = false;
-			} else {
-				empDetailGender.setAttribute("style", "border:1px solid none;");
-			}
-
-			//empFileData
-			var empFileDataMulti = document.getElementById("uploadInfo");
-			if ($('#empFileDataMulti').val() == '') {
-				empFileDataMulti.setAttribute("style", "border:1px solid red;");
-				result = false;
-			} else {
-				empFileDataMulti.setAttribute("style", "border:1px solid none;");
-			}
-
-			//empDetailMilitaryServiceYN
-			var empDetailMilitaryServiceYN = document.getElementById("empDetailMilitaryServiceYN");
-			if ($('#empDetailMilitaryServiceYN').val() == '') {
-				empDetailMilitaryServiceYN.setAttribute("style", "border:1px solid red;");
-				result = false;
-			} else {
-				empDetailMilitaryServiceYN.setAttribute("style", "border:1px solid none;");
-			}
-
-			//empPhoneNumber
-			var empPhoneNumber = document.getElementById("empPhoneNumber");
-			if ($('#empPhoneNumber').val() == '') {
-				empPhoneNumber.setAttribute("style", "border:1px solid red;");
-				result = false;
-			} else {
-				empPhoneNumber.setAttribute("style", "border:1px solid none;");
-			}
-			
-			//empDetailMarriedYN
-			var empDetailMarriedYN = document.getElementById("empDetailMarriedYN");
-			if ($('#empDetailMarriedYN').val() == '') {
-				empDetailMarriedYN.setAttribute("style", "border:1px solid red;");
-				result = false;
-			} else {
-				empDetailMarriedYN.setAttribute("style", "border:1px solid none;");
-			}
-
-			//empDetailMajor
-			var empDetailMajor = document.getElementById("empDetailMajor");
-			if ($('#empDetailMajor').val() == '') {
-				empDetailMajor.setAttribute("style", "border:1px solid red;");
-				result = false;
-			} else {
-				empDetailMajor.setAttribute("style", "border:1px solid none;");
-			}
-
-			//empDetailEducation
-			var school = document.getElementById("school");
-			if ($('#empDetailEducation').val() == '') {
-				school.setAttribute("style", "border:1px solid red;");
-				result = false;
-			} else {
-				school.setAttribute("style", "border:1px solid none;");
-			}
-
-			//empDetailEmploymentDate
-			var empDetailEmploymentDate = document.getElementById("empDetailEmploymentDate");
-			if ($('#empDetailEmploymentDate').val() == '') {
-				empDetailEmploymentDate.setAttribute("style","border:1px solid red;");
-				result = false;
-			} else {
-				empDetailEmploymentDate.setAttribute("style","border:1px solid none;");
-				
-			}
-
-			//depId
-			var department = document.getElementById("department");
-			let depId = $('#depId').val();
-			if ($('#depId').val() == '') {
-				department.setAttribute("style", "border:1px solid red;");
-				result = false;
-			} else {
-				department.setAttribute("style", "border:1px solid none;");
-				if ($('#depId').val() == '공공사업1DIV') {
-					$("#depId").val(1);
-				} else if ($('#depId').val() == '공공사업2DIV') {
-					$("#depId").val(2);
-				} else if ($('#depId').val() == '공공사업3DIV') {
-					$("#depId").val(3);
-				} else if ($('#depId').val() == '경영지원부') {
-					$("#depId").val(4);
-				} else if ($('#depId').val() == '임원') {
-					$("#depId").val(5);
-				}
-			}
-
-			//posId
-			var position = document.getElementById("position");
-			if ($('#posId').val() == '') {
-				position.setAttribute("style", "border:1px solid red;");
-				result = false;
-			} else {
-				position.setAttribute("style", "border:1px solid none;");
-				if ($('#posId').val() == '사원') {
-					$("#posId").val(1);
-				} else if ($('#posId').val() == '대리') {
-					$("#posId").val(2);
-				} else if ($('#posId').val() == '과장') {
-					$("#posId").val(3);
-				} else if ($('#posId').val() == '차장') {
-					$("#posId").val(4);
-				} else if ($('#posId').val() == '부장') {
-					$("#posId").val(5);
-				} else if ($('#posId').val() == '이사') {
-					$("#posId").val(6);
-				} else if ($('#posId').val() == '대표이사') {
-					$("#posId").val(7);
-				}
-			}
-
-			//empDetailWorkplace
-			var empDetailWorkplace = document.getElementById("empDetailWorkplace");
-			if ($('#empDetailWorkplace').val() == '') {
-				empDetailWorkplace.setAttribute("style","border:1px solid red;");
-				result = false;
-			} else {
-				empDetailWorkplace.setAttribute("style","border:1px solid none;");
-			}
-			
-			//phoneNumber
-			var empPhoneNumber = document.getElementById("empPhoneNumber");
-			if($('#empPhoneNumber').val() == ''){
-				empPhoneNumber.setAttribute("style","border:1px solid red;");
-				result = false;
-			}else{
-				empPhoneNumber.setAttribute("style","border:1px solid none;");
-			}
-			
-			//empMail
-			var empMail = document.getElementById("empMail");
-			if ($('#empMail').val() == '') {
-				empMail.setAttribute("style","border:1px solid red;");
-				result = false;
-			}else{
-				empMail.setAttribute("style","border:1px solid none;");
-			}
-			
-			//empExtensionNumber
-			var empExtensionNumber = document.getElementById("empExtensionNumber");
-			if ($('#empExtensionNumber').val() == '') {
-				empExtensionNumber.setAttribute("style","border:1px solid red;");
-				result = false;
-			}else{
-				empExtensionNumber.setAttribute("style","border:1px solid none;");
-			}
-			
-			return result;
-		}
-		
-		/** 메일ID 유효성 검사**/
-		function mailIdCheck() {
-			var empMail = document.getElementById("empMail");
-			let mail_id =  $('#empMail').val();
-			$.ajax({
-				type : 'post',
-				url : '../employee/mailidcheck',
-				data : {
-					mailId : mail_id
-				},
-				success : function(data) {
-					if (data == 'false') {
-						empMail.setAttribute("style", "border:1px solid red;");
-						$('#mailResult').html('존재하는 ID입니다.');
-						$('#empMail').focusout(function(){
-							$('#empMail').val("");
-						})
-					} else {
-						empMail.setAttribute("style", "border:1px solid none;");
-						$('#mailResult').html('');
-						$('#empMail').focusout(function(){
-							$('#empMail').val(mail_id);
-						})
-					}
-				}
-			});
-
-		}
-		
-		/** 휴대전화 유효성 검사**/
-		function phoneCheck(){
-			let phone_number = $('#empPhoneNumber').val();
-			var phoneNumber = document.getElementById("empPhoneNumber");
-			let regExp = /^(01[016789]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
-			let phoneresult = regExp.test(phone_number);
-			if (!phoneresult) {
-				phoneNumber.setAttribute("style", "border:1px solid red;");
-				$('#empPhoneNumber').focusout(function(){
-					$('#empPhoneNumber').val("");
-				})
-			} else {
-				phoneNumber.setAttribute("style", "border:1px solid none;");
-				$.ajax({
-					type : 'post',
-					url : '../employee/phonecheck',
-					data : {
-						phoneNumber : phone_number
-					},
-					success : function(data) {
-						console.log(data)
-						if (data == 'false') {
-							phoneNumber.setAttribute("style", "border:1px solid red;");
-							$('#phoneResult').html('존재하는 휴대폰번호 입니다.');
-							$('#empPhoneNumber').val("");
-						} else {
-							phoneNumber.setAttribute("style", "border:1px solid none;");
-							$('#phoneResult').html('');
-							$('#empPhoneNumber').focusout(function(){
-								$('#empPhoneNumber').val(phone_number);
-							})
-						}
-					}
-				});
-			}
-		}
-		function popup() {
-			console.log($('#pw').val()); 
-			var url = "../employee/passwordpopup";
-            var name = "password popup";
-            var option = "width = 500, height =250, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
-            window.open(url, name, option);
-		}
-		</script>
 		<!-- End plugin css,js for this page -->
 	</head>
 		<body>
@@ -323,7 +60,9 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="empName" name="empName" maxlength="19"/>
+															<input type="text" class="form-control" oninput="nameCheck()" id="empName" name="empName" maxlength="4" />
+															<small id="nameResult">&nbsp;</small>
+															<input type="hidden" id="nameInput"/>
 														</div>
 													</div>
 												</div>
@@ -337,7 +76,8 @@
 														</div>
 														<div class="col-sm-8">
 															<input type="text" class="form-control" oninput="mailIdCheck()" id="empMail" name="empMail" maxlength="50" />
-															<small class="text-danger" id="mailResult" style="font-size:5px;"></small>
+															<small id="mailResult">&nbsp;</small>
+															<input type="hidden" id="mailInput"/>
 														</div>
 													</div>
 												</div>
@@ -353,6 +93,7 @@
 														</div>
 														<div class="col-sm-8">
 															<input type="date" class="form-control" id="empDetailBirthday" name="empDetailBirthday" placeholder="YYYY-MM-DD"/>
+															<small id="birthdayResult">&nbsp;</small>
 														</div>
 													</div>
 												</div>
@@ -392,7 +133,7 @@
 														</div>
 														<div class="col-sm-8">
 															<div class="form-group bg-white">
-																<input type="file" id="empFileDataMulti" name="empFileDataMulti" class="file-upload-default" multiple>
+																<input type="file" id="empFileDataMulti" name="empFileDataMulti" class="file-upload-default">
 																<div class="input-group col-xs-12">
 																	<input type="text" class="form-control file-upload-info"  id="uploadInfo" disabled placeholder="업로드 할 파일"> 
 																		<span class="input-group-append">
@@ -401,7 +142,9 @@
 																		</button>
 																	</span>
 																</div>
+																<small id="fileResult">&nbsp;</small>
 															</div>
+															<input type="hidden" id="fileInput"/>
 														</div>
 													</div>
 												</div>
@@ -413,17 +156,24 @@
 																<span class="ml-2 font-weight-bold">병역</span>
 															</div>
 														</div>
-														<div class="col-sm-4">
+														<div class="col-sm-2">
 															<div class="form-check">
 																<label class="form-check-label"> 
-																<input type="radio" class="form-check-input" name="empDetailMilitaryServiceYN" id="empDetailMilitaryServiceYN" value="Y" checked>YES
+																<input type="radio" class="form-check-input" name="empDetailMilitaryServiceYN" id="empDetailMilitaryServiceYN" value="Y" checked>군필
 																</label>
 															</div>
 														</div>
-														<div class="col-sm-4">
+														<div class="col-sm-2">
 															<div class="form-check">
 																<label class="form-check-label"> 
-																<input type="radio" class="form-check-input" name="empDetailMilitaryServiceYN" id="empDetailMilitaryServiceYN" value="N">NO
+																<input type="radio" class="form-check-input" name="empDetailMilitaryServiceYN" id="empDetailMilitaryServiceYN" value="N">미필
+																</label>
+															</div>
+														</div>
+														<div class="col-sm-3">
+															<div class="form-check">
+																<label class="form-check-label"> 
+																<input type="radio" class="form-check-input" name="empDetailMilitaryServiceYN" id="empDetailMilitaryServiceYN" value="X">미해당
 																</label>
 															</div>
 														</div>
@@ -441,7 +191,8 @@
 														</div>
 														<div class="col-sm-8">
 															<input type="text" class="form-control" oninput="phoneCheck()" maxlength="20" id="empPhoneNumber" name="empPhoneNumber" placeholder="000-0000-0000" />
-															<small class="text-danger" id="phoneResult" style="font-size:5px;"></small>
+															<small  id="phoneResult">&nbsp;</small>
+															<input type="hidden" id="phoneInput"/>
 														</div>
 													</div>
 												</div>
@@ -480,7 +231,9 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" name="empDetailMajor" id="empDetailMajor"/>
+															<input type="text" class="form-control" name="empDetailMajor" id="empDetailMajor" oninput="major()"/>
+															<small id="majorResult">&nbsp;</small>
+															<input type="hidden" id="majorInput"/>
 														</div>
 													</div>
 												</div>
@@ -509,6 +262,7 @@
 														        	$("#empDetailEducation").val(x);
 														        }
 															</script>
+															<small id="educationResult"></small>
 														</div>
 													</div>
 												</div>
@@ -525,6 +279,7 @@
 														<div class="col-sm-8">
 															<input type="hidden" id="empId" name="empId" />
 															<input type="date" class="form-control" id="empDetailEmploymentDate" name="empDetailEmploymentDate"  placeholder="YYYY-MM-DD"/>
+															<small id="inResult">&nbsp;</small>
 														</div>
 													</div>
 												</div>
@@ -554,6 +309,7 @@
 														        	$("#depId").val(x);
 														        }
 															</script>
+															<small id="depIdResult">&nbsp;</small>
 														</div>
 													</div>
 												</div>
@@ -563,12 +319,14 @@
 													<div class="form-group row align-items-center">
 														<div class="col-sm-4 text-primary">
 															<div class="d-flex align-items-center m-1">
-																<i class="h3 my-auto mdi mdi-phone-classic"></i> 
+																<i class="h3 my-auto mdi mdi-near-me"></i> 
 																<span class="ml-2 font-weight-bold">근무지</span>
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" maxlength="40" id="empDetailWorkplace" name="empDetailWorkplace"/>
+															<input type="text" class="form-control" maxlength="40" id="empDetailWorkplace" name="empDetailWorkplace" oninput="dep()"/>
+															<small id="depResult">&nbsp;</small>
+															<input type="hidden" id="depInput"/>
 														</div>
 													</div>
 												</div>
@@ -600,6 +358,7 @@
 														        	$("#posId").val(x);
 														        }
 															</script>
+															<small id="posResult">&nbsp;</small>
 														</div>
 													</div>
 												</div>
@@ -614,7 +373,9 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" maxlength="20" id=empExtensionNumber name="empExtensionNumber" placeholder="000-000-0000"/>
+															<input type="text" class="form-control" maxlength="20" id=empExtensionNumber name="empExtensionNumber" placeholder="000-000-0000" oninput="extension()"/>
+															<small id="extensionResult">&nbsp;</small>
+															<input type="hidden" id="extensionInput"/>
 														</div>
 													</div>
 												</div>

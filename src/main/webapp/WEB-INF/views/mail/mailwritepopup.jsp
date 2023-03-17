@@ -12,8 +12,7 @@
 		<!-- Plugin css,js for this page -->
 		<script>
         function result(){
-        	opener.location.href = "javascript:fromStart();";
-//         	window.opener.top.location.href="<c:url value='/sendmail'/>";
+        	opener.location.href = "javascript:sendBtn(2);";
             window.close();
         }
 		</script>

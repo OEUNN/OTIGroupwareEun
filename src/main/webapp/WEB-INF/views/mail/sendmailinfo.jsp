@@ -41,8 +41,7 @@
 <div class="card">
 	<div class="card-body">
 		<h4 class="card-title">보낸 메일</h4>
-	    <!-- 검색 태그 -->
-		<div class="row mb-1 mt-5 mx-3">
+		<div class="row justify-content-between px-5 py-3">
 			<div class="form-inline" style="border-bottom:1px solid #e9ecef;">
 				<div class="px-3 py-1 ahover">
 					<button onclick="search(1)" style="color:grey;">중요메일</button>
@@ -55,9 +54,9 @@
 				</div>
 			</div>
 			<input type="hidden" id="searchBtn"/>
-			<div class="d-flex justify-content-end" style="width:75%;">
+			<div class="d-flex justify-content-end">
 				<div id="searchForm" class="d-flex" >
-     				<div style="border-radius:18px; border:1px solid #e9ecef;display: flex; width:70%;">
+     				<div style="border-radius:18px; border:1px solid #e9ecef;display: flex;">
 						<div class="input-group-prepend hover-cursor mx-3">
 							<span class="input-group-text" id="search" style="background: transparent; border: 0; color: #000; padding: 0;">
 								<i class="icon-search" style="font-size: 1.25rem; color: #6C7383;"></i>
@@ -65,9 +64,9 @@
 						</div>
 						<input type="text" id="searchBar" class="align-self-center" style="border:none;width:100%;">
 					</div>
-				<button onclick="submitForm()" class="font-weight-bold btn btn-md btn-warning ml-2">검색</button>
-       		</div>
-		</div>
+					<button onclick="submitForm()" class="font-weight-bold btn btn-md btn-warning ml-2">검색</button>
+       			</div>
+			</div>
 		</div><!-- 검색 태그 -->
 		<!-- 테이블 -->
 		<div class="table-responsive p-4">
@@ -164,11 +163,8 @@
 		</div>
 		<!-- 테이블 끝 -->
 		<!-- 하단 버튼 -->
-		<div class="row form-inline m-3">
-			<div class="col-md-11"></div>
-			<div class="col-md-1 col-12">
-				<button class="btn btn-danger btn-sm " onclick="pager(-5)">선택삭제</button>
-			</div>
+		<div class="row form-inline m-3 d-flex justify-content-end">
+			<button class="btn btn-danger btn-sm mx-1" onclick="pager(-5)">선택삭제</button>
 		</div><!-- 하단 버튼 -->
 
 		<!-- 페이징 -->

@@ -99,6 +99,13 @@
 					url : "../employee/password",
 					data : {password : password},
 					success : function(data) {
+						$('#password').val('');
+						swal({
+							  title: "비밀먼호 초기화 성공.",
+							  icon: "success",
+							  button: "닫기",
+						});
+						
 					}
 				});
 			}

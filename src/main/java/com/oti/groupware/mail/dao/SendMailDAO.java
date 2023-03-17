@@ -3,12 +3,13 @@ package com.oti.groupware.mail.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.junit.runners.Parameterized.Parameters;
 
 import com.oti.groupware.common.Pager;
 import com.oti.groupware.mail.dto.SendMail;
 
 public interface SendMailDAO {
-	public void insertTempMail(SendMail sendMail);
+	public void insertTempMail(@Param("sendMail")SendMail sendMail);
 	public void insertSendMail(SendMail sendMail);
 	public String getEmpIdById(int sendMailId);
 	public String getTitleById(int sendMailId);

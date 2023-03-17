@@ -12,7 +12,7 @@
         	swal({
   			  title: "메일 삭제",
   			  text: "휴지통의 메일은 삭제시 복구할 수 없습니다.",
-  			  icon: "warning",
+  			  icon: "error",
   			  buttons: {
   			    cancel: {
   			      text: "취소",
