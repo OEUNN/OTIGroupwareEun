@@ -81,7 +81,7 @@ public class DocumentServiceImpl implements DocumentService {
 	}
 	
 	@Override
-	public void applyDocumentContentToHTML(Document document, String html, String drafterId, DocumentContent documentContent) {
+	public void applyDocumentContentToHTML(String drafterId, Document document, String html, DocumentContent documentContent) {
 		EmployeeInfo drafter = employeeDAO.mailInfo(drafterId);
 		document.setDocContent(documentParser.initializetHTML(html, document, documentContent, drafter));
 	}

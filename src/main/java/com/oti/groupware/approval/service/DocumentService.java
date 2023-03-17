@@ -15,7 +15,7 @@ import com.oti.groupware.common.dto.Organization;
 public interface DocumentService {
 	public Document readDocument(String docId);
 	DocumentFile downloadDocumentFile(int docFileId);
-	void applyDocumentContentToHTML(Document document, String html, String drafterId, DocumentContent documentContent);
+	void applyDocumentContentToHTML(String drafterId, Document document, String html, DocumentContent documentContent);
 	public void saveDraftDocument(String html, DocumentContent documentContent, String docTempYn, MultipartFile[] multipartFiles) throws IOException;
 	public void saveTempDocument(String html, DocumentContent documentContent, String docTempYn, MultipartFile[] multipartFiles) throws IOException;
 	public int deleteDocument(List<String> docIds);
