@@ -39,6 +39,13 @@ public class LoginController {
 		return "login/login";
 	}
 	
+	/**
+	 * login 요청
+	 * @param employee - 아이디, 비밀번호 받기
+	 * @param model - employee(나의정보), result(로그인 결과)
+	 * @param session - 로그인 성공시 나의 정보를 session에 저장
+	 * @return JSP
+	 */
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(Employee employee, Model model, HttpSession session) {
 		String loginResult = employeeService.login(employee);
@@ -53,42 +60,12 @@ public class LoginController {
 		}
 	}
 	
-//	@GetMapping("/filedownload")
-//	public void filedownload(@RequestHeader("User-Agent")String userAgent, HttpServletResponse response, HttpSession session) throws Exception {
-//		Employee employee = (Employee)session.getAttribute("employee");
-//		if(employee != null) {
-//			String originalName = employee.getEmpId();
-//			String savedName = employee.getEmpFileName();
-//			String contentType = employee.getEmpFileType();
-//			
-//			//originalName이 한글이 포함되어 있을 경우, 브라우저 별로 한글을 인코딩하는 방법
-//			if(userAgent.contains("Trident")||userAgent.contains("MSIE")) {
-//				//Trident : IE 11
-//				//MSIE : IE 10 이하
-//				originalName = URLEncoder.encode(originalName, "UTF-8");
-//			}else {
-//				//Edge, Chrome, Safari
-//				originalName = new String(originalName.getBytes("UTF-8"), "ISO-8859-1");
-//			}
-//			
-//			//응답 해더 설정
-//			response.setHeader("Content-Disposition","attachment; filename=\""+ originalName +"\"");
-//			response.setContentType(contentType);
-//			
-//			//응답 바디에 파일 데이터 실기
-//			String filePath = "C:/Temp/uploadfiles/"+savedName;
-//			File file = new File(filePath);
-//			if(file.exists()) {
-//				InputStream is = new FileInputStream(file);
-//				OutputStream os = response.getOutputStream();
-//				FileCopyUtils.copy(is, os);
-//				os.flush();
-//				os.close();
-//				is.close();
-//			}
-//		}
-//	}	
-	
+	/**
+	 * 상단바의 나의 이미지
+	 * @param session - 로그인 되어 있는 정보
+	 * @return
+	 * @throws Exception
+	 */
 	@GetMapping("/filedownload")
 	public ResponseEntity<byte[]> filedownload(HttpSession session) throws Exception {
 		Employee employee = (Employee)session.getAttribute("employee");
@@ -99,21 +76,38 @@ public class LoginController {
 		return new ResponseEntity<byte[]>(employee.getEmpFileData(), headers, HttpStatus.OK);
 	}	
 	
+	/**
+	 * 로그인시 아이디 없을 때 팝업 창
+	 * @return JSP
+	 */
 	@RequestMapping(value = "/failidpopup", method = RequestMethod.GET)
 	public String failIdPopup() {
 		return "login/failidpopup";
 	}
 	
+	/**
+	 * 로그인시 비밀번호가 1~4번 틀렸을 때 팝업창
+	 * @return JSP
+	 */
 	@RequestMapping(value = "/failpwpopup", method = RequestMethod.GET)
 	public String failPwPopup() {
 		return "login/failpwpopup";
 	}
 	
+	/**
+	 * 로그인시 비밀번호 5번 틀렸을 때 팝업창
+	 * @return JSP
+	 */
 	@RequestMapping(value = "/fivefailpwpopup", method = RequestMethod.GET)
 	public String fiveFailPwPopup() {
 		return "login/fivefailpwpopup";
 	}
 	
+	/**
+	 * 로그아웃
+	 * @param session - 로그인 되어 있는 정보
+	 * @return JSP
+	 */
 	@RequestMapping(value ="/logout", method=RequestMethod.GET)
 	public String logout(HttpSession session) {
 		session.removeAttribute("employee");

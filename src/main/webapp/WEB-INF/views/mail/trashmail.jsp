@@ -9,10 +9,34 @@
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mail.css"/>
 		<script>
         function popup(){
-            var url = "trashpopup";
-            var name = "trash popup";
-            var option = "width = 500, height = 300, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
-            window.open(url, name, option);
+        	swal({
+  			  title: "메일 삭제",
+  			  text: "휴지통의 메일은 삭제시 복구할 수 없습니다.",
+  			  icon: "error",
+  			  buttons: {
+  			    cancel: {
+  			      text: "취소",
+  			      value: null,
+  			      visible: true,
+  			      className: "",
+  			      closeModal: true,
+  			    },
+  			    confirm: {
+  			      text: "확인",
+  			      value: true,
+  			      visible: true,
+  			      className: "",
+  			      closeModal: true
+  			    }
+  			  },
+  			})
+  			.then((value) => {
+  			  if (value) {
+  			    onclick=pager(-2);
+  			  } else {
+  			     close();
+  			  }
+  			});
         }
         function pager(No){
         	//선택삭제

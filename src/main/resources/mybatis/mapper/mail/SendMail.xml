@@ -84,7 +84,9 @@
             #{sendMailId},
             #{empId},
             #{sendMailTitle},
-            #{sendMailContent},
+            <if test="#{sendMailContent}!=null">
+			#{sendMailContent},
+			</if>
             default,
             default,
             'Y',
@@ -321,7 +323,7 @@
 		update send_mails
 		set SEND_MAIL_DEL_COMPLETE_YN ='Y'
 		where 
-		<foreach collection="arr" item="mailId" separator="or">
+		<foreach collection="arr" item="sendMail" separator="or">
 		 	SEND_MAIL_ID=#{mailId} 
 		</foreach>
 	</update>

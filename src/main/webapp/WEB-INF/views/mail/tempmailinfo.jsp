@@ -41,7 +41,19 @@
 	<div class="card-body">
 		<h4 class="card-title">임시 보관함</h4>
 		<!-- 검색 태그 -->
-		<div class="row mb-3 mt-5 mx-3"> </div><!-- 검색 태그 -->
+		<div class="row px-5 py-3 justify-content-end"> 
+			<div id="searchForm" class="d-flex" >
+    				<div style="border-radius:18px; border:1px solid #e9ecef;display: flex;">
+					<div class="input-group-prepend hover-cursor mx-3">
+						<span class="input-group-text" id="search" style="background: transparent; border: 0; color: #000; padding: 0;">
+							<i class="icon-search" style="font-size: 1.25rem; color: #6C7383;"></i>
+						</span>
+					</div>
+					<input type="text" id="searchBar" class="align-self-center" style="border:none;width:100%;">
+				</div>
+				<button onclick="submitForm()" class="font-weight-bold btn btn-md btn-warning ml-2">검색</button>
+			</div>
+		</div><!-- 검색 태그 -->
 		<!-- 테이블 -->
 		<div class="table-responsive p-4">
 			<table class="table table-hover">
@@ -73,11 +85,11 @@
 								</td>
 								<td>
 									<c:if test="${send.fileYN == 'Y'}">
-										<i class="h3 mdi mdi-paperclip text-primary"></i>
+										<i class="h3 mdi mdi-paperclip text-info"></i>
 									</c:if>
 								</td>
 								<td>
-									<i class="mdi mdi-arrow-right text-primary"></i>
+									<i class="mdi mdi-arrow-right-bold text-success"></i>
 									<c:forEach items="${send.empList}" var="emp">
 										<c:if test="${send.receivedCount == 1}">
 											<span class="etooltip">${emp.empName} ${emp.posName}
@@ -107,10 +119,10 @@
 										</span>
 									</c:if>
 								</td>
-								<td>${send.sendMailTitle}</td>
+								<td onclick="location.href='<c:url value="/mail/detailmail/temp/${send.sendMailId}"/>'">${send.sendMailTitle}</td>
 								
 								<td>
-									<fmt:formatDate pattern="MM월 dd일   HH:mm:ss" value="${send.sendMailDate}"/>
+									<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${send.sendMailDate}"/>
 								</td>
 							</tr>
 						</c:forEach>
@@ -129,11 +141,8 @@
 		</div>
 		<!-- 테이블 끝 -->
 		<!-- 하단 버튼 -->
-		<div class="row form-inline m-3">
-			<div class="col-md-11"></div>
-			<div class="col-md-1 col-12">
-				<button class="btn btn-danger btn-sm"  onclick="popup()">선택삭제</button>
-			</div>
+		<div class="row form-inline m-3 d-flex justify-content-end">
+			<button class="btn btn-danger btn-sm mx-1"  onclick="popup()">선택삭제</button>
 		</div><!-- 하단 버튼 -->
 
 		<!-- 페이징 -->

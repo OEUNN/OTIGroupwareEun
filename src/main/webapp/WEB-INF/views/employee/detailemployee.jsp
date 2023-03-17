@@ -1,15 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<script>
-function popup(){
-	console.log($('#id').val());
-    var url = 'resetpasswordpopup';
-    var name = "delete password popup";
-    var option = "width = 500, height =230, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
-    window.open(url, name, option);
-}
-</script>
+
 <style>
 	.table th, .jsgrid .jsgrid-table th,
 	.table td,
@@ -251,12 +243,13 @@ function popup(){
 							</div>
 						</div>
 						<div class="col-sm-4">
-							<button onclick="popup()"
+							<button onclick="popup('${emp.empId}')"
 								class="btn btn-md btn-inverse-primary btn-icon-text d-flex align-items-center m-1">
 								<i class="h3 my-auto mdi mdi-key"></i> <span
 									class="ml-2 font-weight-bold">초기화</span>
 							</button>
 						</div>
+						<input type="hidden" id="id"/>
 					</div>
 				</div>
 			</div>

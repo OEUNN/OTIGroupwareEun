@@ -10,29 +10,48 @@
 <!-- endinject css, js common file -->
 
 <!-- Plugin css,js for this page -->
-<style>
-.custom-border-bottom {
-	border-bottom: 3px solid #4B49AC;
-	opacity: 0.4;
-}
-a {
-	color:black;
-}
-a:hover {
-	text-decoration: none;
-}
-</style>
+	<style>
+	.custom-border-bottom {
+		border-bottom: 3px solid #4B49AC;
+		opacity: 0.4;
+	}
+	a {
+		color:black;
+	}
+	a:hover {
+		text-decoration: none;
+	}
+	.swal2-title,
+	.swal2-content {
+	  font-size: 16px; /* 원하는 폰트 크기로 수정 */
+	}
+	</style>
 
-<script>
+	<script>
 		//근무상태 변경가능한 셀렉박스
 		function select(item) {
 	    	$("#selectbox-btn-name").html(item);
 	    }
+		function open(){
+			swal({
+				  title: "초기 비밀번호 입니다.",
+				  text: "마이페이지에서 수정 부탁드립니다!",
+				  icon: "warning",
+				  button: "닫기",
+			});
+		}
+		
 	</script>
 <!-- End plugin css,js for this page -->
 </head>
 
-<body>
+<c:if test="${sessionScope.employee.initialPasswordYN == 'Y'}">
+	<body onload="open()">
+</c:if>
+<c:if test="${sessionScope.employee.initialPasswordYN == 'N'}">
+	<body>
+</c:if>
+	<input type="hidden" value=""/>
 	<div class="container-scroller">
 		<!-- Navbar -->
 		<%@ include file="/WEB-INF/views/common/_navbar.jsp"%>

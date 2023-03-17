@@ -86,6 +86,7 @@
 					<c:if test="${pager.pageNo != i}">
 						<li class="page-item">
 							<a class="page-link" onclick="pager(${i})">${i}</a>
+							<input type="hidden" id="pageBtn">
 						</li>
 					</c:if>
 					<!-- 현재페이지 -->

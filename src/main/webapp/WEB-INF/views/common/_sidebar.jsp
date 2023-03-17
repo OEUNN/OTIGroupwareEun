@@ -100,18 +100,20 @@
 				<span class="menu-title">조직도</span>
 			</a>
 		</li>
-		<li class="nav-item">
-			<a class="nav-link" data-toggle="collapse" href="#employee" aria-expanded="false" aria-controls="employee">
-				<i class="mdi mdi-account-card-details menu-icon"></i> 
-				<span class="menu-title" style="font-family: Nunito, sans-serif;">인사 관리</span> 
-				<i class="menu-arrow"></i>
-			</a>
-			<div class="collapse" id="employee">
-				<ul class="nav flex-column sub-menu">
-					<li class="nav-item"><a class="nav-link" href="<c:url value='/employee/selectemployee'/>">임직원 조회</a></li>
-					<li class="nav-item"><a class="nav-link" href="<c:url value='/employee/insertemployee'/>">임직원 등록</a></li>
-				</ul>
-			</div>
-		</li>
+		<c:if test="${sessionScope.employee.depId == 4}">
+			<li class="nav-item">
+				<a class="nav-link" data-toggle="collapse" href="#employee" aria-expanded="false" aria-controls="employee">
+					<i class="mdi mdi-account-card-details menu-icon"></i> 
+					<span class="menu-title" style="font-family: Nunito, sans-serif;">인사 관리</span> 
+					<i class="menu-arrow"></i>
+				</a>
+				<div class="collapse" id="employee">
+					<ul class="nav flex-column sub-menu">
+						<li class="nav-item"><a class="nav-link" href="<c:url value='/employee/selectemployee'/>">임직원 조회</a></li>
+						<li class="nav-item"><a class="nav-link" href="<c:url value='/employee/insertemployee'/>">임직원 등록</a></li>
+					</ul>
+				</div>
+			</li>
+		</c:if>
 	</ul>
 </nav>
