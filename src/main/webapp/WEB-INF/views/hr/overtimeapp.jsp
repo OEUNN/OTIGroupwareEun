@@ -108,7 +108,7 @@
 <!-- End plugin css,js for this page -->
 
 <form action="<c:url value='/hr/atdapplicationform'/>" onsubmit="return validateForm();" method="post">
-<div class="table-responsive px-3 py-2 mt-5">
+<div class="table-responsive px-3 py-2 mt-3">
 	<!-- 고정 내용 -->
 	<table class="table">
 		<tbody>
@@ -203,7 +203,7 @@
 <!-- 버튼 -->
 <div class="row px-5 mt-3 justify-content-end">
 	<button type="submit" class="btn btn-primary mr-2">신청</button>
-	<button onclick="resetForm()" type="reset" class="btn btn-inverse-primary mr-2">취소</button>
+	<button type="button" class="btn btn-inverse-primary mr-2" onclick="location.href='${pageContext.request.contextPath}/hr/myatdexception'">닫기</button>
 </div>
 <!-- 변경내용:end -->
 </form>
