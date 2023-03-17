@@ -170,7 +170,14 @@
 
 				//문서 내부 결재선에 데이터 설정
 				$(positionList[receivedIndex + 1]).text(receivedData.posName);
+				$(stateList[receivedIndex + 1]).text("공란");
 				$(nameList[receivedIndex + 1]).text(receivedData.empName);
+				$(dateList[receivedIndex + 1]).text("공란");
+				
+				$(positionList[receivedIndex + 1]).addClass(receivedData.removeClass);
+				$(stateList[receivedIndex + 1]).addClass(receivedData.removeClass);
+				$(nameList[receivedIndex + 1]).addClass(receivedData.removeClass);
+				$(dateList[receivedIndex + 1]).addClass(receivedData.removeClass);
 
 				//form 양식에 추가하기
 				$("#approvalForm").append('<input class="' + receivedData.removeClass + ' remove-flag" type="hidden" name="approvalId" value="' + receivedData.empId + '">');
@@ -186,10 +193,7 @@
 					$(removee).remove();
 					
 					//결재선에서 삭제
-					$($("iframe").contents().find(".positionText")[receivedIndex + 1]).text("공란");
-					$($("iframe").contents().find(".stateText")[receivedIndex + 1]).text("공란");
-					$($("iframe").contents().find(".nameText")[receivedIndex + 1]).text("공란");
-					$($("iframe").contents().find(".dateText")[receivedIndex + 1]).text("공란");
+					$($("iframe").contents().find(removee).text("공란"));
 					
 					//결재선에서 삭제 후 앞으로 당기기
 					for (i = 1; i < 5; i++) {
