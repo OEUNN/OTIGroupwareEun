@@ -54,23 +54,27 @@ public class MailServiceImpl implements MailService {
 
 	//메일쓰기
 	@Override
-	public void writeMail(SendMail sendMail, String[] arr) {
-		sendMailDao.insertSendMail(sendMail);
+	public void writeMail(SendMail sendMail, String[] arr, String resultString) {
+		if(resultString.equals("temp")) {
+			sendMailDao.insertTempMail(sendMail);
+		}else {
+			sendMailDao.insertSendMail(sendMail);
+		}
 		for(int i=0;i<arr.length;i++) {
 			receivedMailDao.insertReceivedMail(sendMail.getSendMailId(),arr[i]);
 		}
 	}
-
+	
+	//메일 임시저장
+	@Override
+	public void writeTempMail(SendMail sendMail) {
+		log.info(sendMail);
+		sendMailDao.insertTempMail(sendMail);
+	}
 	//파일 저장하기
 	@Override
 	public void writeFile(MailFile mailFile) {
 		mailFileDao.insertMailFile(mailFile);
-	}
-
-	//메일 임시저장
-	@Override
-	public void writeTempMail(SendMail sendMail) {
-		sendMailDao.insertTempMail(sendMail);
 	}
 
 	//받은 메일함 첫 화면 

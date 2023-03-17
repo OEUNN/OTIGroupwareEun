@@ -11,7 +11,7 @@ import com.oti.groupware.mail.dto.SendMail;
 
 public interface MailService {
 	List<Employee> getEmployee();
-	void writeMail(SendMail sendMail, String[] arr);
+	void writeMail(SendMail sendMail, String[] arr, String resultString);
 	void writeFile(MailFile mailFile);
 	void writeTempMail(SendMail sendMail);
 	List<ReceivedMail> getReceivedMail(String empId, Pager pager);

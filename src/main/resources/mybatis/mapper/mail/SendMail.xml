@@ -73,7 +73,9 @@
             send_mail_id,
             emp_id,
             send_mail_title,
-            send_mail_content,
+            <if test="sendMailContent != null">
+				send_mail_content,
+			</if>
             send_mail_importance_yn,
             send_mail_date,
             send_mail_temp_yn,
@@ -84,8 +86,8 @@
             #{sendMailId},
             #{empId},
             #{sendMailTitle},
-            <if test="#{sendMailContent}!=null">
-			#{sendMailContent},
+            <if test="sendMailContent != null">
+				#{sendMailContent},
 			</if>
             default,
             default,

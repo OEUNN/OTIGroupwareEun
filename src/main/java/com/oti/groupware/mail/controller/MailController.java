@@ -77,18 +77,15 @@ public class MailController {
 			@RequestParam("resultString") String resultString) throws Exception {
 		log.info("실행");
 		log.info(write);
-		log.info(sendMail);
-		log.info(resultString);
-		sendMail.setSendMailContent(write);
-		if(receive != null) {
-			if (resultString.equals("temp")) {
-				mailService.writeTempMail(sendMail);
-			}else {
-				String[] arr = receive.split(",");
-				mailService.writeMail(sendMail, arr);
-			}
+		if(!write.isEmpty()) {
+			log.info("들어옴?");
+			sendMail.setSendMailContent(write);
+		}
+		if(receive == null && resultString.equals("temp")) {
+			mailService.writeTempMail(sendMail);
 		}else {
-			
+			String[] arr = receive.split(",");
+			mailService.writeMail(sendMail, arr, resultString);
 		}
 		List<MultipartFile> mFileList = sendMail.getFileList();
 		if (mFileList != null && !mFileList.isEmpty()) {
