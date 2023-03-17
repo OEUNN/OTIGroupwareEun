@@ -35,6 +35,8 @@
 		
 		$(() => {
 			let openerHTML = opener.$('#approvalLine');
+			let drafterId = openerHTML.find('input[name="drafterId"]').val();
+			appendToList(drafterId);
 			openerHTML.find('.remove-flag').each((index, item) => {
 				if (index % 2 === 0) {
 					var Id = item.classList[0].substring(1);
@@ -46,7 +48,7 @@
 		function appendToList(elementId) {
 			var readerId = $("#readerId").val();
 			if (elementId !== readerId) {
-				if ($("#approvalLine div").length < 3) {
+				if ($("#approvalLine div").length < 4) {
 					delId = 'del' + elementId;
 					if ($("#approvalLine").has("div[id=" + delId + "]").length === 0) {
 						
@@ -68,7 +70,7 @@
 					}
 				}
 				else {
-					alert("결재선은 최대 3명까지만 지정이 가능합니다.");
+					alert("결재선은 자신 포함 최대 5명까지만 지정이 가능합니다.");
 				}
 			}
 			else {
@@ -93,6 +95,7 @@
 		}
 		
 		function sendApprovalLine(tagId) {
+			let lastIndex = $(tagId).length - 1;
 			$(tagId).each((index, element) => {
 				var empId = $(element).attr('id').substr(3);
 				var depName = $(element).attr('class').split(' ')[4];
@@ -123,7 +126,7 @@
 									'</p>' +
 								'</div>' +
 								'<div class="col-2">' +
-									'<i id=' + removeClass + ' class="mdi mdi-close"></i>' +
+									'<i id=' + removeClass + ' class="' + index + ' mdi mdi-close"></i>' +
 								'</div>' +
 							'</div>' +
 						'</div>' +
@@ -134,6 +137,7 @@
 					depName : depName,
 					posName : posName,
 					approvalOrder : approvalOrder,
+					lastIndex : lastIndex,
 					index : index
 				}
 				opener.postMessage(sendData);

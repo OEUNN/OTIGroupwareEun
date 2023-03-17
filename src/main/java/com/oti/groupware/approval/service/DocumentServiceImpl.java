@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.oti.groupware.approval.ApprovalHandler;
-import com.oti.groupware.approval.DocumentContentProvider;
-import com.oti.groupware.approval.DocumentParser;
+import com.oti.groupware.approval.component.ApprovalHandler;
+import com.oti.groupware.approval.component.DocumentContentProvider;
+import com.oti.groupware.approval.component.DocumentParser;
 import com.oti.groupware.approval.dao.ApprovalLineDAO;
 import com.oti.groupware.approval.dao.DocumentDAO;
 import com.oti.groupware.approval.dao.DocumentFileDAO;
@@ -25,9 +25,6 @@ import com.oti.groupware.common.Pager;
 import com.oti.groupware.common.dto.Organization;
 import com.oti.groupware.employee.dao.EmployeeDAO;
 import com.oti.groupware.mail.dto.EmployeeInfo;
-
-import lombok.extern.log4j.Log4j2;
-@Log4j2
 @Service
 public class DocumentServiceImpl implements DocumentService {
 	Document document;
@@ -84,147 +81,241 @@ public class DocumentServiceImpl implements DocumentService {
 	}
 	
 	@Override
-	@Transactional
-	public int saveDocument(String html, DocumentContent documentContent, String docTempYn, String drafterId, MultipartFile[] multipartFiles) throws IOException {
-		if (html != null) {
-			documentParser.parseDocument(html, documentContent.getDrafterId());
-			document = documentParser.getParsedDocument();
-			document.setDocTempYn(docTempYn);
-			
-			String documentType = document.getDocType();
-
-			String documentRetentionPeriod = documentContentProvider.getDocumentRetentionPeriodByDocumentType(documentType);
-			document.setDocRetentionPeriod(documentRetentionPeriod);
-			if (document.getDocReportDate() == null) {
-				document.setDocReportDate(Timestamp.valueOf(LocalDateTime.now()));
-			}
-			if (document.getDocWriteDate() == null) {
-				document.setDocWriteDate(Timestamp.valueOf(LocalDateTime.now()));
-			}
-			
-			EmployeeInfo drafter = employeeDAO.mailInfo(drafterId);
-			
-			//첫 상신 또는 첫 임시저장
-			if ("공란".equals(document.getDocId())) {
-				
-				String documentId = documentContentProvider.getDocumentIdByDocumentType(documentType);
-				document.setDocId(documentId);
-				document.setDocContent(documentParser.initializetHTML(html, document, documentContent, drafter));
-				documentDAO.insertDraft(document);
-				
-				String docId = document.getDocId();
-				
-				if (multipartFiles != null && multipartFiles.length > 0) {
-					for (MultipartFile multipartFile : multipartFiles) {
-						if (!("".equals(multipartFile.getOriginalFilename())) && multipartFile.getOriginalFilename() != null) {
-							documentFile = new DocumentFile();
-							documentFile.setDocId(docId);
-							documentFile.setDocFileData(multipartFile.getBytes());
-							documentFile.setDocFileLength(multipartFile.getSize());
-							documentFile.setDocFileName(multipartFile.getOriginalFilename());
-							documentFile.setDocFileType(multipartFile.getContentType());
-							documentFileDAO.insertDocumentFile(documentFile);
-						}
-					}
-				}
-			}
-			else {
-				document.setDocContent(documentParser.initializetHTML(html, document, documentContent, drafter));
-				documentDAO.updateDocument(document);
-				approvalLineDAO.deleteApprovalLineByDocId(document.getDocId());
-				documentFileDAO.deleteDocumentFile(document.getDocId());
-				
-				String docId = document.getDocId();
-				
-				if (multipartFiles != null && multipartFiles.length > 0) {
-					for (MultipartFile multipartFile : multipartFiles) {
-						if (!("".equals(multipartFile.getOriginalFilename())) && multipartFile.getOriginalFilename() != null) {
-							documentFile = new DocumentFile();
-							documentFile.setDocId(docId);
-							documentFile.setDocFileData(multipartFile.getBytes());
-							documentFile.setDocFileLength(multipartFile.getSize());
-							documentFile.setDocFileName(multipartFile.getOriginalFilename());
-							documentFile.setDocFileType(multipartFile.getContentType());
-							documentFileDAO.updateDocumentFile(documentFile);
-						}
-					}
-				}
-			}
-
-			approvalLine = new ApprovalLine();
-			approvalLine.setEmpId(documentContent.getDrafterId());
-			approvalLine.setDocId(document.getDocId());
-			approvalLine.setAprvLineState("승인");
-			approvalLine.setAprvLineOrder(0);
-			approvalLine.setAprvLineRole("기안");
-			
-			approvalLineDAO.insertDraftApprovalLine(approvalLine);
-			
-			//임시저장 시 결재선이 없을 수 있음
-			if (documentContent.getApprovalId() != null) {
-				int approvalLineLength = documentContent.getApprovalId().length;			
-				for (int i = 0; i < approvalLineLength; i++) {
-					approvalLine = new ApprovalLine();
-					approvalLine.setEmpId(documentContent.getApprovalId()[i]);
-					approvalLine.setDocId(document.getDocId());
-					approvalLine.setAprvLineState(documentContent.getApprovalState()[i]);
-					approvalLine.setAprvLineOrder(documentContent.getApprovalOrder()[i]);
-					approvalLine.setAprvLineRole("결재");
-					
-					approvalLineDAO.insertDraftApprovalLine(approvalLine);
-				}
-			}
-			
-		}
-		else {
-			System.out.println("html is null");
-		}
-		return 0;
+	public void applyDocumentContentToHTML(String drafterId, Document document, String html, DocumentContent documentContent) {
+		EmployeeInfo drafter = employeeDAO.mailInfo(drafterId);
+		document.setDocContent(documentParser.initializetHTML(html, document, documentContent, drafter));
 	}
 	
+	//기안 문서를 저장
 	@Override
 	@Transactional
-	public boolean handleApprovalRequest(String state, String opinion, String docId, String empId) {
-		document = documentDAO.getDocumentById(docId);
-		approvalLine = approvalLineDAO.getApprovalLineById(empId, docId);
+	public void saveDraftDocument(String html, DocumentContent documentContent, String docTempYn, MultipartFile[] multipartFiles) throws IOException {
+		documentParser.setParsingTarget(html);
 		
-		//회수하면 기안자를 제외한 모든 결재자의 상태를 초기화 해야함
-		if ("회수".equals(state)) {
-			approvalLines = approvalLineDAO.getApprovalLinesBydocId(docId);
-			approvalHandler.setApprovalLines(approvalLines);
-			log.info(approvalLines);
+		document.setEmpId(documentContent.getDrafterId());
+		document.setDocContent(html);
+		document.setDocType(documentParser.getTokenById("documentType"));
+		document.setDocTitle(documentParser.getTokenById("documentTitle"));
+		document.setDocMaxStep(documentParser.getTokenSizeById("formApprovalState"));
+		document.setDocReportDate(Timestamp.valueOf(LocalDateTime.now()));
+		if (document.getDocWriteDate() == null) {
+			document.setDocWriteDate(Timestamp.valueOf(LocalDateTime.now()));
+		}
+		document.setDocState("결재중");
+		document.setDocTempYn("N");
+		
+		//결재문서는 타입에 따라 보관기간, 아이디를 받음
+		String documentType = document.getDocType();
+		document.setDocRetentionPeriod(documentContentProvider.getDocumentRetentionPeriodByDocumentType(documentType));
+		document.setDocId(documentContentProvider.getDocumentIdByDocumentType(documentType, "N"));
+		//html도 바꿔야함(applyDocumentContentToHTML)
+		documentDAO.insertDraftDocument(document);
+		
+		String docId = document.getDocId();
+		if (multipartFiles != null && multipartFiles.length > 0) {
+			for (MultipartFile multipartFile : multipartFiles) {
+				if (!("".equals(multipartFile.getOriginalFilename())) && multipartFile.getOriginalFilename() != null) {
+					documentFile = new DocumentFile();
+					documentFile.setDocId(docId);
+					documentFile.setDocFileData(multipartFile.getBytes());
+					documentFile.setDocFileLength(multipartFile.getSize());
+					documentFile.setDocFileName(multipartFile.getOriginalFilename());
+					documentFile.setDocFileType(multipartFile.getContentType());
+					documentFileDAO.insertDocumentFile(documentFile);
+				}
+			}
+		}
+
+		approvalLine = new ApprovalLine();
+		approvalLine.setEmpId(documentContent.getDrafterId());
+		approvalLine.setDocId(document.getDocId());
+		approvalLine.setAprvLineState("승인");
+		approvalLine.setAprvLineOrder(0);
+		approvalLine.setAprvLineRole("기안");
+		approvalLineDAO.defaultInsertApprovalLine(approvalLine);
+		
+		int approvalLineLength = documentContent.getApprovalId().length;			
+		for (int i = 0; i < approvalLineLength; i++) {
+			approvalLine = new ApprovalLine();
+			approvalLine.setEmpId(documentContent.getApprovalId()[i]);
+			approvalLine.setDocId(document.getDocId());
+			approvalLine.setAprvLineState(documentContent.getApprovalState()[i]);
+			approvalLine.setAprvLineOrder(documentContent.getApprovalOrder()[i]);
+			approvalLine.setAprvLineRole("결재");
+			approvalLineDAO.defaultInsertApprovalLine(approvalLine);
+		}
+	}
+	
+	//임시상태의 문서를 저장
+	@Override
+	@Transactional
+	public void saveTempDocument(String html, DocumentContent documentContent, String docTempYn, MultipartFile[] multipartFiles) throws IOException {
+		documentParser.setParsingTarget(html);
+		
+		document.setEmpId(documentContent.getDrafterId());
+		document.setDocContent(html);
+		document.setDocType(documentParser.getTokenById("documentType"));
+		document.setDocTitle(documentParser.getTokenById("documentTitle"));
+		document.setDocWriteDate(Timestamp.valueOf(LocalDateTime.now()));
+		document.setDocTempYn(docTempYn);
+		
+		String documentType = document.getDocType();
+		
+		//임시 상태의 문서를 기안
+		if ("N".equals(docTempYn)) {
+			document.setDocMaxStep(documentParser.getTokenSizeById("formApprovalState"));
+			document.setDocReportDate(Timestamp.valueOf(LocalDateTime.now()));
+			document.setDocRetentionPeriod(documentContentProvider.getDocumentRetentionPeriodByDocumentType(documentType));
+			document.setDocId(documentContentProvider.getDocumentIdByDocumentType(documentType, docTempYn));
+			document.setDocState("결재중");
+			documentDAO.insertTempDocument(document);
+		}
+		//임시 상태의 문서를 다시 임시저장 -> update
+		//update 시 DB 상에 있는 결재선과 첨부파일 초기화
+		else {
+			//html도 바꿔야함(applyDocumentContentToHTML)
+			documentDAO.updateDocument(document);
+			approvalLineDAO.deleteApprovalLineByDocId(document.getDocId());
+			documentFileDAO.deleteDocumentFile(document.getDocId());
 		}
 		
+		String docId = document.getDocId();
+		if (multipartFiles != null && multipartFiles.length > 0) {
+			for (MultipartFile multipartFile : multipartFiles) {
+				if (!("".equals(multipartFile.getOriginalFilename())) && multipartFile.getOriginalFilename() != null) {
+					documentFile = new DocumentFile();
+					documentFile.setDocId(docId);
+					documentFile.setDocFileData(multipartFile.getBytes());
+					documentFile.setDocFileLength(multipartFile.getSize());
+					documentFile.setDocFileName(multipartFile.getOriginalFilename());
+					documentFile.setDocFileType(multipartFile.getContentType());
+					documentFileDAO.insertDocumentFile(documentFile);
+				}
+			}
+		}
+
+		approvalLine = new ApprovalLine();
+		approvalLine.setEmpId(documentContent.getDrafterId());
+		approvalLine.setDocId(document.getDocId());
+		approvalLine.setAprvLineState("승인");
+		approvalLine.setAprvLineOrder(0);
+		approvalLine.setAprvLineRole("기안");
+		approvalLineDAO.defaultInsertApprovalLine(approvalLine);
+		
+		//임시 상태의 문서는 결재선이 없을 수 있음
+		if ("Y".equals(docTempYn)) {
+			int approvalLineLength = documentContent.getApprovalId().length;			
+			for (int i = 0; i < approvalLineLength; i++) {
+				approvalLine = new ApprovalLine();
+				approvalLine.setEmpId(documentContent.getApprovalId()[i]);
+				approvalLine.setDocId(document.getDocId());
+				approvalLine.setAprvLineState(documentContent.getApprovalState()[i]);
+				approvalLine.setAprvLineOrder(documentContent.getApprovalOrder()[i]);
+				approvalLine.setAprvLineRole("결재");
+				
+				approvalLineDAO.defaultInsertApprovalLine(approvalLine);
+			}
+		}
+	}
+	
+	//승인 처리
+	@Override
+	@Transactional
+	public boolean handleApproveRequest(String state, String opinion, String docId, String empId) {
+		document = documentDAO.getDocumentById(docId);
+		approvalLine = approvalLineDAO.getApprovalLineById(empId, docId);
 		approvalHandler.setDocument(document);
 		approvalHandler.setApprovalLine(approvalLine);
 		
 		int documentMaxStep = document.getDocMaxStep();
 		
-		boolean isProcessed = approvalHandler.process(state, opinion, documentMaxStep);
+		boolean isApproved = approvalHandler.handleApprove(state, opinion, documentMaxStep);
 		
-		if (isProcessed) {
+		if (isApproved) {
 			document = approvalHandler.getDocument();
 			approvalLine = approvalHandler.getApprovalLine();
+			documentDAO.updateDocument(document);
+			approvalLineDAO.updateApprovalLine(approvalLine);
 			
-			if ("회수".equals(state)) {
-				approvalLines = approvalHandler.getApprovalLines();
-				
-				for(ApprovalLine approvalLinesElement : approvalLines) {
-					if (!"기안".equals(approvalLinesElement.getAprvLineRole())) {
-						document.setDocContent(documentParser.setHTML(document.getDocContent(), approvalLinesElement)); 
-					}
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	//반려 처리
+	@Override
+	@Transactional
+	public boolean handleReturnRequest(String state, String opinion, String docId, String empId) {
+		document = documentDAO.getDocumentById(docId);
+		approvalLine = approvalLineDAO.getApprovalLineById(empId, docId);
+		approvalHandler.setDocument(document);
+		approvalHandler.setApprovalLine(approvalLine);
+		
+		boolean isReturned = approvalHandler.handleReturn(state, opinion);
+		
+		if (isReturned) {
+			document = approvalHandler.getDocument();
+			approvalLine = approvalHandler.getApprovalLine();
+			documentDAO.updateDocument(document);
+			approvalLineDAO.updateApprovalLine(approvalLine);
+			
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	//회수 처리
+	@Override
+	@Transactional
+	public boolean handleRetrieveRequest(String state, String docId, String empId) {
+		document = documentDAO.getDocumentById(docId);
+		approvalLine = approvalLineDAO.getApprovalLineById(empId, docId);
+		approvalLines = approvalLineDAO.getApprovalLinesBydocId(docId);
+		approvalHandler.setDocument(document);
+		approvalHandler.setApprovalLine(approvalLine);
+		approvalHandler.setApprovalLines(approvalLines);
+		
+		boolean isRetrieved = approvalHandler.handleRetrieve(state);
+		
+		if (isRetrieved) {
+			document = approvalHandler.getDocument();
+			approvalLine = approvalHandler.getApprovalLine();
+			approvalLines = approvalHandler.getApprovalLines();
+			for(ApprovalLine approvalLinesElement : approvalLines) {
+				if (!"기안".equals(approvalLinesElement.getAprvLineRole())) {
+					document.setDocContent(documentParser.setHTML(document.getDocContent(), approvalLinesElement)); 
 				}
 			}
 			
 			documentDAO.updateDocument(document);
 			approvalLineDAO.updateApprovalLine(approvalLine);
-			
-			if ("회수".equals(state)) {
-				approvalLines = approvalHandler.getApprovalLines();
-				for (ApprovalLine approvalLine : approvalLines) {
-					approvalLineDAO.updateApprovalLine(approvalLine);
-				}
+			approvalLines = approvalHandler.getApprovalLines();
+			for (ApprovalLine approvalLine : approvalLines) {
+				approvalLineDAO.updateApprovalLine(approvalLine);
 			}
+			
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	@Override
+	@Transactional
+	public boolean handleOpenRequest(String state, String docId, String empId) {
+		boolean isOpened = approvalHandler.handleOpen();
+		
+		if (isOpened) {
+			document = approvalHandler.getDocument();
+			approvalLine = approvalHandler.getApprovalLine();
+			
+			documentDAO.updateDocument(document);
+			approvalLineDAO.updateApprovalLine(approvalLine);
 			
 			return true;
 		}

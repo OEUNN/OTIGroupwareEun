@@ -31,11 +31,23 @@
 	</style>
 	<script>
 	function attachOpinion() {
-		let opinion = $("#opinionText").val();
+		let opinion = $("#opinionText").val().toString;
 		let approvalLineState = $("#approvalLineState").val();
 		
 		let sendData = {
 			opinion : opinion,
+			approvalLineState : approvalLineState
+		}
+		
+		opener.postMessage(sendData);
+		window.close();
+	}
+	
+	function omitOpinion() {
+		let approvalLineState = $("#approvalLineState").val();
+		
+		let sendData = {
+			opinion : false,
 			approvalLineState : approvalLineState
 		}
 		
@@ -69,8 +81,9 @@
 								</div>
 								<div class="row mb-3" >
 									<div class="col"></div>
-									<button class="col btn btn-primary btn-md mt-1 mx-3" onclick="attachOpinion()">의견 작성하기</button>
-									<button class="col btn btn-outline-primary btn-md mt-1 mx-3" onclick="cancel()">작성 취소</button>
+									<button class="col btn btn-primary btn-md mt-1 mx-3" onclick="omitOpinion()">의견 생략</button>
+									<button class="col btn btn-primary btn-md mt-1 mx-3" onclick="attachOpinion()">확인 </button>
+									<button class="col btn btn-outline-primary btn-md mt-1 mx-3" onclick="cancel()">취소</button>
 									<div class="col"></div>
 								</div>
 							</div>

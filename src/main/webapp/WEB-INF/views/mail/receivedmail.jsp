@@ -14,6 +14,7 @@
 			var next = true;
 			var result;
 			var mailArray = [];
+			var importance =[];
 			if(No == -2){
 				$('input[name="optradio"]:checked').each(function(i){//체크된 리스트 저장
 					mailArray.push($(this).val());
@@ -61,6 +62,7 @@
 					result = 'stay';
 				}
 				var data = {search : search, mailId : star, mailList : mailArray, page : No, result : result};
+				console.log(data);
 				jQuery.ajax({
 					type : 'post',
 					url : '../mail/receivedsearch',
@@ -73,10 +75,34 @@
 					 }
 				});
 			}else{
-				var url = "importpopup";
-	            var name = "import popup";
-	            var option = "width = 500, height = 250, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
-	            window.open(url, name, option);
+				swal({
+				  title: "중요 메일이 포함되어 있습니다",
+				  text: "휴지통으로 보내기 하시겠습니까?",
+				  icon: "warning",
+				  buttons: {
+				    cancel: {
+				      text: "취소",
+				      value: null,
+				      visible: true,
+				      className: "",
+				      closeModal: true,
+				    },
+				    confirm: {
+				      text: "확인",
+				      value: true,
+				      visible: true,
+				      className: "",
+				      closeModal: true
+				    }
+				  },
+				})
+				.then((value) => {
+				  if (value) {
+				    onclick=pager(-2);
+				  } else {
+				     close();
+				  }
+				});
 			}
 		}
 		

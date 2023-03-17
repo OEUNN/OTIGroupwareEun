@@ -4,7 +4,7 @@
 <html>
 
 <head>
-	<!-- CSS, JS 관련 파일 -->
+	<!-- CSS, JS관련 파일 -->
 	<%@ include file="/WEB-INF/views/common/head.jsp" %>
 	<!-- Custom js for this page-->
 	<style>

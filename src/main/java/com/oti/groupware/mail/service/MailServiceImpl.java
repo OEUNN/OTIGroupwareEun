@@ -243,11 +243,15 @@ public class MailServiceImpl implements MailService {
 	//중요메일  중요도 체인지
 	@Override
 	public void importMailChangeImport(int mailId, String empId) {
-		String tbName = sendMailDao.getWhereTable(mailId, empId);
-		if(tbName.equals("received")) {
-			receivedMailDao.importReceivedMailChangeImport(mailId, empId);
-		}else {
-			sendMailDao.importMailChangeImport(mailId);
+		List<String> tbName = sendMailDao.getWhereTable(mailId, empId);
+		for(String table : tbName) {
+			if(table.equals("received")) {
+				receivedMailDao.importReceivedMailChangeImport(mailId, empId);
+				break;
+			}else {
+				sendMailDao.importMailChangeImport(mailId);
+				break;
+			}
 		}
 	}
 	
@@ -258,11 +262,15 @@ public class MailServiceImpl implements MailService {
 		List<Integer> sendMail = new ArrayList<>();
 		List<Integer> receivedMail = new ArrayList<>();
 		for(Integer id : mailId) {
-			String tbName = sendMailDao.getWhereTable(id, empId);
-			if(tbName.equals("received")) {
-				receivedMail.add(id);
-			}else {
-				sendMail.add(id);
+			List<String> tbName = sendMailDao.getWhereTable(id, empId);
+			for(String table: tbName) {
+				if(table.equals("received")) {
+					receivedMail.add(id);
+					break;
+				}else {
+					sendMail.add(id);
+					break;
+				}
 			}
 		}
 		receivedMailDao.receivedMailSearchDelete(receivedMail, empId);
@@ -286,7 +294,7 @@ public class MailServiceImpl implements MailService {
 	public List<SendMail> getTempMail(String empId, Pager pager) {
 		List<SendMail> tempMail = sendMailDao.getTempMail(empId, pager);
 		tempMail = getSendDetail(tempMail);
-		return null;
+		return tempMail;
 	}
 
 	@Override
@@ -337,11 +345,13 @@ public class MailServiceImpl implements MailService {
 		List<Integer> sendMail = new ArrayList<>();
 		List<Integer> receivedMail = new ArrayList<>();
 		for(Integer id : mailId) {
-			String tbName = sendMailDao.getWhereTable(id, empId);
-			if(tbName.equals("received")) {
-				receivedMail.add(id);
-			}else {
-				sendMail.add(id);
+			List<String> tbName = sendMailDao.getWhereTable(id, empId);
+			for(String table : tbName) {
+				if(table.equals("received")) {
+					receivedMail.add(id);
+				}else {
+					sendMail.add(id);
+				}
 			}
 		}
 		if(result.equals("delete")) {
@@ -390,7 +400,8 @@ public class MailServiceImpl implements MailService {
 
 	//메일 detail을 위한 메소드
 	@Override
-	public SendMail getDetailSendMail(int mailid) {
+	public SendMail getDetailSendMail(int mailid, String category) {
+		//category에 따라 읽음여부 바꿔줘야함
 		List<EmployeeInfo> emp = new ArrayList<>();
 		SendMail send = sendMailDao.getSendMailById(mailid);
 		List<ReceivedMail> received = receivedMailDao.getMailInformation(mailid);
@@ -414,6 +425,18 @@ public class MailServiceImpl implements MailService {
 		return send;
 	}
 
+	//해당 메일의 파일 얻기
+	@Override
+	public List<MailFile> getMailFile(int mailid) {
+		return mailFileDao.getMailFile(mailid);
+	}
+
+	//파일 한개 얻어오기
+	@Override
+	public MailFile getMailFileById(int mfile) {
+		return mailFileDao.getMailFileById(mfile);
+	}
+	
 	//메인 메일 통계
 	@Override
 	public MailCount mailHomeCount(String empId) {
@@ -424,6 +447,7 @@ public class MailServiceImpl implements MailService {
 		mailCount.setImportCount(receivedMailDao.getImportCount(empId));
 		return mailCount;
 	}
-	
+
+
 
 }

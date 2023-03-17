@@ -18,13 +18,14 @@
 		<result column="emp_file_data" property="empFileData"/>
 		<result column="emp_file_type" property="empFileType"/>
 		<result column="emp_file_name" property="empFileName"/>
+		<result column="INITIAL_PASSWORD_YN" property="initialPasswordYN"/>
 	</resultMap>
 	
 	
 	<select id="getEmployeeById" parameterType="map" resultMap="employeeResultMap">
 		SELECT emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
             emp_extension_number, emp_phone_number, emp_leave_reserve,
-            emp_substitue_reserve, emp_login_failures_cnt, emp_file_data, emp_file_type, emp_file_name
+            emp_substitue_reserve, emp_login_failures_cnt, emp_file_data, emp_file_type, emp_file_name, INITIAL_PASSWORD_YN
         FROM employees
         WHERE emp_id = #{empId}
 	</select>
@@ -62,13 +63,13 @@
             emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
             emp_extension_number, emp_phone_number, emp_leave_reserve,
             emp_substitue_reserve, emp_login_failures_cnt, emp_file_data,
-            emp_file_type,emp_file_name
+            emp_file_type,emp_file_name, INITIAL_PASSWORD_YN
         ) VALUES (
             #{empId}, #{posId}, #{depId}, #{empMail}, #{empName},
             #{empPassword}, #{empExtensionNumber}, #{empPhoneNumber},
             #{empLeaveReserve}, default,
             default, #{empFileData},
-            #{empFileType}, #{empFileName}
+            #{empFileType}, #{empFileName}, 'Y'
         )
     </insert>
     
@@ -78,9 +79,15 @@
     	where emp_id = #{empId}
     </update>
     
+    <update id="mypageUpdatePassword" parameterType="map">
+    	update employees
+    	set emp_password = #{password} ,INITIAL_PASSWORD_YN = 'N'
+    	where emp_id = #{empId}
+    </update>
+    
     <update id="updatePassword" parameterType="map">
     	update employees
-    	set emp_password = #{password}
+    	set emp_password = #{password} ,INITIAL_PASSWORD_YN = 'Y'
     	where emp_id = #{empId}
     </update>
     
@@ -126,7 +133,7 @@
 		SELECT 
 		    emp_id, emp_name, dep_id, pos_id
 		FROM employees
-		ORDER BY pos_id DESC
+		ORDER BY emp_name
 		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
 		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
 	</select>
@@ -140,7 +147,7 @@
             emp_extension_number, emp_phone_number, emp_leave_reserve,
             emp_substitue_reserve, emp_login_failures_cnt, emp_file_data, emp_file_type, emp_file_name
 		FROM employees e, employees_detail d
-		ORDER BY pos_id desc)
+		ORDER BY emp_name)
 		WHERE ROWNUM= 1
 	</select>
 	
@@ -150,6 +157,20 @@
 	</select>
 	
 	<select id="mailInfo" parameterType="string" resultType="employeeInfo">
+		select pos_name as posName, dep_name as depName, emp_name as empName, e.emp_id as empId, e.EMP_MAIL as mailId
+		from positions p, departments d, employees e 
+		where p.pos_id = 
+		        (select pos_id
+		        from employees
+		        where emp_id=#{empId})
+		    and d.dep_id =
+		        (select dep_id
+		        from employees
+		        where emp_id=#{empId}) 
+		    and e.emp_id =#{empId}
+	</select>
+	
+	<select id="selectEmployeeInfo" parameterType="string" resultType="employeeInfo">
 		select pos_name as posName, dep_name as depName, emp_name as empName, e.emp_id as empId
 		from positions p, departments d, employees e 
 		where p.pos_id = 

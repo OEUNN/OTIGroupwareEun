@@ -13,6 +13,11 @@ function initForm() {
 	$("iframe").contents().find("body").find("#formDrafterPosName").text($("#drafterPosName").val());
 	$("iframe").contents().find("body").find("#formDrafterName").text($("#drafterName").val());
 	$("iframe").contents().find("body").find("#formReportDate").text(now);
+	
+	$($("iframe").contents().find(".positionText")[0]).text($("#drafterPosName").val());
+	$($("iframe").contents().find(".stateText")[0]).text("승인");
+	$($("iframe").contents().find(".nameText")[0]).text($("#drafterName").val());
+	$($("iframe").contents().find(".dateText")[0]).text(now);
 }
 
 function addChangeLabelTextColorEvent(list, cachedElement, isEditorContentEmpty) {
@@ -105,6 +110,7 @@ function addAjaxEvent(list, isEditorContentEmpty) {
 				success: function(data) {
 					tinymce.get("document").setContent(data);
 					initForm();
+					$("iframe").contents().find("#tinymce").attr('contenteditable', false);
 					isEditorContentEmpty = false;
 				}
 			});

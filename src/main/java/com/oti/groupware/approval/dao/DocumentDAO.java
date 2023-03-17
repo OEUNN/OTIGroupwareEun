@@ -16,7 +16,8 @@ public interface DocumentDAO {
 	public void updateDocument(Document document);
 	public int deleteDocument(String docId);
 	
-	public void insertDraft(Document draft);
+	public void insertDraftDocument(Document draft);
+	public void insertTempDocument(Document draft);
 	public int updateDocumentReadState(Document document);
 	
 	

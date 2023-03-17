@@ -1,15 +1,21 @@
 package com.oti.groupware.approval.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.CharsetEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64.Encoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
+import javax.sound.sampled.AudioFormat.Encoding;
 
+import org.apache.commons.lang3.CharSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,7 +32,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.oti.groupware.approval.QueryHandler;
+import com.oti.groupware.approval.component.QueryHandler;
 import com.oti.groupware.approval.dto.ApprovalLine;
 import com.oti.groupware.approval.dto.Document;
 import com.oti.groupware.approval.dto.DocumentContent;
@@ -259,14 +265,23 @@ public class ApprovalController {
 		return "approval/approvalwrite";
 	}
 	
-	//결재 문서 저장
-	@RequestMapping(value = "/approvalwrite", method=RequestMethod.POST)
+	//결재 문서 상신
+	@RequestMapping(value = "/writedraft", method=RequestMethod.POST)
 	public String postApprovalWrite(@RequestParam("document") String document, @RequestParam("docTempYn") String docTempYn, DocumentContent documentContent, @RequestParam("files") MultipartFile[] multipartFiles,  @RequestParam("drafterId") String drafterId) throws IOException {
 		log.info("저장 하려는 HTML이 존재하는가:" + !(document.isEmpty()));
 		
-		int result = documentService.saveDocument(document, documentContent, docTempYn, drafterId, multipartFiles);
+		documentService.saveDraftDocument(document, documentContent, docTempYn, multipartFiles);
 		
-		log.info("저장 결과" + result);
+		return "redirect:/approval/draftdocument";
+	}
+	
+	//결재 문서 임시저장
+	@RequestMapping(value = "/writetemp", method=RequestMethod.POST)
+	public String postApprovalWriteTemp(@RequestParam("document") String document, @RequestParam("docTempYn") String docTempYn, DocumentContent documentContent, @RequestParam("files") MultipartFile[] multipartFiles,  @RequestParam("drafterId") String drafterId) throws IOException {
+		log.info("저장 하려는 HTML이 존재하는가:" + !(document.isEmpty()));
+		
+		documentService.saveTempDocument(document, documentContent, docTempYn, multipartFiles);
+		
 		return "redirect:/approval/draftdocument";
 	}
 	
@@ -328,14 +343,15 @@ public class ApprovalController {
 		return "approval/viewdetail";
 	}
 	
+	//첨부파일 다운로드
 	@RequestMapping(value ="/filedownload/{docFileId}", method=RequestMethod.GET)
-	public ResponseEntity<byte[]> getDocumentFile(@PathVariable int docFileId) {
+	public ResponseEntity<byte[]> getDocumentFile(@PathVariable int docFileId) throws UnsupportedEncodingException {
 		DocumentFile documentFile = documentService.downloadDocumentFile(docFileId);
 		HttpHeaders headers = new HttpHeaders();
 		String[] mtypes = documentFile.getDocFileType().split("/");
 		headers.setContentType(new MediaType(mtypes[0], mtypes[1]));
 		headers.setContentLength(documentFile.getDocFileLength());
-		headers.setContentDispositionFormData("attachment", documentFile.getDocFileName());
+		headers.setContentDispositionFormData("attachment", URLEncoder.encode(documentFile.getDocFileName(), "UTF-8"));
 		return new ResponseEntity<byte[]>(documentFile.getDocFileData(), headers, HttpStatus.OK);
 	}
 
@@ -352,13 +368,27 @@ public class ApprovalController {
 	
 	//결재 문서 승인 또는 반려 요청
 	@RequestMapping(value = "/viewdetail/{docId}", method=RequestMethod.POST)
-	public String postApprovalDetail(@RequestParam("aprvLineState") String state, @RequestParam("aprvLineOpinion") String opinion, @PathVariable("docId") String docId, HttpSession session, Model model) {
+	public String postApprovalStatae(@RequestParam("aprvLineState") String state, @RequestParam("aprvLineOpinion") String opinion, @PathVariable("docId") String docId, HttpSession session, Model model) {
 		log.info("문서 번호: " + docId);
 		log.info("상태: " + state);
 		log.info("의견: " + opinion);
-
+		
+		boolean result = false;
+		
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
-		boolean result = documentService.handleApprovalRequest(state, opinion, docId, empId);
+		
+		if ("승인".equals(state)) {
+			result = documentService.handleApproveRequest(state, opinion, docId, empId);
+		}
+		else if ("반려".equals(state)) {
+			result = documentService.handleReturnRequest(state, opinion, docId, empId);
+		}
+		else if ("회수".equals(state)) {
+			result = documentService.handleRetrieveRequest(state, docId, empId);
+		}
+		else {
+			return "home";
+		}
 		
 		log.info("요청 처리에 성공 했는가: " + result);
 		return "redirect:/approval/viewdetail/" + docId;
@@ -371,7 +401,8 @@ public class ApprovalController {
 		log.info("문서 번호: " + docId);
 		
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
-		boolean result = documentService.handleApprovalRequest(state, null, docId, empId);
+		
+		boolean result = documentService.handleOpenRequest(state, docId, empId);
 		
 		log.info("요청 처리에 성공했는가: " + result);
 	}
@@ -400,7 +431,7 @@ public class ApprovalController {
 	
 	//selectbox 삭제 및 회수
 	@RequestMapping(value = "/selected", method=RequestMethod.POST)
-	public String processSelected(String docType, String type, @RequestParam("docId") List<String> docId, HttpSession session, RedirectAttributes redirectAttributes) {
+	public String handleSelected(String docType, String type, @RequestParam("docId") List<String> docId, HttpSession session, RedirectAttributes redirectAttributes) {
 		log.info("문서 목록: " + docId);
 		String result;
 		if ("delete".equals(type) && type != null) {
@@ -426,7 +457,7 @@ public class ApprovalController {
 			int resultCount = 0;
 			
 			for(String docIdElement : docId) {
-				if (documentService.handleApprovalRequest("회수", null, docIdElement, empId)) {
+				if (documentService.handleRetrieveRequest("회수", docIdElement, empId)) {
 					resultCount++;
 				}
 			}

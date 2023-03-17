@@ -1,4 +1,4 @@
-package com.oti.groupware.hr.controller;
+package com.oti.groupware.hr.component;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

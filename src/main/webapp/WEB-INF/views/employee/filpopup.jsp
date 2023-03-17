@@ -10,12 +10,6 @@
 		<!-- endinject css, js common file -->
 		
 		<!-- Plugin css,js for this page -->
-		<script>
-        function result(){
-        	opener.location.href = "javascript:sendBtn(2);";
-            window.close();
-        }
-		</script>
 		<style>
 			.container-fluid{
 				padding:0px;
@@ -50,9 +44,9 @@
 						<div class="card">
 							<div class="card-body row m-0">
 								<div class="container-fluid wrap">
-									<div class="card-title box">메일을 보내시겠습니까?</div>
+									<div class="card-title box">요청하신 파일의 크기가</div>
+									<div class="card-title box">5MB보다 파일이 큽니다.</div>
 									<div class="row box">
-										<button class="btn btn-primary btn-md mx-2" onclick="result()">확인</button>
 										<button class="btn btn-inverse-primary btn-md" onclick="window.close()">닫기</button>
 									</div>
 								</div>

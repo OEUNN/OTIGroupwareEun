@@ -55,7 +55,42 @@
 					}
 				});
 			}
-			
+			function popup(){
+				var result = true;
+				var pw = $("#password").val();
+				var num = pw.search(/[0-9]/g);
+				var eng = pw.search(/[a-z]/ig);
+				var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+
+				if(pw.length < 8 || pw.length > 20){
+					swal({
+						  text: "8자리 ~ 20자리 이내로 입력해주세요.",
+						  icon: "error",
+						  button: "닫기",
+					});
+					result = false;
+				 }else if(pw.search(/\s/) != -1){
+					 swal({
+						  text: "비밀번호는 공백 없이 입력해주세요.",
+						  icon: "error",
+						  button: "닫기",
+					});
+				  	result = false;
+				 }else if(num < 0 || eng < 0 || spe < 0 ){
+					 swal({
+						  text: "영문,숫자, 특수문자를 혼합하여 입력해주세요.",
+						  icon: "error",
+						  button: "닫기",
+					});
+				  	result = false;
+				 }
+				if(result == true){
+					var url = 'passwordpopup';
+				    var name = "password update popup";
+				    var option = "width = 500, height =230, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+				    window.open(url, name, option);
+				}
+			}
 			//비밀번호 수정
 			function update_password() {
 				var password = $('#password').val();
@@ -64,6 +99,13 @@
 					url : "../employee/password",
 					data : {password : password},
 					success : function(data) {
+						$('#password').val('');
+						swal({
+							  title: "비밀먼호 초기화 성공.",
+							  icon: "success",
+							  button: "닫기",
+						});
+						
 					}
 				});
 			}
@@ -316,10 +358,10 @@
 															</div>
 														</div>
 														<div class="col-sm-7">
-															<input type="text" class="form-control" id="password" name="password" placeholder="수정하고싶은 비밀번호를 입력하세요."/>
+															<input type="password" class="form-control" id="password" name="password" placeholder="수정하고싶은 비밀번호를 입력하세요."/>
 														</div>
 														<div class="col-sm-2">
-															<button onclick="update_password()" class="btn btn-md btn-inverse-primary btn-icon-text d-flex align-items-center m-1">
+															<button onclick="popup()" class="btn btn-md btn-inverse-primary btn-icon-text d-flex align-items-center m-1">
 																<i class="mdi mdi-key"></i> 
 																<span class="ml-2 font-weight-bold">수정</span>
 															</button>
@@ -333,33 +375,6 @@
 							</div>
 						</div>
 					</div><!-- End information -->
-					<!-- Start detail information -->
-					<div class="row">
-						<div class="col-lg-12 grid-margin stretch-card">
-							<div class="card">
-								<div class="card-body">
-									<!-- 테이블 -->
-									<div class="table-responsive">
-										<table class="table">
-											<thead>
-												<tr>
-													<th class="text-primary col-2 h3">근무기간</th>
-													<th class="text-primary col-7 h3">프로젝트 명</th>
-													<th class="text-primary col-3 h3">근무지</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-									<!-- 테이블 끝 -->
-								</div>
-							</div>
-						</div>
-					</div><!-- End detail information -->
 				</div>
 				<!-- partial:partials/_footer.jsp -->
 				<%@ include file="/WEB-INF/views/common/_footer.jsp"%>
