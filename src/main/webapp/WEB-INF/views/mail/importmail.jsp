@@ -9,10 +9,34 @@
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mail.css"/>
 		<script>
         function popup(){
-            var url = "importpopup";
-            var name = "import popup";
-            var option = "width = 500, height = 250, top = 100, left = 200, location = no, resizable=no, scrollbars=no  "
-            window.open(url, name, option);
+        	swal({
+			  title: "중요 메일입니다.",
+			  text: "휴지통으로 보내기 하시겠습니까?",
+			  icon: "warning",
+			  buttons: {
+			    cancel: {
+			      text: "취소",
+			      value: null,
+			      visible: true,
+			      className: "",
+			      closeModal: true,
+			    },
+			    confirm: {
+			      text: "확인",
+			      value: true,
+			      visible: true,
+			      className: "",
+			      closeModal: true
+			    }
+			  },
+			})
+			.then((value) => {
+			  if (value) {
+			    onclick=pager(-2);
+			  } else {
+			     close();
+			  }
+			});
         }
         function pager(No){
         	var result;
@@ -36,13 +60,18 @@
 			$('input[name="optradio"]:checked').each(function(i){//체크된 리스트 저장
 				mailArray.push($(this).val());
 	        });
-			
+			if(No == ''){
+				No='1';
+			}
 			if(star == ''){
 				star = '0';
 			}
 			if(mailArray == ''){
 				mailArray[0]='0';
-			}.
+			}
+			if(result == null){
+				result = 'stay';
+			}
 			var data = {mailId : star, mailList : mailArray, page : No, result : result};
 			console.log(data);
 			jQuery.ajax({

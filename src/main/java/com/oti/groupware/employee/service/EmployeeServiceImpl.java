@@ -65,6 +65,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 			employee.setEmpFileData(dbEmployee.getEmpFileData());
 			employee.setEmpFileType(dbEmployee.getEmpFileType());
 			employee.setEmpFileName(dbEmployee.getEmpFileName());
+			employee.setDepId(dbEmployee.getDepId());
+			employee.setInitialPasswordYN(dbEmployee.getInitialPasswordYN());
 			employee.setPosName(getPositionName(dbEmployee.getPosId()));
 			employee.setDepName(getDepartmentName(dbEmployee.getDepId()));
 		}
@@ -221,7 +223,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 			password = pe.encode(password);
 		}
-		employeeDao.updatePassword(empId, password);
+		employeeDao.mypageUpdatePassword(empId, password);
 	}
 
 	@Override

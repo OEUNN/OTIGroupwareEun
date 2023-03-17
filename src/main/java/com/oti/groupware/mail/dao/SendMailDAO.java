@@ -3,12 +3,13 @@ package com.oti.groupware.mail.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.junit.runners.Parameterized.Parameters;
 
 import com.oti.groupware.common.Pager;
 import com.oti.groupware.mail.dto.SendMail;
 
 public interface SendMailDAO {
-	public void insertTempMail(SendMail sendMail);
+	public void insertTempMail(@Param("sendMail")SendMail sendMail);
 	public void insertSendMail(SendMail sendMail);
 	public String getEmpIdById(int sendMailId);
 	public String getTitleById(int sendMailId);
@@ -23,7 +24,7 @@ public interface SendMailDAO {
 	public int getImportRowCount(@Param("empId")String empId);
 	public List<SendMail> getImportMail(@Param("empId")String empId, @Param("pager")Pager pager);
 	public SendMail getMailInformation(int sendMailId);
-	public String getWhereTable(@Param("mailId")int mailId, @Param("empId")String empId);
+	public List<String> getWhereTable(@Param("mailId")int mailId, @Param("empId")String empId);
 	public void importMailChangeImport(int mailId);
 	public int tempMailRowsCount(String empId);
 	public List<SendMail> getTempMail(@Param("empId")String empId, @Param("pager")Pager pager);

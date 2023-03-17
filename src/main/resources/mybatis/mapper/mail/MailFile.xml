@@ -17,6 +17,20 @@
     	where send_mail_id = #{sendMailId}
     </select>
 
+    <select id="getMailFile" parameterType="int" resultMap="mailsFileResult">
+        SELECT
+            mail_file_id,
+            send_mail_id,
+            mail_file_name,
+            mail_file_data,
+            mail_file_type,
+            mail_file_length
+        FROM
+            mails_files
+        WHERE
+             send_mail_id = #{mailFileId}
+    </select>
+    
     <select id="getMailFileById" parameterType="int" resultMap="mailsFileResult">
         SELECT
             mail_file_id,
@@ -26,9 +40,9 @@
             mail_file_type,
             mail_file_length
         FROM
-            project3.mails_files
+            mails_files
         WHERE
-            mail_file_id = #{mailFileId}
+             send_mail_id = #{mailFileId}
     </select>
 
     <insert id="insertMailFile" parameterType="mailFile">

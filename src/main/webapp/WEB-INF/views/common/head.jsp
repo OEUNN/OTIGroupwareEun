@@ -40,5 +40,6 @@ JS
 <script src="${pageContext.request.contextPath}/resources/js/template.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/settings.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/todolist.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- endinject -->
 
