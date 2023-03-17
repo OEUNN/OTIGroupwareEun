@@ -68,9 +68,9 @@
 	//근무시간수정, 추가근무신청서 양식 변경
 	function applicationChange(data) {
 		if (data == '근무시간수정') { //근무시간수정을 선택했을 경우
-			$("#change-title").html("근무시간수정 신청서");
+			$("#change-title").html("근무시간수정 신청");
 		} else { //추가근무를 선택했을 경우
-			$("#change-title").html("추가근무 보고서");
+			$("#change-title").html("추가근무 보고");
 		}
 
 		$.ajax({
@@ -161,7 +161,7 @@
 													<th>신청유형</th>
 													<th>신청날짜</th>
 													<th>결재자</th>
-													<th>신청결과</th>
+													<th>진행상태</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -241,23 +241,23 @@
 							<div class="card">
 								<div class="card-body">
 									<form>
-										<div class="d-flex align-items-baseline">
-											<div id="change-title" class="card-title">근무신청</div>
-											<div class="dropdown-toggle p-0 text-primary"
-												id="dropdownMenuButton8" data-toggle="dropdown"
-												aria-haspopup="true" aria-expanded="true">
-												<div class="dropdown-menu"
-													aria-labelledby="dropdownMenuButton8">
-													<button type="button" class="dropdown-item"
-														onclick="applicationChange('근무시간수정')">근무시간수정 신청서</button>
-													<button type="button" class="dropdown-item"
-														onclick="applicationChange('추가근무')">추가근무 보고서</button>
-												</div>
-											</div>
-										</div>
+										<div id="change-title" class="card-title">근무신청</div>
+										<!-- 라디오 버튼을 통해 근무신청폼 바뀜 -->
+										<div class="form-check">
+				                            <label class="form-check-label">
+				                            	<input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" onclick="applicationChange('근무시간수정')" value="">
+				                              	근무시간수정 신청
+				                            <i class="input-helper"></i></label>
+				                        </div>
+										<div class="form-check">
+				                            <label class="form-check-label">
+				                            	<input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" onclick="applicationChange('추가근무')" value="">
+				                              	추가근무 보고
+				                            <i class="input-helper"></i></label>
+				                        </div>
 										<!-- AJAX 작성폼이 바뀌는 부분 -->
 										<div id="change-form">
-											<div class="table-responsive px-3 py-2 mt-5">
+											<div class="table-responsive px-3 py-2 mt-3">
 												<!-- 고정 내용 -->
 												<table class="table">
 													<tbody>
@@ -308,7 +308,8 @@
 											</div>
 											<!-- 버튼 -->
 											<div class="row px-5 mt-3 justify-content-end">
-												<button type="button" class="btn btn-primary mr-2">신청</button>
+												<br>
+												<br>
 											</div>
 											<!-- 변경내용:end -->
 										</div>
