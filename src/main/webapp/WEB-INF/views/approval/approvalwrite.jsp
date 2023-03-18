@@ -26,7 +26,7 @@
 
 		fileInput.on("change", (event) => {
 		
-			//input태그의 파일목록
+			//input 태그의 업로드목록
 			const files = event.target.files;
 			let discardFiles = [];
 			
@@ -51,7 +51,12 @@
 						listItem.remove();
 					});
 					
-					listItem.append(document.createTextNode(file.name));
+					if (file.name.length <= 15) {
+						listItem.append(document.createTextNode(file.name));
+					}
+					else {
+						listItem.append(document.createTextNode(file.name.substring(0, 12) + "..."));
+					}
 					listItem.append(deleteButton);
 					$("#fileList").append(listItem);
 				}
@@ -74,37 +79,58 @@
 	    window.open(url, name, option);
 	}
 	
-	function isTitleExist(docTempYn) {
+	function isContentExist(docTempYn) {
 		if ($("iframe").contents().find("body").find("#A4") === null) {
 			Swal.fire({
 				title: "내용이 없습니다.",
 				width: 400
 			});
 		}
-		else if ($("iframe").contents().find("body").find(".documentTitle").text() === null || $("iframe").contents().find("body").find(".documentTitle").text() === '') {
+		else if ($("iframe").contents().find("body").find("#documentTitle").text() === null || $("iframe").contents().find("body").find("#documentTitle").text() === '') {
 			Swal.fire({
 				title: "제목은 필수입니다.",
 				width: 400
 			});
 		}
 		else {
-			$("#approvalForm").append('<input type="hidden" name="docTempYn" value="' + docTempYn + '"></input>');
-			$("#approvalForm").submit();
+			$('input[name="docTitle"]').val($("iframe").contents().find("body").find("#documentTitle").text());
+			$('input[name="docTempYn"]').val(docTempYn);
+					
+			if (docTempYn === 'N' || (docTempYn === 'Y' && $("#documentId").length === 0)) {
+				if (docTempYn === 'N' && $(".approvalLineItems").length < 1) {
+					Swal.fire({
+						title: "자신을 제외하고 적어도 한명 이상의 결재자를 지정해주세요.",
+						width: 400
+					});
+				}
+				else {
+					$('input[name="docState"]').val('진행');
+					$("#approvalForm").attr('action', getContextPath() + '/approval/write');
+					$("#approvalForm").submit();
+				}
+			}
+			else if (docTempYn === 'Y' && $("#isDocumentExist").length !== 0){
+				$('input[name="docState"]').val('임시');
+				$("#approvalForm").attr('action', getContextPath() + '/approval/update');
+				$("#approvalForm").submit();
+			}
 		}
 	}
 	
 	function callTempDocument() {
-		if ($("#documentId").val() !== '' && $("#documentId").val() !== null) {
-			$(".remove-flag").remove();
-			let docId = $("#documentId").val();
-			$.ajax({
-				url: getContextPath() + '/approval/viewdetail/' + docId + '/documentdetail',
-				success: function(data) {
-					tinymce.get("document").setContent(data.docContent);
-					initForm();
-					editor.getBody().setAttribute('contenteditable',false);
-				} 
-			});
+		if ($("#documentId").length > 0) {
+			if ($("#documentId").val() !== '' && $("#documentId").val() !== null) {
+				$(".remove-flag").remove();
+				let docId = $("#documentId").val();
+				$.ajax({
+					url: getContextPath() + '/approval/viewdetail/' + docId + '/documentdetail',
+					success: function(data) {
+						tinymce.get("document").setContent(data.docContent);
+						initForm();
+						editor.getBody().setAttribute('contenteditable',false);
+					} 
+				});
+			}
 		}
 	}
 	
@@ -134,8 +160,7 @@
 			let nameList = $("iframe").contents().find(".nameText");
 			let dateList = $("iframe").contents().find(".dateText");
 			
-			let remover = '#' + receivedData.removeClass;
-			let removee = '.' + receivedData.removeClass;
+			let removeId = 'r' + receivedData.empId;
 			
 			//맨처음으로 들어오는 메시지 이벤트가 이전에 있던 결재선과 폼 안에 존재하는 결재선을 초기화
 			if (receivedIndex === 0) {
@@ -166,7 +191,28 @@
 			if (receivedData.lastIndex >= 0) {
 				
 				//결재선에 추가
-				$("#approvalLine").append(receivedData.content);
+				$("#approvalLine").append(
+					'<div class="' + removeId + ' d-flex align-items-stretch justify-content-center mb-0 remove-flag">' +
+						'<h1 class="mdi mdi-menu-down mt-1 mb-0"></h1>' +
+					'</div>' +
+					'<div class="' + removeId + ' card card-dark-blue grid-margin shadow-2 mb-0 remove-flag approvalLineItems">' +
+						'<div class="card-body">' +
+							'<div class="row">' +
+								'<div id=' + receivedData.empId + ' class="empId col-10 init-flag">' +
+									'<p class="text-white font-weight-bold">' +
+									receivedData.empName +
+									'</p>' +
+									'<p>' +
+									receivedData.depName + ' ' + receivedData.posName +
+									'</p>' +
+								'</div>' +
+								'<div class="col-2">' +
+									'<i id=' + removeId + ' class="' + receivedData.index + ' mdi mdi-close"></i>' +
+								'</div>' +
+							'</div>' +
+						'</div>' +
+					'</div>'
+				);
 
 				//문서 내부 결재선에 데이터 설정
 				$(positionList[receivedIndex + 1]).text(receivedData.posName);
@@ -174,39 +220,52 @@
 				$(nameList[receivedIndex + 1]).text(receivedData.empName);
 				$(dateList[receivedIndex + 1]).text("공란");
 				
-				$(positionList[receivedIndex + 1]).addClass(receivedData.removeClass);
-				$(stateList[receivedIndex + 1]).addClass(receivedData.removeClass);
-				$(nameList[receivedIndex + 1]).addClass(receivedData.removeClass);
-				$(dateList[receivedIndex + 1]).addClass(receivedData.removeClass);
+				$(positionList[receivedIndex + 1]).addClass(removeId);
+				$(stateList[receivedIndex + 1]).addClass(removeId);
+				$(nameList[receivedIndex + 1]).addClass(removeId);
+				$(dateList[receivedIndex + 1]).addClass(removeId);
 
 				//form 양식에 추가하기
-				$("#approvalForm").append('<input class="' + receivedData.removeClass + ' remove-flag" type="hidden" name="approvalId" value="' + receivedData.empId + '">');
-				$("#approvalForm").append('<input class="' + receivedData.removeClass + ' remove-flag" type="hidden" name="approvalName" value="' + receivedData.empName + '">');
-				$("#approvalForm").append('<input class="' + receivedData.removeClass + ' remove-flag" type="hidden" name="depName" value="' + receivedData.depName + '">');
-				$("#approvalForm").append('<input class="' + receivedData.removeClass + ' remove-flag" type="hidden" name="posName" value="' + receivedData.posName + '">');
-				$("#approvalForm").append('<input class="' + receivedData.removeClass + ' remove-flag" type="hidden" name="approvalOrder" value="' + receivedData.approvalOrder + '">');
-				$("#approvalForm").append('<input class="' + receivedData.removeClass + ' remove-flag" type="hidden" name="approvalState" value="공란">');
-				$("#approvalForm").append('<input class="' + receivedData.removeClass + ' remove-flag" type="hidden" name="approvalDate" value="공란">');
+				$("#approvalForm").append('<input class="' + removeId + ' remove-flag" type="hidden" name="empId" value="' + receivedData.empId + '">');
+				$("#approvalForm").append('<input class="' + removeId + ' remove-flag" type="hidden" name="aprvLineOrder" value="' + receivedData.approvalOrder + '">');
+				$("#approvalForm").append('<input class="' + removeId + ' remove-flag" type="hidden" name="aprvLineState" value="미결">');
+				$("#approvalForm").append('<input class="' + removeId + ' remove-flag" type="hidden" name="aprvLineRole" value="결재">');
 
+				
+				let remover = '#' + removeId;
+				let removee = '.' + removeId;
 				//x 아이콘에 클릭 시 삭제 이벤트 등록하기
 				$(remover).on('click', (event) => {
 					$(removee).remove();
 					
 					//결재선에서 삭제
 					$($("iframe").contents().find(removee).text("공란"));
+					$($("iframe").contents().find(removee).removeClass(removeId));
 					
 					//결재선에서 삭제 후 앞으로 당기기
 					for (i = 1; i < 5; i++) {
-						if ($(positionList[i - 1]).text() === "공란") {
+						if ($(positionList[i - 1]).text() === "공란" && $(positionList[i]).text !== "공란" && $(positionList[i]).attr("class").split(" ").length > 3) {
+							let currentId = $(positionList[i]).attr("class").split(" ").slice(-1);
+							
 							$(positionList[i - 1]).text($(positionList[i]).text());
 							$(stateList[i - 1]).text($(stateList[i]).text());
 							$(nameList[i - 1]).text($(nameList[i]).text());
 							$(dateList[i - 1]).text($(dateList[i]).text());
 							
+							$(positionList[i - 1]).addClass(currentId);
+							$(stateList[i - 1]).addClass(currentId);
+							$(nameList[i - 1]).addClass(currentId);
+							$(dateList[i - 1]).addClass(currentId);
+							
 							$(positionList[i]).text("공란");
 							$(stateList[i]).text("공란");
 							$(nameList[i]).text("공란");
 							$(dateList[i]).text("공란");
+							
+							$(positionList[i]).removeClass(currentId);
+							$(stateList[i]).removeClass(currentId);
+							$(nameList[i]).removeClass(currentId);
+							$(dateList[i]).removeClass(currentId);
 						}
 					}
 				});
@@ -227,10 +286,6 @@
 </head>
 <body>
 <div class="container-scroller">
-	<input type="hidden" id="drafterName" value="${sessionScope.employee.empName}">
-	<input type="hidden" id="drafterDepName" value="${sessionScope.employee.depName}">
-	<input type="hidden" id="drafterPosName" value="${sessionScope.employee.posName}">
-	<input type="hidden" id="documentId" name="docId" value="${document.docId}">
 	<!-- partial:../../partials/_navbar.jsp -->
 	<%@ include file="/WEB-INF/views/common/_navbar.jsp" %>
 	
@@ -267,10 +322,10 @@
 													<label class="form-check-label">
 													<c:choose>
 														<c:when test="${document.docType != null and document.docType == '휴일근무품의서'}">
-														<input type="radio" class="form-check-input" name="docType" value="extrawork" checked>휴일근무품의서
+														<input id="extrawork" form="approvalForm" type="radio" class="form-check-input" name="docType" value="휴일근무품의서" checked>휴일근무품의서
 														</c:when>
 														<c:when test="${document.docType == null || document.docType != '휴일근무품의서'}">
-														<input type="radio" class="form-check-input" name="docType" value="extrawork">휴일근무품의서
+														<input id="extrawork" form="approvalForm" type="radio" class="form-check-input" name="docType" value="휴일근무품의서">휴일근무품의서
 														</c:when>
 													</c:choose>
 													</label>
@@ -279,10 +334,10 @@
 													<label class="form-check-label">
 													<c:choose>
 														<c:when test="${document.docType != null and document.docType == '출장품의서'}">
-														<input type="radio" class="form-check-input" name="docType" value="businesstrip" checked>출장품의서
+														<input id="businesstrip" form="approvalForm" type="radio" class="form-check-input" name="docType" value="출장품의서" checked>출장품의서
 														</c:when>
 														<c:when test="${document.docType == null || document.docType != '출장품의서'}">
-														<input type="radio" class="form-check-input" name="docType" value="businesstrip">출장품의서
+														<input id="businesstrip" form="approvalForm" type="radio" class="form-check-input" name="docType" value="출장품의서">출장품의서
 														</c:when>
 													</c:choose>
 													</label>
@@ -291,10 +346,10 @@
 													<label class="form-check-label">
 													<c:choose>
 														<c:when test="${document.docType != null and document.docType == '경조사품의서'}">
-														<input type="radio" class="form-check-input" name="docType" value="familyevent" checked>경조사품의서
+														<input id="familyevent" form="approvalForm" type="radio" class="form-check-input" name="docType" value="경조사품의서" checked>경조사품의서
 														</c:when>
 														<c:when test="${document.docType == null || document.docType != '경조사품의서'}">
-														<input type="radio" class="form-check-input" name="docType" value="familyevent">경조사품의서
+														<input id="familyevent" form="approvalForm" type="radio" class="form-check-input" name="docType" value="경조사품의서">경조사품의서
 														</c:when>
 													</c:choose>
 													</label>
@@ -303,10 +358,10 @@
 													<label class="form-check-label">
 													<c:choose>
 														<c:when test="${document.docType != null and document.docType == '예비군공가품의서'}">
-														<input type="radio" class="form-check-input" name="docType" value="militaryservice" checked>예비군공가품의서
+														<input id="militaryservice" form="approvalForm" type="radio" class="form-check-input" name="docType" value="예비군공가품의서" checked>예비군공가품의서
 														</c:when>
 														<c:when test="${document.docType == null || document.docType != '예비군공가품의서'}">
-														<input type="radio" class="form-check-input" name="docType" value="militaryservice">예비군공가품의서
+														<input id="militaryservice" form="approvalForm" type="radio" class="form-check-input" name="docType" value="예비군공가품의서">예비군공가품의서
 														</c:when>
 													</c:choose>
 													</label>
@@ -335,7 +390,7 @@
 			            						<div class="r${approvalLine.empId} d-flex align-items-stretch justify-content-center mb-0 remove-flag">
 			            							<h1 class="mdi mdi-menu-down mt-1 mb-0"></h1>
 			            						</div>
-		            							<div class="r${approvalLine.empId} card card-dark-blue grid-margin shadow-2 mb-0 remove-flag">
+		            							<div class="r${approvalLine.empId} card card-dark-blue grid-margin shadow-2 mb-0 remove-flag approvalLineItems ">
 			            							<div class="card-body">
 				            							<div class="row">
 					            							<div id="${approvalLine.empId}" class="empId col-10 init-flag">
@@ -363,7 +418,7 @@
 											</c:if>
 											</div>
 										 	<div class="form-group bg-white">
-												<input type="file" id="fileUploader" class="file-upload-default" form="approvalForm" name="files" multiple>
+												<input form="approvalForm" type="file" id="fileUploader" class="file-upload-default" name="files" multiple>
 												<div class="input-group col-xs-12">
 													<span class="input-group-append w-100">
 														<button class="file-upload-browse btn btn-primary" style="border-radius: 0; width: inherit;" type="button">파일 첨부</button>
@@ -374,48 +429,55 @@
 	            					</div>
 	            					<div class="col-9 card grid-margin mb-3 d-flex justify-content-center flex-column" style="background-color: transparent; box-shadow: 0px 0px 0px white;">
 		        						<div class="card-body grid-margin">
-											<form id="approvalForm" action="<c:url value='/approval/approvalwrite'/>" method="post" enctype="multipart/form-data">
 											<div class="d-flex justify-content-between align-items-center mb-4">
 												<div class="card-title mb-0">문서 내용</div>
 												<div class="d-flex">
-													<button onclick="isTitleExist('Y')" type="button" id="popup-btn" class="btn btn-md btn-warning mx-2">
+													<button onclick="isContentExist('Y')" type="button" id="popup-btn" class="btn btn-md btn-warning mx-2">
 														<span class="mdi mdi-calendar-clock align-middle"></span>
 														<span>임시저장</span>
 													</button>
-													<button onclick="isTitleExist('N')" type="button" name="docTempYn" value="N" id="popup-btn" class="btn btn-md btn-primary mx-2">
+													<button onclick="isContentExist('N')" type="button" name="docTempYn" value="N" id="popup-btn" class="btn btn-md btn-primary mx-2">
 														<span class="mdi mdi-apple-keyboard-caps align-middle"></span>
 														<span>상신하기</span>
 													</button>
 												</div>
 											</div>
-		        								<textarea id="document" name="document" style="width: inherit;"></textarea>
-		        								<input type="hidden" name="drafterId" value="${sessionScope.employee.empId}">
-		        								<c:forEach items="${approvalLines}" var="approvalLine">
-		        								<c:if test="${approvalLine.aprvLineRole != '기안'}">
-													<input class="r${approvalLine.empId} remove-flag" type="hidden" name="approvalId" value="${approvalLine.empId}">
-													<input class="r${approvalLine.empId} remove-flag" type="hidden" name="approvalName" value="${approvalLine.employee.empName}">
-													<input class="r${approvalLine.empId} remove-flag" type="hidden" name="depName" value="${approvalLine.department.depName}">
-													<input class="r${approvalLine.empId} remove-flag" type="hidden" name="posName" value="${approvalLine.position.posName}">
-													<input class="r${approvalLine.empId} remove-flag" type="hidden" name="approvalOrder" value="${approvalLine.aprvLineOrder}">
-													<c:choose>
-													<c:when test='${approvalLine.aprvLineApprovalDate == null || approvalLine.aprvLineApprovalDate == "공란"}'>
-													<input class="r${approvalLine.empId} remove-flag" type="hidden" name="approvalState" value="공란">
-													</c:when>
-													<c:otherwise>
-													<input class="r${approvalLine.empId} remove-flag" type="hidden" name="approvalState" value="${approvalLine.aprvLineApprovalDate}">
-													</c:otherwise>
-													</c:choose>
-													<c:choose>
-													<c:when test='${approvalLine.aprvLineState == null || approvalLine.aprvLineState == "공란"}'>
-													<input class="r${approvalLine.empId} remove-flag" type="hidden" name="approvalDate" value="공란">
-													</c:when>
-													<c:otherwise>
-													<input class="r${approvalLine.empId} remove-flag" type="hidden" name="approvalDate" value="${approvalLine.aprvLineState}">
-													</c:otherwise>
-													</c:choose>
-		        								</c:if>
-		        								</c:forEach>
-											</form>
+											
+	        								<textarea form="approvalForm" id="document" name="docContent" style="width: inherit;"></textarea>
+	        								
+	        								<c:if test="${document.docId != null}">
+	        								<input id="isDocumentExist" form="approvalForm" type="hidden" name="docId" value="${document.docId}">
+	        								</c:if>
+	        								<input form="approvalForm" type="hidden" name="docTitle" value="">
+	        								<input form="approvalForm" type="hidden" name="docState" value="">
+	        								<input form="approvalForm" type="hidden" name="docTempYn" value="">
+	        								
+	        								<!-- 기안자 -->
+	        								<input type="hidden" id="drafterName" value="${sessionScope.employee.empName}">
+	        								<input type="hidden" id="drafterDepName" value="${sessionScope.employee.depName}">
+	        								<input type="hidden" id="drafterPosName" value="${sessionScope.employee.posName}">
+											<input form="approvalForm" class="r${sessionScope.employee.empId}" type="hidden" name="empId" value="${sessionScope.employee.empId}">
+	        								<input form="approvalForm" class="r${sessionScope.employee.empId}" type="hidden" name="aprvLineRole" value="기안">
+											<input form="approvalForm" class="r${sessionScope.employee.empId}" type="hidden" name="aprvLineOrder" value="0">
+											<input form="approvalForm" class="r${sessionScope.employee.empId}" type="hidden" name="aprvLineApprovalDate" value="${approvalLine.aprvLineApprovalDate}">
+											<input form="approvalForm" class="r${sessionScope.employee.empId}" type="hidden" name="aprvLineState" value="승인">
+											
+											<!-- 결재자  -->
+	        								<c:forEach items="${approvalLines}" var="approvalLine">
+	        								<c:if test="${approvalLine.aprvLineRole != '기안'}">
+											<input form="approvalForm" class="r${approvalLine.empId} remove-flag" type="hidden" name="empId" value="${approvalLine.empId}">
+	        								<input form="approvalForm" class="r${approvalLine.empId} remove-flag" type="hidden" name="aprvLineRole" value="${approvalLine.aprvLineRole}">
+											<input form="approvalForm" class="r${approvalLine.empId} remove-flag" type="hidden" name="aprvLineOrder" value="${approvalLine.aprvLineOrder}">
+											
+											<c:if test='${approvalLine.aprvLineApprovalDate != null}'>
+											<input form="approvalForm" class="r${approvalLine.empId} remove-flag" type="hidden" name="aprvLineApprovalDate" value="${approvalLine.aprvLineApprovalDate}">
+											</c:if>
+											<c:if test='${approvalLine.aprvLineState != null}'>
+											<input form="approvalForm" class="r${approvalLine.empId} remove-flag" type="hidden" name="aprvLineState" value="${approvalLine.aprvLineState}">
+											</c:if>
+	        								</c:if>
+	        								</c:forEach>
+											<form id="approvalForm" method="post" enctype="multipart/form-data"></form>
 		        						</div>
 	            					</div>
             					</div>

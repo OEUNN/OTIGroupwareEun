@@ -108,10 +108,13 @@ public class ApprovalHandler {
 		}
 	}
 	
+	//열람
 	public boolean handleOpen() {
 		if (document != null && approvalLine != null) {
 			document.setDocReadYn("Y");
+			document.setDocState("열람");
 			approvalLine.setAprvLineOpenYn("Y");
+			approvalLine.setAprvLineState("열람");
 			return true;
 		}
 		else {

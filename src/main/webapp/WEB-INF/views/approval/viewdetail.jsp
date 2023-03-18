@@ -136,7 +136,7 @@
 										<form action="<c:url value="/approval/approvalwrite/${document.docId}"></c:url>">
 										<button type="submit" id="popup-btn" class="btn btn-md btn-primary mx-2">
 											<span class="mdi mdi-apple-keyboard-caps align-middle"></span>
-											<span>재상신하기</span>
+											<span>재기안하기</span>
 										</button>
 										</form>
 										</c:if>

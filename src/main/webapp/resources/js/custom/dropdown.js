@@ -102,7 +102,7 @@ function addAjaxEvent(list, isEditorContentEmpty) {
 	list.on('click', (e, isEditorContentEmpty) => {
 		$("iframe").contents().find("#tinymce").attr('contenteditable', true);
 		
-		documentType = $(e.target).val();
+		documentType = $(e.target).attr("id");
 		
 		if (tinymce.get("document").getContent() === '') {
 			$.ajax({
@@ -110,6 +110,8 @@ function addAjaxEvent(list, isEditorContentEmpty) {
 				success: function(data) {
 					tinymce.get("document").setContent(data);
 					initForm();
+				},
+				complete : function() {
 					$("iframe").contents().find("#tinymce").attr('contenteditable', false);
 					isEditorContentEmpty = false;
 				}
@@ -117,6 +119,8 @@ function addAjaxEvent(list, isEditorContentEmpty) {
 		}
 		else {
 			alert('작성한 내용이 있습니다.');
+			$("iframe").contents().find("#tinymce").attr('contenteditable', false);
+			editor.getBody().innerHTML = "<p>양식을 선택해주세요</p>";
 			isEditorContentEmpty = true;
 		}
 	});

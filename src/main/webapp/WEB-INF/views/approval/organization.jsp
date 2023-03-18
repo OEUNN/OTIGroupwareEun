@@ -106,32 +106,9 @@
 				var posName = empData[1];
 				//var empMail = empData[2];
 				
-				var removeClass = 'r' + empId;
 				var approvalOrder = $(element).attr('class').split(' ')[0];
 				
 				var sendData = {
-					content :	
-					'<div class="' + removeClass + ' d-flex align-items-stretch justify-content-center mb-0 remove-flag">' +
-						'<h1 class="mdi mdi-menu-down mt-1 mb-0"></h1>' +
-					'</div>' +
-					'<div class="' + removeClass + ' card card-dark-blue grid-margin shadow-2 mb-0 remove-flag">' +
-						'<div class="card-body">' +
-							'<div class="row">' +
-								'<div id=' + empId + ' class="empId col-10 init-flag">' +
-									'<p class="text-white font-weight-bold">' +
-										empName +
-									'</p>' +
-									'<p>' +
-										depName + ' ' + posName +
-									'</p>' +
-								'</div>' +
-								'<div class="col-2">' +
-									'<i id=' + removeClass + ' class="' + index + ' mdi mdi-close"></i>' +
-								'</div>' +
-							'</div>' +
-						'</div>' +
-					'</div>',
-					removeClass : removeClass,
 					empId : empId,
 					empName : empName,
 					depName : depName,

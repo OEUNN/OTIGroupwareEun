@@ -3,19 +3,14 @@ package com.oti.groupware.approval.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Base64.Encoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
-import javax.sound.sampled.AudioFormat.Encoding;
 
-import org.apache.commons.lang3.CharSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,12 +23,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.oti.groupware.approval.component.QueryHandler;
 import com.oti.groupware.approval.dto.ApprovalLine;
+import com.oti.groupware.approval.dto.ApprovalLines;
 import com.oti.groupware.approval.dto.Document;
 import com.oti.groupware.approval.dto.DocumentContent;
 import com.oti.groupware.approval.dto.DocumentFile;
@@ -265,22 +260,40 @@ public class ApprovalController {
 		return "approval/approvalwrite";
 	}
 	
-	//결재 문서 상신
-	@RequestMapping(value = "/writedraft", method=RequestMethod.POST)
-	public String postApprovalWrite(@RequestParam("document") String document, @RequestParam("docTempYn") String docTempYn, DocumentContent documentContent, @RequestParam("files") MultipartFile[] multipartFiles,  @RequestParam("drafterId") String drafterId) throws IOException {
-		log.info("저장 하려는 HTML이 존재하는가:" + !(document.isEmpty()));
+	//결재 문서 저장
+	@RequestMapping(value = "/write", method=RequestMethod.POST)
+	public String postApprovalWrite(ApprovalLines approvalLines, DocumentContent documentContent, @RequestParam("files") MultipartFile[] multipartFiles) throws IOException {
+		log.info("받음:" + documentContent);
+		log.info(approvalLines);
 		
-		documentService.saveDraftDocument(document, documentContent, docTempYn, multipartFiles);
+		document = new Document();
+		document.setDocId(documentContent.getDocId());
+		document.setDocState(documentContent.getDocState());
+		document.setDocTempYn(documentContent.getDocTempYn());
+		document.setDocTitle(documentContent.getDocTitle());
+		document.setDocContent(documentContent.getDocContent());
+		document.setDocType(documentContent.getDocType());
+		
+		documentService.saveDocument(approvalLines, document, multipartFiles);
 		
 		return "redirect:/approval/draftdocument";
 	}
 	
-	//결재 문서 임시저장
-	@RequestMapping(value = "/writetemp", method=RequestMethod.POST)
-	public String postApprovalWriteTemp(@RequestParam("document") String document, @RequestParam("docTempYn") String docTempYn, DocumentContent documentContent, @RequestParam("files") MultipartFile[] multipartFiles,  @RequestParam("drafterId") String drafterId) throws IOException {
-		log.info("저장 하려는 HTML이 존재하는가:" + !(document.isEmpty()));
+	//결재 문서 업데이트(같은 문서를 임시저장 2번 한 경우)
+	@RequestMapping(value = "/update", method=RequestMethod.POST)
+	public String postApprovalUpdate(ApprovalLines approvalLines, DocumentContent documentContent, @RequestParam("files") MultipartFile[] multipartFiles) throws IOException {
+		log.info("받음:" + documentContent);
+		log.info(approvalLines);
 		
-		documentService.saveTempDocument(document, documentContent, docTempYn, multipartFiles);
+		document = new Document();
+		document.setDocId(documentContent.getDocId());
+		document.setDocState(documentContent.getDocState());
+		document.setDocTempYn(documentContent.getDocTempYn());
+		document.setDocTitle(documentContent.getDocTitle());
+		document.setDocContent(documentContent.getDocContent());
+		document.setDocType(documentContent.getDocType());
+		
+		documentService.updateDocument(approvalLines, document, multipartFiles);
 		
 		return "redirect:/approval/draftdocument";
 	}
@@ -357,13 +370,16 @@ public class ApprovalController {
 
 	//결재 문서 내용 요청
 	@RequestMapping(value = "/viewdetail/{docId}/documentdetail", method=RequestMethod.GET)
-	public @ResponseBody Document getDocumentDetail(@PathVariable String docId) {
+	public ResponseEntity<Document> getDocumentDetail(@PathVariable String docId) {
 		log.info("문서 번호: " + docId);
 		
-		document = documentService.readDocument(docId);
-		
-		log.info("보여줄 HTML이 비었는가: " + "".equals(document.getDocContent()));
-		return document;
+		if (!"".equals(docId) && !docId.isEmpty()) {
+			document = documentService.readDocument(docId);
+			return new ResponseEntity<Document>(document,new HttpHeaders(), HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<Document>(document,new HttpHeaders(), HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	//결재 문서 승인 또는 반려 요청

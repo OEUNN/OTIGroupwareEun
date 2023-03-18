@@ -1,6 +1,7 @@
 package com.oti.groupware.approval.dto;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import com.oti.groupware.employee.dto.Department;
 import com.oti.groupware.employee.dto.Employee;

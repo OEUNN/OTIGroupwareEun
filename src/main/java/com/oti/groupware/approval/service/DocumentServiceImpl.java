@@ -17,6 +17,7 @@ import com.oti.groupware.approval.dao.ApprovalLineDAO;
 import com.oti.groupware.approval.dao.DocumentDAO;
 import com.oti.groupware.approval.dao.DocumentFileDAO;
 import com.oti.groupware.approval.dto.ApprovalLine;
+import com.oti.groupware.approval.dto.ApprovalLines;
 import com.oti.groupware.approval.dto.Document;
 import com.oti.groupware.approval.dto.DocumentContent;
 import com.oti.groupware.approval.dto.DocumentFile;
@@ -24,7 +25,6 @@ import com.oti.groupware.approval.dto.SearchQuery;
 import com.oti.groupware.common.Pager;
 import com.oti.groupware.common.dto.Organization;
 import com.oti.groupware.employee.dao.EmployeeDAO;
-import com.oti.groupware.mail.dto.EmployeeInfo;
 @Service
 public class DocumentServiceImpl implements DocumentService {
 	Document document;
@@ -81,37 +81,25 @@ public class DocumentServiceImpl implements DocumentService {
 	}
 	
 	@Override
-	public void applyDocumentContentToHTML(String drafterId, Document document, String html, DocumentContent documentContent) {
-		EmployeeInfo drafter = employeeDAO.mailInfo(drafterId);
-		document.setDocContent(documentParser.initializetHTML(html, document, documentContent, drafter));
-	}
-	
-	//기안 문서를 저장
-	@Override
 	@Transactional
-	public void saveDraftDocument(String html, DocumentContent documentContent, String docTempYn, MultipartFile[] multipartFiles) throws IOException {
-		documentParser.setParsingTarget(html);
+	public void saveDocument(ApprovalLines approvalLines, Document document, MultipartFile[] multipartFiles) throws IOException {
+		String drafterId = approvalLines.getEmpId()[0];
+		int approvalLineSize = approvalLines.getEmpId().length;
 		
-		document.setEmpId(documentContent.getDrafterId());
-		document.setDocContent(html);
-		document.setDocType(documentParser.getTokenById("documentType"));
-		document.setDocTitle(documentParser.getTokenById("documentTitle"));
-		document.setDocMaxStep(documentParser.getTokenSizeById("formApprovalState"));
+		document.setEmpId(drafterId);
+		document.setDocMaxStep(approvalLineSize);
 		document.setDocReportDate(Timestamp.valueOf(LocalDateTime.now()));
-		if (document.getDocWriteDate() == null) {
-			document.setDocWriteDate(Timestamp.valueOf(LocalDateTime.now()));
-		}
-		document.setDocState("결재중");
-		document.setDocTempYn("N");
+		document.setDocWriteDate(Timestamp.valueOf(LocalDateTime.now()));
 		
-		//결재문서는 타입에 따라 보관기간, 아이디를 받음
+		//결재문서는 타입에 따라 아이디와 보관기간을 받음
 		String documentType = document.getDocType();
+		document.setDocId(documentContentProvider.getDocumentIdByDocumentType(documentType, document.getDocTempYn()));
 		document.setDocRetentionPeriod(documentContentProvider.getDocumentRetentionPeriodByDocumentType(documentType));
-		document.setDocId(documentContentProvider.getDocumentIdByDocumentType(documentType, "N"));
-		//html도 바꿔야함(applyDocumentContentToHTML)
+		
 		documentDAO.insertDraftDocument(document);
 		
 		String docId = document.getDocId();
+		
 		if (multipartFiles != null && multipartFiles.length > 0) {
 			for (MultipartFile multipartFile : multipartFiles) {
 				if (!("".equals(multipartFile.getOriginalFilename())) && multipartFile.getOriginalFilename() != null) {
@@ -125,61 +113,37 @@ public class DocumentServiceImpl implements DocumentService {
 				}
 			}
 		}
-
-		approvalLine = new ApprovalLine();
-		approvalLine.setEmpId(documentContent.getDrafterId());
-		approvalLine.setDocId(document.getDocId());
-		approvalLine.setAprvLineState("승인");
-		approvalLine.setAprvLineOrder(0);
-		approvalLine.setAprvLineRole("기안");
-		approvalLineDAO.defaultInsertApprovalLine(approvalLine);
 		
-		int approvalLineLength = documentContent.getApprovalId().length;			
-		for (int i = 0; i < approvalLineLength; i++) {
+		for (int i = 0; i < approvalLineSize; i++) {
 			approvalLine = new ApprovalLine();
-			approvalLine.setEmpId(documentContent.getApprovalId()[i]);
 			approvalLine.setDocId(document.getDocId());
-			approvalLine.setAprvLineState(documentContent.getApprovalState()[i]);
-			approvalLine.setAprvLineOrder(documentContent.getApprovalOrder()[i]);
-			approvalLine.setAprvLineRole("결재");
+			approvalLine.setEmpId(approvalLines.getEmpId()[i]);
+			approvalLine.setAprvLineOrder(approvalLines.getAprvLineOrder()[i]);
+			approvalLine.setAprvLineRole(approvalLines.getAprvLineRole()[i]);
+			approvalLine.setAprvLineState(approvalLines.getAprvLineState()[i]);
 			approvalLineDAO.defaultInsertApprovalLine(approvalLine);
 		}
 	}
 	
-	//임시상태의 문서를 저장
 	@Override
 	@Transactional
-	public void saveTempDocument(String html, DocumentContent documentContent, String docTempYn, MultipartFile[] multipartFiles) throws IOException {
-		documentParser.setParsingTarget(html);
+	public void updateDocument(ApprovalLines approvalLines, Document document, MultipartFile[] multipartFiles) throws IOException {
+		String drafterId = approvalLines.getEmpId()[0];
+		int approvalLineSize = approvalLines.getEmpId().length;
 		
-		document.setEmpId(documentContent.getDrafterId());
-		document.setDocContent(html);
-		document.setDocType(documentParser.getTokenById("documentType"));
-		document.setDocTitle(documentParser.getTokenById("documentTitle"));
+		document.setEmpId(drafterId);
+		document.setDocMaxStep(approvalLineSize);
+		document.setDocReportDate(Timestamp.valueOf(LocalDateTime.now()));
 		document.setDocWriteDate(Timestamp.valueOf(LocalDateTime.now()));
-		document.setDocTempYn(docTempYn);
 		
-		String documentType = document.getDocType();
-		
-		//임시 상태의 문서를 기안
-		if ("N".equals(docTempYn)) {
-			document.setDocMaxStep(documentParser.getTokenSizeById("formApprovalState"));
-			document.setDocReportDate(Timestamp.valueOf(LocalDateTime.now()));
-			document.setDocRetentionPeriod(documentContentProvider.getDocumentRetentionPeriodByDocumentType(documentType));
-			document.setDocId(documentContentProvider.getDocumentIdByDocumentType(documentType, docTempYn));
-			document.setDocState("결재중");
-			documentDAO.insertTempDocument(document);
-		}
-		//임시 상태의 문서를 다시 임시저장 -> update
-		//update 시 DB 상에 있는 결재선과 첨부파일 초기화
-		else {
-			//html도 바꿔야함(applyDocumentContentToHTML)
-			documentDAO.updateDocument(document);
-			approvalLineDAO.deleteApprovalLineByDocId(document.getDocId());
-			documentFileDAO.deleteDocumentFile(document.getDocId());
-		}
+		documentDAO.updateDocument(document);
 		
 		String docId = document.getDocId();
+		
+		//결재선과 첨부파일 초기화 후 새로이 삽입
+		approvalLineDAO.deleteApprovalLineByDocId(docId);
+		documentFileDAO.deleteDocumentFile(docId);
+		
 		if (multipartFiles != null && multipartFiles.length > 0) {
 			for (MultipartFile multipartFile : multipartFiles) {
 				if (!("".equals(multipartFile.getOriginalFilename())) && multipartFile.getOriginalFilename() != null) {
@@ -193,28 +157,15 @@ public class DocumentServiceImpl implements DocumentService {
 				}
 			}
 		}
-
-		approvalLine = new ApprovalLine();
-		approvalLine.setEmpId(documentContent.getDrafterId());
-		approvalLine.setDocId(document.getDocId());
-		approvalLine.setAprvLineState("승인");
-		approvalLine.setAprvLineOrder(0);
-		approvalLine.setAprvLineRole("기안");
-		approvalLineDAO.defaultInsertApprovalLine(approvalLine);
 		
-		//임시 상태의 문서는 결재선이 없을 수 있음
-		if ("Y".equals(docTempYn)) {
-			int approvalLineLength = documentContent.getApprovalId().length;			
-			for (int i = 0; i < approvalLineLength; i++) {
-				approvalLine = new ApprovalLine();
-				approvalLine.setEmpId(documentContent.getApprovalId()[i]);
-				approvalLine.setDocId(document.getDocId());
-				approvalLine.setAprvLineState(documentContent.getApprovalState()[i]);
-				approvalLine.setAprvLineOrder(documentContent.getApprovalOrder()[i]);
-				approvalLine.setAprvLineRole("결재");
-				
-				approvalLineDAO.defaultInsertApprovalLine(approvalLine);
-			}
+		for (int i = 0; i < approvalLineSize; i++) {
+			approvalLine = new ApprovalLine();
+			approvalLine.setDocId(document.getDocId());
+			approvalLine.setEmpId(approvalLines.getEmpId()[i]);
+			approvalLine.setAprvLineOrder(approvalLines.getAprvLineOrder()[i]);
+			approvalLine.setAprvLineRole(approvalLines.getAprvLineRole()[i]);
+			approvalLine.setAprvLineState(approvalLines.getAprvLineState()[i]);
+			approvalLineDAO.defaultInsertApprovalLine(approvalLine);
 		}
 	}
 	
@@ -285,11 +236,6 @@ public class DocumentServiceImpl implements DocumentService {
 			document = approvalHandler.getDocument();
 			approvalLine = approvalHandler.getApprovalLine();
 			approvalLines = approvalHandler.getApprovalLines();
-			for(ApprovalLine approvalLinesElement : approvalLines) {
-				if (!"기안".equals(approvalLinesElement.getAprvLineRole())) {
-					document.setDocContent(documentParser.setHTML(document.getDocContent(), approvalLinesElement)); 
-				}
-			}
 			
 			documentDAO.updateDocument(document);
 			approvalLineDAO.updateApprovalLine(approvalLine);
@@ -305,6 +251,7 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 	}
 	
+	//열람 처리
 	@Override
 	@Transactional
 	public boolean handleOpenRequest(String state, String docId, String empId) {

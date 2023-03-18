@@ -4,11 +4,11 @@
 }
 
 .mce-content-body [contentEditable=false] [contentEditable=true]:hover {
-    outline: 5px solid #4747A1;
+    outline: 3px solid #4747A1;
 }
 
 .mce-content-body [contentEditable=false] [contentEditable=true]:focus {
-    outline: 5px solid #4747A1;
+    outline: 3px solid #4747A1;
 }
 
 .form-table {
@@ -50,4 +50,11 @@ div[id="A4"] > * {
 
 .text-content {
 	font-size: 16px;
+}
+
+td[class~="positionText"], td[class~="stateText"], td[class~="nameText"], td[class~="dateText"] {
+	width: 0px;
+	height: 0px;
+	border-bottom: 1px solid black !important;
+	border-right: 1px solid black !important;
 }
