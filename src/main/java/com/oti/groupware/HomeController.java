@@ -55,7 +55,7 @@ public class HomeController {
 		List<Document> homeDocuments = new ArrayList<Document>();
 		if (documents != null && documents.size() > 0) {
 			for (int i = 0; i < 3; i++) {
-				homeDocuments.add(documents.get(i)); 
+//				homeDocuments.add(documents.get(i)); 
 			}
 		}
 		model.addAttribute("documents", homeDocuments);

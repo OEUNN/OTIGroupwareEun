@@ -46,12 +46,12 @@
 				<div class="card-body">
 					<div class="row text-center"
 						style="font-size: 13px; font-weight: bold;">
-						<div class="col-md px-0">미처리</div>
+						<div class="col-md px-0">신청</div>
 						<div class="col-md px-0">승인</div>
 						<div class="col-md px-0">반려</div>
 					</div>
 					<div class="row text-center font-weight-bold h3 mb-0">
-						<div class="col-md">${levAppStats['미처리']}</div>
+						<div class="col-md">${levAppStats['신청']}</div>
 						<div class="col-md">${levAppStats['승인']}</div>
 						<div class="col-md">${levAppStats['반려']}</div>
 					</div>
@@ -74,8 +74,8 @@
 							<c:forEach var="levApp" items="${levAppList}">
 								<tr onclick="levAppDetail('${levApp.levAppId}')">
 									<td class="text-center">
-										<c:if test="${levApp.levAppCancel ne '휴가취소'}"><small>${levApp.levAppCategory}</small></c:if>
-										<c:if test="${levApp.levAppCancel eq '휴가취소'}"><small class="text-danger">${levApp.levAppCategory}취소</small></c:if>
+										<c:if test="${levApp.levAppProcessState ne '취소신청' && levApp.levAppProcessState ne '취소완료'}"><small>${levApp.levAppCategory}</small></c:if>
+										<c:if test="${levApp.levAppProcessState eq '취소신청' || levApp.levAppProcessState eq '취소완료'}"><small class="text-danger">${levApp.levAppCategory}취소</small></c:if>
 									</td>
 									<td><small><fmt:formatDate value="${levApp.levAppDate}" pattern="yyyy-MM-dd" /></small></td>
 									<td><small> 
@@ -86,7 +86,7 @@
 									<td>${levApp.levAppApprovalEmpName}</td>
 									<td id="aprv-state${levApp.levAppId}">
 										<!-- 결재상태 --> 
-										<c:if test="${levApp.levAppProcessState == '미처리'}">
+										<c:if test="${levApp.levAppProcessState == '신청'}">
 											<div class="badge badge-secondary font-weight-bold text-white">${levApp.levAppProcessState}</div>
 										</c:if> 
 										<c:if test="${levApp.levAppProcessState == '승인'}">
@@ -94,6 +94,12 @@
 										</c:if> 
 										<c:if test="${levApp.levAppProcessState == '반려'}">
 											<div class="badge badge-danger font-weight-bold">${levApp.levAppProcessState}</div>
+										</c:if>
+										<c:if test="${levApp.levAppProcessState == '취소신청'}">
+											<div class="badge badge-outline-danger font-weight-bold">${levApp.levAppProcessState}</div>
+										</c:if>
+										<c:if test="${levApp.levAppProcessState == '취소완료'}">
+											<div class="badge badge-warning font-weight-bold">${levApp.levAppProcessState}</div>
 										</c:if>
 									</td>
 								</tr>

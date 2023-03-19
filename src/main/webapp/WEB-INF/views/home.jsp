@@ -221,17 +221,14 @@
 												<!-- 출근 -->
 												<div class="col-md">
 													<!-- 출근버튼 클릭 전 -->
-													<c:if
-														test="${empty attendance.atdInTime && attendance.atdState ne '연차' && attendance.atdState ne '대체휴무'}">
+													<c:if test="${empty attendance.atdInTime && attendance.atdState ne '연차' && attendance.atdState ne '대체휴무'}">
 														<div class="card card-dark-blue">
 															<div class="card-body">
 																<div class="row">
 																	<div class="col-md d-flex align-items-center">
-																		<button
-																			onclick="location.href='${pageContext.request.contextPath}/hr/intime?nowJsp=home'"
+																		<button onclick="location.href='${pageContext.request.contextPath}/hr/intime?nowJsp=home'"
 																			class="btn btn-md btn-light text-primary px-3">
-																			<h3
-																				class="d-flex align-items-center font-weight-bold mb-0 pt-1">
+																			<h3 class="d-flex align-items-center font-weight-bold mb-0 pt-1">
 																				<div class="mdi mdi-alarm-check"></div>
 																				<div class="ml-2">출근</div>
 																			</h3>
@@ -272,8 +269,7 @@
 														</div>
 													</c:if>
 													<!-- 퇴근버튼 클릭 후 -->
-													<c:if
-														test="${!empty attendance.atdInTime && !empty attendance.atdOutTime}">
+													<c:if test="${(!empty attendance.atdInTime && !empty attendance.atdOutTime) || (attendance.atdState eq '연차' || attendance.atdState eq '대체휴무')}">
 														<div class="card bg-secondary">
 															<div class="card-body">
 																<div class="row">
@@ -335,8 +331,7 @@
 														</div>
 													</c:if>
 													<!--  출근버튼 클릭 후 -->
-													<c:if
-														test="${!empty attendance.atdInTime && empty attendance.atdOutTime && attendance.atdState ne '연차' && attendance.atdState ne '대체휴무'}">
+													<c:if test="${!empty attendance.atdInTime && empty attendance.atdOutTime && attendance.atdState ne '연차' && attendance.atdState ne '대체휴무'}">
 														<div class="card card-light-danger">
 															<div class="card-body">
 																<div class="row">
@@ -359,8 +354,7 @@
 														</div>
 													</c:if>
 													<!-- 퇴근버튼 클릭 후 -->
-													<c:if
-														test="${!empty attendance.atdInTime && !empty attendance.atdOutTime}">
+													<c:if test="${(!empty attendance.atdInTime && !empty attendance.atdOutTime) || (attendance.atdState eq '연차' || attendance.atdState eq '대체휴무')}">
 														<div class="card bg-secondary">
 															<div class="card-body">
 																<div class="row">

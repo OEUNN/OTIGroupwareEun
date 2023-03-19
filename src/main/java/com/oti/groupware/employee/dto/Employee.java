@@ -17,8 +17,8 @@ public class Employee {
     private String empPassword;
     private String empExtensionNumber;
     private String empPhoneNumber;
-    private int empLeaveReserve;
-    private int empSubstitueReserve;
+    private double empLeaveReserve;
+    private double empSubstitueReserve;
     private int empLoginFailuresCnt;
     private byte[] empFileData;
     private MultipartFile empFileDataMulti;
