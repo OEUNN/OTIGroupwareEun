@@ -276,7 +276,12 @@ public class ApprovalController {
 		
 		documentService.saveDocument(approvalLines, document, multipartFiles);
 		
-		return "redirect:/approval/draftdocument";
+		if ("N".equals(document.getDocTempYn())) {
+			return "redirect:/approval/draftdocument";
+		}
+		else {
+			return "redirect:/approval/tempdocument";
+		}
 	}
 	
 	//결재 문서 업데이트(같은 문서를 임시저장 2번 한 경우)
@@ -295,7 +300,12 @@ public class ApprovalController {
 		
 		documentService.updateDocument(approvalLines, document, multipartFiles);
 		
-		return "redirect:/approval/draftdocument";
+		if ("N".equals(document.getDocTempYn())) {
+			return "redirect:/approval/draftdocument";
+		}
+		else {
+			return "redirect:/approval/tempdocument";
+		}
 	}
 	
 	//주소록 화면 요청
