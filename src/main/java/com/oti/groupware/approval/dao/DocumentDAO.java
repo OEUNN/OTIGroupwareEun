@@ -31,12 +31,11 @@ public interface DocumentDAO {
 	public int getReturnedDocumentCount(String empId);
 	public List<Document> getReturnedDocumentList(@Param("pager") Pager pager, @Param("empId") String empId);
 	
-	public int getCompletedDocumentCount(String empId);
-	public List<Document> getCompletedDocumentList(@Param("pager") Pager pager, @Param("empId") String empId);
-	
 	public int getTempDocumentCount(String empId);
 	public List<Document> getTempDocumentList(@Param("pager") Pager pager, @Param("empId") String empId);
 	
+	public int getTakePartInDocumentCount(String empId);
+	public List<Document> getTakePartInDocumentList(@Param("pager") Pager pager, @Param("empId") String empId);
 	
 	
 	public int getDraftDocumentCountByQuery(@Param("empId") String empId, @Param("searchQuery") SearchQuery searchQuery);

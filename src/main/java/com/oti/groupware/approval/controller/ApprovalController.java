@@ -101,21 +101,21 @@ public class ApprovalController {
 		return "approval/draftdocument";
 	}
 	
-	//완결문서함
-	@RequestMapping(value="/completeddocument", method=RequestMethod.GET)
-	public String getCompletedDocumentList(HttpSession session, Model model) {
-		return getCompletedDocumentList(1, session, model);
+	//열람문서함
+	@RequestMapping(value="/takepartindocument", method=RequestMethod.GET)
+	public String getTakePartInDocumentList(HttpSession session, Model model) {
+		return getTakePartInDocumentList(1, session, model);
 	}
 	
-	//완결문서함
-	@RequestMapping(value="/completeddocument/{pageNo}", method=RequestMethod.GET)
-	public String getCompletedDocumentList(@PathVariable int pageNo, HttpSession session, Model model) {
+	//열람문서함
+	@RequestMapping(value="/takepartindocument/{pageNo}", method=RequestMethod.GET)
+	public String getTakePartInDocumentList(@PathVariable int pageNo, HttpSession session, Model model) {
 		log.info("페이지 번호: " + pageNo);
 		
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
 		pager = new Pager();
 		
-		documents = documentService.getCompletedDocumentList(pageNo, pager, empId);
+		documents = documentService.getTakePartInDocumentList(pageNo, pager, empId);
 		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
 		
 		Pager returnPager = new Pager(pager.getRowsPerPage(), pager.getPagesPerGroup(), pager.getTotalRows(), pageNo);
@@ -130,7 +130,7 @@ public class ApprovalController {
 		for (List<ApprovalLine> approvalLines : approvalLinesList) {
 			log.info("결재자 목록: " + approvalLines);
 		}
-		return "approval/completeddocument";
+		return "approval/takepartindocument";
 	}
 	
 	//결재대기함
@@ -239,7 +239,7 @@ public class ApprovalController {
 	}
 	
 	//결재 문서 작성 화면
-	@RequestMapping(value = "/approvalwrite", method=RequestMethod.GET)
+	@RequestMapping(value = "/write", method=RequestMethod.GET)
 	public String getApprovalWrite(HttpSession session) {
 		log.info("실행");
 		
@@ -247,7 +247,7 @@ public class ApprovalController {
 	}
 	
 	//결재 문서 작성 화면
-	@RequestMapping(value = "/approvalwrite/{docId}", method=RequestMethod.GET)
+	@RequestMapping(value = "/write/{docId}", method=RequestMethod.GET)
 	public String getApprovalWrite(@PathVariable("docId") String docId, HttpSession session, Model model) {
 		log.info("문서번호: " + docId);
 		
@@ -355,6 +355,34 @@ public class ApprovalController {
 		}
 		return "approval/viewdetail";
 	}
+
+	//결재 문서 내용 요청
+	@RequestMapping(value = "/viewdetail/{docId}/documentdetail", method=RequestMethod.GET)
+	public ResponseEntity<Document> getDocumentDetail(@PathVariable String docId) {
+		log.info("문서 번호: " + docId);
+		
+		if (!("".equals(docId)) && !(docId.isEmpty())) {
+			document = documentService.readDocument(docId);
+			return new ResponseEntity<Document>(document, new HttpHeaders(), HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<Document>(document, new HttpHeaders(), HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	//결재 문서 결재선 요청
+	@RequestMapping(value = "/viewdetail/{docId}/approvallinedetail", method=RequestMethod.GET)
+	public ResponseEntity<List<ApprovalLine>> getApprovalLineDetail(@PathVariable String docId) {
+		log.info("문서 번호: " + docId);
+		
+		if (!("".equals(docId)) && !(docId.isEmpty())) {
+			approvalLines = approvalLineService.getApprovalLines(docId);
+			return new ResponseEntity<List<ApprovalLine>>(approvalLines, new HttpHeaders(), HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<List<ApprovalLine>>(approvalLines, new HttpHeaders(), HttpStatus.NOT_FOUND);
+		}
+	}
 	
 	//첨부파일 다운로드
 	@RequestMapping(value ="/filedownload/{docFileId}", method=RequestMethod.GET)
@@ -367,24 +395,10 @@ public class ApprovalController {
 		headers.setContentDispositionFormData("attachment", URLEncoder.encode(documentFile.getDocFileName(), "UTF-8"));
 		return new ResponseEntity<byte[]>(documentFile.getDocFileData(), headers, HttpStatus.OK);
 	}
-
-	//결재 문서 내용 요청
-	@RequestMapping(value = "/viewdetail/{docId}/documentdetail", method=RequestMethod.GET)
-	public ResponseEntity<Document> getDocumentDetail(@PathVariable String docId) {
-		log.info("문서 번호: " + docId);
-		
-		if (!"".equals(docId) && !docId.isEmpty()) {
-			document = documentService.readDocument(docId);
-			return new ResponseEntity<Document>(document,new HttpHeaders(), HttpStatus.OK);
-		}
-		else {
-			return new ResponseEntity<Document>(document,new HttpHeaders(), HttpStatus.NOT_FOUND);
-		}
-	}
 	
 	//결재 문서 승인 또는 반려 요청
 	@RequestMapping(value = "/viewdetail/{docId}", method=RequestMethod.POST)
-	public String postApprovalStatae(@RequestParam("aprvLineState") String state, @RequestParam("aprvLineOpinion") String opinion, @PathVariable("docId") String docId, HttpSession session, Model model) {
+	public String postApprovalState(@RequestParam("aprvLineState") String state, @RequestParam("aprvLineOpinion") String opinion, @RequestParam("attached") boolean attached, @PathVariable("docId") String docId, HttpSession session, Model model) {
 		log.info("문서 번호: " + docId);
 		log.info("상태: " + state);
 		log.info("의견: " + opinion);
@@ -394,7 +408,12 @@ public class ApprovalController {
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
 		
 		if ("승인".equals(state)) {
-			result = documentService.handleApproveRequest(state, opinion, docId, empId);
+			if (attached) {
+				result = documentService.handleApproveRequest(state, opinion, docId, empId);
+			}
+			else {
+				result = documentService.handleApproveRequest(state, null, docId, empId);
+			}
 		}
 		else if ("반려".equals(state)) {
 			result = documentService.handleReturnRequest(state, opinion, docId, empId);
@@ -503,13 +522,6 @@ public class ApprovalController {
 	public String getDraftDocumentListByQuery(@ModelAttribute SearchQuery searchQuery, @RequestParam("searchBar") String searchBar, HttpSession session, Model model) {
 		log.info("검색 질의: " + searchQuery);
 		
-		if ("진행".equals(searchQuery.getDocState())) {
-			searchQuery.setDocState("결재중");
-		}
-		else if ("승인".equals(searchQuery.getDocState())) {
-			searchQuery.setDocState("완결");
-		}
-		
 		if (searchQuery.getDocTitle() == null || searchQuery.getDocTitle().isEmpty()) {
 			if (searchBar != null && !searchBar.isEmpty()) {
 				searchQuery.setDocTitle(searchBar);
@@ -596,13 +608,6 @@ public class ApprovalController {
 	public String getPendedDocumentListByQuery(@ModelAttribute SearchQuery searchQuery, @RequestParam("searchBar") String searchBar, HttpSession session, Model model) {
 		log.info("검색 질의: " + searchQuery);
 		
-		if ("진행".equals(searchQuery.getDocState())) {
-			searchQuery.setDocState("결재중");
-		}
-		else if ("승인".equals(searchQuery.getDocState())) {
-			searchQuery.setDocState("완결");
-		}
-		
 		if (searchQuery.getDocTitle() == null || searchQuery.getDocTitle().isEmpty()) {
 			if (searchBar != null && !searchBar.isEmpty()) {
 				searchQuery.setDocTitle(searchBar);
@@ -645,13 +650,6 @@ public class ApprovalController {
 	@RequestMapping(value = "/returneddocument/search", method=RequestMethod.GET)
 	public String getReturnedDocumentListByQuery(@ModelAttribute SearchQuery searchQuery, @RequestParam("searchBar") String searchBar, HttpSession session, Model model) {
 		log.info("검색 질의: " + searchQuery);
-		
-		if ("진행".equals(searchQuery.getDocState())) {
-			searchQuery.setDocState("결재중");
-		}
-		else if ("승인".equals(searchQuery.getDocState())) {
-			searchQuery.setDocState("완결");
-		}
 		
 		if (searchQuery.getDocTitle() == null || searchQuery.getDocTitle().isEmpty()) {
 			if (searchBar != null && !searchBar.isEmpty()) {

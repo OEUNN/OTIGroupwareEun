@@ -35,12 +35,11 @@
 		
 		$(() => {
 			let openerHTML = opener.$('#approvalLine');
-			let drafterId = openerHTML.find('input[name="drafterId"]').val();
-			appendToList(drafterId);
 			openerHTML.find('.remove-flag').each((index, item) => {
 				if (index % 2 === 0) {
-					var Id = item.classList[0].substring(1);
-					appendToList(Id);
+					var id = item.classList[0].substring(1);
+					console.log(id);
+					appendToList(id);
 				}
 			})
 		});
@@ -106,14 +105,20 @@
 				var posName = empData[1];
 				//var empMail = empData[2];
 				
-				var approvalOrder = $(element).attr('class').split(' ')[0];
+				var aprvLineOrder = $(element).attr('class').split(' ')[0];
 				
 				var sendData = {
 					empId : empId,
-					empName : empName,
-					depName : depName,
-					posName : posName,
-					approvalOrder : approvalOrder,
+					aprvLineOrder: aprvLineOrder,
+					employee: {
+						empName: empName
+					},
+					department: {
+						depName: depName
+					},
+					position: {
+						posName: posName
+					},
 					lastIndex : lastIndex,
 					index : index
 				}
@@ -121,7 +126,6 @@
 			//$(tagId).forEach
 			});
 			window.close();
-		//function sendApprovalLine
 		}
 		
 		function cancel() {

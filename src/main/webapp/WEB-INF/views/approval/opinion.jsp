@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 
@@ -35,6 +35,7 @@
 		let approvalLineState = $("#approvalLineState").val();
 		
 		let sendData = {
+			attached: true,
 			opinion : opinion,
 			approvalLineState : approvalLineState
 		}
@@ -47,7 +48,8 @@
 		let approvalLineState = $("#approvalLineState").val();
 		
 		let sendData = {
-			opinion : false,
+			attached: false,
+			opinion : null,
 			approvalLineState : approvalLineState
 		}
 		
@@ -72,7 +74,7 @@
 							<div class="container-fluid">
 								<div class="card-title row mx-1 my-3">
 									<input id="approvalLineState" type="hidden" value="${approvalLineState}">
-									<label for="opinionText">의견</label>
+									<label for="opinionText">의견 제시하기</label>
 								</div>
 								<div class="row m-1 mt-3 form-group d-flex flex-column">
 									<div class="form-group">
@@ -81,9 +83,11 @@
 								</div>
 								<div class="row mb-3" >
 									<div class="col"></div>
+									<c:if test="${approvalLineState == '승인'}">
 									<button class="col btn btn-primary btn-md mt-1 mx-3" onclick="omitOpinion()">의견 생략</button>
-									<button class="col btn btn-primary btn-md mt-1 mx-3" onclick="attachOpinion()">확인 </button>
-									<button class="col btn btn-outline-primary btn-md mt-1 mx-3" onclick="cancel()">취소</button>
+									</c:if>
+									<button class="col btn btn-primary btn-md mt-1 mx-3" onclick="attachOpinion()">작성 완료</button>
+									<button class="col btn btn-outline-primary btn-md mt-1 mx-3" onclick="cancel()">작성 취소</button>
 									<div class="col"></div>
 								</div>
 							</div>

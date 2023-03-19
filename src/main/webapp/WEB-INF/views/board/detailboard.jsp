@@ -10,7 +10,7 @@
       }
 </script>
 
-<form class="card-body">
+<div class="card-body">
 	<!-- main title and submit button -->
 	<div class="d-flex justify-content-between align-items-center mb-4">
 		<div class="card-title mb-0">2023년 새해복 많이 받으세요!</div>
@@ -77,4 +77,4 @@
 			</div>
 		</div>
 	</div>
-</form>
+</div>

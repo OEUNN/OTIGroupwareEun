@@ -54,15 +54,12 @@
 			<div class="row">
 				<div class="col-12 grid-margin stretch-card">
 					<div class="card">
-						<form class="card-body row m-0">
-							<div class="container-fluid">
-								<input id="approvalLineState" type="hidden" value="${approvalLineState}">
-								<div class="row card-title box">진행 중인 문서를</div>
-								<div class="row card-title box">회수하시겠습니까?</div>
-								<div class="row box">
-									<button class="btn btn-primary btn-md mr-2" onclick="requestRetrieve()">회수하기</button>
-									<button class="btn btn-inverse-primary btn-md ml-2" onclick="cancel()">취소하기</button>
-								</div>
+						<form class="card-body row justify-content-center m-0">
+							<input id="approvalLineState" type="hidden" value="${approvalLineState}">
+							<div class="row card-title box"><div>문서를 회수하시겠습니까?</div></div>
+							<div class="row box">
+								<button class="btn btn-primary btn-md mr-2" onclick="requestRetrieve()">회수하기</button>
+								<button class="btn btn-inverse-primary btn-md ml-2" onclick="cancel()">취소하기</button>
 							</div>
 						</form>
 					</div>
@@ -72,9 +69,9 @@
 	</div>
 	
 	
-	<div class="main-panel-popup">
+<!-- 	<div class="main-panel-popup">
 		<div class="content-wrapper">
-			<!-- Start information -->
+			Start information
 			<div class="row">
 				<div class="col-12 stretch-card">
 					<div class="card">
@@ -93,7 +90,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 </body>
 
 </html>

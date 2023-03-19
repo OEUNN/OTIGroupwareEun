@@ -114,14 +114,6 @@
 															<span class="mx-1"><i class="mdi mdi-close" onclick="removeItem(상신날짜)"></i></span>
 														</div>
 														</c:if>
-														<c:if test="${searchQuery.docCompleteStartDate != null && searchQuery.docCompleteEndDate != null}">
-														<div id="완결날짜" class="badge badge-warning font-weight-bold">
-															<input type="hidden" name="docReportStartDate" value="${searchQuery.docCompleteStartDate}"></input>
-															<input type="hidden" name="docReportEndDate" value="${searchQuery.docCompleteEndDate}"></input>
-															완결날짜: ${searchQuery.docCompleteStartDate} ~ ${searchQuery.docCompleteEndDate}
-															 <span class="mx-1"><i class="mdi mdi-close" onclick="removeItem(완결날짜)"></i></span>
-														</div>
-														</c:if>
 													</div>
 													<input type="text" class="form-control mx-4" id="navbar-search-input" name="searchBar" placeholder="검색할 내용 입력" aria-label="search" aria-describedby="search" style="margin-left: .7rem; font-size: 1.25rem; color: #6C7383; border: 0; color: #000; padding: 0;">
 													<input type="hidden" name="pageNo" value="${pager.pageNo}">
@@ -148,9 +140,11 @@
 												<th class="px-0 border-bottom pb-2">결재상태
 												<i class="mdi mdi-menu-down" data-toggle="dropdown"></i>
 											    <div class="dropdown-menu mt-3" style="width: auto;">
+													<a class="dropdown-item" onclick="searchState('승인')">승인</a>
 													<a class="dropdown-item" onclick="searchState('진행')">진행</a>
-													<a class="dropdown-item" onclick="searchState('반려')">반려</a>
+													<a class="dropdown-item" onclick="searchState('열람')">열람</a>
 													<a class="dropdown-item" onclick="searchState('회수')">회수</a>
+													<a class="dropdown-item" onclick="searchState('반려')">반려</a>
 											    </div>
 												</th>
 												<th class="border-bottom pb-2">제목<i class="icon-search" onclick="searchDocTitle('제목')"></i>
@@ -164,18 +158,6 @@
 													    <span class="input-group-addon text-primary font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
 														<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
 													    <input id="endReportDate" type="text" class="input-sm form-control font-weight-bold" name="end" onchange="searchReportDate('상신날짜')" style="border:0px; text-align: right;"/>
-													</div>
-												</div>
-												</th>
-												<th class="border-bottom pb-2">완결날짜
-												<i class="mdi mdi-menu-down" data-toggle="dropdown"></i>
-												<div class="dropdown-menu">
-					        						<div class="datepicker dropdown-item input-daterange input-group">
-														<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
-													    <input id="startCompleteDate" type="text" class="input-sm form-control font-weight-bold" name="start" onchange="searchCompleteDate('완결날짜')" style="border:0px; text-align: right;"/>
-													    <span class="input-group-addon text-primary font-weight-bold d-flex align-self-center mx-2 fs-30">~</span>
-														<span class="mdi mdi-calendar-clock text-primary" style="position: relative; z-index: 1; top:15px; left: 15px;"></span>
-													    <input id="endCompleteDate" type="text" class="input-sm form-control font-weight-bold" name="end" onchange="searchCompleteDate('완결날짜')" style="border:0px; text-align: right;"/>
 													</div>
 												</div>
 												</th>
@@ -245,12 +227,6 @@
 													</div>
 												</td>
 												<td><fmt:formatDate value="${document.docReportDate}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
-												<c:if test="${document.docCompleteDate != null}">
-												<td><fmt:formatDate value="${document.docCompleteDate}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
-												</c:if>
-												<c:if test="${document.docCompleteDate == null}">
-												<td>N/A</td>
-												</c:if>
 											</tr>
 											</c:forEach>
 										</tbody>

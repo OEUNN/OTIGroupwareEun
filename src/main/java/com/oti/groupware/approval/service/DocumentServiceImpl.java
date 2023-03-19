@@ -255,6 +255,11 @@ public class DocumentServiceImpl implements DocumentService {
 	@Override
 	@Transactional
 	public boolean handleOpenRequest(String state, String docId, String empId) {
+		document = documentDAO.getDocumentById(docId);
+		approvalLine = approvalLineDAO.getApprovalLineById(empId, docId);
+		approvalHandler.setDocument(document);
+		approvalHandler.setApprovalLine(approvalLine);
+		
 		boolean isOpened = approvalHandler.handleOpen();
 		
 		if (isOpened) {
@@ -283,6 +288,17 @@ public class DocumentServiceImpl implements DocumentService {
 	
 	
 	//목록 조회 메소드들
+	@Override
+	@Transactional
+	public List<Document> getDraftDocumentListForHome(int pageNo, Pager pager, String empId) {
+		int totalRows = documentDAO.getDraftDocumentCount(empId);
+		pager.setRowsPerPage(3);
+		pager.setPagesPerGroup(10);
+		pager.setTotalRows(totalRows);
+		pager.setPageNo(pageNo);
+		return documentDAO.getDraftDocumentList(pager, empId);
+	}
+	
 	@Override
 	@Transactional
 	public List<Document> getDraftDocumentList(int pageNo, Pager pager, String empId) {
@@ -318,13 +334,13 @@ public class DocumentServiceImpl implements DocumentService {
 
 	@Override
 	@Transactional
-	public List<Document> getCompletedDocumentList(int pageNo, Pager pager, String empId) {
-		int totalRows = documentDAO.getCompletedDocumentCount(empId);
+	public List<Document> getTakePartInDocumentList(int pageNo, Pager pager, String empId) {
+		int totalRows = documentDAO.getTakePartInDocumentCount(empId);
 		pager.setRowsPerPage(10);
 		pager.setPagesPerGroup(10);
 		pager.setTotalRows(totalRows);
 		pager.setPageNo(pageNo);
-		return documentDAO.getCompletedDocumentList(pager, empId);
+		return documentDAO.getTakePartInDocumentList(pager, empId);
 	}
 
 	@Override

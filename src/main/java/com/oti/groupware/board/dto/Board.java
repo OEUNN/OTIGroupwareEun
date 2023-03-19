@@ -1,6 +1,9 @@
 package com.oti.groupware.board.dto;
 
 import java.util.Date;
+import java.util.List;
+
+import com.oti.groupware.employee.dto.Employee;
 
 import lombok.Data;
 
@@ -12,5 +15,8 @@ public class Board {
     private String boardTitle;
     private String boardContent;
     private Date boardDate;
-    private char boardFileYn;
+    private String boardFileYn;
+    
+    private List<BoardFile> boardFiles;
+    private Employee employee;
 }

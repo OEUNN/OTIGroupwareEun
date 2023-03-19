@@ -11,6 +11,8 @@
 		<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/tinymce.min.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/write-template.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/themes/silver/theme.min.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/custom/fileupload.js"></script>
+		<script src="<c:url value="/resources/js/file-upload.js"></c:url>"></script>
 		<style type="text/css">
 		.collapse, .collapsing {
 			box-shadow: 0px 0px 0px white !important;
@@ -33,15 +35,16 @@
 					<div class="row">
 						<div class="col-12 grid-margin stretch-card">
 							<div class="card">
-								<form class="card-body">
-									<p class="card-title d-flex justify-content-between align-items-start">
-										<span>게시글 쓰기</span> <span>
-											<button type="submit" class="btn btn-md btn-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
-												<span class="mdi mdi-lead-pencil align-middle"></span> 
+								<form class="card-body" id="boardForm" action="<c:url value='/board/write'></c:url>" method="post" enctype="multipart/form-data">
+									<div class="d-flex justify-content-between align-items-center mb-4">
+										<div class="card-title mb-0">게시글 쓰기</div>
+										<div class="d-flex">
+											<button type="submit" form="boardForm"  id="popup-btn" class="btn btn-md btn-primary mx-2">
+												<span class="mdi mdi-telegram align-middle"></span> 
 												<span>작성</span>
 											</button>
-										</span>
-									</p>
+										</div>
+									</div>
 									<div class="forms-sample">
 										<div class="row">
 											<div class="col-md-12">
@@ -53,7 +56,7 @@
 														</div>
 													</div>
 													<div class="col-sm-5" style="border-bottom:1px solid #ced4da;">
-														<input class="h3 from-control" style="font-weight:bold; border:none;">
+														<input form="boardForm" class="h3 from-control" name="boardTitle" style="font-weight:bold; border:none;">
 													</div>
 												</div>
 											</div>
@@ -70,8 +73,6 @@
 													<div class="col-sm-2 p-0"> 
 														<select class="form-control" id="category" style="font-weight:bold;">
 															<option>사내 공지</option>
-															<option>인사 발령</option>
-															<option>경조사</option>
 														</select>
 													</div>
 												</div>
@@ -80,19 +81,19 @@
 										<div class="row">
 											<div class="col-md-12">
 												<div class="form-group row">
-													<div class="col-sm-2 text-primary">
-														<div class="row d-flex align-items-center m-1">
-															<i class="h3 my-auto mdi mdi-cloud-upload"></i> 
-															<span class="ml-2 font-weight-bold">파일 업로드</span>
+													<div class="col-sm-12 text-primary">
+														<div class="input-group-append col-xs-12">
+															<div class="form-group bg-white">
+																<input form="boardForm" type="file" id="fileUploader" class="file-upload-default" name="files" multiple>
+																<div class="input-group col-xs-12">
+																	<span class="input-group-append w-100">
+																		<button class="file-upload-browse btn btn-primary w-100" style="border-radius: 0; width: inherit;" type="button">파일 첨부</button>
+																	</span>
+																</div>
+															</div>
+															<div id="fileList">
+															</div>
 														</div>
-														<div class="row mt-3 ml-1" >
-															<button class="btn btn-md btn-inverse-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
-																<span>업로드</span>
-															</button>
-														</div>
-													</div>
-													<div class="col-sm-8 p-0"> 
-														<input class="h3 form-control" style="font-weight:bold; height:120px;">
 													</div>
 												</div>
 											</div>
@@ -100,7 +101,7 @@
 										<div class="row">
 											<div class="col-md-12">
 												<div class="form-group row">
-													<textarea class="form-control" id="write"></textarea>
+													<textarea form="boardForm" class="form-control" id="write" name="boardContent"></textarea>
 												</div>
 											</div>
 										</div>

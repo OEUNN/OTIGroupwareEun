@@ -11,267 +11,32 @@
 	<script src="<c:url value="/resources/vendors/tinymce/themes/silver/theme.min.js"></c:url>"></script>
 	<script src="<c:url value="/resources/js/file-upload.js"></c:url>"></script>
 	<script src="<c:url value="/resources/js/custom/dropdown.js"></c:url>"></script>
+	<script src="<c:url value="/resources/js/custom/fileupload.js"></c:url>"></script>
+	<script src="<c:url value="/resources/js/custom/approvalwritescript.js"></c:url>"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script type="text/javascript">
-	function getContextPath() {
-	   return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+	let popupWindow;
+	const popUpTop = window.screen.height / 2;
+	const popUpLeft = window.screen.width / 2;
+	const popUpWidth = 500;
+	const popUpHeight = 750;
+	const popupAlign = () => {
+		const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+		const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+		const popupWidth = popupWindow.innerWidth;
+		const popupHeight = popupWindow.innerHeight;
+		const leftPosition = (viewportWidth - popupWidth) / 2;
+		const topPosition = (viewportHeight - popupHeight) / 2;
+		popupWindow.moveTo(leftPosition, topPosition);
 	}
-	
-
-	$(() => {
-		const fileInput = $("#fileUploader");
-		const MAX_FILE_SIZE = 1024 * 1024 * 50; // 50MB in bytes
-
-		let lastUploadedFiles = []; //가장 마지막으로 올린 파일
-
-		fileInput.on("change", (event) => {
-		
-			//input 태그의 업로드목록
-			const files = event.target.files;
-			let discardFiles = [];
-			
-			for (let i = 0; i < files.length; i++) {
-				const file = files[i];
-				const fileSize = file.size;
-				
-				//파일 크기가 제한보다 크면 제거하고 아니면 유지
-				if (fileSize > MAX_FILE_SIZE) {
-					alert("파일 사이즈는 50MB 보다 작아야 합니다.");
-					discardFiles.push(file);
-				} else {
-					lastUploadedFiles.push(file);
-				  
-					const listItem = $('<div class="d-flex justify-content-between font-weight-bold text-primary my-3"></div>');
-					const deleteButton = $('<i class="mdi mdi-minus"></i>').on("click", () => {
-						const index = lastUploadedFiles.indexOf(file);
-						if (index > -1) {
-							//원본배열을 제거하고 잘려진 배열을 반환 (index 위치에서 1개 제거)
-							lastUploadedFiles.splice(index, 1);
-						}
-						listItem.remove();
-					});
-					
-					if (file.name.length <= 15) {
-						listItem.append(document.createTextNode(file.name));
-					}
-					else {
-						listItem.append(document.createTextNode(file.name.substring(0, 12) + "..."));
-					}
-					listItem.append(deleteButton);
-					$("#fileList").append(listItem);
-				}
-			}
-			
-			if (discardFiles.length > 0) {
-				//discarfiles에 들어있는 file과 겹치는 file을 필터링
-				const remainingFiles = Array.from(fileInput.files).filter((file) => !discardFiles.includes(file));
-				fileInput.files = new DataTransfer().files.add(...remainingFiles);
-			}
-			
-		});
-	});
-
 	
 	function popup(){
 	    let url = getContextPath() + "/approval/organization";
 	    let name = "organization";
-	    let option = "width=500, height=700, top=500px, left=500px, menubars=no, status=no, titlebars=no"
-	    window.open(url, name, option);
+	    let option = "width=" + popUpWidth + ", height=" + popUpHeight + ", top=" + ((popUpTop - popUpHeight)/2) + ", left=" +((popUpLeft - popUpWidth)/2) + ", menubars=no, status=no, titlebars=no"
+	    popupWindow = window.open(url, name, option);
+		popupWindow.addEventListener("DOMContentLoaded", popupAlign());
 	}
-	
-	function isContentExist(docTempYn) {
-		if ($("iframe").contents().find("body").find("#A4") === null) {
-			Swal.fire({
-				title: "내용이 없습니다.",
-				width: 400
-			});
-		}
-		else if ($("iframe").contents().find("body").find("#documentTitle").text() === null || $("iframe").contents().find("body").find("#documentTitle").text() === '') {
-			Swal.fire({
-				title: "제목은 필수입니다.",
-				width: 400
-			});
-		}
-		else {
-			$('input[name="docTitle"]').val($("iframe").contents().find("body").find("#documentTitle").text());
-			$('input[name="docTempYn"]').val(docTempYn);
-					
-			if (docTempYn === 'N' || (docTempYn === 'Y' && $("#documentId").length === 0)) {
-				if (docTempYn === 'N' && $(".approvalLineItems").length < 1) {
-					Swal.fire({
-						title: "자신을 제외하고 적어도 한명 이상의 결재자를 지정해주세요.",
-						width: 400
-					});
-				}
-				else {
-					$('input[name="docState"]').val('진행');
-					$("#approvalForm").attr('action', getContextPath() + '/approval/write');
-					$("#approvalForm").submit();
-				}
-			}
-			else if (docTempYn === 'Y' && $("#isDocumentExist").length !== 0){
-				$('input[name="docState"]').val('임시');
-				$("#approvalForm").attr('action', getContextPath() + '/approval/update');
-				$("#approvalForm").submit();
-			}
-		}
-	}
-	
-	function callTempDocument() {
-		if ($("#documentId").length > 0) {
-			if ($("#documentId").val() !== '' && $("#documentId").val() !== null) {
-				$(".remove-flag").remove();
-				let docId = $("#documentId").val();
-				$.ajax({
-					url: getContextPath() + '/approval/viewdetail/' + docId + '/documentdetail',
-					success: function(data) {
-						tinymce.get("document").setContent(data.docContent);
-						initForm();
-						editor.getBody().setAttribute('contenteditable',false);
-					} 
-				});
-			}
-		}
-	}
-	
-	$(() => {
-		$(".mdi-close").each((index, element) => {
-			var id = $(element).attr("id");
-			var remover = '#' + id;
-			var removee = '.' + id;
-			
-			$(remover).on('click', (event) => {
-				$(removee).remove();
-				//iframe은 일반적인 $()로 접근할 수 없다
-				$("iframe").contents().find("body").find(positionId).text("공란");
-				$("iframe").contents().find("body").find(nameId).text("공란");
-			});
-		});
-	});
-
-	$(() => {
-		$(window).on("message", (event) => {
-			//팝업창에서 전송한 데이터 얻기(팝업창에서 postMessage() 사용해야 함)
-			let receivedData = event.originalEvent.data;
-			let receivedIndex = receivedData.index;
-			
-			let positionList = $("iframe").contents().find(".positionText");
-			let stateList = $("iframe").contents().find(".stateText");
-			let nameList = $("iframe").contents().find(".nameText");
-			let dateList = $("iframe").contents().find(".dateText");
-			
-			let removeId = 'r' + receivedData.empId;
-			
-			//맨처음으로 들어오는 메시지 이벤트가 이전에 있던 결재선과 폼 안에 존재하는 결재선을 초기화
-			if (receivedIndex === 0) {
-				$(".remove-flag").remove();
-				positionList.each((index, item) => {
-					if (index > 0) {
-						$(item).text("공란");
-					}
-				});
-				stateList.each((index, item) => {
-					if (index > 0) {
-						$(item).text("공란");
-					}
-				});
-				nameList.each((index, item) => {
-					if (index > 0) {
-						$(item).text("공란");
-					}
-				});
-				dateList.each((index, item) => {
-					if (index > 0) {
-						$(item).text("공란");
-					}
-				});
-			}
-			
-			//하나 이상의 데이터가 왔을 경우 
-			if (receivedData.lastIndex >= 0) {
-				
-				//결재선에 추가
-				$("#approvalLine").append(
-					'<div class="' + removeId + ' d-flex align-items-stretch justify-content-center mb-0 remove-flag">' +
-						'<h1 class="mdi mdi-menu-down mt-1 mb-0"></h1>' +
-					'</div>' +
-					'<div class="' + removeId + ' card card-dark-blue grid-margin shadow-2 mb-0 remove-flag approvalLineItems">' +
-						'<div class="card-body">' +
-							'<div class="row">' +
-								'<div id=' + receivedData.empId + ' class="empId col-10 init-flag">' +
-									'<p class="text-white font-weight-bold">' +
-									receivedData.empName +
-									'</p>' +
-									'<p>' +
-									receivedData.depName + ' ' + receivedData.posName +
-									'</p>' +
-								'</div>' +
-								'<div class="col-2">' +
-									'<i id=' + removeId + ' class="' + receivedData.index + ' mdi mdi-close"></i>' +
-								'</div>' +
-							'</div>' +
-						'</div>' +
-					'</div>'
-				);
-
-				//문서 내부 결재선에 데이터 설정
-				$(positionList[receivedIndex + 1]).text(receivedData.posName);
-				$(stateList[receivedIndex + 1]).text("공란");
-				$(nameList[receivedIndex + 1]).text(receivedData.empName);
-				$(dateList[receivedIndex + 1]).text("공란");
-				
-				$(positionList[receivedIndex + 1]).addClass(removeId);
-				$(stateList[receivedIndex + 1]).addClass(removeId);
-				$(nameList[receivedIndex + 1]).addClass(removeId);
-				$(dateList[receivedIndex + 1]).addClass(removeId);
-
-				//form 양식에 추가하기
-				$("#approvalForm").append('<input class="' + removeId + ' remove-flag" type="hidden" name="empId" value="' + receivedData.empId + '">');
-				$("#approvalForm").append('<input class="' + removeId + ' remove-flag" type="hidden" name="aprvLineOrder" value="' + receivedData.approvalOrder + '">');
-				$("#approvalForm").append('<input class="' + removeId + ' remove-flag" type="hidden" name="aprvLineState" value="미결">');
-				$("#approvalForm").append('<input class="' + removeId + ' remove-flag" type="hidden" name="aprvLineRole" value="결재">');
-
-				
-				let remover = '#' + removeId;
-				let removee = '.' + removeId;
-				//x 아이콘에 클릭 시 삭제 이벤트 등록하기
-				$(remover).on('click', (event) => {
-					$(removee).remove();
-					
-					//결재선에서 삭제
-					$($("iframe").contents().find(removee).text("공란"));
-					$($("iframe").contents().find(removee).removeClass(removeId));
-					
-					//결재선에서 삭제 후 앞으로 당기기
-					for (i = 1; i < 5; i++) {
-						if ($(positionList[i - 1]).text() === "공란" && $(positionList[i]).text !== "공란" && $(positionList[i]).attr("class").split(" ").length > 3) {
-							let currentId = $(positionList[i]).attr("class").split(" ").slice(-1);
-							
-							$(positionList[i - 1]).text($(positionList[i]).text());
-							$(stateList[i - 1]).text($(stateList[i]).text());
-							$(nameList[i - 1]).text($(nameList[i]).text());
-							$(dateList[i - 1]).text($(dateList[i]).text());
-							
-							$(positionList[i - 1]).addClass(currentId);
-							$(stateList[i - 1]).addClass(currentId);
-							$(nameList[i - 1]).addClass(currentId);
-							$(dateList[i - 1]).addClass(currentId);
-							
-							$(positionList[i]).text("공란");
-							$(stateList[i]).text("공란");
-							$(nameList[i]).text("공란");
-							$(dateList[i]).text("공란");
-							
-							$(positionList[i]).removeClass(currentId);
-							$(stateList[i]).removeClass(currentId);
-							$(nameList[i]).removeClass(currentId);
-							$(dateList[i]).removeClass(currentId);
-						}
-					}
-				});
-			}
-		});
-	});
 	</script>
 
 	<style type="text/css">
@@ -453,6 +218,7 @@
 	        								<input form="approvalForm" type="hidden" name="docTempYn" value="">
 	        								
 	        								<!-- 기안자 -->
+	        								<input type="hidden" id="drafterId" value="${sessionScope.employee.empId}">
 	        								<input type="hidden" id="drafterName" value="${sessionScope.employee.empName}">
 	        								<input type="hidden" id="drafterDepName" value="${sessionScope.employee.depName}">
 	        								<input type="hidden" id="drafterPosName" value="${sessionScope.employee.posName}">
@@ -474,7 +240,7 @@
 											</c:if>
 											<c:if test='${approvalLine.aprvLineState != null}'>
 											<input form="approvalForm" class="r${approvalLine.empId} remove-flag" type="hidden" name="aprvLineState" value="${approvalLine.aprvLineState}">
-											</c:if>
+											</c:if>.;,80988u.;,
 	        								</c:if>
 	        								</c:forEach>
 											<form id="approvalForm" method="post" enctype="multipart/form-data"></form>

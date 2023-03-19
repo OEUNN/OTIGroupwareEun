@@ -50,12 +50,12 @@
 	<update id="updateApprovalLine" parameterType="approvalLine">
 		UPDATE approval_lines
 		<set>
+			aprv_line_approval_date = #{aprvLineApprovalDate,jdbcType=DATE},
 			<if test="aprvLineState != null">aprv_line_state = #{aprvLineState},</if>
 			<if test="aprvLineOrder != null">aprv_line_order = #{aprvLineOrder},</if>
 			<if test="aprvLineRole != null">aprv_line_role = #{aprvLineRole},</if>
-			<if test="aprvLineApprovalDate != null">aprv_line_approval_date = #{aprvLineApprovalDate,jdbcType=DATE},</if>
 			<if test="aprvLineOpenYn != null">aprv_line_open_yn = #{aprvLineOpenYn},</if>
-			<if test="aprvLineOpinion != null">aprv_line_opinion = #{aprvLineOpinion}</if>
+			aprv_line_opinion = #{aprvLineOpinion}
 		</set>
 		WHERE emp_id = #{empId} AND doc_id = #{docId}
 	</update>

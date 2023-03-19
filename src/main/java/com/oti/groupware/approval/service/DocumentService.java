@@ -31,16 +31,17 @@ public interface DocumentService {
 	public boolean handleRetrieveRequest(String state, String docId, String empId);
 	public boolean handleOpenRequest(String state, String docId, String empId);
 	
+	public List<Document> getDraftDocumentListForHome(int pageNo, Pager pager, String empId);
 	public List<Document> getDraftDocumentList(int pageNo, Pager pager, String empId);
-	public List<Document> getCompletedDocumentList(int pageNo, Pager pager,String empId);
+	public List<Document> getTakePartInDocumentList(int pageNo, Pager pager, String empId);
 	public List<Document> getPendedDocumentList(int pageNo, Pager pager, String empId);
 	public List<Document> getReturnedDocumentList(int pageNo, Pager pager, String empId);
 	public List<Document> getTempDocumentList(int pageNo, Pager pager, String empId);
 	
-	List<Document> getDraftDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId);
-	List<Document> getCompletedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId);
-	List<Document> getPendedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId);
-	List<Document> getReturnedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId);
-	List<Document> getTempDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId);
+	public List<Document> getDraftDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId);
+	public List<Document> getCompletedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId);
+	public List<Document> getPendedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId);
+	public List<Document> getReturnedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId);
+	public List<Document> getTempDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId);
 	
 }
