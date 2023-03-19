@@ -13,30 +13,33 @@
 		padding: 0.125rem 2.375rem;
 	}
 	.etooltip {
-  position: relative;
-  display: inline-block;
-}
-
-.etooltip .etooltiptext {
-  visibility: hidden;
-  width: 250px;
-  background-color: #4849ac;
-  border-radius:6px;
-  color: white;
-  text-align: left;
-  padding: 5px;
-  
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-  top: 130%;
-  left: 120%;
-  margin-left:-60px;
-}
-
-.etooltip:hover .etooltiptext {
-  visibility: visible;
-}
+	  position: relative;
+	  display: inline-block;
+	}
+	
+	.etooltip .etooltiptext {
+	  visibility: hidden;
+	  width: 250px;
+	  background-color: #4849ac;
+	  color: #fff;
+	  text-align: left;
+	  border-radius: 6px;
+	  padding: 3px 3px;
+	  position: absolute;
+	  z-index: 1;
+	  top: -5px;
+	  left: 170%;
+	  margin-left: -60px;
+	  
+	  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+	  opacity: 0;
+	  transition: opacity 1s;
+	}
+	
+	.etooltip:hover .etooltiptext {
+	  visibility: visible;
+	  opacity: 1;
+	}
 </style>
 <div class="card">
 	<div class="card-body">
@@ -76,7 +79,17 @@
 				<tbody>
 					<c:if test="${!empty sendmail}">
 						<c:forEach items="${sendmail}" var="send">
-							<tr>
+							<c:if test="${send.tbName =='received' }">
+								<c:if test="${send.empList[0].readYN == 'Y'}">
+									<tr style="color:#a2a2a3;">
+								</c:if>
+								<c:if test="${send.empList[0].readYN== 'N'}">
+									<tr>
+								</c:if>
+							</c:if>
+							<c:if test="${send.tbName =='send' }">
+								<tr>
+							</c:if>
 								<td class="form-inline pr-0 p1-2">
 									<div class="form-check font-weight-bold text-info">
 										<label class="form-check-label">
@@ -116,27 +129,30 @@
 											</c:if>
 										</c:forEach>
 										<c:if test="${send.receivedCount > 1}">
-											<span class="etooltip"> ${send.receivedCount}
-												<c:forEach items="${send.empList}" var="emp">
-													<span class="etooltiptext">(${emp.depName}) ${emp.empName}${emp.posName}
+										<span class="etooltip">${send.empList[0].empName}${send.empList[0].posName} 외${send.receivedCount-1}명
+											<span class="etooltiptext">
+												<c:forEach items="${send.empList}" var="emp" begin="0">
+													<div class="mb-1">
+														(${emp.depName}) ${emp.empName}${emp.posName}
 														<c:if test="${emp.readYN=='Y'}">
-															&nbsp;&nbsp;&nbsp;&nbsp;읽음
+															&nbsp;&nbsp;&nbsp;&nbsp;읽음 
 														</c:if>
 														<c:if test="${emp.readYN=='N'}">
 															&nbsp;&nbsp;&nbsp;&nbsp;안읽음
 														</c:if>
-												    </span>
-											    </c:forEach>
-											</span>
-										</c:if>
+													</div>
+										    	</c:forEach>
+										      </span>
+										</span>
+									</c:if>
 									</c:if>
 									
 								</td>
 								<c:if test="${send.tbName =='send' }">
-									<td onclick="location.href='<c:url value="/mail/detailmail/send/${send.sendMailId}"/>'">${send.sendMailTitle}</td>
+									<td onclick="location.href='<c:url value="/mail/detailmail/trash/${send.sendMailId}/send"/>'" style="font-weight:bold;">${send.sendMailTitle}</td>
 								</c:if>
 								<c:if test="${send.tbName =='received' }">
-									<td onclick="location.href='<c:url value="/mail/detailmail/received/${send.sendMailId}"/>'">${send.sendMailTitle}</td>
+									<td onclick="location.href='<c:url value="/mail/detailmail/trash/${send.sendMailId}/received"/>'" style="font-weight:bold;">${send.sendMailTitle}</td>
 								</c:if>
 								<td>
 									<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${send.sendMailDate}"/>

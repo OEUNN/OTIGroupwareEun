@@ -18,20 +18,20 @@
 		<!-- 검색 태그 -->
 		<div class="row justify-content-between px-5 py-3">
 			<div class="form-inline" style="border-bottom:1px solid #e9ecef;">
-			<div class="px-3 py-1 ahover">
-					<button onclick="search(1)" style="color:grey;">읽은메일</button>
+				<div class="px-3 py-1 ahover">
+					<button id="searchInput5" onclick="search(5)" style="color:grey;">전체</button>
 				</div>
 				<div class="px-3 py-1 ahover">
-					<button onclick="search(2)" style="color:grey;">읽지않은메일</button>
+					<button id="searchInput1" onclick="search(1)" style="color:grey;">읽은메일</button>
 				</div>
 				<div class="px-3 py-1 ahover">
-					<button onclick="search(3)" style="color:grey;">중요메일</button>
+					<button id="searchInput2" onclick="search(2)" style="color:grey;">읽지않은메일</button>
 				</div>
 				<div class="px-3 py-1 ahover">
-					<button onclick="search(4)" style="color:grey;">중요표시안한메일</button>
+					<button id="searchInput3" onclick="search(3)" style="color:grey;">중요메일</button>
 				</div>
 				<div class="px-3 py-1 ahover">
-					<button onclick="search(5)" style="color:grey;">전체</button>
+					<button id="searchInput4" onclick="search(4)" style="color:grey;">중요표시안한메일</button>
 				</div>
 			</div>
 			<input type="hidden" id="searchBtn"/>
@@ -97,8 +97,7 @@
 									</c:if>
 								</td>
 								<td><i class="mdi mdi-arrow-left-bold text-danger"></i>${recd.empName} ${recd.posName} </td>
-								<td onclick="location.href='<c:url value="/mail/detailmail/received/${recd.sendMailId}"/>'">${recd.sendMailTitle}</td>
-								
+								<td onclick="location.href='<c:url value="/mail/detailmail/received/${recd.sendMailId}/received"/>'" style="font-weight:bold;">${recd.sendMailTitle}</td>
 								<td>
 									<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${recd.recdMailDate}"/>
 								</td>

@@ -15,18 +15,12 @@
 		<result property="tbName" column="tbName"/>
 	</resultMap>
 	
-	<select id="getEmpIdById" parameterType="int" resultType="string">
-		select emp_id
+	<select id="getEmpIdById" parameterType="int" resultMap="sendMailMap">
+		select emp_id, send_mail_title, send_mail_content
 		from send_mails
 		where send_mail_id =#{sendMailId}
 	</select>
 	
-	<select id="getTitleById" parameterType="int" resultType="string">
-		select send_mail_title
-		from send_mails
-		where send_mail_id=#{sendMailId}
-	</select>
-
 	<select id="getSendMailById" resultMap="sendMailMap" parameterType="int">
 		SELECT send_mail_id, emp_id, send_mail_title, 
 			send_mail_content, send_mail_importance_yn, 
@@ -36,11 +30,16 @@
 		WHERE send_mail_id = #{sendMailId}
 	</select>
 	
-	<insert id="insertSendMail"  parameterType="SendMail">
+	<!-- 보내기전 임시보관함 삭제 -->
+	<delete id="deleteMail" parameterType="int">
+		delete from send_mails
+		where send_mail_id = #{temp}
+	</delete>
+	
+	<insert id="insertSendMail"  parameterType="sendMail">
 		<selectKey keyProperty="sendMailId" resultType="int" order="BEFORE">
-	    	select sendmail_seq.nextval from dual
+	    	select sendmail_seq.nextval FROM DUAL
 	  	</selectKey>
-	  	
         INSERT INTO send_mails (
             send_mail_id,
             emp_id,
@@ -50,53 +49,72 @@
             send_mail_date,
             send_mail_temp_yn,
             send_mail_del_yn,
-            send_mail_del_complete_yn
+            send_mail_del_complete_yn,
+            SEND_MAIL_DEL_DATE
         )
         VALUES (
             #{sendMailId},
-            #{empId},
-            #{sendMailTitle},
-            #{sendMailContent},
+             #{sendMail.empId},
+            #{sendMail.sendMailTitle},
+             <if test="write != null">
+				#{write},
+			</if>
+			<if test="write == null">
+				null,
+			</if>
             default,
             default,
             default,
             default,
-            default
+            default,
+            null
         )
     </insert>
     
-    <insert id="insertTempMail"  parameterType="SendMail">
+    <insert id="insertTempMail"  parameterType="sendMail">
 		<selectKey keyProperty="sendMailId" resultType="int" order="BEFORE">
-	    	select sendmail_seq.nextval from dual
+	    	select sendmail_seq.nextval FROM DUAL
 	  	</selectKey>
         INSERT INTO send_mails (
             send_mail_id,
             emp_id,
             send_mail_title,
-            <if test="sendMailContent != null">
-				send_mail_content,
-			</if>
+			send_mail_content,
             send_mail_importance_yn,
             send_mail_date,
             send_mail_temp_yn,
             send_mail_del_yn,
-            send_mail_del_complete_yn
+            send_mail_del_complete_yn,
+            SEND_MAIL_DEL_DATE
         )
         VALUES (
             #{sendMailId},
-            #{empId},
-            #{sendMailTitle},
-            <if test="sendMailContent != null">
-				#{sendMailContent},
+            #{sendMail.empId},
+            #{sendMail.sendMailTitle},
+            <if test="write != null">
+				#{write},
+			</if>
+			<if test="write == null">
+				null,
 			</if>
             default,
             default,
             'Y',
             default,
-            default
+            default,
+            null
         )
     </insert>
     
+    <select id="getSEndMailId" resultType="int">
+	     SELECT send_mail_id 
+		FROM(
+		    SELECT 
+		        send_mail_id  
+		    FROM send_mails
+		    ORDER BY ROWNUM DESC)
+		WHERE ROWNUM = 1
+    </select>
     <select id="sendMailRowsCount" parameterType="string" resultType="int">
 		select count(send_mail_id)
 		from send_mails
@@ -104,10 +122,7 @@
 	</select>
 	
 	<select id="getSendMail" resultMap="sendMailMap">
-		select send_mail_id, emp_id, send_mail_title, 
-			send_mail_content, send_mail_importance_yn, 
-			send_mail_date, send_mail_temp_yn, 
-			send_mail_del_yn, send_mail_del_complete_yn 
+		select send_mail_id
 		from send_mails
 		where emp_id = #{empId} and send_mail_del_yn = 'N' and send_mail_temp_yn ='N'
 		order by  send_mail_date desc
@@ -159,10 +174,7 @@
 	
 	
 	<select id="getSearchSendMail" resultMap="sendMailMap">
-		select send_mail_id, emp_id, send_mail_title, 
-			send_mail_content, send_mail_importance_yn, 
-			send_mail_date, send_mail_temp_yn, 
-			send_mail_del_yn, send_mail_del_complete_yn 
+		select send_mail_id
 		from send_mails
 		where emp_id = #{empId} and send_mail_del_yn = 'N' and send_mail_temp_yn ='N'
 		<if test='search.equals("import")'>
@@ -210,7 +222,8 @@
 	<select id="getMailInformation" parameterType="int" resultMap="sendMailMap">
 		select send_mail_id, emp_id, send_mail_title, 
 			send_mail_content,
-			send_mail_date
+			send_mail_date,
+			send_mail_importance_yn
 		from send_mails
 		where send_mail_id = #{sendMailId}
 	</select>
@@ -238,10 +251,7 @@
 	</select>
 
 	<select id="getTempMail" parameterType="map" resultMap="sendMailMap">
-		select send_mail_id, emp_id, send_mail_title, 
-			send_mail_content, send_mail_importance_yn, 
-			send_mail_date, send_mail_temp_yn, 
-			send_mail_del_yn, send_mail_del_complete_yn 
+		select send_mail_id
 		from send_mails
 		where emp_id = #{empId} and send_mail_del_yn = 'N' and send_mail_temp_yn ='Y'
 		order by  send_mail_date desc
@@ -345,5 +355,97 @@
 		 from send_mails 
 		 where emp_id=#{empId} and SEND_MAIL_TEMP_YN = 'Y'
 	</select>
+	
+	<select id="getTitleCount" parameterType="map" resultType="int">
+    	SELECT send_mail_id
+		from send_mails
+		where SEND_MAIL_TITLE = ${title}
+    </select>
+    
+    <select id="getTitleSendMail" resultMap="sendMailMap">
+		select send_mail_id, emp_id, send_mail_title, 
+			send_mail_content, send_mail_importance_yn, 
+			send_mail_date, send_mail_temp_yn, 
+			send_mail_del_yn, send_mail_del_complete_yn 
+		from send_mails
+		where emp_id = #{empId} and send_mail_del_yn = 'N' and send_mail_temp_yn ='N' and
+		<foreach collection="arr" item="mailId" separator="or">
+		 	SEND_MAIL_ID=#{mailId}
+		</foreach>
+		order by  send_mail_date desc
+		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
+		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
+	</select>
+	
+	 <select id="getTitleTempMail" resultMap="sendMailMap">
+		select send_mail_id, emp_id, send_mail_title, 
+			send_mail_content, send_mail_importance_yn, 
+			send_mail_date, send_mail_temp_yn, 
+			send_mail_del_yn, send_mail_del_complete_yn 
+		from send_mails
+		where emp_id = #{empId} and send_mail_del_yn = 'N' and send_mail_temp_yn ='Y' and
+		<foreach collection="arr" item="mailId" separator="or">
+		 	SEND_MAIL_ID=#{mailId}
+		</foreach>
+		order by  send_mail_date desc
+		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
+		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
+	</select>
+	
+	 <select id="getTitleImportMail" resultMap="sendMailMap">
+	 select send_mail_id, 'send' as tbName
+	    from(select send_mail_id
+		    from send_mails
+		    where send_mail_importance_YN = 'Y' and send_mail_del_yn='N' and emp_id=#{empId} and
+		    <foreach collection="arr" item="mailId" separator="or">
+		 		SEND_MAIL_ID=#{mailId}
+			</foreach>
+		    order by send_mail_date desc)
+	    union
+	    select send_mail_id, 'received' as tbName
+	    from(select send_mail_id
+		    from received_mails
+		    where recd_mail_importance_yn = 'Y' and recd_mail_del_yn = 'N' and emp_id_employees=#{empId} and
+		    <foreach collection="arr" item="mailId" separator="or">
+		 		SEND_MAIL_ID=#{mailId}
+			</foreach>
+		    order by recd_mail_date desc)
+		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
+		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
+	</select>
+	 <select id="getTitleTrashMail" resultMap="sendMailMap">
+		select send_mail_id, 'send' as tbName
+	    from(select send_mail_id
+		    from send_mails
+		    where SEND_MAIL_DEL_YN='Y' and SEND_MAIL_DEL_COMPLETE_YN ='N' and emp_id=#{empId} and
+		    <foreach collection="arr" item="mailId" separator="or">
+		 		SEND_MAIL_ID=#{mailId}
+			</foreach>
+		    order by send_mail_date desc)
+	    union
+	    select send_mail_id, 'received' as tbName
+	    from(select send_mail_id
+		    from received_mails
+		    where recd_mail_del_yn = 'Y' and RECD_MAIL_DEL_COMPLETE_YN ='N' and emp_id_employees=#{empId} and
+		    <foreach collection="arr" item="mailId" separator="or">
+		 		SEND_MAIL_ID=#{mailId}
+			</foreach>
+		    order by recd_mail_date desc)
+		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
+		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
+	</select>
+	
+	<update id="updateTrash" parameterType="int">
+		update send_mails
+		set SEND_MAIL_DEL_YN = 'Y' ,SEND_MAIL_DEL_DATE = sysdate
+		where send_mail_id = #{mailId}
+	</update>
+	
+	<update id="updateCompleteTrash" parameterType="int">
+		update send_mails
+		set SEND_MAIL_DEL_COMPLETE_YN = 'Y' 
+		where send_mail_id = #{mailId}
+	</update>
+	
 	
 </mapper>

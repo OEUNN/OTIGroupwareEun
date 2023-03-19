@@ -11,9 +11,10 @@ import com.oti.groupware.mail.dto.SendMail;
 
 public interface MailService {
 	List<Employee> getEmployee();
-	void writeMail(SendMail sendMail, String[] arr, String resultString);
+	void tempWriteMail(SendMail sendMail, String[] arr, String write);
+	void writeMail(SendMail sendMail, String[] arr, String write);
 	void writeFile(MailFile mailFile);
-	void writeTempMail(SendMail sendMail);
+	void writeTempMail(SendMail sendMail, String write);
 	List<ReceivedMail> getReceivedMail(String empId, Pager pager);
 	int mailRowsCount(String empId);
 	void receivedMamilChangeImport(int mailId, String empId);
@@ -38,8 +39,19 @@ public interface MailService {
 	void trashMailDeleteRestore(List<Integer> list, String empId, String result);
 	void deleteTrashMail(); //30일이 지난 휴지통 메일 삭제
 	void completeDelete();//한달에한번 삭제가 되었는지 확인
-	SendMail getDetailSendMail(int mailid, String category); //메일 디테일을 확인하기 위해
+	SendMail getDetailSendMail(int mailid, String empId); //메일 디테일을 확인하기 위해
 	List<MailFile> getMailFile(int mailid);
 	MailFile getMailFileById(int mfile);
 	MailCount mailHomeCount(String empId); //메인 홈 통계
+	List<Integer> titleCount(String title);
+	List<ReceivedMail> searchTitleReceivedMail(List<Integer> titleMail, String empId, Pager pager);
+	List<SendMail> searchTitleSendMail(List<Integer> titleMail, String empId, Pager pager);
+	List<SendMail> searchTitleTempMail(List<Integer> titleMail, String empId, Pager pager);
+	List<SendMail> searchTitleImportMail(List<Integer> titleMail, String empId, Pager pager);
+	List<SendMail> searchTitleTrashMail(List<Integer> titleMail, String empId, Pager pager);
+	void deleteTempMail(int temp); //임시보관함 보내기 했을때 삭제하기
+	void trashMail(int mailId, String option, String empId); //휴지통 보내기
+	void completetrashMail(int mailId, String empId, String option); //자세히보기 완전삭제로 상태 바꾸기
+	ReceivedMail getDetailReceivedMail(int mailid, String empId);
+	void replyMail(int sendMailId, int reply);
 }

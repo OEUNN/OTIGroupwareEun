@@ -72,6 +72,17 @@
 					success : function(data){
 						$('#mail_container').html(data);
 						$('#pageBtn').val(No);
+						if(search == 'read'){
+							$('#searchInput1').attr('style','color:black ;font-weight:bold')
+						}else if(search == 'notread'){
+							$('#searchInput2').attr('style','color:black ;font-weight:bold')
+						}else if(search == "import"){
+							$('#searchInput3').attr('style','color:black ;font-weight:bold')
+						}else if(search == "notimport"){
+							$('#searchInput4').attr('style','color:black ;font-weight:bold')
+						}else{
+							$('#searchInput5').attr('style','color:black ;font-weight:bold')
+						}
 					 }
 				});
 			}else{
@@ -152,6 +163,21 @@
 		  checkboxes.forEach((checkbox) => {
 		    checkbox.checked = selectAll.checked
 		  })
+		}
+		
+		function submitForm(){
+			var search = $('#searchBar').val();
+			log.info(search);
+			jQuery.ajax({
+				type : 'get',
+				url : '../mail/titlesearch/received/',
+				dataType : 'html',
+				data : {search:search},
+				 contentType:"application/json;charset=UTF-8",
+				success : function(data){
+					$('#msendail_container').html(data);
+				 }
+			});
 		}
 		</script>
 	</head>

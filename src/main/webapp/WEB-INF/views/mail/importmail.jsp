@@ -118,6 +118,21 @@
 		    checkbox.checked = selectAll.checked
 		  })
 		}
+		
+		function submitForm(){
+			var search = $('#searchBar').val();
+			log.info(search);
+			jQuery.ajax({
+				type : 'get',
+				url : '../mail/titlesearch/import/',
+				dataType : 'html',
+				data : {search:search},
+				 contentType:"application/json;charset=UTF-8",
+				success : function(data){
+					$('#msendail_container').html(data);
+				 }
+			});
+		}
 		</script>
 	</head>
 

@@ -56,7 +56,8 @@
             recd_mail_read_receipt_yn, 
             recd_mail_del_date, 
             recd_mail_del_yn,
-            recd_mail_del_complete_yn)
+            recd_mail_del_complete_yn,
+            PARENT_SEND_MAIL_ID)
         VALUES (
         	#{sendMailId}, 
         	#{empId}, 
@@ -65,7 +66,8 @@
             default, 
             default, 
             default, 
-            default)
+            default,
+            null)
     </insert>
     
     <select id="mailSearchRowsCount"  parameterType="map" resultType="int">
@@ -142,9 +144,9 @@
     <update id="receivedMailSearchDelete">
     	update received_mails
 		set RECD_MAIL_DEL_YN = 'Y' , RECD_MAIL_IMPORTANCE_YN='N', RECD_MAIL_DEL_DATE=sysdate
-		where emp_id_employees=#{empId} and 
+		where 
 		<foreach collection="arr" item="mailId" separator="or">
-		 	SEND_MAIL_ID=#{mailId}
+		 	emp_id_employees=#{empId} and SEND_MAIL_ID=#{mailId}
 		</foreach>
     </update>
 
@@ -179,18 +181,18 @@
     <update id="updateTrashMail">
 	    update received_mails
 		set RECD_MAIL_DEL_COMPLETE_YN= 'Y' , RECD_MAIL_DEL_YN ='Y'
-		where EMP_ID_EMPLOYEES=#{empId} and 
+		where 
 		<foreach collection="arr" item="mailId" separator="or">
-		 	SEND_MAIL_ID=#{mailId}
+		 	emp_id_employees=#{empId} and SEND_MAIL_ID=#{mailId}
 		</foreach>
     </update>
     
     <update id="updateReceivedRestore">
     	 update received_mails
 		set  RECD_MAIL_DEL_YN ='N'
-		where EMP_ID_EMPLOYEES=#{empId} and 
+		where
 		<foreach collection="arr" item="mailId" separator="or">
-		 	SEND_MAIL_ID=#{mailId}
+		 	emp_id_employees=#{empId} and SEND_MAIL_ID=#{mailId}
 		</foreach>
     </update>
     
@@ -215,10 +217,6 @@
     	where send_mail_id=#{mailId} and RECD_MAIL_DEL_COMPLETE_YN = 'Y'
     </select>
     
-    <delete id="deleteReceivedMail">
-        DELETE FROM received_mails WHERE send_mail_id = #{mailId}
-    </delete>
-    
     <select id="getReceivedMailCount" parameterType="string" resultType="int">
     	 select count(SEND_MAIL_ID)
 		 from received_mails
@@ -236,4 +234,62 @@
 		 from received_mails
 		 where EMP_ID_EMPLOYEES = #{empId}  and RECD_MAIL_DEL_YN='N' and RECD_MAIL_IMPORTANCE_YN='Y'
     </select>
+    
+    <select id="getTitleReceivedMail" resultMap="receivedMailResultMap">
+    	SELECT send_mail_id,
+		    emp_id_employees,
+		    recd_mail_importance_yn,
+		    recd_mail_date,
+		    recd_mail_read_receipt_yn,
+		    recd_mail_del_date,
+		    recd_mail_del_yn,
+		    recd_mail_del_complete_yn
+		from received_mails
+		where 
+		<foreach collection="arr" item="mailId" separator="or">
+		 	emp_id_employees = #{empId} and recd_mail_del_yn = 'N' and SEND_MAIL_ID=#{mailId}
+		</foreach>
+		order by  recd_mail_date desc
+		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
+		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
+    </select>
+    
+    <update id="changeReadYN" parameterType="map">
+     update received_mails
+     set recd_mail_read_receipt_yn ='Y'
+     where send_mail_id = #{mailId} and EMP_ID_EMPLOYEES = #{empId}
+    </update>
+    
+    <update id="updateTrash" parameterType="map">
+    	update received_mails
+    	set RECD_MAIL_DEL_YN = 'Y', RECD_MAIL_DEL_DATE =sysdate
+    	where send_mail_id = #{mailId} and EMP_ID_EMPLOYEES = #{empId}
+    </update>    
+    
+     <update id="updateCompleteTrash" parameterType="map">
+    	update received_mails
+    	set RECD_MAIL_DEL_COMPLETE_YN = 'Y'
+    	where send_mail_id = #{mailId} and EMP_ID_EMPLOYEES = #{empId}
+    </update>    
+    
+    <select id="getDetailReceivedMail" parameterType="map" resultMap="receivedMailResultMap">
+    	SELECT send_mail_id,
+		    emp_id_employees,
+		    recd_mail_importance_yn,
+		    recd_mail_date,
+		    recd_mail_read_receipt_yn,
+		    recd_mail_del_date,
+		    recd_mail_del_yn,
+		    recd_mail_del_complete_yn,
+		    parent_send_mail_id
+		from received_mails
+		where emp_id_employees = #{empId} and send_mail_id=#{mailId}
+    </select>
+    
+    <update id="updateParentMail" parameterType="map" >
+    	update received_mails
+    	set  parent_send_mail_id = #{reply}
+    	where send_mail_id=#{sendMailId}
+    </update>
+    
 </mapper>

@@ -72,6 +72,14 @@
 						success : function(data){
 							$('#msendail_container').html(data);
 							$('#pageBtn').val(No);
+							if(search == 'import'){
+								$('#searchInput1').attr('style','color:black ;font-weight:bold')
+							}else if(search == 'notimport'){
+								$('#searchInput2').attr('style','color:black ;font-weight:bold')
+							}else{
+								$('#searchInput3').attr('style','color:black ;font-weight:bold')
+							}
+							
 						 }
 					});
 				}else{
@@ -151,15 +159,15 @@
 			
 			function submitForm(){
 				var search = $('#searchBar').val();
+				log.info(search);
 				jQuery.ajax({
-					type : 'post',
-					url : '../mail/titlesearch',
+					type : 'get',
+					url : '../mail/titlesearch/send/',
 					dataType : 'html',
-					data : {search:search, category:'send'},
+					data : {search:search},
 					 contentType:"application/json;charset=UTF-8",
 					success : function(data){
 						$('#msendail_container').html(data);
-						$('#pageBtn').val(No);
 					 }
 				});
 			}

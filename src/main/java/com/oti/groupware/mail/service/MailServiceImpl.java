@@ -51,25 +51,43 @@ public class MailServiceImpl implements MailService {
 		}
 		return list;
 	}
+	
+	//임시보관함인데 쓰기 했을때 
+	@Override
+	public void deleteTempMail(int temp) {
+		sendMailDao.deleteMail(temp);
+	}
+	
+	//임시보관함 메일 쓰기
+	@Override
+	public void tempWriteMail(SendMail sendMail, String[] arr, String write) {
+		sendMailDao.insertTempMail(sendMail,write);
+		sendMail.setSendMailId(sendMailDao.getSEndMailId());
+		for(int i=0;i<arr.length;i++) {
+			receivedMailDao.insertReceivedMail(sendMail.getSendMailId(),arr[i]);
+		}
+	}
 
 	//메일쓰기
 	@Override
-	public void writeMail(SendMail sendMail, String[] arr, String resultString) {
-		if(resultString.equals("temp")) {
-			sendMailDao.insertTempMail(sendMail);
-		}else {
-			sendMailDao.insertSendMail(sendMail);
-		}
+	public void writeMail(SendMail sendMail, String[] arr, String write) {
+		sendMailDao.insertSendMail(sendMail,write);
+		sendMail.setSendMailId(sendMailDao.getSEndMailId());
 		for(int i=0;i<arr.length;i++) {
 			receivedMailDao.insertReceivedMail(sendMail.getSendMailId(),arr[i]);
 		}
 	}
 	
+	//메일 답장
+	@Override
+	public void replyMail(int sendMailId, int reply) {
+		receivedMailDao.updateParentMail(sendMailId, reply);
+	}
+	
 	//메일 임시저장
 	@Override
-	public void writeTempMail(SendMail sendMail) {
-		log.info(sendMail);
-		sendMailDao.insertTempMail(sendMail);
+	public void writeTempMail(SendMail sendMail, String write) {
+		sendMailDao.insertTempMail(sendMail, write);
 	}
 	//파일 저장하기
 	@Override
@@ -122,8 +140,9 @@ public class MailServiceImpl implements MailService {
 	//received mail detail information method
 	private List<ReceivedMail> getReceivedDetail(List<ReceivedMail> receivedMail) {
 		for(ReceivedMail list : receivedMail) {
-			list.setEmpId(sendMailDao.getEmpIdById(list.getSendMailId()));
-			list.setSendMailTitle(sendMailDao.getTitleById(list.getSendMailId()));
+			SendMail sendMail = (sendMailDao.getEmpIdById(list.getSendMailId()));
+			list.setEmpId(sendMail.getEmpId());
+			list.setSendMailTitle(sendMail.getSendMailTitle());
 			EmployeeInfo empInfo=employeeDao.mailInfo(list.getEmpId());
 			list.setEmpName(empInfo.getEmpName());
 			list.setDepName(empInfo.getDepName());
@@ -184,42 +203,12 @@ public class MailServiceImpl implements MailService {
 	//send mail detail information method
 	private List<SendMail> getSendDetail(List<SendMail> sendMail){
 		for(SendMail list : sendMail) {
-			List<String> empId = receivedMailDao.getReceivedEmpId(list.getSendMailId());
-			list.setReceivedCount(receivedMailDao.getReceivedCount(list.getSendMailId()));
-			List<EmployeeInfo> emp = new ArrayList<>();
-			for(String id : empId) {
-				EmployeeInfo empInfo=employeeDao.mailInfo(id);
-				empInfo.setReadYN(receivedMailDao.readYN(list.getSendMailId(),id));
-				emp.add(empInfo);
-			}
-			list.setEmpList(emp);
-			int file = mailFileDao.getFileYN(list.getSendMailId());
-			if(file != 0) {
-				list.setFileYN("Y");
-			}else {
-				list.setFileYN("N");
-			}
-		}
-		return sendMail;
-	}
-
-	@Override
-	public int importMailRowsCount(String empId) {
-		log.info("실행");
-		return sendMailDao.getImportRowCount(empId);
-	}
-
-	@Override
-	public List<SendMail> getImportMail(String empId, Pager pager ) {
-		log.info("실행");
-		List<SendMail> sendMail = sendMailDao.getImportMail(empId, pager);
-//		log.info("union 메일  :"+sendMail);
-		for(SendMail list : sendMail) {
 			SendMail send = sendMailDao.getMailInformation(list.getSendMailId());
 //			log.info("mail id에 따른 내용 :" +send);
 			list.setSendMailTitle(send.getSendMailTitle());
 			list.setSendMailContent(send.getSendMailContent());
 			list.setSendMailDate(send.getSendMailDate());
+			list.setSendMailImportanceYN(send.getSendMailImportanceYN());
 			List<EmployeeInfo> emp = new ArrayList<>();
 			EmployeeInfo empInfo =employeeDao.mailInfo(send.getEmpId());
 			list.setPosName(empInfo.getPosName());
@@ -241,6 +230,22 @@ public class MailServiceImpl implements MailService {
 				list.setFileYN("N");
 			}
 		}
+		return sendMail;
+	}
+
+	@Override
+	public int importMailRowsCount(String empId) {
+		log.info("실행");
+		return sendMailDao.getImportRowCount(empId);
+	}
+
+	//중요메일 데이터 얻어오기
+	@Override
+	public List<SendMail> getImportMail(String empId, Pager pager ) {
+		log.info("실행");
+		List<SendMail> sendMail = sendMailDao.getImportMail(empId, pager);
+//		log.info("union 메일  :"+sendMail);
+		sendMail = getSendDetail(sendMail);
 		return sendMail;
 	}
 
@@ -310,36 +315,9 @@ public class MailServiceImpl implements MailService {
 	@Override
 	public List<SendMail> getTrashMail(String empId, Pager pager) {
 		log.info("실행");
-		List<SendMail> trashMail = sendMailDao.getTrashMail(empId, pager); //send, received 테이블의 delete Y를 가져온다.
-		for(SendMail list : trashMail) {
-			SendMail send = sendMailDao.getMailInformation(list.getSendMailId()); //해당 메일의 데이터 얻어오기
-//			log.info("mail id에 따른 내용 :" +send);
-			list.setSendMailTitle(send.getSendMailTitle());
-			list.setSendMailContent(send.getSendMailContent());
-			list.setSendMailDate(send.getSendMailDate());
-			List<EmployeeInfo> emp = new ArrayList<>();
-			EmployeeInfo empInfo =employeeDao.mailInfo(send.getEmpId());
-			list.setPosName(empInfo.getPosName());
-			list.setDepName(empInfo.getDepName());
-			list.setEmpName(empInfo.getEmpName());
-			List<ReceivedMail> received = receivedMailDao.getMailInformation(list.getSendMailId());
-			list.setReceivedCount(receivedMailDao.getReceivedCount(list.getSendMailId()));
-//				log.info("메일 아이디에 따른 보낸사람에대한 정보 :" +received);
-			for(ReceivedMail rcd : received) {
-				empInfo =employeeDao.mailInfo(rcd.getEmpIdEmployees());
-				empInfo.setReadYN(receivedMailDao.readYN(list.getSendMailId(),rcd.getEmpIdEmployees()));
-				emp.add(empInfo);
-			}
-			list.setEmpList(emp);
-			int file = mailFileDao.getFileYN(list.getSendMailId());
-			if(file != 0) {
-				list.setFileYN("Y");
-			}else {
-				list.setFileYN("N");
-			}
-		}
-//		log.info(trashMail);
-		return trashMail;
+		List<SendMail> sendMail = sendMailDao.getTrashMail(empId, pager); //send, received 테이블의 delete Y를 가져온다.
+		sendMail = getSendDetail(sendMail);
+		return sendMail;
 	}
 
 	//휴지통 완전삭제 or 복구
@@ -395,8 +373,6 @@ public class MailServiceImpl implements MailService {
 			int allCount = receivedMailDao.getAllReceivedMail(mailId);
 			int completeCount = receivedMailDao.getCompleteReceivedMail(mailId);
 			if(allCount == completeCount) {
-				mailFileDao.deleteMailFile(mailId);
-				receivedMailDao.deleteReceivedMail(mailId);
 				sendMailDao.deleteSendMail(mailId);
 			}
 		}
@@ -404,7 +380,7 @@ public class MailServiceImpl implements MailService {
 
 	//메일 detail을 위한 메소드
 	@Override
-	public SendMail getDetailSendMail(int mailid, String category) {
+	public SendMail getDetailSendMail(int mailid,String empId) {
 		//category에 따라 읽음여부 바꿔줘야함
 		List<EmployeeInfo> emp = new ArrayList<>();
 		SendMail send = sendMailDao.getSendMailById(mailid);
@@ -427,6 +403,29 @@ public class MailServiceImpl implements MailService {
 			send.setFileYN("N");
 		}
 		return send;
+		
+	}
+	
+	@Override
+	public ReceivedMail getDetailReceivedMail(int mailid, String empId) {
+		receivedMailDao.changeReadYN(mailid, empId);
+		ReceivedMail receivedMail = receivedMailDao.getDetailReceivedMail(empId, mailid);
+		SendMail sendMail = (sendMailDao.getEmpIdById(mailid));
+		receivedMail.setEmpId(sendMail.getEmpId());
+		receivedMail.setSendMailTitle(sendMail.getSendMailTitle());
+		receivedMail.setSendMailContent(sendMail.getSendMailContent());
+		EmployeeInfo empInfo=employeeDao.mailInfo(receivedMail.getEmpId());
+		receivedMail.setEmpName(empInfo.getEmpName());
+		receivedMail.setDepName(empInfo.getDepName());
+		receivedMail.setPosName(empInfo.getPosName());
+		receivedMail.setMailId(empInfo.getMailId());
+		int file = mailFileDao.getFileYN(mailid);
+		if(file != 0) {
+			receivedMail.setFileYN("Y");
+		}else {
+			receivedMail.setFileYN("N");
+		}
+		return receivedMail;
 	}
 
 	//해당 메일의 파일 얻기
@@ -451,6 +450,73 @@ public class MailServiceImpl implements MailService {
 		mailCount.setImportCount(receivedMailDao.getImportCount(empId));
 		return mailCount;
 	}
+
+	//받은 메일 title row
+	@Override
+	public List<Integer> titleCount(String title) {
+		title = "%"+title+"%";
+		return sendMailDao.getTitleCount(title);
+	}
+
+	//받은 메일 제목 검색
+	@Override
+	public List<ReceivedMail> searchTitleReceivedMail(List<Integer> titleMail, String empId, Pager pager) {
+		List<ReceivedMail> receivedMail = receivedMailDao.getTitleReceivedMail(empId, pager, titleMail);
+		receivedMail = getReceivedDetail(receivedMail);
+		return receivedMail;
+	}
+
+	//보낸 메일 제목 검색
+	@Override
+	public List<SendMail> searchTitleSendMail(List<Integer> titleMail, String empId, Pager pager) {
+		List<SendMail> sendMail = sendMailDao.getTitleSendMail(empId, pager, titleMail);
+		sendMail = getSendDetail(sendMail);
+		return sendMail;
+	}
+
+	@Override
+	public List<SendMail> searchTitleTempMail(List<Integer> titleMail, String empId, Pager pager) {
+		List<SendMail> sendMail = sendMailDao.getTitleTempMail(empId, pager, titleMail);
+		sendMail = getSendDetail(sendMail);
+		return sendMail;
+	}
+
+	@Override
+	public List<SendMail> searchTitleImportMail(List<Integer> titleMail, String empId, Pager pager) {
+		List<SendMail> sendMail = sendMailDao.getTitleImportMail(empId, pager, titleMail);
+		sendMail = getSendDetail(sendMail);
+		return sendMail;
+	}
+
+	@Override
+	public List<SendMail> searchTitleTrashMail(List<Integer> titleMail, String empId, Pager pager) {
+		List<SendMail> sendMail = sendMailDao.getTitleTrashMail(empId, pager, titleMail);
+		sendMail = getSendDetail(sendMail);
+		return sendMail;
+	}
+
+	//휴지통 보내기 - 자세히 보기
+	@Override
+	public void trashMail(int mailId, String option, String empId) {
+		if(option.equals("send")) {
+			sendMailDao.updateTrash(mailId);
+		}else {
+			receivedMailDao.updateTrash(mailId, empId);
+		}
+	}
+
+	//완전삭제로 상태 변경 - 자세히 보기
+	@Override
+	public void completetrashMail(int mailId, String empId, String option) {
+		if(option.equals("send")) {
+			sendMailDao.updateCompleteTrash(mailId);
+		}else {
+			receivedMailDao.updateCompleteTrash(mailId, empId);
+		}
+		
+	}
+
+
 
 
 

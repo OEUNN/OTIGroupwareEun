@@ -26,4 +26,5 @@ public class SendMail {
     private String posName;
     private String depName;
     private String empName;
+    private String readYN;
 }
