@@ -166,13 +166,13 @@
 		    			});
 	            	  } else {
 	            		  //이전달 버튼
-		            	  let prevbtn = '<button type="button" onclick="chartPrev(' + "'" + changeDate + "'" + ')" class="btn btn-md py-1 px-2" style="background-color:#FFC10080">';
+		            	  let prevbtn = '<button type="button" onclick="chartPrev(' + "'" + changeDate + "'" + ')" class="btn btn-md py-1 px-2" style="background-color:#4B49AC">';
 		            	  prevbtn += '<span class="h3 mb-0 fc-icon fc-icon-chevron-left"></span>';
 		            	  prevbtn += '</button>';
 		            	  $('#chartPrevBtn').html(prevbtn);
 		            	  
 		            	  //다음달 버튼
-		            	  let nextbtn = '<button type="button" onclick="chartNext(' + "'" + changeDate + "'" + ')" class="btn btn-md py-1 px-2 ml-2" style="background-color:#FFC10080">';
+		            	  let nextbtn = '<button type="button" onclick="chartNext(' + "'" + changeDate + "'" + ')" class="btn btn-md py-1 px-2 ml-2" style="background-color:#4B49AC">';
 		            	  nextbtn += '<span class="h3 mb-0 fc-icon fc-icon-chevron-right"></span>';
 		            	  nextbtn += '</button>';
 		            	  $('#chartNextBtn').html(nextbtn);
@@ -220,13 +220,13 @@
 		    			});
 	            	  } else {
 	            		  //이전달 버튼
-		            	  let prevbtn = '<button type="button" onclick="chartPrev(' + "'" + changeNextDate + "'" + ')" class="btn btn-md py-1 px-2" style="background-color:#FFC10080">';
+		            	  let prevbtn = '<button type="button" onclick="chartPrev(' + "'" + changeNextDate + "'" + ')" class="btn btn-md py-1 px-2" style="background-color:#4B49AC">';
 		            	  prevbtn += '<span class="h3 mb-0 fc-icon fc-icon-chevron-left"></span>';
 		            	  prevbtn += '</button>';
 		            	  $('#chartPrevBtn').html(prevbtn);
 		            	  
 		            	  //다음달 버튼
-		            	  let nextbtn = '<button type="button" onclick="chartNext(' + "'" + changeNextDate + "'" + ')" class="btn btn-md py-1 px-2 ml-2" style="background-color:#FFC10080">';
+		            	  let nextbtn = '<button type="button" onclick="chartNext(' + "'" + changeNextDate + "'" + ')" class="btn btn-md py-1 px-2 ml-2" style="background-color:#4B49AC">';
 		            	  nextbtn += '<span class="h3 mb-0 fc-icon fc-icon-chevron-right"></span>';
 		            	  nextbtn += '</button>';
 		            	  $('#chartNextBtn').html(nextbtn);
@@ -463,13 +463,13 @@
 											<div class="d-flex">
 												<!-- 이전달 -->
 												<div id="chartPrevBtn">
-													<button type="button" onclick="chartPrev('${sessionScope.chartDate}')" class="btn btn-md py-1 px-2" style="background-color:#FFC10080">
+													<button type="button" onclick="chartPrev('${sessionScope.chartDate}')" class="btn btn-md py-1 px-2" style="background-color:#4B49AC">
 														<span class="h3 mb-0 fc-icon fc-icon-chevron-left"></span>
 													</button>
 												</div>
 												<!-- 다음달 -->
 												<div id="chartNextBtn">
-													<button type="button" onclick="chartNext('${sessionScope.chartDate}')" class="btn btn-md py-1 px-2 ml-2" style="background-color:#FFC10080">
+													<button type="button" onclick="chartNext('${sessionScope.chartDate}')" class="btn btn-md py-1 px-2 ml-2" style="background-color:#4B49AC">
 														<span class="h3 mb-0 fc-icon fc-icon-chevron-right"></span>
 													</button>
 												</div>

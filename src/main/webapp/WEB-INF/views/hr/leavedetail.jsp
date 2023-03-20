@@ -170,7 +170,7 @@
 				</div>
 			</div>
 			<!-- 일반 임직원일 경우의 버튼(휴가취소 가능) -->
-			<c:if test="${(sessionScope.employee.empId ne levApp.levAppApprovalEmpId) && (levApp.levAppCancel ne '휴가취소신청')}">
+			<c:if test="${(sessionScope.employee.empId ne levApp.levAppApprovalEmpId) && (levApp.levAppCancel ne '휴가취소신청') && (levApp.levAppCancel ne '휴가취소')}">
 				<div class="row px-5 mt-3 justify-content-end">
 					<a class="btn btn-danger mr-2" href="${pageContext.request.contextPath}/hr/levapplicationcancel?levAppId=${levApp.levAppId}&levAppProcessState=${levApp.levAppProcessState}">휴가취소</a>
 				</div>

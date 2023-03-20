@@ -115,7 +115,7 @@
 	        #{atdExcpCategory},
 	        #{atdExcpInTime},
 	        #{atdExcpOutTime},
-	        '미처리',
+	        '신청',
 	        SYSDATE,
 	        #{atdExcpApprovalEmpId},
 	        #{atdExcpApprovalEmpName},
@@ -133,7 +133,7 @@
 	<!-- 근무신청결재서(부서장) 통계 -->
 	<select id="getAttendanceExceptionApprovalStats" resultType="hashmap">
 		SELECT
-		    count(CASE WHEN atd_excp_process_state = '미처리' THEN 1 END) AS 미처리,
+		    count(CASE WHEN atd_excp_process_state = '신청' THEN 1 END) AS 신청,
 		    count(CASE WHEN atd_excp_process_state = '승인' THEN 1 END) AS 승인,
 		    count(CASE WHEN atd_excp_process_state = '반려' THEN 1 END) AS 반려
 		FROM 

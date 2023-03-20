@@ -173,7 +173,7 @@
 															<td class="py-3">${atdExcp.atdExcpApprovalEmpName}</td>
 															<td class="py-3">
 																<!-- 결재상태 -->
-																<c:if test="${atdExcp.atdExcpProcessState == '미처리'}">
+																<c:if test="${atdExcp.atdExcpProcessState == '신청'}">
 																	<div class="badge badge-secondary font-weight-bold text-white">${atdExcp.atdExcpProcessState}</div>
 																</c:if>
 																<c:if test="${atdExcp.atdExcpProcessState == '승인'}">
