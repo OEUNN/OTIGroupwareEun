@@ -210,7 +210,7 @@
 										</div>
 										<div class="row">
 											<div class="col-sm-6 px-5 pb-3"> 
-												<div class="form-control" style="font-weight:bold; height:120px;">
+												<div class="form-control" style="font-weight:bold;">
 													<c:if test="${!empty mailFile}">
 														<c:forEach items="${mailFile}" var="mfile">
 															<div class="row">

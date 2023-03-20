@@ -21,7 +21,7 @@
 		where send_mail_id =#{sendMailId}
 	</select>
 	
-	<select id="getSendMailById" resultMap="sendMailMap" parameterType="int">
+	<select id="getSendMailById" parameterType="int" resultMap="sendMailMap" >
 		SELECT send_mail_id, emp_id, send_mail_title, 
 			send_mail_content, send_mail_importance_yn, 
 			send_mail_date, send_mail_temp_yn, 
@@ -204,17 +204,19 @@
 	</select>
 		
 	<select id="getImportMail" parameterType="map" resultMap="sendMailMap">
-		select send_mail_id, 'send' as tbName
-	    from(select send_mail_id
-		    from send_mails
-		    where send_mail_importance_YN = 'Y' and send_mail_del_yn='N' and emp_id=#{empId}
-		    order by send_mail_date desc)
-	    union
-	    select send_mail_id, 'received' as tbName
-	    from(select send_mail_id
-		    from received_mails
-		    where recd_mail_importance_yn = 'Y' and recd_mail_del_yn = 'N' and emp_id_employees=#{empId}
-		    order by recd_mail_date desc)
+		select send_mail_id, tbName
+		from(select send_mail_id, 'send' as tbName
+		    from(select send_mail_id
+			    from send_mails
+			    where send_mail_importance_YN = 'Y' and send_mail_del_yn='N' and emp_id=#{empId}
+			    order by send_mail_date desc)
+		    union
+		    select send_mail_id, 'received' as tbName
+		    from(select send_mail_id
+			    from received_mails
+			    where recd_mail_importance_yn = 'Y' and recd_mail_del_yn = 'N' and emp_id_employees=#{empId}
+			    order by recd_mail_date desc))
+		order by send_mail_id desc
 		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
 		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
 	</select>
@@ -284,17 +286,19 @@
 	
 	<!-- 휴지통 얻어오기 -->
 	<select id="getTrashMail" parameterType="map" resultMap ="sendMailMap">
-		select send_mail_id, 'send' as tbName
-	    from(select send_mail_id
-		    from send_mails
-		    where SEND_MAIL_DEL_YN='Y' and SEND_MAIL_DEL_COMPLETE_YN ='N' and emp_id=#{empId}
-		    order by send_mail_date desc)
-	    union
-	    select send_mail_id, 'received' as tbName
-	    from(select send_mail_id
-		    from received_mails
-		    where recd_mail_del_yn = 'Y' and RECD_MAIL_DEL_COMPLETE_YN ='N' and emp_id_employees=#{empId}
-		    order by recd_mail_date desc)
+		select send_mail_id, tbName
+		from(select send_mail_id, 'send' as tbName
+		    from(select send_mail_id
+			    from send_mails
+			    where SEND_MAIL_DEL_YN='Y' and SEND_MAIL_DEL_COMPLETE_YN ='N' and emp_id=#{empId}
+			    order by send_mail_date desc)
+		    union
+		    select send_mail_id, 'received' as tbName
+		    from(select send_mail_id
+			    from received_mails
+			    where recd_mail_del_yn = 'Y' and RECD_MAIL_DEL_COMPLETE_YN ='N' and emp_id_employees=#{empId}
+			    order by recd_mail_date desc))
+		order by send_mail_id desc
 		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
 		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
 	</select>

@@ -201,7 +201,7 @@
 											<input type="hidden" id="resultString" name="resultString"/>
 											<c:if test="${!empty category }">
 												<button type="button" onclick="deleteBtn(${sendMail.sendMailId})" id="popup-btn" class="btn btn-md btn-danger mx-2">
-													<span class="mdi mdi-telegram align-middle"></span> 
+													<span class="mdi mdi-archive align-middle"></span> 
 													<span>삭제</span>
 												</button>
 											</c:if>
@@ -249,16 +249,20 @@
 														</div>
 													</div>
 													<div class="col-sm-9 form-inline" id="receivedId" style="border-bottom: 1px solid #ced4da;">
-														<c:if test="${!empty replyMail }">
-															<button type="button" id="${replyMail.empIdEmployees}" onclick="empBtnRemove(${replyMail.empIdEmployees})" class="r${replyMail.empIdEmployees} empBtn mb-1 mx-2">
-																<span>${replyMail.empName}(${replyMail.mailId}) </span>
-															</button>
+														<c:if test="${!empty replyMail}">
+															<div id="${replyMail.empId}">
+																<button type="button" id="${replyMail.empId}" onclick="empBtnRemove(${replyMail.empId})" class="r${replyMail.empId} empBtn mb-1 mx-2">
+																	<span>${replyMail.empName}(${replyMail.mailId}) </span>
+																</button>
+															</div>
 														</c:if>
 														<c:if test="${!empty sendMail.empList}">
 															<c:forEach items="${sendMail.empList}" var="emp">
-																<button type="button" id="${emp.empId}" onclick="empBtnRemove(${emp.empId})" class="r${emp.empId} empBtn mb-1 mx-2">
-																	<span>${emp.empName}(${emp.mailId}) </span>
-																</button>
+																<div id="${emp.empId}">
+																	<button type="button" id="${emp.empId}" onclick="empBtnRemove(${emp.empId})" class="r${emp.empId} empBtn mb-1 mx-2">
+																		<span>${emp.empName}(${emp.mailId}) </span>
+																	</button>
+																</div>
 															</c:forEach>
 														</c:if>
 													</div>
