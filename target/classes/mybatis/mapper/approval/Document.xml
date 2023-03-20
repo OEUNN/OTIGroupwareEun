@@ -98,7 +98,7 @@
     <select id="getDraftDocumentCount" resultType="int" parameterType="string">
         SELECT count(*) 
         FROM documents 
-        WHERE emp_id = #{empId} AND doc_temp_yn = 'N' AND doc_state != '회수' 
+        WHERE emp_id = #{empId} AND doc_temp_yn = 'N' 
     </select>
     
     <select id="getDraftDocumentList" resultMap="documentResultMap">
@@ -116,7 +116,7 @@
 		            doc_complete_date, doc_state, doc_read_yn
 		        FROM 
 		            documents
-		        WHERE emp_id = #{empId} AND doc_temp_yn = 'N' AND doc_state != '회수' 
+		        WHERE emp_id = #{empId} AND doc_temp_yn = 'N' 
 		        ORDER BY doc_report_date DESC
 		    )
 		    WHERE rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
@@ -128,7 +128,7 @@
     <select id="getPendedDocumentCount" resultType="int" parameterType="string">
         SELECT count(*) 
 		FROM documents doc, approval_lines apl, employees emp
-		WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND apl.emp_id = emp.emp_id AND doc.doc_aprv_step = apl.aprv_line_order and doc_temp_yn = 'N'
+		WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND apl.emp_id = emp.emp_id AND doc.doc_aprv_step = apl.aprv_line_order and doc_temp_yn = 'N' AND doc_state != '회수' 
     </select>
     
     <select id="getPendedDocumentList" resultMap="documentResultMap">
@@ -146,7 +146,7 @@
 	        		doc_complete_date, doc_state, doc_read_yn
 	        	FROM 
 	        		documents doc, approval_lines apl, employees emp
-	        	WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND apl.emp_id = emp.emp_id AND doc.doc_aprv_step = apl.aprv_line_order AND doc_temp_yn = 'N' 
+	        	WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND apl.emp_id = emp.emp_id AND doc.doc_aprv_step = apl.aprv_line_order AND doc_temp_yn = 'N' AND doc_state != '회수' 
 	        	ORDER BY doc_report_date DESC
         	)
         	WHERE rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
@@ -218,7 +218,7 @@
     <select id="getTakePartInDocumentCount" resultType="int" parameterType="string">
         SELECT count(*) 
 		FROM documents doc, approval_lines apl, employees emp 
-		WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc_temp_yn = 'N' AND apl.emp_id = emp.emp_id AND (apl.aprv_line_order <![CDATA[<]]>= doc.doc_aprv_step OR doc.doc_aprv_step = -1)
+		WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc_temp_yn = 'N' AND apl.emp_id = emp.emp_id AND (apl.aprv_line_order <![CDATA[<]]>= doc.doc_aprv_step OR doc.doc_aprv_step = -1)  AND doc_state != '회수' 
     </select>
     
     <select id="getTakePartInDocumentList" resultMap="documentResultMap">
@@ -235,7 +235,7 @@
 	        		doc_complete_date, doc_state, doc_read_yn
 	        	FROM 
 	        		documents doc, approval_lines apl, employees emp 
-	        	WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc_temp_yn = 'N' AND apl.emp_id = emp.emp_id AND (apl.aprv_line_order <![CDATA[<]]>= doc.doc_aprv_step OR doc.doc_aprv_step = -1)
+	        	WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc_temp_yn = 'N' AND apl.emp_id = emp.emp_id AND (apl.aprv_line_order <![CDATA[<]]>= doc.doc_aprv_step OR doc.doc_aprv_step = -1)  AND doc_state != '회수' 
 	        	ORDER BY doc_report_date DESC
         	)
         	WHERE rownum <![CDATA[<]]>= #{pager.rowsPerPage} * #{pager.pageNo}
@@ -251,7 +251,7 @@
         SELECT count(*) 
         FROM documents 
 		<where>
-			emp_id = #{empId} AND doc_temp_yn = 'N' AND doc_state != '회수' 
+			emp_id = #{empId} AND doc_temp_yn = 'N' 
 			<if test="searchQuery.docId != null">
 			AND doc_id LIKE '%'||#{searchQuery.docId}||'%' 
 			</if>
@@ -285,7 +285,7 @@
 		        FROM 
 		            documents
 		 		<where>
-	 	 			emp_id = #{empId} and doc_temp_yn = 'N' AND doc_state != '회수' 
+	 	 			emp_id = #{empId} and doc_temp_yn = 'N' 
 					<if test="searchQuery.docId != null">
 					AND doc_id LIKE '%'||#{searchQuery.docId}||'%' 
 					</if>

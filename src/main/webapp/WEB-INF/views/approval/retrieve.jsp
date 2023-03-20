@@ -68,30 +68,6 @@
 			</div>
 		</div>
 	</div>
-	
-	
-<!-- 	<div class="main-panel-popup">
-		<div class="content-wrapper">
-			Start information
-			<div class="row">
-				<div class="col-12 stretch-card">
-					<div class="card">
-						<div class="card-body row m-0">
-							<div class="container-fluid wrap">
-								<input type="hidden" id="i" />
-								<div class="row card-title box">비밀번호 초기화</div>
-								<div class="row card-title box">하시겠습니까?</div>
-								<div class="row box">
-									<button class="btn btn-primary btn-md mr-2" onclick="start()">확인</button>
-									<button class="btn btn-inverse-primary btn-md ml-2" onclick="window.close()">닫기</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div> -->
 </body>
 
 </html>

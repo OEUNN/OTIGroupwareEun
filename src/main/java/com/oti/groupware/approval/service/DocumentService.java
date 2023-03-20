@@ -22,7 +22,7 @@ public interface DocumentService {
 	void updateDocument(ApprovalLines approvalLines, Document document, MultipartFile[] multipartFiles)
 			throws IOException;
 	
-	public int deleteDocument(List<String> docIds);
+	public int deleteDocument(String docId);
 
 	public List<Organization> getOrganization();
 	

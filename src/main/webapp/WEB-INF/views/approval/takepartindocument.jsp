@@ -119,7 +119,6 @@
 													<a class="dropdown-item" onclick="searchState('승인')">승인</a>
 													<a class="dropdown-item" onclick="searchState('진행')">진행</a>
 													<a class="dropdown-item" onclick="searchState('열람')">열람</a>
-													<a class="dropdown-item" onclick="searchState('회수')">회수</a>
 													<a class="dropdown-item" onclick="searchState('반려')">반려</a>
 											    </div>
 												</th>

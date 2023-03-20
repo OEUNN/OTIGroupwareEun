@@ -30,49 +30,41 @@
 	}
 	</style>
 	<script>
-		var order = 1;
-		
-		$(() => {
-			let openerHTML = opener.$('#approvalLine');
-			openerHTML.find('.remove-flag').each((index, item) => {
-				if (index % 2 === 0) {
-					var id = item.classList[0].substring(1);
-					appendToList(id);
-				}
-			})
-		});
-		
-		function appendToList(elementId) {
-			var readerId = $("#readerId").val();
-			if (elementId !== readerId) {
-				if ($("#approvalLine div").length < 4) {
-					delId = 'del' + elementId;
-					if ($("#approvalLine").has("div[id=" + delId + "]").length === 0) {
-						
-						originalId = elementId;
-						elementId = '#' + elementId;
-						
-						clonedElement = $(elementId).clone();
-						clonedElement.removeClass('mdi-account-star');
-						clonedElement.addClass('mdi-minus');
-						let jQueryElement = clonedElement.html();
-						
-						jQueryElement = '<div id="' + delId + '" class="'+order+' highlight row m-1 ' + $(elementId).attr('class').split(' ')[3] + '" onclick="removeFromList('+ "'" + originalId + "'" +')">' + jQueryElement + '</div>'
-						$("#approvalLine").append(jQueryElement);
-						
-						order += 1;
-					}
-					else {
-						swal({
-							title: "결재선에 같은 사람을 두번 이상 지정할 수 없습니다.",
-							icon: "warning",
-							button: "닫기"
-						});
-					}
+	var order = 1;
+	
+	$(() => {
+		let openerHTML = opener.$('#approvalLine');
+		openerHTML.find('.remove-flag').each((index, item) => {
+			if (index % 2 === 0) {
+				var id = item.classList[0].substring(1);
+				appendToList(id);
+			}
+		})
+	});
+	
+	function appendToList(elementId) {
+		var readerId = $("#readerId").val();
+		if (elementId !== readerId) {
+			if ($("#approvalLine div").length < 4) {
+				delId = 'del' + elementId;
+				if ($("#approvalLine").has("div[id=" + delId + "]").length === 0) {
+					
+					originalId = elementId;
+					elementId = '#' + elementId;
+					
+					clonedElement = $(elementId).clone();
+					clonedElement.removeClass('mdi-account-star');
+					clonedElement.addClass('mdi-minus');
+					let jQueryElement = clonedElement.html();
+					
+					jQueryElement = '<div id="' + delId + '" class="'+order+' highlight row m-1 ' + $(elementId).attr('class').split(' ')[3] + '" onclick="removeFromList('+ "'" + originalId + "'" +')">' + jQueryElement + '</div>'
+					$("#approvalLine").append(jQueryElement);
+					
+					order += 1;
 				}
 				else {
 					swal({
-						title: "결재선은 자신 포함 최대 5명까지만 지정이 가능합니다.",
+						title: "결재선에 같은 사람을 두번 이상 지정할 수 없습니다.",
 						icon: "warning",
 						button: "닫기"
 					});
@@ -80,67 +72,74 @@
 			}
 			else {
 				swal({
-					title: "자기 자신을 결재선에 더 지정할 수 없습니다.",
+					title: "결재선은 자신 포함 최대 5명까지만 지정이 가능합니다.",
 					icon: "warning",
 					button: "닫기"
 				});
 			}
-			
 		}
-		
-		//In Javascript, 숫자로만 이루어진 문자열이 0으로 시작하면 8진수로 인식한다.
-		//따라서 8진수를 10진수로 다시 바꾼 수를 넘겨주게 된다.
-		function removeFromList(Id) {
-			var delId = '#del' + Id;
-			if ($(delId).length === 0) {
-				delId = '#del' + '0' + Id.toString(8);
-			}
-			
-			$(delId).remove();
-			
-			if (order > 0) {
-				order -= 1;
-			}
-		}
-		
-		function sendApprovalLine(tagId) {
-			let lastIndex = $(tagId).length - 1;
-			$(tagId).each((index, element) => {
-				var empId = $(element).attr('id').substr(3);
-				var depName = $(element).attr('class').split(' ')[4];
-				
-				var empData = $(element).text().split(' ');
-				
-				var empName = empData[0];
-				var posName = empData[1];
-				//var empMail = empData[2];
-				
-				var aprvLineOrder = $(element).attr('class').split(' ')[0];
-				
-				var sendData = {
-					empId : empId,
-					aprvLineOrder: aprvLineOrder,
-					employee: {
-						empName: empName
-					},
-					department: {
-						depName: depName
-					},
-					position: {
-						posName: posName
-					},
-					lastIndex : lastIndex,
-					index : index
-				}
-				opener.postMessage(sendData);
-			//$(tagId).forEach
+		else {
+			swal({
+				title: "자기 자신을 결재선에 더 지정할 수 없습니다.",
+				icon: "warning",
+				button: "닫기"
 			});
-			window.close();
 		}
 		
-		function cancel() {
-			window.close();
+	}
+	
+	//In Javascript, 숫자로만 이루어진 문자열이 0으로 시작하면 8진수로 인식한다.
+	//따라서 8진수를 10진수로 다시 바꾼 수를 넘겨주게 된다.
+	function removeFromList(Id) {
+		var delId = '#del' + Id;
+		if ($(delId).length === 0) {
+			delId = '#del' + '0' + Id.toString(8);
 		}
+		
+		$(delId).remove();
+		
+		if (order > 0) {
+			order -= 1;
+		}
+	}
+	
+	function sendApprovalLine(tagId) {
+		let lastIndex = $(tagId).length - 1;
+		$(tagId).each((index, element) => {
+			var empId = $(element).attr('id').substr(3);
+			var depName = $(element).attr('class').split(' ')[4];
+			
+			var empData = $(element).text().split(' ');
+			
+			var empName = empData[0];
+			var posName = empData[1];
+			//var empMail = empData[2];
+			
+			var aprvLineOrder = $(element).attr('class').split(' ')[0];
+			
+			var sendData = {
+				empId : empId,
+				aprvLineOrder: aprvLineOrder,
+				employee: {
+					empName: empName
+				},
+				department: {
+					depName: depName
+				},
+				position: {
+					posName: posName
+				},
+				lastIndex : lastIndex,
+				index : index
+			}
+			opener.postMessage(sendData);
+		});
+		window.close();
+	}
+	
+	function cancel() {
+		window.close();
+	}
 	</script>
 </head>
 

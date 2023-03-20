@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -477,12 +479,17 @@ public class ApprovalController {
 	
 	//selectbox 삭제 및 회수
 	@RequestMapping(value = "/selected", method=RequestMethod.POST)
-	public String handleSelected(String docType, String type, @RequestParam("docId") List<String> docId, HttpSession session, RedirectAttributes redirectAttributes) {
+	public String handleSelected(String docType, String type, @RequestParam("docId") List<String> docId, HttpServletRequest httpServletRequest, HttpSession session, RedirectAttributes redirectAttributes) {
 		log.info("문서 목록: " + docId);
+		
 		String result;
 		if ("delete".equals(type) && type != null) {
+			int resultCount = 0;
 			
-			int resultCount = documentService.deleteDocument(docId);
+			for(String docIdElement : docId) {
+				log.info("문서 번호: " + docIdElement);
+				resultCount += documentService.deleteDocument(docIdElement);
+			}
 			
 			if (resultCount == 0) {
 				result = "changed";
@@ -503,6 +510,7 @@ public class ApprovalController {
 			int resultCount = 0;
 			
 			for(String docIdElement : docId) {
+				log.info("문서 번호: " + docIdElement);
 				if (documentService.handleRetrieveRequest("회수", docIdElement, empId)) {
 					resultCount++;
 				}
@@ -571,7 +579,7 @@ public class ApprovalController {
 		return "approval/draftdocument";
 	}
 	
-	//결재하기 검색
+	//열람문서함 검색
 	@RequestMapping(value = "/takepartindocument/search", method=RequestMethod.GET)
 	public String getCompletedDocumentListByQuery(@ModelAttribute SearchQuery searchQuery, @RequestParam("searchBar") String searchBar, HttpSession session, Model model) {
 		log.info("검색 질의: " + searchQuery);
@@ -614,7 +622,7 @@ public class ApprovalController {
 		return "approval/takepartindocument";
 	}
 	
-	//결재대기함 검색
+	//결재하기 검색
 	@RequestMapping(value = "/pendeddocument/search", method=RequestMethod.GET)
 	public String getPendedDocumentListByQuery(@ModelAttribute SearchQuery searchQuery, @RequestParam("searchBar") String searchBar, HttpSession session, Model model) {
 		log.info("검색 질의: " + searchQuery);

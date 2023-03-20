@@ -169,6 +169,11 @@ public class DocumentServiceImpl implements DocumentService {
 			approvalLineDAO.defaultInsertApprovalLine(approvalLine);
 		}
 	}
+
+	@Override
+	public int deleteDocument(String docId) {
+		return documentDAO.deleteDocument(docId);
+	}
 	
 	//승인 처리
 	@Override
@@ -305,17 +310,6 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 	}
 
-	@Override
-	@Transactional
-	public int deleteDocument(List<String> docIds) {
-		int result = 0;
-		for (String docId : docIds) {
-			result += documentDAO.deleteDocument(docId);
-		}
-		return result;
-	}
-	
-	
 	//목록 조회 메소드들
 	@Override
 	@Transactional
