@@ -24,7 +24,7 @@
 	</style>
 	
 	<script>
-		//차트
+		//차트 AJAX
 		$(function() {
 			/* 차트에 필요한 데이터를 AJAX통신을 통해 갖고옴 */
 			$.ajax({
@@ -33,98 +33,210 @@
 	              	alert("통신실패!");
 	              },
 	              success: function (data) {
-	           	   	//받아온 JSON 데이터를 파싱
-	           	   	var obj = JSON.parse(JSON.stringify(data[0]));
-		           	 /* 차트:Start */
-		           	 //도넛  차트
-		           	 const dctx = document.getElementById('doughnutChart');
-		           	 new Chart(dctx, {
-		           	   type: 'doughnut',
-		           	   data: {
-		           	     datasets: [{
-		           	       data: [obj.정상출근, obj.지각, obj.추가근무, obj.조퇴, obj.결근],
-		           	       backgroundColor: [
-		           	         '#4B49AC',
-		           	         '#f37981',
-		           	         'rgb(255, 205, 86)',
-		           	         '#7978E9',
-		           	         '#248AFD'
-		           	       ],
-		           	       hoverOffset: 4,
-			           	   datalabels: {
-		           	          color: 'white'
-			           	   }
-		           	     }],
-		           	     labels: ['정상출근', '지각', '추가근무', '조퇴', '결근'],
-		           	   },
-		           	   options: {
-		           		legend: {
-		           		    position: 'bottom',
-			           		labels: {
-			                     fontSize: 13,
-			                     boxWidth: 15, // 아이콘 크기 조절
-			                 }
-		           		 },
-		           	     animation: {
-		           	       animateRotate: true,
-		           	       animateScale: true
-		           	     },
-		           	  	 maintainAspectRatio: false,
-		           	   }
-		           	 });
-		           	 //바 차트
-		           	 const bctx = document.getElementById('barChart');
-		           	 new Chart(bctx, {
-		           	   type: 'horizontalBar',
-		           	   data: {
-		           	     datasets: [{
-		           	       axis: 'y',
-		           	       data: [obj.정상출근, obj.지각, obj.추가근무, obj.조퇴, obj.결근],
-		           	       backgroundColor: [
-		           	         '#4B49AC',
-		           	         '#f37981',
-		           	         'rgb(255, 205, 86)',
-		           	         '#7978E9',
-		           	         '#248AFD'
-		           	       ],
-			           	   datalabels: {
-			           	     color: 'white'
-				           }
-		           	     }],
-		           	     labels: ['정상출근', '지각', '추가근무', '조퇴', '결근']
-		           	   },
-		           	   options: {
-		           		indexAxis: 'y',
-		           		legend: {
-		           		    display: false, // 범례를 숨김
-			           		labels: {
-			                	fontSize: 10,
-			                }
-		           		 },
-		           	     animation: {
-		           	       animateRotate: true,
-		           	       animateScale: true
-		           	     },
-		           	  	 maintainAspectRatio: false,
-			           	 scales: {
-			           	    xAxes: [{
-			           	      ticks: {
-			           	        min: 0, // x축 최소값을 0으로 설정
-			           	        max: 15 // x축 최대값을 15으로 설정
-			           	      }
-			           	    }],
-			           	    yAxes: [{
-			           	      ticks: {
-			           	        beginAtZero: true
-			           	      }
-			           	    }]
-			           	 }
-		           	   }
-		           	 });
-		           	 /* 차트:End */
+		           	 //차트
+	           	   	 chartJsFun(data);
 	              }
            	});
 		});
+		
+		//chart.js 함수
+		function chartJsFun(data){
+			var obj = JSON.parse(JSON.stringify(data[0]));
+			//도넛  차트
+          	 const dctx = document.getElementById('doughnutChart');
+          	 new Chart(dctx, {
+          	   type: 'doughnut',
+          	   data: {
+          	     datasets: [{
+          	       data: [obj.정상출근, obj.지각, obj.추가근무, obj.조퇴, obj.결근],
+          	       backgroundColor: [
+          	         '#4B49AC',
+          	         '#f37981',
+          	         'rgb(255, 205, 86)',
+          	         '#7978E9',
+          	         '#248AFD'
+          	       ],
+          	       hoverOffset: 4,
+	           	   datalabels: {
+          	          color: 'white'
+	           	   }
+          	     }],
+          	     labels: ['정상출근', '지각', '추가근무', '조퇴', '결근'],
+          	   },
+          	   options: {
+          		legend: {
+          		    position: 'bottom',
+	           		labels: {
+	                     fontSize: 13,
+	                     boxWidth: 15, // 아이콘 크기 조절
+	                 }
+          		 },
+          	     animation: {
+          	       animateRotate: true,
+          	       animateScale: true
+          	     },
+          	  	 maintainAspectRatio: false,
+          	   }
+          	 });
+          	 //바 차트
+          	 const bctx = document.getElementById('barChart');
+          	 new Chart(bctx, {
+          	   type: 'horizontalBar',
+          	   data: {
+          	     datasets: [{
+          	       axis: 'y',
+          	       data: [obj.정상출근, obj.지각, obj.추가근무, obj.조퇴, obj.결근],
+          	       backgroundColor: [
+          	         '#4B49AC',
+          	         '#f37981',
+          	         'rgb(255, 205, 86)',
+          	         '#7978E9',
+          	         '#248AFD'
+          	       ],
+	           	   datalabels: {
+	           	     color: 'white'
+		           }
+          	     }],
+          	     labels: ['정상출근', '지각', '추가근무', '조퇴', '결근']
+          	   },
+          	   options: {
+          		indexAxis: 'y',
+          		legend: {
+          		    display: false, // 범례를 숨김
+	           		labels: {
+	                	fontSize: 10,
+	                }
+          		 },
+          	     animation: {
+          	       animateRotate: true,
+          	       animateScale: true
+          	     },
+          	  	 maintainAspectRatio: false,
+	           	 scales: {
+	           	    xAxes: [{
+	           	      ticks: {
+	           	        min: 0, // x축 최소값을 0으로 설정
+	           	        max: 15 // x축 최대값을 15으로 설정
+	           	      }
+	           	    }],
+	           	    yAxes: [{
+	           	      ticks: {
+	           	        beginAtZero: true
+	           	      }
+	           	    }]
+	           	 }
+          	   }
+          	 });
+		}
+		
+		//차트 이전달
+	   	function chartPrev(date) {
+	   		let prevMonth = parseInt(date.substring(5), 10);
+	   		
+	   		if(prevMonth > 1) {
+	   			let prevMonthAfter = prevMonth - 1;
+	   			var changeDate = date.substring(0, 5) + date.substring(5).replace(prevMonth.toString(), prevMonthAfter.toString());
+	   		} else {
+	   			let prevMonthAfter = 12;
+	   			let prevYearAfter = parseInt(date.substring(0, 5), 10) - 1;
+	   			var changeDate = prevYearAfter + '/' + prevMonthAfter
+	   		}
+	   		
+	   		$.ajax({
+	              url: "../hr/attendancestats",
+	              data: {chartDate: changeDate},
+	              error: function () {
+	            	  swal({
+	    				  title: "통신실패",
+	    				  text: "통신실패 하였습니다.",
+	    				  icon: "error",
+	    				  button: "닫기",
+	    			});
+	              },
+	              success: function (data) {
+	            	  var obj = JSON.parse(JSON.stringify(data[0]));
+	            	  console.log(obj);
+	            	  
+	            	  if(obj.정상출근 == 0 && obj.지각 == 0 && obj.추가근무 == 0 && obj.조퇴 == 0 && obj.결근 == 0){
+	            		  swal({
+		    				  title: "근무내역 없음",
+		    				  text: "해당 월의 근무내역이 없습니다.",
+		    				  icon: "warning",
+		    				  button: "닫기",
+		    			});
+	            	  } else {
+	            		  //이전달 버튼
+		            	  let prevbtn = '<button type="button" onclick="chartPrev(' + "'" + changeDate + "'" + ')" class="btn btn-md py-1 px-2" style="background-color:#4B49AC">';
+		            	  prevbtn += '<span class="h3 mb-0 fc-icon fc-icon-chevron-left"></span>';
+		            	  prevbtn += '</button>';
+		            	  $('#chartPrevBtn').html(prevbtn);
+		            	  
+		            	  //다음달 버튼
+		            	  let nextbtn = '<button type="button" onclick="chartNext(' + "'" + changeDate + "'" + ')" class="btn btn-md py-1 px-2 ml-2" style="background-color:#4B49AC">';
+		            	  nextbtn += '<span class="h3 mb-0 fc-icon fc-icon-chevron-right"></span>';
+		            	  nextbtn += '</button>';
+		            	  $('#chartNextBtn').html(nextbtn);
+		            	  
+		            	  chartJsFun(data);	  
+	            	  }
+              	  }
+           });
+	   	}
+		
+	  //차트 다음달
+	   	function chartNext(date) {
+	   		let nextMonth = parseInt(date.substring(5), 10);
+	   		
+	   		if(nextMonth < 12) {
+	   			let nextMonthAfter = nextMonth + 1;
+	   			//다음달
+	   			var changeNextDate = date.substring(0, 5) + date.substring(5).replace(nextMonth.toString(), nextMonthAfter.toString());
+	   		} else {
+	   			let nextMonthAfter = 1;
+	   			let nextYearAfter = parseInt(date.substring(0, 5), 10) + 1;
+	   			var changeNextDate = nextYearAfter + '/' + nextMonthAfter;
+	   		}
+	   		
+	   		$.ajax({
+	              url: "../hr/attendancestats",
+	              data: {chartDate: changeNextDate},
+	              error: function () {
+	            	  swal({
+	    				  title: "통신실패",
+	    				  text: "통신실패 하였습니다.",
+	    				  icon: "error",
+	    				  button: "닫기",
+	    			});
+	              },
+	              success: function (data) {
+	            	  var obj = JSON.parse(JSON.stringify(data[0]));
+	            	  
+	            	  if(obj.정상출근 == 0 && obj.지각 == 0 && obj.추가근무 == 0 && obj.조퇴 == 0 && obj.결근 == 0){
+	            		  swal({
+		    				  title: "근무내역 없음",
+		    				  text: "해당 월의 근무내역이 없습니다.",
+		    				  icon: "warning",
+		    				  button: "닫기",
+		    			});
+	            	  } else {
+	            		  //이전달 버튼
+		            	  let prevbtn = '<button type="button" onclick="chartPrev(' + "'" + changeNextDate + "'" + ')" class="btn btn-md py-1 px-2" style="background-color:#4B49AC">';
+		            	  prevbtn += '<span class="h3 mb-0 fc-icon fc-icon-chevron-left"></span>';
+		            	  prevbtn += '</button>';
+		            	  $('#chartPrevBtn').html(prevbtn);
+		            	  
+		            	  //다음달 버튼
+		            	  let nextbtn = '<button type="button" onclick="chartNext(' + "'" + changeNextDate + "'" + ')" class="btn btn-md py-1 px-2 ml-2" style="background-color:#4B49AC">';
+		            	  nextbtn += '<span class="h3 mb-0 fc-icon fc-icon-chevron-right"></span>';
+		            	  nextbtn += '</button>';
+		            	  $('#chartNextBtn').html(nextbtn);
+		            	  
+		            	  //차트 불러오기
+		            	  chartJsFun(data);	  
+	            	  }
+              	  }
+           });
+	   	}
 		
 		//현재 시간
 		$(function() {
@@ -206,21 +318,30 @@
 								               		<div id="select-btn">
 								               			<!-- 출근버튼 클릭전 or 퇴근버튼 클릭 후 -->
 								               			<c:if test="${empty attendance.atdInTime || (!empty attendance.atdInTime && !empty attendance.atdOutTime)}">
-								                  			<button class="btn btn-lg btn-outline-light" type="button" style="width: 140%; height:90%; font-size: 130%; font-weight: bold; border: 1px solid #A3A4A5;">
-								                         		<span class="mdi mdi-sleep" ></span>
+								                  			<button class="btn btn-lg btn-outline-light" type="button" style="width: 110%; height:90%; font-weight: bold; border: 1px solid #A3A4A5;">
+								                         		<c:if test="${empty attendance.atdInTime}">
+									                         		<span id="selectbox-btn-name" style="font-size: 150%;">미출근</span>
+								                         		</c:if>
+								                         		<c:if test="${!empty attendance.atdOutTime}">
+									                         		<span id="selectbox-btn-name" style="font-size: 120%;">퇴근완료</span>
+								                         		</c:if>
 								                        	</button>
 								               			</c:if>
 								               			<!-- 출근버튼 클릭후 -->
 								               			<c:if test="${!empty attendance.atdInTime && empty attendance.atdOutTime}">
-								                  			<button class="btn btn-lg btn-outline-light dropdown-toggle px-4" type="button" id="dropdownMenuButton1" data-toggle="dropdown" 
-								                  					aria-haspopup="true" aria-expanded="true" style="width: 140%; height:90%; font-size: 130%; font-weight: bold; border: 1px solid #A3A4A5;">
+								                  			<button class="btn btn-lg btn-outline-light px-4" type="button" id="dropdownMenuButton1" data-toggle="dropdown" 
+								                  					aria-haspopup="true" aria-expanded="true" style="width: 170%; height:90%; font-size: 140%; font-weight: bold; border: 1px solid #A3A4A5;">
 								                         		<span id="selectbox-btn-name">근무중</span>
 								                        	</button>
-								                        	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width:80%;">
-									                          <a class="dropdown-item" onclick="select('근무중')">근무중</a>
-									                          <a class="dropdown-item" onclick="select('출장')">출장</a>
-									                          <a class="dropdown-item" onclick="select('외근')">외근</a>
-									                        </div>
+<!-- 								                  			<button class="btn btn-lg btn-outline-light dropdown-toggle px-4" type="button" id="dropdownMenuButton1" data-toggle="dropdown"  -->
+<!-- 								                  					aria-haspopup="true" aria-expanded="true" style="width: 140%; height:90%; font-size: 140%; font-weight: bold; border: 1px solid #A3A4A5;"> -->
+<!-- 								                         		<span id="selectbox-btn-name">근무중</span> -->
+<!-- 								                        	</button> -->
+<!-- 								                        	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width:80%;"> -->
+<!-- 									                          <a class="dropdown-item" onclick="select('근무중')">근무중</a> -->
+<!-- 									                          <a class="dropdown-item" onclick="select('출장')">출장</a> -->
+<!-- 									                          <a class="dropdown-item" onclick="select('외근')">외근</a> -->
+<!-- 									                        </div> -->
 								               			</c:if>
 							                  		</div>
 												</div>
@@ -336,8 +457,23 @@
 					    	<div class="card">
 					        	<div class="card-body">
 									<div class="row">
-										<div class="col">
-											<div class="card-title">이번달 근무통계</div>
+										<div class="col d-flex justify-content-between align-items-baseline">
+											<div class="card-title">월별 근무통계</div>
+											<!-- 이전달/다음달 -->
+											<div class="d-flex">
+												<!-- 이전달 -->
+												<div id="chartPrevBtn">
+													<button type="button" onclick="chartPrev('${sessionScope.chartDate}')" class="btn btn-md py-1 px-2" style="background-color:#4B49AC">
+														<span class="h3 mb-0 fc-icon fc-icon-chevron-left"></span>
+													</button>
+												</div>
+												<!-- 다음달 -->
+												<div id="chartNextBtn">
+													<button type="button" onclick="chartNext('${sessionScope.chartDate}')" class="btn btn-md py-1 px-2 ml-2" style="background-color:#4B49AC">
+														<span class="h3 mb-0 fc-icon fc-icon-chevron-right"></span>
+													</button>
+												</div>
+											</div>
 										</div>
 									</div>
 									<!-- 차트!! -->

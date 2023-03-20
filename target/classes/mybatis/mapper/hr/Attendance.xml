@@ -53,7 +53,8 @@
 		    attendances
 		WHERE
 		    emp_id = #{empId}
-		    AND atd_in_time BETWEEN TRUNC(SYSDATE, 'MM') AND LAST_DAY(SYSDATE)
+		    AND atd_in_time BETWEEN TRUNC(to_date(#{chartDate}, 'YYYY/MM'), 'MM') 
+		                        AND TRUNC(LAST_DAY(to_date(#{chartDate}, 'YYYY/MM'))) + INTERVAL '1' DAY - INTERVAL '1' SECOND
 		]]>
 	</select>
 	

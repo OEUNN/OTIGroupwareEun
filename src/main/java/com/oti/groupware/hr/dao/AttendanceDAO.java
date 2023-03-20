@@ -16,7 +16,7 @@ public interface AttendanceDAO {
 	public Attendance getAttendanceToday(@Param("empId") String empId);
 	public Attendance getAttendanceYesterday(@Param("empId") String empId);
 	public List<Attendance> getAttendanceList(@Param("empId")String empId);
-	public HashMap<String, Integer> getAttendanceStats(@Param("empId") String empId);
+	public HashMap<String, Integer> getAttendanceStats(@Param("empId") String empId, @Param("chartDate") String chartDate);
 	public void insertAttendance(@Param("empId") String empId);
 	public void updateAttendance(@Param("empId") String empId);
 	public List<Employee> getEmployeeList(); //나중에 EmployeeDAO에 넣기!

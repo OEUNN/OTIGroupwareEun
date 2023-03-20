@@ -80,12 +80,13 @@
 	<!-- 휴가신청 통계 - 사용일 수 가져오기 -->
 	<select id="getLeaveApplicationStats" resultType="hashmap">
 		SELECT 
-		    ROUND(sum(CASE WHEN lev_app_category IN ('연차', '대체휴무') THEN 1 * (TO_DATE(TO_CHAR(LEV_APP_END_DATE), 'YYYY-MM-DD') - TO_DATE(TO_CHAR(LEV_APP_START_DATE), 'YYYY-MM-DD') + 1)
-		                WHEN lev_app_category IN ('오전반차', '오후반차') THEN 0.5
-		              END), 2) AS 사용휴가
+		   ROUND(sum(CASE WHEN lev_app_category IN ('연차', '대체휴무') AND lev_app_process_state = '승인'  THEN 1 * (TO_DATE(TO_CHAR(LEV_APP_END_DATE), 'YYYY-MM-DD') - TO_DATE(TO_CHAR(LEV_APP_START_DATE), 'YYYY-MM-DD') + 1)
+		            WHEN lev_app_category IN ('연차', '대체휴무') AND lev_app_cancel = '휴가취소' AND lev_app_process_state = '취소완료' THEN -1 * (TO_DATE(TO_CHAR(LEV_APP_END_DATE), 'YYYY-MM-DD') - TO_DATE(TO_CHAR(LEV_APP_START_DATE), 'YYYY-MM-DD') + 1)
+                    WHEN lev_app_category IN ('오전반차', '오후반차') AND lev_app_process_state = '승인' THEN 0.5
+                    WHEN lev_app_category IN ('오전반차', '오후반차') AND lev_app_cancel = '휴가취소' AND lev_app_process_state = '취소완료' THEN 0.5 * -1
+		              END),2) AS 사용휴가
 		FROM leave_applications
 		WHERE emp_id = #{empId}
-		    AND lev_app_process_state = '승인' AND lev_app_cancel is null
 	</select>
 	
 	<!-- 휴가신청서 등록 -->
@@ -111,7 +112,8 @@
         	#{levAppCategory}, 
         	#{levAppStartDate},
         	#{levAppEndDate}, 
-        	'미처리', 
+        	<if test="levAppCancel == '휴가취소'">'취소신청',</if>
+        	<if test="levAppCancel != '휴가취소'">'신청',</if>
         	#{levAppApprovalEmpId},
         	#{levAppApprovalEmpName}
         	<if test="levAppCancel == '휴가취소'">, '휴가취소'</if>
@@ -121,7 +123,7 @@
     <!-- 휴가결재(부서장) 통계 -->
     <select id="getLeaveApplicationApprovalStats" resultType="hashmap">
 		SELECT
-		    count(CASE WHEN lev_app_process_state = '미처리' THEN 1 END) AS 미처리,
+		    count(CASE WHEN lev_app_process_state = '신청' THEN 1 END) AS 신청,
 		    count(CASE WHEN lev_app_process_state = '승인' THEN 1 END) AS 승인,
             count(CASE WHEN lev_app_process_state = '반려' THEN 1 END) AS 반려
 		FROM 
@@ -178,7 +180,7 @@
 		    lev_app_category,
 		    lev_app_start_date,
 		    lev_app_end_date,
-		    (lev_app_end_date - lev_app_start_date)+1 AS lev_period,
+		    CASE WHEN lev_app_category in ('오후반차', '오전반차') THEN 0.5 ELSE (lev_app_end_date - lev_app_start_date)+1 END AS lev_period,
 		    lev_app_approval_emp_id,
 		    lev_app_approval_emp_name,
 		    lev_app_process_state,
@@ -220,6 +222,16 @@
 	   			<if test="levAppCategory == '대체휴무'">emp_substitue_reserve = emp_substitue_reserve + #{levPeriod}</if>
 			WHERE emp_id = #{empId}
     	</if>
+    </update>
+    
+    <!-- 기존 휴가신청서를 "휴가취소"로 변환 -->
+    <update id="updateLeaveApplication">
+    	UPDATE 
+        	leave_applications
+        SET 
+        	lev_app_cancel = '휴가취소신청'
+        WHERE 
+        	lev_app_id = #{levAppId}
     </update>
     
 	<!-- 휴가신청서의 결재상태를 수정 -->

@@ -53,18 +53,20 @@ public class HrServiceImpl implements HrService {
 	
 	/** 나의 근무 통계 가져오기 **/
 	@Override
-	public JSONArray attendanceStats(String empId) {
+	public JSONArray attendanceStats(String empId, String chartDate) {
 		//월별 근무 통계 가져옴
-		HashMap<String, Integer> atdStats = attendanceDAO.getAttendanceStats(empId);
+		HashMap<String, Integer> atdStats = attendanceDAO.getAttendanceStats(empId, chartDate);
 		
 		//JSON 객체를 만든 후, JSON Array로 변환
 		JSONObject  jsonObj = new JSONObject();
 		JSONArray jsonArr = new JSONArray();
+		
 		jsonObj.put("정상출근", atdStats.get("정상출근"));
 		jsonObj.put("지각", atdStats.get("지각"));
 		jsonObj.put("추가근무", atdStats.get("추가근무"));
 		jsonObj.put("조퇴", atdStats.get("조퇴"));
 		jsonObj.put("결근", atdStats.get("결근"));
+		jsonObj.put("월", chartDate);
 		jsonArr.put(jsonObj);
 		
 		return jsonArr;
@@ -307,17 +309,20 @@ public class HrServiceImpl implements HrService {
 	@Override
 	public void leaveApplicationCancel(int levAppId, String levAppProcessState) {
 		//미처리 문서일 경우
-		if(levAppProcessState.equals("미처리") || levAppProcessState.equals("반려")) {
+		if(levAppProcessState.equals("신청") || levAppProcessState.equals("반려")) {
 			//휴가 신청서 삭제
 			leaveApplicationDAO.deleteLeaveApplication(levAppId);
 		
 		// 승인이 된 문서일 경우
-		} else if(levAppProcessState.equals("승인")) { 
+		} else if(levAppProcessState.equals("승인") || levAppProcessState.equals("취소완료")) { 
 			//해당 휴가 신청서 내용을 가져옴
 			LeaveApplication leaveApplication = leaveApplicationDAO.getLeaveApplicationDetail(levAppId);
 			
 			//해당 신청서의 취소 여부 수정
 			leaveApplication.setLevAppCancel("휴가취소");
+			
+			//해당 신청서 "휴가취소"건으로 수정
+			leaveApplicationDAO.updateLeaveApplication(levAppId);
 			
 			//휴가 취소 신청서 등록
 			leaveApplicationDAO.insertLeaveApplication(leaveApplication);
@@ -413,7 +418,7 @@ public class HrServiceImpl implements HrService {
 	@Transactional
 	public int leaveApplicationApprovalProcessState(LeaveApplication leaveApplication) {
 		//승인했을 경우에만 적용
-		if(leaveApplication.getLevAppProcessState().equals("승인")) {
+		if(leaveApplication.getLevAppProcessState().equals("승인") || leaveApplication.getLevAppProcessState().equals("취소완료")) {
 			
 			//휴가 신청인 경우
 			if(leaveApplication.getLevAppCancel() == null) {
@@ -426,12 +431,6 @@ public class HrServiceImpl implements HrService {
 					//연차 or 반차이면서, 잔여일수 안에 신청하지 않은 경우
 					return 0;
 				}
-			} 
-			
-			//잔여 일수 안에 신청한 경우!
-			//반차일 경우에는 카운팅되는 잔여일수가 다름
-			if(leaveApplication.getLevAppCategory().contains("반차")) { 
-				leaveApplication.setLevPeriod(leaveApplication.getLevPeriod()*0.5);
 			}
 			
 			//기존에 있던 잔여일수 차감 및 증감(카운팅)
@@ -444,6 +443,7 @@ public class HrServiceImpl implements HrService {
 			} else { //휴가 취소인 경우
 				attendanceDAO.deleteAttendance(leaveApplication);
 			}
+			
 		} 
 		
 		//결재상태를 승인, 반려로 수정해줌
