@@ -57,17 +57,20 @@
                //작성폼 숨기기
                $("#atd-excp-write-form").hide();
 			   //AJAX 통신에 의해 상세조회 내용 넣기
-               $("#atd-excp-detail").hide().fadeIn(500);
+//                $("#atd-excp-detail").hide().fadeIn(500);
                $('#atd-excp-detail').html(data);
+               $('#atd-excp-detail').show();
            }
    		});
 	}
 	
 	/* 근무신청서 자세히보기에서 X버튼 누르면 다시 목록 커짐 */
 	function backAtdList() {
-		$("#atd-excp-detail").hide().fadeOut(400);
+// 		$("#atd-excp-detail").hide().fadeOut(400);
+		$("#atd-excp-detail").hide();
 		//숨겨놓은 휴가신청내역 목록 보이기
-       $("#atd-excp-write-form").hide().fadeIn(600);
+//        $("#atd-excp-write-form").hide().fadeIn(600);
+       $("#atd-excp-write-form").show();
 	}
 
 	//근무시간수정, 추가근무신청서 양식 변경

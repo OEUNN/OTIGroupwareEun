@@ -221,7 +221,6 @@ public class HrServiceImpl implements HrService {
 				
 				// 3-2. 출근시간은 있지만, 퇴근시간이 없는경우
 				} else if(attendance.getAtdInTime() != null && attendance.getAtdOutTime() == null) {
-					log.info("퇴근안찍은 사람!");
 					attendance.setAtdState("결근");
 					attendanceDAO.updateAttendanceState(attendance);
 				}

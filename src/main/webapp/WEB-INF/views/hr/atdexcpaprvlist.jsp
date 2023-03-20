@@ -69,7 +69,7 @@
 							<th>신청유형</th>
 							<th>신청날짜</th>
 							<th>결재자</th>
-							<th>신청결과</th>
+							<th>진행상태</th>
 						</tr>
 					</thead>
 					<tbody>
