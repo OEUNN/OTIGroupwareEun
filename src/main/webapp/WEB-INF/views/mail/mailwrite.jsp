@@ -100,7 +100,7 @@
 		
 		if(result){
 			if(No == 1){
-				var url = "mailwritepopup";
+				var url = getContextPath() + "/mail/mailwritepopup";
 				var name = "write popup";
 				var option = "width = 500, height = 200, top = 300, left = 500, location = no, resizable=no, scrollbars=no "
 				window.open(url, name, option);

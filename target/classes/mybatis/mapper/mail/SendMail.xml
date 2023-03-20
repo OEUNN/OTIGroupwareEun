@@ -451,5 +451,10 @@
 		where send_mail_id = #{mailId}
 	</update>
 	
+	<select id="getParentMail" parameterType="int" resultType="receivedMail">
+		select send_mail_title as parentSendMailTitle, send_mail_content as parentSendMailContent, emp_id as empId
+		from send_mails
+		where send_mail_id = #{parentId}
+	</select>
 	
 </mapper>

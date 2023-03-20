@@ -11,6 +11,7 @@
 	    <result property="recdMailDelDate" column="recd_mail_del_date"/>
 	    <result property="recdMailDelYN" column="recd_mail_del_yn"/>
 	    <result property="recdMailDelCompleteYN" column="recd_mail_del_complete_yn"/>
+	    <result property="parentSendMailId" column="PARENT_SEND_MAIL_ID"/>
 	</resultMap>
 	
 	<select id="getMailTotalRow" parameterType="string" resultType="int">
