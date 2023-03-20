@@ -79,13 +79,12 @@ public class ApprovalHandler {
 	public boolean handleRetrieve(String state) {
 		if (document != null && approvalLine != null && approvalLines != null) {
 			
-			//열람인 경우 회수가 불가능
-			//승인, 반려는 가능
-			if ("열람".equals(document.getDocState()) || "회수".equals(document.getDocState())) {
+			//열람을 제외 한 진행 중인 문서만 회수가 가능
+			if (!("진행".equals(document.getDocState()))) {
 				return false;
 			}
 			
-			//열람이 아닌경우
+			//진행
 			else {
 				//결재문서의 결재자들의 상태를 초기화
 				for (ApprovalLine approvalLine : approvalLines) {

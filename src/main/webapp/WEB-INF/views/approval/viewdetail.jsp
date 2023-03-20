@@ -13,37 +13,41 @@
 	<script type="text/javascript">
 	//팝업창 중앙정렬에 필요한 변수와 함수
 	let popupWindow;
+	const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+	const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 	const popUpTop = window.screen.height / 2;
 	const popUpLeft = window.screen.width / 2;
 	const popUpWidth = 800;
 	const popUpHeight = 400;
 	const rPopUpWidth = 450;
 	const rPopUpHeight = 250;
-	const popupAlign = () => {
-		const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-		const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+	function approvePopup(){
+		popupWindow = window.open("../opinion/approve", "opinion", "width=" + popUpWidth + ", height=" + popUpHeight + ", top=" + ((popUpTop - popUpHeight)/2) + ", left=" +((popUpLeft - popUpWidth)/2) + ", menubars=no, status=no, titlebars=no");
 		const popupWidth = popupWindow.innerWidth;
 		const popupHeight = popupWindow.innerHeight;
 		const leftPosition = (viewportWidth - popupWidth) / 2;
 		const topPosition = (viewportHeight - popupHeight) / 2;
 		popupWindow.moveTo(leftPosition, topPosition);
 	}
-
-	function approvePopup(){
-		popupWindow = window.open("../opinion/approve", "opinion", "width=" + popUpWidth + ", height=" + popUpHeight + ", top=" + ((popUpTop - popUpHeight)/2) + ", left=" +((popUpLeft - popUpWidth)/2) + ", menubars=no, status=no, titlebars=no");
-		popupWindow.addEventListener("DOMContentLoaded", popupAlign());
-	}
 	
 	function returnPopup(){
 		popupWindow = window.open("../opinion/return", "opinion", "width=" + popUpWidth + ", height=" + popUpHeight + ", top=" + ((popUpTop - popUpHeight)/2) + ", left=" +((popUpLeft - popUpWidth)/2) + ", menubars=no, status=no, titlebars=no");
-		popupWindow.addEventListener("DOMContentLoaded", popupAlign());
+		const popupWidth = popupWindow.innerWidth;
+		const popupHeight = popupWindow.innerHeight;
+		const leftPosition = (viewportWidth - popupWidth) / 2;
+		const topPosition = (viewportHeight - popupHeight) / 2;
+		popupWindow.moveTo(leftPosition, topPosition);
 	}
 	
 	function retrievePopup(){
 		popupWindow = window.open("../opinion/retrieve", "opinion", "width=" + rPopUpWidth + ", height=" + rPopUpHeight + ", top=" + ((popUpTop - rPopUpHeight)/2) + ", left=" +((popUpLeft - rPopUpWidth)/2) + ", menubars=no, status=no, titlebars=no");
-		popupWindow.addEventListener("DOMContentLoaded", popupAlign());
+		const popupWidth = popupWindow.innerWidth;
+		const popupHeight = popupWindow.innerHeight;
+		const leftPosition = (viewportWidth - popupWidth) / 2;
+		const topPosition = (viewportHeight - popupHeight) / 2;
+		popupWindow.moveTo(leftPosition, topPosition);
 	}
-	//
 	
 	//결재문서 요청
 	$(() => {
@@ -76,13 +80,14 @@
 	
 	$(() => {
 		$(window).on("message", (event) => {
+			console.log(event);
 			//팝업창에서 전송한 데이터 얻기(팝업창에서 postMessage() 사용해야 함)
 			let receivedData = event.originalEvent.data;
 			
 			//form 양식에 상태랑 의견 데이터 추가하기
-			$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineState" value="' + receivedData.approvalLineState + '">');
-			$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineOpinion" value="' + receivedData.opinion + '">');
-			$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="attached" value="' + receivedData.attached + '">');
+			$("#decisionForm").append('<input type="hidden" name="aprvLineState" value="' + receivedData.approvalLineState + '">');
+			$("#decisionForm").append('<input type="hidden" name="aprvLineOpinion" value="' + receivedData.opinion + '">');
+			$("#decisionForm").append('<input type="hidden" name="attached" value="' + receivedData.attached + '">');
 			
 			$("#decisionForm").submit();
 		});
@@ -113,8 +118,9 @@
 			
 		<!-- ***** content-start ***** -->
 		<input id="contextPath" type="hidden" value="${pageContext.request.contextPath}"/>
-		<input id="docId" type="hidden" value="${document.docId}">
+		<input id="docId" type="hidden" name="docId" value="${document.docId}">
 		<form id="decisionForm" action="<c:url value='/approval/viewdetail/${document.docId}'/>" method="post">
+		<input name="docType" type="hidden" value="${document.docType}">
 		</form>
 		<div class="main-panel">
 	        <div class="content-wrapper">

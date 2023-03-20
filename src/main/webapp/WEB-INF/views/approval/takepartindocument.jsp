@@ -49,7 +49,7 @@
 			        			<div class="card-body">
 		        					<div class="row py-0" style="padding: 1.25rem;">
 	        							<div class="d-flex">
-	        								<form id="searchForm" class="d-flex" action="<c:url value="/approval/pendeddocument/search"></c:url>" method="get">
+	        								<form id="searchForm" class="d-flex" action="<c:url value="/approval/takepartindocument/search"></c:url>" method="get">
 	        								<div class="input-group w-75" style="border-radius: 18px; background-color: white;">
 												<div class="input-group-prepend hover-cursor mx-3" id="navbar-search-icon">
 													<span class="input-group-text" id="search" style="background: transparent; border: 0; color: #000; padding: 0;">

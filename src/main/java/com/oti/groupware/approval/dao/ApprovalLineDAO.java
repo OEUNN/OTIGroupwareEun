@@ -20,9 +20,4 @@ public interface ApprovalLineDAO {
 	public int updateApprovalLineOpener(ApprovalLine approvalLine);
 	public int updateApprovalLineDeterminant(ApprovalLine approvalLine);
 	public int updateOpinion(ApprovalLine approvalLine);
-	
-	/*
-	 * 임시
-	 */
-	public List<Organization> getOrganization();
 }

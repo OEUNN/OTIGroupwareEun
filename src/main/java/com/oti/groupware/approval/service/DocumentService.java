@@ -26,7 +26,7 @@ public interface DocumentService {
 
 	public List<Organization> getOrganization();
 	
-	public boolean handleApproveRequest(String state, String opinion, String docId, String empId);
+	public boolean handleApproveRequest(String state, String opinion, String docId, String empId, String docType);
 	public boolean handleReturnRequest(String state, String opinion, String docId, String empId);
 	public boolean handleRetrieveRequest(String state, String docId, String empId);
 	public boolean handleOpenRequest(String state, String docId, String empId);
@@ -39,7 +39,7 @@ public interface DocumentService {
 	public List<Document> getTempDocumentList(int pageNo, Pager pager, String empId);
 	
 	public List<Document> getDraftDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId);
-	public List<Document> getCompletedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId);
+	public List<Document> getTakePartInDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId);
 	public List<Document> getPendedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId);
 	public List<Document> getReturnedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId);
 	public List<Document> getTempDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId);

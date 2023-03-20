@@ -31,25 +31,26 @@
 	</style>
 	<script>
 	function attachOpinion() {
-		let opinion = $("#opinionText").val().toString;
-		let approvalLineState = $("#approvalLineState").val();
-		
-		let sendData = {
+		var opinion = $("#opinionText").val().toString();
+		var approvalLineState = $("#approvalLineState").val();
+
+		var sendData = {
 			attached : true,
 			opinion : opinion,
 			approvalLineState : approvalLineState
 		}
 		
 		opener.postMessage(sendData);
-		window.close();
+ 		window.close();
 	}
 	
 	function omitOpinion() {
-		let approvalLineState = $("#approvalLineState").val();
+		var opinion = "foo";
+		var approvalLineState = $("#approvalLineState").val();
 		
-		let sendData = {
+		var sendData = {
 			attached : false,
-			opinion : null,
+			opinion : opinion,
 			approvalLineState : approvalLineState
 		}
 		
