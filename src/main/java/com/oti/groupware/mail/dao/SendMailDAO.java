@@ -3,16 +3,15 @@ package com.oti.groupware.mail.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-import org.junit.runners.Parameterized.Parameters;
 
 import com.oti.groupware.common.Pager;
 import com.oti.groupware.mail.dto.SendMail;
 
 public interface SendMailDAO {
-	public void insertTempMail(@Param("sendMail")SendMail sendMail);
-	public void insertSendMail(SendMail sendMail);
-	public String getEmpIdById(int sendMailId);
-	public String getTitleById(int sendMailId);
+	public void insertTempMail(@Param("sendMail")SendMail sendMail, @Param("write")String write);
+	public void insertSendMail(@Param("sendMail")SendMail sendMail, @Param("write")String write);
+	public int getSEndMailId();
+	public SendMail getEmpIdById(int sendMailId);
 	public SendMail getSendMailById(int sendMailId);
     public void updateSendMail(SendMail sendMail);
 	public int sendMailRowsCount(String empId);
@@ -39,5 +38,13 @@ public interface SendMailDAO {
 	public List<Integer> getCompleteMail(); //완전삭제된 sendMail을 받아온다.
 	public void deleteSendMail(int sendMailId); //완전 삭제되었을때 sendmail을 삭제해준다.
 	public int getTempCount(String empId); //임시저장 갯수
+	public List<Integer> getTitleCount(String title); //받은 메일 count
+	public List<SendMail> getTitleSendMail(@Param("empId")String empId, @Param("pager")Pager pager, @Param("arr")List<Integer> titleMail);
+	public List<SendMail> getTitleTempMail(@Param("empId")String empId, @Param("pager")Pager pager, @Param("arr")List<Integer> titleMail);
+	public List<SendMail> getTitleImportMail(@Param("empId")String empId, @Param("pager")Pager pager, @Param("arr")List<Integer> titleMail);
+	public List<SendMail> getTitleTrashMail(@Param("empId")String empId, @Param("pager")Pager pager, @Param("arr")List<Integer> titleMail);
+	public void deleteMail(int temp);
+	public void updateTrash(int mailId);
+	public void updateCompleteTrash(int mailId);
 	
 }

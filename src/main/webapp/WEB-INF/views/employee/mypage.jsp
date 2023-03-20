@@ -40,20 +40,77 @@
 					reader.readAsDataURL(f);
 				});
 			}
+			/** 이미지 파일 유효성 검사 **/
+			(function($) {
+				  'use strict';
+				  $(function() {
+				    $('.file-upload-default').on('change', function() {
+				    	var imgFile = $("#empFileDataMulti").val();
+				    	var fileForm = /(.*?)|.(jpg|jpeg|png|gif|bmplpdf)$/;
+				    	var maxSize = 5 * 1024 * 1024; // 5MB in bytes
+				    	var fileSize;
+				    	if(imgFile != '' && imgFile != null){
+				    		fileSize = document.getElementById("empFileDataMulti").files[0].size;
+				    		if(!imgFile.match(fileForm)){
+				    			$('#fileResult').attr('style','color:red');
+				    			$('#fileResult').html('이미지 파일만 업로드 가능합니다.');
+				    			$('#fileInput').val('false');
+				    		}else if(fileSize = maxSize){
+				    			$('#fileResult').attr('style','color:red');
+				    			$('#fileResult').html('파일사이즈가 5MB가 넘습니다.');
+				    			$('#fileInput').val('false');
+				    		}
+				    	}else{
+				    		$('#fileInput').val('true');
+				    	}
+				    });
+				  });
+			})(jQuery);
+			
+			
+			
 			//파일 업로드
 			function fn_submit() {
-				var form = new FormData();
-				form.append("multi", $("#multi")[0].files[0]);
-				jQuery.ajax({
-					url : "../employee/updateimg",
-					type : "POST",
-					processData : false,
-					contentType : false,
-					data : form,
-					success : function(response) {
-						console.log(response);
-					}
-				});
+				var result = true;
+				var imgFile = $("#multi").val();
+		    	var fileForm = /(.*?)|.(jpg|jpeg|png|gif|bmplpdf)$/;
+		    	var maxSize = 5 * 1024 * 1024; // 5MB in bytes
+		    	var fileSize;
+		    	if(imgFile != '' && imgFile != null){
+		    		fileSize = document.getElementById("multi").files[0].size;
+		    		if(!imgFile.match(fileForm)){
+		    			swal({
+		    				text: "이미지 파일만 업로드 가능합니다.",
+		  				  icon: "error",
+		  				  button: "닫기",
+		  				});
+		    			result = false;
+		    		}else if(fileSize = maxSize){
+		    			swal({
+		    				text: "파일 사이즈가 5MB를 넘습니다.",
+			  				  icon: "error",
+			  				  button: "닫기",
+			  				});
+		    			result = false;
+		    		}
+		    	}else{
+		    		$('#fileInput').val('true');
+		    		result = true;
+		    	}
+				if(result){
+					var form = new FormData();
+					form.append("multi", $("#multi")[0].files[0]);
+					jQuery.ajax({
+						url : "../employee/updateimg",
+						type : "POST",
+						processData : false,
+						contentType : false,
+						data : form,
+						success : function(response) {
+							console.log(response);
+						}
+					});
+				}
 			}
 			function popup(){
 				var result = true;
@@ -101,7 +158,7 @@
 					success : function(data) {
 						$('#password').val('');
 						swal({
-							  title: "비밀먼호 초기화 성공.",
+							  title: "비밀먼호 변경 성공.",
 							  icon: "success",
 							  button: "닫기",
 						});

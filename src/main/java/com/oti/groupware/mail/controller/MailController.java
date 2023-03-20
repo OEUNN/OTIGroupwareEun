@@ -1,23 +1,20 @@
 package com.oti.groupware.mail.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,22 +70,23 @@ public class MailController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/sendmail", method = RequestMethod.POST)
-	public String sendMail(@RequestParam("write") String write, SendMail sendMail, String receive,
-			@RequestParam("resultString") String resultString) throws Exception {
+	public String sendMail(@RequestParam("write") String write, SendMail sendMail, String receive, int temp,
+			@RequestParam("resultString") String resultString, int reply) throws Exception {
 		log.info("실행");
-		log.info(write);
-		log.info(sendMail);
-		log.info(resultString);
-		sendMail.setSendMailContent(write);
-		if(receive != null) {
-			if (resultString.equals("temp")) {
-				mailService.writeTempMail(sendMail);
-			}else {
-				String[] arr = receive.split(",");
-				mailService.writeMail(sendMail, arr);
-			}
+		if(temp != -3) {
+			mailService.deleteTempMail(temp);
+		}
+		if(receive == null && resultString.equals("temp")) {
+			mailService.writeTempMail(sendMail, write);
+		}else if(receive != null && resultString.equals("temp")){
+			String[] arr = receive.split(",");
+			mailService.tempWriteMail(sendMail,arr,write);
 		}else {
-			
+			String[] arr = receive.split(",");
+			mailService.writeMail(sendMail, arr , write);
+		}
+		if(reply != -3) {
+			mailService.replyMail(sendMail.getSendMailId(),reply);
 		}
 		List<MultipartFile> mFileList = sendMail.getFileList();
 		if (mFileList != null && !mFileList.isEmpty()) {
@@ -110,6 +108,23 @@ public class MailController {
 			return "redirect:/mail/tempmail";
 		}
 		return "redirect:/mail/sendmail";
+	}
+	
+	//답장
+	@RequestMapping(value = "/reply/{sendMailId}", method = RequestMethod.GET)
+	public String replyMail(@PathVariable int sendMailId, HttpSession session, Model model) {
+		Employee employee = (Employee)session.getAttribute("employee");
+		ReceivedMail receivedMail = mailService.getDetailReceivedMail(sendMailId,employee.getEmpId());
+		model.addAttribute("replyMail", receivedMail);
+		return "mail/mailwrite";
+	}
+		
+	@RequestMapping(value = "/tempdelete/{mailId}", method = RequestMethod.GET)
+	public String CompleteTrash(@PathVariable int mailId) {
+		log.info("실행");
+		log.info(mailId);
+		mailService.deleteTempMail(mailId);
+		return "redirect:/mail/receivedmail";
 	}
 	
 
@@ -263,7 +278,6 @@ public class MailController {
 		int mailId = mailSearch.getMailId();
 		int page = mailSearch.getPage();
 		String result = mailSearch.getResult();
-		log.info(mailSearch);
 		Employee employee = (Employee) session.getAttribute("employee");
 		if (mailId != 0) {
 			mailService.importMailChangeImport(mailId, employee.getEmpId());
@@ -345,6 +359,7 @@ public class MailController {
 			model.addAttribute("sendmail", sendMail);
 			model.addAttribute("pager", pager);
 		}
+		
 		return "mail/trashmail";
 	}
 	
@@ -376,20 +391,47 @@ public class MailController {
 	}
 
 	//제목 검색
-//	@RequestMapping(value = "/titlesearch", method = RequestMethod.POST)
-//	public String sendSearch(String search, String category, HttpSession session, Model model) {
-//		log.info("실행");
-//		Employee employee = (Employee) session.getAttribute("employee");
-//		int totalRows = mailService.sendMailSearchRowsCount(employee.getEmpId(), search);
-//		// 페이저 객체 생성
-//		Pager pager = new Pager(10, 5, totalRows, 1);
-//		if (totalRows != 0) {
-//			List<SendMail> sendMail = mailService.getSearchSendMail(employee.getEmpId(), pager, search);
-//			model.addAttribute("sendmail", sendMail);
-//			model.addAttribute("pager", pager);
-//		}
-//		return "mail/sendmailinfo";
-//	}
+	@RequestMapping(value = "/titlesearch/{category}", method = RequestMethod.GET)
+	public String sendSearch(String title, @PathVariable String category, HttpSession session, Model model) {
+		log.info("실행");
+		log.info(category);
+		log.info(title);
+		Employee employee = (Employee) session.getAttribute("employee");
+		List<Integer> titleMail = mailService.titleCount(title);
+		int totalRows = titleMail.size();
+		// 페이저 객체 생성
+		Pager pager = new Pager(10, 5, totalRows, 1);
+		if (totalRows != 0) {
+			model.addAttribute("pager", pager);
+			if(category.equals("received")) {
+				List<ReceivedMail> received = mailService.searchTitleReceivedMail(titleMail, employee.getEmpId(), pager);
+				model.addAttribute("receivedmail", received);
+			}else if(category.equals("send")) {
+				List<SendMail> sendMail = mailService.searchTitleSendMail(titleMail, employee.getEmpId(),pager);
+				model.addAttribute("sendmail", sendMail);
+			}else if(category.equals("temp")) {
+				List<SendMail> sendMail = mailService.searchTitleTempMail(titleMail, employee.getEmpId(),pager);
+				model.addAttribute("sendmail", sendMail);
+			}else if(category.equals("import")) {
+				List<SendMail> sendMail = mailService.searchTitleImportMail(titleMail, employee.getEmpId(),pager);
+				model.addAttribute("sendmail", sendMail);
+			}else {
+				List<SendMail> sendMail = mailService.searchTitleTrashMail(titleMail, employee.getEmpId(),pager);
+				model.addAttribute("sendmail", sendMail);
+			}
+		}
+		if(category.equals("received")) {
+			return "mail/receivemailinfo";
+		}else if(category.equals("send")) {
+			return "mail/sendmailinfo";
+		}else if(category.equals("temp")) {
+			return "mail/tempmailinfo";
+		}else if(category.equals("import")) {
+			return "mail/importmailinfo";
+		}else {
+			return "mail/trashmailinfo";
+		}
+	}
 
 	/**
 	 * 메일 자세히 보기
@@ -399,56 +441,72 @@ public class MailController {
 	 * @param model - sendMail(보낸사람, 받은 사람에 대한 정보), category
 	 * @return 임시보관함일때/그냥 자세히 보기일때
 	 */
-	@RequestMapping(value = "/detailmail/{category}/{mailid}", method = RequestMethod.GET)
-	public String detailMail(Model model, HttpSession sessio,@PathVariable String category ,@PathVariable int mailid ) {
+	@RequestMapping(value = "/detailmail/{category}/{mailid}/{option}", method = RequestMethod.GET)
+	public String detailMail(Model model, HttpSession session ,@PathVariable String category ,@PathVariable String option,  @PathVariable int mailid ) {
 		log.info("실행");
+		Employee employee = (Employee)session.getAttribute("employee");
 		//읽음으로 바꿔줘야함
-		SendMail sendMail = mailService.getDetailSendMail(mailid, category);
-		if(sendMail.getFileYN().equals("Y")) {
-			List<MailFile> mailFile = mailService.getMailFile(mailid);
-			model.addAttribute("mailFile", mailFile);
+		if(option.equals("send") || category.equals("temp")) {
+			SendMail sendMail = mailService.getDetailSendMail(mailid, employee.getEmpId());
+			model.addAttribute("sendMail", sendMail);
+			if(sendMail.getFileYN().equals("Y")) {
+				List<MailFile> mailFile = mailService.getMailFile(mailid);
+				model.addAttribute("mailFile", mailFile);
+			}
+		}else {
+			ReceivedMail receivedMail = mailService.getDetailReceivedMail(mailid,employee.getEmpId());
+			model.addAttribute("receivedMail", receivedMail);
+			if(receivedMail.getFileYN().equals("Y")) {
+				List<MailFile> mailFile = mailService.getMailFile(mailid);
+				model.addAttribute("mailFile", mailFile);
+			}
 		}
-		model.addAttribute("sendMail", sendMail);
 		model.addAttribute("category", category);
+		model.addAttribute("option", option);
 		if(category.equals("temp")) {
-			return "mail/writemail";
+			return "mail/mailwrite";
 		}
 		return "mail/detailmail";
 	}
 	
+	//보통 메일들 휴지통 보내기
+	@RequestMapping(value = "/trash/{option}/{mailId}", method = RequestMethod.GET)
+	public String trash(Model model, HttpSession session, @PathVariable int mailId ,@PathVariable String option) {
+		log.info("실행");
+		log.info(option);
+		log.info(mailId);
+		Employee employee = (Employee)session.getAttribute("employee");
+		mailService.trashMail(mailId, option, employee.getEmpId());
+		return "redirect:/mail/trashmail";
+	}
+	
+	@RequestMapping(value = "/completetrash/{option}/{mailId}", method = RequestMethod.GET)
+	public String CompleteTrash(Model model, HttpSession session, @PathVariable int mailId, @PathVariable String option) {
+		log.info("실행");
+		log.info(option);
+		log.info(mailId);
+		Employee employee = (Employee)session.getAttribute("employee");
+		mailService.completetrashMail(mailId,option, employee.getEmpId());
+		return "redirect:/mail/trashmail";
+	}
+	
+	
 	/**
-	 * 메일 자세히 보기에서 파일 다운로드
-	 * @param userAgent
-	 * @param mfile
-	 * @param response
+	 * 메일 파일 다운로드
+	 * @param mfile 파일 이름
+	 * @return
 	 * @throws Exception
 	 */
 	@GetMapping("/filedownload/{mfile}")
-	public void filedownload(@RequestHeader("User-Agent")String userAgent,@PathVariable int mfile, HttpServletResponse response) throws Exception {
+	public ResponseEntity<byte[]> filedownload(@PathVariable int mfile) throws Exception {
+		log.info("실행");
 		MailFile mailFile = mailService.getMailFileById(mfile);
-		if(mailFile != null) {
-			String originalName = mailFile.getMailFileName();
-			String savedName =  mailFile.getMailFileName();
-			String contentType = mailFile.getMailFileType();
-			
-			if(userAgent.contains("Trident")||userAgent.contains("MSIE")) {
-				originalName = URLEncoder.encode(originalName, "UTF-8");
-			}else {
-				originalName = new String(originalName.getBytes("UTF-8"), "ISO-8859-1");
-			}
-			response.setHeader("Content-Disposition","attachment; filename=\""+ originalName +"\"");
-			response.setContentType(contentType);
-			String filePath = "C:/Temp/uploadfiles/"+savedName;
-			File file = new File(filePath);
-			if(file.exists()) {
-				InputStream is = new FileInputStream(file);
-				OutputStream os = response.getOutputStream();
-				FileCopyUtils.copy(is, os);
-				os.flush();
-				os.close();
-				is.close();
-			}
-		}
+		HttpHeaders headers = new HttpHeaders();
+		String[] mtypes = mailFile.getMailFileType().split("/");
+		headers.setContentType(new MediaType(mtypes[0], mtypes[1]));
+		headers.setContentLength(mailFile.getMailFileLength());
+		headers.setContentDispositionFormData("attachment", URLEncoder.encode(mailFile.getMailFileName(), "UTF-8"));
+		return new ResponseEntity<byte[]>(mailFile.getMailFileData(), headers, HttpStatus.OK);
 	}	
 
 }

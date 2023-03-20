@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.oti.groupware.common.Pager;
 import com.oti.groupware.mail.dto.ReceivedMail;
-import com.oti.groupware.mail.dto.SendMail;
 
 public interface ReceivedMailDAO {
 	public void insertReceivedMail(@Param("sendMailId")int sendMailId, @Param("empId")String empId);
@@ -33,6 +32,12 @@ public interface ReceivedMailDAO {
 	public int getReceivedMailCount(String empId);
 	public int getNotReadCount(String empId);
 	public int getImportCount(String empId);
+	public List<ReceivedMail> getTitleReceivedMail(@Param("empId")String empId, @Param("pager")Pager pager, @Param("arr")List<Integer> titleMail);
+	public void changeReadYN(@Param("mailId")int mailId, @Param("empId")String empId); //읽음으로 변환하기
+	public void updateTrash(@Param("mailId")int mailId, @Param("empId")String empId); //휴지통으로 보내기
+	public void updateCompleteTrash(@Param("mailId")int mailId, @Param("empId")String empId);
+	public ReceivedMail getDetailReceivedMail(@Param("empId")String empId, @Param("mailId")int mailid);
+	public void updateParentMail(@Param("sendMailId")int sendMailId, @Param("reply")int reply);
 	
 	
 }

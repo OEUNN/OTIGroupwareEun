@@ -42,7 +42,7 @@
         FROM
             mails_files
         WHERE
-             send_mail_id = #{mailFileId}
+             MAIL_FILE_ID = #{mailFileId}
     </select>
 
     <insert id="insertMailFile" parameterType="mailFile">
@@ -73,9 +73,5 @@
 		WHERE
 		    mail_file_id = #{mailFileId}
     </update>
-
-    <delete id="deleteMailFile" parameterType="int">
-        DELETE FROM mails_files WHERE mail_file_id = #{mailFileId}
-    </delete>
 
 </mapper>

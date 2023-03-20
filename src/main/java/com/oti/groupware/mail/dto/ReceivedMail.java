@@ -1,7 +1,6 @@
 package com.oti.groupware.mail.dto;
 
 import java.util.Date;
-import java.util.List;
 
 import lombok.Data;
 
@@ -19,6 +18,9 @@ public class ReceivedMail {
     private String empName;
     private String posName;
     private String depName;
+    private String mailId;
     private String sendMailTitle;
+    private String sendMailContent;
     private String fileYN; //파일 유무
+    private String parentSendMailId; //답장에서 
 }

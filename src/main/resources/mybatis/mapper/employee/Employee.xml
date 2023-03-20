@@ -87,7 +87,7 @@
     
     <update id="updatePassword" parameterType="map">
     	update employees
-    	set emp_password = #{password} ,INITIAL_PASSWORD_YN = 'Y'
+    	set emp_password = #{password} ,INITIAL_PASSWORD_YN = 'Y', emp_login_failures_cnt = 0
     	where emp_id = #{empId}
     </update>
     

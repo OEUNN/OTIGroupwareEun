@@ -48,8 +48,11 @@
 	}
 </style>
 	<script>
+	function getContextPath() {
+		   return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+		}
 	function address() {
-		var url = "addresspopup";
+		var url = getContextPath() + "/mail/addresspopup"
 		var name = "employee address";
 		var option = "width = 500, height = 780, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
 		window.open(url, name, option);
@@ -68,15 +71,14 @@
 			//form 양식에 추가하기
 		});
 	});
-	
-	function sendBtn() {
+	function sendBtn(No) {
 		var result = true;
 		//empId
 		let empId = ${sessionScope.employee.empId};
 		$('#empId').val(empId);
 		
 		//id
-		if ($('#receive').val() == '') {
+		if ($('#receivedId').val() == '') {
 			$('#receivedResult').html('수신인을 선택해 주세요.');
 			$('#receivedResult').attr('style','color:red');
 			result = false;
@@ -129,8 +131,37 @@
 			$("#empWrite").submit();
 		}
 	}
-
-	
+	function deleteBtn(i){
+		var mailId = i;
+		swal({
+		  title: "메일 삭제",
+		  text: "메일을 복구할수 없습니다. 삭제하시겠습니까?",
+		  icon: "error",
+		  buttons: {
+		    cancel: {
+		      text: "취소",
+		      value: null,
+		      visible: true,
+		      className: "",
+		      closeModal: true,
+		    },
+		    confirm: {
+		      text: "확인",
+		      value: true,
+		      visible: true,
+		      className: "",
+		      closeModal: true
+		    }
+		  },
+		})
+		.then((value) => {
+		  if (value) {
+			  onclick="location.href='<c:url value="/mail/tempdelete/+mailId"/>'"
+		  } else {
+		     close();
+		  }
+		});
+	}
 	/** 이미지 파일 유효성 검사 **/
 	(function($) {
 		  'use strict';
@@ -138,7 +169,7 @@
 		    $('.file-upload-default').on('change', function() {
 		    	var imgFile = $("#empFileDataMulti").val();
 		    	var fileForm = /(.*?)|.(jpg|jpeg|png|gif|bmplpdf)$/;
-		    	var maxSize = 5 * 1024 * 1024; // 5MB in bytes
+		    	var maxSize = 50 * 1024 * 1024; // 50MB in bytes
 		    	var fileSize;
 		    	if(imgFile != '' && imgFile != null){
 		    		fileSize = document.getElementById("empFileDataMulti").files[0].size;
@@ -157,7 +188,6 @@
 		    });
 		  });
 	})(jQuery);
-	
 	
 </script>
 
@@ -184,10 +214,18 @@
 										<div class="card-title mb-0">메일 쓰기</div>
 										<div class="d-flex">
 											<input type="hidden" id="resultString" name="resultString"/>
-											<button type="button" onclick="tempBtn()" id="popup-btn" class="btn btn-md btn-warning mx-2">
-												<span class="mdi mdi-calendar-clock align-middle"></span> 
-												<span>임시저장</span>
-											</button>
+											<c:if test="${!empty category }">
+												<button type="button" onclick="deleteBtn(${sendMail.sendMailId})" id="popup-btn" class="btn btn-md btn-danger mx-2">
+													<span class="mdi mdi-telegram align-middle"></span> 
+													<span>삭제</span>
+												</button>
+											</c:if>
+											<c:if test="${empty category }">
+												<button type="button" onclick="tempBtn()" id="popup-btn" class="btn btn-md btn-warning mx-2">
+													<span class="mdi mdi-calendar-clock align-middle"></span> 
+													<span>임시저장</span>
+												</button>
+											</c:if>
 											<button type="button" onclick="sendBtn(1)" id="popup-btn" class="btn btn-md btn-primary mx-2">
 												<span class="mdi mdi-telegram align-middle"></span> 
 												<span>보내기</span>
@@ -226,7 +264,12 @@
 														</div>
 													</div>
 													<div class="col-sm-9 form-inline" id="receivedId" style="border-bottom: 1px solid #ced4da;">
-														<c:if test="${!empty sendMail.empList }">
+														<c:if test="${!empty replyMail }">
+															<button class="empBtn mr-2">
+																<span>${replyMail.empName}(${replyMail.mailId}) </span>
+															</button>
+														</c:if>
+														<c:if test="${!empty sendMail.empList}">
 															<c:forEach items="${sendMail.empList}" var="emp">
 																<button class="empBtn mr-2">
 																	<span>${emp.empName}(${emp.mailId}) </span>
@@ -253,10 +296,10 @@
 													</div>
 													<div class="col-sm-9" id="title" style="border-bottom: 1px solid #ced4da;">
 														<c:if test="${!empty sendMail}">
-															<input type="text" id="sendMailTitle" name="sendMailTitle" class="from-control" style="border: none;width:100%;" value="${sendMail.sendMailTitle}">
+															<input type="text" id="sendMailTitle" maxlength="95" name="sendMailTitle" class="from-control" style="border: none;width:100%;" value="${sendMail.sendMailTitle}">
 														</c:if>
 														<c:if test="${empty sendMail}">
-															<input type="text" id="sendMailTitle" name="sendMailTitle" class="from-control" style="border: none;width:100%;">
+															<input type="text" id="sendMailTitle" maxlength="95" name="sendMailTitle" class="from-control" style="border: none;width:100%;">
 														</c:if>
 													</div>
 													<small id="titleResult">&nbsp;</small>
@@ -294,11 +337,22 @@
 													<c:if test="${empty sendMail}">
 														<textarea id="write" name="write"></textarea>
 													</c:if>
-													
 												</div>
 											</div>
 										</div>
 									</div>
+									<c:if test="${!empty category}">
+										<input type="hidden" id="temp" name="temp" value="${sendMail.sendMailId}"/>
+									</c:if>
+									<c:if test="${empty category}">
+										<input type="hidden" id="temp" name="temp" value="-3"/>
+									</c:if>
+									<c:if test="${!empty replyMail }">
+										<input type="hidden" id="temp" name="reply" value="${replyMail.sendMailId}"/>
+									</c:if>
+									<c:if test="${empty replyMail }">
+										<input type="hidden" id="temp" name="reply" value="-3"/>
+									</c:if>
 								</form>
 							</div>
 						</div>

@@ -21,10 +21,14 @@
 			padding-top:2px;
 			padding-bottom:2px;
 			display: inline-block;
-  			width: max-content
+  			width: max-content;
+  			margin-bottom: 1px;
 		}
 		</style>
 		<script>
+		function getContextPath() {
+			   return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+			}
 		//tiny
 		$(document).ready(function(){
 			tinymce.init({
@@ -42,6 +46,134 @@
 				readonly: 1
 			});
 		});
+		function sendtrash(i){
+			console.log("1");
+			var mailId= i;
+			swal({
+				  title: "휴지통",
+				  text: "휴지통으로 보내시겠습니까?",
+				  icon: "warning",
+				  buttons: {
+				    cancel: {
+				      text: "취소",
+				      value: null,
+				      visible: true,
+				      className: "",
+				      closeModal: true,
+				    },
+				    confirm: {
+				      text: "확인",
+				      value: true,
+				      visible: true,
+				      className: "",
+				      closeModal: true
+				    }
+				  },
+				})
+				.then((value) => {
+				  if (value) {
+					  location.href= getContextPath() + "/mail/trash/send/"+mailId;
+				  } else {
+				     close();
+				  }
+			});
+		}
+		function receivedtrash(i){
+			console.log("2");
+			var mailId= i;
+			swal({
+				  title: "휴지통",
+				  text: "휴지통으로 보내시겠습니까?",
+				  icon: "warning",
+				  buttons: {
+				    cancel: {
+				      text: "취소",
+				      value: null,
+				      visible: true,
+				      className: "",
+				      closeModal: true,
+				    },
+				    confirm: {
+				      text: "확인",
+				      value: true,
+				      visible: true,
+				      className: "",
+				      closeModal: true
+				    }
+				  },
+				})
+				.then((value) => {
+				  if (value) {
+					  location.href= getContextPath() + "/mail/trash/received/"+mailId;
+				  } else {
+				     close();
+				  }
+			});
+		}
+		function sendtrashdelete(i){
+			console.log("3");
+			var mailId= i;
+			swal({
+				  title: "메일 삭제",
+				  text: "휴지통의 메일은 삭제시 복구할 수 없습니다.",
+				  icon: "error",
+				  buttons: {
+				    cancel: {
+				      text: "취소",
+				      value: null,
+				      visible: true,
+				      className: "",
+				      closeModal: true,
+				    },
+				    confirm: {
+				      text: "확인",
+				      value: true, 
+				      visible: true,
+				      className: "",
+				      closeModal: true
+				    }
+				  },
+				})
+				.then((value) => {
+				  if (value) {
+					  location.href= getContextPath() + "/mail/completetrash/send/"+mailId;
+				  } else {
+				     close();
+				  }
+				});
+		}
+		function receivedtrashdelete(i){
+			console.log("4");
+			var mailId= i;
+			swal({
+				  title: "메일 삭제",
+				  text: "휴지통의 메일은 삭제시 복구할 수 없습니다.",
+				  icon: "error",
+				  buttons: {
+				    cancel: {
+				      text: "취소",
+				      value: null,
+				      visible: true,
+				      className: "",
+				      closeModal: true,
+				    },
+				    confirm: {
+				      text: "확인",
+				      value: true,
+				      visible: true,
+				      className: "",
+				      closeModal: true
+				    }
+				  },
+				})
+				.then((value) => {
+				  if (value) {
+					  location.href= getContextPath() + "/mail/completetrash/received/"+mailId;
+				  } else {
+				     close();
+				  }
+				});
+		}
 		</script>
 	</head>
 
@@ -63,20 +195,47 @@
 								<form class="card-body">
 									<!-- main title and submit button -->
 									<div class="d-flex justify-content-between align-items-center mb-4">
-										<div class="card-title mb-0">${sendMail.sendMailTitle}</div>
+										<c:if test="${!empty sendMail}">
+											<div class="card-title mb-0">${sendMail.sendMailTitle}</div>
+										</c:if>
+										<c:if test="${!empty receivedMail}">
+											<div class="card-title mb-0">${receivedMail.sendMailTitle}</div>
+										</c:if>
 										<div class="d-flex">
-											<button class="btn btn-md btn-warning mx-2">
-												<span class="mdi mdi-telegram align-middle"></span> 
-												<span>답장</span>
-											</button>
-<!-- 											<button class="btn btn-md btn-warning mx-2"> -->
-<!-- 												<span class="mdi mdi-call-made align-middle"></span>  -->
-<!-- 												<span>전달</span> -->
-<!-- 											</button> -->
-											<button class="btn btn-md btn-primary mx-2">
-												<span class="mdi mdi-archive align-middle"></span> 
-												<span>휴지통</span>
-											</button>
+												<c:if test="${!empty receivedMail}">
+													<a href='<c:url value="/mail/reply/${receivedMail.sendMailId}"/>' class="btn btn-md btn-warning mx-2">
+														<span class="mdi mdi-telegram align-middle"></span> 
+														<span>답장</span>
+													</a>
+											</c:if>
+											<c:if test="${category == 'trash'}">
+												<c:if test="${!empty sendMail}">
+													<a class="btn btn-md btn-danger mx-2" onclick="sendtrashdelete(${sendMail.sendMailId})">
+														<span class="mdi mdi-archive align-middle"></span> 
+														<span>삭제</span>
+													</a>
+												</c:if>
+												<c:if test="${!empty receivedMail}">
+													<a class="btn btn-md btn-danger mx-2" onclick="receivedtrashdelete(${receivedMail.sendMailId})">
+														<span class="mdi mdi-archive align-middle"></span> 
+														<span>삭제</span>
+													</a>
+												</c:if>
+											</c:if>
+											<c:if test="${category != 'trash'}">
+												<c:if test="${!empty sendMail}">
+													<a class="btn btn-md btn-danger mx-2" onclick="sendtrash(${sendMail.sendMailId})">
+														<span class="mdi mdi-archive align-middle"></span> 
+														<span>휴지통</span>
+													</a>
+												</c:if>
+												<c:if test="${!empty receivedMail}">
+													<a class="btn btn-md btn-danger mx-2" onclick="receivedtrash(${receivedMail.sendMailId})">
+														<span class="mdi mdi-archive align-middle"></span> 
+														<span>휴지통</span>
+													</a>
+												</c:if>
+											</c:if>
 										</div>
 									</div><!-- end main title and submit button -->
 									<!-- mail data -->
@@ -87,17 +246,22 @@
 												<div class="form-group row align-items-center">
 													<div class="col-sm-1 text-primary">
 														<div class="d-flex justify-content-end m-1">
-															
 															<span class=" font-weight-bold">발신인</span>
+															<i class="h3 my-auto mdi mdi-arrow-right-bold text-success"></i> 
 														</div>
 													</div>
 													<div class="col-sm-5 form-inline">
-														<i class="h3 my-auto mdi mdi-arrow-right-bold text-success"></i> 
 														<div class="from-control" style="border:none;">
-														<div class="empBtn mr-2">
-															<span>(${sendMail.depName}) ${sendMail.empName} ${sendMail.posName }</span>
-														</div>
-														
+															<c:if test="${!empty receivedMail}">
+																<span style="font-weight:bold;">
+																	(${receivedMail.depName}) ${receivedMail.empName} ${receivedMail.posName}
+																</span>
+															</c:if>
+															<c:if test="${!empty sendMail}">
+																<span style="font-weight:bold;">
+																	${employee.empName}
+																</span>
+															</c:if>
 														</div>
 													</div>
 												</div>
@@ -110,11 +274,16 @@
 													<div class="col-sm-1 text-primary">
 														<div class="d-flex justify-content-end m-1">
 															<span class="font-weight-bold">수신인</span>
+															<i class="h3 my-auto mdi mdi-arrow-left-bold text-danger"></i> 
 														</div>
 													</div>
 													<div class="col-sm">
-														<i class="h3 my-auto mdi mdi-arrow-left-bold text-danger"></i> 
-														<c:if test="${!empty sendMail.empList }">
+														<c:if test="${!empty receivedMail}">
+															<div class="empBtn mr-2">
+																<span style="width:auto;">${employee.empName}</span>
+															</div>
+														</c:if>
+														<c:if test="${!empty sendMail}">
 															<c:forEach items="${sendMail.empList}" var="emp">
 																<div class="empBtn mr-2">
 																	<span style="width:auto;">(${emp.depName}) ${emp.empName}${emp.posName}</span>
@@ -128,8 +297,13 @@
 										<!-- title -->
 										<div class="row">
 											<div class="col-md-12">
-												<div class="py-2 px-5">
-													<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${sendMail.sendMailDate}"/>
+												<div class="py-2 px-5" style=" font-weight:bold;">
+													<c:if test="${!empty sendMail}">
+														<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${sendMail.sendMailDate}"/>
+													</c:if>
+													<c:if test="${!empty receivedMail}">
+														<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${receivedMail.recdMailDate}"/>
+													</c:if>
 												</div>
 											</div>
 										</div>
@@ -147,10 +321,12 @@
 												<div class="form-control" style="font-weight:bold; height:120px;">
 													<c:if test="${!empty mailFile}">
 														<c:forEach items="${mailFile}" var="mfile">
-															<button class="row" onclick="location.href='<c:url value="/mail/filedownload/${mfile.mailFileId}"/>'">
-																<i class="h2 mdi mdi-file-check text-primary"></i>
-																<span class="my-auto" style="font-size: 15px;">${mfile.mailFileName}</span>
-															</button>
+															<div class="row">
+																<a class="text-black" href="<c:url value="/mail/filedownload/${mfile.mailFileId}"></c:url>">
+																	<i class="h4 mdi mdi-file-check text-primary"></i>
+																	${mfile.mailFileName}
+																</a>
+															</div>
 														</c:forEach>
 													</c:if>
 												</div>
@@ -160,7 +336,12 @@
 											<div class="col-md-12">
 												<div class="form-group row px-5 py-2">
 													<textarea id="read_write" name="write">
-														${sendMail.sendMailContent}
+														<c:if test="${!empty sendMail}">
+															${sendMail.sendMailContent}
+														</c:if>
+														<c:if test="${!empty receivedMail}">
+															${receivedMail.sendMailContent}
+														</c:if>
 													</textarea>
 												</div>
 											</div>

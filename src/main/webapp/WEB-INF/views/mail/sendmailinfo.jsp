@@ -13,30 +13,33 @@
 		padding: 0.125rem 2.375rem;
 	}
 	.etooltip {
-  position: relative;
-  display: inline-block;
-}
-
-.etooltip .etooltiptext {
-  visibility: hidden;
-  width: 250px;
-  background-color: #4849ac;
-  border-radius:6px;
-  color: white;
-  text-align: left;
-  padding: 5px;
-  
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-  top: 130%;
-  left: 120%;
-  margin-left:-60px;
-}
-
-.etooltip:hover .etooltiptext {
-  visibility: visible;
-}
+	  position: relative;
+	  display: inline-block;
+	}
+	
+	.etooltip .etooltiptext {
+	  visibility: hidden;
+	  width: 250px;
+	  background-color: #4849ac;
+	  color: #fff;
+	  text-align: left;
+	  border-radius: 6px;
+	  padding: 3px 3px;
+	  position: absolute;
+	  z-index: 1;
+	  top: -5px;
+	  left: 170%;
+	  margin-left: -60px;
+	  
+	  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+	  opacity: 0;
+	  transition: opacity 1s;
+	}
+	
+	.etooltip:hover .etooltiptext {
+	  visibility: visible;
+	  opacity: 1;
+	}
 </style>
 <div class="card">
 	<div class="card-body">
@@ -44,13 +47,13 @@
 		<div class="row justify-content-between px-5 py-3">
 			<div class="form-inline" style="border-bottom:1px solid #e9ecef;">
 				<div class="px-3 py-1 ahover">
-					<button onclick="search(1)" style="color:grey;">중요메일</button>
+					<button id="searchInput3" onclick="search(3)" style="color:grey;">전체</button>
 				</div>
 				<div class="px-3 py-1 ahover">
-					<button onclick="search(2)" style="color:grey;">중요표시안한메일</button>
+					<button id="searchInput1" onclick="search(1)" style="color:grey;">중요메일</button>
 				</div>
 				<div class="px-3 py-1 ahover">
-					<button onclick="search(3)" style="color:grey;">전체</button>
+					<button id="searchInput2" onclick="search(2)" style="color:grey;">중요표시안한메일</button>
 				</div>
 			</div>
 			<input type="hidden" id="searchBtn"/>
@@ -69,7 +72,7 @@
 			</div>
 		</div><!-- 검색 태그 -->
 		<!-- 테이블 -->
-		<div class="table-responsive p-4">
+		<div class="table-responsive p-4 pb-5">
 			<table class="table table-hover">
 				<thead>
 					<tr>
@@ -127,21 +130,24 @@
 										</c:if>
 									</c:forEach>
 									<c:if test="${send.receivedCount > 1}">
-										<span class="etooltip"> ${send.receivedCount}
-											<c:forEach items="${send.empList}" var="emp">
-												<span class="etooltiptext">(${emp.depName}) ${emp.empName}${emp.posName}
-													<c:if test="${emp.readYN=='Y'}">
-														&nbsp;&nbsp;&nbsp;&nbsp;읽음
-													</c:if>
-													<c:if test="${emp.readYN=='N'}">
-														&nbsp;&nbsp;&nbsp;&nbsp;안읽음
-													</c:if>
-											    </span>
-										    </c:forEach>
+										<span class="etooltip">${send.empList[0].empName}${send.empList[0].posName} 외${send.receivedCount-1}명
+											<span class="etooltiptext">
+												<c:forEach items="${send.empList}" var="emp" begin="0">
+													<div class="mb-1">
+														(${emp.depName}) ${emp.empName}${emp.posName}
+														<c:if test="${emp.readYN=='Y'}">
+															&nbsp;&nbsp;&nbsp;&nbsp;읽음 
+														</c:if>
+														<c:if test="${emp.readYN=='N'}">
+															&nbsp;&nbsp;&nbsp;&nbsp;안읽음
+														</c:if>
+													</div>
+										    	</c:forEach>
+										      </span>
 										</span>
 									</c:if>
 								</td>
-								<td onclick="location.href='<c:url value="/mail/detailmail/send/${send.sendMailId}"/>'">${send.sendMailTitle}</td>
+								<td onclick="location.href='<c:url value="/mail/detailmail/send/${send.sendMailId}/send"/>'" style="font-weight:bold;">${send.sendMailTitle}</td>
 								
 								<td>
 									<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${send.sendMailDate}"/>
