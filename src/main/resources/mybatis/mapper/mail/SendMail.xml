@@ -21,7 +21,7 @@
 		where send_mail_id =#{sendMailId}
 	</select>
 	
-	<select id="getSendMailById" parameterType="int" resultMap="sendMailMap" >
+	<select id="getSendMailById" resultMap="sendMailMap" parameterType="int">
 		SELECT send_mail_id, emp_id, send_mail_title, 
 			send_mail_content, send_mail_importance_yn, 
 			send_mail_date, send_mail_temp_yn, 
