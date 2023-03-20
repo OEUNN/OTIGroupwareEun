@@ -9,5 +9,5 @@ public class BoardFile {
     private String boardFileName;
     private byte[] boardFileData;
     private String boardFileType;
-    private int boardFileLength;
+    private long boardFileLength;
 }

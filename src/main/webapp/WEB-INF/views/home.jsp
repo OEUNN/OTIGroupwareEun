@@ -488,24 +488,31 @@
 												<table class="table table-hover">
 													<thead>
 														<tr>
-<!-- 															<th class="px-0" style="width: 20%">문서번호</th> -->
+<!-- 														<th class="px-0" style="width: 20%">문서번호</th> -->
 															<th class="px-0" style="width: 25%">결재상태</th>
 															<th class="px-0" style="width: 50%">제목</th>
 															<th class="px-0" style="width: 25%">완결날짜</th>
 														</tr>
 													</thead>
 													<tbody>
+													<c:if test="${documents != null}">
 														<c:forEach items="${documents}" var="document" varStatus="status">
 														<tr>
-<%-- 															<td class="pl-1" style="font-size: 14px;">${document.docId}</td> --%>
+<%-- 														<td class="pl-1" style="font-size: 14px;">${document.docId}</td> --%>
 															<c:choose>
-															<c:when test="${document.docState == '결재중' || document.docState == '승인'}">
+															<c:when test="${document.docState == '진행'}">
 															<td class="pl-1" style="font-size: 13px;">
 															<div class="badge badge-warning font-weight-bold d-flex" style="width: fit-content;">
 															<i class="mdi mdi-file-document d-flex align-self-center mr-1"></i><span>진행</span></div>
 															</td>
 															</c:when>
-															<c:when test="${document.docState == '완결'}">
+															<c:when test="${document.docState == '열람'}">
+															<td class="pl-1" style="font-size: 13px;">
+															<div class="badge badge-warning font-weight-bold d-flex" style="width: fit-content;">
+															<i class="mdi mdi-file-document d-flex align-self-center mr-1"></i><span>열람</span></div>
+															</td>
+															</c:when>
+															<c:when test="${document.docState == '승인'}">
 															<td class="pl-1" style="font-size: 13px;">
 															<div class="badge badge-success font-weight-bold d-flex" style="width: fit-content;">
 															<i class="mdi mdi-file-document d-flex align-self-center mr-1"></i><span>승인</span></div>
@@ -533,6 +540,12 @@
 															</c:if>
 														</tr>
 														</c:forEach>
+													</c:if>
+													<c:if test="${documents == null}">
+														<tr>
+															<th class="text-center" rowspan="3" colspan="3">최근 상신한 문서가 없습니다.</th>
+														</tr>
+													</c:if>
 													</tbody>
 												</table>
 											</div>

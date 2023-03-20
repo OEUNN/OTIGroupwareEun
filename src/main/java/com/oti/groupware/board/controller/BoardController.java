@@ -1,8 +1,30 @@
 package com.oti.groupware.board.controller;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.oti.groupware.board.dto.Board;
+import com.oti.groupware.board.dto.BoardFile;
+import com.oti.groupware.board.service.BoardService;
+import com.oti.groupware.common.Pager;
+import com.oti.groupware.employee.dto.Employee;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -11,38 +33,63 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class BoardController {
 	
+	Pager pager;
+	
+	@Autowired
+	BoardService boardService;
+	
 	//공지게시판
-	@RequestMapping(value = "/board", method = RequestMethod.GET)
-	public String mail() {
-		log.debug("디버그 로그");
-		log.info("정보 로그");
-		log.warn("경고 로그");
-		log.error("에러 로그");
-		return "board/board";
+	@RequestMapping(value = "/notice", method = RequestMethod.GET)
+	public String getBoardList(Model model) {
+		return getBoardList(1, model);
 	}
 	
-	//인사발령
-	@RequestMapping(value = "/hrboard", method = RequestMethod.GET)
-	public String hrBoard() {
-		return "board/hrboard";
-	}
-
-	//경조사
-	@RequestMapping(value = "/familyeventboard", method = RequestMethod.GET)
-	public String familyEventBoard() {
-		return "board/familyeventboard";
+	//공지게시판
+	@RequestMapping(value = "/notice/{pageNo}", method = RequestMethod.GET)
+	public String getBoardList(@PathVariable int pageNo, Model model) {
+		pager = new Pager();
+		List<Board> boardList = boardService.getBoardList(pager, pageNo);
+		model.addAttribute("boardList", boardList);
+		return "board/notice";
 	}
 	
-	//게시판쓰기
-	@RequestMapping(value = "/writeboard", method = RequestMethod.GET)
-	public String writeBoard() {
+	//게시판쓰기 화면
+	@RequestMapping(value = "/write", method = RequestMethod.GET)
+	public String writeBoard(HttpSession session) {
 		return "board/writeboard";
 	}
 	
+	//게시판쓰기
+	@RequestMapping(value = "/write", method = RequestMethod.POST)
+	public String writeBoard(Board board, MultipartFile[] files, HttpSession session) throws IOException {
+		String empId = ((Employee) session.getAttribute("employee")).getEmpId();
+		
+		board.setEmpId(empId);
+		board.setBoardCategoryId(1);
+		int boardId = boardService.writeBoard(board, files);
+		
+		return "redirect:/board/notice";
+	}
+	
 	//게시글 보기
-	@RequestMapping(value = "/detailboard", method = RequestMethod.GET)
-	public String detailBoard() {
-		return "board/detailboard";
+	@RequestMapping(value = "/viewdetail/{boardId}", method = RequestMethod.GET)
+	public @ResponseBody Board detailBoard(@PathVariable int boardId, Model model) {
+		Board board = boardService.getBoardById(boardId);
+		List<BoardFile> boardFileList = boardService.getBoardFilesByBoardId(boardId);
+		board.setBoardFiles(boardFileList);
+		return board;
+	}
+	
+	//첨부파일 다운로드
+	@RequestMapping(value ="/filedownload/{boardFileId}", method=RequestMethod.GET)
+	public ResponseEntity<byte[]> getBoardFile(@PathVariable int boardFileId) throws UnsupportedEncodingException {
+		BoardFile boardFile = boardService.getBoardFile(boardFileId);
+		HttpHeaders headers = new HttpHeaders();
+		String[] mtypes = boardFile.getBoardFileType().split("/");
+		headers.setContentType(new MediaType(mtypes[0], mtypes[1]));
+		headers.setContentLength(boardFile.getBoardFileLength());
+		headers.setContentDispositionFormData("attachment", URLEncoder.encode(boardFile.getBoardFileName(), "UTF-8"));
+		return new ResponseEntity<byte[]>(boardFile.getBoardFileData(), headers, HttpStatus.OK);
 	}
 	
 }

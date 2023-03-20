@@ -138,7 +138,7 @@
 												<td class="pl-0">${document.docId}</td>
 												<td>
 													<c:choose>
-													<c:when test="${document.docState == '완결'}">
+													<c:when test="${document.docState == '승인'}">
 													<div class="badge badge-success font-weight-bold d-flex" style="width: fit-content;">
 													<i class="mdi mdi-check-circle-outline d-flex align-self-center mr-1"></i><span>승인</span></div>
 													</c:when>

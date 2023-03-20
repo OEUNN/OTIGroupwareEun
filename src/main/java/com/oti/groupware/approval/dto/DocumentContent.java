@@ -4,14 +4,10 @@ import lombok.Data;
 
 @Data
 public class DocumentContent {
-	private String drafterId;
-	private String docReportDate;
-	
-	private String[] approvalId;
-	private String[] approvalName;
-	private String[] approvalState;
-	private String[] approvalDate;
-	private String[] depName;
-	private String[] posName;
-	private int[] approvalOrder;
+	private String docId;
+	private String docTitle;
+	private String docContent;
+	private String docType;
+	private String docState;
+	private String docTempYn;
 }

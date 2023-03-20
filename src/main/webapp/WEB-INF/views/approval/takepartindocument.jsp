@@ -44,7 +44,7 @@
 	        		<div class="col-md-12 grid-margin">
 	        			<div class="card gird-margin shadow-2">
 		        			<div class="card-body">
-		        				<p class="card-title mb-3">결재하기</p>
+		        				<p class="card-title mb-3">열람문서함</p>
 		        				<div class="card gird-margin shadow-2 my-3" style="background-color: #e7e7ff;">
 			        			<div class="card-body">
 		        					<div class="row py-0" style="padding: 1.25rem;">
@@ -116,7 +116,11 @@
 												<th class="px-0 border-bottom pb-2">결재상태
 												<i class="mdi mdi-menu-down" data-toggle="dropdown"></i>
 											    <div class="dropdown-menu mt-3" style="width: auto;">
+													<a class="dropdown-item" onclick="searchState('승인')">승인</a>
 													<a class="dropdown-item" onclick="searchState('진행')">진행</a>
+													<a class="dropdown-item" onclick="searchState('열람')">열람</a>
+													<a class="dropdown-item" onclick="searchState('회수')">회수</a>
+													<a class="dropdown-item" onclick="searchState('반려')">반려</a>
 											    </div>
 												</th>
 												<th class="border-bottom pb-2">제목<i class="icon-search" onclick="searchDocTitle('제목')"></i>

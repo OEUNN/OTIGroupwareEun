@@ -98,7 +98,7 @@
     <select id="getDraftDocumentCount" resultType="int" parameterType="string">
         SELECT count(*) 
         FROM documents 
-        WHERE emp_id = #{empId} and doc_temp_yn = 'N' AND doc_state != '완결' 
+        WHERE emp_id = #{empId} and doc_temp_yn = 'N' AND doc_state != '승인' 
     </select>
     
     <select id="getDraftDocumentList" resultMap="documentResultMap">
@@ -146,7 +146,7 @@
 	        		doc_complete_date, doc_state, doc_read_yn
 	        	FROM 
 	        		documents doc, approval_lines apl, employees emp
-	        	WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order AND doc_temp_yn = 'N' AND emp.emp_id = doc.emp_id 
+	        	WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order AND doc_temp_yn = 'N' 
 	        	ORDER BY doc_report_date DESC
         	)
         	WHERE rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
@@ -185,36 +185,6 @@
     ]]>
 	</select>
 	
-	<select id="getCompletedDocumentCount" resultType="int" parameterType="string">
-		SELECT count(*) 
-		FROM documents 
-		WHERE emp_id = ${empId} AND doc_state = '완결'
-	</select>
-	
-	<select id="getCompletedDocumentList" resultMap="documentResultMap">
-    <![CDATA[
-        SELECT
-            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
-            doc_complete_date, doc_state, doc_read_yn
-        FROM (
-        	SELECT
-        		rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
-        		doc_complete_date, doc_state, doc_read_yn
-        	FROM (
-	        	SELECT
-	        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
-	        		doc_complete_date, doc_state, doc_read_yn
-	        	FROM 
-	        		documents doc, approval_lines apl, employees emp
-	        	WHERE doc.emp_id = ${empId} AND doc.doc_id = apl.doc_id AND doc_state = '완결' AND doc_temp_yn = 'N' AND emp.emp_id = doc.emp_id 
-        		ORDER BY doc_complete_date DESC
-        	)
-        	WHERE rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
-        )
-        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
-    ]]>
-	</select>
-	
 	<select id="getTempDocumentCount" resultType="int" parameterType="string">
 		SELECT count(*) 
 		FROM documents 
@@ -245,7 +215,33 @@
     ]]>
 	</select>
 	
-	
+    <select id="getTakePartInDocumentCount" resultType="int" parameterType="string">
+        SELECT count(*) 
+		FROM documents doc, approval_lines apl
+		WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc_temp_yn = 'N' AND apl.aprv_line_order <![CDATA[<]]>= doc.doc_aprv_step 
+    </select>
+    
+    <select id="getTakePartInDocumentList" resultMap="documentResultMap">
+        SELECT
+            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            doc_complete_date, doc_state, doc_read_yn
+        FROM (
+        	SELECT
+        		rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+        		doc_complete_date, doc_state, doc_read_yn
+        	FROM  (
+	        	SELECT
+	        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+	        		doc_complete_date, doc_state, doc_read_yn
+	        	FROM 
+	        		documents doc, approval_lines apl, employees emp
+	        	WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc_temp_yn = 'N' AND apl.aprv_line_order <![CDATA[<]]>= doc.doc_aprv_step 
+	        	ORDER BY doc_report_date DESC
+        	)
+        	WHERE rownum <![CDATA[<]]>= #{pager.rowsPerPage} * #{pager.pageNo}
+        )
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
+    </select>
 	
 	
 	<!-- 검색SQL -->
@@ -255,7 +251,7 @@
         SELECT count(*) 
         FROM documents 
 		<where>
-			emp_id = #{empId} AND doc_temp_yn = 'N' AND doc_state != '완결' 
+			emp_id = #{empId} AND doc_temp_yn = 'N' 
 			<if test="searchQuery.docId != null">
 			AND doc_id LIKE '%'||#{searchQuery.docId}||'%' 
 			</if>
@@ -289,7 +285,7 @@
 		        FROM 
 		            documents
 		 		<where>
-	 	 			emp_id = #{empId} and doc_temp_yn = 'N' AND doc_state != '완결' 
+	 	 			emp_id = #{empId} and doc_temp_yn = 'N' 
 					<if test="searchQuery.docId != null">
 					AND doc_id LIKE '%'||#{searchQuery.docId}||'%' 
 					</if>
@@ -311,63 +307,6 @@
 		    WHERE rownum <![CDATA[<]]>= #{pager.rowsPerPage} * #{pager.pageNo}
 		)
 		WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
-	</select>
-	
-	<select id="getCompletedDocumentCountByQuery" resultType="int">
-		SELECT count(*) 
-		FROM documents 
-		<where>
-			emp_id = ${empId} AND doc_state = '완결'
-			<if test="searchQuery.docId != null">
-			AND doc_id LIKE '%'||#{searchQuery.docId}||'%' 
-			</if>
-			<if test="searchQuery.docTitle != null">
-			AND doc_title LIKE '%'||#{searchQuery.docTitle}||'%' 
-			</if>
-		    <if test="searchQuery.docReportStartDate != null and searchQuery.docReportEndDate != null">
-	        AND doc_report_date BETWEEN TO_DATE((#{searchQuery.docReportStartDate}), 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE((#{searchQuery.docReportEndDate}), 'YYYY-MM-DD HH24:MI:SS')
-		    </if>
-		    <if test="searchQuery.docCompleteStartDate != null and searchQuery.docCompleteEndDate != null">
-	        AND doc_complete_date BETWEEN TO_DATE((#{searchQuery.docCompleteStartDate}), 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE((#{searchQuery.docCompleteEndDate}), 'YYYY-MM-DD HH24:MI:SS')
-		    </if>
-		</where>
-	</select>
-	
-	<select id="getCompletedDocumentListByQuery" resultMap="documentResultMap">
-        SELECT
-            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
-            doc_complete_date, doc_state, doc_read_yn
-        FROM (
-        	SELECT
-        		rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
-        		doc_complete_date, doc_state, doc_read_yn
-        	FROM (
-	        	SELECT
-	        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
-	        		doc_complete_date, doc_state, doc_read_yn
-	        	FROM 
-	        		documents doc, approval_lines apl, employees emp
-		       	<where>
-		        	doc.emp_id = ${empId} AND doc.doc_id = apl.doc_id AND doc_state = '완결' AND doc_temp_yn = 'N' AND 
-		        	emp.emp_id = doc.emp_id 
-					<if test="searchQuery.docId != null">
-					AND doc.doc_id LIKE '%'||#{searchQuery.docId}||'%' 
-					</if>
-					<if test="searchQuery.docTitle != null">
-					AND doc_title LIKE '%'||#{searchQuery.docTitle}||'%' 
-					</if>
-				    <if test="searchQuery.docReportStartDate != null and searchQuery.docReportEndDate != null">
-			        AND doc_report_date BETWEEN TO_DATE((#{searchQuery.docReportStartDate}), 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE((#{searchQuery.docReportEndDate}), 'YYYY-MM-DD HH24:MI:SS')
-				    </if>
-				    <if test="searchQuery.docCompleteStartDate != null and searchQuery.docCompleteEndDate != null">
-			        AND doc_complete_date BETWEEN TO_DATE((#{searchQuery.docCompleteStartDate}), 'YYYY-MM-DD HH24:MI:SS') AND TO_DATE((#{searchQuery.docCompleteEndDate}), 'YYYY-MM-DD HH24:MI:SS')
-				    </if>
-		       	</where>
-        		ORDER BY doc_complete_date DESC
-        	)
-        	WHERE rownum <![CDATA[<]]>= #{pager.rowsPerPage} * #{pager.pageNo}
-        )
-        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
 	</select>
 	
 	<select id="getPendedDocumentCountByQuery" resultType="int">
@@ -409,7 +348,7 @@
 	        		documents doc, approval_lines apl, employees emp
 	   	 		<where> 
 	   	 			apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order AND doc_temp_yn = 'N' AND
-	   	 			emp.emp_id = doc.emp_id 
+	   	 			emp.emp_id = doc.emp_id AND doc_state != '회수' 
 					<if test="searchQuery.docId != null">
 					AND doc.doc_id = #{searchQuery.docId}
 					</if>
