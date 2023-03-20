@@ -77,11 +77,11 @@
 										<c:if test="${levApp.levAppProcessState ne '취소신청' && levApp.levAppProcessState ne '취소완료'}"><small>${levApp.levAppCategory}</small></c:if>
 										<c:if test="${levApp.levAppProcessState eq '취소신청' || levApp.levAppProcessState eq '취소완료'}"><small class="text-danger">${levApp.levAppCategory}취소</small></c:if>
 									</td>
-									<td><small><fmt:formatDate value="${levApp.levAppDate}" pattern="yyyy-MM-dd" /></small></td>
+									<td><small><fmt:formatDate value="${levApp.levAppDate}" pattern="yyyy/MM/dd" /></small></td>
 									<td><small> 
-										<fmt:formatDate value="${levApp.levAppStartDate}" pattern="yyyy-MM-dd" />
+										<fmt:formatDate value="${levApp.levAppStartDate}" pattern="yyyy/MM/dd" />
 										 ~
-										<fmt:formatDate value="${levApp.levAppEndDate}" pattern="yyyy-MM-dd" />
+										<fmt:formatDate value="${levApp.levAppEndDate}" pattern="yyyy/MM/dd" />
 									</small></td>
 									<td>${levApp.levAppApprovalEmpName}</td>
 									<td id="aprv-state${levApp.levAppId}">

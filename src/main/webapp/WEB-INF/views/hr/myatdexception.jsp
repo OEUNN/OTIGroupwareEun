@@ -46,12 +46,17 @@
            type: "GET",
            url: "../hr/atdexcpapprovaldetail?atdExcpId=" + id + "&atdExcpCategory=" + category,
            error: function () {
-           	alert("통신실패!");
+        	   swal({
+    				  title: "조회실패",
+    				  text: "조회실패 하였습니다.",
+    				  icon: "error",
+    				  button: "닫기",
+   				});
            },
            success: function (data) {
                //작성폼 숨기기
                $("#atd-excp-write-form").hide();
-			//AJAX 통신에 의해 상세조회 내용 넣기
+			   //AJAX 통신에 의해 상세조회 내용 넣기
                $("#atd-excp-detail").hide().fadeIn(500);
                $('#atd-excp-detail').html(data);
            }
@@ -80,7 +85,12 @@
 				category : data
 			},
 			error : function() {
-				alert('통신실패!');
+				swal({
+	   				  title: "변경실패",
+	   				  text: "작성폼 변경실패하였습니다.",
+	   				  icon: "error",
+	   				  button: "닫기",
+   				});
 			},
 			success : function(data) {
 				$("#change-form").html(data);
@@ -169,7 +179,7 @@
 													<c:forEach var="atdExcp" items="${atdExcpList}">
 														<tr onclick="atdExcpDetail('${atdExcp.atdExcpId}', '${atdExcp.atdExcpCategory}')">
 															<td class="py-3"><small>${atdExcp.atdExcpCategory}</small></td>
-															<td class="py-3"><small><fmt:formatDate value="${atdExcp.atdExcpDate}" pattern="yyyy-MM-dd" /></small></td>
+															<td class="py-3"><small><fmt:formatDate value="${atdExcp.atdExcpDate}" pattern="yyyy/MM/dd" /></small></td>
 															<td class="py-3">${atdExcp.atdExcpApprovalEmpName}</td>
 															<td class="py-3">
 																<!-- 결재상태 -->
