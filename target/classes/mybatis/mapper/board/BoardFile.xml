@@ -36,5 +36,11 @@
         DELETE FROM project3.boards_files
         WHERE board_file_id = #{boardFileId}
     </delete>
+    
+    <select id="getBoardFilesByBoardId" resultMap="boardsFileResultMap" parameterType="int">
+        SELECT board_file_id, board_id, board_file_name, board_file_data, board_file_type, board_file_length
+        FROM project3.boards_files
+        WHERE board_id = #{boardId}
+    </select>
 
 </mapper>

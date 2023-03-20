@@ -28,6 +28,7 @@ import lombok.extern.log4j.Log4j2;
 public class HomeController {
 	Pager pager;
 	List<Document> documents;
+	List<Document> homeDocuments;
 	
 	@Autowired
 	private HrService hrService;
@@ -51,10 +52,10 @@ public class HomeController {
 		
 		//결재 보여주는 부분
 		pager = new Pager();
-		documents = documentService.getDraftDocumentList(1, pager, empId);
-		List<Document> homeDocuments = new ArrayList<Document>();
+		documents = documentService.getDraftDocumentListForHome(1, pager, empId);
 		if (documents != null && documents.size() > 0) {
-			for (int i = 0; i < 3; i++) {
+			homeDocuments = new ArrayList<Document>();
+			for (int i = 0; i < documents.size(); i++) {
 				homeDocuments.add(documents.get(i)); 
 			}
 		}

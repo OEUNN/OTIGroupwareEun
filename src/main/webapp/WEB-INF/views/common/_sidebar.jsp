@@ -47,7 +47,7 @@
 			<div class="collapse" id="form-elements">
 				<ul class="nav flex-column sub-menu">
 					<li class="nav-item">
-						<a class="nav-link" href="<c:url value='/board/board'/>">사내 공지</a>
+						<a class="nav-link" href="<c:url value='/board/notice'/>">사내 공지</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="<c:url value='/board/hrboard'/>">인사 발령</a>
@@ -66,10 +66,10 @@
 			</a>
 			<div class="collapse" id="charts">
 				<ul class="nav flex-column sub-menu">
-					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/approvalwrite'/>">기안 작성</a></li>
+					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/write'/>">기안 작성</a></li>
+					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/pendeddocument'/>">결재하기</a></li>
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/draftdocument'/>">기안문서함</a></li>
-					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/completeddocument'/>">완결문서함</a></li>
-					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/pendeddocument'/>">결재 대기 중인 문서</a></li>
+					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/takepartindocument'/>">열람문서함</a></li>
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/returneddocument'/>">반려/회수문서함</a></li>
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/tempdocument'/>">임시저장함</a></li>
 				</ul>

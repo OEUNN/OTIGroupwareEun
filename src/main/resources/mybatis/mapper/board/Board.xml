@@ -20,7 +20,7 @@
 
  	<insert id="insertBoard" parameterType="board">
         INSERT INTO boards (board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn)
-        VALUES (#{boardId}, #{empId}, #{boardCategoryId}, #{boardTitle}, #{boardContent}, #{boardDate}, #{boardFileYn})
+        VALUES (SEQ_BOARD_ID.NEXTVAL, #{empId}, #{boardCategoryId}, #{boardTitle}, #{boardContent}, default, #{boardFileYn})
     </insert>
     
     <update id="updateBoard" parameterType="board">
@@ -33,5 +33,52 @@
     <delete id="deleteBoard" parameterType="int">
         DELETE FROM boards WHERE board_id = #{boardId}
     </delete>
+    
+    <select id="getBoardId" resultType="int">
+    	SELECT SEQ_BOARD_ID.CURRVAL
+    	FROM DUAL 
+    </select>
+    
+    <select id="getBoardCount" resultType="int">
+    	SELECT count(*) 
+    	FROM boards
+    </select>
+    
+    <select id="getBoardList" resultMap="boardResultResultMap">
+        SELECT 
+        	board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn
+        FROM (
+        	SELECT 
+        		rnum, board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn 
+        	FROM (
+        		SELECT 
+        			rownum as rnum,  board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn 
+        		FROM 
+        			boards
+        		ORDER BY board_date DESC 
+        	)
+        	WHERE rownum <![CDATA[<]]>= #{pager.rowsPerPage} * #{pager.pageNo}
+        )
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
+    </select>
+    
+    <select id="getBoardListByTitle" resultMap="boardResultResultMap">
+            SELECT 
+        	board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn
+        FROM (
+        	SELECT 
+        		rnum, board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn 
+        	FROM (
+        		SELECT 
+        			rownum as rnum,  board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn 
+        		FROM 
+        			boards
+        		WHERE board_title = #{title}
+        		ORDER BY board_date DESC 
+        	)
+        	WHERE rownum <![CDATA[<]]>= #{pager.rowsPerPage} * #{pager.pageNo}
+        )
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
+    </select>
     
 </mapper>

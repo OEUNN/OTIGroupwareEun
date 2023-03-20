@@ -136,7 +136,7 @@
    		/* AJAX통신 - 휴가신청 결재 처리(승인,반려) */
    		function levAppAprv(state, id) {
    			//"승인" 버튼을 눌렀을 경우
-   			if(state == "승인") {
+   			if(state == "승인" || state == "취소완료") {
    				$.ajax({
    					type: 'GET',
    					url: '../hr/levappaprvstatecomplete',
@@ -150,7 +150,11 @@
    					},
    					success: function(data) {
    						$('#lev-app-aprv-detail').html(data);
-   						$('#aprv-state' + id).html('<div class="badge badge-success font-weight-bold text-white">승인</div>');
+   						if(state == '승인'){
+	   						$('#aprv-state' + id).html('<div class="badge badge-success font-weight-bold text-white">'+ state +'</div>');
+   						} else {
+	   						$('#aprv-state' + id).html('<div class="badge badge-warning font-weight-bold">'+ state +'</div>');
+   						}
    					}
    				});
    				

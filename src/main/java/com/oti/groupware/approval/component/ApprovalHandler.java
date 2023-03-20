@@ -30,13 +30,13 @@ public class ApprovalHandler {
 			//문서 결재 순서에 맞는 경우, 결재문서의 결재단계를 하나 올림
 			if (documentApprovalStep == approvalLineOrder) {
 				documentApprovalStep += 1;
-				document.setDocState(state);
+				document.setDocState("진행");
 			}
 			
 			//모든 결재자들이 결재하여 완결된 경우, 결재단계를 -1로 설정
-			if (documentApprovalStep > documentMaxStep) {
+			if (documentApprovalStep >= documentMaxStep) {
 				documentApprovalStep = -1;
-				document.setDocState("완결");
+				document.setDocState("승인");
 				document.setDocCompleteDate(Timestamp.valueOf(LocalDateTime.now()));
 			}
 			
@@ -79,12 +79,13 @@ public class ApprovalHandler {
 	public boolean handleRetrieve(String state) {
 		if (document != null && approvalLine != null && approvalLines != null) {
 			
-			//열람 중인 경우 회수가 불가능
-			if (document.getDocReadYn() == "N") {
+			//열람인 경우 회수가 불가능
+			//승인, 반려는 가능
+			if ("열람".equals(document.getDocState()) || "회수".equals(document.getDocState())) {
 				return false;
 			}
 			
-			//열람 하기 전
+			//열람이 아닌경우
 			else {
 				//결재문서의 결재자들의 상태를 초기화
 				for (ApprovalLine approvalLine : approvalLines) {
@@ -97,7 +98,7 @@ public class ApprovalHandler {
 				
 				document.setDocState(state);
 				document.setDocReadYn("N");
-				document.setDocAprvStep(1);
+				document.setDocAprvStep(0);
 				approvalLine.setAprvLineOpenYn("N");
 				return true;
 			}
@@ -108,11 +109,20 @@ public class ApprovalHandler {
 		}
 	}
 	
+	//열람
 	public boolean handleOpen() {
 		if (document != null && approvalLine != null) {
-			document.setDocReadYn("Y");
-			approvalLine.setAprvLineOpenYn("Y");
-			return true;
+			//결재자가 미결일 때 열람 상태로 변경 가능
+			if ("미결".equals(approvalLine.getAprvLineState())) {
+				document.setDocReadYn("Y");
+				document.setDocState("열람");
+				approvalLine.setAprvLineOpenYn("Y");
+				approvalLine.setAprvLineState("열람");
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 		else {
 			return false;

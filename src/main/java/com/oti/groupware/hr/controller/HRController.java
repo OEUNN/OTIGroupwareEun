@@ -1,5 +1,7 @@
 package com.oti.groupware.hr.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -62,13 +64,22 @@ public class HRController {
 	 */
 	@RequestMapping(value = "/attendancestats", method=RequestMethod.GET , produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public String attendanceStatus(HttpSession session) {
+	public String attendanceStatus(String chartDate, HttpSession session) {
 		//세션에 저장된 직원ID 갖고옴
 		Employee employee = (Employee) session.getAttribute("employee");
 		String empId = employee.getEmpId();
 		
+		//오늘의 월
+		if(chartDate == null) {
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM");
+			chartDate = sdf.format(date);
+			session.setAttribute("chartDate", chartDate);
+		}
+		
 		//근무통계 가져옴
-		JSONArray statusCount = hrService.attendanceStats(empId); 
+		JSONArray statusCount = hrService.attendanceStats(empId, chartDate); 
+		
 		return statusCount.toString();
 	}
 	

@@ -1,41 +1,67 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
-	<head>
-	<!-- CSS 관련 파일 -->
-		<%@ include file="/WEB-INF/views/common/head.jsp" %>
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css"/>
-		<script src="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-		<script>
-			$(function(){
-				$('#datepicker').datepicker({
-				});	
-			});
-			function popup(){
-	            var url = "deleteboard";
-	            var name = "delete board";
-	            var option = "width = 500, height =250, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
-	            window.open(url, name, option);
-	        }
-        	
-		</script>
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
-		<style>
-			.table th, .jsgrid .jsgrid-table th,
-			.table td,
-			.jsgrid .jsgrid-table td {
-			  padding: 0.525rem 1.375rem;
+<head>
+<!-- CSS 관련 파일 -->
+	<%@ include file="/WEB-INF/views/common/head.jsp" %>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css"/>
+	<script src="<c:url value="/resources/vendors/tinymce/tinymce.min.js"></c:url>"></script>
+	<script src="<c:url value="/resources/js/tinymce/tinymceinit.js"></c:url>"></script>
+	<script src="<c:url value="/resources/vendors/tinymce/themes/silver/theme.min.js"></c:url>"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+	<script>
+	$(function(){
+		$('#datepicker').datepicker({
+		});	
+	});
+	function popup(){
+        var url = "deleteboard";
+        var name = "delete board";
+        var option = "width = 500, height =250, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
+        window.open(url, name, option);
+    }
+	function requestBoardDetail(boardId) {
+		$.ajax({
+			url: getContextPath() + '/board/viewdetail/' + boardId,
+			success: function(Board) {
+				$("#boardTitle").text(Board.boardTitle);
+				
+				let boardDate = new Date(Board.boardDate);
+				
+				let year = boardDate.getFullYear();
+				let month = boardDate.getMonth() + 1;
+				let date = boardDate.getDate();
+				
+				let hours = boardDate.getHours();
+				let minutes = boardDate.getMinutes();
+				let seconds = boardDate.getSeconds();
+				
+				let completedDate = year + '/' + month + '/' + date + ' ' + hours + ':' + minutes + ':' + seconds;
+				
+				$("#boardDate").text(completedDate);
+				tinymce.get("boardContent").setContent(Board.boardContent);
 			}
-			.dropdown-toggle::after{
-				content:none;
-			}
-			collapse, .collapsing {
-				box-shadow: 0px 0px 0px white !important;
-			}
-		</style>
-	</head>
+		});
+	}
+	</script>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
+	<style>
+	.table th, .jsgrid .jsgrid-table th,
+	.table td,
+	.jsgrid .jsgrid-table td {
+	  padding: 0.525rem 1.375rem;
+	}
+	.dropdown-toggle::after{
+		content:none;
+	}
+	collapse, .collapsing {
+		box-shadow: 0px 0px 0px white !important;
+	}
+	</style>
+</head>
 
 <body>
 	<div class="container-scroller ">
@@ -128,6 +154,7 @@
 												</tr>
 											</thead>
 											<tbody>
+												<c:forEach items="${boardList}" var="board">
 												<tr>
 													<td>
 														<div class="form-check font-weight-bold text-info">
@@ -136,63 +163,17 @@
 															</label>
 														</div>
 													</td>
+													<c:choose>
+													<c:when test="${board.boardFileYn == 'Y'}">
 													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td >2023년 프로젝트 리스트</td>
-													<td> 장영은</td>
-													<td>2023/02/01</td>
+													</c:when>
+													<c:otherwise><td></td></c:otherwise>
+													</c:choose>
+													<td><span onclick="requestBoardDetail(${board.boardId})">${board.boardTitle}</span></td>
+													<td>${board.employee.empName}</td>
+													<td><fmt:formatDate value="${board.boardDate}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
 												</tr>
-												<tr>
-													<td>
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-													</td>
-													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td >2023년 설날 선물세트 증정</td>
-													<td> 한송민</td>
-													<td>2023/01/20</td>
-												</tr>
-												<tr>
-													<td>
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-													</td>
-													<td><i class="h3 mdi mdi-paperclip text-primary"></i></td>
-													<td >연말정산 안내</td>
-													<td>유재석</td>
-													<td>2023/01/10</td>
-												</tr>
-												<tr>
-													<td>
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-													</td>
-													<td><i class="h3 mdi text-primary"></i></td>
-													<td >새해복 많이 받으세요</td>
-													<td>장영은</td>
-													<td>2023/12/31</td>
-												</tr>
-												<tr>
-													<td>
-														<div class="form-check font-weight-bold text-info">
-															<label class="form-check-label">
-																<input type="checkbox" class="form-check-input" name="optradio">
-															</label>
-														</div>
-													</td>
-													<td><i class="h3 mdi text-primary"></i></td>
-													<td >연차 사용</td>
-													<td> 공유</td>
-													<td>2022/12/01</td>
-												</tr>
+												</c:forEach>
 											</tbody>
 										</table>
 									</div>
@@ -204,7 +185,7 @@
 											<button class="btn btn-danger btn-sm" onclick="popup()">선택삭제</button>
 										</div>
 										<div class="mx-1">
-											<a class="btn btn-primary btn-sm" href="<c:url value='/writeboard'/>">게시글 쓰기</a>
+											<a class="btn btn-primary btn-sm" href="<c:url value='/board/write'/>">게시글 쓰기</a>
 										</div>
 									</div><!-- 하단 버튼 -->
 
@@ -224,7 +205,73 @@
 						<!-- 게시글 자세히 보기 -->
 						<div class="col-lg-6 grid-margin stretch-card">
 							<div class="card">
-								<%@ include file="/WEB-INF/views/board/detailboard.jsp"%>
+								<div class="card-body">
+								
+									<div class="d-flex justify-content-between align-items-center mb-4">
+										<div id="boardTitle" class="card-title mb-0">제목데이터</div>
+										<div class="d-flex">
+											<button class="btn btn-md btn-danger mx-2" onclick="popup()">
+												<span class="mdi mdi-window-close align-middle"></span> 
+												<span>삭제</span>
+											</button>
+										</div>
+									</div>
+									<div class="forms-sample">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group row align-items-center">
+													<div class="col-sm-2 text-primary">
+														<div class="d-flex align-items-center m-1">
+															<i class="h3 my-auto mdi mdi-calendar "></i> 
+															<span class="font-weight-bold">날짜</span>
+														</div>
+													</div>
+													<div class="col-sm-9" style="border-bottom:1px solid #ced4da;">
+														<div id="boardDate" class="from-control" style="font-weight:bold; border:none;">날짜데이터</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group row align-items-center ">
+													<div class="col-sm-3 text-primary">
+														<div class="d-flex align-items-center m-1">
+															<i class="h3 my-auto mdi mdi-dns"></i> 
+															<span class="ml-2 font-weight-bold">카테고리</span>
+														</div>
+													</div>
+													<div class="col-sm-3" style="border-bottom:1px solid #ced4da;">
+														<div class="from-control" style="font-weight:bold; border:none;">사내공지</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group row">
+													<textarea class="form-control" id="boardContent" readonly></textarea>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group row">
+													<div class="col-sm-3 text-primary">
+														<div class="row d-flex align-items-center m-1">
+															<i class="h3 my-auto mdi mdi-cloud-download"></i> 
+															<span class="ml-2 font-weight-bold">파일 다운로드</span>
+														</div>
+													</div>
+													<div class="col-sm-8 p-0"> 
+														<div class="h3 form-control" style="font-weight:bold; height:120px;"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+								</div>
 							</div>
 						</div><!-- end 게시글 자세히 보기 -->
 					</div>

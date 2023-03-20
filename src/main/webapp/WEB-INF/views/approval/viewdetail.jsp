@@ -11,29 +11,42 @@
 	<script src="${pageContext.request.contextPath}/resources/js/tinymce/tinymceinit.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/themes/silver/theme.min.js"></script>
 	<script type="text/javascript">
+	//팝업창 중앙정렬에 필요한 변수와 함수
+	let popupWindow;
+	const popUpTop = window.screen.height / 2;
+	const popUpLeft = window.screen.width / 2;
+	const popUpWidth = 800;
+	const popUpHeight = 400;
+	const rPopUpWidth = 450;
+	const rPopUpHeight = 250;
+	const popupAlign = () => {
+		const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+		const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+		const popupWidth = popupWindow.innerWidth;
+		const popupHeight = popupWindow.innerHeight;
+		const leftPosition = (viewportWidth - popupWidth) / 2;
+		const topPosition = (viewportHeight - popupHeight) / 2;
+		popupWindow.moveTo(leftPosition, topPosition);
+	}
+
 	function approvePopup(){
-	    let url = "../opinion/approve";
-	    let name = "opinion";
-	    let option = "width=800, height=400, top=100px, left=100px, menubars=no, status=no, titlebars=no"
-	    window.open(url, name, option);
+		popupWindow = window.open("../opinion/approve", "opinion", "width=" + popUpWidth + ", height=" + popUpHeight + ", top=" + ((popUpTop - popUpHeight)/2) + ", left=" +((popUpLeft - popUpWidth)/2) + ", menubars=no, status=no, titlebars=no");
+		popupWindow.addEventListener("DOMContentLoaded", popupAlign());
 	}
 	
 	function returnPopup(){
-	    let url = "../opinion/return";
-	    let name = "opinion";
-	    let option = "width=800, height=400, top=100px, left=100px, menubars=no, status=no, titlebars=no"
-	    window.open(url, name, option);
+		popupWindow = window.open("../opinion/return", "opinion", "width=" + popUpWidth + ", height=" + popUpHeight + ", top=" + ((popUpTop - popUpHeight)/2) + ", left=" +((popUpLeft - popUpWidth)/2) + ", menubars=no, status=no, titlebars=no");
+		popupWindow.addEventListener("DOMContentLoaded", popupAlign());
 	}
 	
 	function retrievePopup(){
-	    let url = "../opinion/retrieve";
-	    let name = "opinion";
-	    let option = "width=800, height=400, top=100px, left=100px, menubars=no, status=no, titlebars=no"
-	    window.open(url, name, option);
+		popupWindow = window.open("../opinion/retrieve", "opinion", "width=" + rPopUpWidth + ", height=" + rPopUpHeight + ", top=" + ((popUpTop - rPopUpHeight)/2) + ", left=" +((popUpLeft - rPopUpWidth)/2) + ", menubars=no, status=no, titlebars=no");
+		popupWindow.addEventListener("DOMContentLoaded", popupAlign());
 	}
+	//
 	
 	//결재문서 요청
-	$(document).ready(function(){
+	$(() => {
 		tinymce.activeEditor.mode.set("readonly");
 		docId = $("#docId").val();
 		contextPath = $("#contextPath").val();
@@ -46,7 +59,7 @@
 	});
 	
 	//열람으로 상태 업데이트
-	$(document).ready(function(){
+	$(() => {
 		empId = $("#empId").val();
 		docId = $("#docId").val();
 		
@@ -61,7 +74,7 @@
 		});
 	});
 	
-	$(document).ready(function(){
+	$(() => {
 		$(window).on("message", (event) => {
 			//팝업창에서 전송한 데이터 얻기(팝업창에서 postMessage() 사용해야 함)
 			let receivedData = event.originalEvent.data;
@@ -126,17 +139,17 @@
 											<span>반려</span>
 										</button>
 		        						</c:if>
-										<c:if test="${reader.aprvLineRole == '기안' && document.docTempYn == 'N' && document.docState != '회수' && document.docAprvStep > -1 && document.docReadYn == 'N'}">
+										<c:if test="${reader.aprvLineRole == '기안' && document.docTempYn == 'N' && document.docState != '회수' && document.docReadYn == 'N'}">
 										<button type="submit" onclick="retrievePopup()" id="popup-btn" class="btn btn-md btn-secondary mx-2">
 											<span class="mdi mdi-apple-keyboard-caps align-middle"></span>
 											<span>회수</span>
 										</button>
 										</c:if>
 										<c:if test="${reader.aprvLineRole == '기안' && (document.docState == '반려' || document.docState == '회수' || document.docTempYn == 'Y')}">
-										<form action="<c:url value="/approval/approvalwrite/${document.docId}"></c:url>">
+										<form action="<c:url value="/approval/write/${document.docId}"></c:url>">
 										<button type="submit" id="popup-btn" class="btn btn-md btn-primary mx-2">
 											<span class="mdi mdi-apple-keyboard-caps align-middle"></span>
-											<span>재상신하기</span>
+											<span>재기안하기</span>
 										</button>
 										</form>
 										</c:if>
@@ -164,7 +177,7 @@
 									<c:when test="${approvalLine.aprvLineState == '반려'}">
 		       						<div class="card bg-danger grid-margin shadow-2 mb-0 w-100">
 									</c:when>
-									<c:when test="${approvalLine.aprvLineState == '열람'}">
+									<c:when test="${(approvalLine.aprvLineState == '열람' || approvalLine.aprvLineState == '미결') && reader.aprvLineRole == '결재'}">
 		       						<div class="card card-tale grid-margin shadow-2 mb-0 w-100">
 									</c:when>
 									<c:when test="${approvalLine.aprvLineState == '미결'}">
@@ -179,21 +192,29 @@
 							                    </div>
 						                    </div>
 						                    <div class="row">
-						                    	<!-- 현재 읽는 사용자가 문서상의 결재 순서가 아님 -->
-						                    	<c:if test="${document.docAprvStep != approvalLine.aprvLineOrder}">
+						                    <c:choose>
+						                    	<%-- 결재순서가 아님 --%>
+						                    	<c:when test="${document.docAprvStep != approvalLine.aprvLineOrder}">
 						                    	<div class="col-12">
 						                    		<h3 style="text-align: center; font-weight:bold; color: white; margin-bottom: -3px;">${approvalLine.aprvLineState}</h3>
 						                    	</div>
-						                    	</c:if>
-						                    	<!-- 현재 읽는 사용자가 문서상의 결재 순서임-->
-						                    	<c:if test="${reader.aprvLineOrder == approvalLine.aprvLineOrder && document.docAprvStep == approvalLine.aprvLineOrder && document.docAprvStep > 0}">
+						                    	</c:when>
+						                    	<%-- 현재 읽는 사용자 이외 사람이 결재 순서임 --%>
+						                    	<c:when test="${reader.aprvLineOrder != approvalLine.aprvLineOrder && document.docAprvStep == approvalLine.aprvLineOrder && document.docAprvStep > 0}">
+						                    	<div class="col-12">
+						                    		<h3 style="text-align: center; font-weight:bold; color: white; margin-bottom: -3px;">${approvalLine.aprvLineState}</h3>
+						                    	</div>
+						                    	</c:when>
+						                    	<%-- 현재 읽는 사용자가 문서상의 결재 순서임--%>
+						                    	<c:when test="${reader.aprvLineOrder == approvalLine.aprvLineOrder && document.docAprvStep == approvalLine.aprvLineOrder && document.docAprvStep > 0}">
 					            	        	<div class="col-6">
 						                    		<button class="btn btn-success w-100" onclick="approvePopup()" style="text-align: center; font-weight:bold; margin-bottom: -3px;">승인</button>
 						                    	</div>
 						                    	<div class="col-6 d-flex justify-content-center">
 						                    		<button class="btn btn-danger w-100" onclick="returnPopup()" style="text-align: center; font-weight:bold; margin-bottom: -3px;">반려</button>
 						                    	</div>
-						                    	</c:if>
+						                    	</c:when>
+						                    </c:choose>
 						                    </div>
 					                    </div>
 									</div>
