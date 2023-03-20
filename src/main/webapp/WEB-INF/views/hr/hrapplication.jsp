@@ -14,9 +14,6 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
 	<script src="${pageContext.request.contextPath}/resources/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 	
-	<!-- sweetalert2@11 -->
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	
 	<script>
 	   	/* AJAX통신 - 근무신청결재내역 페이징 목록 */
    		function atdExcpPaging(i) {
@@ -99,12 +96,20 @@
    					url: '../hr/atdexcpaprvstatecomplete',
    					data: {atdExcpProcessState: state, atdExcpId: id, atdExcpOpinion: state, atdExcpCategory: category},
    					error: function() {
-   						Swal.fire({
-   						  icon: 'error',
-   						  title: '결재처리를 실패하였습니다😥',
-   						})
+   						swal({
+  	    				  title: "결재실패",
+  	    				  text: "결재실패 하였습니다.",
+  	    				  icon: "error",
+  	    				  button: "닫기",
+  	    				});
    					},
    					success: function(data) {
+   						swal({
+  	    				  title: "결재승인",
+  	    				  text: "결재승인 되었습니다.",
+  	    				  icon: "success",
+  	    				  button: "닫기",
+  	    				});
    						$('#atd-excp-aprv-detail').html(data);
    						$('#atd-aprv-state' + id).html('<div class="badge badge-success font-weight-bold text-white">승인</div>');
    					}
@@ -123,9 +128,20 @@
    					 url : "../hr/atdexcpaprvstatecomplete",
    					 data : {atdExcpProcessState: state, atdExcpId: id, atdExcpOpinion: opinion, atdExcpCategory: category},
    					 error : function() {
-   						 alert('통신실패!');
+   						swal({
+    	    				  title: "결재실패",
+    	    				  text: "결재실패 하였습니다.",
+    	    				  icon: "error",
+    	    				  button: "닫기",
+    	    				});
    					 },
    					 success : function(data) {
+   						swal({
+    	    				  title: "결재반려",
+    	    				  text: "결재반려 되었습니다.",
+    	    				  icon: "warning",
+    	    				  button: "닫기",
+   	    				 });
    						 $('#atd-excp-aprv-detail').html(data);
    						 $('#atd-aprv-state' + id).html('<div class="badge badge-danger font-weight-bold text-white">반려</div>');
    					 }
@@ -142,17 +158,30 @@
    					url: '../hr/levappaprvstatecomplete',
    					data: {levAppProcessState: state, levAppId: id, levAppOpinion: state},
    					error: function() {
-   						Swal.fire({
-   						  icon: 'error',
-   						  title: '승인이 불가합니다😥',
-   						  text: '신청자의 잔여일수를 확인해주세요!'
+   						swal({
+    	    				  title: "결재 승인 불가",
+    	    				  text: "신청자의 잔여일수를 확인해주세요.",
+    	    				  icon: "error",
+    	    				  button: "닫기",
    						})
    					},
    					success: function(data) {
    						$('#lev-app-aprv-detail').html(data);
    						if(state == '승인'){
+   							swal({
+   	  	    				  title: "결재승인",
+   	  	    				  text: "결재승인 되었습니다.",
+   	  	    				  icon: "success",
+   	  	    				  button: "닫기",
+   	  	    				});
 	   						$('#aprv-state' + id).html('<div class="badge badge-success font-weight-bold text-white">'+ state +'</div>');
    						} else {
+   							swal({
+   	  	    				  title: "결재취소완료",
+   	  	    				  text: "결재취소완료 되었습니다.",
+   	  	    				  icon: "success",
+   	  	    				  button: "닫기",
+   	  	    				});
 	   						$('#aprv-state' + id).html('<div class="badge badge-warning font-weight-bold">'+ state +'</div>');
    						}
    					}
@@ -171,9 +200,20 @@
    					 url : "../hr/levappaprvstatecomplete",
    					 data : {levAppProcessState: state, levAppId: id, levAppOpinion: opinion},
    					 error : function() {
-   						 alert('통신실패!');
+   						swal({
+  	    				  title: "결재실패",
+  	    				  text: "결재실패 하였습니다.",
+  	    				  icon: "error",
+  	    				  button: "닫기",
+  	    				});
    					 },
    					 success : function(data) {
+   						swal({
+  	    				  title: "결재반려",
+  	    				  text: "결재반려 되었습니다.",
+  	    				  icon: "warning",
+  	    				  button: "닫기",
+ 	    				 });
    						 $('#lev-app-aprv-detail').html(data);
    						 $('#aprv-state' + id).html('<div class="badge badge-danger font-weight-bold text-white">반려</div>');
    					 }

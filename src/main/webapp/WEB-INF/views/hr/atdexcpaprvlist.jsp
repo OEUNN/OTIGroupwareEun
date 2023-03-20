@@ -50,12 +50,12 @@
 				<div class="card-body">
 					<div class="row text-center"
 						style="font-size: 13px; font-weight: bold;">
-						<div class="col-md px-0">미처리</div>
+						<div class="col-md px-0">신청</div>
 						<div class="col-md px-0">승인</div>
 						<div class="col-md px-0">반려</div>
 					</div>
 					<div class="row text-center font-weight-bold h3 mb-0">
-						<div class="col-md">${atdExcpStats['미처리']}</div>
+						<div class="col-md">${atdExcpStats['신청']}</div>
 						<div class="col-md">${atdExcpStats['승인']}</div>
 						<div class="col-md">${atdExcpStats['반려']}</div>
 					</div>
@@ -77,11 +77,11 @@
 							<c:forEach var="atdExcp" items="${atdExcpList}">
 								<tr onclick="atdExcpDetail('${atdExcp.atdExcpId}', '${atdExcp.atdExcpCategory}')">
 									<td><small>${atdExcp.atdExcpCategory}</small></td>
-									<td><small><fmt:formatDate value="${atdExcp.atdExcpDate}" pattern="yyyy-MM-dd" /></small></td>
+									<td><small><fmt:formatDate value="${atdExcp.atdExcpDate}" pattern="yyyy/MM/dd" /></small></td>
 									<td>${atdExcp.atdExcpApprovalEmpName}</td>
 									<td id="atd-aprv-state${atdExcp.atdExcpId}" >
 										<!-- 결재상태 --> 
-										<c:if test="${atdExcp.atdExcpProcessState == '미처리'}">
+										<c:if test="${atdExcp.atdExcpProcessState == '신청'}">
 											<div class="badge badge-secondary font-weight-bold text-white">${atdExcp.atdExcpProcessState}</div>
 										</c:if> 
 										<c:if test="${atdExcp.atdExcpProcessState == '승인'}">

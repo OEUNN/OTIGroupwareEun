@@ -165,8 +165,12 @@
 		UPDATE
 			attendances
 		SET
-		<if test="atdExcpInTime != null">atd_in_time = to_date(to_char(atd_in_time, 'yyyy-MM-DD') || ' ' || #{atdExcpInTime}, 'yyyy-MM-dd HH24:MI')</if>
-		<if test="atdExcpOutTime != null">, atd_out_time = to_date(to_char(atd_out_time, 'yyyy-MM-DD') || ' ' || #{atdExcpOutTime}, 'yyyy-MM-dd HH24:MI')</if>
+		<if test="atdExcpInTime != null and atdExcpOutTime == null">atd_in_time = to_date(to_char(atd_in_time, 'yyyy-MM-DD') || ' ' || #{atdExcpInTime}, 'yyyy-MM-dd HH24:MI')</if>
+		<if test="atdExcpInTime == null and atdExcpOutTime != null">atd_out_time = to_date(to_char(atd_out_time, 'yyyy-MM-DD') || ' ' || #{atdExcpOutTime}, 'yyyy-MM-dd HH24:MI')</if>
+		<if test="atdExcpInTime != null and atdExcpOutTime != null">
+			atd_in_time = to_date(to_char(atd_in_time, 'yyyy-MM-DD') || ' ' || #{atdExcpInTime}, 'yyyy-MM-dd HH24:MI'),
+			atd_out_time = to_date(to_char(atd_out_time, 'yyyy-MM-DD') || ' ' || #{atdExcpOutTime}, 'yyyy-MM-dd HH24:MI')
+		</if>
 		WHERE
 		emp_id = #{empId} AND
 		to_char(atd_in_time, 'yyyy-MM-DD') = to_char(#{atdExcpDate}, 'yyyy-MM-DD')
