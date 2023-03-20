@@ -26,6 +26,9 @@
 		}
 		</style>
 		<script>
+		function getContextPath() {
+			   return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+			}
 		//tiny
 		$(document).ready(function(){
 			tinymce.init({
@@ -69,7 +72,7 @@
 				})
 				.then((value) => {
 				  if (value) {
-					  onclick="location.href='<c:url value="/mail/trash/send/+mailId"/>'"
+					  location.href= getContextPath() + "/mail/trash/send/"+mailId;
 				  } else {
 				     close();
 				  }
@@ -101,7 +104,7 @@
 				})
 				.then((value) => {
 				  if (value) {
-					  onclick='<c:url value="/mail/trash/received/+mailId"/>'
+					  location.href= getContextPath() + "/mail/trash/received/"+mailId;
 				  } else {
 				     close();
 				  }
@@ -133,7 +136,7 @@
 				})
 				.then((value) => {
 				  if (value) {
-					  onclick="location.href='<c:url value="/mail/completetrash/send/+mailId"/>'"
+					  location.href= getContextPath() + "/mail/completetrash/send/"+mailId;
 				  } else {
 				     close();
 				  }
@@ -165,7 +168,7 @@
 				})
 				.then((value) => {
 				  if (value) {
-					  onclick="'<c:url value="/mail/completetrash/received/+mailId"/>'"
+					  location.href= getContextPath() + "/mail/completetrash/received/"+mailId;
 				  } else {
 				     close();
 				  }

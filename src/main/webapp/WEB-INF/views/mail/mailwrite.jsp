@@ -48,8 +48,11 @@
 	}
 </style>
 	<script>
+	function getContextPath() {
+		   return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+		}
 	function address() {
-		var url = "addresspopup";
+		var url = getContextPath() + "/mail/addresspopup"
 		var name = "employee address";
 		var option = "width = 500, height = 780, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
 		window.open(url, name, option);
