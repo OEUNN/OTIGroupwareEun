@@ -58,7 +58,7 @@
 						<tr class="custom-border-left custom-border-right">
 							<td class="custom-border-right"><h4
 									class="font-weight-bold text-center m-0">작성자</h4></td>
-							<td>${sessionScope.employee.empName}</td>
+							<td>${levApp.empName}</td>
 							<td></td>
 							<td></td>
 							<td class="custom-border-left custom-border-right">
