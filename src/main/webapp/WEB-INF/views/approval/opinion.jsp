@@ -35,7 +35,7 @@
 		let approvalLineState = $("#approvalLineState").val();
 		
 		let sendData = {
-			attached: true,
+			attached : true,
 			opinion : opinion,
 			approvalLineState : approvalLineState
 		}
@@ -48,7 +48,7 @@
 		let approvalLineState = $("#approvalLineState").val();
 		
 		let sendData = {
-			attached: false,
+			attached : false,
 			opinion : null,
 			approvalLineState : approvalLineState
 		}

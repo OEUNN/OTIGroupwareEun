@@ -127,8 +127,8 @@
     
     <select id="getPendedDocumentCount" resultType="int" parameterType="string">
         SELECT count(*) 
-		FROM documents doc, approval_lines apl
-		WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order and doc_temp_yn = 'N'
+		FROM documents doc, approval_lines apl, employees emp
+		WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND apl.emp_id = emp.emp_id AND doc.doc_aprv_step = apl.aprv_line_order and doc_temp_yn = 'N'
     </select>
     
     <select id="getPendedDocumentList" resultMap="documentResultMap">
@@ -146,7 +146,7 @@
 	        		doc_complete_date, doc_state, doc_read_yn
 	        	FROM 
 	        		documents doc, approval_lines apl, employees emp
-	        	WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order AND doc_temp_yn = 'N' 
+	        	WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND apl.emp_id = emp.emp_id AND doc.doc_aprv_step = apl.aprv_line_order AND doc_temp_yn = 'N' 
 	        	ORDER BY doc_report_date DESC
         	)
         	WHERE rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
@@ -217,8 +217,8 @@
 	
     <select id="getTakePartInDocumentCount" resultType="int" parameterType="string">
         SELECT count(*) 
-		FROM documents doc, approval_lines apl
-		WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc_temp_yn = 'N' AND apl.aprv_line_order <![CDATA[<]]>= doc.doc_aprv_step 
+		FROM documents doc, approval_lines apl, employees emp 
+		WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc_temp_yn = 'N' AND apl.emp_id = emp.emp_id AND apl.aprv_line_order <![CDATA[<]]>= doc.doc_aprv_step 
     </select>
     
     <select id="getTakePartInDocumentList" resultMap="documentResultMap">
@@ -234,8 +234,8 @@
 	        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
 	        		doc_complete_date, doc_state, doc_read_yn
 	        	FROM 
-	        		documents doc, approval_lines apl, employees emp
-	        	WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc_temp_yn = 'N' AND apl.aprv_line_order <![CDATA[<]]>= doc.doc_aprv_step 
+	        		documents doc, approval_lines apl, employees emp 
+	        	WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc_temp_yn = 'N' AND apl.emp_id = emp.emp_id AND apl.aprv_line_order <![CDATA[<]]>= doc.doc_aprv_step 
 	        	ORDER BY doc_report_date DESC
         	)
         	WHERE rownum <![CDATA[<]]>= #{pager.rowsPerPage} * #{pager.pageNo}
@@ -347,8 +347,7 @@
 	        	FROM 
 	        		documents doc, approval_lines apl, employees emp
 	   	 		<where> 
-	   	 			apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order AND doc_temp_yn = 'N' AND
-	   	 			emp.emp_id = doc.emp_id AND doc_state != '회수' 
+	   	 			apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc.doc_aprv_step = apl.aprv_line_order AND doc_temp_yn = 'N' AND emp.emp_id = apl.emp_id 
 					<if test="searchQuery.docId != null">
 					AND doc.doc_id = #{searchQuery.docId}
 					</if>
@@ -472,5 +471,34 @@
         )
         WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
 	</select>
+	
+		
+    <select id="getTakePartInDocumentCountByQuery" resultType="int" parameterType="string">
+        SELECT count(*) 
+		FROM documents doc, approval_lines apl, employees emp 
+		WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc_temp_yn = 'N' AND apl.emp_id = emp.emp_id AND apl.aprv_line_order <![CDATA[<]]>= doc.doc_aprv_step 
+    </select>
+    
+    <select id="getTakePartInDocumentListByQuery" resultMap="documentResultMap">
+        SELECT
+            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            doc_complete_date, doc_state, doc_read_yn
+        FROM (
+        	SELECT
+        		rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+        		doc_complete_date, doc_state, doc_read_yn
+        	FROM  (
+	        	SELECT
+	        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+	        		doc_complete_date, doc_state, doc_read_yn
+	        	FROM 
+	        		documents doc, approval_lines apl, employees emp 
+	        	WHERE apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc_temp_yn = 'N' AND apl.emp_id = emp.emp_id AND apl.aprv_line_order <![CDATA[<]]>= doc.doc_aprv_step 
+	        	ORDER BY doc_report_date DESC
+        	)
+        	WHERE rownum <![CDATA[<]]>= #{pager.rowsPerPage} * #{pager.pageNo}
+        )
+        WHERE rnum > (#{pager.rowsPerPage} * (#{pager.pageNo} - 1))
+    </select>
 	
 </mapper>

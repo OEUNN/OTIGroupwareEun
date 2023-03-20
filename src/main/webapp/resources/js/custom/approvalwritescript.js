@@ -5,15 +5,17 @@ $(() => {
 
 function isContentExist(docTempYn) {
 	if ($("iframe").contents().find("body").find("#A4") === null) {
-		Swal.fire({
+		swal({
 			title: "내용이 없습니다.",
-			width: 400
+			icon: "warning",
+			button: "닫기"
 		});
 	}
 	else if ($("iframe").contents().find("body").find("#documentTitle").text() === null || $("iframe").contents().find("body").find("#documentTitle").text() === '') {
-		Swal.fire({
+		swal({
 			title: "제목은 필수입니다.",
-			width: 400
+			icon: "warning",
+			button: "닫기"
 		});
 	}
 	else {
@@ -22,9 +24,10 @@ function isContentExist(docTempYn) {
 				
 		if (docTempYn === 'N' || (docTempYn === 'Y' && $("#documentId").length === 0)) {
 			if (docTempYn === 'N' && $(".approvalLineItems").length < 1) {
-				Swal.fire({
+				swal({
 					title: "자신을 제외한 적어도 한명 이상의 결재자를 지정해주세요.",
-					width: 400
+					icon: "warning",
+					button: "닫기"
 				});
 			}
 			else {
@@ -133,7 +136,6 @@ initForm.NoArgs = () => {
 
 function appendApprovalLineToList(index, receivedData) {
 	if (receivedData.aprvLineRole !== "기안") {
-		console.log(receivedData);
 		let removeId = 'r' + receivedData.empId;
 
 		$("#approvalLine").append(

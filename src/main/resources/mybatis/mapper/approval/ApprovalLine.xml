@@ -55,7 +55,7 @@
 			<if test="aprvLineOrder != null">aprv_line_order = #{aprvLineOrder},</if>
 			<if test="aprvLineRole != null">aprv_line_role = #{aprvLineRole},</if>
 			<if test="aprvLineOpenYn != null">aprv_line_open_yn = #{aprvLineOpenYn},</if>
-			aprv_line_opinion = #{aprvLineOpinion}
+			<if test="aprvLineOpinion != null">aprv_line_opinion = #{aprvLineOpinion}</if>
 		</set>
 		WHERE emp_id = #{empId} AND doc_id = #{docId}
 	</update>
@@ -104,7 +104,7 @@
 	<select id="getOrganization" resultMap="organizationResultMap">
 		SELECT employees.emp_id, employees.pos_id, employees.dep_id, emp_mail, emp_name, dep_name, dep_phone_number, pos_name
 		FROM employees, departments, positions
-		WHERE emp_name != '장영은' and emp_name != '한송민' and employees.dep_id = departments.dep_id and employees.pos_id = positions.pos_id
+		WHERE employees.dep_id = departments.dep_id and employees.pos_id = positions.pos_id
 		ORDER BY dep_id DESC, pos_id DESC
 	</select>
 </mapper>

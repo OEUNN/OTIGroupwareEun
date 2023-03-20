@@ -1,7 +1,7 @@
 $(() => {
 	const fileInput = $("#fileUploader");
 	const MAX_FILE_SIZE = 1024 * 1024 * 50; // 50MB in bytes
-
+	const ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png", "gif", "pptx", "ppt", "pdf", "hwp", "docx", "xlsx", "xls", "csv"];
 	let lastUploadedFiles = []; //가장 마지막으로 올린 파일
 
 	fileInput.on("change", (event) => {
@@ -13,12 +13,28 @@ $(() => {
 		for (let i = 0; i < files.length; i++) {
 			const file = files[i];
 			const fileSize = file.size;
+			const fileExtension = file.name.split(".").pop().toLowerCase();
 			
 			//파일 크기가 제한보다 크면 제거하고 아니면 유지
 			if (fileSize > MAX_FILE_SIZE) {
-				alert("파일 사이즈는 50MB 보다 작아야 합니다.");
+				swal({
+					title: "용량 제한",
+					text: "첨부파일 사이즈는 50MB 보다 작아야 합니다.",
+					icon: "warning",
+					button: "닫기"
+				});
 				discardFiles.push(file);
-			} else {
+			} 
+			else if(!ALLOWED_EXTENSIONS.includes(fileExtension)) {
+				swal({
+				    title: "혀용되지 않는 파일",
+				    text: `${ALLOWED_EXTENSIONS.join(", ")} 확장자를 가진 파일만 가능합니다`,
+					icon: "warning",
+					button: "닫기"
+				  });
+				discardFiles.push(file);
+			}
+			else {
 				lastUploadedFiles.push(file);
 			  
 				const listItem = $('<div class="d-flex justify-content-between font-weight-bold text-primary my-3"></div>');
