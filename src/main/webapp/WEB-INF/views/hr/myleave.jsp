@@ -139,6 +139,10 @@
 			var diffTime = Math.abs(end - start);
 			var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))+1; 
 			
+			if($('input[name="levAppCategory"]').val() == '오전반차' || $('input[name="levAppCategory"]').val() == '오후반차') { //반차일 경우
+				diffDays = 0.5; 
+			}
+			
 			$('input[name="levPeriod"]').val(diffDays); //휴가기간 input태그에 등록
 			
 			//연차 vs 대체휴무
@@ -150,7 +154,7 @@
 			//"잔여일수-선택기간"이 음수이면 신청불가해야함
 			if(reserveCount-diffDays < 0) {
 				$('#datepicker-application').css('border-color', 'red');
-				$('#add-comment').html("잔여일수에 맞게 기간을 설정해주세요😥");
+				$('#add-comment').html("잔여일수에 맞게 기간설정 해주세요");
 				result = false;
 			}
 		}
@@ -270,7 +274,7 @@
 													<th>신청날짜</th>
 													<th>휴가기간</th>
 													<th>결재자</th>
-													<th>신청결과</th>
+													<th>진행상태</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -278,8 +282,8 @@
 													<c:forEach var="levApp" items="${levAppList}">
 														<tr onclick="levAppDetail('${levApp.levAppId}')">
 															<td class="text-center">
-																<c:if test="${levApp.levAppCancel ne '휴가취소'}"><small>${levApp.levAppCategory}</small></c:if>
-																<c:if test="${levApp.levAppCancel eq '휴가취소'}"><small class="text-danger">${levApp.levAppCategory}취소</small></c:if>
+																<c:if test="${levApp.levAppProcessState ne '취소신청' && levApp.levAppProcessState ne '취소완료'}"><small>${levApp.levAppCategory}</small></c:if>
+																<c:if test="${levApp.levAppProcessState eq '취소신청' || levApp.levAppProcessState eq '취소완료'}"><small class="text-danger">${levApp.levAppCategory}취소</small></c:if>
 															</td>
 															<td><small><fmt:formatDate value="${levApp.levAppDate}" pattern="yyyy-MM-dd" /></small></td>
 															<td><small>
@@ -290,7 +294,7 @@
 															<td class="px-2 py-1 text-center">${levApp.levAppApprovalEmpName}</td>
 															<td class="px-2 py-1 text-center">
 																<!-- 결재상태 -->
-																<c:if test="${levApp.levAppProcessState == '미처리'}">
+																<c:if test="${levApp.levAppProcessState == '신청'}">
 																	<div class="badge badge-secondary font-weight-bold text-white">${levApp.levAppProcessState}</div>
 																</c:if>
 																<c:if test="${levApp.levAppProcessState == '승인'}">
@@ -298,6 +302,12 @@
 																</c:if>
 																<c:if test="${levApp.levAppProcessState == '반려'}">
 																	<div class="badge badge-danger font-weight-bold">${levApp.levAppProcessState}</div>
+																</c:if>
+																<c:if test="${levApp.levAppProcessState == '취소신청'}">
+																	<div class="badge badge-outline-danger font-weight-bold">${levApp.levAppProcessState}</div>
+																</c:if>
+																<c:if test="${levApp.levAppProcessState == '취소완료'}">
+																	<div class="badge badge-warning font-weight-bold">${levApp.levAppProcessState}</div>
 																</c:if>
 															</td>
 														</tr>
@@ -415,23 +425,23 @@
 													<select id="reserve-leave" class="leave-select form-control mx-2" style="font-weight: bold; width: 40%">
 														<option class="text-secondary" selected>--선택--</option>
 														<!-- 잔여 연차가 남아있는 경우 -->
-														<c:if test="${leaveReserve ne 0}"><option id="leave-option">연차 잔여 ( ${leaveReserve}개 )</option></c:if>
+														<c:if test="${leaveReserve ne 0}"><option id="leave-option">연차 ( 잔여 ${leaveReserve}일 )</option></c:if>
 														<!-- 잔여 연차가 남아있지 않을 경우 -->
-														<c:if test="${leaveReserve eq 0}"><option style="color:#CED4DA;" disabled>연차 잔여 ( 0개 )</option></c:if>
+														<c:if test="${leaveReserve eq 0}"><option style="color:#CED4DA;" disabled>연차 ( 잔여 0일 )</option></c:if>
 														<!-- 잔여 대체휴무가 남아있는 경우 -->
 														<c:if test="${substitueReserve ne 0}">
-															<option value="대체휴무">대체휴무 잔여( ${substitueReserve}개 )</option>
+															<option value="대체휴무">대체휴무 ( 잔여 ${substitueReserve}일 )</option>
 <!-- 															<input id="sub-rev" type="hidden" name="levAppCategory" value="대체휴무"/> -->
 														</c:if>
 														<!-- 잔여 대체휴무가 남아있지 않을 경우 -->
-														<c:if test="${substitueReserve eq 0}"><option style="color:#CED4DA;" disabled>대체휴무 잔여( 0개 )</option></c:if>
+														<c:if test="${substitueReserve eq 0}"><option style="color:#CED4DA;" disabled>대체휴무 ( 잔여 0일 )</option></c:if>
 													</select>
 												</c:if>
 												<!-- 잔여 연차 및 대체휴무가 존재하지 않을 경우 -->
 												<c:if test="${empty leaveReserve && empty substitueReserve}">
 													<select class="leave-select form-control mx-2" style="font-weight: bold; width: 40%" disabled>
-														<option>연차 잔여 ( ${leaveReserve}개 )</option>
-														<option>대체휴무 잔여( ${substitueReserve}개 )</option>
+														<option>연차 ( 잔여 ${leaveReserve}일 )</option>
+														<option>대체휴무 ( 잔여 ${substitueReserve}일 )</option>
 													</select>
 												</c:if>
 											</div>
