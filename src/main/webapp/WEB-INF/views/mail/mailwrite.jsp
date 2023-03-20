@@ -238,7 +238,7 @@
 												</div>
 											</div>
 										</div>
-										<!-- receive mail -->
+										<!-- receive mail --> 
 										<div class="row">
 											<div class="col-md-12">
 												<div class="form-group row align-items-center">
