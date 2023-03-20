@@ -236,7 +236,6 @@
 											<form id="checkedBox" action="<c:url value='/approval/selected'></c:url>" method="post">
 											<input type="hidden" name="docType" value="draft">
 											</form>
-											<button class="btn btn-danger btn-sm mx-1" type="submit" form="checkedBox" name="type" value="delete">선택 삭제</button>
 											<button class="btn btn-secondary btn-sm mx-1" type="submit" form="checkedBox" name="type" value="retrieve">선택 회수</button>
 										</div>	
 										<ul class="pagination justify-content-center pb-0 mb-0">

@@ -180,7 +180,7 @@
 									<div class="mt-2">
 										<div class="d-flex justify-content-end">
 											<form id="checkedBox" action="<c:url value='/approval/selected'></c:url>" method="post">
-											<input type="hidden" name="docType" value="draft">
+											<input type="hidden" name="docType" value="temp">
 											</form>
 											<button class="btn btn-danger btn-sm mx-1" type="submit" form="checkedBox" name="type" value="delete">선택 삭제</button>
 										</div>
