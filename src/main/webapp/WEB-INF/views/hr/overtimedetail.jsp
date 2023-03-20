@@ -28,7 +28,7 @@
 	<div class="card">
 		<div class="card-body">
 			<div class="d-flex justify-content-between align-items-baseline">
-				<div class="card-title">추가근무 보고서</div>
+				<div class="card-title">추가근무 보고</div>
 				<button type="button" onclick="backAtdList()" class="btn btn-sm"><h3 class="mdi mdi-window-close text-primary mt-1 mb-0"></h3></button>
 			</div>
 			<div class="table-responsive px-3 py-2 mt-4">
@@ -56,7 +56,7 @@
 									class="font-weight-bold text-center m-0">신청결과</h4></td>
 							<td>
 								<!-- 결재상태 --> 
-								<c:if test="${atdExcp.atdExcpProcessState == '미처리'}">
+								<c:if test="${atdExcp.atdExcpProcessState == '신청'}">
 									<div class="badge badge-secondary font-weight-bold text-white">${atdExcp.atdExcpProcessState}</div>
 								</c:if> 
 								<c:if test="${atdExcp.atdExcpProcessState == '승인'}">
@@ -132,13 +132,13 @@
 				</div>
 			</div>
 			<!-- 일반 임직원일 경우의 버튼 -->
-			<c:if test="${(sessionScope.employee.empId ne atdExcp.atdExcpApprovalEmpId) && (atdExcp.atdExcpProcessState eq '미처리')}">
+			<c:if test="${(sessionScope.employee.empId ne atdExcp.atdExcpApprovalEmpId) && (atdExcp.atdExcpProcessState eq '신청')}">
 				<div class="row px-5 mt-3 justify-content-end">
 					<a class="btn btn-danger mr-2" href="${pageContext.request.contextPath}/hr/overtimecancel?atdExcpId=${atdExcp.atdExcpId}">신청취소</a>
 				</div>
 			</c:if>
 			<!-- 부서장일 경우의 버튼 - 미처리 결재인 경우 -->
-			<c:if test="${(sessionScope.employee.empId eq atdExcp.atdExcpApprovalEmpId) && (atdExcp.atdExcpProcessState eq '미처리') }">
+			<c:if test="${(sessionScope.employee.empId eq atdExcp.atdExcpApprovalEmpId) && (atdExcp.atdExcpProcessState eq '신청') }">
 				<div class="row px-5 mt-4 mb-2 justify-content-end">
 					<button id="approve-btn" onclick="atdExcpAprv('승인', '${atdExcp.atdExcpId}', '${atdExcp.atdExcpCategory}')" type="button" class="btn btn-primary mr-2">승인</button>
 					<button id="first-refuse-btn" onclick="refuseBtn()" type="button" class="btn btn-danger mr-2">반려</button>
