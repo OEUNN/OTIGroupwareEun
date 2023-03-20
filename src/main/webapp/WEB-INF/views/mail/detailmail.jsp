@@ -127,7 +127,7 @@
 				    },
 				    confirm: {
 				      text: "확인",
-				      value: true,
+				      value: true, 
 				      visible: true,
 				      className: "",
 				      closeModal: true
