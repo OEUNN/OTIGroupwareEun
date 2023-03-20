@@ -212,31 +212,42 @@
 													<div id="select-btn">
 														<!-- 출근버튼 클릭전 or 퇴근버튼 클릭 후 -->
 														<c:if
-															test="${empty attendance.atdInTime || (!empty attendance.atdInTime && !empty attendance.atdOutTime)}">
+															test="${empty attendance.atdInTime && empty attendance.atdOutTime}">
 															<button class="btn btn-lg btn-outline-light"
 																type="button"
-																style="width: 300%; height: 90%; font-size: 130%; font-weight: bold; border: 1px solid #A3A4A5;">
-																<span class="mdi mdi-sleep"></span>
+																style="width: 200%; height: 90%; font-size: 130%; font-weight: bold; border: 1px solid #A3A4A5;">
+																<span>미출근</span>
 															</button>
 														</c:if>
 														<!-- 출근버튼 클릭후 -->
-														<c:if
-															test="${!empty attendance.atdInTime && empty attendance.atdOutTime}">
+														<c:if test="${!empty attendance.atdInTime && empty attendance.atdOutTime && (attendance.atdState ne '연차' && attendance.atdState ne '대체휴무')}">
 															<button
-																class="btn btn-lg btn-outline-light dropdown-toggle px-4"
+																class="btn btn-lg btn-outline-light px-4"
 																type="button" id="dropdownMenuButton1"
 																data-toggle="dropdown" aria-haspopup="true"
 																aria-expanded="true"
 																style="width: 300%; height: 90%; font-size: 130%; font-weight: bold; border: 1px solid #A3A4A5;">
 																<span id="selectbox-btn-name">근무중</span>
 															</button>
-															<div class="dropdown-menu"
-																aria-labelledby="dropdownMenuButton1"
-																style="width: 95%;">
-																<a class="dropdown-item" onclick="select('근무중')">근무중</a>
-																<a class="dropdown-item" onclick="select('출장')">출장</a> <a
-																	class="dropdown-item" onclick="select('외근')">외근</a>
-															</div>
+														</c:if>
+														<!-- 퇴근버튼까지 눌렀을 때 -->
+														<c:if test="${!empty attendance.atdOutTime && (attendance.atdState ne '연차' && attendance.atdState ne '대체휴무')}">
+															<button class="btn btn-lg btn-outline-light"
+																type="button"
+																style="width: 200%; height: 90%; font-size: 130%; font-weight: bold; border: 1px solid #A3A4A5;">
+																<span>퇴근완료</span>
+															</button>
+														</c:if>
+														<!-- 휴가중일 때 -->
+														<c:if test="${!empty attendance.atdInTime && (attendance.atdState eq '연차' || attendance.atdState eq '대체휴무')}">
+															<button
+																class="btn btn-lg btn-outline-light px-4"
+																type="button" id="dropdownMenuButton1"
+																data-toggle="dropdown" aria-haspopup="true"
+																aria-expanded="true"
+																style="width: 300%; height: 90%; font-size: 130%; font-weight: bold; border: 1px solid #A3A4A5;">
+																<span id="selectbox-btn-name">휴가중</span>
+															</button>
 														</c:if>
 													</div>
 												</div>

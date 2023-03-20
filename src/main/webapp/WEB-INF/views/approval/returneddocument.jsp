@@ -212,12 +212,6 @@
 										</tbody>
 									</table>
 									<div class="mt-2" >
-										<div class="d-flex justify-content-end">
-											<form id="checkedBox" action="<c:url value='/approval/selected'></c:url>" method="post">
-											<input type="hidden" name="docType" value="draft">
-											</form>
-											<button class="btn btn-danger btn-sm mx-1" type="submit" form="checkedBox" name="type" value="delete">선택 삭제</button>
-										</div>		
 										<ul class="pagination justify-content-center pb-0 mb-0">
 										<c:if test="${pager.totalRows > 0}">
 											<!-- 처음 -->

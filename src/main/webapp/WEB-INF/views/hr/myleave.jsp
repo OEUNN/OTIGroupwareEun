@@ -46,7 +46,12 @@
            type: "GET",
            url: "../hr/levappaprvdetail?levAppId=" + id,
            error: function () {
-           	alert("통신실패!");
+        	   swal({
+   				  title: "조회실패",
+   				  text: "조회실패 하였습니다.",
+   				  icon: "error",
+   				  button: "닫기",
+   				});
            },
            success: function (data) {
                //작성폼 숨기기
@@ -285,11 +290,11 @@
 																<c:if test="${levApp.levAppProcessState ne '취소신청' && levApp.levAppProcessState ne '취소완료'}"><small>${levApp.levAppCategory}</small></c:if>
 																<c:if test="${levApp.levAppProcessState eq '취소신청' || levApp.levAppProcessState eq '취소완료'}"><small class="text-danger">${levApp.levAppCategory}취소</small></c:if>
 															</td>
-															<td><small><fmt:formatDate value="${levApp.levAppDate}" pattern="yyyy-MM-dd" /></small></td>
+															<td><small><fmt:formatDate value="${levApp.levAppDate}" pattern="yyyy/MM/dd" /></small></td>
 															<td><small>
-																<fmt:formatDate value="${levApp.levAppStartDate}" pattern="yyyy-MM-dd" />
+																<fmt:formatDate value="${levApp.levAppStartDate}" pattern="yyyy/MM/dd" />
 															 		~ 
-															 	<fmt:formatDate value="${levApp.levAppEndDate}" pattern="yyyy-MM-dd" />
+															 	<fmt:formatDate value="${levApp.levAppEndDate}" pattern="yyyy/MM/dd" />
 															</small></td>
 															<td class="px-2 py-1 text-center">${levApp.levAppApprovalEmpName}</td>
 															<td class="px-2 py-1 text-center">
@@ -384,7 +389,7 @@
 													<td>
 														<!-- 오늘날짜 -->
 														<c:set var="now" value="<%=new java.util.Date()%>" /> 
-														<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" />
+														<fmt:formatDate value="${now}" pattern="yyyy/MM/dd" />
 													</td>
 													<td></td>
 												</tr>

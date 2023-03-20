@@ -29,7 +29,6 @@
 	  flex-direction: column;
 	}
 	</style>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
 		var order = 1;
 		
@@ -38,7 +37,6 @@
 			openerHTML.find('.remove-flag').each((index, item) => {
 				if (index % 2 === 0) {
 					var id = item.classList[0].substring(1);
-					console.log(id);
 					appendToList(id);
 				}
 			})
@@ -65,15 +63,27 @@
 						order += 1;
 					}
 					else {
-						alert("결재선에 같은 사람을 두번 이상 지정할 수 없습니다.");
+						swal({
+							title: "결재선에 같은 사람을 두번 이상 지정할 수 없습니다.",
+							icon: "warning",
+							button: "닫기"
+						});
 					}
 				}
 				else {
-					alert("결재선은 자신 포함 최대 5명까지만 지정이 가능합니다.");
+					swal({
+						title: "결재선은 자신 포함 최대 5명까지만 지정이 가능합니다.",
+						icon: "warning",
+						button: "닫기"
+					});
 				}
 			}
 			else {
-				alert("자기 자신을 결재선에 지정할 수 없습니다.");
+				swal({
+					title: "자기 자신을 결재선에 더 지정할 수 없습니다.",
+					icon: "warning",
+					button: "닫기"
+				});
 			}
 			
 		}
@@ -165,7 +175,7 @@
 											<div id="${org.empId}" class="highlight row m-1 ${org.depName}" onclick='appendToList("${org.empId}")'><span class="mdi mdi-account d-flex align-self-center mx-1"></span>${org.empName} ${org.posName} <span class="ml-2">[${org.empMail}]</span></div>
 											</c:if>
 											<c:if test="${org.empId == sessionScope.employee.empId}">
-											<div id="${org.empId}" class="highlight row m-1 ${org.depName}" onclick='Swal.fire("자기 자신을 결재선에 추가할 수 없습니다.")'><span class="mdi mdi-account d-flex align-self-center mx-1"></span>${org.empName} ${org.posName} <span class="ml-2">[${org.empMail}]</span></div>
+											<div id="${org.empId}" class="highlight row m-1 ${org.depName}" onclick='appendToList("${org.empId}")'><span class="mdi mdi-account d-flex align-self-center mx-1"></span>${org.empName} ${org.posName} <span class="ml-2">[${org.empMail}]</span></div>
 											</c:if>
 											</c:forEach>
 										</div>

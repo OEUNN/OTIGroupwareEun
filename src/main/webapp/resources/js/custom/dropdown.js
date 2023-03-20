@@ -13,7 +13,6 @@ $(() => {
 
 function addAjaxEvent(list) {
 	list.on('click', (event) => {
-		console.log($(event.target));
 		tinymce.activeEditor.dom.setAttrib(tinymce.id, 'contenteditable', true);
 		documentType = $(event.target).attr("id");
 
@@ -29,18 +28,27 @@ function addAjaxEvent(list) {
 }
 
 const checkAlertResult = (documentType, element) => {
-	return Swal.fire({
+	return swal({
 		title: "주의!",
-		html: "<p>현재 작성중인 내용을 잃게 됩니다.</p><p>새로운 양식을 불러오시겠습니까?</p>",
-		width: 500,
+		text: "현재 작성중인 내용을 잃게 됩니다. 새로운 양식을 불러오시겠습니까?",
 		icon: 'warning',
-		showCancelButton: true
-	}).then((result) => {
-		if (result.isConfirmed) {
-			getFormAjax(documentType, element);
+		buttons: {
+			confirm: {
+				text: "확인",
+				value: true,
+				visible: true,
+				closeModal: true
+			},
+			cancel: {
+				text: "취소",
+				value: false,
+				visible: true,
+				closeModal: true,
+			}
 		}
-		else {
-			
+	}).then((result) => {
+		if (result) {
+			getFormAjax(documentType, element);
 		}
 	});
 }

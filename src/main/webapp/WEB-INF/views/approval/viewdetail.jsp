@@ -81,12 +81,8 @@
 			
 			//form 양식에 상태랑 의견 데이터 추가하기
 			$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineState" value="' + receivedData.approvalLineState + '">');
-			if (receivedData.approvalLineState !== '회수' || receivedData.opinion !== false) {
-				$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineOpinion" value="' + receivedData.opinion + '">');
-			}
-			else {
-				$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineOpinion" value="">');
-			}
+			$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="aprvLineOpinion" value="' + receivedData.opinion + '">');
+			$("#decisionForm").append('<input class="removeOpinion" type="hidden" name="attached" value="' + receivedData.attached + '">');
 			
 			$("#decisionForm").submit();
 		});
@@ -177,8 +173,8 @@
 									<c:when test="${approvalLine.aprvLineState == '반려'}">
 		       						<div class="card bg-danger grid-margin shadow-2 mb-0 w-100">
 									</c:when>
-									<c:when test="${(approvalLine.aprvLineState == '열람' || approvalLine.aprvLineState == '미결') && reader.aprvLineRole == '결재'}">
-		       						<div class="card card-tale grid-margin shadow-2 mb-0 w-100">
+									<c:when test="${approvalLine.aprvLineState == '열람'}">
+		       						<div class="card bg-warning grid-margin shadow-2 mb-0 w-100">
 									</c:when>
 									<c:when test="${approvalLine.aprvLineState == '미결'}">
 		       						<div class="card bg-secondary grid-margin shadow-2 mb-0 w-100">

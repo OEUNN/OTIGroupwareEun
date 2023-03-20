@@ -34,6 +34,7 @@
 		let approvalLineState = $("#approvalLineState").val();
 		
 		let sendData = {
+			attached: false,
 			approvalLineState : approvalLineState
 		}
 		

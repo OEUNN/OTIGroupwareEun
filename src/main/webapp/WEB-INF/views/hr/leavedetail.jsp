@@ -127,9 +127,9 @@
 					<div class="col-md d-flex align-items-center pl-0">
 						<h4 class="mx-4 mb-2 font-weight-bold">휴가기간</h4>
 						<h6 class="ml-2 mb-2 text-primary font-weight-bold">
-							<fmt:formatDate value="${levApp.levAppStartDate}" pattern="yyyy-MM-dd" />
+							<fmt:formatDate value="${levApp.levAppStartDate}" pattern="yyyy/MM/dd" />
 							~
-							<fmt:formatDate value="${levApp.levAppEndDate}" pattern="yyyy-MM-dd" />
+							<fmt:formatDate value="${levApp.levAppEndDate}" pattern="yyyy/MM/dd" />
 						</h6>
 						<!-- 휴가 날짜 -->
 						<small class="text-muted ml-3 mb-2">

@@ -13,7 +13,6 @@
 	<script src="<c:url value="/resources/js/custom/dropdown.js"></c:url>"></script>
 	<script src="<c:url value="/resources/js/custom/fileupload.js"></c:url>"></script>
 	<script src="<c:url value="/resources/js/custom/approvalwritescript.js"></c:url>"></script>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script type="text/javascript">
 	let popupWindow;
 	const popUpTop = window.screen.height / 2;
