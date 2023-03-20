@@ -15,6 +15,80 @@
 			content:none;
 		}
 	</style>
+	<script>
+	function getContextPath() {
+	   return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+	}
+	$(function () {
+		$('#multiBtn').click(function(e) {
+				e.preventDefault();
+				$('#multi').click();
+			});
+		});
+	var sel_file;
+	$(document).ready(function() {
+		$("#multi").on("change", handleImgFileSelect);
+	});
+	function handleImgFileSelect(e) {
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+		var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
+		filesArr.forEach(function(f) {
+			if (!f.type.match(reg)) {
+				return;
+			}
+			sel_file = f;
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$("#img").attr("src", e.target.result);
+			}
+			reader.readAsDataURL(f);
+		});
+	}
+	//파일 업로드
+	function fn_submit() {
+		var result = true;
+		var imgFile = $("#multi").val();
+    	var fileForm = /(.*?)|.(jpg|jpeg|png|gif|bmplpdf)$/;
+    	var maxSize = 5 * 1024 * 1024; // 5MB in bytes
+    	var fileSize;
+    	if(imgFile != '' && imgFile != null){
+    		fileSize = document.getElementById("multi").files[0].size;
+    		if(!imgFile.match(fileForm)){
+    			swal({
+    				text: "이미지 파일만 업로드 가능합니다.",
+  				  icon: "error",
+  				  button: "닫기",
+  				});
+    			result = false;
+    		}else if(fileSize = maxSize){
+    			swal({
+    				text: "파일 사이즈가 5MB를 넘습니다.",
+	  				  icon: "error",
+	  				  button: "닫기",
+	  				});
+    			result = false;
+    		}
+    	}else{
+    		$('#fileInput').val('true');
+    		result = true;
+    	}
+		if(result){
+			var form = new FormData();
+			form.append("multi", $("#multi")[0].files[0]);
+			jQuery.ajax({
+				url : "../employee/updateimg",
+				type : "POST",
+				processData : false,
+				contentType : false,
+				data : form,
+				success : function(response) {
+					console.log(response);
+				}
+			});
+		}
+	}
+	</script>
 <!-- End plugin css,js for this page -->
 </head>
 
@@ -50,12 +124,11 @@
 												<div>
 													<!-- 사진 -->
 													<div class="row mt-1 justify-content-center m-auto">
-														<img src="${pageContext.request.contextPath}/resources/images/faces/face10.jpg" style="width:250px; height:300px;border-radius:20px;"/>
+														<img src="<c:url value='/login/filedownload'/>" id="img" style="width:250px; height:300px;border-radius:20px;"/>
 													</div>
 													<div class="row mt-3 justify-content-center" >
-														<button type="submit" class="btn btn-md btn-inverse-primary mx-2" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">
-															<span>사진 수정</span>
-														</button>
+														<label id="multiBtn" class="btn btn-md btn-inverse-primary" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">사진 수정</label>
+														<input type="file" id="multi" oninput="fn_submit()">
 													</div>
 												</div>
 											</div><!-- End image card -->
@@ -71,7 +144,7 @@
 																</div>
 															</div>
 															<div class="col-sm-8">
-																<input type="text" class="form-control" />
+																<input type="text" class="form-control" placeholder="${employee.empName }"/>
 															</div>
 														</div>
 													</div>
@@ -84,7 +157,7 @@
 																</div>
 															</div>
 															<div class="col-sm-8">
-																<input type="text" class="form-control"/>
+																<input type="text" class="form-control" placeholder="${employee.mailId }"/>
 															</div>
 														</div>
 													</div>
@@ -99,7 +172,7 @@
 																</div>
 															</div>
 															<div class="col-sm-8">
-																<div class="h3" style="font-weight:bold;"></div>
+																<input type="date" class="h3" style="font-weight:bold;">
 															</div>
 														</div>
 													</div>
@@ -112,7 +185,7 @@
 																</div>
 															</div>
 															<div class="col-sm-8">
-																<div class="h3" style="font-weight:bold;"></div>
+																<div class="h3" style="font-weight:bold;">${employeeDetail.empDetailGender }</div>
 															</div>
 														</div>
 													</div>
@@ -127,7 +200,7 @@
 																</div>
 															</div>
 															<div class="col-sm-8">
-																<input type="text" class="form-control" placeholder="000-0000-0000"/>
+																<input type="text" class="form-control" placeholder="${employee.empPhoneNumber }"/>
 															</div>
 														</div>
 													</div>

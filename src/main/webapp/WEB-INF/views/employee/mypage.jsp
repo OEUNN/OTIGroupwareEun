@@ -11,7 +11,9 @@
 		
 		<!-- Plugin css,js for this page -->
 		<script type="text/javascript">
-		
+		function getContextPath() {
+			   return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+			}
 			$(function () {
 			$('#multiBtn').click(function(e) {
 					e.preventDefault();
@@ -40,34 +42,6 @@
 					reader.readAsDataURL(f);
 				});
 			}
-			/** 이미지 파일 유효성 검사 **/
-			(function($) {
-				  'use strict';
-				  $(function() {
-				    $('.file-upload-default').on('change', function() {
-				    	var imgFile = $("#empFileDataMulti").val();
-				    	var fileForm = /(.*?)|.(jpg|jpeg|png|gif|bmplpdf)$/;
-				    	var maxSize = 5 * 1024 * 1024; // 5MB in bytes
-				    	var fileSize;
-				    	if(imgFile != '' && imgFile != null){
-				    		fileSize = document.getElementById("empFileDataMulti").files[0].size;
-				    		if(!imgFile.match(fileForm)){
-				    			$('#fileResult').attr('style','color:red');
-				    			$('#fileResult').html('이미지 파일만 업로드 가능합니다.');
-				    			$('#fileInput').val('false');
-				    		}else if(fileSize = maxSize){
-				    			$('#fileResult').attr('style','color:red');
-				    			$('#fileResult').html('파일사이즈가 5MB가 넘습니다.');
-				    			$('#fileInput').val('false');
-				    		}
-				    	}else{
-				    		$('#fileInput').val('true');
-				    	}
-				    });
-				  });
-			})(jQuery);
-			
-			
 			
 			//파일 업로드
 			function fn_submit() {
