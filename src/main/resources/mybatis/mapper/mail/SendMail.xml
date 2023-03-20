@@ -437,13 +437,13 @@
 	
 	<update id="updateTrash" parameterType="int">
 		update send_mails
-		set SEND_MAIL_DEL_YN = 'Y' ,SEND_MAIL_DEL_DATE = sysdate
+		set SEND_MAIL_DEL_YN = 'Y' ,SEND_MAIL_DEL_DATE = sysdate, SEND_MAIL_IMPORTANCE_YN='N'
 		where send_mail_id = #{mailId}
 	</update>
 	
 	<update id="updateCompleteTrash" parameterType="int">
 		update send_mails
-		set SEND_MAIL_DEL_COMPLETE_YN = 'Y' 
+		set SEND_MAIL_DEL_COMPLETE_YN = 'Y' ,SEND_MAIL_IMPORTANCE_YN='N'
 		where send_mail_id = #{mailId}
 	</update>
 	

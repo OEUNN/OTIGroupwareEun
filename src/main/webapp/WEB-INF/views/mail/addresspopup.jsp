@@ -85,7 +85,7 @@
 				
 				var sendData = {
 					content :
-						'<button id="'+empId+'" class="empBtn mb-1 mx-2">'+
+						'<button type="button" id="'+empId+'" onclick="empBtnRemove('+empId+')" class="r'+empId+' empBtn mb-1 mx-2">'+
 							'<span>'+empName+' '+empMail+'</span>'+
 						'</button>',
 					empId : empId,
@@ -105,24 +105,14 @@
 			window.close();
 		}
 		
-// 		$(document).ready(function(){
-// 			var receiveId = opener.$("#receive").val(); 
-// 			$.each(receiveId, function( index, value){
-// 				if(receivedId != null){
-// 					$('#approvalLine').empty();
-// 					var receiveMail = opener.$("#receiveMail").val();
-// 					var receiveName = opener.$("#receiveName").val();
-// 					var receiveDepName = opener.$("#receiveDepName").val();
-// 					var receivePosName = opener.$("#receivePosName").val();
-// 					var sql = ""
-// 					sql += '<div id="del'+receiveId+'" class="highlihgt row m-1 '+receiveDepName+'" onclick="removeFromList('+receiveId+')">'
-// 					sql += '<span class="h3 mdi mdi-account-star d-flex align-self-center mx-1"></span>'+receiveName+''
-// 					sql += '<span class="ml-2" >' + receiveMail+'</span>'
-// 					$("#approvalLine").append(sql);
-// 				}
-// 			});
-			
-// 		}
+		$(() => {
+			let openerHTML = opener.$('#receivedId');
+			openerHTML.find('.empBtn').each((index, item) => {
+				var id = item.classList[0].substring(1);
+				console.log(id);
+				appendToList(id);
+			})
+		});
 	</script>
 </head>
 
@@ -145,7 +135,7 @@
 												</span>
 												최전무 대표이사
 											</div>
-											<div class="highlight row m-1 text-primary"  onclick="department(1)" data-toggle="collapse" data-target="#DIV1">
+											<div class="highlight row m-1 text-primary" data-toggle="collapse" data-target="#DIV1">
 												<span class="mdi mdi-folder-account d-flex align-self-center mx-1 "></span>
 												공공사업1DIV
 											</div>
@@ -162,7 +152,7 @@
 													</c:forEach>
 												</div>
 											</div>
-											<div class="highlight row m-1 text-primary" onclick="department(2)" data-toggle="collapse" data-target="#DIV2">
+											<div class="highlight row m-1 text-primary" data-toggle="collapse" data-target="#DIV2">
 												<span class="mdi mdi-folder-account d-flex align-self-center mx-1"></span>
 												공공사업2DIV
 											</div>
@@ -179,7 +169,7 @@
 													</c:forEach>
 												</div>
 											</div>
-											<div class="highlight row m-1 text-primary" onclick="department(3)" data-toggle="collapse" data-target="#DIV3">
+											<div class="highlight row m-1 text-primary" data-toggle="collapse" data-target="#DIV3">
 												<span class="mdi mdi-folder-account d-flex align-self-center mx-1"></span>
 												공공사업3DIV
 											</div>
@@ -196,7 +186,7 @@
 													</c:forEach>
 												</div>
 											</div>
-											<div class="highlight row m-1 text-primary" onclick="department(4)" data-toggle="collapse" data-target="#DIV4">
+											<div class="highlight row m-1 text-primary" data-toggle="collapse" data-target="#DIV4">
 											<span class="mdi mdi-folder-lock d-flex align-self-center mx-1"></span>
 												경영지원
 											</div>

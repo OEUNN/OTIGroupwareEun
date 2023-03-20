@@ -14,20 +14,21 @@
 			  text: "임시보관함의 메일은 바로 삭제되어 복구할 수 없습니다.",
 			  icon: "error",
 			  buttons: {
+			  confirm: {
+			      text: "확인",
+			      value: true,
+			      visible: true,
+			      className: "",
+			      closeModal: true
+			    },
 			    cancel: {
 			      text: "취소",
 			      value: null,
 			      visible: true,
 			      className: "",
 			      closeModal: true,
-			    },
-			    confirm: {
-			      text: "확인",
-			      value: true,
-			      visible: true,
-			      className: "",
-			      closeModal: true
 			    }
+			    
 			  },
 			})
 			.then((value) => {

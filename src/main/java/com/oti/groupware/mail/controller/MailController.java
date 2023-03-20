@@ -77,13 +77,13 @@ public class MailController {
 			mailService.deleteTempMail(temp);
 		}
 		if(receive == null && resultString.equals("temp")) {
-			mailService.writeTempMail(sendMail, write);
+			sendMail =mailService.writeTempMail(sendMail, write);
 		}else if(receive != null && resultString.equals("temp")){
 			String[] arr = receive.split(",");
-			mailService.tempWriteMail(sendMail,arr,write);
+			sendMail =mailService.tempWriteMail(sendMail,arr,write);
 		}else {
 			String[] arr = receive.split(",");
-			mailService.writeMail(sendMail, arr , write);
+			sendMail = mailService.writeMail(sendMail, arr , write);
 		}
 		if(reply != -3) {
 			mailService.replyMail(sendMail.getSendMailId(),reply);
@@ -124,7 +124,7 @@ public class MailController {
 		log.info("실행");
 		log.info(mailId);
 		mailService.deleteTempMail(mailId);
-		return "redirect:/mail/receivedmail";
+		return "redirect:/mail/tempmail";
 	}
 	
 

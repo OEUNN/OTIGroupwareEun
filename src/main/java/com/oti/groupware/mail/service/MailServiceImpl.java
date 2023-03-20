@@ -60,22 +60,24 @@ public class MailServiceImpl implements MailService {
 	
 	//임시보관함 메일 쓰기
 	@Override
-	public void tempWriteMail(SendMail sendMail, String[] arr, String write) {
+	public SendMail tempWriteMail(SendMail sendMail, String[] arr, String write) {
 		sendMailDao.insertTempMail(sendMail,write);
 		sendMail.setSendMailId(sendMailDao.getSEndMailId());
 		for(int i=0;i<arr.length;i++) {
 			receivedMailDao.insertReceivedMail(sendMail.getSendMailId(),arr[i]);
 		}
+		return sendMail;
 	}
 
 	//메일쓰기
 	@Override
-	public void writeMail(SendMail sendMail, String[] arr, String write) {
+	public SendMail writeMail(SendMail sendMail, String[] arr, String write) {
 		sendMailDao.insertSendMail(sendMail,write);
 		sendMail.setSendMailId(sendMailDao.getSEndMailId());
 		for(int i=0;i<arr.length;i++) {
 			receivedMailDao.insertReceivedMail(sendMail.getSendMailId(),arr[i]);
 		}
+		return sendMail;
 	}
 	
 	//메일 답장
@@ -86,8 +88,10 @@ public class MailServiceImpl implements MailService {
 	
 	//메일 임시저장
 	@Override
-	public void writeTempMail(SendMail sendMail, String write) {
+	public SendMail writeTempMail(SendMail sendMail, String write) {
 		sendMailDao.insertTempMail(sendMail, write);
+		sendMail.setSendMailId(sendMailDao.getSEndMailId());
+		return sendMail;
 	}
 	//파일 저장하기
 	@Override

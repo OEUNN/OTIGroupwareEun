@@ -10,6 +10,7 @@
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mail.css"/>
 		<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/tinymce.min.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/write-template.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/custom/detailmail.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/themes/silver/theme.min.js"></script>
 		<style>
 		.empBtn{
@@ -46,134 +47,7 @@
 				readonly: 1
 			});
 		});
-		function sendtrash(i){
-			console.log("1");
-			var mailId= i;
-			swal({
-				  title: "휴지통",
-				  text: "휴지통으로 보내시겠습니까?",
-				  icon: "warning",
-				  buttons: {
-				    cancel: {
-				      text: "취소",
-				      value: null,
-				      visible: true,
-				      className: "",
-				      closeModal: true,
-				    },
-				    confirm: {
-				      text: "확인",
-				      value: true,
-				      visible: true,
-				      className: "",
-				      closeModal: true
-				    }
-				  },
-				})
-				.then((value) => {
-				  if (value) {
-					  location.href= getContextPath() + "/mail/trash/send/"+mailId;
-				  } else {
-				     close();
-				  }
-			});
-		}
-		function receivedtrash(i){
-			console.log("2");
-			var mailId= i;
-			swal({
-				  title: "휴지통",
-				  text: "휴지통으로 보내시겠습니까?",
-				  icon: "warning",
-				  buttons: {
-				    cancel: {
-				      text: "취소",
-				      value: null,
-				      visible: true,
-				      className: "",
-				      closeModal: true,
-				    },
-				    confirm: {
-				      text: "확인",
-				      value: true,
-				      visible: true,
-				      className: "",
-				      closeModal: true
-				    }
-				  },
-				})
-				.then((value) => {
-				  if (value) {
-					  location.href= getContextPath() + "/mail/trash/received/"+mailId;
-				  } else {
-				     close();
-				  }
-			});
-		}
-		function sendtrashdelete(i){
-			console.log("3");
-			var mailId= i;
-			swal({
-				  title: "메일 삭제",
-				  text: "휴지통의 메일은 삭제시 복구할 수 없습니다.",
-				  icon: "error",
-				  buttons: {
-				    cancel: {
-				      text: "취소",
-				      value: null,
-				      visible: true,
-				      className: "",
-				      closeModal: true,
-				    },
-				    confirm: {
-				      text: "확인",
-				      value: true, 
-				      visible: true,
-				      className: "",
-				      closeModal: true
-				    }
-				  },
-				})
-				.then((value) => {
-				  if (value) {
-					  location.href= getContextPath() + "/mail/completetrash/send/"+mailId;
-				  } else {
-				     close();
-				  }
-				});
-		}
-		function receivedtrashdelete(i){
-			console.log("4");
-			var mailId= i;
-			swal({
-				  title: "메일 삭제",
-				  text: "휴지통의 메일은 삭제시 복구할 수 없습니다.",
-				  icon: "error",
-				  buttons: {
-				    cancel: {
-				      text: "취소",
-				      value: null,
-				      visible: true,
-				      className: "",
-				      closeModal: true,
-				    },
-				    confirm: {
-				      text: "확인",
-				      value: true,
-				      visible: true,
-				      className: "",
-				      closeModal: true
-				    }
-				  },
-				})
-				.then((value) => {
-				  if (value) {
-					  location.href= getContextPath() + "/mail/completetrash/received/"+mailId;
-				  } else {
-				     close();
-				  }
-				});
-		}
+		
 		</script>
 	</head>
 
@@ -195,12 +69,30 @@
 								<form class="card-body">
 									<!-- main title and submit button -->
 									<div class="d-flex justify-content-between align-items-center mb-4">
-										<c:if test="${!empty sendMail}">
-											<div class="card-title mb-0">${sendMail.sendMailTitle}</div>
-										</c:if>
-										<c:if test="${!empty receivedMail}">
-											<div class="card-title mb-0">${receivedMail.sendMailTitle}</div>
-										</c:if>
+										<div class="d-flex">
+											<c:if test="${!empty sendMail}">
+												<c:if test ="${sendMail.sendMailImportanceYN == 'Y'}">
+													<input type="hidden" id="star" value="Y"/>
+													<i class="h3 mdi mdi-star text-warning"></i>
+												</c:if>
+												<c:if test ="${sendMail.sendMailImportanceYN == 'N'}">
+													<input type="hidden" id="star" value="N"/>
+													<i class="h3 mdi mdi-star-outline text-warning"></i>
+												</c:if>
+												<div class="card-title mb-0">${sendMail.sendMailTitle}</div>
+											</c:if>
+											<c:if test="${!empty receivedMail}">
+												<c:if test ="${receivedMail.recdMailImportanceYN == 'Y'}">
+													<input type="hidden" id="star" value="Y"/>
+													<i class="h3 mdi mdi-star text-warning"></i>
+												</c:if>
+												<c:if test ="${receivedMail.recdMailImportanceYN == 'N'}">
+													<input type="hidden" id="star" value="N"/>
+													<i class="h3 mdi mdi-star-outline text-warning"></i>
+												</c:if>
+												<div class="card-title mb-0">${receivedMail.sendMailTitle}</div>
+											</c:if>
+										</div>
 										<div class="d-flex">
 												<c:if test="${!empty receivedMail}">
 													<a href='<c:url value="/mail/reply/${receivedMail.sendMailId}"/>' class="btn btn-md btn-warning mx-2">

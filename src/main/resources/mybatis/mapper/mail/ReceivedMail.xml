@@ -262,13 +262,13 @@
     
     <update id="updateTrash" parameterType="map">
     	update received_mails
-    	set RECD_MAIL_DEL_YN = 'Y', RECD_MAIL_DEL_DATE =sysdate
+    	set RECD_MAIL_DEL_YN = 'Y', RECD_MAIL_DEL_DATE =sysdate, RECD_MAIL_IMPORTANCE_YN ='N'
     	where send_mail_id = #{mailId} and EMP_ID_EMPLOYEES = #{empId}
     </update>    
     
      <update id="updateCompleteTrash" parameterType="map">
     	update received_mails
-    	set RECD_MAIL_DEL_COMPLETE_YN = 'Y'
+    	set RECD_MAIL_DEL_COMPLETE_YN = 'Y', RECD_MAIL_IMPORTANCE_YN ='N'
     	where send_mail_id = #{mailId} and EMP_ID_EMPLOYEES = #{empId}
     </update>    
     

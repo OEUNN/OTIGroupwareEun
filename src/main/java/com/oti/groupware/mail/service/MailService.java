@@ -11,10 +11,10 @@ import com.oti.groupware.mail.dto.SendMail;
 
 public interface MailService {
 	List<Employee> getEmployee();
-	void tempWriteMail(SendMail sendMail, String[] arr, String write);
-	void writeMail(SendMail sendMail, String[] arr, String write);
+	SendMail tempWriteMail(SendMail sendMail, String[] arr, String write);
+	SendMail writeMail(SendMail sendMail, String[] arr, String write);
 	void writeFile(MailFile mailFile);
-	void writeTempMail(SendMail sendMail, String write);
+	SendMail writeTempMail(SendMail sendMail, String write);
 	List<ReceivedMail> getReceivedMail(String empId, Pager pager);
 	int mailRowsCount(String empId);
 	void receivedMamilChangeImport(int mailId, String empId);

@@ -14,19 +14,19 @@
 			  text: "휴지통으로 보내기 하시겠습니까?",
 			  icon: "warning",
 			  buttons: {
+			  confirm: {
+			      text: "확인",
+			      value: true,
+			      visible: true,
+			      className: "",
+			      closeModal: true
+			    },
 			    cancel: {
 			      text: "취소",
 			      value: null,
 			      visible: true,
 			      className: "",
 			      closeModal: true,
-			    },
-			    confirm: {
-			      text: "확인",
-			      value: true,
-			      visible: true,
-			      className: "",
-			      closeModal: true
 			    }
 			  },
 			})
