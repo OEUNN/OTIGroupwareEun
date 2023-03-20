@@ -11,6 +11,8 @@
 	<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/tinymce.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/write-template.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/vendors/tinymce/themes/silver/theme.min.js"></script>
+	<script src="<c:url value="/resources/js/custom/mailfileupload.js"></c:url>"></script>
+	<script src="<c:url value="/resources/js/file-upload.js"></c:url>"></script>
 	<style type="text/css">
 	.collapse, .collapsing {
 		box-shadow: 0px 0px 0px white !important;
@@ -45,6 +47,7 @@
 		background-color: #4B49AC;
 		font-size:small;
 		height:25px;
+		padding : 5px;
 	}
 </style>
 	<script>
@@ -138,56 +141,38 @@
 		  text: "메일을 복구할수 없습니다. 삭제하시겠습니까?",
 		  icon: "error",
 		  buttons: {
+		  confirm: {
+		      text: "확인",
+		      value: true,
+		      visible: true,
+		      className: "",
+		      closeModal: true
+		    },
 		    cancel: {
 		      text: "취소",
 		      value: null,
 		      visible: true,
 		      className: "",
 		      closeModal: true,
-		    },
-		    confirm: {
-		      text: "확인",
-		      value: true,
-		      visible: true,
-		      className: "",
-		      closeModal: true
 		    }
+		    
 		  },
 		})
 		.then((value) => {
 		  if (value) {
-			  onclick="location.href='<c:url value="/mail/tempdelete/+mailId"/>'"
+			  location.href= getContextPath() + "/mail/tempdelete/"+mailId;
 		  } else {
 		     close();
 		  }
 		});
 	}
-	/** 이미지 파일 유효성 검사 **/
-	(function($) {
-		  'use strict';
-		  $(function() {
-		    $('.file-upload-default').on('change', function() {
-		    	var imgFile = $("#empFileDataMulti").val();
-		    	var fileForm = /(.*?)|.(jpg|jpeg|png|gif|bmplpdf)$/;
-		    	var maxSize = 50 * 1024 * 1024; // 50MB in bytes
-		    	var fileSize;
-		    	if(imgFile != '' && imgFile != null){
-		    		fileSize = document.getElementById("empFileDataMulti").files[0].size;
-		    		if(!imgFile.match(fileForm)){
-		    			$('#fileResult').attr('style','color:red');
-		    			$('#fileResult').html('이미지 파일만 업로드 가능합니다.');
-		    			$('#fileInput').val('false');
-		    		}else if(fileSize = maxSize){
-		    			$('#fileResult').attr('style','color:red');
-		    			$('#fileResult').html('파일사이즈가 5MB가 넘습니다.');
-		    			$('#fileInput').val('false');
-		    		}
-		    	}else{
-		    		$('#fileInput').val('true');
-		    	}
-		    });
-		  });
-	})(jQuery);
+	function remove(){
+		$('#receivedId').empty();
+	}
+	
+	function empBtnRemove(id){
+		$('#'+id).empty();
+	}
 	
 </script>
 
@@ -265,13 +250,13 @@
 													</div>
 													<div class="col-sm-9 form-inline" id="receivedId" style="border-bottom: 1px solid #ced4da;">
 														<c:if test="${!empty replyMail }">
-															<button class="empBtn mr-2">
+															<button type="button" id="${replyMail.empIdEmployees}" onclick="empBtnRemove(${replyMail.empIdEmployees})" class="r${replyMail.empIdEmployees} empBtn mb-1 mx-2">
 																<span>${replyMail.empName}(${replyMail.mailId}) </span>
 															</button>
 														</c:if>
 														<c:if test="${!empty sendMail.empList}">
 															<c:forEach items="${sendMail.empList}" var="emp">
-																<button class="empBtn mr-2">
+																<button type="button" id="${emp.empId}" onclick="empBtnRemove(${emp.empId})" class="r${emp.empId} empBtn mb-1 mx-2">
 																	<span>${emp.empName}(${emp.mailId}) </span>
 																</button>
 															</c:forEach>
@@ -312,18 +297,25 @@
 												<div class="form-group row bg-white">
 													<div class="col-sm-2 text-primary ">
 														<div class="input-group-append col-xs-12">
-															<button class="row d-flex align-items-center m-1 file-browse text-primary">
+															<div class="row d-flex align-items-center m-1 file-upload-browse text-primary">
 																<i class="h3 my-auto mdi mdi-cloud-upload"></i> 
 																<span class="ml-2 font-weight-bold ">파일 업로드</span>
-															</button>
+															</div>
 														</div>
 														<div class="filebox">
 															<label for="fileList" class="btn-inverse-primary btn btn-sm" style="font-style: bold;">업로드</label> 
-															<input type="file" class="file-upload" id="fileList" name="fileList" multiple>
+															<input type="file" class="file-upload-default" id="fileList" name="fileList" multiple>
 														</div>
 													</div>
-													<div class="col-sm-8 p-0">
-														<input type="text" id="fileInfo" class="form-control file-upload-info" disabled placeholder="Upload Image">
+													<div class="col-sm-8 px-2" id="fileArr" style="border:1px solid #ced4da;">
+														<c:if test="${mailFile != null}">
+															<c:forEach items="${mailFile}" var="mfile">
+																<div class="m-1 px-2"></div>${mfile.mailFileId}.${mfile.mailFileType}<i class="mdi mdi-close"></i>
+															</c:forEach>
+														</c:if>
+														<c:if test="${mailFile == null}">
+															
+														</c:if>
 													</div>
 												</div>
 											</div>

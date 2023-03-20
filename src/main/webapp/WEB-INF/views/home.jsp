@@ -29,6 +29,9 @@
 
 	<script>
 		//근무상태 변경가능한 셀렉박스
+		function getContextPath() {
+		   return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+		}
 		function select(item) {
 	    	$("#selectbox-btn-name").html(item);
 	    }
@@ -37,7 +40,29 @@
 				  title: "초기 비밀번호 입니다.",
 				  text: "마이페이지에서 수정 부탁드립니다!",
 				  icon: "warning",
-				  button: "닫기",
+				  buttons: {
+				  confirm: {
+				      text: "수정",
+				      value: true,
+				      visible: true,
+				      className: "",
+				      closeModal: true
+				    },
+				    cancel: {
+				      text: "닫기",
+				      value: null,
+				      visible: true,
+				      className: "",
+				      closeModal: true,
+				    }
+				  },
+				})
+				.then((value) => {
+				  if (value) {
+					  location.href= getContextPath() + "/employee/mypage/";
+				  } else {
+				     close();
+				  }
 			});
 		}
 		

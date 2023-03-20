@@ -14,20 +14,21 @@
   			  text: "휴지통의 메일은 삭제시 복구할 수 없습니다.",
   			  icon: "error",
   			  buttons: {
+				 confirm: {
+	  			      text: "확인",
+	  			      value: true,
+	  			      visible: true,
+	  			      className: "",
+	  			      closeModal: true
+	  			    },
   			    cancel: {
   			      text: "취소",
   			      value: null,
   			      visible: true,
   			      className: "",
   			      closeModal: true,
-  			    },
-  			    confirm: {
-  			      text: "확인",
-  			      value: true,
-  			      visible: true,
-  			      className: "",
-  			      closeModal: true
   			    }
+  			   
   			  },
   			})
   			.then((value) => {
