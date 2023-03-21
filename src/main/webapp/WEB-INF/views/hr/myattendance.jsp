@@ -325,11 +325,14 @@
 								                         		<c:if test="${!empty attendance.atdOutTime && (attendance.atdState ne '연차' && attendance.atdState ne '대체휴무')}">
 									                         		<span id="selectbox-btn-name" style="font-size: 120%;">퇴근완료</span>
 								                         		</c:if>
-								                         		<c:if test="${!empty attendance.atdInTime && (attendance.atdState eq '연차' || attendance.atdState eq '대체휴무')}">
-									                         		<span id="selectbox-btn-name" style="font-size: 120%;">휴가중</span>
-								                         		</c:if>
 								                        	</button>
 								               			</c:if>
+								               			<!-- 휴가중 -->
+								               			<c:if test="${attendance.atdState eq '연차' || attendance.atdState eq '대체휴무'}">
+								               				<button class="btn btn-lg btn-outline-light" type="button" style="width: 110%; height:90%; font-weight: bold; border: 1px solid #A3A4A5;">
+								                         		<span id="selectbox-btn-name" style="font-size: 120%;">휴가중</span>
+								               				</button>
+						                         		</c:if>
 								               			<!-- 출근버튼 클릭후 -->
 							               				<c:if test="${!empty attendance.atdInTime && empty attendance.atdOutTime && (attendance.atdState ne '연차' && attendance.atdState ne '대체휴무')}">
 								                  			<button class="btn btn-lg btn-outline-light px-4" type="button" id="dropdownMenuButton1" data-toggle="dropdown" 
