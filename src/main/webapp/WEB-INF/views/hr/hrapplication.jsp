@@ -63,8 +63,9 @@
                     //휴가신청내역 목록이 숨기기
                     $("#lev-app-aprv-list").hide();
 					//AJAX 통신에 의해 상세조회 내용 넣기
-                    $("#atd-excp-aprv-detail").hide().fadeIn(500);
+//                     $("#atd-excp-aprv-detail").hide().fadeIn(500);
                     $('#atd-excp-aprv-detail').html(data);
+                    $('#atd-excp-aprv-detail').show();
                 }
         	});
    		}
@@ -81,8 +82,9 @@
                     //근무신청내역 목록이 숨기기
                     $("#atd-excp-aprv-list").hide();
 					//AJAX 통신에 의해 상세조회 내용 넣기
-                    $("#lev-app-aprv-detail").hide().fadeIn(500);
+//                     $("#lev-app-aprv-detail").hide().fadeIn(500);
                     $('#lev-app-aprv-detail').html(data);
+                    $('#lev-app-aprv-detail').show();
                 }
         	});
    		}
@@ -223,17 +225,20 @@
    		
    		/* 근무신청서 자세히보기에서 X버튼 누르면 다시 목록 커짐 */
    		function backAtdList() {
-   			$("#atd-excp-aprv-detail").hide().fadeOut(400);
+//    			$("#atd-excp-aprv-detail").hide().fadeOut(400);
+   			$("#atd-excp-aprv-detail").hide();
    			//숨겨놓은 휴가신청내역 목록 보이기
-            $("#lev-app-aprv-list").hide().fadeIn(600);
+            $("#lev-app-aprv-list").show();
+//             $("#lev-app-aprv-list").hide().fadeIn(600);
    		}
 
    		/* 휴가신청서 자세히보기에서 X버튼 누르면 다시 목록 커짐 */
    		function backLevList() {
    			//상세조회 원래대로
-   			$("#lev-app-aprv-detail").hide().fadeOut(400);
+//    			$("#lev-app-aprv-detail").hide().fadeOut(400);
+   			$("#lev-app-aprv-detail").hide();
    			//숨겨놓은 근무신청내역 목록 보이기
-            $("#atd-excp-aprv-list").hide().fadeIn(600);
+            $("#atd-excp-aprv-list").show();
    		}
    		
    		//첫번째 반려버튼을 눌렀을 경우, 반려사유 작성란이 뜸

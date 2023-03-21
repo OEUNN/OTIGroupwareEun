@@ -75,7 +75,7 @@
 							<td></td>
 							<td></td>
 							<td class="custom-border-left custom-border-right"><h4
-									class="font-weight-bold text-center m-0">신청결과</h4></td>
+									class="font-weight-bold text-center m-0">진행상태</h4></td>
 							<td>
 								<!-- 결재상태 --> 
 								<c:if test="${levApp.levAppProcessState == '신청'}">

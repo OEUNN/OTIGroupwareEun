@@ -57,8 +57,9 @@
                //작성폼 숨기기
                $("#leave-app-write-form").hide();
 			   //AJAX 통신에 의해 상세조회 내용 넣기
-               $("#leave-app-detail").hide().fadeIn(500);
+//                $("#leave-app-detail").hide().fadeIn(500);
                $('#leave-app-detail').html(data);
+               $('#leave-app-detail').show();
            }
    		});
 	}
@@ -66,9 +67,11 @@
 	/* 휴가신청서 자세히보기에서 X버튼 누르면 다시 목록 커짐 */
 	function backLevList() {
 		//상세조회 원래대로
-		$("#leave-app-detail").hide().fadeOut(400);
+// 		$("#leave-app-detail").hide().fadeOut(400);
+		$("#leave-app-detail").hide();
 		//숨겨놓은 근무신청내역 목록 보이기
-       $("#leave-app-write-form").hide().fadeIn(600);
+//        $("#leave-app-write-form").hide().fadeIn(600);
+       $("#leave-app-write-form").show();
 	}
 	
 	//첫번째 셀렉박스 - 잔여연차를 선택했을 경우
@@ -77,6 +80,8 @@
 		    //연차를 클릭했을 경우, 아래 셀렉박스가 선택가능해짐
 			if($(this).children("option:selected").attr("id") === 'leave-option') {
 		      $('#leave-category').prop('disabled', false);
+		      $('#sub-rev').remove();
+		      
 		    //대체휴무를 클릭했을 경우, 아래의 셀렉박스 초기화
 			} else {
 		      $('#leave-category').prop('disabled', true);
