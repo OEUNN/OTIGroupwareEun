@@ -45,6 +45,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		if (dbEmployee == null) {
 			return "WRONE_ID";
 		} else {
+			if(dbEmployee.getEmpLoginFailuresCnt() == 5) {
+				return "FIVE_WRONG_PASSWORD";
+			}
 			PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 			boolean checkPass = pe.matches(employee.getEmpPassword(), dbEmployee.getEmpPassword());
 			if (checkPass == false) {
