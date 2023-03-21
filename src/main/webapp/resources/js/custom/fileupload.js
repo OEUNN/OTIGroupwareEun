@@ -15,7 +15,7 @@ $(() => {
 			const fileSize = file.size;
 			const fileExtension = file.name.split(".").pop().toLowerCase();
 			
-			//파일 크기가 제한보다 크면 제거하고 아니면 유지
+			//파일 크기가 제한보다 크면 제거하고 아니면  유지
 			if (fileSize > MAX_FILE_SIZE) {
 				swal({
 					title: "용량 제한",
@@ -59,9 +59,10 @@ $(() => {
 		}
 		
 		if (discardFiles.length > 0) {
+			console.log("필터링!");
 			//discarfiles에 들어있는 file과 겹치는 file을 필터링
-			const remainingFiles = Array.from(fileInput.files).filter((file) => !discardFiles.includes(file));
-			fileInput.files = new DataTransfer().files.add(...remainingFiles);
+			const remainingFiles = Array.from(fileInput[0].files).filter((file) => !(discardFiles.includes(file)));
+			fileInput[0].files = new FileList(...remainingFiles);
 		}
 		
 	});

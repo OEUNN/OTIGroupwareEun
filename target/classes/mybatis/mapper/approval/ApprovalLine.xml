@@ -21,18 +21,6 @@
 			<result column="dep_name" property="depName"/>
 		</association>
 	</resultMap>
-	
-	<!-- 임시 -->
-	<resultMap type="organization" id="organizationResultMap">
-		<result column="emp_id" property="empId"/>
-		<result column="pos_id" property="posId"/>
-		<result column="dep_id" property="depId"/>
-		<result column="emp_mail" property="empMail"/>
-		<result column="emp_name" property="empName"/>
-        <result column="dep_name" property="depName"/>
-        <result column="dep_phone_number" property="depPhoneNumber"/>
-		<result column="pos_name" property="posName"/>
-	</resultMap>
 
 	<select id="getApprovalLineById" resultMap="approvalLineResultMap">
 		SELECT emp_id, doc_id, aprv_line_state, aprv_line_order, aprv_line_role, aprv_line_approval_date, aprv_line_open_yn, aprv_line_opinion 
@@ -99,12 +87,4 @@
 			WHERE doc_id = #{docId}
 		)
 	</update>
-	
-	<!-- 임시 -->	
-	<select id="getOrganization" resultMap="organizationResultMap">
-		SELECT employees.emp_id, employees.pos_id, employees.dep_id, emp_mail, emp_name, dep_name, dep_phone_number, pos_name
-		FROM employees, departments, positions
-		WHERE employees.dep_id = departments.dep_id and employees.pos_id = positions.pos_id
-		ORDER BY dep_id DESC, pos_id DESC
-	</select>
 </mapper>

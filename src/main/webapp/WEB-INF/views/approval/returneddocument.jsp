@@ -18,30 +18,6 @@
 		$('.datepicker').datepicker({
 		});	
 	});
-	
-	$(() => {
-		const checkAll = $('#checkAll');
-		const checklist = $('.checklist');
-		
-		checkAll.change(function() {
-		  checklist.prop('checked', checkAll.prop('checked'));
-		});
-		
-		checklist.change(function() {
-		  const allChecked = checklist.filter(':checked').length === checklist.length;
-		  checkAll.prop('checked', allChecked);
-		});
-	});
-	
-	$(() => {
-		if ($("#resultCount").length !== 0) {
-			let resultCount = $("#resultCount").val();
-			
-			if ($("#type").val() === 'delete') {
-				alert(resultCount + "개가 삭제되었습니다.");
-			}
-		}
-	});
 	</script>
 </head>
 
@@ -124,13 +100,6 @@
 									<table class="table">
 										<thead>
 											<tr>
-												<th class="py-0 pl-1">
-													<div class="form-check font-weight-bold text-info my-1">
-														<label class="form-check-label">
-															<input id="checkAll" type="checkbox" class="form-check-input">
-														</label>
-													</div>
-												</th>
 												<th class="px-0 pb-2 border-bottom">문서번호<i class="icon-search" onclick="searchDocId('문서번호')"></i>
 											    </th>
 												<th class="px-0 border-bottom pb-2">결재상태
@@ -160,15 +129,8 @@
 											<c:forEach items="${documents}" var="document" varStatus="status">
 											<c:set value="${approvalLinesList[status.index]}" var="approvalLines"/>
 											<tr>
-												<td class="py-0 pl-1">
-													<div class="form-check font-weight-bold text-info my-1">
-														<label class="form-check-label">
-															<input type="checkbox" class="checklist form-check-input" name="docId" form="checkedBox" value="${document.docId}">
-														</label>
-													</div>
-												</td>
 												<td class="pl-0">${document.docId}</td>
-												<td>
+												<td class="px-0">
 													<c:choose>
 													<c:when test="${document.docState == '반려'}">
 													<div class="badge badge-danger font-weight-bold d-flex" style="width: fit-content;">

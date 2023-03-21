@@ -195,7 +195,11 @@ public class EmployeeController {
 	 */
 	@Authorization("ROLE_HR")
 	@RequestMapping(value = "/updateemployee/{empId}", method = RequestMethod.GET)
-	public String updateEmployee(@PathVariable String empId) {
+	public String updateEmployee(@PathVariable String empId, Model model) {
+		Employee employee = employeeService.getEmployee(empId);
+		EmployeeDetail employeeDetail = employeeService.detailEmployee(empId);
+		model.addAttribute("employee",employee);
+		model.addAttribute("employeeDetail", employeeDetail);
 		return "employee/updateemployee";
 	}
 

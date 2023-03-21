@@ -127,7 +127,7 @@
 						<div class="col-2 d-flex justify-content-center" style="height:55px; border-bottom: 3px solid gray;"></div>
 						<div class="col-3 d-flex justify-content-center" style="border-bottom: 3px solid gray;"></div>
 						<div class="col-3 d-flex justify-content-center" style="border-bottom: 3px solid gray; border-left: 4px solid gray;"> </div>
-						<div class="col-2"></div>
+						<div class="col-2 d-flex justify-content-center"></div>
 					</div>
 					<!-- Vertical-Center Line & 경영지원부 -->
 					<div class="row d-flex justify-content-center" style="height:100px">
@@ -135,21 +135,10 @@
 						<div class="col-3" style="height:100px; border-left: 3px solid gray; border-right: 3px solid gray;"></div>
 						<div class="col-2"></div>
 						<div class="col-2 pl-0" style="position: relative; top: -50px;">
-							<div class="card">
-								<div class="card-body">
-									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV4">
-										<button class="dep d-flex align-items-center text-primary" onclick="department(4)">
-											<i class="h2 my-auto mdi mdi-menu-down"></i> 
-											<span class="h4 mb-0 ml-3 font-weight-bold">경영지원</span>
-										</button>
-									</div>
-									<div id="collapse-div-4"></div>
-								</div>
-							</div>
 						</div>
 					</div>
 					<!-- 1팀 -->
-					<div class="form-inlie d-flex align-items-start">
+					<div class="form-inlie d-flex align-items-start"  style="height:100px">
 						<div class="col-3 grid-margin">
 							<div class="card" style="width: 80%;">
 								<div class="card-body">
@@ -189,6 +178,20 @@
 										</button>
 									</div>
 									<div id="collapse-div-3"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-3 grid-margin">
+							<div class="card" style="width: 80%;">
+								<div class="card-body">
+									<!-- AJAX 통신 부분 -->
+									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV4">
+										<button class="dep d-flex align-items-center text-primary" onclick="department(4)">
+											<i class="h2 my-auto mdi mdi-menu-down"></i> 
+											<span class="h4 mb-0 ml-3 font-weight-bold">경영지원</span>
+										</button>
+									</div>
+									<div id="collapse-div-4"></div>
 								</div>
 							</div>
 						</div>

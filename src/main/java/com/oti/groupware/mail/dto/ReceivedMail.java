@@ -22,5 +22,8 @@ public class ReceivedMail {
     private String sendMailTitle;
     private String sendMailContent;
     private String fileYN; //파일 유무
-    private String parentSendMailId; //답장에서 
+    private int parentSendMailId; //답장에서 
+    private EmployeeInfo parentEmployeeInfo;
+    private String parentSendMailTitle;
+    private String parentSendMailContent;
 }

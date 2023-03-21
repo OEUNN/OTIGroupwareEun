@@ -59,7 +59,7 @@
 			</div>
 		</div><!-- 검색 태그 -->
 		<!-- 테이블 -->
-		<div class="table-responsive p-4">
+		<div class="table-responsive p-4 pb-5">
 			<table class="table table-hover">
 				<thead>
 					<tr>
@@ -79,13 +79,17 @@
 				<tbody>
 					<c:if test="${!empty sendmail}">
 						<c:forEach items="${sendmail}" var="send">
-							<c:if test="${send.tbName =='received' }">
-								<c:if test="${send.empList[0].readYN == 'Y'}">
-									<tr style="color:#a2a2a3;">
-								</c:if>
-								<c:if test="${send.empList[0].readYN == 'N'}">
-									<tr>
-								</c:if>
+							<c:if test="${send.tbName =='received'}">
+								<c:forEach items="${send.empList}" var="emp">
+									<c:if test="${emp.empId == sessionScope.employee.empId}">
+										<c:if test="${emp.readYN == 'Y'}">
+											<tr style="color:#a2a2a3;">
+										</c:if>
+										<c:if test="${emp.readYN == 'N'}">
+											<tr>
+										</c:if>
+									</c:if>
+								</c:forEach>
 							</c:if>
 							<c:if test="${send.tbName =='send' }">
 								<tr>

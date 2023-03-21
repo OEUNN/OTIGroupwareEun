@@ -18,11 +18,4 @@ public interface ApprovalLineDAO {
 	public List<ApprovalLine> getApprovalLinesBydocId(String docId);
 	public void insertDraftApprovalLine(ApprovalLine approvalLine);
 	public int updateApprovalLineOpener(ApprovalLine approvalLine);
-	public int updateApprovalLineDeterminant(ApprovalLine approvalLine);
-	public int updateOpinion(ApprovalLine approvalLine);
-	
-	/*
-	 * 임시
-	 */
-	public List<Organization> getOrganization();
 }
