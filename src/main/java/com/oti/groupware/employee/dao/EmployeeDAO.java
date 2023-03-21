@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.oti.groupware.common.Pager;
+import com.oti.groupware.common.dto.Organization;
 import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.mail.dto.EmployeeInfo;
 
@@ -31,4 +32,6 @@ public interface EmployeeDAO {
 	public List<Employee> getemp();
 	public EmployeeInfo mailInfo(String empId);
 	
+	public List<Organization> getOrganization();
+	public void updateEmployeeSubstitueReserve(String empId);
 }

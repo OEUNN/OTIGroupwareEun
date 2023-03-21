@@ -21,6 +21,16 @@
 		<result column="INITIAL_PASSWORD_YN" property="initialPasswordYN"/>
 	</resultMap>
 	
+	<resultMap type="organization" id="organizationResultMap">
+		<result column="emp_id" property="empId"/>
+		<result column="pos_id" property="posId"/>
+		<result column="dep_id" property="depId"/>
+		<result column="emp_mail" property="empMail"/>
+		<result column="emp_name" property="empName"/>
+        <result column="dep_name" property="depName"/>
+        <result column="dep_phone_number" property="depPhoneNumber"/>
+		<result column="pos_name" property="posName"/>
+	</resultMap>
 	
 	<select id="getEmployeeById" parameterType="map" resultMap="employeeResultMap">
 		SELECT emp_id, pos_id, dep_id, emp_mail, emp_name, emp_password,
@@ -183,5 +193,18 @@
 		        where emp_id=#{empId}) 
 		    and e.emp_id =#{empId}
 	</select>
+	
+	<select id="getOrganization" resultMap="organizationResultMap">
+		SELECT employees.emp_id, employees.pos_id, employees.dep_id, emp_mail, emp_name, dep_name, dep_phone_number, pos_name
+		FROM employees, departments, positions
+		WHERE employees.dep_id = departments.dep_id and employees.pos_id = positions.pos_id
+		ORDER BY dep_id DESC, pos_id DESC
+	</select>
+	
+	<update id="updateEmployeeSubstitueReserve" parameterType="string">
+		UPDATE employees
+		SET emp_substitue_reserve = NVL(emp_substitue_reserve, 0) + 1 
+		WHERE emp_id = #{empId}
+	</update>
 	
 </mapper>

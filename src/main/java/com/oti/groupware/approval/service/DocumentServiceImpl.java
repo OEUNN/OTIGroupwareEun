@@ -2,7 +2,9 @@ package com.oti.groupware.approval.service;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,6 @@ import com.oti.groupware.approval.dao.DocumentFileDAO;
 import com.oti.groupware.approval.dto.ApprovalLine;
 import com.oti.groupware.approval.dto.ApprovalLines;
 import com.oti.groupware.approval.dto.Document;
-import com.oti.groupware.approval.dto.DocumentContent;
 import com.oti.groupware.approval.dto.DocumentFile;
 import com.oti.groupware.approval.dto.SearchQuery;
 import com.oti.groupware.common.Pager;
@@ -168,11 +169,16 @@ public class DocumentServiceImpl implements DocumentService {
 			approvalLineDAO.defaultInsertApprovalLine(approvalLine);
 		}
 	}
+
+	@Override
+	public int deleteDocument(String docId) {
+		return documentDAO.deleteDocument(docId);
+	}
 	
 	//승인 처리
 	@Override
 	@Transactional
-	public boolean handleApproveRequest(String state, String opinion, String docId, String empId) {
+	public boolean handleApproveRequest(String state, String opinion, String docId, String empId, String docType) {
 		document = documentDAO.getDocumentById(docId);
 		approvalLine = approvalLineDAO.getApprovalLineById(empId, docId);
 		approvalHandler.setDocument(document);
@@ -185,9 +191,21 @@ public class DocumentServiceImpl implements DocumentService {
 		if (isApproved) {
 			document = approvalHandler.getDocument();
 			approvalLine = approvalHandler.getApprovalLine();
+			
+			//문서 내용에 공란 상태인 결재 내용 반영하기
+			String rId = "r" + empId;
+			documentParser.setParsingTarget(document.getDocContent());
+			documentParser.getElementById("formApprovalState").getElementsByClass(rId).get(0).text(state);
+			documentParser.getElementById("formApprovalDate").getElementsByClass(rId).get(0).text(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+			document.setDocContent(documentParser.getParsedTarget());
+			
+			//휴일근무품의서가 승인되면 기안자의 대체휴무 +1
+			if ("승인".equals(document.getDocState()) && "휴일근무품의서".equals(docType)) {
+				employeeDAO.updateEmployeeSubstitueReserve(document.getEmpId());
+			}
+			
 			documentDAO.updateDocument(document);
 			approvalLineDAO.updateApprovalLine(approvalLine);
-			
 			return true;
 		}
 		else {
@@ -209,9 +227,17 @@ public class DocumentServiceImpl implements DocumentService {
 		if (isReturned) {
 			document = approvalHandler.getDocument();
 			approvalLine = approvalHandler.getApprovalLine();
+			
+			//문서 내용에 공란 상태인 결재 내용 반영하기
+			String rId = "r" + empId;
+			documentParser.setParsingTarget(document.getDocContent());
+			documentParser.getElementById("formApprovalState").getElementsByClass(rId).get(0).text(state);
+			documentParser.getElementById("formApprovalDate").getElementsByClass(rId).get(0).text(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+			document.setDocContent(documentParser.getParsedTarget());
+			//
+			
 			documentDAO.updateDocument(document);
 			approvalLineDAO.updateApprovalLine(approvalLine);
-			
 			return true;
 		}
 		else {
@@ -237,13 +263,22 @@ public class DocumentServiceImpl implements DocumentService {
 			approvalLine = approvalHandler.getApprovalLine();
 			approvalLines = approvalHandler.getApprovalLines();
 			
+			//회수를 하여 결재선의 상태가 초기화됨
+			for (ApprovalLine approvalLinesElement : approvalLines) {
+				String rId = approvalLinesElement.getEmpId();
+				documentParser.setParsingTarget(document.getDocContent());
+				documentParser.getElementById("formApprovalState").getElementsByClass(rId).get(0).text("공란");
+				documentParser.getElementById("formApprovalDate").getElementsByClass(rId).get(0).text("공란");
+			}
+			document.setDocContent(documentParser.getParsedTarget());
+			//
+			
 			documentDAO.updateDocument(document);
 			approvalLineDAO.updateApprovalLine(approvalLine);
 			approvalLines = approvalHandler.getApprovalLines();
 			for (ApprovalLine approvalLine : approvalLines) {
 				approvalLineDAO.updateApprovalLine(approvalLine);
 			}
-			
 			return true;
 		}
 		else {
@@ -268,7 +303,6 @@ public class DocumentServiceImpl implements DocumentService {
 			
 			documentDAO.updateDocument(document);
 			approvalLineDAO.updateApprovalLine(approvalLine);
-			
 			return true;
 		}
 		else {
@@ -276,17 +310,6 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 	}
 
-	@Override
-	@Transactional
-	public int deleteDocument(List<String> docIds) {
-		int result = 0;
-		for (String docId : docIds) {
-			result += documentDAO.deleteDocument(docId);
-		}
-		return result;
-	}
-	
-	
 	//목록 조회 메소드들
 	@Override
 	@Transactional
@@ -370,16 +393,16 @@ public class DocumentServiceImpl implements DocumentService {
 	
 	@Override
 	@Transactional
-	public List<Document> getCompletedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId) {
-		int totalRows = documentDAO.getCompletedDocumentCountByQuery(empId, searchQuery);
+	public List<Document> getTakePartInDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId) {
+		int totalRows = documentDAO.getTakePartInDocumentCountByQuery(empId, searchQuery);
 		int pageNo = searchQuery.getPageNo();
 		pager.setRowsPerPage(10);
 		pager.setPagesPerGroup(10);
 		pager.setTotalRows(totalRows);
 		pager.setPageNo(pageNo);
-		return documentDAO.getCompletedDocumentListByQuery(pager, empId, searchQuery);
+		return documentDAO.getTakePartInDocumentListByQuery(pager, empId, searchQuery);
 	}
-
+	
 	@Override
 	@Transactional
 	public List<Document> getPendedDocumentListByQuery(SearchQuery searchQuery, Pager pager, String empId) {
@@ -416,10 +439,9 @@ public class DocumentServiceImpl implements DocumentService {
 		return documentDAO.getTempDocumentListByQuery(pager, empId, searchQuery);
 	}
 	
-	//임시
 	@Override
 	public List<Organization> getOrganization() {
-		employees = approvalLineDAO.getOrganization();
+		employees = employeeDAO.getOrganization();
 		return employees;
 	}
 

@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -408,9 +410,10 @@ public class ApprovalController {
 	
 	//결재 문서 승인 또는 반려 요청
 	@RequestMapping(value = "/viewdetail/{docId}", method=RequestMethod.POST)
-	public String postApprovalState(@RequestParam("aprvLineState") String state, @RequestParam("aprvLineOpinion") String opinion, @RequestParam("attached") boolean attached, @PathVariable("docId") String docId, HttpSession session, Model model) {
+	public String postApprovalState(@RequestParam("aprvLineState") String state, @RequestParam("aprvLineOpinion") String opinion, @RequestParam("attached") boolean attached, @RequestParam("docType") String docType, @PathVariable("docId") String docId, HttpSession session, Model model) {
 		log.info("문서 번호: " + docId);
 		log.info("상태: " + state);
+		log.info("의견이 있는가: " + attached);
 		log.info("의견: " + opinion);
 		
 		boolean result = false;
@@ -419,10 +422,10 @@ public class ApprovalController {
 		
 		if ("승인".equals(state)) {
 			if (attached) {
-				result = documentService.handleApproveRequest(state, opinion, docId, empId);
+				result = documentService.handleApproveRequest(state, opinion, docId, empId, docType);
 			}
 			else {
-				result = documentService.handleApproveRequest(state, null, docId, empId);
+				result = documentService.handleApproveRequest(state, null, docId, empId, docType);
 			}
 		}
 		else if ("반려".equals(state)) {
@@ -476,12 +479,17 @@ public class ApprovalController {
 	
 	//selectbox 삭제 및 회수
 	@RequestMapping(value = "/selected", method=RequestMethod.POST)
-	public String handleSelected(String docType, String type, @RequestParam("docId") List<String> docId, HttpSession session, RedirectAttributes redirectAttributes) {
+	public String handleSelected(String docType, String type, @RequestParam("docId") List<String> docId, HttpServletRequest httpServletRequest, HttpSession session, RedirectAttributes redirectAttributes) {
 		log.info("문서 목록: " + docId);
+		
 		String result;
 		if ("delete".equals(type) && type != null) {
+			int resultCount = 0;
 			
-			int resultCount = documentService.deleteDocument(docId);
+			for(String docIdElement : docId) {
+				log.info("문서 번호: " + docIdElement);
+				resultCount += documentService.deleteDocument(docIdElement);
+			}
 			
 			if (resultCount == 0) {
 				result = "changed";
@@ -502,6 +510,7 @@ public class ApprovalController {
 			int resultCount = 0;
 			
 			for(String docIdElement : docId) {
+				log.info("문서 번호: " + docIdElement);
 				if (documentService.handleRetrieveRequest("회수", docIdElement, empId)) {
 					resultCount++;
 				}
@@ -570,8 +579,8 @@ public class ApprovalController {
 		return "approval/draftdocument";
 	}
 	
-	//완결함 검색
-	@RequestMapping(value = "/completeddocument/search", method=RequestMethod.GET)
+	//열람문서함 검색
+	@RequestMapping(value = "/takepartindocument/search", method=RequestMethod.GET)
 	public String getCompletedDocumentListByQuery(@ModelAttribute SearchQuery searchQuery, @RequestParam("searchBar") String searchBar, HttpSession session, Model model) {
 		log.info("검색 질의: " + searchQuery);
 		
@@ -591,7 +600,7 @@ public class ApprovalController {
 		queryHandler.appendTimeToReportDate(searchQuery);
 		queryHandler.appendTimeToCompleteDate(searchQuery);
 		
-		documents = documentService.getCompletedDocumentListByQuery(searchQuery, pager, empId);
+		documents = documentService.getTakePartInDocumentListByQuery(searchQuery, pager, empId);
 		approvalLinesList = approvalLineService.getApprovalLinesList(documents);
 		
 		queryHandler.deleteTimeFromReportDate(searchQuery);
@@ -610,10 +619,10 @@ public class ApprovalController {
 		for (List<ApprovalLine> approvalLines : approvalLinesList) {
 			log.info("결재자 목록: " + approvalLines);
 		}
-		return "approval/completeddocument";
+		return "approval/takepartindocument";
 	}
 	
-	//결재대기함 검색
+	//결재하기 검색
 	@RequestMapping(value = "/pendeddocument/search", method=RequestMethod.GET)
 	public String getPendedDocumentListByQuery(@ModelAttribute SearchQuery searchQuery, @RequestParam("searchBar") String searchBar, HttpSession session, Model model) {
 		log.info("검색 질의: " + searchQuery);
