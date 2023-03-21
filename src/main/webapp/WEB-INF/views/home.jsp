@@ -501,7 +501,7 @@
 								<div class="col-md-6 grid-margin stretch-card">
 									<div class="card">
 										<div class="card-body">
-											<p class="card-title mb-3">최근 결재내역</p>
+											<p class="card-title mb-3">최근에 상신한 결재건</p>
 											<div class="card card-light-blue mb-2">
 												<div class="card-body">
 													<div class="row">

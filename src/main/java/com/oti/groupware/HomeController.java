@@ -50,13 +50,25 @@ public class HomeController {
 		Attendance attendance = hrService.attendanceToday(empId); 
 		model.addAttribute("attendance", attendance);
 		
-		//결재 보여주는 부분
+		//결재
 		pager = new Pager();
-		documents = documentService.getDraftDocumentListForHome(1, pager, empId);
+		documents = documentService.getDraftDocumentList(1, pager, empId);
+		int homePageTableRowsNum = 3;
+		int documentListSize = pager.getRowsPerPage();
 		if (documents != null && documents.size() > 0) {
 			homeDocuments = new ArrayList<Document>();
-			for (int i = 0; i < documents.size(); i++) {
+			
+			if (documents.size() > 3) {
+				homePageTableRowsNum = 3;
+			}
+			else {
+				homePageTableRowsNum = documents.size();
+			}
+			
+			for (int i = 0; i < homePageTableRowsNum; i++) {
 				homeDocuments.add(documents.get(i)); 
+			}
+			for (int i = 0; i < documentListSize; i++) {
 			}
 		}
 		model.addAttribute("documents", homeDocuments);
