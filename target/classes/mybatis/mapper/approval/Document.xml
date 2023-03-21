@@ -104,15 +104,15 @@
     <select id="getDraftDocumentList" resultMap="documentResultMap">
     <![CDATA[
 		SELECT
-			doc_id, emp_id, doc_type, doc_title, doc_report_date,
+			rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
 			doc_complete_date, doc_state, doc_read_yn
 		FROM (
 		    SELECT
-		        rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
+		        rownum as rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
 		        doc_complete_date, doc_state, doc_read_yn
 		    FROM (
 		        SELECT
-		            rownum as rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
+		            doc_id, emp_id, doc_type, doc_title, doc_report_date,
 		            doc_complete_date, doc_state, doc_read_yn
 		        FROM 
 		            documents
@@ -134,15 +134,15 @@
     <select id="getPendedDocumentList" resultMap="documentResultMap">
     <![CDATA[
         SELECT
-            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
             doc_complete_date, doc_state, doc_read_yn
         FROM (
         	SELECT
-        		rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+        		rownum as rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
         		doc_complete_date, doc_state, doc_read_yn
         	FROM  (
 	        	SELECT
-	        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+	        		apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
 	        		doc_complete_date, doc_state, doc_read_yn
 	        	FROM 
 	        		documents doc, approval_lines apl, employees emp
@@ -164,19 +164,19 @@
 	<select id="getReturnedDocumentList" resultMap="documentResultMap">
     <![CDATA[
         SELECT
-            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
             doc_complete_date, doc_state, doc_read_yn
         FROM (
         	SELECT
-        		rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+        		rownum as rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
         		doc_complete_date, doc_state, doc_read_yn
         	FROM (
 	        	SELECT
-	        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+	        		doc_id, emp.emp_id, emp_name, doc_type, doc_title, doc_report_date,
 	        		doc_complete_date, doc_state, doc_read_yn
 	        	FROM 
-	        		documents doc, approval_lines apl, employees emp
-	        	WHERE doc.emp_id = ${empId} AND doc.doc_id = apl.doc_id AND (doc_state = '회수' OR doc_state = '반려') AND emp.emp_id = doc.emp_id 
+	        		documents doc, employees emp
+	        	WHERE doc.emp_id = ${empId} AND (doc_state = '회수' OR doc_state = '반려') AND emp.emp_id = doc.emp_id 
 	        	ORDER BY doc_report_date DESC
         	)
         	WHERE rownum <= #{pager.rowsPerPage} * #{pager.pageNo}
@@ -194,15 +194,15 @@
 	<select id="getTempDocumentList" resultMap="documentResultMap">
     <![CDATA[
         SELECT
-		    doc_id, emp_id, doc_type, doc_title, doc_report_date,
+		    rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
 		    doc_write_date, doc_state, doc_read_yn
         FROM (
         	SELECT
-		        rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
+		        rownum as rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
 		        doc_write_date, doc_state, doc_read_yn
         	FROM (
 	        	SELECT
-			        rownum as rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
+			        doc_id, emp_id, doc_type, doc_title, doc_report_date,
 			        doc_write_date, doc_state, doc_read_yn
 	        	FROM 
 	        		documents
@@ -223,15 +223,15 @@
     
     <select id="getTakePartInDocumentList" resultMap="documentResultMap">
         SELECT
-            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
             doc_complete_date, doc_state, doc_read_yn
         FROM (
         	SELECT
-        		rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+        		rownum as rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
         		doc_complete_date, doc_state, doc_read_yn
         	FROM  (
 	        	SELECT
-	        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+	        		apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
 	        		doc_complete_date, doc_state, doc_read_yn
 	        	FROM 
 	        		documents doc, approval_lines apl, employees emp 
@@ -272,15 +272,15 @@
 	
 	<select id="getDraftDocumentListByQuery" resultMap="documentResultMap">
 		SELECT
-			doc_id, emp_id, doc_type, doc_title, doc_report_date,
+			rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
 			doc_complete_date, doc_state, doc_read_yn
 		FROM (
 		    SELECT
-		        rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
+		        rownum as rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
 		        doc_complete_date, doc_state, doc_read_yn
 		    FROM (
 		        SELECT
-		            rownum as rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
+		            doc_id, emp_id, doc_type, doc_title, doc_report_date,
 		            doc_complete_date, doc_state, doc_read_yn
 		        FROM 
 		            documents
@@ -334,15 +334,15 @@
 	
 	<select id="getPendedDocumentListByQuery" resultMap="documentResultMap">
         SELECT
-            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
             doc_complete_date, doc_state, doc_read_yn
         FROM (
         	SELECT
-        		rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+        		rownum as rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
         		doc_complete_date, doc_state, doc_read_yn
         	FROM  (
 	        	SELECT
-	        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+	        		apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
 	        		doc_complete_date, doc_state, doc_read_yn
 	        	FROM 
 	        		documents doc, approval_lines apl, employees emp
@@ -393,20 +393,20 @@
 	
 	<select id="getReturnedDocumentListByQuery" resultMap="documentResultMap">
         SELECT
-            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
             doc_complete_date, doc_state, doc_read_yn
         FROM (
         	SELECT
-        		rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+        		rownum as rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
         		doc_complete_date, doc_state, doc_read_yn
         	FROM (
 	        	SELECT
-	        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+	        		doc_id, emp.emp_id, emp_name, doc_type, doc_title, doc_report_date,
 	        		doc_complete_date, doc_state, doc_read_yn
 	        	FROM 
 	        		documents doc, approval_lines apl, employees emp
 	        	<where>
-		        	doc.emp_id = ${empId} AND doc.doc_id = apl.doc_id AND (doc_state = '회수' OR doc_state = '반려') AND 
+		        	doc.emp_id = ${empId} AND (doc_state = '회수' OR doc_state = '반려') AND 
 		        	emp.emp_id = doc.emp_id 
 	   				<if test="searchQuery.docId != null">
 					AND doc.doc_id LIKE '%'||#{searchQuery.docId}||'%' 
@@ -444,15 +444,15 @@
 	
 	<select id="getTempDocumentListByQuery" resultMap="documentResultMap">
         SELECT
-		    doc_id, emp_id, doc_type, doc_title, doc_report_date,
+		    rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
 		    doc_write_date, doc_state, doc_read_yn
         FROM (
         	SELECT
-		        rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
+		        rownum as rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
 		        doc_write_date, doc_state, doc_read_yn
         	FROM (
 	        	SELECT
-			        rownum as rnum, doc_id, emp_id, doc_type, doc_title, doc_report_date,
+			        doc_id, emp_id, doc_type, doc_title, doc_report_date,
 			        doc_write_date, doc_state, doc_read_yn
 	        	FROM 
 	        		documents
@@ -477,7 +477,7 @@
         SELECT count(*) 
 		FROM documents doc, approval_lines apl, employees emp 
 		<where>
-			apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc_temp_yn = 'N' AND apl.emp_id = emp.emp_id AND (apl.aprv_line_order <![CDATA[<]]>= doc.doc_aprv_step OR doc.doc_aprv_step = -1)
+			apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc_temp_yn = 'N' AND apl.emp_id = emp.emp_id AND (apl.aprv_line_order <![CDATA[<]]>= doc.doc_aprv_step OR doc.doc_aprv_step = -1) AND doc_state != '회수' 
 			<if test="searchQuery.docId != null">
 			AND doc_id LIKE '%'||#{searchQuery.docId}||'%' 
 			</if>
@@ -498,20 +498,20 @@
     
     <select id="getTakePartInDocumentListByQuery" resultMap="documentResultMap">
         SELECT
-            doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+            rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
             doc_complete_date, doc_state, doc_read_yn
         FROM (
         	SELECT
-        		rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
+        		rownum as rnum, doc_id, emp_id, emp_name, doc_type, doc_title, doc_report_date,
         		doc_complete_date, doc_state, doc_read_yn
         	FROM  (
 	        	SELECT
-	        		rownum as rnum, apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
+	        		apl.doc_id, apl.emp_id, emp.emp_name, doc_type, doc_title, doc_report_date,
 	        		doc_complete_date, doc_state, doc_read_yn
 	        	FROM 
 	        		documents doc, approval_lines apl, employees emp 
        			<where>
-					apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc_temp_yn = 'N' AND apl.emp_id = emp.emp_id AND (apl.aprv_line_order <![CDATA[<]]>= doc.doc_aprv_step OR doc.doc_aprv_step = -1)
+					apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc_temp_yn = 'N' AND apl.emp_id = emp.emp_id AND (apl.aprv_line_order <![CDATA[<]]>= doc.doc_aprv_step OR doc.doc_aprv_step = -1) AND doc_state != '회수' 
 					<if test="searchQuery.docId != null">
 					AND doc_id LIKE '%'||#{searchQuery.docId}||'%' 
 					</if>

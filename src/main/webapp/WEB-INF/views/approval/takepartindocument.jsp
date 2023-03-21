@@ -197,7 +197,7 @@
 														</p>
 													</div>
 												</td>
-												<td>${document.employee.empName}</td>
+												<td>${approvalLines[0].employee.empName}</td>
 												<td><fmt:formatDate value="${document.docReportDate}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
 											</tr>
 											</c:forEach>
