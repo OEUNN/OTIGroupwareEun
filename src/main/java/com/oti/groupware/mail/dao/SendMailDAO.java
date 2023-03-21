@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.oti.groupware.common.Pager;
+import com.oti.groupware.mail.dto.ReceivedMail;
 import com.oti.groupware.mail.dto.SendMail;
 
 public interface SendMailDAO {
@@ -46,5 +47,6 @@ public interface SendMailDAO {
 	public void deleteMail(int temp);
 	public void updateTrash(int mailId);
 	public void updateCompleteTrash(int mailId);
+	public ReceivedMail getParentMail(@Param("parentId")int parentSendMailId);
 	
 }

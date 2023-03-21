@@ -51,7 +51,12 @@
 				order += 1;
 			}
 			else {
-				alert("같은 사람을 두번 이상 지정할 수 없습니다.");
+				swal({
+					  title: "중복",
+					  text: "같은 사람을 두번 이상 지정할 수 없습니다.",
+					  icon: "warning",
+					  buttons: '닫기'
+				});
 			}
 		}
 		
@@ -85,9 +90,11 @@
 				
 				var sendData = {
 					content :
-						'<button type="button" id="'+empId+'" onclick="empBtnRemove('+empId+')" class="r'+empId+' empBtn mb-1 mx-2">'+
-							'<span>'+empName+' '+empMail+'</span>'+
-						'</button>',
+						'<div id="'+empId+'">'+
+							'<button type="button" id="'+empId+'" onclick="empBtnRemove('+empId+')" class="r'+empId+' empBtn mb-1 mx-2">'+
+								'<span>'+empName+' '+empMail+'</span>'+
+							'</button>'+
+						'</div>',
 					empId : empId,
 					empName : empName,
 					depName : depName,

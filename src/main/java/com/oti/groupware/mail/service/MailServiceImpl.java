@@ -414,6 +414,12 @@ public class MailServiceImpl implements MailService {
 	public ReceivedMail getDetailReceivedMail(int mailid, String empId) {
 		receivedMailDao.changeReadYN(mailid, empId);
 		ReceivedMail receivedMail = receivedMailDao.getDetailReceivedMail(empId, mailid);
+		if(receivedMail.getParentSendMailId() != 0) {
+			ReceivedMail parent = sendMailDao.getParentMail(receivedMail.getParentSendMailId());
+			receivedMail.setParentSendMailTitle(parent.getParentSendMailTitle());
+			receivedMail.setParentSendMailContent(parent.getParentSendMailContent());
+			receivedMail.setParentEmployeeInfo(employeeDao.mailInfo(parent.getEmpId()));
+		}
 		SendMail sendMail = (sendMailDao.getEmpIdById(mailid));
 		receivedMail.setEmpId(sendMail.getEmpId());
 		receivedMail.setSendMailTitle(sendMail.getSendMailTitle());

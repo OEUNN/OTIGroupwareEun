@@ -200,18 +200,18 @@
 											</div>
 										</div>
 										<!-- file upload -->
-										<div class="row">
-											<div class="px-5 pt-2 pb-1 text-primary">
-												<div class="row d-flex align-items-center m-1">
-													<i class="h3 my-auto mdi mdi-cloud-download"></i> 
-													<span class="ml-2 font-weight-bold">파일 다운로드</span>
+										<c:if test="${!empty mailFile}">
+											<div class="row">
+												<div class="px-5 pt-2 pb-1 text-primary">
+													<div class="row d-flex align-items-center m-1">
+														<i class="h3 my-auto mdi mdi-cloud-download"></i> 
+														<span class="ml-2 font-weight-bold">파일 다운로드</span>
+													</div>
 												</div>
 											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-6 px-5 pb-3"> 
-												<div class="form-control" style="font-weight:bold; height:120px;">
-													<c:if test="${!empty mailFile}">
+											<div class="row">
+												<div class="col-sm-6 px-5 pb-3"> 
+													<div class="form-control" style="font-weight:bold;">
 														<c:forEach items="${mailFile}" var="mfile">
 															<div class="row">
 																<a class="text-black" href="<c:url value="/mail/filedownload/${mfile.mailFileId}"></c:url>">
@@ -220,28 +220,66 @@
 																</a>
 															</div>
 														</c:forEach>
-													</c:if>
+													</div>
 												</div>
 											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-12">
-												<div class="form-group row px-5 py-2">
-													<textarea id="read_write" name="write">
-														<c:if test="${!empty sendMail}">
-															${sendMail.sendMailContent}
-														</c:if>
-														<c:if test="${!empty receivedMail}">
-															${receivedMail.sendMailContent}
-														</c:if>
-													</textarea>
+										</c:if>
+										<c:if test="${!empty sendMail}">
+											<c:if test="${!empty sendMail.sendMailContent}">
+												<div class="row">
+													<div class="col-md-12">
+														<div class="form-group row px-5 py-2">
+															<textarea id="read_write" name="write">
+																${sendMail.sendMailContent}
+															</textarea>
+														</div>
+													</div>
 												</div>
-											</div>
-										</div>
+											</c:if>
+										</c:if>
+										<c:if test="${!empty receivedMail}">
+											<c:if test="${!empty receivedMail.sendMailContent}">
+												<div class="row">
+													<div class="col-md-12">
+														<div class="form-group row px-5 py-2">
+															<textarea id="read_write" name="write">
+																${receivedMail.sendMailContent}
+															</textarea>
+														</div>
+													</div>
+												</div>
+											</c:if>
+										</c:if>
+													
+										<!-- 답장 -->
+										<c:if test="${!empty receivedMail}">
+											<c:if test="${!empty receivedMail.parentEmployeeInfo}">
+												<div class="row">
+													<div class="px-5 pt-2 pb-1 text-primary">
+														<div class="row d-flex align-items-center m-1">
+															<i class="h3 my-auto mdi mdi-reply"></i> 
+															<span class="ml-2 font-weight-bold">답장</span>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-12 px-5" >
+														<div class="from-control">
+															<div class="mb-1">
+																<i class="mdi mdi-arrow-left-bold text-danger"></i>
+																(${receivedMail.parentEmployeeInfo.depName})${receivedMail.parentEmployeeInfo.empName}${receivedMail.parentEmployeeInfo.posName}
+															</div>
+															<div class="mb-1">제목 : ${receivedMail.parentSendMailTitle}</div>
+															<c:if test="${!empty receivedMail.parentSendMailContent}">
+																<textarea id="read_reply" name="write">${receivedMail.parentSendMailContent}</textarea>
+															</c:if>
+														</div>
+													</div>
+												</div>
+											</c:if>
+										</c:if>
 									</div>
 								</form>
-								
-								
 							</div>
 						</div><!-- end 받은 메일 -->
 					</div>
