@@ -16,10 +16,10 @@ public interface DocumentDAO {
 	public void updateDocument(Document document);
 	public int deleteDocument(String docId);
 	
-	
 	public void insertDraftDocument(Document draft);
 	public void insertTempDocument(Document draft);
 	public int updateDocumentReadState(Document document);
+	public List<Document> getAllDraftDocmentState(String empId);
 	
 	
 	public int getDraftDocumentCount(String empId);

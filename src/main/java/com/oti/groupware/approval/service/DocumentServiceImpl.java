@@ -334,6 +334,12 @@ public class DocumentServiceImpl implements DocumentService {
 	
 	@Override
 	@Transactional
+	public List<Document> getAllDraftDocumentListForHome(String empId) {
+		return documentDAO.getAllDraftDocmentState(empId);
+	}
+	
+	@Override
+	@Transactional
 	public List<Document> getDraftDocumentList(int pageNo, Pager pager, String empId) {
 		int totalRows = documentDAO.getDraftDocumentCount(empId);
 		pager.setRowsPerPage(10);

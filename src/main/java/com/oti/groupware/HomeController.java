@@ -31,6 +31,7 @@ public class HomeController {
 	Pager pager;
 	List<Document> documents;
 	List<Document> homeDocuments;
+	List<Document> statisticsDocuments;
 	
 	@Autowired
 	private HrService hrService;
@@ -55,9 +56,12 @@ public class HomeController {
 		//결재
 		pager = new Pager();
 		documents = documentService.getDraftDocumentList(1, pager, empId);
+		statisticsDocuments = documentService.getAllDraftDocumentListForHome(empId);
+		
 		Map<String, Integer> approvalStatistics = new HashMap<>();
 		int homePageTableRowsNum = 3;
-		int documentListSize = pager.getRowsPerPage();
+		int statisticsDocumemtsSize = statisticsDocuments.size();
+		
 		if (documents != null && documents.size() > 0) {
 			homeDocuments = new ArrayList<Document>();
 			
@@ -71,8 +75,8 @@ public class HomeController {
 			for (int i = 0; i < homePageTableRowsNum; i++) {
 				homeDocuments.add(documents.get(i)); 
 			}
-			for (int i = 0; i < documentListSize; i++) {
-				approvalStatistics.compute(documents.get(i).getDocState(), (key, value) -> value != null ? value + 1 : 1);
+			for (int i = 0; i < statisticsDocumemtsSize; i++) {
+				approvalStatistics.compute(statisticsDocuments.get(i).getDocState(), (key, value) -> value != null ? value + 1 : 1);
 			}
 		}
 		System.out.println(approvalStatistics);
