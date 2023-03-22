@@ -65,7 +65,7 @@
 							<th>휴가유형</th>
 							<th>신청날짜</th>
 							<th>휴가기간</th>
-							<th>결재자</th>
+							<th>신청자</th>
 							<th>진행상태</th>
 						</tr>
 					</thead>
@@ -83,7 +83,7 @@
 										 ~
 										<fmt:formatDate value="${levApp.levAppEndDate}" pattern="yyyy/MM/dd" />
 									</small></td>
-									<td>${levApp.levAppApprovalEmpName}</td>
+									<td>${levApp.empName}</td>
 									<td id="aprv-state${levApp.levAppId}">
 										<!-- 결재상태 --> 
 										<c:if test="${levApp.levAppProcessState == '신청'}">
