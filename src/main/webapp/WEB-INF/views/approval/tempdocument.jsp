@@ -207,13 +207,12 @@
 											<form id="checkedBox" action="<c:url value='/approval/selected'></c:url>" method="post">
 											<input type="hidden" name="docType" value="temp">
 											<input type="hidden" name="type" value="삭제">
+											<input type="hidden" name="docId" value="">
 											</form>
 											<button class="btn btn-danger btn-sm mx-1" type="submit" form="checkedBox">선택 삭제</button>
 										</div>
 										<ul class="pagination justify-content-center pb-0 mb-0">
 										<c:if test="${pager.totalRows > 0}">
-											<!-- 처음 -->
-											<li class="page-item" onclick="submitFormWithPageNo(1)"><a class="page-link">처음</a></li>
 											
 											<!-- 이전 -->
 											<c:if test = "${pager.groupNo > 1}">
@@ -235,8 +234,6 @@
 											<li class="page-item" onclick="submitFormWithPageNo(${pager.endPageNo + 1})"><a class="page-link">다음</a></li>
 											</c:if>
 											
-											<!-- 마지막 -->
-											<li class="page-item" onclick="submitFormWithPageNo(${pager.totalPageNo})"><a class="page-link">마지막</a></li>
 										</c:if>
 										</ul>
 									</div>

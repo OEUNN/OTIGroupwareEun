@@ -95,6 +95,15 @@
         )
     </insert>
     
+    <select id="getAllDraftDocmentState" resultMap="documentResultMap">
+		SELECT
+		    doc_id, emp_id, doc_type, doc_title, doc_state
+		FROM 
+		    documents
+		WHERE emp_id = #{empId} AND doc_temp_yn = 'N' 
+		ORDER BY doc_report_date DESC
+    </select>
+    
     <select id="getDraftDocumentCount" resultType="int" parameterType="string">
         SELECT count(*) 
         FROM documents 

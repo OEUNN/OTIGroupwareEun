@@ -31,6 +31,7 @@ public interface DocumentService {
 	public boolean handleRetrieveRequest(String state, String docId, String empId);
 	public boolean handleOpenRequest(String state, String docId, String empId);
 	
+	public List<Document> getAllDraftDocumentListForHome(String empId);
 	public List<Document> getDraftDocumentListForHome(int pageNo, Pager pager, String empId);
 	public List<Document> getDraftDocumentList(int pageNo, Pager pager, String empId);
 	public List<Document> getTakePartInDocumentList(int pageNo, Pager pager, String empId);

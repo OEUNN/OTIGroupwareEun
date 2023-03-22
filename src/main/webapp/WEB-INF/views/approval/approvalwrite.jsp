@@ -30,11 +30,22 @@
 	}
 	
 	function popup(){
-	    let url = getContextPath() + "/approval/organization";
-	    let name = "organization";
-	    let option = "width=" + popUpWidth + ", height=" + popUpHeight + ", top=" + ((popUpTop - popUpHeight)/2) + ", left=" +((popUpLeft - popUpWidth)/2) + ", menubars=no, status=no, titlebars=no"
-	    popupWindow = window.open(url, name, option);
-		popupWindow.addEventListener("DOMContentLoaded", popupAlign());
+		if ($("iframe").contents().find(".positionText").length === 0) {
+			swal({
+				title: "문서가 없습니다",
+				text: "양식을 먼저 불러와 주세요.",
+				icon: "warning",
+				button: "닫기"
+			});
+		}
+		else {
+		    let url = getContextPath() + "/approval/organization";
+		    let name = "organization";
+		    let option = "width=" + popUpWidth + ", height=" + popUpHeight + ", top=" + ((popUpTop - popUpHeight)/2) + ", left=" +((popUpLeft - popUpWidth)/2) + ", menubars=no, status=no, titlebars=no"
+		    popupWindow = window.open(url, name, option);
+			popupWindow.addEventListener("DOMContentLoaded", popupAlign());
+		}
+		
 	}
 	</script>
 
