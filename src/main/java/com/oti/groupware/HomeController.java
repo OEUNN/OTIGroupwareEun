@@ -1,7 +1,9 @@
 package com.oti.groupware;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -50,16 +52,32 @@ public class HomeController {
 		Attendance attendance = hrService.attendanceToday(empId); 
 		model.addAttribute("attendance", attendance);
 		
-		//결재 보여주는 부분
+		//결재
 		pager = new Pager();
-		documents = documentService.getDraftDocumentListForHome(1, pager, empId);
+		documents = documentService.getDraftDocumentList(1, pager, empId);
+		Map<String, Integer> approvalStatistics = new HashMap<>();
+		int homePageTableRowsNum = 3;
+		int documentListSize = pager.getRowsPerPage();
 		if (documents != null && documents.size() > 0) {
 			homeDocuments = new ArrayList<Document>();
-			for (int i = 0; i < documents.size(); i++) {
+			
+			if (documents.size() > 3) {
+				homePageTableRowsNum = 3;
+			}
+			else {
+				homePageTableRowsNum = documents.size();
+			}
+			
+			for (int i = 0; i < homePageTableRowsNum; i++) {
 				homeDocuments.add(documents.get(i)); 
 			}
+			for (int i = 0; i < documentListSize; i++) {
+				approvalStatistics.compute(documents.get(i).getDocState(), (key, value) -> value != null ? value + 1 : 1);
+			}
 		}
+		System.out.println(approvalStatistics);
 		model.addAttribute("documents", homeDocuments);
+		model.addAttribute("approvalStatistics", approvalStatistics);
 
 		//메일
 		int totalRows = mailService.mailRowsCount(employee.getEmpId());

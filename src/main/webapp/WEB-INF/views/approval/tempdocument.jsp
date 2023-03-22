@@ -34,11 +34,35 @@
 	});
 	
 	$(() => {
-		if ($("#resultCount").length !== 0) {
-			let resultCount = $("#resultCount").val();
-			
-			if ($("#type").val() === 'delete') {
-				alert(resultCount + "개가 삭제되었습니다.");
+		if ($("#result").length !== 0) {
+			const result = $("#result").val();
+			if (result === 'unchanged') {
+				swal({
+					title: "변경 사항 없음",
+					icon: "warning",
+					button: "닫기"
+				});
+			}
+			else {
+				const resultCount = $("#resultCount").val();
+				
+				if ($("#type").val() === '삭제') {
+					swal({
+						title: "삭제",
+						text: resultCount + "개가 삭제되었습니다.",
+						icon: "warning",
+						button: "닫기"
+					});
+				}
+				
+				else if($("#type").val() === '회수') {
+					swal({
+						title: "회수",
+						text: resultCount + "개가 회수되었습니다.",
+						icon: "warning",
+						button: "닫기"
+					});
+				}
 			}
 		}
 	});
@@ -47,7 +71,8 @@
 
 <body >
 <div class="container-scroller">
-	<c:if test="${result != null && result == 'changed'}">
+	<c:if test="${result != null}">
+	<input id="result" type="hidden" value="${result}"/>
 	<input id="resultCount" type="hidden" value="${resultCount}"/>
 	<input id="type" type="hidden" value="${type}"/>
 	</c:if>
@@ -181,8 +206,9 @@
 										<div class="d-flex justify-content-end">
 											<form id="checkedBox" action="<c:url value='/approval/selected'></c:url>" method="post">
 											<input type="hidden" name="docType" value="temp">
+											<input type="hidden" name="type" value="삭제">
 											</form>
-											<button class="btn btn-danger btn-sm mx-1" type="submit" form="checkedBox" name="type" value="delete">선택 삭제</button>
+											<button class="btn btn-danger btn-sm mx-1" type="submit" form="checkedBox">선택 삭제</button>
 										</div>
 										<ul class="pagination justify-content-center pb-0 mb-0">
 										<c:if test="${pager.totalRows > 0}">

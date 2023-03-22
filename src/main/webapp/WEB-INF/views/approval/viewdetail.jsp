@@ -141,14 +141,14 @@
 											<span>반려</span>
 										</button>
 		        						</c:if>
-										<c:if test="${reader.aprvLineRole == '기안' && document.docTempYn == 'N' && document.docState != '회수' && document.docReadYn == 'N'}">
+										<c:if test="${reader.aprvLineRole == '기안' && document.docTempYn == 'N' && document.docState != '회수' && document.docState != '승인' && document.docState != '반려' && document.docState != '열람' && document.docReadYn == 'N'}">
 										<button type="submit" onclick="retrievePopup()" id="popup-btn" class="btn btn-md btn-secondary mx-2">
 											<span class="mdi mdi-apple-keyboard-caps align-middle"></span>
 											<span>회수</span>
 										</button>
 										</c:if>
 										<c:if test="${reader.aprvLineRole == '기안' && (document.docState == '반려' || document.docState == '회수' || document.docTempYn == 'Y')}">
-										<form action="<c:url value="/approval/write/${document.docId}"></c:url>">
+										<form action="<c:url value="/approval/documentwrite/${document.docId}"></c:url>">
 										<button type="submit" id="popup-btn" class="btn btn-md btn-primary mx-2">
 											<span class="mdi mdi-apple-keyboard-caps align-middle"></span>
 											<span>재기안하기</span>

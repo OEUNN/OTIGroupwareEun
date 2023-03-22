@@ -501,21 +501,34 @@
 								<div class="col-md-6 grid-margin stretch-card">
 									<div class="card">
 										<div class="card-body">
-											<p class="card-title mb-3">최근 결재내역</p>
+											<p class="card-title mb-3">최근 상신 문서 (10건)</p>
 											<div class="card card-light-blue mb-2">
 												<div class="card-body">
 													<div class="row">
-														<div class="col-md">
-															기안<span class="pl-2 h3 font-weight-bold">0</span>
+														<div class="col-md"><a class="text-white" href='<c:url value="/approval/draftdocument"/>'>
+														승인<span class="pl-2 h3 font-weight-bold">
+														<c:if test='${approvalStatistics["승인"] != null}'>${approvalStatistics["승인"]}</c:if>
+														<c:if test='${approvalStatistics["승인"] == null}'>0</c:if></span></a>
 														</div>
-														<div class="col-md">
-															결재<span class="pl-2 h3 font-weight-bold">3</span>
+														<div class="col-md"><a class="text-white" href='<c:url value="/approval/returneddocument"/>'>
+														반려<span class="pl-2 h3 font-weight-bold">
+														<c:if test='${approvalStatistics["반려"] != null}'>${approvalStatistics["반려"]}</c:if>
+														<c:if test='${approvalStatistics["반려"] == null}'>0</c:if></span></a>
 														</div>
-														<div class="col-md">
-															승인<span class="pl-2 h3 font-weight-bold">0</span>
+														<div class="col-md"><a class="text-white" href='<c:url value="/approval/draftdocument"/>'>
+														진행<span class="pl-2 h3 font-weight-bold">
+														<c:if test='${approvalStatistics["진행"] != null}'>${approvalStatistics["진행"]}</c:if>
+														<c:if test='${approvalStatistics["진행"] == null}'>0</c:if></span></a>
 														</div>
-														<div class="col-md">
-															반려<span class="pl-2 h3 font-weight-bold">1</span>
+														<div class="col-md"><a class="text-white" href='<c:url value="/approval/draftdocument"/>'>
+														열람<span class="pl-2 h3 font-weight-bold">
+														<c:if test='${approvalStatistics["열람"] != null}'>${approvalStatistics["열람"]}</c:if>
+														<c:if test='${approvalStatistics["열람"] == null}'>0</c:if></span></a>
+														</div>
+														<div class="col-md"><a class="text-white" href='<c:url value="/approval/draftdocument"/>'>
+														회수<span class="pl-2 h3 font-weight-bold">
+														<c:if test='${approvalStatistics["회수"] != null}'>${approvalStatistics["회수"]}</c:if>
+														<c:if test='${approvalStatistics["회수"] == null}'>0</c:if></span></a>
 														</div>
 													</div>
 												</div>

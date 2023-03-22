@@ -239,7 +239,7 @@
 											</c:if>
 											<c:if test='${approvalLine.aprvLineState != null}'>
 											<input form="approvalForm" class="r${approvalLine.empId} remove-flag" type="hidden" name="aprvLineState" value="${approvalLine.aprvLineState}">
-											</c:if>.;,80988u.;,
+											</c:if>
 	        								</c:if>
 	        								</c:forEach>
 											<form id="approvalForm" method="post" enctype="multipart/form-data"></form>
