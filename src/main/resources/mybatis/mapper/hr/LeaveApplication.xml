@@ -149,17 +149,19 @@
     <!-- 휴가신청결재서(부서장) - 페이징 목록 -->
 	<select id="getLeaveApplicationApprovalList" resultMap="leaveApplicationResultMap">
 		SELECT 
-		    lev_app_id,
-		    lev_app_date,
-		    lev_app_category,
-		    lev_app_start_date,
-		    lev_app_end_date,
-		    lev_app_approval_emp_name,
-		    lev_app_process_state,
-		    lev_app_cancel
-		FROM leave_applications
+		    la.lev_app_id,
+		    e.emp_name,
+		    la.lev_app_date,
+		    la.lev_app_category,
+		    la.lev_app_start_date,
+		    la.lev_app_end_date,
+		    la.lev_app_approval_emp_name,
+		    la.lev_app_process_state,
+		    la.lev_app_cancel
+		FROM employees e, leave_applications la
 		<where>
 	      lev_app_approval_emp_id = #{empId}
+	      AND e.emp_id = la.emp_id
 	      <if test="(startDate != null and !startDate.equals('')) and (endDate != null and !endDate.equals(''))">
 	      	AND lev_app_date BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'YYYY-MM') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'YYYY-MM')
 	      </if>

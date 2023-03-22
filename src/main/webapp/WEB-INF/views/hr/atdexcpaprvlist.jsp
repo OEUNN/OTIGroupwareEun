@@ -68,7 +68,7 @@
 						<tr>
 							<th>신청유형</th>
 							<th>신청날짜</th>
-							<th>결재자</th>
+							<th>신청자</th>
 							<th>진행상태</th>
 						</tr>
 					</thead>
@@ -78,7 +78,7 @@
 								<tr onclick="atdExcpDetail('${atdExcp.atdExcpId}', '${atdExcp.atdExcpCategory}')">
 									<td><small>${atdExcp.atdExcpCategory}</small></td>
 									<td><small><fmt:formatDate value="${atdExcp.atdExcpDate}" pattern="yyyy/MM/dd" /></small></td>
-									<td>${atdExcp.atdExcpApprovalEmpName}</td>
+									<td>${atdExcp.empName}</td>
 									<td id="atd-aprv-state${atdExcp.atdExcpId}" >
 										<!-- 결재상태 --> 
 										<c:if test="${atdExcp.atdExcpProcessState == '신청'}">

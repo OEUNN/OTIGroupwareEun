@@ -5,6 +5,7 @@
 	<resultMap id="attendanceExceptionResultMap" type="attendanceException">
 		<result column="atd_excp_id" property="atdExcpId"/>
 		<result column="emp_id" property="empId"/>
+		<result column="emp_Name" property="empName"/>
 		<result column="atd_excp_reason" property="atdExcpReason"/>
 		<result column="atd_excp_category" property="atdExcpCategory"/>
 		<result column="atd_excp_in_time" property="atdExcpInTime"/>
@@ -159,15 +160,17 @@
 	<!-- 근무신청결재서(부서장) - 페이징 목록 -->
 	<select id="getAttendanceExceptionApprovalList" resultMap="attendanceExceptionResultMap">
 		SELECT 
-		    atd_excp_id,
-		    atd_excp_category,
-		    atd_excp_date,
-		    atd_excp_approval_emp_name,
-		    atd_excp_process_date,
-		    atd_excp_process_state
-		FROM attendance_exceptions
+		    ae.atd_excp_id,
+		    e.emp_name,
+		    ae.atd_excp_category,
+		    ae.atd_excp_date,
+		    ae.atd_excp_approval_emp_name,
+		    ae.atd_excp_process_date,
+		    ae.atd_excp_process_state
+		FROM employees e, attendance_exceptions ae
 		<where>
-	      atd_excp_approval_emp_id = #{empId}
+	      atd_excp_approval_emp_id = #{empId} 
+	      AND e.emp_id = ae.emp_id
 	      <if test="(startDate != null and !startDate.equals('')) and (endDate != null and !endDate.equals(''))">
 	      	AND atd_excp_date BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'YYYY-MM') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'YYYY-MM')
 	      </if>
