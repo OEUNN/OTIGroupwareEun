@@ -46,9 +46,10 @@
 		<h4 class="card-title">휴지통</h4>
 		<!-- 검색 태그 -->
 		<div class="row justify-content-between px-5 py-3">
-			<div class="form-inline" style="border-bottom:1px solid #e9ecef;border-top:1px solid #e9ecef;">
-				<div class="px-3 py-1 ahover">
-					<div style="color:grey;">휴지통에 들어온지 30일 지나면 자동 삭제됩니다.</div>
+			<div class="form-inline">
+				<div class="px-3 py-1 d-flex">	
+					<i class="mdi mdi-alert-circle h3" style="color:grey;"></i>
+					<div class="mx-1" style="color:grey;">휴지통에 들어온지 30일 지나면 자동 삭제됩니다.</div>
 				</div>
 			</div>
 			<input type="hidden" id="searchBtn"/>
