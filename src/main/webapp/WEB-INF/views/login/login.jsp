@@ -35,6 +35,30 @@
 				 $('#result').val(""); 
 			}
 		}
+		
+		function empButoon(x){
+			if(x==1){
+				$('#empId').val('2202041');
+				$('#empPassword').val('12345');
+				$('#empId').attr('value','2202041');
+				$('#empPassword').attr('value','12345');
+			}else if(x==2){
+				$('#empId').val('2301021');
+				$('#empPassword').val('aaaaaaaa1!');
+				$('#empId').attr('value','2301021');
+				$('#empPassword').attr('value','aaaaaaaa1!');
+			}else if(x==3){
+				$('#empId').val('9503061');
+				$('#empPassword').val('aaaaaaaa1!');
+				$('#empId').attr('value','9503061');
+				$('#empPassword').attr('value','aaaaaaaa1!');
+			}else if(x==4){
+				$('#empId').val('1503091');
+				$('#empPassword').val('aaaaaaaa1!');
+				$('#empId').attr('value','1503091');
+				$('#empPassword').attr('value','aaaaaaaa1!');
+			}
+		}
 			
 	        /* input박스를 클릭하였을 때, 아이콘 색상 변경 */
 	        $(document).ready(function(){
@@ -95,6 +119,12 @@
 													<i class="mdi mdi-login-variant"></i>
 													<span class="ml-1 h4 font-weight-bold">로그인</span>
 												</button>
+											</div>
+											<div class="d-flex pt-2">
+												<button type="button" class="badge-warning mx-1" onclick="empButoon(1)" style="border:none;color:white;">이은지</button>
+												<button type="button" class="badge-warning mx-1" onclick="empButoon(2)" style="border:none;color:white;">장그래</button>
+												<button type="button" class="badge-warning mx-1" onclick="empButoon(3)" style="border:none;color:white;">김부련</button>
+												<button type="button" class="badge-warning mx-1" onclick="empButoon(4)" style="border:none;color:white;">김동식</button>
 											</div>
 										</form>
 		           					</div>

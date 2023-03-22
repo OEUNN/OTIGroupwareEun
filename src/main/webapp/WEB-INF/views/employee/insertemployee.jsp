@@ -60,7 +60,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" oninput="nameCheck()" id="empName" name="empName" maxlength="4" />
+															<input type="text" class="form-control" oninput="nameCheck()" id="empName" name="empName" maxlength="4"  value="장영은"/>
 															<small id="nameResult">&nbsp;</small>
 															<input type="hidden" id="nameInput"/>
 														</div>
@@ -92,7 +92,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="date" class="form-control" id="empDetailBirthday" name="empDetailBirthday" placeholder="YYYY-MM-DD"/>
+															<input type="date" class="form-control" id="empDetailBirthday" name="empDetailBirthday" placeholder="YYYY-MM-DD" value="1996/11/04"/>
 															<small id="birthdayResult">&nbsp;</small>
 														</div>
 													</div>
@@ -231,7 +231,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" name="empDetailMajor" id="empDetailMajor" oninput="major()"/>
+															<input type="text" class="form-control" name="empDetailMajor"  value="컴퓨터" id="empDetailMajor" oninput="major()"/>
 															<small id="majorResult">&nbsp;</small>
 															<input type="hidden" id="majorInput"/>
 														</div>
@@ -248,7 +248,7 @@
 														<div class="col-sm-8">
 															<div class="btn dropdown-toggle d-flex form-control " id="school" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 																<i class="text-primary mdi mdi-menu-down"></i> 
-																<input class="my-auto" type="text" id="empDetailEducation" name="empDetailEducation" style="border:none;" readonly>
+																<input class="my-auto" type="text" id="empDetailEducation" name="empDetailEducation" style="border:none;" value="고졸" readonly>
 															</div>
 															<div class="dropdown-menu" aria-labelledby="school" style="width:100%;">
 																<h6 class="dropdown-item" id="select1-1" onclick="select1(1)">고졸</h6>
@@ -278,7 +278,7 @@
 														</div>
 														<div class="col-sm-8">
 															<input type="hidden" id="empId" name="empId" />
-															<input type="date" class="form-control" id="empDetailEmploymentDate" name="empDetailEmploymentDate"  placeholder="YYYY-MM-DD"/>
+															<input type="date" class="form-control" id="empDetailEmploymentDate" name="empDetailEmploymentDate" value="2023/03/01"  placeholder="YYYY-MM-DD"/>
 															<small id="inResult">&nbsp;</small>
 														</div>
 													</div>
@@ -294,7 +294,7 @@
 														<div class="col-sm-8">
 															<div class="btn dropdown-toggle d-flex form-control" id="department" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 																<i class="text-primary mdi mdi-menu-down"></i> 
-																<input class="my-auto" type="text" id="depId" name="depId" style="border:none;" readonly>
+																<input class="my-auto" type="text" id="depId" name="depId" style="border:none;" value="공공사업1DIV" readonly>
 															</div>
 															<div class="dropdown-menu" aria-labelledby="department" style="width:100%;">
 																<h6 class="dropdown-item" id="select2-1" onclick="select2(1)">공공사업1DIV</h6>
@@ -324,9 +324,9 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" maxlength="40" id="empDetailWorkplace" name="empDetailWorkplace" oninput="dep()"/>
+															<input type="text" class="form-control" maxlength="40" id="empDetailWorkplace" name="empDetailWorkplace" value="혜화" oninput="dep()"/>
 															<small id="depResult">&nbsp;</small>
-															<input type="hidden" id="depInput"/>
+															<input type="hidden" id="depInput" />
 														</div>
 													</div>
 												</div>
@@ -341,7 +341,7 @@
 														<div class="col-sm-8">
 															<div class="btn dropdown-toggle d-flex form-control" id="position" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 																<i class="text-primary mdi mdi-menu-down"></i> 
-																<input class="my-auto" type="text" id="posId" name="posId" style="border:none;" readonly>
+																<input class="my-auto" type="text" id="posId" name="posId" style="border:none;" value="사원" readonly>
 															</div>
 															<div class="dropdown-menu" aria-labelledby="position" style="width:100%;">
 																<h6 class="dropdown-item" id="select3-1" onclick="select3(1)">사원</h6>
@@ -373,7 +373,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" maxlength="20" id=empExtensionNumber name="empExtensionNumber" placeholder="000-000-0000" oninput="extension()"/>
+															<input type="text" class="form-control" maxlength="20" id=empExtensionNumber name="empExtensionNumber" value="02-222-2222" placeholder="000-000-0000" oninput="extension()"/>
 															<small id="extensionResult">&nbsp;</small>
 															<input type="hidden" id="extensionInput"/>
 														</div>

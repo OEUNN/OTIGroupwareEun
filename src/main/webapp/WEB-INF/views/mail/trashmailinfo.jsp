@@ -31,7 +31,7 @@
 	  left: 170%;
 	  margin-left: -60px;
 	  
-	  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+	  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac:  */
 	  opacity: 0;
 	  transition: opacity 1s;
 	}
@@ -45,17 +45,25 @@
 	<div class="card-body">
 		<h4 class="card-title">휴지통</h4>
 		<!-- 검색 태그 -->
-		<div class="row px-5 py-3 justify-content-end"> 
-			<div id="searchForm" class="d-flex" >
-    				<div style="border-radius:18px; border:1px solid #e9ecef;display: flex;">
-					<div class="input-group-prepend hover-cursor mx-3">
-						<span class="input-group-text" id="search" style="background: transparent; border: 0; color: #000; padding: 0;">
-							<i class="icon-search" style="font-size: 1.25rem; color: #6C7383;"></i>
-						</span>
-					</div>
-					<input type="text" id="searchBar" class="align-self-center" style="border:none;width:100%;">
+		<div class="row justify-content-between px-5 py-3">
+			<div class="form-inline" style="border-bottom:1px solid #e9ecef;border-top:1px solid #e9ecef;">
+				<div class="px-3 py-1 ahover">
+					<div style="color:grey;">휴지통에 들어온지 30일 지나면 자동 삭제됩니다.</div>
 				</div>
-				<button onclick="submitForm()" class="font-weight-bold btn btn-md btn-warning ml-2">검색</button>
+			</div>
+			<input type="hidden" id="searchBtn"/>
+			<div class="d-flex justify-content-end">
+				<div id="searchForm" class="d-flex" >
+     				<div style="border-radius:18px; border:1px solid #e9ecef;display: flex;">
+						<div class="input-group-prepend hover-cursor mx-3">
+							<span class="input-group-text" id="search" style="background: transparent; border: 0; color: #000; padding: 0;">
+								<i class="icon-search" style="font-size: 1.25rem; color: #6C7383;"></i>
+							</span>
+						</div>
+						<input type="text" id="searchBar" class="align-self-center" style="border:none;width:100%;">
+					</div>
+					<button onclick="submitForm()" class="font-weight-bold btn btn-md btn-warning ml-2">검색</button>
+       			</div>
 			</div>
 		</div><!-- 검색 태그 -->
 		<!-- 테이블 -->

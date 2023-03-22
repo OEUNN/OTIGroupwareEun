@@ -21,7 +21,7 @@
 	</select>
 
 	<select id="getReceivedMailById" resultMap="receivedMailResultMap">
-		SELECT send_mail_id,
+		SELECT r.send_mail_id,
 		    emp_id_employees,
 		    recd_mail_importance_yn,
 		    recd_mail_date,
@@ -29,8 +29,8 @@
 		    recd_mail_del_date,
 		    recd_mail_del_yn,
 		    recd_mail_del_complete_yn
-		FROM received_mails
-		WHERE emp_id_employees = #{empId} and recd_mail_del_yn = 'N'
+		FROM received_mails r , send_mails s 
+		WHERE emp_id_employees = #{empId} and recd_mail_del_yn = 'N' and SEND_MAIL_TEMP_YN = 'N' and s.send_mail_id=r.send_mail_id 
 		order by  recd_mail_date desc
 		OFFSET (#{pager.pageNo} - 1) * #{pager.rowsPerPage} ROWS
 		FETCH NEXT #{pager.rowsPerPage} ROWS ONLY
@@ -90,7 +90,7 @@
     </select>
     
      <select id="getSearchReceivedMailById" resultMap="receivedMailResultMap">
-    	SELECT send_mail_id,
+    	SELECT r.send_mail_id,
 		    emp_id_employees,
 		    recd_mail_importance_yn,
 		    recd_mail_date,
@@ -98,8 +98,8 @@
 		    recd_mail_del_date,
 		    recd_mail_del_yn,
 		    recd_mail_del_complete_yn
-		from received_mails
-		where emp_id_employees = #{empId} and recd_mail_del_yn = 'N'
+		from received_mails r, send_mails s
+		where emp_id_employees = #{empId} and recd_mail_del_yn = 'N'and SEND_MAIL_TEMP_YN = 'N' and s.send_mail_id=r.send_mail_id 
 		<if test='search.equals("read")'>
    			and recd_mail_read_receipt_yn = 'Y'
 		</if>

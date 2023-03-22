@@ -26,4 +26,5 @@ public interface EmployeeService {
 	public List<Employee> getEmployees(Pager pager);
 	public Employee ceoInformation();
 	public EmployeeDetail detailEmployee(String empId);
+	public void updateEmployee(Employee emp, EmployeeDetail empDetail);
 }

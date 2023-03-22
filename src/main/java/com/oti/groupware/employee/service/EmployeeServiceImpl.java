@@ -277,4 +277,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDetailDao.getEmployeeDetail(empId);
 	}
 
+	//임직원 수정
+	@Override
+	public void updateEmployee(Employee emp, EmployeeDetail empDetail) {
+		
+		
+	}
+
 }

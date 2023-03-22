@@ -444,18 +444,18 @@
 											<div class="card card-tale mb-2">
 												<div class="card-body">
 													<div class="row">
-														<div class="col-md">
+														<a href="<c:url value='/mail/receivedmail'/>" class="col-md" style="color:white;">
 															받은메일<span class="pl-2 h3 font-weight-bold">${mailCount.receivedCount}</span>
-														</div>
-														<div class="col-md">
+														</a>
+														<a href="<c:url value='/mail/receivedmail'/>" class="col-md" style="color:white;">
 															안읽음<span class="pl-2 h3 font-weight-bold">${mailCount.notReadCount}</span>
-														</div>
-														<div class="col-md">
-															임시저장<span class="pl-2 h3 font-weight-bold">${mailCount.tempCount}</span>
-														</div>
-														<div class="col-md">
+														</a>
+														<a href="<c:url value='/mail/importmail'/>" class="col-md" style="color:white;">
 															중요메일<span class="pl-2 h3 font-weight-bold">${mailCount.importCount}</span>
-														</div>
+														</a>
+														<a href="<c:url value='/mail/tempmail'/>" class="col-md" style="color:white;">
+															임시저장<span class="pl-2 h3 font-weight-bold">${mailCount.tempCount}</span>
+														</a>
 													</div>
 												</div>
 											</div>

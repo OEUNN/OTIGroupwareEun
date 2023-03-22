@@ -202,6 +202,31 @@ public class EmployeeController {
 		model.addAttribute("employeeDetail", employeeDetail);
 		return "employee/updateemployee";
 	}
+	
+//	@RequestMapping(value = "/updateEmployeeImg/{empId}", method = RequestMethod.POST)
+//	@ResponseBody
+//	public void updateEmployeeImg(HttpSession session, MultipartFile multi) throws IOException {
+//		Employee employee = (Employee) session.getAttribute("employee");
+//		MultipartFile imgFile = multi;
+//		if (!imgFile.isEmpty()) {
+//			String attachsname = new Date().getTime() + "-" + employee.getEmpId();
+//			employee.setEmpFileData(imgFile.getBytes());
+//			employee.setEmpFileName(attachsname);
+//			employee.setEmpFileType(imgFile.getContentType());
+//			File file = new File("C:/Temp/uploadFiles/" + attachsname);
+//			imgFile.transferTo(file);
+//		}
+//		employeeService.updateImg(employee);
+//	}
+
+	
+//	@Authorization("ROLE_HR")
+//	@RequestMapping(value = "/updateemployee/{empId}", method = RequestMethod.POST)
+//	public String updateEmployee(@PathVariable String empId, Model model, Employee emp, EmployeeDetail empDetail) {
+//		employeeService.updateEmployee(emp, empDetail);
+//		model.addAttribute("result", "success");
+//		return "employee/selectemployee";
+//	}
 
 	/**
 	 * 마이페이지
