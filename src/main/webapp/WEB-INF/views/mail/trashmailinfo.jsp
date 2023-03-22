@@ -31,7 +31,7 @@
 	  left: 170%;
 	  margin-left: -60px;
 	  
-	  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+	  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac:  */
 	  opacity: 0;
 	  transition: opacity 1s;
 	}
