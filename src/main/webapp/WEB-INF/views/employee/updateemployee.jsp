@@ -54,48 +54,50 @@
 		});
 	}
 	//파일 업로드
-	function fn_submit() {
-		var result = true;
-		var imgFile = $("#multi").val();
-    	var fileForm = /(.*?)|.(jpg|jpeg|png|gif|bmplpdf)$/;
-    	var maxSize = 5 * 1024 * 1024; // 5MB in bytes
-    	var fileSize;
-    	if(imgFile != '' && imgFile != null){
-    		fileSize = document.getElementById("multi").files[0].size;
-    		if(!imgFile.match(fileForm)){
-    			swal({
-    				text: "이미지 파일만 업로드 가능합니다.",
-  				  icon: "error",
-  				  button: "닫기",
-  				});
-    			result = false;
-    		}else if(fileSize = maxSize){
-    			swal({
+$(() => {
+	const fileInput = $("#empFileDataMulti");
+	const MAX_FILE_SIZE = 1024 * 1024 * 5; // 50MB in bytes
+	const ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png", "gif"];
+	let lastUploadedFiles = []; //가장 마지막으로 올린 파일
+	fileInput.on("change", (event) => {
+		//input 태그의 업로드목록
+		const files = event.target.files;
+		let discardFiles = [];
+		for (let i = 0; i < files.length; i++) {
+			const file = files[i];
+			const fileSize = file.size;
+			const fileExtension = file.name.split(".").pop().toLowerCase();
+			//파일 크기가 제한보다 크면 제거하고 아니면  유지
+			if (fileSize > MAX_FILE_SIZE) {
+				swal({
+    				text: "파일 사이즈가 10MB를 넘습니다.",
+	  				  icon: "error",
+	  				  button: "닫기",
+	  				});
+			} 
+			else if(!ALLOWED_EXTENSIONS.includes(fileExtension)) {
+				swal({
     				text: "파일 사이즈가 5MB를 넘습니다.",
 	  				  icon: "error",
 	  				  button: "닫기",
 	  				});
-    			result = false;
-    		}
-    	}else{
-    		$('#fileInput').val('true');
-    		result = true;
-    	}
-		if(result){
-			var form = new FormData();
-			form.append("multi", $("#multi")[0].files[0]);
-			jQuery.ajax({
-				url : getContextPath()+"/employee/updateEmployeeImg"+x,
-				type : "POST",
-				processData : false,
-				contentType : false,
-				data : form,
-				success : function(response) {
-					console.log(response);
-				}
-			});
+			}else{
+				var form = new FormData();
+				form.append("multi", $("#multi")[0].files[0]);
+				jQuery.ajax({
+					url : getContextPath()+"/employee/updateEmployeeImg"+x,
+					type : "POST",
+					processData : false,
+					contentType : false,
+					data : form,
+					success : function(response) {
+						console.log(response);
+					}
+				});
+			}
 		}
-	}
+	});
+});
 	</script>
 <!-- End plugin css,js for this page -->
 </head>

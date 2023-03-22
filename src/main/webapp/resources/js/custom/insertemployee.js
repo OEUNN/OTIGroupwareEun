@@ -227,31 +227,40 @@ function mailIdCheck() {
 }
 
 /** 이미지 파일 유효성 검사 **/
-(function($) {
-	  'use strict';
-	  $(function() {
-	    $('.file-upload-default').on('change', function() {
-	    	var imgFile = $("#empFileDataMulti").val();
-	    	var fileForm = /(.*?)|.(jpg|jpeg|png|gif|bmplpdf)$/;
-	    	var maxSize = 5 * 1024 * 1024; // 5MB in bytes
-	    	var fileSize;
-	    	if(imgFile != '' && imgFile != null){
-	    		fileSize = document.getElementById("empFileDataMulti").files[0].size;
-	    		if(!imgFile.match(fileForm)){
-	    			$('#fileResult').attr('style','color:red');
-	    			$('#fileResult').html('이미지 파일만 업로드 가능합니다.');
-	    			$('#fileInput').val('false');
-	    		}else if(fileSize = maxSize){
-	    			$('#fileResult').attr('style','color:red');
-	    			$('#fileResult').html('파일사이즈가 5MB가 넘습니다.');
-	    			$('#fileInput').val('false');
-	    		}
-	    	}else{
-	    		$('#fileInput').val('true');
-	    	}
-	    });
-	  });
-})(jQuery);
+$(() => {
+	const fileInput = $("#empFileDataMulti");
+	const MAX_FILE_SIZE = 1024 * 1024 * 5; // 50MB in bytes
+	const ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png", "gif"];
+	let lastUploadedFiles = []; //가장 마지막으로 올린 파일
+	fileInput.on("change", (event) => {
+		//input 태그의 업로드목록
+		const files = event.target.files;
+		let discardFiles = [];
+		for (let i = 0; i < files.length; i++) {
+			const file = files[i];
+			const fileSize = file.size;
+			const fileExtension = file.name.split(".").pop().toLowerCase();
+			//파일 크기가 제한보다 크면 제거하고 아니면  유지
+			if (fileSize > MAX_FILE_SIZE) {
+				$('#fileResult').attr('style','color:red');
+    			$('#fileResult').html('파일사이즈가 10MB가 넘습니다.');
+    			$('#fileInput').val('false');
+				discardFiles.push(file);
+			} 
+			else if(!ALLOWED_EXTENSIONS.includes(fileExtension)) {
+				$('#fileResult').attr('style','color:red');
+    			$('#fileResult').html('이미지 파일만 업로드 가능합니다.');
+    			$('#fileInput').val('false');
+				discardFiles.push(file);
+			}
+			else {
+				$('#fileResult').attr('style','color:green');
+    			$('#fileResult').html('success');
+				$('#fileInput').val('true');
+			}
+		}
+	});
+});
 
 /** 휴대전화 유효성 검사**/
 function phoneCheck(){

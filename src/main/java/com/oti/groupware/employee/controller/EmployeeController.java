@@ -203,30 +203,32 @@ public class EmployeeController {
 		return "employee/updateemployee";
 	}
 	
-//	@RequestMapping(value = "/updateEmployeeImg/{empId}", method = RequestMethod.POST)
-//	@ResponseBody
-//	public void updateEmployeeImg(HttpSession session, MultipartFile multi) throws IOException {
-//		Employee employee = (Employee) session.getAttribute("employee");
-//		MultipartFile imgFile = multi;
-//		if (!imgFile.isEmpty()) {
-//			String attachsname = new Date().getTime() + "-" + employee.getEmpId();
-//			employee.setEmpFileData(imgFile.getBytes());
-//			employee.setEmpFileName(attachsname);
-//			employee.setEmpFileType(imgFile.getContentType());
-//			File file = new File("C:/Temp/uploadFiles/" + attachsname);
-//			imgFile.transferTo(file);
-//		}
-//		employeeService.updateImg(employee);
-//	}
+	@RequestMapping(value = "/updateEmployeeImg/{empId}", method = RequestMethod.POST)
+	@ResponseBody
+	public void updateEmployeeImg(@PathVariable String empId, MultipartFile multi) throws IOException {
+		log.info("실행");
+		Employee employee = employeeService.getEmployee(empId);
+		MultipartFile imgFile = multi;
+		if (!imgFile.isEmpty()) {
+			String attachsname = new Date().getTime() + "-" + employee.getEmpId();
+			employee.setEmpFileData(imgFile.getBytes());
+			employee.setEmpFileName(attachsname);
+			employee.setEmpFileType(imgFile.getContentType());
+			File file = new File("C:/Temp/uploadFiles/" + attachsname);
+			imgFile.transferTo(file);
+		}
+		employeeService.updateImg(employee);
+	}
 
 	
-//	@Authorization("ROLE_HR")
-//	@RequestMapping(value = "/updateemployee/{empId}", method = RequestMethod.POST)
-//	public String updateEmployee(@PathVariable String empId, Model model, Employee emp, EmployeeDetail empDetail) {
+	@Authorization("ROLE_HR")
+	@RequestMapping(value = "/updateemployee/{empId}", method = RequestMethod.POST)
+	public String updateEmployee(@PathVariable String empId, Model model, Employee emp, EmployeeDetail empDetail) {
+		log.info("실행");
 //		employeeService.updateEmployee(emp, empDetail);
 //		model.addAttribute("result", "success");
-//		return "employee/selectemployee";
-//	}
+		return "employee/selectemployee";
+	}
 
 	/**
 	 * 마이페이지

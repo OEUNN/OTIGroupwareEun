@@ -92,7 +92,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="date" class="form-control" id="empDetailBirthday" name="empDetailBirthday" placeholder="YYYY-MM-DD" value="1996/11/04"/>
+															<input type="date" class="form-control" id="empDetailBirthday" name="empDetailBirthday" placeholder="YYYY-MM-DD"/>
 															<small id="birthdayResult">&nbsp;</small>
 														</div>
 													</div>
@@ -278,7 +278,7 @@
 														</div>
 														<div class="col-sm-8">
 															<input type="hidden" id="empId" name="empId" />
-															<input type="date" class="form-control" id="empDetailEmploymentDate" name="empDetailEmploymentDate" value="2023/03/01"  placeholder="YYYY-MM-DD"/>
+															<input type="date" class="form-control" id="empDetailEmploymentDate" name="empDetailEmploymentDate"  placeholder="YYYY-MM-DD"/>
 															<small id="inResult">&nbsp;</small>
 														</div>
 													</div>
