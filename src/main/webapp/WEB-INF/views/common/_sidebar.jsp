@@ -66,7 +66,7 @@
 			</a>
 			<div class="collapse" id="charts">
 				<ul class="nav flex-column sub-menu">
-					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/write'/>">기안 작성</a></li>
+					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/documentwrite'/>">기안 작성</a></li>
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/pendeddocument'/>">결재하기</a></li>
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/draftdocument'/>">기안문서함</a></li>
 					<li class="nav-item"><a class="nav-link" href="<c:url value='/approval/takepartindocument'/>">열람문서함</a></li>

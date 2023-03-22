@@ -79,7 +79,7 @@
 			<%@ include file="/WEB-INF/views/common/_sidebar.jsp"%>
 			<!-- partial -->
 			<div class="main-panel">
-				<div class="content-wrapper">
+				<div class="content-wrapper" style="overflow: auto;">
 					<div class="row" style="height: 80px;">
 						<div class="col-md-2 pl-0 grid-margin d-flex justify-content-center">
 							<h5 class="mb-0 og-card-title d-flex align-content-center">
@@ -124,23 +124,22 @@
 					</div><!-- end top human -->
 					<!-- Horizontal & Vertical-Center Line -->
 					<div class="row d-flex justify-content-center">
-						<div class="col-2 d-flex justify-content-center" style="height:55px; border-bottom: 3px solid gray;"></div>
-						<div class="col-3 d-flex justify-content-center" style="border-bottom: 3px solid gray;"></div>
-						<div class="col-3 d-flex justify-content-center" style="border-bottom: 3px solid gray; border-left: 4px solid gray;"> </div>
-						<div class="col-2 d-flex justify-content-center"></div>
+						<div class="col-3 d-flex justify-content-center" style="height:60px; border-bottom: 3px solid gray;"></div>
+						<div class="col-3 d-flex justify-content-center" style="border-bottom: 3px solid gray;">
+							<div style="border: 2px solid gray;"></div>
+						</div>
+						<div class="col-3 d-flex justify-content-center" style="border-bottom: 3px solid gray;"> </div>
 					</div>
-					<!-- Vertical-Center Line & 경영지원부 -->
+					<!-- Vertical-Center Line -->
 					<div class="row d-flex justify-content-center" style="height:100px">
 						<div class="col-3" style="height:100px; border-left: 3px solid gray;"></div>
 						<div class="col-3" style="height:100px; border-left: 3px solid gray; border-right: 3px solid gray;"></div>
-						<div class="col-2"></div>
-						<div class="col-2 pl-0" style="position: relative; top: -50px;">
-						</div>
+						<div class="col-3" style="height:100px; border-right: 3px solid gray;"></div>
 					</div>
 					<!-- 1팀 -->
-					<div class="form-inlie d-flex align-items-start"  style="height:100px">
+					<div class="row" style="height:100px;">
 						<div class="col-3 grid-margin">
-							<div class="card" style="width: 80%;">
+							<div class="card mb-5" style="width: 80%;">
 								<div class="card-body">
 									<!-- AJAX 통신 부분 -->
 									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV1">
@@ -155,7 +154,7 @@
 						</div>
 						<!-- 2팀 -->
 						<div class="col-3 grid-margin">
-							<div class="card" style="width: 80%;">
+							<div class="card mb-5" style="width: 80%;">
 								<div class="card-body">
 									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV2">
 										<button class="dep d-flex align-items-center text-primary" onclick="department(2)">
@@ -169,7 +168,7 @@
 						</div>
 						<!-- 3팀 -->
 						<div class="col-3 grid-margin">
-							<div class="card" style="width: 80%;">
+							<div class="card mb-5" style="width: 80%;">
 								<div class="card-body">
 									<div class="text-primary m-1 row" data-toggle="collapse"  data-target="#DIV3">
 										<button class="dep d-flex align-items-center text-primary" onclick="department(3)">
@@ -182,7 +181,7 @@
 							</div>
 						</div>
 						<div class="col-3 grid-margin">
-							<div class="card" style="width: 80%;">
+							<div class="card mb-5" style="width: 80%;">
 								<div class="card-body">
 									<!-- AJAX 통신 부분 -->
 									<div class="text-primary m-1 row" data-toggle="collapse" data-target="#DIV4">
