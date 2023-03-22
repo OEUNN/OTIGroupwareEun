@@ -19,6 +19,7 @@
 					businessHours : true,
 					locale : 'ko',
 					dayMaxEvents : true,
+					selectable: true,
 					eventSources: [
 						{
 						  //DB에 담긴 이벤트 데이터를 갖고옴

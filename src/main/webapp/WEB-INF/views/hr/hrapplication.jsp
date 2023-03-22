@@ -35,20 +35,30 @@
 
 	   	/* AJAX통신 - 휴가결재내역 페이징 목록 */
    		function levAppPaging(i) {
-       		let levAppAprvForm = $("#lev-app-aprv-form").serialize();
-       		levAppAprvForm += '&pageNo='+ i;
-       		
-       		$.ajax({
-                   type: "post",
-                   url: "../hr/levappaprvlist",
-                   data: levAppAprvForm,
-                   error: function () {
-                   	alert("통신실패!");
-                   },
-                   success: function (data) {
-                       $('#lev-app-aprv-list').html(data);
-                   }
-           	});
+	   		let result = true;
+	   		let refuseText = $('#textarea-reason').val();
+	   		
+	   		if(refuseText == null) {
+	   			result = false;
+	   		} 
+	   		
+	   		if(result == true) {
+	       		let levAppAprvForm = $("#lev-app-aprv-form").serialize();
+	       		levAppAprvForm += '&pageNo='+ i;
+	       		
+	       		$.ajax({
+	                   type: "post",
+	                   url: "../hr/levappaprvlist",
+	                   data: levAppAprvForm,
+	                   error: function () {
+	                   	alert("통신실패!");
+	                   },
+	                   success: function (data) {
+	                       $('#lev-app-aprv-list').html(data);
+	                   }
+	           	});
+	   			
+	   		}
    		}
 	   	
    		/* AJAX통신 -근무신청내역 상세보기*/
