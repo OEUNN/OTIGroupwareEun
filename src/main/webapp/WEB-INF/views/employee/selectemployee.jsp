@@ -46,7 +46,6 @@
 		});
 	}
 	function start(){
-		console.log($('#result').val());
 		if($('#result').val() == 'success'){
 			swal({
 				  title: "비밀먼호 초기화 성공.",
@@ -68,8 +67,8 @@
 	<!-- Plugin css,js for this page -->
 	<!-- End plugin css,js for this page -->
 	</head>
-<body>
-	<input type="hidden" id="result"/>
+<body onload="start()">
+	<input type="hidden" id="result" value="${result}"/>
 	<div class="container-scroller">
 		<!-- Navbar -->
 		<%@ include file="/WEB-INF/views/common/_navbar.jsp"%>

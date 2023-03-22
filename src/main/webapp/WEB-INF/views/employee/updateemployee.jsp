@@ -7,6 +7,7 @@
 	<head>
 	<!-- inject css, js common file -->
 	<%@ include file="/WEB-INF/views/common/head.jsp"%>
+	<script src="${pageContext.request.contextPath}/resources/js/custom/insertemployee.js"></script>
 	<!-- endinject css, js common file -->
 	
 	<!-- Plugin css,js for this page -->
@@ -14,6 +15,13 @@
 		.dropdown-toggle::after{
 			content:none;
 		}
+		.form-group{
+				margin-bottom:0.4rem;
+			}
+		small, .small{
+			font-size:60%;
+		}
+		#multi { display:none; } 
 	</style>
 	<script>
 	function getContextPath() {
@@ -77,7 +85,7 @@
 			var form = new FormData();
 			form.append("multi", $("#multi")[0].files[0]);
 			jQuery.ajax({
-				url : "../employee/updateimg",
+				url : getContextPath()+"/employee/updateEmployeeImg"+x,
 				type : "POST",
 				processData : false,
 				contentType : false,
@@ -107,14 +115,14 @@
 						<div class="col-12 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
-									<form class="form-sample">
+									<form action="<c:url value='/employee/updateemployee/${employee.empId}'/>" class="form-sample" onsubmit="return check()" method="post" enctype="multipart/form-data">
 										<div class="d-flex justify-content-between align-items-center mb-4">
 											<div class="card-title mb-0">임직원 수정</div>
 											<div class="d-flex">
-												<a class="btn btn-md btn-primary mx-2" href="<c:url value='/selectemployee'/>"> 
+												<button  type="submit" class="btn btn-md btn-primary mx-2"> 
 													<span class="mdi mdi-lead-pencil align-middle"></span> 
 													<span>수정</span>
-												</a>
+												</button>
 											</div>
 										</div>
 										
@@ -124,11 +132,11 @@
 												<div>
 													<!-- 사진 -->
 													<div class="row mt-1 justify-content-center m-auto">
-														<img src="<c:url value='/login/filedownload'/>" id="img" style="width:250px; height:300px;border-radius:20px;"/>
+														<img src="<c:url value='/employee/file/${employee.empId}'/>" id="img" style="width:250px; height:300px;border-radius:20px;"/>
 													</div>
 													<div class="row mt-3 justify-content-center" >
 														<label id="multiBtn" class="btn btn-md btn-inverse-primary" style="font-family: LeferiBaseType-RegularA; font-weight: 700;">사진 수정</label>
-														<input type="file" id="multi" oninput="fn_submit()">
+														<input type="file" id="multi" oninput="fn_submit(${employee.empId})">
 													</div>
 												</div>
 											</div><!-- End image card -->
@@ -144,7 +152,9 @@
 																</div>
 															</div>
 															<div class="col-sm-8">
-																<input type="text" class="form-control" placeholder="${employee.empName }"/>
+																<input type="text" class="form-control" oninput="nameCheck()"  id="empName" name="empName" maxlength="4" placeholder="${employee.empName }"/>
+																<small id="nameResult">&nbsp;</small>
+																<input type="hidden" id="nameInput"/>
 															</div>
 														</div>
 													</div>
@@ -157,7 +167,9 @@
 																</div>
 															</div>
 															<div class="col-sm-8">
-																<input type="text" class="form-control" placeholder="${employee.mailId }"/>
+																<input type="text" class="form-control" oninput="mailIdCheck()" id="empMail" name="empMail" maxlength="50" value="${employee.empMail }"/>
+																<small id="mailResult">&nbsp;</small>
+																<input type="hidden" id="mailInput"/>
 															</div>
 														</div>
 													</div>
@@ -172,7 +184,8 @@
 																</div>
 															</div>
 															<div class="col-sm-8">
-																<input type="date" class="h3" style="font-weight:bold;">
+																<input type="date" class="form-control" id="empDetailBirthday" name="empDetailBirthday" value="${employeeDetail.empDetailBirthday}">
+																<small id="birthdayResult">&nbsp;</small>
 															</div>
 														</div>
 													</div>
@@ -185,7 +198,7 @@
 																</div>
 															</div>
 															<div class="col-sm-8">
-																<div class="h3" style="font-weight:bold;">${employeeDetail.empDetailGender }</div>
+																<div>${employeeDetail.empDetailGender}</div>
 															</div>
 														</div>
 													</div>
@@ -200,7 +213,9 @@
 																</div>
 															</div>
 															<div class="col-sm-8">
-																<input type="text" class="form-control" placeholder="${employee.empPhoneNumber }"/>
+																<input type="text" class="form-control" oninput="phoneCheck()" maxlength="20" id="empPhoneNumber" name="empPhoneNumber" value="${employee.empPhoneNumber }"/>
+																<small  id="phoneResult">&nbsp;</small>
+																<input type="hidden" id="phoneInput"/>
 															</div>
 														</div>
 													</div>
@@ -212,17 +227,24 @@
 																	<span class="ml-2 font-weight-bold">병역</span>
 																</div>
 															</div>
-															<div class="col-sm-4">
+															<div class="col-sm-3">
 																<div class="form-check">
 																	<label class="form-check-label"> 
-																	<input type="radio" class="form-check-input" name="military" id="military1" value="" checked>YES
+																	<input type="radio" class="form-check-input" name="empDetailMilitaryServiceYN" id="empDetailMilitaryServiceYN" value="Y" checked>군필
 																	</label>
 																</div>
 															</div>
-															<div class="col-sm-4">
+															<div class="col-sm-3">
 																<div class="form-check">
 																	<label class="form-check-label"> 
-																	<input type="radio" class="form-check-input" name="military" id="military2" value="option2">NO
+																	<input type="radio" class="form-check-input" name="empDetailMilitaryServiceYN" id="empDetailMilitaryServiceYN" value="N">미필
+																	</label>
+																</div>
+															</div>
+															<div class="col-sm-3">
+																<div class="form-check">
+																	<label class="form-check-label"> 
+																	<input type="radio" class="form-check-input" name="empDetailMilitaryServiceYN" id="empDetailMilitaryServiceYN" value="X">미해당
 																	</label>
 																</div>
 															</div>
@@ -235,11 +257,11 @@
 															<div class="col-sm-4 text-primary">
 																<div class="d-flex align-items-center m-1">
 																	<i class="h3 my-auto mdi mdi-clipboard-check"></i> 
-																	<span class="ml-2 font-weight-bold">채용일</span>
+																	<span class="ml-2 font-weight-bold">입사일</span>
 																</div>
 															</div>
 															<div class="col-sm-8">
-																<div class="h3" style="font-weight:bold;"></div>
+																<div><fmt:formatDate pattern="yyyy년 MM월 dd일" value="${employeeDetail.empDetailEmploymentDate}"/></div>
 															</div>
 														</div>
 													</div>
@@ -254,14 +276,14 @@
 															<div class="col-sm-4">
 																<div class="form-check">
 																	<label class="form-check-label"> 
-																	<input type="radio" class="form-check-input" name="marry" id="marry1" value="" checked>기혼
+																	<input type="radio" class="form-check-input"  name="empDetailMarriedYN" id="empDetailMarriedYN" value="Y" checked>기혼
 																	</label>
 																</div>
 															</div>
 															<div class="col-sm-4">
 																<div class="form-check">
 																	<label class="form-check-label"> 
-																	<input type="radio" class="form-check-input" name="marry" id="marry2" value="option2">미혼
+																	<input type="radio" class="form-check-input"  name="empDetailMarriedYN" id="empDetailMarriedYN" value="N">미혼
 																	</label>
 																</div>
 															</div>
@@ -278,7 +300,9 @@
 																</div>
 															</div>
 															<div class="col-sm-8">
-																<input type="text" class="form-control" />
+																<input type="text" class="form-control" name="empDetailMajor" id="empDetailMajor" oninput="major()" value="${employeeDetail.empDetailMajor}"/>
+																<small id="majorResult">&nbsp;</small>
+																<input type="hidden" id="majorInput"/>
 															</div>
 														</div>
 													</div>
@@ -293,7 +317,7 @@
 															<div class="col-sm-8">
 																<div class="btn dropdown-toggle d-flex form-control " id="school" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 																	<i class="text-primary mdi mdi-menu-down"></i> 
-																	<input class="selectmenu1 my-auto" type="text" value="" style="border:none;" readonly>
+																	<input class="my-auto" type="text" id="empDetailEducation" name="empDetailEducation"  value="${empDetail.empDetailEducation}" style="border:none;" readonly>
 																</div>
 																<div class="dropdown-menu" aria-labelledby="school" style="width:100%;">
 																	<h6 class="dropdown-item" id="select1-1" onclick="select1(1)">고졸</h6>
@@ -304,9 +328,10 @@
 																<script>
 															        function select1(No){
 															        	var x = document.getElementById("select1-" + No).innerText;
-															        	$(".selectmenu1").val(x);
+															        	$("#empDetailEducation").val(x);
 															        }
 																</script>
+																<small id="educationResult"></small>
 															</div>
 														</div>
 													</div>
@@ -323,20 +348,22 @@
 															<div class="col-sm-8">
 																<div class="btn dropdown-toggle d-flex form-control" id="department" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 																	<i class="text-primary mdi mdi-menu-down"></i> 
-																	<input class="selectmenu2 my-auto" type="text" value="" style="border:none;" readonly>
+																	<input class="selectmenu2 my-auto" type="text" id="depId" name="depId" value="${employee.depId}" style="border:none;" readonly>
 																</div>
 																<div class="dropdown-menu" aria-labelledby="department" style="width:100%;">
 																	<h6 class="dropdown-item" id="select2-1" onclick="select2(1)">공공사업1DIV</h6>
 																	<h6 class="dropdown-item" id="select2-2" onclick="select2(2)">공공사업2DIV</h6> 
 																	<h6 class="dropdown-item" id="select2-3" onclick="select2(3)">공공사업3DIV</h6>
 																	<h6 class="dropdown-item" id="select2-4" onclick="select2(4)">경영지원부</h6>
+																	<h6 class="dropdown-item" id="select2-5" onclick="select2(5)">임원</h6>
 																</div>
 																<script>
 															        function select2(No){
 															        	var x = document.getElementById("select2-" + No).innerText;
-															        	$(".selectmenu2").val(x);
+															        	$("#depId").val(x);
 															        }
 																</script>
+																<small id="depIdResult">&nbsp;</small>
 															</div>
 														</div>
 													</div>
@@ -349,25 +376,14 @@
 																</div>
 															</div>
 															<div class="col-sm-8">
-																<input type="text" class="form-control" placeholder="000-000-0000"/>
+																<input type="text" class="form-control" maxlength="20" id=empExtensionNumber name="empExtensionNumber" oninput="extension()" value="${emp.empExtensionNumber}"/>
+																<small id="extensionResult">&nbsp;</small>
+																<input type="hidden" id="extensionInput"/>
 															</div>
 														</div>
 													</div>
 												</div>
 												<div class="row">
-													<div class="col-md-6">
-														<div class="form-group row align-items-center">
-															<div class="col-sm-4 text-primary">
-																<div class="d-flex align-items-center m-1">
-																	<i class="h3 my-auto mdi mdi-calendar"></i> 
-																	<span class="ml-2 font-weight-bold">발령일</span>
-																</div>
-															</div>
-															<div class="col-sm-8">
-																<input type="text" class="form-control" placeholder="YYYY/MM/DD"/>
-															</div>
-														</div>
-													</div>
 													<div class="col-md-6">
 														<div class="form-group row align-items-center">
 															<div class="col-sm-4 text-primary">
@@ -379,20 +395,21 @@
 															<div class="col-sm-8">
 																<div class="btn dropdown-toggle d-flex form-control" id="position" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 																	<i class="text-primary mdi mdi-menu-down"></i> 
-																	<input class="selectmenu3 my-auto" type="text" value="" style="border:none;" readonly>
+																	<input class="my-auto" type="text" id="posId" name="posId" value="${employee.posId}" style="border:none;" readonly>
 																</div>
 																<div class="dropdown-menu" aria-labelledby="position" style="width:100%;">
-																	<h6 class="dropdown-item" id="select3-1" onclick="select3(1)">이사</h6>
-																	<h6 class="dropdown-item" id="select3-2" onclick="select3(2)">부장</h6>
-																	<h6 class="dropdown-item" id="select3-3" onclick="select3(3)">차장</h6>
-																	<h6 class="dropdown-item" id="select3-4" onclick="select3(4)">과장</h6> 
-																	<h6 class="dropdown-item" id="select3-5" onclick="select3(5)">대리</h6>
-																	<h6 class="dropdown-item" id="select3-6" onclick="select3(6)">사원</h6>
+																	<h6 class="dropdown-item" id="select3-1" onclick="select3(1)">사원</h6>
+																	<h6 class="dropdown-item" id="select3-2" onclick="select3(2)">대리</h6> 
+																	<h6 class="dropdown-item" id="select3-3" onclick="select3(3)">과장</h6>
+																	<h6 class="dropdown-item" id="select3-4" onclick="select3(4)">차장</h6>
+																	<h6 class="dropdown-item" id="select3-5" onclick="select3(5)">부장</h6>
+																	<h6 class="dropdown-item" id="select3-6" onclick="select3(6)">이사</h6>
+																	<h6 class="dropdown-item" id="select3-7" onclick="select3(7)">대표이사</h6>
 																</div>
 																<script>
 															        function select3(No){
 															        	var x = document.getElementById("select3-" + No).innerText;
-															        	$(".selectmenu3").val(x);
+															        	$("#posId").val(x);
 															        }
 																</script>
 															</div>
@@ -411,14 +428,14 @@
 															<div class="col-sm-4">
 																<div class="form-check">
 																	<label class="form-check-label"> 
-																	<input type="radio" class="form-check-input" name="job" id="job1" value="" checked>재직중
+																	<input type="radio" class="form-check-input" name="EMP_DETAIL_EMPLOYMENT_STATE" id="EMP_DETAIL_EMPLOYMENT_STATE" value="work" checked>재직중
 																	</label>
 																</div>
 															</div>
 															<div class="col-sm-4">
 																<div class="form-check">
 																	<label class="form-check-label"> 
-																	<input type="radio" class="form-check-input" name="job" id="job2" value="option2">퇴사
+																	<input type="radio" class="form-check-input" name="EMP_DETAIL_EMPLOYMENT_STATE" id="EMP_DETAIL_EMPLOYMENT_STATE" value="fire">퇴사
 																	</label>
 																</div>
 															</div>

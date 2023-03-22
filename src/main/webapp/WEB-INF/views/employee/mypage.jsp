@@ -75,7 +75,7 @@
 					var form = new FormData();
 					form.append("multi", $("#multi")[0].files[0]);
 					jQuery.ajax({
-						url : "../employee/updateimg",
+						url : getContextPath()+"/employee/updateimg",
 						type : "POST",
 						processData : false,
 						contentType : false,
@@ -116,7 +116,7 @@
 				  	result = false;
 				 }
 				if(result == true){
-					var url = 'passwordpopup';
+					var url = getContextPath() +'/employee/passwordpopup';
 				    var name = "password update popup";
 				    var option = "width = 500, height =230, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
 				    window.open(url, name, option);
@@ -127,7 +127,7 @@
 				var password = $('#password').val();
 				jQuery.ajax({
 					type : 'post',
-					url : "../employee/password",
+					url : getContextPath()+"/employee/password",
 					data : {password : password},
 					success : function(data) {
 						$('#password').val('');
