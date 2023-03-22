@@ -241,7 +241,7 @@ public class ApprovalController {
 	}
 	
 	//결재 문서 작성 화면
-	@RequestMapping(value = "/write", method=RequestMethod.GET)
+	@RequestMapping(value = "/documentwrite", method=RequestMethod.GET)
 	public String getApprovalWrite(HttpSession session) {
 		log.info("실행");
 		
@@ -249,7 +249,7 @@ public class ApprovalController {
 	}
 	
 	//결재 문서 작성 화면
-	@RequestMapping(value = "/write/{docId}", method=RequestMethod.GET)
+	@RequestMapping(value = "/documentwrite/{docId}", method=RequestMethod.GET)
 	public String getApprovalWrite(@PathVariable("docId") String docId, HttpSession session, Model model) {
 		log.info("문서번호: " + docId);
 		
@@ -263,7 +263,7 @@ public class ApprovalController {
 	}
 	
 	//결재 문서 저장
-	@RequestMapping(value = "/write", method=RequestMethod.POST)
+	@RequestMapping(value = "/documentwrite", method=RequestMethod.POST)
 	public String postApprovalWrite(ApprovalLines approvalLines, DocumentContent documentContent, @RequestParam("files") MultipartFile[] multipartFiles) throws IOException {
 		log.info("받음:" + documentContent);
 		log.info(approvalLines);

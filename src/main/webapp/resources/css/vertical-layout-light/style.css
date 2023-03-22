@@ -20621,7 +20621,7 @@ code {
   font-size: 12px;
   line-height: 1;
   padding: .375rem .5625rem;
-  font-weight: normal;
+  font-weight: weight;
 }
 
 .badge.badge-pill {
@@ -20631,7 +20631,7 @@ code {
 /*Badge outlined variations*/
 .badge-outline-primary {
   color: #4B49AC;
-  border: 1px solid #4B49AC;
+  border: 3px solid #4B49AC;
 }
 
 .badge-outline-secondary {
@@ -20656,7 +20656,7 @@ code {
 
 .badge-outline-danger {
   color: #FF4747;
-  border: 1px solid #FF4747;
+  border: 3px solid #FF4747;
 }
 
 .badge-outline-light {

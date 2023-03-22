@@ -409,7 +409,7 @@
 					           	<div class="card card card-dark-blue">
 					           		<div class="card-body px-4 pb-5">
 				           				<div class="card-title text-white pt-1" style="background-color: transparent;">출근</div>
-				           				<div id="today-in-date" class="font-weight-bold text-center mb-2" style="font-size: 50%;"></div>
+				           				<div id="today-in-date" class="font-weight-bold h5 text-center mb-2"></div>
 				           				<div id="today-in-time" class="font-weight-bold h2 text-center mb-0">
 				           					<!-- 결근인 경우 -->
 				           					<c:if test="${empty attendance.atdInTime}">
@@ -434,7 +434,7 @@
 					           	<div class="card card-light-danger">
 					           		<div class="card-body px-4 pb-5">
 				           				<div class="card-title text-white pt-1" style="background-color: transparent;">퇴근</div>
-				           				<div id="today-out-date" class="font-weight-bold text-center mb-2" style="font-size: 50%;">
+				           				<div id="today-out-date" class="font-weight-bold h5 text-center mb-2">
 				           					<fmt:formatDate pattern="yyyy-MM-dd" value="${attendance.atdOutTime}" />
 				           				</div>
 				           				<div id="today-out-time" class="font-weight-bold h2 text-center mb-0">
