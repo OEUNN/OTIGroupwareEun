@@ -47,16 +47,19 @@
 				$('#empPassword').val('aaaaaaaa1!');
 				$('#empId').attr('value','2301021');
 				$('#empPassword').attr('value','aaaaaaaa1!');
+				$("#login-button").trigger("click");
 			}else if(x==3){
 				$('#empId').val('9503061');
 				$('#empPassword').val('aaaaaaaa1!');
 				$('#empId').attr('value','9503061');
 				$('#empPassword').attr('value','aaaaaaaa1!');
+				$("#login-button").trigger("click");
 			}else if(x==4){
 				$('#empId').val('1503091');
 				$('#empPassword').val('aaaaaaaa1!');
 				$('#empId').attr('value','1503091');
 				$('#empPassword').attr('value','aaaaaaaa1!');
+				$("#login-button").trigger("click");
 			}
 		}
 			
@@ -115,7 +118,7 @@
 												<i class="mdi mdi-lock text-secondary" style="position: relative; top:-34px; left:9px;"></i>
 											</div>
 											<div class="mt-3">
-												<button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
+												<button id="login-button" type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
 													<i class="mdi mdi-login-variant"></i>
 													<span class="ml-1 h4 font-weight-bold">로그인</span>
 												</button>
