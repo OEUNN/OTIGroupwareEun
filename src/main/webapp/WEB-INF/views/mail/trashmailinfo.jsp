@@ -48,7 +48,7 @@
 		<div class="row justify-content-between px-5 py-3">
 			<div class="form-inline" style="border-bottom:1px solid #e9ecef;border-top:1px solid #e9ecef;">
 				<div class="px-3 py-1 ahover">
-					<div style="color:grey;">휴지통에 들어온지 30일 지난면 자동 삭제됩니다.</div>
+					<div style="color:grey;">휴지통에 들어온지 30일 지나면 자동 삭제됩니다.</div>
 				</div>
 			</div>
 			<input type="hidden" id="searchBtn"/>
