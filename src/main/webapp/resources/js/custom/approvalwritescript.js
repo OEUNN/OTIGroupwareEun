@@ -32,7 +32,7 @@ function isContentExist(docTempYn) {
 			}
 			else {
 				$('input[name="docState"]').val('진행');
-				$("#approvalForm").attr('action', getContextPath() + '/approval/write');
+				$("#approvalForm").attr('action', getContextPath() + '/approval/documentwrite');
 				$("#approvalForm").submit();
 			}
 		}

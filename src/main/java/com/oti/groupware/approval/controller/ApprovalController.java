@@ -483,7 +483,7 @@ public class ApprovalController {
 		log.info("문서 목록: " + docId);
 		
 		String result;
-		if ("delete".equals(type) && type != null) {
+		if ("삭제".equals(type) && type != null) {
 			int resultCount = 0;
 			
 			for(String docIdElement : docId) {
@@ -492,10 +492,10 @@ public class ApprovalController {
 			}
 			
 			if (resultCount == 0) {
-				result = "changed";
+				result = "unchanged";
 			}
 			else {
-				result = "unchanged";
+				result = "changed";
 			}
 			
 			redirectAttributes.addFlashAttribute("result", result);
@@ -505,7 +505,7 @@ public class ApprovalController {
 			return "redirect:/approval/" + docType + "document";
 		}
 		
-		else if("retrieve".equals(type) && type != null) {
+		else if("회수".equals(type) && type != null) {
 			String empId = ((Employee)session.getAttribute("employee")).getEmpId();
 			int resultCount = 0;
 			
@@ -517,10 +517,10 @@ public class ApprovalController {
 			}
 			
 			if (resultCount == 0) {
-				result = "changed";
+				result = "unchanged";
 			}
 			else {
-				result = "unchanged";
+				result = "changed";
 			}
 			
 			redirectAttributes.addFlashAttribute("result", result);

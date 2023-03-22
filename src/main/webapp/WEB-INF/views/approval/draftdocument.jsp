@@ -34,24 +34,71 @@
 	});
 	
 	$(() => {
-		if ($("#resultCount").length !== 0) {
-			let resultCount = $("#resultCount").val();
-			
-			if ($("#type").val() === 'delete') {
-				alert(resultCount + "개가 삭제되었습니다.");
+		if ($("#result").length !== 0) {
+			const result = $("#result").val();
+			if (result === 'unchanged') {
+				swal({
+					title: "변경 사항 없음",
+					icon: "warning",
+					button: "닫기"
+				});
 			}
-			
-			else if($("#type").val() === 'retrieve') {
-				alert(resultCount + "개가 회수되었습니다.");
+			else {
+				const resultCount = $("#resultCount").val();
+				
+				if ($("#type").val() === '삭제') {
+					swal({
+						title: "삭제",
+						text: resultCount + "개가 삭제되었습니다.",
+						icon: "warning",
+						button: "닫기"
+					});
+				}
+				
+				else if($("#type").val() === '회수') {
+					swal({
+						title: "회수",
+						text: resultCount + "개가 회수되었습니다.",
+						icon: "warning",
+						button: "닫기"
+					});
+				}
 			}
 		}
 	});
+	
+	function validateCheckList() {
+		const checklist = $('.checklist');
+		let isValidated = true;
+		
+		checklist.each((index, element) => {
+			if(element.checked) {
+				let state = element.id.substring(0, 2);
+				if (state !== '진행') {
+					isValidated = false;
+				}
+			}
+		});
+		
+		if (isValidated === true) {
+			$("#checkedBox").submit();
+		}
+		else {
+			swal({
+				title: "회수 불가",
+				text: "진행 중인 문서만 회수 하실 수 있습니다",
+				icon: "warning",
+				button: "닫기"
+			});
+		}
+	}
 	</script>
 </head>
 
 <body >
 <div class="container-scroller">
-	<c:if test="${result != null && result == 'changed'}">
+	<c:if test="${result != null}">
+	<input id="result" type="hidden" value="${result}"/>
 	<input id="resultCount" type="hidden" value="${resultCount}"/>
 	<input id="type" type="hidden" value="${type}"/>
 	</c:if>
@@ -170,7 +217,7 @@
 												<td class="py-0 pl-1">
 													<div class="form-check font-weight-bold text-info my-1">
 														<label class="form-check-label">
-															<input type="checkbox" class="checklist form-check-input" name="docId" form="checkedBox" value="${document.docId}">
+															<input id="${document.docState}${status.count}" type="checkbox" class="checklist form-check-input" name="docId" form="checkedBox" value="${document.docId}">
 														</label>
 													</div>
 												</td>
@@ -235,8 +282,9 @@
 										<div class="d-flex justify-content-end">
 											<form id="checkedBox" action="<c:url value='/approval/selected'></c:url>" method="post">
 											<input type="hidden" name="docType" value="draft">
+											<input type="hidden" name="type" value="회수">
 											</form>
-											<button class="btn btn-secondary btn-sm mx-1" type="submit" form="checkedBox" name="type" value="retrieve">선택 회수</button>
+											<button class="btn btn-secondary btn-sm mx-1" type="button" onclick="validateCheckList()" form="checkedBox">선택 회수</button>
 										</div>	
 										<ul class="pagination justify-content-center pb-0 mb-0">
 										<c:if test="${pager.totalRows > 0}">

@@ -97,6 +97,12 @@ public class DocumentServiceImpl implements DocumentService {
 		document.setDocId(documentContentProvider.getDocumentIdByDocumentType(documentType, document.getDocTempYn()));
 		document.setDocRetentionPeriod(documentContentProvider.getDocumentRetentionPeriodByDocumentType(documentType));
 		
+		//결재 문서에 아이디랑 번호 부여해주기
+		documentParser.setParsingTarget(document.getDocContent());
+		documentParser.getElementById("documentId").text(document.getDocId());
+		documentParser.getElementById("documentRetentionPeriod").text(document.getDocRetentionPeriod());
+		document.setDocContent(documentParser.getParsedTarget());
+		
 		documentDAO.insertDraftDocument(document);
 		
 		String docId = document.getDocId();
@@ -265,10 +271,12 @@ public class DocumentServiceImpl implements DocumentService {
 			
 			//회수를 하여 결재선의 상태가 초기화됨
 			for (ApprovalLine approvalLinesElement : approvalLines) {
-				String rId = approvalLinesElement.getEmpId();
-				documentParser.setParsingTarget(document.getDocContent());
-				documentParser.getElementById("formApprovalState").getElementsByClass(rId).get(0).text("공란");
-				documentParser.getElementById("formApprovalDate").getElementsByClass(rId).get(0).text("공란");
+				if ("결재".equals(approvalLinesElement.getAprvLineRole())) {
+					String rId = "r" + approvalLinesElement.getEmpId();
+					documentParser.setParsingTarget(document.getDocContent());
+					documentParser.getElementById("formApprovalState").getElementsByClass(rId).get(0).text("공란");
+					documentParser.getElementById("formApprovalDate").getElementsByClass(rId).get(0).text("공란");
+				}
 			}
 			document.setDocContent(documentParser.getParsedTarget());
 			//
@@ -276,8 +284,10 @@ public class DocumentServiceImpl implements DocumentService {
 			documentDAO.updateDocument(document);
 			approvalLineDAO.updateApprovalLine(approvalLine);
 			approvalLines = approvalHandler.getApprovalLines();
-			for (ApprovalLine approvalLine : approvalLines) {
-				approvalLineDAO.updateApprovalLine(approvalLine);
+			for (ApprovalLine approvalLinesElement : approvalLines) {
+				if ("결재".equals(approvalLinesElement.getAprvLineRole())) {
+					approvalLineDAO.updateApprovalLine(approvalLinesElement);
+				}
 			}
 			return true;
 		}
