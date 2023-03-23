@@ -64,6 +64,9 @@
 	
 	//열람으로 상태 업데이트
 	$(() => {
+		if ($("#docReadYn").state()) {
+			
+		}
 		empId = $("#empId").val();
 		docId = $("#docId").val();
 		
@@ -119,6 +122,9 @@
 		<!-- ***** content-start ***** -->
 		<input id="contextPath" type="hidden" value="${pageContext.request.contextPath}"/>
 		<input id="docId" type="hidden" name="docId" value="${document.docId}">
+		<c:if test="${document.docReanYn != null && document.docReanYn == 'N'}">
+		<input id="docReanYn" type="hidden">
+		</c:if>
 		<form id="decisionForm" action="<c:url value='/approval/viewdetail/${document.docId}'/>" method="post">
 		<input name="docType" type="hidden" value="${document.docType}">
 		</form>
@@ -174,16 +180,16 @@
 								<div class="row m-1">
 									<c:choose>
 									<c:when test="${approvalLine.aprvLineState == '승인'}">
-		       						<div class="card bg-success grid-margin shadow-2 mb-0 w-100">
+		       						<div class="approvalCard card bg-success grid-margin shadow-2 mb-0 w-100">
 									</c:when>
 									<c:when test="${approvalLine.aprvLineState == '반려'}">
-		       						<div class="card bg-danger grid-margin shadow-2 mb-0 w-100">
+		       						<div class="approvalCard card bg-danger grid-margin shadow-2 mb-0 w-100">
 									</c:when>
-									<c:when test="${approvalLine.aprvLineState == '열람'}">
-		       						<div class="card bg-warning grid-margin shadow-2 mb-0 w-100">
+									<c:when test="${approvalLine.aprvLineState == '열람' || (reader.aprvLineOrder == approvalLine.aprvLineOrder && document.docAprvStep == approvalLine.aprvLineOrder && document.docAprvStep > 0)}">
+		       						<div class="approvalCard card bg-warning grid-margin shadow-2 mb-0 w-100">
 									</c:when>
 									<c:when test="${approvalLine.aprvLineState == '미결'}">
-		       						<div class="card bg-secondary grid-margin shadow-2 mb-0 w-100">
+		       						<div class="approvalCard card bg-secondary grid-margin shadow-2 mb-0 w-100">
 									</c:when>
 									</c:choose>
 					                    <div class="card-body">
