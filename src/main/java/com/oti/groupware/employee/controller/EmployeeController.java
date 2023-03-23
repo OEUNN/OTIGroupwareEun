@@ -196,6 +196,7 @@ public class EmployeeController {
 	@Authorization("ROLE_HR")
 	@RequestMapping(value = "/updateemployee/{empId}", method = RequestMethod.GET)
 	public String updateEmployee(@PathVariable String empId, Model model) {
+		log.info("실행");
 		Employee employee = employeeService.getEmployee(empId);
 		EmployeeDetail employeeDetail = employeeService.detailEmployee(empId);
 		model.addAttribute("employee",employee);
@@ -225,9 +226,9 @@ public class EmployeeController {
 	@RequestMapping(value = "/updateemployee/{empId}", method = RequestMethod.POST)
 	public String updateEmployee(@PathVariable String empId, Model model, Employee emp, EmployeeDetail empDetail) {
 		log.info("실행");
-//		employeeService.updateEmployee(emp, empDetail);
-//		model.addAttribute("result", "success");
-		return "employee/selectemployee";
+		employeeService.updateEmployee(emp, empDetail);
+		model.addAttribute("result", "success");
+		return "redirect : /employee/selectemployee";
 	}
 
 	/**
