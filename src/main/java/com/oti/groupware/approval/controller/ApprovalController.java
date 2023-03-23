@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.oti.groupware.approval.component.ApprovalEnum;
 import com.oti.groupware.approval.component.QueryHandler;
 import com.oti.groupware.approval.dto.ApprovalLine;
 import com.oti.groupware.approval.dto.ApprovalLines;
@@ -420,7 +420,7 @@ public class ApprovalController {
 		
 		String empId = ((Employee)session.getAttribute("employee")).getEmpId();
 		
-		if ("승인".equals(state)) {
+		if (ApprovalEnum.APPROVE.equals(state)) {
 			if (attached) {
 				result = documentService.handleApproveRequest(state, opinion, docId, empId, docType);
 			}
@@ -428,10 +428,10 @@ public class ApprovalController {
 				result = documentService.handleApproveRequest(state, null, docId, empId, docType);
 			}
 		}
-		else if ("반려".equals(state)) {
+		else if (ApprovalEnum.DENY.equals(state)) {
 			result = documentService.handleReturnRequest(state, opinion, docId, empId);
 		}
-		else if ("회수".equals(state)) {
+		else if (ApprovalEnum.RETRIEVE.equals(state)) {
 			result = documentService.handleRetrieveRequest(state, docId, empId);
 		}
 		else {
@@ -483,7 +483,7 @@ public class ApprovalController {
 		log.info("문서 목록: " + docId);
 		
 		String result;
-		if ("삭제".equals(type) && type != null) {
+		if (ApprovalEnum.DELETE.equals(type) && type != null) {
 			int resultCount = 0;
 			
 			for(String docIdElement : docId) {
@@ -505,7 +505,7 @@ public class ApprovalController {
 			return "redirect:/approval/" + docType + "document";
 		}
 		
-		else if("회수".equals(type) && type != null) {
+		else if(ApprovalEnum.RETRIEVE.equals(type) && type != null) {
 			String empId = ((Employee)session.getAttribute("employee")).getEmpId();
 			int resultCount = 0;
 			

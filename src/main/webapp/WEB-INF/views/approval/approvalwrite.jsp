@@ -30,7 +30,7 @@
 	}
 	
 	function popup(){
-		if ($("iframe").contents().find(".positionText").length === 0) {
+		if ($("iframe").contents().find("#A4").length === 0) {
 			swal({
 				title: "문서가 없습니다",
 				text: "양식을 먼저 불러와 주세요.",

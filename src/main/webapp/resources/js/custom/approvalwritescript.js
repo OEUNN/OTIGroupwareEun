@@ -1,7 +1,11 @@
 $(() => {
-	addMessageEventListener();
 	addRemoveEventListener();
 });
+
+function initDocument() {
+	callDocument();
+	callApprovalLine();
+}
 
 function isContentExist(docTempYn) {
 	if ($("iframe").contents().find("body").find("#A4") === null) {
@@ -61,7 +65,9 @@ function callDocument() {
 	}
 }
 
+//재기안 시 결재선 요청
 function callApprovalLine() {
+	let result = false;
 	if ($("#isDocumentExist").length > 0) {
 		if ($("#isDocumentExist").val() !== '' && $("#isDocumentExist").val() !== null) {
 			$(".remove-flag").remove();
@@ -73,6 +79,7 @@ function callApprovalLine() {
 					initForm(data);
 				},
 				complete: function(data) {
+					result = true;
 					addMessageEventListener();
 					addRemoveEventListener();
 				}

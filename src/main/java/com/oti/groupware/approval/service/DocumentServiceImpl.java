@@ -72,7 +72,9 @@ public class DocumentServiceImpl implements DocumentService {
 	@Transactional
 	public Document readDocument(String docId) {
 		document = documentDAO.getDocumentById(docId);
-		document.setDocumentFiles(documentFileDAO.getDocumentFilesById(docId));
+		if (docId != null && !("".equals(docId)) && documentFileDAO.getDocumentFilesById(docId) != null) {
+			document.setDocumentFiles(documentFileDAO.getDocumentFilesById(docId));
+		}
 		return document;
 	}
 	

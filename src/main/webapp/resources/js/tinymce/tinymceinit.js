@@ -29,8 +29,7 @@ tinymce.init({
 		{
 			editor.getBody().innerHTML = "<p>양식을 선택해주세요</p>";
 			editor.getBody().setAttribute('contenteditable',false);
-			callDocument();
-			callApprovalLine();
+			initDocument();
 		},
 		object_resizing : false
 });
