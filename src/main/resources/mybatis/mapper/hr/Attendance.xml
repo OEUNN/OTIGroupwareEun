@@ -258,6 +258,17 @@
 	  ]]>
 	</update>
 	
+	<!-- 오전반차/오후반차 신청한 날의 출/퇴근행 -->
+	<select id="getAttendanceDay" parameterType="leaveApplication">
+		SELECT 
+			atd_in_time, atd_out_time
+		FROM 
+			attendances
+		WHERE 
+			emp_id = #{empId}
+			AND to_char(atd_in_time, 'YYYY-MM-DD') = to_char(#{levAppStartDate}, 'YYYY-MM-DD')
+	</select>
+	
 	<!-- 휴가 취소인 경우 -->
 	<delete id="deleteAttendance" parameterType="leaveApplication">
 		 DELETE FROM attendances 

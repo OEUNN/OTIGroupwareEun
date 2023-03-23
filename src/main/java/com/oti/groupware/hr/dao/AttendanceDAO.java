@@ -29,4 +29,5 @@ public interface AttendanceDAO {
 	public void deleteAttendance(LeaveApplication leaveApplication);
 	public List<Attendance> getEmployeeLeaveList(@Param("depName") String depName);
 	public void insertAttendanceState(@Param("empId") String empId);
+	public Attendance getAttendanceDay(LeaveApplication leaveApplication);
 }
