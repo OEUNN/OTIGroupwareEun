@@ -3,6 +3,21 @@ $(() => {
 	const MAX_FILE_SIZE = 1024 * 1024 * 50; // 50MB in bytes
 	const ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png", "gif", "pptx", "ppt", "pdf", "hwp", "docx", "xlsx", "xls", "csv"];
 	let lastUploadedFiles = []; //가장 마지막으로 올린 파일
+	
+	fileInput.on("click", (event) => {
+		fileInput.prop("disabled", true);
+		if ($("iframe").contents().find("#A4").length === 0) {
+			swal({
+				title: "문서가 없습니다",
+				text: "양식을 먼저 불러와 주세요.",
+				icon: "warning",
+				button: "닫기"
+			});
+		}
+		else {
+			fileInput.prop("disabled", false);
+		}
+	});
 
 	fileInput.on("change", (event) => {
 	

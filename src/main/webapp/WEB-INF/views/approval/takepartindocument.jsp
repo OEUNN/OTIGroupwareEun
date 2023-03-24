@@ -141,7 +141,11 @@
 											</tr>
 										</thead>
 										<tbody>
-										
+											<c:if test="${documentsSize <= 0}">
+											<tr>
+												<td id="nothing" class="font-weight-bold text-center py-5" colspan="5">목록이 비어있습니다</td>
+											</tr>
+											</c:if>
 											<c:forEach items="${documents}" var="document" varStatus="status">
 											<c:set value="${approvalLinesList[status.index]}" var="approvalLines"/>
 											<tr>

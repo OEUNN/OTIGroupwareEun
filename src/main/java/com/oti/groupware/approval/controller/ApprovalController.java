@@ -92,6 +92,12 @@ public class ApprovalController {
 		model.addAttribute("pager", returnPager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
+		if (documents != null) {
+			model.addAttribute("documentsSize", documents.size());
+		}
+		else {
+			model.addAttribute("documentsSize", 0);
+		}
 		
 		for (Document document : documents) {
 			log.info("문서 목록: " + document.getDocTitle());
@@ -124,6 +130,12 @@ public class ApprovalController {
 		model.addAttribute("pager", returnPager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
+		if (documents != null) {
+			model.addAttribute("documentsSize", documents.size());
+		}
+		else {
+			model.addAttribute("documentsSize", 0);
+		}
 		
 		for (Document document : documents) {
 			log.info("문서 목록: " + document.getDocTitle());
@@ -158,6 +170,12 @@ public class ApprovalController {
 		model.addAttribute("pager", returnPager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
+		if (documents != null) {
+			model.addAttribute("documentsSize", documents.size());
+		}
+		else {
+			model.addAttribute("documentsSize", 0);
+		}
 		
 		for (Document document : documents) {
 			log.info("문서 목록: " + document.getDocTitle());
@@ -193,6 +211,12 @@ public class ApprovalController {
 		model.addAttribute("pager", returnPager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
+		if (documents != null) {
+			model.addAttribute("documentsSize", documents.size());
+		}
+		else {
+			model.addAttribute("documentsSize", 0);
+		}
 		
 		for (Document document : documents) {
 			log.info("문서 목록: " + document.getDocTitle());
@@ -228,6 +252,12 @@ public class ApprovalController {
 		model.addAttribute("pager", returnPager);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
+		if (documents != null) {
+			model.addAttribute("documentsSize", documents.size());
+		}
+		else {
+			model.addAttribute("documentsSize", 0);
+		}
 		
 		for (Document document : documents) {
 			log.info("문서 목록: " + document.getDocTitle());
@@ -530,7 +560,7 @@ public class ApprovalController {
 		}
 		
 		else {
-			return "home";
+			return "redirect:/approval/" + docType + "document";
 		}
 	}
 	
@@ -568,6 +598,12 @@ public class ApprovalController {
 		model.addAttribute("searchQuery", searchQuery);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
+		if (documents != null) {
+			model.addAttribute("documentsSize", documents.size());
+		}
+		else {
+			model.addAttribute("documentsSize", 0);
+		}
 		
 		for (Document document : documents) {
 			log.info("문서 목록: " + document.getDocTitle());
@@ -611,6 +647,12 @@ public class ApprovalController {
 		model.addAttribute("searchQuery", searchQuery);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
+		if (documents != null) {
+			model.addAttribute("documentsSize", documents.size());
+		}
+		else {
+			model.addAttribute("documentsSize", 0);
+		}
 		
 		for (Document document : documents) {
 			log.info("문서 목록: " + document.getDocTitle());
@@ -654,6 +696,12 @@ public class ApprovalController {
 		model.addAttribute("searchQuery", searchQuery);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
+		if (documents != null) {
+			model.addAttribute("documentsSize", documents.size());
+		}
+		else {
+			model.addAttribute("documentsSize", 0);
+		}
 		
 		for (Document document : documents) {
 			log.info("문서 목록: " + document.getDocTitle());
@@ -695,6 +743,12 @@ public class ApprovalController {
 		model.addAttribute("searchQuery", searchQuery);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
+		if (documents != null) {
+			model.addAttribute("documentsSize", documents.size());
+		}
+		else {
+			model.addAttribute("documentsSize", 0);
+		}
 		
 		for (Document document : documents) {
 			log.info("문서 목록: " + document.getDocTitle());
@@ -736,6 +790,12 @@ public class ApprovalController {
 		model.addAttribute("searchQuery", searchQuery);
 		model.addAttribute("documents", documents);
 		model.addAttribute("approvalLinesList", approvalLinesList);
+		if (documents != null) {
+			model.addAttribute("documentsSize", documents.size());
+		}
+		else {
+			model.addAttribute("documentsSize", 0);
+		}
 		
 		for (Document document : documents) {
 			log.info("문서 목록: " + document.getDocTitle());
