@@ -207,4 +207,10 @@
 		WHERE emp_id = #{empId}
 	</update>
 	
+	<update id="updateEmployee">
+		update employees 
+		set POS_ID = #{posId}, dep_id=#{depId}, emp_mail=#{empMail}, emp_name = #{empName}, EMP_LEAVE_RESERVE =#{empLeaveReserve},
+				emp_extension_number = #{empExtensionNumber}, EMP_PHONE_NUMBER = #{empPhoneNumber}
+		where emp_id = #{empId}
+	</update>
 </mapper>

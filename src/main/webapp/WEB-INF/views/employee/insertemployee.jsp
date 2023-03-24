@@ -75,7 +75,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" oninput="mailIdCheck()" id="empMail" name="empMail" value="jangyes" maxlength="50" />
+															<input type="text" class="form-control" oninput="mailIdCheck()" id="empMail" name="empMail" maxlength="50" />
 															<small id="mailResult">&nbsp;</small>
 															<input type="hidden" id="mailInput"/>
 														</div>
@@ -92,7 +92,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="date" class="form-control" id="empDetailBirthday" name="empDetailBirthday" placeholder="YYYY-MM-DD" value="1996/11/04"/>
+															<input type="date" class="form-control" id="empDetailBirthday" name="empDetailBirthday" placeholder="YYYY-MM-DD"/>
 															<small id="birthdayResult">&nbsp;</small>
 														</div>
 													</div>
@@ -190,7 +190,7 @@
 															</div>
 														</div>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" oninput="phoneCheck()" maxlength="20" id="empPhoneNumber" value="010-6889-7892"name="empPhoneNumber" placeholder="000-0000-0000" />
+															<input type="text" class="form-control" oninput="phoneCheck()" maxlength="20" id="empPhoneNumber" name="empPhoneNumber" placeholder="000-0000-0000" />
 															<small  id="phoneResult">&nbsp;</small>
 															<input type="hidden" id="phoneInput"/>
 														</div>
@@ -278,7 +278,7 @@
 														</div>
 														<div class="col-sm-8">
 															<input type="hidden" id="empId" name="empId" />
-															<input type="date" class="form-control" id="empDetailEmploymentDate" name="empDetailEmploymentDate" value="2023/03/01"  placeholder="YYYY-MM-DD"/>
+															<input type="date" class="form-control" id="empDetailEmploymentDate" name="empDetailEmploymentDate"  placeholder="YYYY-MM-DD"/>
 															<small id="inResult">&nbsp;</small>
 														</div>
 													</div>

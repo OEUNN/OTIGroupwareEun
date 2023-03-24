@@ -160,7 +160,15 @@
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div>${empDetail.empDetailMilitaryServiceYN }</div>
+							<c:if test = "${empDetail.empDetailMilitaryServiceYN == 'Y'}">
+								<div>군필</div>
+							</c:if>
+							<c:if test = "${empDetail.empDetailMilitaryServiceYN == 'N'}">
+								<div>미필</div>
+							</c:if>
+							<c:if test = "${empDetail.empDetailMilitaryServiceYN == 'X'}">
+								<div>미해당</div>
+							</c:if>
 						</div>
 					</div>
 				</div>
@@ -256,7 +264,7 @@
 		</div>
 	</div><!-- End information box -->
 </div>
-<!-- 테이블 -->
+테이블
 <div class="table-responsive">
 	<table class="table">
 		<thead>
@@ -290,4 +298,4 @@
 		</tbody>
 	</table>
 </div>
-<!-- 테이블 끝 -->
+테이블 끝

@@ -44,5 +44,15 @@
 		where emp_id = #{empId}
 	</update>
 	
+	<update id="updateEmployee" parameterType="map">
+		update employees_detail
+		set EMP_DETAIL_GENDER = #{empDetailGender}, emp_detail_birthday = #{empDetailBirthday}, emp_detail_workplace = #{empDetailWorkplace}, 
+		emp_detail_married_yn = #{empDetailMarriedYN},  emp_detail_education = #{empDetailEducation}, 
+		emp_detail_seniority = #{empDetailSeniority}, emp_detail_employment_state = #{empDetailEmploymentState},
+		 emp_detail_military_service_yn = #{empDetailMilitaryServiceYN},
+		 emp_detail_major = #{empDetailMajor}, emp_detail_quit_date = sysdate
+		where emp_id = #{empId}
+	</update>
+	
 	
 </mapper>
