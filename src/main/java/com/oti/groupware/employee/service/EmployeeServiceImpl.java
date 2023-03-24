@@ -280,8 +280,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 	//임직원 수정
 	@Override
 	public void updateEmployee(Employee emp, EmployeeDetail empDetail) {
-		
-		
+		if(emp.getPosId()==1) {
+			emp.setEmpLeaveReserve(12);
+		}else if(emp.getPosId()==2) {
+			emp.setEmpLeaveReserve(13);
+		}else if(emp.getPosId()==3) {
+			emp.setEmpLeaveReserve(14);
+		}else if(emp.getPosId()==4) {
+			emp.setEmpLeaveReserve(15);
+		}else if(emp.getPosId()==5) {
+			emp.setEmpLeaveReserve(16);
+		}else if(emp.getPosId()==6) {
+			emp.setEmpLeaveReserve(17);
+		}else {
+			emp.setEmpLeaveReserve(18);
+		}
+		employeeDao.updateEmployee(emp);
+		employeeDetailDao.updateEmployee(empDetail,emp.getEmpId());
 	}
 
 }

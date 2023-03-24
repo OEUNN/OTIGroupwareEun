@@ -392,12 +392,12 @@ public class MailController {
 
 	//제목 검색
 	@RequestMapping(value = "/titlesearch/{category}", method = RequestMethod.GET)
-	public String sendSearch(String title, @PathVariable String category, HttpSession session, Model model) {
+	public String sendSearch(String search, @PathVariable String category, HttpSession session, Model model) {
 		log.info("실행");
 		log.info(category);
-		log.info(title);
+		log.info(search);
 		Employee employee = (Employee) session.getAttribute("employee");
-		List<Integer> titleMail = mailService.titleCount(title);
+		List<Integer> titleMail = mailService.titleCount(search);
 		int totalRows = titleMail.size();
 		// 페이저 객체 생성
 		Pager pager = new Pager(10, 5, totalRows, 1);

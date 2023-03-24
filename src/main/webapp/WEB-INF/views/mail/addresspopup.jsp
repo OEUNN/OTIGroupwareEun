@@ -91,7 +91,7 @@
 				var sendData = {
 					content :
 						'<div id="'+empId+'">'+
-							'<button type="button" id="'+empId+'" onclick="empBtnRemove('+empId+')" class="r'+empId+' empBtn mb-1 mx-2">'+
+							'<button type="button" id="' + empId + '" onclick="empBtnRemove(' +"'"+ empId +"'"+ ')" class="r'+empId+' empBtn mb-1 mx-2">'+
 								'<span>'+empName+' '+empMail+'</span>'+
 							'</button>'+
 						'</div>',

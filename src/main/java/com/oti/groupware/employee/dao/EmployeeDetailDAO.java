@@ -8,4 +8,5 @@ public interface EmployeeDetailDAO {
     public void insertEmployeeDetail(EmployeeDetail employeeDetail);
     public EmployeeDetail getEmployeeDetail(String empId);
 	public void updateSeniority(@Param("empId") String empId, @Param("year") int year);
+	public void updateEmployee(@Param("employeeDetail")EmployeeDetail empDetail, @Param("empId")String empId);
 }

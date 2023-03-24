@@ -461,7 +461,7 @@ public class MailServiceImpl implements MailService {
 		return mailCount;
 	}
 
-	//받은 메일 title row
+	//받은 메일 title rows
 	@Override
 	public List<Integer> titleCount(String title) {
 		title = "%"+title+"%";

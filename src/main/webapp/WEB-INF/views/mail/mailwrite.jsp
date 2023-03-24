@@ -64,12 +64,11 @@
 		$(window).on("message", (event) => {
 			//팝업창에서 전송한 데이터 얻기(팝업창에서 postMessage() 사용해야 함)
 			let receivedData = event.originalEvent.data;
-			$("#receivedId").append('<input type="hidden" id="receive" name="receive" value="' + receivedData.empId + '">');
-			$("#receivedId").append('<input type="hidden" id="receiveMail" name="receiveMail" value="' + receivedData.empMail + '">');
-			$("#receivedId").append('<input type="hidden" id="receiveName" name="receiveName" value="' + receivedData.empName + '">');
-			$("#receivedId").append('<input type="hidden" id="receiveDepName" name="receiveDepName" value="' + receivedData.depName + '">');
-			$("#receivedId").append('<input type="hidden" id="receivePosName" name="receivePosName" value="' + receivedData.posName + '">');
-			$("#receivedId").val(receivedData.empId);
+			$("#receivedId").append('<input type="hidden" class="'+receivedData.empId+'" id="receive" name="receive" value="' + receivedData.empId + '">');
+			$("#receivedId").append('<input type="hidden" class="'+receivedData.empId+'" id="receiveMail" name="receiveMail" value="' + receivedData.empMail + '">');
+			$("#receivedId").append('<input type="hidden" class="'+receivedData.empId+'" id="receiveName" name="receiveName" value="' + receivedData.empName + '">');
+			$("#receivedId").append('<input type="hidden" class="'+receivedData.empId+'" id="receiveDepName" name="receiveDepName" value="' + receivedData.depName + '">');
+			$("#receivedId").append('<input type="hidden" class="'+receivedData.empId+'" id="receivePosName" name="receivePosName" value="' + receivedData.posName + '">');
 			$("#receivedId").append(receivedData.content);
 			//form 양식에 추가하기
 		});
@@ -81,7 +80,7 @@
 		$('#empId').val(empId);
 		
 		//id
-		if ($('#receivedId').val() == '') {
+		if ($('#receive').length === 0 || $('#receive').val() === '') {
 			$('#receivedResult').html('수신인을 선택해 주세요.');
 			$('#receivedResult').attr('style','color:red');
 			result = false;
@@ -171,7 +170,9 @@
 	}
 	
 	function empBtnRemove(id){
-		$('#'+id).empty();
+		console.log(id);
+		$('#'+id).remove();
+		$('.'+id).remove();
 	}
 	
 </script>
@@ -251,17 +252,19 @@
 													<div class="col-sm-9 form-inline" id="receivedId" style="border-bottom: 1px solid #ced4da;">
 														<c:if test="${!empty replyMail}">
 															<div id="${replyMail.empId}">
-																<button type="button" id="${replyMail.empId}" onclick="empBtnRemove(${replyMail.empId})" class="r${replyMail.empId} empBtn mb-1 mx-2">
+																<button type="button" id="${replyMail.empId}" onclick="empBtnRemove('${replyMail.empId}')" class="r${replyMail.empId} empBtn mb-1 mx-2">
 																	<span>${replyMail.empName}(${replyMail.mailId}) </span>
 																</button>
+																<input type="hidden" class="${replyMail.empId}" id="receive" name="receive" value="${replyMail.empId}">
 															</div>
 														</c:if>
 														<c:if test="${!empty sendMail.empList}">
 															<c:forEach items="${sendMail.empList}" var="emp">
 																<div id="${emp.empId}">
-																	<button type="button" id="${emp.empId}" onclick="empBtnRemove(${emp.empId})" class="r${emp.empId} empBtn mb-1 mx-2">
+																	<button type="button" id="${emp.empId}" onclick="empBtnRemove('${emp.empd}')" class="r${emp.empId} empBtn mb-1 mx-2">
 																		<span>${emp.empName}(${emp.mailId}) </span>
 																	</button>
+																	<input type="hidden" class="${emp.empId}" id="receive" name="receive" value="${emp.empId}">
 																</div>
 															</c:forEach>
 														</c:if>
