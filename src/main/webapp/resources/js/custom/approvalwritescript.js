@@ -13,7 +13,7 @@ function initDocument() {
 }
 
 function isContentExist(docTempYn) {
-	if ($("iframe").contents().find("body").find("#A4") === null) {
+	if ($("iframe").contents().find("body").find("#A4").length === 0) {
 		swal({
 			title: "내용이 없습니다.",
 			icon: "warning",
