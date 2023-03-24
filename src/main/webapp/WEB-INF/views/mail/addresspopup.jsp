@@ -213,7 +213,7 @@
 										</div>
 									</div>
 									<div class="row m-1 mt-3 mb-5 form-group d-flex flex-column" style="height: 150px; border:1px solid #ced4da;">
-										<div id="approvalLine" class="overflow">
+										<div id="approvalLine" style="height:150px; overflow: auto;" >
 										</div>
 									</div>
 									<div class="row mb-3" >
