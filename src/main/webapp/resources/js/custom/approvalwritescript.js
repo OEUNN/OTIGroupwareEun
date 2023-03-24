@@ -1,4 +1,9 @@
+let isAddEvent = false;
 $(() => {
+	if (isAddEvent === false) {
+		addMessageEventListener();
+		isAddEvent = true;
+	}
 	addRemoveEventListener();
 });
 
@@ -80,7 +85,10 @@ function callApprovalLine() {
 				},
 				complete: function(data) {
 					result = true;
-					addMessageEventListener();
+					if (isAddEvent === false) {
+						addMessageEventListener();
+						isAddEvent = true;
+					}
 					addRemoveEventListener();
 				}
 			});

@@ -64,9 +64,6 @@
 	
 	//열람으로 상태 업데이트
 	$(() => {
-		if ($("#docReadYn").state()) {
-			
-		}
 		empId = $("#empId").val();
 		docId = $("#docId").val();
 		
@@ -122,8 +119,8 @@
 		<!-- ***** content-start ***** -->
 		<input id="contextPath" type="hidden" value="${pageContext.request.contextPath}"/>
 		<input id="docId" type="hidden" name="docId" value="${document.docId}">
-		<c:if test="${document.docReanYn != null && document.docReanYn == 'N'}">
-		<input id="docReanYn" type="hidden">
+		<c:if test="${document.docReadYn != null && document.docReadYn == 'N'}">
+		<input id="docReadYn" type="hidden">
 		</c:if>
 		<form id="decisionForm" action="<c:url value='/approval/viewdetail/${document.docId}'/>" method="post">
 		<input name="docType" type="hidden" value="${document.docType}">
