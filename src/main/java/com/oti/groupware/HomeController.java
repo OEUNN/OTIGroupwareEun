@@ -50,18 +50,18 @@ public class HomeController {
 		String empId = employee.getEmpId();
 		
 		//오늘 출퇴근 시간을 갖고옴
-		Attendance attendance = hrService.attendanceToday(empId); 
+		Attendance attendance = hrService.attendanceToday(employee.getEmpId()); 
 		model.addAttribute("attendance", attendance);
 		
 		//결재
 		pager = new Pager();
-		documents = documentService.getDraftDocumentList(1, pager, empId);
-		statisticsDocuments = documentService.getAllDraftDocumentListForHome(empId);
+		documents = documentService.getDraftDocumentList(1, pager, employee.getEmpId());
+		statisticsDocuments = documentService.getAllDraftDocumentListForHome(employee.getEmpId());
 		
 		Map<String, Integer> approvalStatistics = new HashMap<>();
 		int homePageTableRowsNum = 3;
 		int statisticsDocumemtsSize = statisticsDocuments.size();
-		
+		homeDocuments = null;
 		if (documents != null && documents.size() > 0) {
 			homeDocuments = new ArrayList<Document>();
 			
@@ -79,8 +79,9 @@ public class HomeController {
 				approvalStatistics.compute(statisticsDocuments.get(i).getDocState(), (key, value) -> value != null ? value + 1 : 1);
 			}
 		}
-		System.out.println(approvalStatistics);
+		
 		model.addAttribute("documents", homeDocuments);
+		
 		model.addAttribute("approvalStatistics", approvalStatistics);
 
 		//메일
