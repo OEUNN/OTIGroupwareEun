@@ -259,7 +259,7 @@
 	</update>
 	
 	<!-- 오전반차/오후반차 신청한 날의 출/퇴근행 -->
-	<select id="getAttendanceDay" parameterType="leaveApplication">
+	<select id="getAttendanceDay" parameterType="leaveApplication" resultMap="attendanceResultMap">
 		SELECT 
 			atd_in_time, atd_out_time
 		FROM 
@@ -269,7 +269,19 @@
 			AND to_char(atd_in_time, 'YYYY-MM-DD') = to_char(#{levAppStartDate}, 'YYYY-MM-DD')
 	</select>
 	
-	<!-- 휴가 취소인 경우 -->
+	<!-- 휴가 취소인 경우 - 행 존재o -->
+	<update id="updateExistAttendanceState" parameterType="leaveApplication">
+		UPDATE 
+			attendances
+		SET
+			atd_state = null
+	  	WHERE
+		  	emp_id = #{empId} 
+		  AND 
+  			to_char(atd_in_time, 'yyyy-MM-DD') = to_char(#{levAppStartDate}, 'yyyy-MM-DD')
+	</update>
+	
+	<!-- 휴가 취소인 경우 - 행 존재x -->
 	<delete id="deleteAttendance" parameterType="leaveApplication">
 		 DELETE FROM attendances 
   		 WHERE (#{levAppCategory} IN ('연차', '오전반차', '대체휴무') AND to_char(atd_in_time, 'YYYY-MM-DD') BETWEEN to_char(#{levAppStartDate}, 'YYYY-MM-DD') AND to_char(#{levAppEndDate}, 'YYYY-MM-DD'))

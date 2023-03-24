@@ -440,17 +440,20 @@ public class HrServiceImpl implements HrService {
 				//유형에 맞게 수정/등록
 				attendanceDAO.updateAttendanceLeaveState(leaveApplication);
 			} else { //휴가 취소인 경우
+				
 				//만약 출/퇴근 이력이 있는데 오전반차 or 오후반차인 경우, 출근시간 or 퇴근시간은 남기고 근무상태만 변경
 				if(leaveApplication.getLevAppCategory().contains("차")) {
 					//당일의 출/퇴근 여부 확인을 위해 DB에서 SELECT해옴
-//					Attendance attendance = attendanceDAO.getAttendanceDay(leaveApplication);
+					Attendance attendance = attendanceDAO.getAttendanceDay(leaveApplication);
 					//해당 날짜의 출/퇴근이 있다면, Update
-//					if(attendance != null) {
-//						attendanceDAO.updateExistAttendanceState()
-//					}
-//				} else {
+					if(attendance != null) {
+						attendanceDAO.updateExistAttendanceState(leaveApplication);
+					} else {
+						attendanceDAO.deleteAttendance(leaveApplication);
+					}
+				} else {
+					attendanceDAO.deleteAttendance(leaveApplication);
 				}
-				attendanceDAO.deleteAttendance(leaveApplication);
 			}
 			
 		} 

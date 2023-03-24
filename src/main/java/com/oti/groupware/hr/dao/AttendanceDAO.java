@@ -30,4 +30,5 @@ public interface AttendanceDAO {
 	public List<Attendance> getEmployeeLeaveList(@Param("depName") String depName);
 	public void insertAttendanceState(@Param("empId") String empId);
 	public Attendance getAttendanceDay(LeaveApplication leaveApplication);
+	public void updateExistAttendanceState(LeaveApplication leaveApplication);
 }
