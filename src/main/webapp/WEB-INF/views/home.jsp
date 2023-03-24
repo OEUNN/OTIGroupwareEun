@@ -488,7 +488,7 @@
 														</c:if>
 														<c:if test="${empty receivedmail}">
 														<tr></tr>
-														<tr>메일함이 비었습니다.</tr>
+														<tr><td>메일함이 비었습니다.</td></tr>
 														<tr></tr>
 														</c:if>
 													</tbody>
