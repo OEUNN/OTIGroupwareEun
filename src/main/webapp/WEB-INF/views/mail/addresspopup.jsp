@@ -13,7 +13,7 @@
 	}
 	
 	.highlight:hover {
-		font-weight: bold;
+		font-weight: bold; 
 		color: #4747A1;
 	}
 	.container-fluid{
