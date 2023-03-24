@@ -135,29 +135,38 @@
    				
    				let opinion = $("#textarea-reason").val(); //반려사유 선택
    				
-   				$.ajax({
-   					 type : 'GET',
-   					 url : "../hr/atdexcpaprvstatecomplete",
-   					 data : {atdExcpProcessState: state, atdExcpId: id, atdExcpOpinion: opinion, atdExcpCategory: category},
-   					 error : function() {
-   						swal({
-    	    				  title: "결재실패",
-    	    				  text: "결재실패 하였습니다.",
-    	    				  icon: "error",
-    	    				  button: "닫기",
-    	    				});
-   					 },
-   					 success : function(data) {
-   						swal({
-    	    				  title: "결재반려",
-    	    				  text: "결재반려 되었습니다.",
-    	    				  icon: "warning",
-    	    				  button: "닫기",
-   	    				 });
-   						 $('#atd-excp-aprv-detail').html(data);
-   						 $('#atd-aprv-state' + id).html('<div class="badge badge-danger font-weight-bold text-white">반려</div>');
-   					 }
-   				 });
+   				if(opinion == '') {
+   					swal({
+	    				  title: "반려실패",
+	    				  text: "반려사유를 작성해주세요",
+	    				  icon: "error",
+	    				  button: "닫기",
+    				 });
+   				} else {
+	   				$.ajax({
+	   					 type : 'GET',
+	   					 url : "../hr/atdexcpaprvstatecomplete",
+	   					 data : {atdExcpProcessState: state, atdExcpId: id, atdExcpOpinion: opinion, atdExcpCategory: category},
+	   					 error : function() {
+	   						swal({
+	    	    				  title: "결재실패",
+	    	    				  text: "결재실패 하였습니다.",
+	    	    				  icon: "error",
+	    	    				  button: "닫기",
+	    	    				});
+	   					 },
+	   					 success : function(data) {
+	   						swal({
+	    	    				  title: "결재반려",
+	    	    				  text: "결재반려 되었습니다.",
+	    	    				  icon: "warning",
+	    	    				  button: "닫기",
+	   	    				 });
+	   						 $('#atd-excp-aprv-detail').html(data);
+	   						 $('#atd-aprv-state' + id).html('<div class="badge badge-danger font-weight-bold text-white">반려</div>');
+	   					 }
+	   				 });
+   				}
    			}
    		}
    		
@@ -207,29 +216,39 @@
    				
    				let opinion = $("#textarea-reason").val(); //반려사유 선택
    				
-   				$.ajax({
-   					 type : 'GET',
-   					 url : "../hr/levappaprvstatecomplete",
-   					 data : {levAppProcessState: state, levAppId: id, levAppOpinion: opinion},
-   					 error : function() {
-   						swal({
-  	    				  title: "결재실패",
-  	    				  text: "결재실패 하였습니다.",
-  	    				  icon: "error",
-  	    				  button: "닫기",
-  	    				});
-   					 },
-   					 success : function(data) {
-   						swal({
-  	    				  title: "결재반려",
-  	    				  text: "결재반려 되었습니다.",
-  	    				  icon: "warning",
-  	    				  button: "닫기",
- 	    				 });
-   						 $('#lev-app-aprv-detail').html(data);
-   						 $('#aprv-state' + id).html('<div class="badge badge-danger font-weight-bold text-white">반려</div>');
-   					 }
-   				 });
+   				if(opinion == '') {
+   					swal({
+	    				  title: "반려실패",
+	    				  text: "반려사유를 작성해주세요",
+	    				  icon: "error",
+	    				  button: "닫기",
+    				 });
+   				} else {
+	   				$.ajax({
+	   					 type : 'GET',
+	   					 url : "../hr/levappaprvstatecomplete",
+	   					 data : {levAppProcessState: state, levAppId: id, levAppOpinion: opinion},
+	   					 error : function() {
+	   						swal({
+	  	    				  title: "결재실패",
+	  	    				  text: "결재실패 하였습니다.",
+	  	    				  icon: "error",
+	  	    				  button: "닫기",
+	  	    				});
+	   					 },
+	   					 success : function(data) {
+	   						swal({
+	  	    				  title: "결재반려",
+	  	    				  text: "결재반려 되었습니다.",
+	  	    				  icon: "warning",
+	  	    				  button: "닫기",
+	 	    				 });
+	   						 $('#lev-app-aprv-detail').html(data);
+	   						 $('#aprv-state' + id).html('<div class="badge badge-danger font-weight-bold text-white">반려</div>');
+	   					 }
+	   				 });
+   				}
+   				
    			}
    		}
    		

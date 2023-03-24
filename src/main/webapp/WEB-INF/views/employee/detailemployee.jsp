@@ -264,7 +264,6 @@
 		</div>
 	</div><!-- End information box -->
 </div>
-테이블
 <div class="table-responsive">
 	<table class="table">
 		<thead>
@@ -298,4 +297,3 @@
 		</tbody>
 	</table>
 </div>
-테이블 끝
