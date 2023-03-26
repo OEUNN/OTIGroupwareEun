@@ -21,7 +21,7 @@ tinymce.init({
 			insert: { title: 'Insert', items: 'charmap hr | insertdatetime' },
 			format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript | styles blocks fontfamily fontsize align lineheight | forecolor backcolor | language | removeformat' },
 		},
-		toolbar1: 'newdocument restoredraft fullscreen print',
+		toolbar1: 'restoredraft fullscreen print',
 		toolbar2: 'undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
 		content_css : getContextPath() + '/resources/css/approvalform.css',
 		save_enablewhendirty: false,
@@ -30,6 +30,9 @@ tinymce.init({
 			editor.getBody().innerHTML = "<p>양식을 선택해주세요</p>";
 			editor.getBody().setAttribute('contenteditable',false);
 			initDocument();
+		},
+		setup: () => {
+			console.log("ㅅㅇ");
 		},
 		object_resizing : false
 });
