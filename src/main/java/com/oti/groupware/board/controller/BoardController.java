@@ -17,8 +17,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.oti.groupware.board.dto.Board;
 import com.oti.groupware.board.dto.BoardFile;
@@ -50,8 +52,10 @@ public class BoardController {
 		pager = new Pager();
 		List<Board> boardList = boardService.getBoardList(pager, pageNo);
 		Board board = boardService.getBoard();
+		Pager returnPager = new Pager(pager.getRowsPerPage(), pager.getPagesPerGroup(), pager.getTotalRows(), pageNo);
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("board", board);
+		model.addAttribute("pager", returnPager);
 		return "board/notice";
 	}
 	
@@ -64,9 +68,9 @@ public class BoardController {
 	//게시판쓰기
 	@RequestMapping(value = "/boardwrite", method = RequestMethod.POST)
 	public String writeBoard(Board board, MultipartFile[] files, HttpSession session) throws IOException {
-		String empId = ((Employee) session.getAttribute("employee")).getEmpId();
-		
-		board.setEmpId(empId);
+		Employee employee = (Employee) session.getAttribute("employee");
+		board.setEmpId(employee.getEmpId());
+		board.setEmpName(employee.getEmpName());
 		board.setBoardCategoryId(1);
 		int boardId = boardService.writeBoard(board, files);
 		
@@ -94,4 +98,27 @@ public class BoardController {
 		return new ResponseEntity<byte[]>(boardFile.getBoardFileData(), headers, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/delete", method=RequestMethod.POST)
+	public String deleteBoard(@RequestParam("boardId") List<String> boardId, RedirectAttributes redirectAttributes) {
+		int resultCount = 0;
+		String result;
+		for(String boardIdElement : boardId) {
+			log.info("문서 번호: " + boardIdElement);
+			if (boardIdElement != null && !("".equals(boardIdElement))) {
+				resultCount += boardService.deleteBoard(Integer.parseInt(boardIdElement));
+			}
+		}
+		
+		if (resultCount == 0) {
+			result = "unchanged";
+		}
+		else {
+			result = "changed";
+		}
+		
+		redirectAttributes.addFlashAttribute("result", result);
+		redirectAttributes.addFlashAttribute("resultCount", resultCount);
+		
+		return "redirect:/board/notice";
+	}
 }

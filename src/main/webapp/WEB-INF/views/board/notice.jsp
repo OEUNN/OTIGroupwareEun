@@ -17,12 +17,55 @@
 		$('#datepicker').datepicker({
 		});	
 	});
-	function popup(){
-        var url = "deleteboard";
-        var name = "delete board";
-        var option = "width = 500, height =250, top = 50, left = 200, location = no, resizable=no, scrollbars=no "
-        window.open(url, name, option);
-    }
+	
+	$(() => {
+		const checkAll = $('#checkAll');
+		const checklist = $('.checklist');
+		
+		checkAll.change(function() {
+		  checklist.prop('checked', checkAll.prop('checked'));
+		});
+		
+		checklist.change(function() {
+		  const allChecked = checklist.filter(':checked').length === checklist.length;
+		  checkAll.prop('checked', allChecked);
+		});
+	});
+	
+	$(() => {
+		if ($("#result").length !== 0) {
+			const result = $("#result").val();
+			if (result === 'unchanged') {
+				swal({
+					title: "변경 사항 없음",
+					icon: "warning",
+					button: "닫기"
+				});
+			}
+			else {
+				const resultCount = $("#resultCount").val();
+				
+				if ($("#type").val() === '삭제') {
+					swal({
+						title: "삭제",
+						text: resultCount + "개가 삭제되었습니다.",
+						icon: "warning",
+						button: "닫기"
+					});
+				}
+				
+				else if($("#type").val() === '회수') {
+					swal({
+						title: "회수",
+						text: resultCount + "개가 회수되었습니다.",
+						icon: "warning",
+						button: "닫기"
+					});
+				}
+			}
+		}
+	});
+	
 	function requestBoardDetail(boardId) {
 		$.ajax({
 			url: getContextPath() + '/board/viewdetail/' + boardId,
@@ -64,6 +107,10 @@
 </head>
 
 <body>
+	<c:if test="${result != null}">
+	<input id="result" type="hidden" value="${result}"/>
+	<input id="resultCount" type="hidden" value="${resultCount}"/>
+	</c:if>
 	<div class="container-scroller ">
 		<!-- Navbar -->
 		<%@ include file="/WEB-INF/views/common/_navbar.jsp"%>
@@ -139,7 +186,7 @@
 														<th>
 															<div class="form-check font-weight-bold text-info">
 																<label class="form-check-label">
-																	<input type="checkbox" class="form-check-input" name='selectall' onclick="selectAll(this)">
+																	<input id="checkAll" type="checkbox" class="form-check-input">
 																</label>
 															</div>
 														</th>
@@ -159,7 +206,7 @@
 														<td>
 															<div class="form-check font-weight-bold text-info">
 																<label class="form-check-label">
-																	<input type="checkbox" class="form-check-input" name="optradio" onclick="" value="${recd.sendMailId}">
+																	<input type="checkbox" class="checklist form-check-input" name="boardId" form="checkedBox" value="${board.boardId}">
 																</label>
 															</div>
 														</td>
@@ -181,7 +228,10 @@
 									<c:if test="${sessionScope.employee.empId eq '2202041'}">
 										<div class="row d-flex justify-content-end mr-3 my-3">
 											<div class="mx-1">
-												<button class="btn btn-danger btn-sm" onclick="popup()">선택삭제</button>
+												<form id="checkedBox" action="<c:url value='/board/delete'></c:url>" method="post">
+												<input type="hidden" name="boardId" value="">
+												</form>
+												<button class="btn btn-danger btn-sm" type="submit" form="checkedBox">선택삭제</button>
 											</div>
 											<div class="mx-1">
 													<a class="btn btn-primary btn-sm" href="<c:url value='/board/boardwrite'/>">게시글 쓰기</a>
@@ -192,11 +242,27 @@
 									<!-- 페이징 -->
 									<div class="row mt-3 d-flex justify-content-center">
 										<ul class="pagination  pb-0 mb-0">
-											<li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
-											<li class="page-item active" ><a class="page-link" href="#">1</a></li>
-											<li class="page-item"><a class="page-link" href="#">2</a></li>
-											<li class="page-item"><a class="page-link" href="#">3</a></li>
-											<li class="page-item"><a class="page-link" href="#">다음</a></li>
+											<c:if test="${pager.totalRows > 0}">
+											<!-- 이전 -->
+											<c:if test = "${pager.groupNo > 1}">
+											<li class="page-item"><a class="page-link" href="<c:url value='/board/notice/${pager.startPageNo - 1}'></c:url>">이전</a></li>
+											</c:if>
+											
+											<!-- 페이지그룹 -->
+											<c:forEach var="i" begin="${pager.startPageNo}" end="${pager.endPageNo}">
+											<c:if test="${pager.pageNo != i}">
+											<li class="page-item"><a class="page-link" href="<c:url value='/board/notice/${i}'></c:url>">${i}</a></li>
+											</c:if>
+											<c:if test="${pager.pageNo == i}">
+											<li class="page-item active"><a class="page-link" href="<c:url value='/board/notice/${i}'></c:url>">${i}</a></li>
+											</c:if>
+											</c:forEach>
+											
+											<!-- 다음 -->
+											<c:if test = "${pager.groupNo < pager.totalGroupNo }">
+											<li class="page-item" onclick="submitFormWithPageNo(${pager.endPageNo + 1})"><a class="page-link" href="<c:url value='/board/notice/${pager.endPageNo + 1}'></c:url>">다음</a></li>
+											</c:if>
+											</c:if>
 										</ul>
 									</div>
 								</div>
@@ -208,14 +274,6 @@
 								<div class="card-body">
 									<div class="d-flex justify-content-between align-items-center mb-4">
 										<div id="boardTitle" class="card-title mb-0">${board.boardTitle}</div>
-										<c:if test="${sessionScope.employee.empId eq '2202041'}">
-											<div class="d-flex">
-												<button class="btn btn-md btn-danger mx-2" onclick="popup()">
-													<span class="mdi mdi-window-close align-middle"></span> 
-													<span>삭제</span>
-												</button>
-											</div>
-										</c:if>
 									</div>
 									<div class="forms-sample">
 										<div class="row mt-2 px-3">

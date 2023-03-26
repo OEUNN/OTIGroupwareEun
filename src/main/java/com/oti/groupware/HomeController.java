@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.oti.groupware.approval.dto.Document;
 import com.oti.groupware.approval.service.DocumentService;
+import com.oti.groupware.board.dto.Board;
+import com.oti.groupware.board.service.BoardService;
 import com.oti.groupware.common.Pager;
 import com.oti.groupware.employee.dto.Employee;
 import com.oti.groupware.hr.dto.Attendance;
@@ -32,6 +34,8 @@ public class HomeController {
 	List<Document> documents;
 	List<Document> homeDocuments;
 	List<Document> statisticsDocuments;
+	List<Board> boards;
+	List<Board> homeBoards;
 	
 	@Autowired
 	private HrService hrService;
@@ -41,6 +45,9 @@ public class HomeController {
 	
 	@Autowired
 	private MailService mailService;
+	
+	@Autowired
+	private BoardService boardService;
 	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home(HttpSession session, Model model) {
@@ -93,6 +100,25 @@ public class HomeController {
 			List<ReceivedMail> receivedMail = mailService.getReceivedMail(employee.getEmpId(), pager);
 			model.addAttribute("receivedmail", receivedMail);
 		}
+		
+		//게시판
+		pager = new Pager();
+		boards = boardService.getBoardList(pager, 1);
+		if (boards != null && boards.size() > 0) {
+			homeBoards = new ArrayList<Board>();
+			
+			if (boards.size() > 3) {
+				homePageTableRowsNum = 3;
+			}
+			else {
+				homePageTableRowsNum = boards.size();
+			}
+			
+			for (int i = 0; i < homePageTableRowsNum; i++) {
+				homeBoards.add(boards.get(i)); 
+			}
+		}
+		model.addAttribute("boards", homeBoards);
 		
 		return "home";
 	}

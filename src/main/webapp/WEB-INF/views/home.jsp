@@ -623,105 +623,22 @@
 																<table class="table table-hover" style="width: 90%; table-layout: fixed">
 																	<thead>
 																		<tr>
-																			<th class="pl-2" style="width: 10%">문서번호</th>
 																			<th class="px-0" style="width: 65%">제목</th>
-																			<th class="px-0" style="width: 10%">작성자</th>
-																			<th class="px-0" style="width: 15%">날짜</th>
+																			<th class="px-0" style="width: 15%">작성자</th>
+																			<th class="px-0" style="width: 20%">날짜</th>
 																		</tr>
 																	</thead>
 																	<tbody>
+																		<c:if test="${boards != null}">
+																		<c:forEach items="${boards}" var="board" varStatus="status">
 																		<tr>
-																			<td style="font-size: 14px;">01-11</td>
-																			<td class="pl-1 pr-4" width="50"
-																				style="font-size: 13px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
-																				게시판
-																				글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글
-																			</td>
-																			<td class="px-1" style="font-size: 14px;">경원지원부</td>
-																			<td class="px-1" style="font-size: 13px;">2023-03-01</td>
+																			<td class="pl-1 pr-4" width="50" style="font-size: 13px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+																			<a href="<c:url value='/board/notice'></c:url>">${board.boardTitle}</a></td>
+																			<td class="px-1" style="font-size: 14px;">${board.empName}</td>
+																			<td class="px-1" style="font-size: 13px;"><fmt:formatDate value="${board.boardDate}" pattern="yyyy-MM-dd"/></td>
 																		</tr>
-																		<tr>
-																			<td style="font-size: 14px;">01-11</td>
-																			<td class="pl-1 pr-4" width="50"
-																				style="font-size: 13px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
-																				게시판
-																				글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글
-																			</td>
-																			<td class="px-1" style="font-size: 14px;">경원지원부</td>
-																			<td class="px-1" style="font-size: 13px;">2023-03-01</td>
-																		</tr>
-																		<tr>
-																			<td style="font-size: 14px;">01-11</td>
-																			<td class="pl-1 pr-4" width="50"
-																				style="font-size: 13px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
-																				게시판
-																				글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글
-																			</td>
-																			<td class="px-1" style="font-size: 14px;">경원지원부</td>
-																			<td class="px-1" style="font-size: 13px;">2023-03-01</td>
-																		</tr>
-																	</tbody>
-																</table>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="carousel-item">
-												<div class="row">
-													<div class="col-xl-3 d-flex justify-content-start">
-														<div class="ml-xl-4 mt-3">
-															<h1 class="text-primary font-weight-bold">인사발령</h1>
-															<div
-																class="d-flex justify-content-center text-primary mt-2">
-																<h1 class="mdi mdi-human-greeting"
-																	style="font-size: 90px;"></h1>
-															</div>
-														</div>
-													</div>
-													<div class="col-xl-9">
-														<div class="row">
-															<div>
-																<table class="table table-hover" style="width: 90%; table-layout: fixed">
-																	<thead>
-																		<tr>
-																			<th class="pl-2" style="width: 10%">문서번호</th>
-																			<th class="px-0" style="width: 65%">제목</th>
-																			<th class="px-0" style="width: 10%">작성자</th>
-																			<th class="px-0" style="width: 15%">날짜</th>
-																		</tr>
-																	</thead>
-																	<tbody>
-																		<tr>
-																			<td style="font-size: 14px;">01-11</td>
-																			<td class="pl-1 pr-4" width="50"
-																				style="font-size: 13px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
-																				게시판
-																				글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글
-																			</td>
-																			<td class="px-1" style="font-size: 14px;">경원지원부</td>
-																			<td class="px-1" style="font-size: 13px;">2023-03-01</td>
-																		</tr>
-																		<tr>
-																			<td style="font-size: 14px;">01-11</td>
-																			<td class="pl-1 pr-4" width="50"
-																				style="font-size: 13px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
-																				게시판
-																				글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글
-																			</td>
-																			<td class="px-1" style="font-size: 14px;">경원지원부</td>
-																			<td class="px-1" style="font-size: 13px;">2023-03-01</td>
-																		</tr>
-																		<tr>
-																			<td style="font-size: 14px;">01-11</td>
-																			<td class="pl-1 pr-4" width="50"
-																				style="font-size: 13px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
-																				게시판
-																				글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글글
-																			</td>
-																			<td class="px-1" style="font-size: 14px;">경원지원부</td>
-																			<td class="px-1" style="font-size: 13px;">2023-03-01</td>
-																		</tr>
+																		</c:forEach>
+																		</c:if>
 																	</tbody>
 																</table>
 															</div>

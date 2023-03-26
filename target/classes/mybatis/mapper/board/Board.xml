@@ -26,8 +26,8 @@
     </select>
 
  	<insert id="insertBoard" parameterType="board">
-        INSERT INTO boards (board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn)
-        VALUES (SEQ_BOARD_ID.NEXTVAL, #{empId}, #{boardCategoryId}, #{boardTitle}, #{boardContent}, default, #{boardFileYn})
+        INSERT INTO boards (board_id, emp_id, emp_name, board_category_id, board_title, board_content, board_date, board_file_yn)
+        VALUES (SEQ_BOARD_ID.NEXTVAL, #{empId}, #{empName}, #{boardCategoryId}, #{boardTitle}, #{boardContent}, default, #{boardFileYn})
     </insert>
     
     <update id="updateBoard" parameterType="board">

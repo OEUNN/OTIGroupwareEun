@@ -14,12 +14,6 @@
 	<!-- main title and submit button -->
 	<div class="d-flex justify-content-between align-items-center mb-4">
 		<div class="card-title mb-0">2023년 새해복 많이 받으세요!</div>
-		<div class="d-flex">
-			<button class="btn btn-md btn-danger mx-2" onclick="popup()">
-				<span class="mdi mdi-window-close align-middle"></span> 
-				<span>삭제</span>
-			</button>
-		</div>
 	</div>
 	<!-- end main title and submit button -->
 	<!-- mail data -->
