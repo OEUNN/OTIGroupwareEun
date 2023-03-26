@@ -124,9 +124,24 @@ public class HrServiceImpl implements HrService {
 					}
 				//오후반차인 경우
 				} else if(atd.getAtdState().equals("오후반차")) {
-					jsonObj.put("title", atd.getAtdState());
-					jsonObj.put("start",  formatDate.format(atd.getAtdOutTime()));
-					jsonArr.put(jsonObj);
+					//미리 신청한 오후반차건
+					if(atd.getAtdInTime() == null && atd.getAtdOutTime() != null) {
+						jsonObj.put("title", atd.getAtdState());
+						jsonObj.put("start", formatDate.format(atd.getAtdOutTime()));
+						jsonArr.put(jsonObj);
+						
+					//오늘 신청한 오후반차건
+					} else {
+						//달력에서 오후반차 아래로 놓기 위해, 이벤트 시간에 1시간 더해줌
+						Date inTime = atd.getAtdInTime();
+						Instant instant = inTime.toInstant();
+						instant = instant.plus(Duration.ofHours(1));
+						Date inTimePlus1Hour = Date.from(instant);
+						jsonObj.put("title", atd.getAtdState());
+						jsonObj.put("start",  formatDate.format(inTimePlus1Hour));
+						jsonArr.put(jsonObj);
+					}
+					
 					//출근시간만 보내기
 					if(atd.getAtdInTime() != null) {
 						jsonObj = new JSONObject();
@@ -436,15 +451,22 @@ public class HrServiceImpl implements HrService {
 			//신청-차감, 취소-증감
 			leaveApplicationDAO.updateEmployeeReserve(leaveApplication);
 			
+			//당일의 출/퇴근 여부 확인을 위해 DB에서 SELECT해옴(오전반차/오후반차)
+			Attendance attendance = new Attendance();
+			if(leaveApplication.getLevAppCategory().contains("차")) {
+				attendance = attendanceDAO.getAttendanceDay(leaveApplication);
+			}
+			
 			if(leaveApplication.getLevAppCancel() == null) { //휴가 신청인 경우
-				//유형에 맞게 수정/등록
-				attendanceDAO.updateAttendanceLeaveState(leaveApplication);
+				if(leaveApplication.getLevAppCategory().contains("차") && attendance != null) { //반차이면서, 해당신청날에 출/퇴근행이 있을 경우
+					attendanceDAO.updateApproveExistAttendanceState(leaveApplication); //근무상태만 변경
+				} else {
+					//유형에 맞게 수정/등록
+					attendanceDAO.updateAttendanceLeaveState(leaveApplication);
+				}
 			} else { //휴가 취소인 경우
-				
 				//만약 출/퇴근 이력이 있는데 오전반차 or 오후반차인 경우, 출근시간 or 퇴근시간은 남기고 근무상태만 변경
 				if(leaveApplication.getLevAppCategory().contains("차")) {
-					//당일의 출/퇴근 여부 확인을 위해 DB에서 SELECT해옴
-					Attendance attendance = attendanceDAO.getAttendanceDay(leaveApplication);
 					//해당 날짜의 출/퇴근이 있다면, Update
 					if(attendance != null) {
 						attendanceDAO.updateExistAttendanceState(leaveApplication);
@@ -525,6 +547,22 @@ public class HrServiceImpl implements HrService {
 			//임직원의 한달 추가근무 시간 가져오기
 			Attendance atd = attendanceDAO.getAttendanceOverTime(empId);
 			
+			//추가근무시간 -> 대체휴무일수로 변환
+			double overTime = 0.0;
+			if(Integer.parseInt(atd.getAtdOverTimeHours()) >=  4 && Integer.parseInt(atd.getAtdOverTimeHours()) < 8) { //추가근무한 시간이 4시간이상 8시간 이하인 경우
+				//잔여대체휴무일수 0.5 추가
+				overTime = 0.5;
+			} else if(Integer.parseInt(atd.getAtdOverTimeHours()) >= 8 && Integer.parseInt(atd.getAtdOverTimeHours()) < 12) {
+				//잔여대체휴무일수 1일 추가
+				overTime = 1.0;
+			} else if(Integer.parseInt(atd.getAtdOverTimeHours()) >= 12 && Integer.parseInt(atd.getAtdOverTimeHours()) < 16) {
+				//잔여대체휴무일수 1.5일 추가
+				overTime = 1.5;
+			} else if(Integer.parseInt(atd.getAtdOverTimeHours()) >= 16) {
+				//잔여대체휴무일수 2일 추가
+				overTime = 2.0;
+			}
+			attendanceDAO.updateEmployeeSubstituteReserve(empId, overTime);
 			
 		}
 					

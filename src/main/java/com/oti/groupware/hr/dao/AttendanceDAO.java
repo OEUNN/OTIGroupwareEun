@@ -32,4 +32,6 @@ public interface AttendanceDAO {
 	public Attendance getAttendanceDay(LeaveApplication leaveApplication);
 	public void updateExistAttendanceState(LeaveApplication leaveApplication);
 	public Attendance getAttendanceOverTime(@Param("empId") String empId);
+	public void updateEmployeeSubstituteReserve(@Param("empId") String empId, @Param("overTime") double overTime);
+	public void updateApproveExistAttendanceState(LeaveApplication leaveApplication);
 }
