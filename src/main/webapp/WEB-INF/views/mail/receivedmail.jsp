@@ -62,7 +62,6 @@
 					result = 'stay';
 				}
 				var data = {search : search, mailId : star, mailList : mailArray, page : No, result : result};
-				console.log(data);
 				jQuery.ajax({
 					type : 'post',
 					url : '../mail/receivedsearch',
