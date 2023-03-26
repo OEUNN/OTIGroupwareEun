@@ -53,13 +53,13 @@
     
     <select id="getBoardList" resultMap="boardResultResultMap">
         SELECT 
-        	board_id, emp_id, emp_name, board_category_id, board_title, board_content, board_date, board_file_yn
+        	rnum, board_id, emp_id, emp_name, board_category_id, board_title, board_content, board_date, board_file_yn
         FROM (
         	SELECT 
-        		rnum, board_id, emp_id, emp_name, board_category_id, board_title, board_content, board_date, board_file_yn 
+        		rownum as rnum, board_id, emp_id, emp_name, board_category_id, board_title, board_content, board_date, board_file_yn 
         	FROM (
         		SELECT 
-        			rownum as rnum,  board_id, emp_id, emp_name, board_category_id, board_title, board_content, board_date, board_file_yn 
+        			board_id, emp_id, emp_name, board_category_id, board_title, board_content, board_date, board_file_yn 
         		FROM 
         			boards
         		ORDER BY board_date DESC 
@@ -70,14 +70,14 @@
     </select>
     
     <select id="getBoardListByTitle" resultMap="boardResultResultMap">
-            SELECT 
-        	board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn
+        SELECT 
+        	rnum, board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn
         FROM (
         	SELECT 
-        		rnum, board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn 
+        		rownum as rnum, board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn 
         	FROM (
         		SELECT 
-        			rownum as rnum,  board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn 
+        			board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn 
         		FROM 
         			boards
         		WHERE board_title = #{title}
