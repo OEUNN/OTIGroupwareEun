@@ -43,4 +43,5 @@ public interface HrService {
 	public JSONArray empLeaveCalendarList(String depName);
 	public HashMap<String, Integer> leaveApplicationStats(String empId);
 	public void attendanceExceptionCancel(int atdExcpId);
+	public void addSubstituteReserve();
 }

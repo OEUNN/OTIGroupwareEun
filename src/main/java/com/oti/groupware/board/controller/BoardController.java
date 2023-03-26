@@ -49,18 +49,20 @@ public class BoardController {
 	public String getBoardList(@PathVariable int pageNo, Model model) {
 		pager = new Pager();
 		List<Board> boardList = boardService.getBoardList(pager, pageNo);
+		Board board = boardService.getBoard();
 		model.addAttribute("boardList", boardList);
+		model.addAttribute("board", board);
 		return "board/notice";
 	}
 	
 	//게시판쓰기 화면
-	@RequestMapping(value = "/write", method = RequestMethod.GET)
+	@RequestMapping(value = "/boardwrite", method = RequestMethod.GET)
 	public String writeBoard(HttpSession session) {
-		return "board/writeboard";
+		return "board/boardwrite";
 	}
 	
 	//게시판쓰기
-	@RequestMapping(value = "/write", method = RequestMethod.POST)
+	@RequestMapping(value = "/boardwrite", method = RequestMethod.POST)
 	public String writeBoard(Board board, MultipartFile[] files, HttpSession session) throws IOException {
 		String empId = ((Employee) session.getAttribute("employee")).getEmpId();
 		

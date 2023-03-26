@@ -416,8 +416,8 @@
 					           					&nbsp;
 				           					</c:if>
 				           					<!-- 휴가인경우 -->
-				           					<c:if test="${!empty attendance.atdInTime && (attendance.atdState eq '연차' || attendance.atdState eq '대체휴무')}">
-					           					&nbsp;
+				           					<c:if test="${!empty attendance.atdInTime && (attendance.atdState eq '연차' || attendance.atdState eq '대체휴무' || attendance.atdState eq '오전반차')}">
+					           					휴가중
 				           					</c:if>
 				           					<!-- 나머지 -->
 				           					<c:if test="${!empty attendance.atdInTime && attendance.atdState ne '연차' && attendance.atdState ne '대체휴무'}">
