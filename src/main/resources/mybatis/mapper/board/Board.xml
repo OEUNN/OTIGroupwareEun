@@ -5,6 +5,7 @@
 	<resultMap id="boardResultResultMap" type="board">
 		<result column="board_id" property="boardId" />
 		<result column="emp_id" property="empId" />
+		<result column="emp_name" property="empName" />
 		<result column="board_category_id" property="boardCategoryId" />
 		<result column="board_title" property="boardTitle" />
 		<result column="board_content" property="boardContent" />
@@ -16,6 +17,12 @@
         SELECT board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn
         FROM boards
         WHERE board_id = #{boardId}
+    </select>
+
+    <select id="getBoard" resultMap="boardResultResultMap">
+        SELECT board_id, emp_id, emp_name, board_category_id, board_title, board_content, board_date, board_file_yn
+        FROM boards
+        WHERE board_id = 21
     </select>
 
  	<insert id="insertBoard" parameterType="board">
@@ -46,13 +53,13 @@
     
     <select id="getBoardList" resultMap="boardResultResultMap">
         SELECT 
-        	board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn
+        	board_id, emp_id, emp_name, board_category_id, board_title, board_content, board_date, board_file_yn
         FROM (
         	SELECT 
-        		rnum, board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn 
+        		rnum, board_id, emp_id, emp_name, board_category_id, board_title, board_content, board_date, board_file_yn 
         	FROM (
         		SELECT 
-        			rownum as rnum,  board_id, emp_id, board_category_id, board_title, board_content, board_date, board_file_yn 
+        			rownum as rnum,  board_id, emp_id, emp_name, board_category_id, board_title, board_content, board_date, board_file_yn 
         		FROM 
         			boards
         		ORDER BY board_date DESC 

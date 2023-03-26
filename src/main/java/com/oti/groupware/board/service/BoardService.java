@@ -19,4 +19,5 @@ public interface BoardService {
 	public int writeBoard(Board board, MultipartFile[] files) throws IOException;
 	public void updateBaord(Board board);
 	public void deleteBoard(int boardId);
+	public Board getBoard();
 }

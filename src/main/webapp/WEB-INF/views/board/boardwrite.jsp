@@ -35,7 +35,7 @@
 					<div class="row">
 						<div class="col-12 grid-margin stretch-card">
 							<div class="card">
-								<form class="card-body" id="boardForm" action="<c:url value='/board/write'></c:url>" method="post" enctype="multipart/form-data">
+								<form class="card-body" id="boardForm" action="<c:url value='/board/boardwrite'></c:url>" method="post" enctype="multipart/form-data">
 									<div class="d-flex justify-content-between align-items-center mb-4">
 										<div class="card-title mb-0">게시글 쓰기</div>
 										<div class="d-flex">
@@ -78,27 +78,27 @@
 												</div>
 											</div>
 										</div>
-										<div class="row">
-											<div class="col-md-12">
-												<div class="form-group row">
-													<div class="col-sm-12 text-primary">
-														<div class="input-group-append col-xs-12">
-															<div class="form-group bg-white">
-																<input form="boardForm" type="file" id="fileUploader" class="file-upload-default" name="files" multiple>
-																<div class="input-group col-xs-12">
-																	<span class="input-group-append w-100">
-																		<button class="file-upload-browse btn btn-primary w-100" style="border-radius: 0; width: inherit;" type="button">파일 첨부</button>
-																	</span>
-																</div>
-															</div>
-															<div id="fileList">
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row">
+<!-- 										<div class="row"> -->
+<!-- 											<div class="col-md-12"> -->
+<!-- 												<div class="form-group row"> -->
+<!-- 													<div class="col-sm-12 text-primary"> -->
+<!-- 														<div class="input-group-append col-xs-12"> -->
+<!-- 															<div class="form-group bg-white"> -->
+<!-- 																<input form="boardForm" type="file" id="fileUploader" class="file-upload-default" name="files" multiple> -->
+<!-- 																<div class="input-group col-xs-12"> -->
+<!-- 																	<span class="input-group-append w-100"> -->
+<!-- 																		<button class="file-upload-browse btn btn-primary w-100" style="border-radius: 0; width: inherit;" type="button">파일 첨부</button> -->
+<!-- 																	</span> -->
+<!-- 																</div> -->
+<!-- 															</div> -->
+<!-- 															<div id="fileList"> -->
+<!-- 															</div> -->
+<!-- 														</div> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
+<!-- 											</div> -->
+<!-- 										</div> -->
+										<div class="row mt-5 px-4">
 											<div class="col-md-12">
 												<div class="form-group row">
 													<textarea form="boardForm" class="form-control" id="write" name="boardContent"></textarea>
