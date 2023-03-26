@@ -549,7 +549,7 @@
 															<c:choose>
 															<c:when test="${document.docState == '진행'}">
 															<td class="pl-1" style="font-size: 13px;">
-															<div class="badge badge-warning font-weight-bold d-flex" style="width: fit-content;">
+															<div class="badge badge-info font-weight-bold d-flex" style="width: fit-content;">
 															<i class="mdi mdi-file-document d-flex align-self-center mr-1"></i><span>진행</span></div>
 															</td>
 															</c:when>

@@ -31,17 +31,26 @@
 	</style>
 	<script>
 	function attachOpinion() {
-		var opinion = $("#opinionText").val().toString();
-		var approvalLineState = $("#approvalLineState").val();
-
-		var sendData = {
-			attached : true,
-			opinion : opinion,
-			approvalLineState : approvalLineState
+		if ($("#opinionText").val().toString() === null || $("#opinionText").val().toString().trim() === '') {
+			swal({
+				title: "작성 된 의견이 없습니다.",
+				icon: "warning",
+				button: "닫기"
+			});
 		}
-		
-		opener.postMessage(sendData);
- 		window.close();
+		else {
+			var opinion = $("#opinionText").val().toString();
+			var approvalLineState = $("#approvalLineState").val();
+	
+			var sendData = {
+				attached : true,
+				opinion : opinion,
+				approvalLineState : approvalLineState
+			}
+			
+			opener.postMessage(sendData);
+	 		window.close();
+		}
 	}
 	
 	function omitOpinion() {
@@ -85,10 +94,10 @@
 								<div class="row mb-3" >
 									<div class="col"></div>
 									<c:if test="${approvalLineState == '승인'}">
-									<button class="col btn btn-primary btn-md mt-1 mx-3" onclick="omitOpinion()">의견 생략</button>
+									<button class="col btn btn-primary btn-md mt-1 mx-3" type="button" onclick="omitOpinion()">의견 생략</button>
 									</c:if>
-									<button class="col btn btn-primary btn-md mt-1 mx-3" onclick="attachOpinion()">작성 완료</button>
-									<button class="col btn btn-outline-primary btn-md mt-1 mx-3" onclick="cancel()">작성 취소</button>
+									<button class="col btn btn-primary btn-md mt-1 mx-3" type="button" onclick="attachOpinion()">작성 완료</button>
+									<button class="col btn btn-outline-primary btn-md mt-1 mx-3" type="button" onclick="cancel()">작성 취소</button>
 									<div class="col"></div>
 								</div>
 							</div>

@@ -12,6 +12,8 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -296,7 +298,7 @@ public class ApprovalController {
 	public String postApprovalWrite(ApprovalLines approvalLines, DocumentContent documentContent, @RequestParam("files") MultipartFile[] multipartFiles) throws IOException {
 		log.info("받음:" + documentContent);
 		log.info(approvalLines);
-		
+		Jsoup.clean(documentContent.getDocContent(), Safelist.none());
 		document = new Document();
 		document.setDocId(documentContent.getDocId());
 		document.setDocState(documentContent.getDocState());
@@ -468,7 +470,12 @@ public class ApprovalController {
 		}
 		
 		log.info("요청 처리에 성공 했는가: " + result);
-		return "redirect:/approval/viewdetail/" + docId;
+		if ("회수".equals(state)) {
+			return "redirect:/approval/returneddocument";
+		}
+		else {
+			return "redirect:/approval/viewdetail/" + docId;
+		}
 	}
 	
 	

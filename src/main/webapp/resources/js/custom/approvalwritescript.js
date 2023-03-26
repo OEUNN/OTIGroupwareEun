@@ -15,40 +15,56 @@ function initDocument() {
 function isContentExist(docTempYn) {
 	if ($("iframe").contents().find("body").find("#A4").length === 0) {
 		swal({
-			title: "내용이 없습니다.",
+			title: "문서가 없습니다",
+			text: "양식을 먼저 불러와 주세요.",
 			icon: "warning",
 			button: "닫기"
 		});
 	}
-	else if ($("iframe").contents().find("body").find("#documentTitle").text() === null || $("iframe").contents().find("body").find("#documentTitle").text() === '') {
+	else if ($("iframe").contents().find("body").find("#documentTitle").text() === null || $("iframe").contents().find("body").find("#documentTitle").text().trim() === '') {
 		swal({
-			title: "제목은 필수입니다.",
+			title: "문서 제목을 작성해주세요.",
 			icon: "warning",
 			button: "닫기"
 		});
 	}
 	else {
-		$('input[name="docTitle"]').val($("iframe").contents().find("body").find("#documentTitle").text());
-		$('input[name="docTempYn"]').val(docTempYn);
-				
-		if (docTempYn === 'N' || (docTempYn === 'Y' && $("#documentId").length === 0)) {
-			if (docTempYn === 'N' && $(".approvalLineItems").length < 1) {
-				swal({
-					title: "자신을 제외한 적어도 한명 이상의 결재자를 지정해주세요.",
-					icon: "warning",
-					button: "닫기"
-				});
+		let isFulfilled = true;
+		$("iframe").contents().find("body").find(".documentContent").each((index, element) => {
+			if ($(element).text() === null || $(element).text().trim() === '') {
+				isFulfilled = false;
 			}
-			else {
-				$('input[name="docState"]').val('진행');
-				$("#approvalForm").attr('action', getContextPath() + '/approval/documentwrite');
+		});
+		if (isFulfilled === false) {
+			swal({
+				title: "문서 양식을 채워주세요.",
+				icon: "warning",
+				button: "닫기"
+			});
+		}
+		else {
+			$('input[name="docTitle"]').val($("iframe").contents().find("body").find("#documentTitle").text());
+			$('input[name="docTempYn"]').val(docTempYn);
+					
+			if (docTempYn === 'N' || (docTempYn === 'Y' && $("#documentId").length === 0)) {
+				if (docTempYn === 'N' && $(".approvalLineItems").length < 1) {
+					swal({
+						title: "자신을 제외한 적어도 한명 이상의 결재자를 지정해주세요.",
+						icon: "warning",
+						button: "닫기"
+					});
+				}
+				else {
+					$('input[name="docState"]').val('진행');
+					$("#approvalForm").attr('action', getContextPath() + '/approval/documentwrite');
+					$("#approvalForm").submit();
+				}
+			}
+			else if (docTempYn === 'Y' && $("#isDocumentExist").length !== 0){
+				$('input[name="docState"]').val('임시');
+				$("#approvalForm").attr('action', getContextPath() + '/approval/update');
 				$("#approvalForm").submit();
 			}
-		}
-		else if (docTempYn === 'Y' && $("#isDocumentExist").length !== 0){
-			$('input[name="docState"]').val('임시');
-			$("#approvalForm").attr('action', getContextPath() + '/approval/update');
-			$("#approvalForm").submit();
 		}
 	}
 }
@@ -232,6 +248,7 @@ function addMessageEventListener() {
 		
 		let removeId = 'r' + receivedData.empId;
 		
+		
 		//맨처음으로 들어오는 메시지 이벤트가 이전에 있던 결재선과 폼 안에 존재하는 결재선을 초기화
 		if (receivedIndex === 0) {
 			$(".remove-flag").remove();
@@ -279,14 +296,18 @@ function addMessageEventListener() {
 			$("#approvalForm").append('<input class="' + removeId + ' remove-flag" type="hidden" name="aprvLineOrder" value="' + receivedData.aprvLineOrder + '">');
 			$("#approvalForm").append('<input class="' + removeId + ' remove-flag" type="hidden" name="aprvLineState" value="미결">');
 			$("#approvalForm").append('<input class="' + removeId + ' remove-flag" type="hidden" name="aprvLineRole" value="결재">');
-
 			
 			let remover = '#' + removeId;
 			let removee = '.' + removeId;
+			
 			//x 아이콘에 클릭 시 삭제 이벤트 등록하기
 			$(remover).on('click', (event) => {
 				$(removee).remove();
-				
+				$('input[name="aprvLineOrder"]').each((index, element) => {
+					if ($(element).val() > 0) {
+						$(element).val($(element).val() - 1);
+					}
+				});
 				//결재선에서 삭제
 				$("iframe").contents().find(removee).text("공란");
 				$("iframe").contents().find(removee).removeClass(removeId);
@@ -331,6 +352,13 @@ function addRemoveEventListener() {
 
 		$(remover).on('click', (event) => {
 			$(removee).remove();
+			
+			$('input[name="aprvLineOrder"]').each((index, element) => {
+				if ($(element).val() > 0) {
+					$(element).val($(element).val() - 1);
+				}
+			});
+			
 			$("iframe").contents().find(removee).text("공란");
 			$("iframe").contents().find(removee).removeClass(removeId);
 		
