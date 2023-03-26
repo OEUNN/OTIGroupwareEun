@@ -77,10 +77,10 @@ $(() => {
 			console.log("필터링!");
 			//discarfiles에 들어있는 file과 겹치는 file을 필터링
 			const remainingFiles = Array.from(fileInput[0].files).filter((file) => !(discardFiles.includes(file)));
-			console.log(fileInput[0].files);
-			console.log(remainingFiles);
-			console.log(...remainingFiles);
-			fileInput[0].files = remainingFiles;
+			const dataTransfer = new DataTransfer();
+			remainingFiles.forEach(files => dataTransfer.items.add(files));
+			const tempFileList = dataTransfer.files;
+			fileInput[0].files = tempFileList;
 		}
 		
 	});
