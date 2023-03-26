@@ -512,5 +512,22 @@ public class HrServiceImpl implements HrService {
 		//작성자, 결재자 이름 갖고오기
 		return attendanceDAO.getEmpNames(empId, posName);
 	}
+
+	/** 일정기간이 되면 추가근무에 따라 모든 임직원의 대체휴무를 부여해주는 스케줄러(추가근무)**/
+	@Override
+	public void addSubstituteReserve() {
+		//모든 임직원ID 갖고오기(나중에 EmployeeService에서 로직 갖고오기)
+		List<Employee> empList = attendanceDAO.getEmployeeList();
+		
+		for(Employee emp : empList) {
+			String empId = emp.getEmpId(); //사번
+			
+			//임직원의 한달 추가근무 시간 가져오기
+			Attendance atd = attendanceDAO.getAttendanceOverTime(empId);
+			
+			
+		}
+					
+	}
 	
 }

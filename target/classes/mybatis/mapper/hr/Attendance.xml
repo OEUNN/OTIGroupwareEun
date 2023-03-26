@@ -133,6 +133,14 @@
 		WHERE (atd_state is null OR atd_state = '')
 	</select>
 	
+	<!-- 모든 임직원ID의 한달 추가근무 목록(스케줄러) -->
+	<select id="getAttendanceOverTime" resultType="attendance">
+		SELECT sum(atd_overtime_hours)
+		FROM attendances
+		WHERE atd_in_time BETWEEN TRUNC(ADD_MONTHS(SYSDATE,-1), 'MM') AND LAST_DAY(ADD_MONTHS(SYSDATE,-1))
+		    AND emp_id = #{empId};
+	</select>
+	
 	<!-- 어제의 근무상태 등록(스케줄러) - 출근행이 없는 경우 -->
 	<insert id="insertAttendanceState">
 		INSERT INTO attendances (

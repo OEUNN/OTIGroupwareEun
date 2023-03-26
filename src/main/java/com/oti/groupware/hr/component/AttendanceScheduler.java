@@ -27,4 +27,15 @@ public class AttendanceScheduler {
 		log.info("근태-스케줄러 실행!"); 
 		hrService.attendanceStateAll();
 	}
+	
+	/**
+	 * 매월 1일 00시에 자동으로 추가근무시간에 따라 대체휴무 부여
+	 */
+	@Scheduled(cron = "0 0 0 1 * *")
+	public void substituteReserve() {
+		log.info("근태-스케줄러 실행!"); 
+		hrService.addSubstituteReserve();
+	}
+	
 }
+

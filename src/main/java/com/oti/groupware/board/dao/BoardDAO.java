@@ -19,4 +19,5 @@ public interface BoardDAO {
 	public int getBoardCount();
 	public List<Board> getBoardList(@Param("pager") Pager pager);
 	public List<Board> getBoardListByTitle(@Param("title") String title, @Param("pager") Pager pager);
+	public Board getBoard();
 }
