@@ -75,12 +75,6 @@
 														제목: ${searchQuery.docTitle}<span class="mx-1"><i class="mdi mdi-close" onclick="removeItem(제목)"></i></span>
 													</div>
 													</c:if>
-													<c:if test="${searchQuery.empName != null}">
-													<div id="기안자" class="badge badge-warning font-weight-bold">
-														<input type="hidden" name="empName" value="${searchQuery.empName}"></input>
-														기안자: ${searchQuery.empName}<span class="mx-1"><i class="mdi mdi-close" onclick="removeItem(기안자)"></i></span>
-													</div>
-													</c:if>
 													<c:if test="${searchQuery.docReportStartDate != null && searchQuery.docReportEndDate != null}">
 													<div id="상신날짜" class="badge badge-warning font-weight-bold">
 														<input type="hidden" name="docReportStartDate" value="${searchQuery.docReportStartDate}"></input>
@@ -124,7 +118,7 @@
 												</th>
 												<th class="border-bottom pb-2">제목<i class="icon-search" onclick="searchDocTitle('제목')"></i>
 												</th>
-												<th class="border-bottom pb-2">기안자<i class="icon-search" onclick="searchEmpName('기안자')"></i>
+												<th class="border-bottom pb-2">기안자
 												</th>
 												<th class="border-bottom pb-2">상신날짜
 												<i class="mdi mdi-menu-down" data-toggle="dropdown"></i>

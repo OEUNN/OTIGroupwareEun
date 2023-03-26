@@ -302,12 +302,14 @@ function addMessageEventListener() {
 			
 			//x 아이콘에 클릭 시 삭제 이벤트 등록하기
 			$(remover).on('click', (event) => {
-				$(removee).remove();
 				$('input[name="aprvLineOrder"]').each((index, element) => {
-					if ($(element).val() > 0) {
+					let thisOrder = $('input[name="aprvLineOrder"][class~=' + removeId +']').val();
+					if ($(element).val() > thisOrder) {
 						$(element).val($(element).val() - 1);
 					}
 				});
+				
+				$(removee).remove();
 				//결재선에서 삭제
 				$("iframe").contents().find(removee).text("공란");
 				$("iframe").contents().find(removee).removeClass(removeId);
@@ -351,14 +353,15 @@ function addRemoveEventListener() {
 		let removee = '.' + id;
 
 		$(remover).on('click', (event) => {
-			$(removee).remove();
 			
 			$('input[name="aprvLineOrder"]').each((index, element) => {
-				if ($(element).val() > 0) {
+				let thisOrder = $('input[name="aprvLineOrder"][class~=' + removeId +']').val();
+				if ($(element).val() > thisOrder) {
 					$(element).val($(element).val() - 1);
 				}
 			});
 			
+			$(removee).remove();
 			$("iframe").contents().find(removee).text("공란");
 			$("iframe").contents().find(removee).removeClass(removeId);
 		

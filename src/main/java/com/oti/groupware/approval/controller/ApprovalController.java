@@ -577,10 +577,10 @@ public class ApprovalController {
 	public String getDraftDocumentListByQuery(@ModelAttribute SearchQuery searchQuery, @RequestParam("searchBar") String searchBar, HttpSession session, Model model) {
 		log.info("검색 질의: " + searchQuery);
 		
-		if (searchQuery.getDocTitle() == null || searchQuery.getDocTitle().isEmpty()) {
+		if (searchQuery.getDocTitle() == null && searchQuery.getDocId() == null) {
 			if (searchBar != null && !searchBar.isEmpty()) {
 				searchQuery.setDocTitle(searchBar);
-			}	
+			}
 		}
 		
 		if (searchQuery.getPageNo() <= 0) {
@@ -626,10 +626,10 @@ public class ApprovalController {
 	public String getCompletedDocumentListByQuery(@ModelAttribute SearchQuery searchQuery, @RequestParam("searchBar") String searchBar, HttpSession session, Model model) {
 		log.info("검색 질의: " + searchQuery);
 		
-		if (searchQuery.getDocTitle() == null || searchQuery.getDocTitle().isEmpty()) {
+		if (searchQuery.getDocTitle() == null && searchQuery.getDocId() == null) {
 			if (searchBar != null && !searchBar.isEmpty()) {
 				searchQuery.setDocTitle(searchBar);
-			}	
+			}
 		}
 		
 		if (searchQuery.getPageNo() <= 0) {
@@ -724,10 +724,10 @@ public class ApprovalController {
 	public String getReturnedDocumentListByQuery(@ModelAttribute SearchQuery searchQuery, @RequestParam("searchBar") String searchBar, HttpSession session, Model model) {
 		log.info("검색 질의: " + searchQuery);
 		
-		if (searchQuery.getDocTitle() == null || searchQuery.getDocTitle().isEmpty()) {
+		if (searchQuery.getDocTitle() == null && searchQuery.getDocId() == null) {
 			if (searchBar != null && !searchBar.isEmpty()) {
 				searchQuery.setDocTitle(searchBar);
-			}	
+			}
 		}
 		
 		if (searchQuery.getPageNo() <= 0) {
@@ -771,10 +771,10 @@ public class ApprovalController {
 	public String getTempDocumentListByQuery(@ModelAttribute SearchQuery searchQuery, @RequestParam("searchBar") String searchBar, HttpSession session, Model model) {
 		log.info("검색 질의: " + searchQuery);
 		
-		if (searchQuery.getDocTitle() == null || searchQuery.getDocTitle().isEmpty()) {
+		if (searchQuery.getDocTitle() == null) {
 			if (searchBar != null && !searchBar.isEmpty()) {
 				searchQuery.setDocTitle(searchBar);
-			}	
+			}
 		}
 		
 		if (searchQuery.getPageNo() <= 0) {
