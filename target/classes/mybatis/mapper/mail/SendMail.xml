@@ -363,7 +363,7 @@
 	<select id="getTitleCount" parameterType="map" resultType="int">
     	SELECT send_mail_id
 		from send_mails
-		where SEND_MAIL_TITLE = ${title}
+		where SEND_MAIL_TITLE LIKE '%'||#{title}||'%' 
     </select>
     
     <select id="getTitleSendMail" resultMap="sendMailMap">
