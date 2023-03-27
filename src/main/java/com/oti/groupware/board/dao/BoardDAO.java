@@ -13,10 +13,11 @@ public interface BoardDAO {
 	public Board getBoardById(int boardId);
 	public void insertBoard(Board board);
 	public void updateBoard(Board board);
-	public void deleteBoard(int boardId);
+	public int deleteBoard(int boardId);
 	
 	public int getBoardId();
 	public int getBoardCount();
 	public List<Board> getBoardList(@Param("pager") Pager pager);
 	public List<Board> getBoardListByTitle(@Param("title") String title, @Param("pager") Pager pager);
+	public Board getBoard();
 }

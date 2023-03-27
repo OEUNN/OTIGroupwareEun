@@ -49,12 +49,6 @@
 					<li class="nav-item">
 						<a class="nav-link" href="<c:url value='/board/notice'/>">사내 공지</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="<c:url value='/board/hrboard'/>">인사 발령</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="<c:url value='/board/familyeventboard'/>">경조사</a>
-					</li>
 				</ul>
 			</div>
 		</li>

@@ -133,6 +133,21 @@
 		WHERE (atd_state is null OR atd_state = '')
 	</select>
 	
+	<!-- 모든 임직원ID의 한달 추가근무 목록(스케줄러) -->
+	<select id="getAttendanceOverTime" resultType="attendance">
+		SELECT sum(atd_overtime_hours)
+		FROM attendances
+		WHERE atd_in_time BETWEEN TRUNC(ADD_MONTHS(SYSDATE,-1), 'MM') AND LAST_DAY(ADD_MONTHS(SYSDATE,-1))
+		    AND emp_id = #{empId};
+	</select>
+	
+	<!-- 추가근무일수에 따른 대체휴무일수 추가부여 -->
+	<update id="updateEmployeeSubstituteReserve">
+		UPDATE employees
+		SET emp_substitute_reserve = emp_substitute_reserve + #{overTime}
+		WHERE emp_id = #{empId}
+	</update>
+	
 	<!-- 어제의 근무상태 등록(스케줄러) - 출근행이 없는 경우 -->
 	<insert id="insertAttendanceState">
 		INSERT INTO attendances (
@@ -229,13 +244,7 @@
 	    ON (TRUNC(Attendances.atd_in_time) = new_attendance.atd_date AND Attendances.emp_id = #{empId})
 	    WHEN MATCHED THEN
 	      UPDATE SET 
-	        Attendances.atd_state = new_attendance.atd_state,
-	        Attendances.atd_out_time = 
-	            CASE 
-	                WHEN new_attendance.atd_state = '오후반차'
-	                    THEN to_date(to_char(new_attendance.atd_date, 'YYYY-MM-DD') || ' 23:00:00', 'YYYY-MM-DD HH24:MI:SS')
-	                ELSE Attendances.atd_out_time
-	            END
+	        Attendances.atd_state = new_attendance.atd_state
 	    WHEN NOT MATCHED THEN
 	      INSERT (atd_id, emp_id, atd_in_time, atd_out_time, atd_state)
 	      VALUES (
@@ -248,7 +257,7 @@
 	                THEN to_date(to_char(new_attendance.atd_date, 'YYYY-MM-DD') || ' 14:00:00', 'YYYY-MM-DD HH24:MI:SS')
 	            ELSE NULL
 	        END,
-	        CASE 
+	         CASE 
 	            WHEN new_attendance.atd_state = '오후반차'
 	                THEN to_date(to_char(new_attendance.atd_date, 'YYYY-MM-DD') || ' 23:00:00', 'YYYY-MM-DD HH24:MI:SS')
 	            ELSE NULL
@@ -269,14 +278,27 @@
 			AND to_char(atd_in_time, 'YYYY-MM-DD') = to_char(#{levAppStartDate}, 'YYYY-MM-DD')
 	</select>
 	
+	<!-- 휴가 승인인 경우 - 행 존재o -->
+	<update id="updateApproveExistAttendanceState" parameterType="leaveApplication">
+		UPDATE
+			attendances
+		SET
+			<if test="levAppCategory == '오전반차'">atd_state = '오전반차'</if>
+			<if test="levAppCategory == '오후반차'">atd_state = '오후반차'</if>
+	  	WHERE
+		  	emp_id = #{empId} 
+		  AND 
+  			to_char(atd_in_time, 'yyyy-MM-DD') = to_char(#{levAppStartDate}, 'yyyy-MM-DD')
+	</update>
+	
 	<!-- 휴가 취소인 경우 - 행 존재o -->
 	<update id="updateExistAttendanceState" parameterType="leaveApplication">
 		UPDATE 
 			attendances
 		SET
 			atd_state = null
-			<if test="levAppCategory == '오전반차'">, atd_in_time = null</if>
-			<if test="levAppCategory == '오후반차'">, atd_out_time = null</if>
+<!-- 			<if test="levAppCategory == '오전반차'">, atd_in_time = null</if> -->
+<!-- 			<if test="levAppCategory == '오후반차'">, atd_out_time = null</if> -->
 	  	WHERE
 		  	emp_id = #{empId} 
 		  AND 

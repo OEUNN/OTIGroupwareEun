@@ -92,7 +92,15 @@ function submitForm() {
 	let value = $("#navbar-search-input").val();
 	if (value !== null && value !== '') {
 		value = value.trim();
-		$('input[name="docTitle"]').val(value);
+		if ($("#제목").length !== 0) {
+			$('input[name="docTitle"]').val(value);
+		}
+		if ($("#기안자").length !== 0) {
+			$('input[name="empName"]').val(value);
+		}
+		if ($("#문서번호").length !== 0) {
+			$('input[name="docId"]').val(value);
+		}
 	}
 }
 
@@ -100,7 +108,15 @@ function submitFormWithPageNo(pageNo) {
 	let value = $("#navbar-search-input").val();
 	if (value !== null && value !== '') {
 		value = value.trim();
-		$('input[name="docTitle"]').val(value);
+		if ($("#제목").length !== 0) {
+			$('input[name="docTitle"]').val(value);
+		}
+		if ($("#기안자").length !== 0) {
+			$('input[name="empName"]').val(value);
+		}
+		if ($("#문서번호").length !== 0) {
+			$('input[name="docId"]').val(value);
+		}
 	}
 	$('input[name="pageNo"]').val(pageNo);
 	$("#searchForm").submit();

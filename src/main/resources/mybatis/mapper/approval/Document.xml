@@ -488,7 +488,7 @@
 		<where>
 			apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc_temp_yn = 'N' AND apl.emp_id = emp.emp_id AND (apl.aprv_line_order <![CDATA[<]]>= doc.doc_aprv_step OR doc.doc_aprv_step = -1) AND doc_state != '회수' 
 			<if test="searchQuery.docId != null">
-			AND doc_id LIKE '%'||#{searchQuery.docId}||'%' 
+			AND doc.doc_id LIKE '%'||#{searchQuery.docId}||'%' 
 			</if>
 			<if test="searchQuery.docTitle != null">
 			AND doc_title LIKE '%'||#{searchQuery.docTitle}||'%' 
@@ -522,7 +522,7 @@
        			<where>
 					apl.emp_id = #{empId} AND doc.doc_id = apl.doc_id AND doc_temp_yn = 'N' AND apl.emp_id = emp.emp_id AND (apl.aprv_line_order <![CDATA[<]]>= doc.doc_aprv_step OR doc.doc_aprv_step = -1) AND doc_state != '회수' 
 					<if test="searchQuery.docId != null">
-					AND doc_id LIKE '%'||#{searchQuery.docId}||'%' 
+					AND doc.doc_id LIKE '%'||#{searchQuery.docId}||'%' 
 					</if>
 					<if test="searchQuery.docTitle != null">
 					AND doc_title LIKE '%'||#{searchQuery.docTitle}||'%' 

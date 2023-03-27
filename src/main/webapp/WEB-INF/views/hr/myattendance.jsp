@@ -416,7 +416,7 @@
 					           					&nbsp;
 				           					</c:if>
 				           					<!-- 휴가인경우 -->
-				           					<c:if test="${!empty attendance.atdInTime && (attendance.atdState eq '연차' || attendance.atdState eq '대체휴무')}">
+				           					<c:if test="${!empty attendance.atdInTime && (attendance.atdState eq '연차' || attendance.atdState eq '대체휴무' || attendance.atdState eq '오전반차')}">
 					           					&nbsp;
 				           					</c:if>
 				           					<!-- 나머지 -->
@@ -448,7 +448,12 @@
 				           					</c:if>
 				           					<!-- 나머지 -->
 				           					<c:if test="${!empty attendance.atdOutTime && attendance.atdState ne '연차' && attendance.atdState ne '대체휴무'}">
-					           					<fmt:formatDate pattern="HH:mm" value="${attendance.atdOutTime}" />
+				           						<c:if test="${attendance.atdState eq '오후반차'}">
+				           							&nbsp;
+				           						</c:if>
+				           						<c:if test="${attendance.atdState ne '오후반차'}">
+						           					<fmt:formatDate pattern="HH:mm" value="${attendance.atdOutTime}" />
+				           						</c:if>
 				           					</c:if>
 				           				</div>
 					           		</div>
