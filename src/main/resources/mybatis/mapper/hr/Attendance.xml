@@ -233,7 +233,7 @@
 	        Attendances.atd_out_time = 
 	            CASE 
 	                WHEN new_attendance.atd_state = '오후반차'
-	                    THEN to_date(to_char(new_attendance.atd_date, 'YYYY-MM-DD') || ' 18:00:00', 'YYYY-MM-DD HH24:MI:SS')
+	                    THEN to_date(to_char(new_attendance.atd_date, 'YYYY-MM-DD') || ' 23:00:00', 'YYYY-MM-DD HH24:MI:SS')
 	                ELSE Attendances.atd_out_time
 	            END
 	    WHEN NOT MATCHED THEN
@@ -250,7 +250,7 @@
 	        END,
 	        CASE 
 	            WHEN new_attendance.atd_state = '오후반차'
-	                THEN to_date(to_char(new_attendance.atd_date, 'YYYY-MM-DD') || ' 18:00:00', 'YYYY-MM-DD HH24:MI:SS')
+	                THEN to_date(to_char(new_attendance.atd_date, 'YYYY-MM-DD') || ' 23:00:00', 'YYYY-MM-DD HH24:MI:SS')
 	            ELSE NULL
 	        END,
 	        new_attendance.atd_state
@@ -275,6 +275,8 @@
 			attendances
 		SET
 			atd_state = null
+			<if test="levAppCategory == '오전반차'">, atd_in_time = null</if>
+			<if test="levAppCategory == '오후반차'">, atd_out_time = null</if>
 	  	WHERE
 		  	emp_id = #{empId} 
 		  AND 

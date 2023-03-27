@@ -496,7 +496,7 @@
 										<div class="row px-5 mt-4 justify-content-center">
 											<div class="form-group">
 												<label class="ml-1" for="levAppReason"><div class="h5 m-0 font-weight-bold text-primary">사유</div></label>
-												<textarea class="form-control" id="levAppReason" name="levAppReason" rows="5" cols="90" value="중요한 면접날이니! 휴가는 다음날로 미루겠습니다!">중요한 면접날이니! 휴가는 다음날로 미루겠습니다!</textarea>
+												<textarea class="form-control" id="levAppReason" name="levAppReason" rows="5" cols="90" value="은행방문">은행방문</textarea>
 											</div>
 										</div>
 										<div class="row justify-content-center mt-3">

@@ -264,36 +264,73 @@
 		</div>
 	</div><!-- End information box -->
 </div>
-<div class="table-responsive">
-	<table class="table">
-		<thead>
-			<tr>
-				<th class="text-primary col-2 h3">근무 기간</th>
-				<th class="text-primary col-7 h3">프로젝트 명</th>
-				<th class="text-primary col-3 h3">근무지</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>2002년 2월 22일</td>
-				<td>사원</td>
-				<td>분당</td>
-			</tr>
-			<tr>
-				<td>2005년 3월 1일</td>
-				<td>공공사업2DIV</td>
-				<td>분당</td>
-			</tr>
-			<tr>
-				<td>2005년 3월 1일</td>
-				<td>공공사업2DIV</td>
-				<td>분당</td>
-			</tr>
-			<tr>
-				<td>2005년 3월 1일</td>
-				<td>공공사업2DIV</td>
-				<td>분당</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
+<c:if test ="${emp.empId=='1402181'}">
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th class="text-primary col-2 h3">근무 기간</th>
+					<th class="text-primary col-7 h3">프로젝트 명</th>
+					<th class="text-primary col-3 h3">근무지</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>2002년 3월 1일</td>
+					<td>대법원 공공사업 프로젝트</td>
+					<td>분당</td>
+				</tr>
+				<tr>
+					<td>2005년 3월 1일</td>
+					<td>대법원 사내그룹웨어 1차시</td>
+					<td>분당</td>
+				</tr>
+				<tr>
+					<td>20010년 3월 1일</td>
+					<td>대법원 사내그룹웨어 2차시</td>
+					<td>분당</td>
+				</tr>
+				<tr>
+					<td>2015년 3월 1일</td>
+					<td>OTI회사 사내 그룹웨어 업데이트</td>
+					<td>분당</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</c:if>
+<c:if test ="${emp.empId !='1402181'}">
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th class="text-primary col-2 h3">근무 기간</th>
+					<th class="text-primary col-7 h3">프로젝트 명</th>
+					<th class="text-primary col-3 h3">근무지</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>2002년 3월 1일</td>
+					<td>지역난방공사 업무표 1차시</td>
+					<td>분당</td>
+				</tr>
+				<tr>
+					<td>2007년 3월 1일</td>
+					<td>지역난방공사 업무표 2차시</td>
+					<td>분당</td>
+				</tr>
+				<tr>
+					<td>20012년 3월 1일</td>
+					<td>지역난방공사 업무표 3차시</td>
+					<td>분당</td>
+				</tr>
+				<tr>
+					<td>2020년 3월 1일</td>
+					<td>OTI회사 사내 그룹웨어 업데이트</td>
+					<td>분당</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</c:if>

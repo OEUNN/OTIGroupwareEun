@@ -211,6 +211,11 @@
 											</tr>
 										</thead>
 										<tbody>
+											<c:if test="${documentsSize <= 0}">
+											<tr>
+												<td id="nothing" class="font-weight-bold text-center py-5" colspan="5">목록이 비어있습니다</td>
+											</tr>
+											</c:if>
 											<c:forEach items="${documents}" var="document" varStatus="status">
 											<c:set value="${approvalLinesList[status.index]}" var="approvalLines"/>
 											<tr>
@@ -225,7 +230,7 @@
 												<td class="px-0">
 													<c:choose>
 													<c:when test="${document.docState == '진행'}">
-													<div class="badge badge-warning font-weight-bold d-flex" style="width: fit-content;">
+													<div class="badge badge-info font-weight-bold d-flex" style="width: fit-content;">
 													<i class="mdi mdi-file-document d-flex align-self-center mr-1"></i><span>진행</span></div>
 													</c:when>
 													<c:when test="${document.docState == '열람'}">

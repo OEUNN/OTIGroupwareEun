@@ -62,7 +62,6 @@
 					result = 'stay';
 				}
 				var data = {search : search, mailId : star, mailList : mailArray, page : No, result : result};
-				console.log(data);
 				jQuery.ajax({
 					type : 'post',
 					url : '../mail/receivedsearch',
@@ -72,6 +71,7 @@
 					success : function(data){
 						$('#mail_container').html(data);
 						$('#pageBtn').val(No);
+						$('#searchBtn').val(search);
 						if(search == 'read'){
 							$('#searchInput1').attr('style','color:black ;font-weight:bold')
 						}else if(search == 'notread'){
@@ -167,7 +167,7 @@
 		
 		function submitForm(){
 			var search = $('#searchBar').val();
-			log.info(search);
+			console.log(search);
 			jQuery.ajax({
 				type : 'get',
 				url : '../mail/titlesearch/received/',

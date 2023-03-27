@@ -55,10 +55,11 @@
 		docId = $("#docId").val();
 		contextPath = $("#contextPath").val();
 		$.ajax({
+			timeout: 1000,
 			url: contextPath + '/approval/viewdetail/' + docId + '/documentdetail',
 			success: function(data) {
 				tinymce.get("document_detail").setContent(data.docContent);
-			} 
+			}
 		});
 	});
 	
